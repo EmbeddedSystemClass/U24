@@ -1,0 +1,879 @@
+; NeptuneCtrl.def : Declares the module parameters for the DLL.
+
+LIBRARY      "NeptuneCtrl"
+
+EXPORTS
+    ; Explicit exports can go here
+InitDevice                   @1
+FreeDevice                   @2
+OpenDevice					 @3
+CloseDevice					 @4
+
+;====================================================================
+; check pass command
+;====================================================================
+HW_PassRange				 @5
+HW_PassStr					 @6
+
+;====================================================================
+; P21 command
+;====================================================================
+DDRRun                       @10
+P21VibratorOn                @11
+P21VibratorOff               @12
+P21FlashIPLDownload          @13
+P21FlashMSIPLDownload        @14
+P21FlashEBOOTDownload        @15
+
+P21VersionGetDTVersion       @17
+
+P21ExactOpenDevice           @19
+P21ExactCloseDevice          @20
+ExactReadDevice              @21
+ExactWriteDevice             @22
+ExactUSBTIJumpAddr           @23
+
+P21SDCardFileInfo            @26
+P21SDCardMoveImgToDDR        @27
+P21HWGetDieID                @28
+P21LCDInit                   @29
+P21LCDRed                    @30
+P21LCDGreen                  @31
+P21LCDBlue                   @32
+
+P21AudioHandsetOnMicRev      @34
+P21AudioHeadsetOnHMicHRev    @35
+P21AudioHHHFOnMicLS          @36
+P21AudioHeadsetDetect        @37
+P21AudioToneToRev            @38
+P21AudioToneToHRev           @39
+P21AudioAllOff               @40
+P21LED1On                    @41
+P21LED1Blink                 @42
+P21LED1Off                   @43
+P21LED2On                    @44
+P21Sidekey1LEDBlink          @45
+P21LED2Off                   @46
+P21LEDKeypadLedOn            @47
+P21LEDKeypadLedOff           @48
+P21LEDSidekey1LedOn          @49
+P21LEDSidekey1LedOff         @50
+P21LEDSidekey2LedOn          @51
+P21LEDSidekey2LedOff         @52
+P21HWGetTritonID             @53
+P21HWGetProductID            @54
+P21VersionGetDTDate          @55
+P21VersionGetDTName          @56
+P21RegisterCallBack          @57
+P21UnregisterCallBack        @58
+P21FlashFormatAll            @59
+P21FlashDumpBDTL0            @60
+P21FlashDumpDT               @61
+P21FlashDumpMSIPL            @62
+P21FlashDumpEboot            @63
+P21FlashDumpBDTL1            @64
+P21EnableDTR                 @65
+P21DisableDTR                @66
+P21FlashDTDownload           @67
+P21PowerOnToUARTPacketMode   @68
+P21GetNeptuneCtrlDLLVersion  @69
+P21UARTPacketMode            @70
+P21USBPacketMode             @71
+P21GetNeptuneCtrlDLLSubVersion  @72
+P21EngineerMode              @73
+P21301Mode                   @74
+P21UARTConsoleMode           @75
+P21USBConsoleMode            @76
+P21LCDLogEnable              @77
+P21UARTLogEnable             @78
+P21FlashFormatBDTL8M2M       @79
+P21FlashWriteBDTL0           @80
+P21FlashWriteBDTL1           @81
+P21OSRunNecleusOS            @82
+P21WLANPowerOn               @83
+P21WLANPowerOff              @84
+P21WLANSetWlanTestMode       @85
+P21WLANSetCmdLocalFrequecy   @86
+P21WLANSetCmdOutputPower     @87
+P21WLANSetCmdMACAddrToEEProm @88
+P21WLANGetCmdMACAddrFromEEProm  @89
+P21WLANGetMTKChipID				@90
+P21WLANGetCmdPacketRxStatus		@91
+
+P21CameraPowerOn             @93
+P21CameraPowerOff            @94
+P21FlashReadMDocID           @95
+P21SDRAMReadWriteFull        @96
+P21SDRAMReadWritePartial     @97
+
+P21HWADCIN1                  @99
+P21HWADCIN2                  @100
+P21HWADCIN3                  @101
+P21HWADCIN4                  @102
+P21HWADCIN5                  @103
+P21HWADCIN6                  @104
+P21HWADCIN7                  @105
+P21HWADCIN8                  @106
+P21HWADCIN9                  @107
+P21HWADCIN10                 @108
+P21HWADCIN11                 @109
+P21OSPowerOff                @110
+P21OSWatchDogReset           @111
+P21FAWriteFactoryArea        @112
+P21FAReadFactoryArea         @113
+P21OSEraseNucleusGSMFFS      @114
+P21LCDBacklightOn            @115
+P21LCDBacklightOff           @116
+P21ModemSIMPowerOn           @117
+P21ModemSIMPowerOff          @118
+P21LCDBlack                  @119
+P21LCDWhite                  @120
+P21ClockRTCOn                @121
+P21ClockRTCOff               @122
+P21ClockReadClock            @123
+P21BTConnect                 @124
+
+TILoadFileToDDR              @127
+RegisterCallBackChar         @128
+UnregisterCallBackChar       @129
+TILoad2nd                    @130
+;ExactUSBTIJumpAddrEx         @131
+USB2ndSendCommand            @132
+P21FlashDumpEbootConfig      @133
+P21FlashDumpNGSMFFS          @134
+P21FlashDumpWGSMFFS          @135
+P21FlashWriteCFG             @136
+P21FlashFormatBDTL5M60M      @137
+P21FlashWriteNGSMFFS         @138
+P21FlashWriteWGSMFFS         @139
+P21FAWriteIMEI               @140
+P21FAReadIMEI                @141
+P21CameraQQVGA               @142
+P21LCDOff                    @143
+P21LCDCyan                   @144
+P21LCDMagenta                @145
+P21LCDSpecialPpattern1       @146
+P21LCDSpecialPpattern2       @147
+P21LCDSpecialPpattern3       @148
+P21LCDSpecialPpattern4       @149
+P21LCDSpecialPpattern5       @150
+P21LCDSpecialPpattern6       @151
+P21LCDSpecialPpattern7       @152
+P21LCDSpecialPpattern8       @153
+P21LCDSpecialPpattern9       @154
+P21LCDGetID                  @155
+P21AudioToneToLS             @156
+P21ModemGetSIMInfo           @157
+P21BTOn                      @158
+P21BTOff                     @159
+P21BTTest                    @160
+P21BTRelayMode               @161
+P21BTDisconnect              @162
+P21BTAudioOn                 @163
+P21BTGetID                   @164
+P21SDRAMLineTest             @165
+P21SDRAMGetID                @166
+P21ClockWriteClock           @167
+P21ClockReadAlarm            @168
+P21ClockWriteAlarm           @169
+P21ClockRTCAlarmPowerOn      @170
+P21ChargerCVOn               @171
+P21ChargerCCOn               @172
+P21ChargerOff                @173
+P21ChargerBKPBatteryOn       @174
+P21ChargerBKPBatteryOff      @175
+P21ChargerStatus             @176
+P21VersionOSVersion          @177
+P21LCDYellow                 @178
+P21FlashWriteBDTL2           @179
+P21FlashMDOCInfo             @180
+P21KeypadPress               @181
+P21KeypadReadMatrix          @182
+P21OSNucleusSaveGSMFFS       @183
+P21OSJumpToOS                @184
+P21AudioHookDetect           @185
+P21FlashDumpFA               @186
+P21FlashWriteFA              @187
+P21FlashDumpBDTL2            @188
+P21FlashWriteBTDLSectors     @189
+P21FlashDumpBDTLSectors      @190
+P21CameraPreview             @191
+P21CameraVGA                 @192
+P21FAWriteBTAddress          @193
+P21FAReadBTAddress           @194
+P21AudioVDLPG                @195
+P21AudioVULPG                @196
+P21FlashDumpIPL              @197
+P21FlashDumpBDTL3            @198
+P21FlashWriteBDTL3           @199
+P21FAWrite301Flag            @200
+P21FARead301Flag             @201
+P21OSRunPLDR                 @202
+P21FlashFormatAllPCAssign    @203
+P21FlashFormatBDTLPCAssign   @204
+P21FAWriteIMEITemp           @205
+P21FAReadIMEITemp            @206
+P21FAWriteVersionInfo        @207
+P21FAReadVersionInfo         @208
+P21FABackupGSMFFSToFA        @209
+P21FARestoreGSMFFSFromFA     @210
+P21FlashCheckProtect         @211
+SetUIInfo                    @212
+P21HWGetHWVersion            @214
+P21VersionGetIPLDate         @215
+P21VersionGetIPLName         @216
+P21VersionGetIPLVersion      @217
+P21FAWriteIMEIAndNLockKey    @218
+P21FAReadIMEIAndNLockKey     @219
+P21ModemSIMTest				 @220
+GetDLLInfo					 @221
+P21FlashWriteMEPDSimLockFile @222
+P21FlashWriteMEPDSimLockData @223
+P21FAWriteVBATOffset		 @224
+P21FAReadVBATOffset			 @225
+P21FAWriteCountryCode		 @226
+P21FAReadCountryCode		 @227
+P21DLCheckServicePasswd		 @228
+P21DLVerifyChecksumFromFlash @229
+P21FAVBATCalibration		 @230
+P21BTRFTest					 @231
+P21BTFMGetRSSILevel			 @232
+
+P21SDCardDownloadMSIPL		 @234
+P21SDCardDownloadEBOOT		 @235
+P21SDCardDownloadBDTL0		 @236
+P21SDCardDownloadBDTL1		 @237
+P21SDCardReadOSVersion		 @240
+P21FlashWriteMEPDSimLockDataEX	@241
+P21I2CTest						@242
+P21DDRDump						@243
+P21FAGetMEPDUnlockCode			@244
+GetMEPDUnlockCode				@245
+P21FlashGetServicePassword	    @246
+P21FlashExit				    @247
+P21SDCardIO1Init				@248
+P21SDCardCMD					@249
+
+SendDataToLog					@251
+
+P21GenCMDOutTEST				@252
+P21GenCMDInTEST					@253
+P21GenCMDTEST					@254
+P21GenCMDInOutTEST				@255
+
+
+
+;====================================================================
+; Function Board command
+;====================================================================
+FB_InitDevice                   @500
+FB_VBatMeasurement              @501
+FB_VRDBBMeasurement             @502
+FB_BackupBatMeasurement         @503
+FB_VRIOMeasurement              @504
+FB_VMEMMeasurement              @505
+FB_VRSIMMeasurement             @506
+FB_Buck1P8VMeasurement          @507
+FB_BLCurrentMeasurement         @508
+FB_SideKeyLEDCurrentMeasurement @509
+FB_StatusKeyCurrentMeasurement  @510
+FB_VibratorCurrentMeasurement   @511
+FB_LoadSpeakerAudioMeasurement  @512
+FB_PressPwrKey                  @513
+FB_AccessoryInsert              @514
+FB_AccessoryPullout             @515
+FB_PwrSwitchOVP                 @516
+FB_PwrSwitchPreCharge           @517
+FB_PwrSwitchFullCharge          @518
+FB_PwrSwitchNormalMode          @519
+FB_PwrSwitchNoPwrToHandset      @520
+FB_GetVersion                   @521
+FB_FreeDevice                   @522
+FB_PassOrFail                   @523
+EnableComport                   @524
+DisableComport                  @525
+ExecuteBatchFile                @526
+FB_VCAPMeasurement              @527
+
+FB_ReceiverAudioMeasurement     @532
+FB_PwrSwitchUsbCharge           @533
+FB_AlsLedOn                     @534
+FB_AlsLedOff                    @535
+FB_ElectromagnetOn              @536
+FB_ElectromagnetOff             @537
+FB_LdoOn4Leakage                @538
+FB_LdoOff4Leakage               @539
+FB_AdcSpeakPositive             @540
+FB_AdcSpeakNegative             @541
+FB_AdcReceiverPositive          @542
+FB_AdcReceiverNegative          @543
+FB_AdcAlsLed1                   @544
+FB_AdcAlsLed2                   @545
+FB_AdcAlsLed3                   @546
+FB_AdcHsPositive                @547
+FB_AdcHsNegative                @548
+FB_AdcLoPositive                @549
+FB_AdcLoNegative                @550
+
+
+
+;====================================================================
+; Relay Board command
+;====================================================================
+RB_InitDevice                   @551
+RB_FreeDevice                   @552
+RB_Relay2                       @553
+RB_Relay1                       @554
+RB_Relay0                       @555
+RB_USB_Charging                 @556
+RB_HC_Charging                  @557
+RB_PowerKey                     @558
+
+
+
+;====================================================================
+; Qcom command
+;====================================================================
+QUAL_PwrOn2UartPktMode          @300
+
+QUAL_SD_CheckExternal			@311
+
+QUAL_CAMERA_GetModuleId			@321
+QUAL_CAMERA_GetSensorId			@322
+
+QUAL_LCD_MDDIBootSplashScreen	@331
+QUAL_LCD_MDDIDisplayRGB			@332
+QUAL_LCD_MDDIReset				@333
+QUAL_LCD_MDDIInitLCD			@334
+QUAL_LCD_ReadTPCoordinate		@335
+QUAL_LCD_ReadTPCoordinate_new	@336
+QUAL_LCD_ReadTPCoordinate_new_activelow @337
+QUAL_LCD_DisplayGIF				@338
+
+QUAL_SENSOR_ALSOn				@341
+QUAL_SENSOR_ALSOff				@342
+QUAL_SENSOR_ALSRead				@343
+QUAL_SENSOR_Proximity			@344
+QUAL_SENSOR_PSSDEnable			@345
+QUAL_SENSOR_PSSDDisable			@346
+QUAL_SENSOR_GSENSORReadAcc		@347
+QUAL_SENSOR_GSENSORReadID		@348
+QUAL_SENSOR_InitCapSenseKey		@349
+QUAL_SENSOR_ReadCapSenseKey		@350
+QUAL_SENSOR_ECompassI2CTest		@351
+QUAL_SENSOR_ECompassX			@352
+QUAL_SENSOR_ECompassY			@353
+QUAL_SENSOR_ECompassZ			@354
+
+QUAL_AUDIO_HandsetLoopback		@355
+QUAL_AUDIO_HeadsetLoopback		@356
+QUAL_AUDIO_LoudspeakerLoopback	@357
+QUAL_AUDIO_HookKeyDetection		@358
+
+QUAL_MODEM_GSMPowerOn			@361
+QUAL_MODEM_GSMPowerOff			@362
+QUAL_MODEM_SIMPowerOn			@363
+QUAL_MODEM_SIMPowerOff			@364
+QUAL_MODEM_SIMTest				@365
+QUAL_MODEM_GPSTest				@366
+QUAL_MODEM_GPS_Read_I			@367
+QUAL_MODEM_GPS_Read_Q			@368
+
+QUAL_BT_BTPowerOn				@371
+QUAL_BT_TxPower_2402MHz			@372
+QUAL_BT_TxPower_2441MHz			@373
+QUAL_BT_TxPower_2480MHz			@374
+QUAL_BT_TxPower_2438MHz			@375
+QUAL_BT_FMOn					@376
+QUAL_BT_BTRFTest				@377
+QUAL_BT_FMReadRSSI				@378
+QUAL_BT_TxStop                  @379
+
+QUAL_FLASH_ReadWriteLoopTest	@381
+QUAL_FLASH_ReadPage				@382
+QUAL_FLASH_WritePage			@383
+QUAL_FLASH_ReadID				@384
+QUAL_FLASH_EraceBlock			@385
+QUAL_FLASH_FindImageStartingPage	@386
+QUAL_FLASH_MCPTest				@387
+
+QUAL_DDR_SetEBI1Clkto99MHZ		@391
+QUAL_DDR_SetEBI1Clkto128MHZ		@392
+QUAL_DDR_ReadWriteTest			@393
+QUAL_DDR_ReadWriteLoopTest		@394
+QUAL_DDR_ReadAddr				@395
+QUAL_DDR_RoughTest				@396
+
+QUAL_RTC_ReadYear				@401
+QUAL_RTC_ReadMonth				@402
+QUAL_RTC_ReadDay				@403
+QUAL_RTC_ReadHour				@404
+QUAL_RTC_ReadMinute				@405
+QUAL_RTC_ReadSecond				@406
+QUAL_RTC_ReadDayOfWeek			@407
+QUAL_RTC_WriteYear				@408
+QUAL_RTC_WriteMonth				@409
+QUAL_RTC_WriteDay				@410
+QUAL_RTC_WriteHour				@411
+QUAL_RTC_WriteMinute			@412
+QUAL_RTC_WriteSecond			@413
+QUAL_RTC_WriteDayOfWeek			@414
+QUAL_RTC_Alert					@415
+QUAL_RTC_Reset_Second			@416
+
+QUAL_CHARGER_PreCharge			@421
+QUAL_CHARGER_FullCharge			@422
+QUAL_CHARGER_StopCharge			@423
+QUAL_CHARGER_Verify_IC			@424
+QUAL_CHARGER_Verify_TPS65023	@425
+QUAL_CHARGER_EnableCharing		@426
+QUAL_CHARGER_ReadVersion		@427
+QUAL_CHARGER_500mACharge		@428
+
+QUAL_KEYPAD_Detect				@431
+
+QUAL_VIBRATOR_On				@441
+QUAL_VIBRATOR_Off				@442
+
+QUAL_BATTERY_GAUGE_ReadTemperature		@451
+QUAL_BATTERY_GAUGE_ReadVoltage			@452
+QUAL_BATTERY_GAUGE_ReadStateOfCharge	@453
+QUAL_BATTERY_GAUGE_ReadCurrent			@454
+QUAL_BATTERY_GAUGE_Reset				@455
+QUAL_BATTERY_BackupBatteryPowerLevel	@456
+QUAL_BATTERY_BackupBatteryChargerOn		@457
+QUAL_BATTERY_BackupBatteryChargerOff	@458
+QUAL_BATTERY_BatteryCoverDetect			@459
+QUAL_BATTERY_GAUGE_ReadVersion			@460
+QUAL_BATTERY_GAUGE_ReadDFIVersion		@461
+
+QUAL_DOWNLOAD_FASTBOOT_MODE				@471
+QUAL_DOWNLOAD_NewFlashWrite0XFF			@472
+QUAL_DOWNLOAD_NewFlashRead				@473
+
+QUAL_OS_JumpToAPPSBL					@474
+
+QUAL_WLAN_TxMaxPower					@480
+QUAL_WLAN_TxMaxPower_CH01_2412MHz		@481
+QUAL_WLAN_TxMaxPower_CH07_2442MHz		@482
+QUAL_WLAN_TxMaxPower_CH13_2472MHz		@483
+
+QUAL_LED_KeypadOn				@491
+QUAL_LED_KeypadOff				@492
+QUAL_LED_BacklightOn			@493
+QUAL_LED_BacklightOff			@494
+QUAL_LED_FlashOn				@495
+QUAL_LED_FlashOff				@496
+QUAL_LED_CapSenseKeyOn			@497
+QUAL_LED_CapSenseKeyOff			@498
+
+QUAL_ID_ReadBoardID				@601
+QUAL_ID_ReadHWID				@602
+
+QUAL_RD_LoadAPPSBL				@631
+QUAL_RD_EnterUARTPktMode		@632
+QUAL_RD_EVT0AutoTest			@633
+QUAL_RD_SendSMEMCmd				@634
+QUAL_RD_AudioAMP				@635
+QUAL_RD_ReadMemoryAddress		@636
+QUAL_RD_ChangeHDMIAddress		@637
+QUAL_RD_ReadHDMIAddress			@638
+QUAL_RD_GetPartitionInfo		@639
+QUAL_RD_JumpToAPPSBL_new		@640
+QUAL_RD_Reboot					@641
+QUAL_RD_SetGP2Vol				@642
+QUAL_RD_Enter301Mode			@643
+QUAL_RD_JumpToAPPSBL_WriteFlag	@644
+QUAL_RD_ReadI2CStatus			@645
+QUAL_RD_I2CStressTest			@646
+QUAL_RD_GPIO7678_High			@647
+QUAL_RD_GPIO7678_Low			@648
+QUAL_RD_LoopReadTouchCoordinate @649
+QUAL_RD_PowerDown				@650
+QUAL_RD_HdmiTest				@651
+QUAL_RD_PictureTest				@652
+QUAL_RD_RecoveryMenu			@653
+QUAL_RD_AutoSetEbi1KernelAddr	@654
+QUAL_RD_ReadUartLogStatus		@655
+
+QUAL_VERSION_ReadDTVersion		@661
+QUAL_VERSION_ReadBoardID		@662
+QUAL_VERSION_ReadAccessaryID	@663
+
+QUAL_FACTORY_FARead				@671
+QUAL_FACTORY_FAWrite			@672
+
+
+
+;====================================================================
+; Nvidia command
+;====================================================================
+ExecAdbOut							@700
+
+NVDA_TestFtdMode					@701
+NVDA_AutoFtdMode					@702
+NVDA_CheckStationFlag				@703
+NVDA_PwrOn2UartPktMode				@704
+
+SearchPortUsb						@706
+GetAdbDevice						@707
+
+ReceiveCmdOut						@708
+
+NVDA_SD_DetectStatus				@710
+NVDA_SD_OperateTest					@711
+NVDA_SD_Mount						@712
+NVDA_SD_Unmount						@713
+NVDA_SD_CheckeMMCSetting			@714
+
+NVDA_CAMERA_ReadId					@715
+NVDA_CAMERA_8MTest					@716
+NVDA_CAMERA_1D3MTest				@717
+NVDA_CAMERA_5MTest					@718
+NVDA_CAMERA_StoreInSDCard			@719
+NVDA_CAMERA_ChooseWBMode			@720
+
+NVDA_Display_LCDRGB					@721
+NVDA_Display_DetectHDMI				@722
+NVDA_Display_HDMIRGB				@723
+NVDA_Display_LCDRLE					@724
+NVDA_Display_CloseLCD				@725
+
+NVDA_SENSOR_GSENSORReadAcc			@731
+NVDA_SENSOR_GSENSORReadID			@732
+NVDA_SENSOR_ECompassI2CTest			@733
+NVDA_SENSOR_TouchID					@734
+NVDA_SENSOR_LSensorReadID			@735
+NVDA_SENSOR_LSensorReadValue		@736
+NVDA_SENSOR_PSensorReadID			@737
+NVDA_SENSOR_PSensorReadProximity	@738
+NVDA_SENSOR_GyroReadID				@739
+NVDA_SENSOR_LSensorCalibration		@740
+NVDA_SENSOR_PSensorFarCalibration	@741
+NVDA_SENSOR_PSensorNearCalibration	@742
+NVDA_SENSOR_GSensorCalibration		@743
+
+NVDA_AUDIO_Headset					@745
+NVDA_AUDIO_Speaker					@746
+NVDA_AUDIO_JackCheck				@747
+NVDA_AUDIO_HookCheck				@748
+NVDA_AUDIO_LineOut					@749
+NVDA_AUDIO_PlayMusic				@750
+NVDA_AUDIO_PlayTone					@751
+NVDA_AUDIO_RecordWav				@752
+NVDA_AUDIO_LoopTest					@753
+NVDA_AUDIO_SwitchRX					@754
+NVDA_AUDIO_SwitchTX					@755
+NVDA_AUDIO_Playwav					@756
+NVDA_AUDIO_ReadRCID					@757
+
+NVDA_GPS_EnterSARFMode				@761
+NVDA_GPS_CWTest						@762
+NVDA_GPS_FreqStability				@763
+NVDA_GPS_ExitSARFMode				@764
+
+NVDA_BT_TxPowerOnChannel            @770
+NVDA_BT_TxPowerOn					@771
+NVDA_BT_TxPowerOff					@772
+NVDA_BT_TestModeOn					@773
+NVDA_BT_TestModeOff					@774
+
+NVDA_FMR_ReadRSSI					@776
+NVDA_FMR_PathTest					@777
+
+NVDA_SIM_CheckStatus				@781
+NVDA_SIM_DetectHotPlug				@782
+
+NVDA_TOUCH_Test						@800
+NVDA_TOUCH_DownloadFirmware			@801
+NVDA_TOUCH_Self_Test				@802
+NVDA_TOUCH_ReadFlag					@803
+NVDA_TOUCH_WriteFlag				@804
+NVDA_TOUCH_Cal_Test					@805
+
+NVDA_KEYPAD_Detect					 @806
+NVDA_KEYPAD_GetCapkeyChipID			 @807
+NVDA_KEYPAD_GetCapkeyImpendanceValue @808
+
+NVDA_VIBRATOR_Switch				@811
+NVDA_VIBRATOR_RunningTime			@812
+
+NVDA_BATTERY_BatteryCharge			@816
+NVDA_BATTERY_BatteryCurrent			@817
+NVDA_BATTERY_BatteryTemperature		@818
+NVDA_BATTERY_BatteryVoltage			@819
+NVDA_BATTERY_BatteryCapacity		@820
+NVDA_BATTERY_GaugeDFICalibration	@821
+NVDA_BATTERY_ReadGaugeID			@822
+NVDA_BATTERY_ReadChargerID			@823
+NVDA_BATTERY_CoinCellCharge			@824
+NVDA_BATTERY_CoinCellVoltage		@825
+NVDA_BATTERY_DFIITEnable			@826
+NVDA_BATTERY_DFIVersion             @827
+NVDA_BATTERY_DFIITEnableStatus      @828
+
+NVDA_WLAN_EnableTestMode			@851
+NVDA_WLAN_EnableNormalMode			@852
+NVDA_WLAN_Disable					@853
+NVDA_WLAN_TxPowerSwitch				@854
+NVDA_WLAN_ScanAP					@855
+NVDA_WLAN_GetScanResult				@856
+NVDA_WLAN_ConnectAP					@857
+NVDA_WLAN_GetRSSI					@858
+
+NVDA_LED_BacklightLEDTest			@861
+NVDA_LED_LEDRGBTest					@862
+NVDA_LED_CapKeyLEDTest				@863
+NVDA_LED_FlashLEDTest				@864
+NVDA_LED_ReadFlashID				@865
+
+NVDA_ID_ReadHWID					@871
+
+NVDA_REGULATOR_ReadREGValue			@881
+
+NVDA_WIRELESS_GSMTxPower			@886
+NVDA_WIRELESS_WCDMATxPower			@887
+NVDA_WIRELESS_TXPowerOFF			@888
+
+NVDA_TV_ModuleDetect				@901
+NVDA_TV_InBandPower					@902
+
+NVDA_VERSION_ReadSWVersion			@911
+NVDA_VERSION_ReadDDRInfo			@912
+NVDA_VERSION_ReadeMMCInfo			@913
+NVDA_VERSION_ReadSDInfo				@914
+NVDA_VERSION_ReadTouchInfo			@915
+NVDA_VERSION_ReadCameraInfo			@916
+NVDA_VERSION_ReadBTVersion			@917
+NVDA_VERSION_ReadWIFIVersion		@918
+NVDA_VERSION_ReadLCDInfo			@919
+NVDA_VERSION_ReadGyroFWVersion		@920
+NVDA_VERSION_ReadRFVersion			@921
+NVDA_VERSION_ReadBBVersion			@922
+NVDA_VERSION_ReadPMVersion			@923
+
+NVDA_FACTORY_FARead					@931
+NVDA_FACTORY_FAWrite				@932
+NVDA_FACTORY_ReadPicasso			@933
+NVDA_FACTORY_ReadPicassoCheck		@934
+NVDA_FACTORY_ReadWifiMac			@935
+NVDA_FACTORY_WriteWifiMac			@936
+NVDA_FACTORY_ReadBtMac				@937
+NVDA_FACTORY_WriteBtMac				@938
+NVDA_FACTORY_ReadPPID				@939
+NVDA_FACTORY_WritePPID				@940
+NVDA_FACTORY_ReadServiceTag			@941
+NVDA_FACTORY_WriteServiceTag		@942
+NVDA_FACTORY_WriteDLFlag			@943
+NVDA_FACTORY_WriteFTFlag			@944
+NVDA_FACTORY_WriteMMIBBFlag			@945
+NVDA_FACTORY_WriteMMIRFFlag			@946
+NVDA_FACTORY_CheckAndMoveFA			@947
+NVDA_FACTORY_WritePicasso			@948
+NVDA_FACTORY_ReadIMEI				@949
+NVDA_FACTORY_WriteIMEI				@950
+NVDA_FACTORY_ResetPhone				@951
+NVDA_FACTORY_WriteFCFlag			@952
+NVDA_FACTORY_SetBootMode			@953
+NVDA_FACTORY_EFS_Sync				@954
+NVDA_FACTORY_ReadLCSN				@955
+NVDA_FACTORY_WriteLCSN				@956
+NVDA_FACTORY_WriteOTP				@957
+NVDA_FACTORY_CheckOTP				@958
+NVDA_FACTORY_ReadMEID				@959
+NVDA_FACTORY_WriteMEID				@960
+NVDA_FACTORY_ReadPhoneTime			@961
+NVDA_FACTORY_WritePhoneTime			@962
+NVDA_FACTORY_UnlockPartition        @963
+NVDA_FACTORY_ClearProductionTime    @964
+NVDA_FACTORY_ClearItemOnNORMALPartition   @965
+NVDA_FACTORY_TriggerNVrestore   @966
+NVDA_FACTORY_ReadSN				@967
+NVDA_FACTORY_WriteSN				@968
+
+NVDA_HOUSEKEEP_PowerGlueLogicCheck	@970
+
+NVDA_NV_ReadNV						@971
+NVDA_NV_WriteNV						@972
+NVDA_NV_BackupNV					@973
+NVDA_NV_CheckBackupNV				@974
+NVDA_NV_WriteInitNV                 @975
+
+NVDA_DIAG_SetRequest				@981
+NVDA_RTC_Read                       @991
+NVDA_RTC_Write                      @992
+NVDA_CAMERA_1D3MTest_New            @993
+NVDA_CAMERA_ClearIndex              @994
+
+;====================================================================
+; Nvidia command for SPU
+;====================================================================
+InitDevice_ForSPU							@1000
+FreeDevice_ForSPU							@1001
+
+EFS_ReadFile_ForSPU							@1002
+
+NVDA_SD_DetectStatus_ForSPU					@1011
+NVDA_SD_OperateTest_ForSPU					@1012
+
+NVDA_CAMERA_ReadId_ForSPU					@1016
+NVDA_CAMERA_8MTest_ForSPU					@1017
+NVDA_CAMERA_1D3MTest_ForSPU					@1018
+
+NVDA_Display_LCDRGB_ForSPU					@1021
+NVDA_Display_DetectHDMI_ForSPU				@1022
+NVDA_Display_HDMIRGB_ForSPU					@1023
+NVDA_Display_LCDRLE_ForSPU					@1024
+NVDA_Display_CloseLCD_ForSPU				@1025
+
+NVDA_SENSOR_GSENSORReadAcc_ForSPU			@1031
+NVDA_SENSOR_GSENSORReadID_ForSPU			@1032
+NVDA_SENSOR_ECompassI2CTest_ForSPU			@1033
+NVDA_SENSOR_TouchID_ForSPU					@1034
+NVDA_SENSOR_LSensorReadID_ForSPU			@1035
+NVDA_SENSOR_LSensorReadValue_ForSPU			@1036
+NVDA_SENSOR_PSensorReadID_ForSPU			@1037
+NVDA_SENSOR_PSensorReadProximity_ForSPU		@1038
+NVDA_SENSOR_GyroReadID_ForSPU				@1039
+NVDA_SENSOR_LSensorCalibration_ForSPU		@1040
+NVDA_SENSOR_PSensorFarCalibration_ForSPU	@1041
+NVDA_SENSOR_PSensorNearCalibration_ForSPU	@1042
+NVDA_SENSOR_GSensorCalibration_ForSPU		@1043
+
+NVDA_AUDIO_Headset_ForSPU					@1046
+NVDA_AUDIO_Speaker_ForSPU					@1047
+NVDA_AUDIO_JackCheck_ForSPU					@1048
+NVDA_AUDIO_HookCheck_ForSPU					@1049
+NVDA_AUDIO_LineOut_ForSPU					@1050
+NVDA_AUDIO_PlayMusic_ForSPU					@1051
+NVDA_AUDIO_PlayTone_ForSPU					@1052
+NVDA_AUDIO_RecordWav_ForSPU					@1053
+NVDA_AUDIO_LoopTest_ForSPU					@1054
+NVDA_AUDIO_SwitchRX_ForSPU					@1055
+NVDA_AUDIO_SwitchTX_ForSPU					@1056
+NVDA_AUDIO_PlayWav_ForSPU					@1057
+
+NVDA_GPS_EnterSARFMode_ForSPU				@1061
+NVDA_GPS_CWTest_ForSPU						@1062
+NVDA_GPS_FreqStability_ForSPU				@1063
+NVDA_GPS_ExitSARFMode_ForSPU				@1064
+
+NVDA_BT_TxPowerOn_ForSPU					@1071
+NVDA_BT_TxPowerOff_ForSPU					@1072
+
+NVDA_FMR_ReadRSSI_ForSPU					@1076
+NVDA_FMR_PathTest_ForSPU					@1077
+
+NVDA_SIM_CheckStatus_ForSPU					@1081
+NVDA_SIM_DetectHotPlug_ForSPU				@1082
+
+NVDA_TOUCH_Test_ForSPU						@1101
+NVDA_TOUCH_DownloadFirmware_ForSPU			@1102
+
+NVDA_KEYPAD_Detect_ForSPU					@1106
+NVDA_KEYPAD_GetCapkeyChipID_ForSPU			@1107
+
+NVDA_VIBRATOR_Switch_ForSPU					@1111
+NVDA_VIBRATOR_RunningTime_ForSPU			@1112
+
+NVDA_BATTERY_BatteryCharge_ForSPU			@1116
+NVDA_BATTERY_BatteryCurrent_ForSPU			@1117
+NVDA_BATTERY_BatteryTemperature_ForSPU		@1118
+NVDA_BATTERY_BatteryVoltage_ForSPU			@1119
+NVDA_BATTERY_BatteryCapacity_ForSPU			@1120
+NVDA_BATTERY_GaugeDFICalibration_ForSPU		@1121
+NVDA_BATTERY_ReadGaugeID_ForSPU				@1122
+NVDA_BATTERY_ReadChargerID_ForSPU			@1123
+NVDA_BATTERY_CoinCellCharge_ForSPU			@1124
+NVDA_BATTERY_CoinCellVoltage_ForSPU			@1125
+NVDA_BATTERY_DFIITEnable_ForSPU				@1126
+
+NVDA_WLAN_EnableTestMode_ForSPU				@1141
+NVDA_WLAN_EnableNormalMode_ForSPU			@1142
+NVDA_WLAN_Disable_ForSPU					@1143
+NVDA_WLAN_TxPowerSwitch_ForSPU				@1144
+NVDA_WLAN_ScanAP_ForSPU						@1145
+NVDA_WLAN_GetScanResult_ForSPU				@1146
+NVDA_WLAN_ConnectAP_ForSPU					@1147
+NVDA_WLAN_GetRSSI_ForSPU					@1148
+NVDA_WLAN_EnableRx                          @1149
+NVDA_WLAN_GetRxResult                       @1150
+NVDA_WLAN_LoadBin                           @1151
+NVDA_WLAN_SaveBin                           @1152
+
+NVDA_LED_BacklightLEDTest_ForSPU			@1155
+NVDA_LED_LEDRGBTest_ForSPU					@1156
+NVDA_LED_CapKeyLEDTest_ForSPU				@1157
+NVDA_LED_FlashLEDTest_ForSPU				@1158
+NVDA_LED_ReadFlashID_ForSPU					@1159
+
+NVDA_ID_ReadHWID_ForSPU						@1161
+
+NVDA_REGULATOR_ReadREGValue_ForSPU			@1171
+
+NVDA_WIRELESS_GSMTxPower_ForSPU				@1176
+NVDA_WIRELESS_WCDMATxPower_ForSPU			@1177
+NVDA_WIRELESS_TXPowerOFF_ForSPU				@1178
+
+NVDA_TV_ModuleDetect_ForSPU					@1191
+NVDA_TV_InBandPower_ForSPU					@1192
+
+NVDA_VERSION_ReadSWVersion_ForSPU			@1201
+NVDA_VERSION_ReadDDRInfo_ForSPU				@1202
+NVDA_VERSION_ReadeMMCInfo_ForSPU			@1203
+NVDA_VERSION_ReadSDInfo_ForSPU				@1204
+NVDA_VERSION_ReadTouchInfo_ForSPU			@1205
+NVDA_VERSION_ReadCameraInfo_ForSPU			@1206
+NVDA_VERSION_ReadBTVersion_ForSPU			@1207
+NVDA_VERSION_ReadWIFIVersion_ForSPU			@1208
+NVDA_VERSION_ReadLCDInfo_ForSPU				@1209
+NVDA_VERSION_ReadGyroFWVersion_ForSPU		@1210
+NVDA_VERSION_ReadRFVersion_ForSPU			@1211
+NVDA_VERSION_ReadBBVersion_ForSPU			@1212
+NVDA_VERSION_ReadPMVersion_ForSPU			@1213
+
+NVDA_FACTORY_FARead_ForSPU					@1221
+NVDA_FACTORY_FAWrite_ForSPU					@1222
+NVDA_FACTORY_ReadPicasso_ForSPU				@1223
+NVDA_FACTORY_ReadWifiMac_ForSPU				@1224
+NVDA_FACTORY_WriteWifiMac_ForSPU			@1225
+NVDA_FACTORY_ReadBtMac_ForSPU				@1226
+NVDA_FACTORY_WriteBtMac_ForSPU				@1227
+NVDA_FACTORY_ReadPPID_ForSPU				@1228
+NVDA_FACTORY_WritePPID_ForSPU				@1229
+NVDA_FACTORY_ReadServiceTag_ForSPU			@1230
+NVDA_FACTORY_WriteServiceTag_ForSPU			@1231
+NVDA_FACTORY_WriteDLFlag_ForSPU				@1232
+NVDA_FACTORY_WriteFTFlag_ForSPU				@1233
+NVDA_FACTORY_WriteMMIBBFlag_ForSPU			@1234
+NVDA_FACTORY_WriteMMIRFFlag_ForSPU			@1235
+NVDA_FACTORY_CheckAndMoveFA_ForSPU			@1236
+NVDA_FACTORY_ReadPicassoCheck_ForSPU		@1237
+NVDA_FACTORY_ReadIMEI_ForSPU				@1238
+NVDA_FACTORY_WriteIMEI_ForSPU				@1239
+NVDA_FACTORY_ResetPhone_ForSPU				@1240
+NVDA_FACTORY_SetBootMode_ForSPU				@1241
+NVDA_FACTORY_EFS_Sync_ForSPU				@1242
+NVDA_FACTORY_ReadLCSN_ForSPU				@1243
+NVDA_FACTORY_WriteLCSN_ForSPU				@1244
+
+NVDA_HOUSEKEEP_PowerGlueLogicCheck_ForSPU	@1246
+NVDA_FACTORY_WriteOTP_ForSPU				@1247
+NVDA_FACTORY_WriteFCFlag_ForSPU				@1248
+
+NVDA_FACTORY_ReadMEID_ForSPU				@1249
+NVDA_FACTORY_WriteMEID_ForSPU				@1250
+
+NVDA_FACTORY_ReadPhoneTime_ForSPU				@1251
+NVDA_FACTORY_WritePhoneTime_ForSPU				@1252
+
+NVDA_NV_ReadNV_ForSPU						@1261
+NVDA_NV_WriteNV_ForSPU						@1262
+NVDA_NV_BackupNV_ForSPU						@1263
+
+NVDA_DIAG_SetRequest_ForSPU					@1266
+NVDA_RTC_Read_ForSPU                       @1268
+NVDA_RTC_Write_ForSPU                       @1269
+
+NVDA_FACTORY_ReadSN_ForSPU				@1270
+NVDA_FACTORY_WriteSN_ForSPU				@1271

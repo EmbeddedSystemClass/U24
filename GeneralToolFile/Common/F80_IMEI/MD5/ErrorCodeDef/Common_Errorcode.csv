@@ -1,0 +1,311 @@
+//**Error Message,Error Code,Error defined in .h,Error description in Chinese,Error description in English,Is in CIM
+PASS,PASS,CommErr_PASS,,,
+//**Software Version,,,,,
+Get_Software_Version_Fail,SWVS0001,CommErr_Get_Software_Version_Fail,读取软件版本错误,Get software version fail,Y
+Check_Software_Version_Fail,SWVS0002,CommErr_Check_Software_Version_Fail,软件版本错误,Check software version fail,N
+Check_BIST_Version_Fail,SWVS0003,CommErr_Check_BIST_Version_Fail,BIST版本错误,Check BIST version fail,Y
+//**Hardware Version,,,,,
+Get_Hardware_Version_Fail,HWVS0001,CommErr_Get_Hardware_Version_Fail,读取硬件版本错误,Get hardware version fail,Y
+Check_Hardware_Version_Fail,HWVS0002,CommErr_Check_Hardware_Version_Fail,硬件版本错误,Check hardware version fail,N
+Get_Mechaical_Version_Fail,HWVS0003,CommErr_Get_Mechaical_Version_Fail,读取机构版本错误,Get ME version fail,Y
+Check_Mechaical_Version_Fail,HWVS0004,CommErr_Check_Mechaical_Version_Fail,机构版本错误,Check ME version fail,N
+SKU_ID_Fail,HWVS0005,CommErr_SKU_ID_Fail,SKU ID 错误,Check SKU ID fail,Y
+//**HW ID,,,,,
+Get_HW_ID_Fail,HWID0001,CommErr_Get_HW_ID_Fail,读取HW ID错误,Get HW ID fail,Y
+Check_HW_ID_Fail,HWID0002,CommErr_Check_HW_ID_Fail,HW ID错误,Check HW ID fail,N
+Check_HW_ID_Rule_Fail,HWID0003,CommErr_Check_HW_ID_Rule_Fail,HW ID不符合规则,Check HW ID Rule fail,N
+//**Read and Write FA,,,,,
+Factory_Area_Not_Active,FA000001,CommErr_Factory_Area_Not_Active,FA处于未激活状态,FA is not active,Y
+Read_Factory_Area_Fail,FA000002,CommErr_Read_Factory_Area_Fail,读FA失败,Read FA fail,Y
+Write_Factory_Area_Fail,FA000003,CommErr_Write_Factory_Area_Fail,写FA失败,Write FA fail,Y
+//**OTP,,,,,
+Query_OTP_Status_Fail,OTP00001,CommErr_Query_OTP_Status_Fail,查询手机OTP是否Frozen失败,Query OTP freeze fail,Y
+Freeze_OTP_Fail,OTP00002,CommErr_Freeze_OTP_Fail,Freeze 手机OTP失败,OTP freeze fail,Y
+OTP_Damaged_Or_Warning,OTP00003,CommErr_OTP_Damaged_Or_Warning,OTP 损坏或者其他警告,OTP damaged or Warning,Y
+Qcfg_Backup_To_Qotp_Fail,OTP00004,CommErr_Qcfg_Backup_To_Qotp_Fail,备份cfg失败,Backup cfg Fail,Y
+Qfa_Backup_To_Qotp_Fail,OTP00005,CommErr_Qfa_Backup_To_Qotp_Fail,备份fa失败,Backup FA Fail,Y
+//**SPC,,,,,
+Read_SPC_Code_Fail,SPC00001,CommErr_Read_SPC_Code_Fail,读SPC失败,Read SPC fail,Y
+Write_SPC_Code_Fail,SPC00002,CommErr_Write_SPC_Code_Fail,写SPC失败,Write SPC fail,Y
+SPC_Code_Error,SPC00003,CommErr_SPC_Code_Error,SPC Code不正确,SPC Code Error,Y
+SPC_Unlock_Fail,SPC00004,CommErr_SPC_Unlock_Fail,Unlock SPC 失败,Unlock SPC fail,Y
+SPC_lock_Fail,SPC00005,CommErr_SPC_lock_Fail,Lock SPC 失败,Lock SPC fail,Y
+Query_SPC_lock_Status_Fail,SPC00006,CommErr_Query_SPC_lock_Status_Fail,获取手机SPC状态失败,Query SPC lock status fail,Y
+Compare_SPC_Code_Fail,SPC00007,CommErr_Compare_SPC_Code_Fail,比较手机里写入的SPC码和系统不一致,Compare SPC code fail,Y
+//**Partition,,,,,
+Clear_All_Item_Fail,PT000001,CommErr_Clear_All_Item_Fail,清除手机中的数据 失败,Clear Mobile date fail,Y
+Unlock_Partition_Fail,PT000002,CommErr_Unlock_Partition_Fail,解锁Partition 失败,Unlock Partition fail,Y
+//**Sim data,,,,,
+Encode_Sim_Data_Fail,SMLK0001,CommErr_Encode_Sim_Data_Fail,Encode SIM data 失败,Encode SIM data from server fail,Y
+Write_Sim_Data_Fail,SMLK0002,CommErr_Write_Sim_Data_Fail,写Sim data失败,Write sim data fail,Y
+Check_Sim_Data_Fail,SMLK0003,CommErr_Check_Sim_Data_Fail,检查SIM data失败,Check sim data fail,Y
+Write_Public_key_Fail,SMLK0004,CommErr_Write_Public_key_Fail,写Public Key失败,Write Public key fail,Y
+Read_Public_key_Fail,SMLK0005,CommErr_Read_Public_key_Fail,读Public Key失败,Read Public key fail,Y
+Compare_Public_key_Fail,SMLK0006,CommErr_Compare_Public_key_Fail,比较Public Key失败,Compare Public key fail,Y
+SimLock_GetControlKey_Fail,SMLK0007,CommErr_SimLock_GetControlKey_Fail,读Control Key失败,Get Simlock Control Key Fail,Y
+Unlock_Phone_Code_Fail,SMLK0008,CommErr_Unlock_Phone_Code_Fail,Phone Code解鎖失败,Unlock phone code fail,Y
+Read_Sim_Data_Fail,SMLK0009,CommErr_Read_Sim_Data_Fail,读Sim data失败,Read sim data fail,Y
+Activate_SimLock_Fail,SMLK0010,CommErr_Activate_SimLock_Fail,激活 Sim lock 失败,SimLock Activate Fail,Y
+Deactivate_SimLock_Fail,SMLK0011,CommErr_Deactivate_SimLock_Fail,解除 Sim lock 失败,SimLock Deactivate Fail,Y
+Get_ClientID_Fail,SMLK0012,CommErr_Get_ClientID_Fail,ClientID讀取失敗,Get ClientID Fail,Y
+Get_SessionID_Fail,SMLK0013,CommErr_Get_SessionID_Fail,SessionID讀取失敗,Get SessionID Fail,Y
+Get_SimLock_FileName_Fail,SMLK0014,CommErr_Get_SimLock_FileName_Fail,读取SIMLock档名失败,Get SIMLockFileName Fail,Y
+Compare_SIMLockFileName_Fail,SMLK0015,CommErr_Compare_SIMLockFileName_Fail,比对SIMLock档名失败,Compare SIMLockFileName Fail,Y
+//**PVK,,,,,
+Write_PVK_File_Fail,PVK00001,CommErr_Write_PVK_File_Fail,写PVK file到EFS失败,Write PVK file fail,Y
+Load_PVK_File_Fail,PVK00002,CommErr_Load_PVK_File_Fail,自动将PVK 栽入手机失败,Load PVK fail,Y
+Check_PVK_Status_Fail,PVK00003,CommErr_Check_PVK_Status_Fail,检查PVK状态失败,Check PVK Status fail,Y
+Decrypt_PVK_Fail,PVK00004,CommErr_Decrypt_PVK_Fail,将 PKV 解密fail,Decrypt PVK fail,Y
+No_PVK_File_Found,PVK00005,CommErr_No_PVK_File_Found,从指定路径取得指定PVK 文件失败,PVK file not found,Y
+//**phone,,,,,
+No_Phone_Connected,PHCT0001,CommErr_No_Phone_Connected,没有侦测到手机连接,No phone connected,N
+Connect_Phone_Fail_After_Sim_Data,PHCT0002,CommErr_Connect_Phone_Fail_After_Sim_Data,写手机的SIM Lock之前连接手机失败,Connect fail after write sim data,Y
+Connect_Phone_Fail_After_PVK_Reset,PHCT0003,CommErr_Connect_Phone_Fail_After_PVK_Reset,PVK programming 后reset连接手机失败,Connect fail after write PVK,Y
+Close_Phone_Connection_Fail,PHCT0004,CommErr_Close_Phone_Connection_Fail,断开手机连接失败,Close phone connection fail,Y
+Reset_Phone_Fail,REPH0005,CommErr_Reset_Phone_Fail,对手机进行Reset 失败,Reset fail,Y
+Get_ADB_Fail,GEDB0006,CommErr_Get_ADB_Fail,获取ADB口失败,Get ADB fail,Y
+Set_Phone_To_Ftd_Mode_Fail,SFTD0007,CommErr_Set_Phone_To_Ftd_Mode_Fail,切换手机进FTD模式失败,Set phone to FTD mode fail,Y
+Set_Phone_To_Online_Mode_Fail,SONL0008,CommErr_Set_Phone_To_Online_Mode_Fail,切换手机进开机模式失败,Set phone to online mode fail,Y
+Phone_Not_In_FTD_Mode,NFTD0009,CommErr_Phone_Not_FTD,手机不在FTD mode,Phone not in FTD mode,Y
+Phone_Restart_Fail,REST0010,CommErr_Phone_Restart_Fail,手机重开机失败,Restart phone fail,Y
+Phone_Modem_Not_Ready_Fail,NRDY0011,CommErr_Phone_Modem_Not_Ready_Fail,手机开启modem还没ready,Phone is connected but modem is not ready,Y
+Set_Phone_To_FTM_Mode_Fail,SFTM0012,CommErr_Set_Phone_To_FTM_Mode_Fail,手机切到FTM失败,Set phone to FTM mode fail,Y
+Reopen_Comport_Fail,ROPE0013,CommErr_Reopen_Comport_Fail,重新打开端口失败,Reopen com port fail,Y
+Device_In_eDL_Mode,PHMD0014,CommErr_Device_In_eDL_Mode,装置处于 eDL 模式下,Device in eDL mode,Y
+Device_In_Fastboot_Mode,PHMD0015,CommErr_Device_In_Fastboot_Mode,装置处于 Fastboot 模式下,Device in Fastboot mode,Y
+Device_In_OS_Mode,PHMD0016,CommErr_Device_In_OS_Mode,装置处于 OS 模式下,Device in OS mode,N
+Set_Phone_To_Fly_Mode_Fail,PHMD0017,CommErr_Set_Phone_To_Fly_Mode_Fail,设置手机进入飞行模式失败,Set phone to fly mode fail,Y
+//**File,,,,,
+Pull_File_From_Device_Fail,FILE0001,CommErr_Pull_File_From_Device_Fail,从手机导出文件失败,Pull file from device fail,Y
+Push_File_To_Device_Fail,FILE0002,CommErr_Push_File_To_Device_Fail,手机导入文件失败,Push file to device fail,Y
+Parse_File_Fail,FILE0003,CommErr_Parse_File_Fail,解析文件失败,Parse file fail,Y
+//**NV & QCN,,,,,
+Backup_NV_Fail,NVBR0001,CommErr_Backup_NV_Fail,备份NV失败,Backup NV fail,Y
+Restore_NV_Fail,NVBR0002,CommErr_Restore_NV_Fail,恢复NV失败,Restore NV fail,Y
+Check_NV_Backup_Fail,NVBR0003,CommErr_Check_NV_Backup_Fail,检查NV Backup失败,Check NV Backup fail,Y
+Read_NV_Fail,NVBR0004,CommErr_Read_NV_Fail,读取NV失败,Read NV fail,Y
+Write_NV_Fail,NVBR0005,CommErr_Write_NV_Fail,写NV失败,Write NV fail,Y
+EFS_Sync_Fail,NVBR0006,CommErr_EFS_Sync_Fail,同步EFS失败,EFS synchronize fail,Y
+Write_InitNV_Fail,NVBR0007,CommErr_Write_Init_NV_Fail,写初试NV失败,Write init NV fail,Y
+Load_NV_Definition_File_Fail,NVBR0008,CommErr_Load_NV_Definition_File_Fail,載入NV定義檔案失敗,Load NV Definition File Fail,Y
+Restore_QCN_Fail,QCNRST01,CommErr_Restore_QCN_Fail,载入QCN失败,Restore QCN fail,Y
+//**Factroy Reset,,,,,
+Master_Clear_Fail,FTRS0001,CommErr_Master_Clear_Fail,Master clear失败,Master clear fail,Y
+//**Qfuse,,,,,
+Write_Qfuse_Fail,QFUS0001,CommErr_Write_Qfuse_Fail,写Qfuse失败,Write Qfuse fail,Y
+Read_Qfuse_Fail,QFUS0002,CommErr_Read_Qfuse_Fail,读Qfuse失败,Read Qfuse fail,Y
+Check_Qfuse_Fail,QFUS0003,CommErr_Check_Qfuse_Fail,检查Qfuse失败,Check Qfuse fail,Y
+//**XML related,,,,,
+XML_Testitem_Load,XML00001,CommErr_XML_Testitem_Load_Fail,加载测试项目XML文档失败,Load test item file fail,N
+XML_Cableloss_Load,XML00002,CommErr_XML_Cableloss_Load_Fail,加载cableloss XML文档失败,Load cable loss file fail,N
+XML_Deviceitem_Load,XML00003,CommErr_XML_Deviceitem_Load_Fail,加载设备项目XML文档失败,Load device item file fail,N
+XML_Testitem_Parameter,XML00004,CommErr_XML_Testitem_Parameter_Missed,测试项目文件中参数丢失,Test item parameter missed,N
+XML_Cableloss_Parameter,XML00005,CommErr_XML_Cableloss_Parameter_Missed,Cableloss文件中参数丢失,Cableloss parameter missed,N
+XML_Deviceitem_Parameter,XML00006,CommErr_XML_Deviceitem_Parameter_Missed,设备项目文件中参数丢失,Device item parameter missed,N
+XML_GoldenSample_Load,XML00007,CommErr_XML_GoldenSample_Load_Fail,加载GoldenSample XML文档失败,Load golden sample file fail,N
+//**Golden,,,,,
+Is_Golden_Sample,GOLDEN01,CommErr_Is_Golden_Sample,这是 Golden Sample,This is Golden Sample,N
+Is_Not_Golden_Sample,GOLDEN02,CommErr_Is_Not_Golden_Sample,这不是 Golden Sample,This is not Golden Sample,N
+//**PPID,,,,,
+PPID_Length_Fail,PPID0001,CommErr_Check_PPID_Length_Fail,PPID长度不对,Check PPID Length fail,Y
+PPID_Rule_Fail,PPID0002,CommErr_Check_PPID_Rule_Fail,PPID规则不对,Check PPID rule fail,Y
+PPID_Write_Fail,PPID0003,CommErr_Write_PPID_Fail,写PPID到手机失败,Write PPID Fail,Y
+PPID_Read_Fail,PPID0004,CommErr_Read_PPID_Fail,读PPID从手机失败,Read PPID fail,Y
+PPID_Check_Fail,PPID0005,CommErr_Check_PPID_Fail,PPID写入的和读取的不一致,Check PPID fail,Y
+//**FSN,,,,,
+FSN_Size_fail,FSN00001,CommErr_FSN_Length_Fail,FSN长度不对,Check FSN Length fail,Y
+Compare_FSN_Fail,FSN00002,CommErr_Compare_MSN_Fail,比较手机里写入的FSN和系统不一致,Compare FSN fail,Y
+Read_FSN_Fail,FSN00003,CommErr_Read_FSN_Fail,读FSN失败,Write FSN fail,Y
+Write_FSN_Fail,FSN00004,CommErr_Write_FSN_Fail,写FSN失败,Read FSN fail,Y
+NO_FSN_Record_IN_DB,FSN00005,CommErr_No_FSN_Record_in_DB,系统没有FSN数据,No FSN record in DB,N
+//**BT Address,,,,,
+Read_BT_Address_Fail,BTMC0001,CommErr_Read_BT_Address_Fail,读BT失败,Write BT address fail,Y
+Write_BT_Address_Fail,BTMC0002,CommErr_Write_BT_Address_Fail,写BT失败,Read BT address fail,Y
+Compare_BT_Address_Fail,BTMC0003,CommErr_Compare_BT_Address_Fail,比较手机里写入的BT地址和系统不一致,Compare BT address fail,Y
+Check_BT_Address_Length_Fail,BTMC0004,CommErr_Check_BT_Address_Length_Fail,BT地址长度不正确,Check BT address length fail,Y
+//**WLAN Address,,,,,
+Check_WLAN_Address_Length_Fail,WFMC0001,CommErr_Check_WLAN_Address_Length_Fail,WLAN地址长度不正确,Check WLAN address length fail,Y
+Read_WLAN_Address_Fail,WFMC0002,CommErr_Read_WLAN_Address_Fail,读WLAN失败,Write WLAN address fail,Y
+Write_WLAN_Address_Fail,WFMC0003,CommErr_Write_WLAN_Address_Fail,写WLAN失败,Read WLAN address fail,Y
+Compare_WLAN_Address_Fail,WFMC0004,CommErr_Compare_WLAN_Address_Fail,比较手机里写入的WLAN地址和系统不一致,Compare WLAN address fail,Y
+//**IMEI,,,,,
+Check_IMEI_Rule_Fail,IMEI0001,CommErr_Check_IMEI_Rule_Fail,IMEI不符合规则,Check IMEI Length & Rule fail,N
+Check_IMEI_Fail_In_Rework,IMEI0002,CommErr_Check_IMEI_Fail_In_Rework,Rework时手机里的IMEI和扫描的不一致,Check IMEI fail in rework mode,Y
+IMEI_Default_In_Phone_Error,IMEI0003,CommErr_IMEI_Default_In_Phone_Error,手机的default IMEI不正确,Default IMEI error,Y
+No_IMEI_In_Phone_When_rework,IMEI0004,CommErr_No_IMEI_In_Phone_When_rework,rework是手机里没有IMEI存在,No IMEI when in rework,Y
+IMEI_Status_In_P_S_Error,IMEI0005,CommErr_IMEI_Status_In_P_S_Error,IMEI状态是P或S错误,IMEI status in P or S,Y
+IMEI_Status_Error,IMEI0006,CommErr_IMEI_Status_Error,IMEI状态错误,IMEI status fail,Y
+Check_IMEI_Sequence_Fail,IMEI0007,CommErr_Check_IMEI_Sequence_Fail,IMEI不连续,Check IMEI sequence fail,N
+Read_IMEI_Fail,IMEI0008,CommErr_Read_IMEI_Fail,读IMEI失败,Write IMEI fail,Y
+Write_IMEI_Fail,IMEI0009,CommErr_Write_IMEI_Fail,写IMEI失败,Read IMEI fail,Y
+Compare_IMEI_Fail,IMEI0010,CommErr_Compare_IMEI_Fail,比较手机里写入的IMEI和系统不一致,Compare IMEI fail,Y
+Print_IMEI_Label_Fail,IMEI0011,CommErr_Print_IMEI_Label_Fail,打印IMEI标签失败,Print IMEI label fail,Y
+Check_IMEI_Flag_Fail,IMEI0012,CommErr_Check_IMEI_Flag_Fail,IMEI写入成功好没有script里没有上传flag,Check IMEI flag fail,Y
+//**MEID,,,,,
+Check_MEID_Length_Fail,MEID0001,CommErr_Check_MEID_Length_Fail,MEID长度不正确,Check MEID length fail,Y
+Read_MEID_Fail,MEID0002,CommErr_Read_MEID_Fail,读MEID失败,Write MEID fail,Y
+Write_MEID_Fail,MEID0003,CommErr_Write_MEID_Fail,写MEID失败,Read MEID fail,Y
+Compare_MEID_Fail,MEID0004,CommErr_Compare_MEID_Fail,比较手机里写入的MEID和系统不一致,Compare MEID fail,Y
+Check_MEID_Rule_Fail,MEID0005,CommErr_Check_MEID_Rule_Fail,MEID不符合规则,Check MEID rule fail,Y
+Query_MEID_Status_From_PICS_Fail,MEID0006,CommErr_Query_MEID_Status_From_PICS_Fail,查询MEID状态失败,Query MEID Status From PICS Fail,Y
+MEID_Default_In_Phone_Error,MEID0007,CommErr_MEID_Default_In_Phone_Error,手机MEID错误,MEID Default In Phone Error,Y
+MEID_Status_Error,MEID0008,CommErr_MEID_Status_Error,MEID状态错误,MEID Status Error,Y
+//**SSSO2,,,,,
+Initial_PICS_SSS02_Fail,PICS0001,CommErr_Initial_SSSO2_Fail,系统初始化失败,Initial system fail,N
+Query_BT_WLAN_MSN_From_SSS_Fail,PICS0002,CommErr_Query_BT_WLAN_MSN_From_SSS_Fail,从SSSO2里获取BT/WLAN/MSN失败,Query BT/WLAN/MSN fail from ssso2,Y
+Query_IMEI_Status_From_PICS_Fail,PICS0003,CommErr_Query_IMEI_Status_From_PICS_Fail,从PICS系统获取IMEI状态失败,Query IMEI status from PICS fail,Y
+Query_SPC_Code_From_PICS_Fail,PICS0004,CommErr_Query_SPC_Code_From_PICS_Fail,从PICS系统获取SPC code失败,Query SPC code from PICS fail,Y
+Query_FSN_From_PICS_Fail,PICS0005,CommErr_Query_FSN_From_PICS_Fail,从PICS系统获取FSN失败,Query FSN from server fail,Y
+Created_FSN_From_PICS_Fail,PICS0006,CommErr_Create_FSN_From_PICS_Fail,在PICS系统中生成FSN失败,Create FSN in PICS Fail,Y
+Query_Unlock_key_From_PICS_Fail,PICS0007,CommErr_Query_Unlock_key_From_PICS_Fail,从PICS系统获取Unlock key失败,Get Unlock key from server fail,Y
+Query_Sim_Data_From_PICS_Fail,PICS0008,CommErr_Query_Sim_Data_From_PICS_Fail,从PICS系统获取sim data失败,Get Sim Data from server fail,Y
+Get_Sim_Data_Size_From_PICS_Fail,PICS0009,CommErr_Get_Sim_Data_Size_From_PICS_Fail,从PICS系统获取Sim data大小失败,Get Sim data size from server fail,Y
+Update_IMEI_Status_To_PICS_Fail,PICS0010,CommErr_Update_IMEI_Status_To_PICS_Fail,更新PICS里IMEI状态失败,Update IMEI Status to server fail,Y
+Check_IMEI_PN_MAL_In_PICS_Fail,PICS0011,CommErr_Check_IMEI_PN_MAL_In_PICS_Fail,检查IMEI/PN/MAL在pics系统中失败,Check IMEI/PN/MAL in PICS fail,Y
+Create_IMEI_Table_In_PICS_Fail,PICS0012,CommErr_Create_IMEI_Table_In_PICS_Fail,在PICS系统里创建IMEI表失败,Create IMEI in PICS fail,Y
+Update_NAL_To_PICS_Fail,PICS0013,CommErr_Update_NAL_To_PICS_Fail,更新PICS里NAL失败,Update NAL to pics fail,Y
+Update_CustomerSW_To_SSSO2_Fail,PICS0014,CommErr_Update_CustomerSW_To_SSSO2_Fail,记录出货软体版本在SSSO2失败,Update shipping os version to SSSO2 fail,Y
+Query_MEID_From_SSS_Fail,PICS0015,CommErr_Query_MEID_From_SSS_Fail,从SSSO2里获取MEID失败,Query MEID fail from ssso2,Y
+Check_CustomerPN_From_SSSO2_Fail,PICS0016,CommErr_Check_CustomerPN_From_SSSO2_Fail,检查SSSO2中的Customer PN 失败,Check CustomerPN From SSSO2 Fail,Y
+Get_SPC_PICS_Fail,PICS0017,CommErr_Get_SPC_PICS_Fail,PICS生成SPC失败,Get spc code fail in pics by imei,Y
+Query_FGSN_From_SSS_Fail,PICS0018,CommErr_Query_FGSN_From_SSS_Fail,从SSSO2里获取FGSN失败,Query FGSN fail from ssso2,Y
+Query_IMEI_From_SSSO2_Fail,PICS0019,CommErr_Query_IMEI_From_SSSO2_Fail,从SSSO2查询IMEI失败,Query IMEI From SSSO2 Fail,Y
+//**Serial Number,,,,,
+Read_Serial_Number_Fail,SN000001,CommErr_Read_Serial_Number_Fail,读序列号失败,Read Serial Number fail,Y
+Write_Serial_Number_Fail,SN000002,CommErr_Write_Serial_Number_Fail,写序列号失败,Write Serial Number fail,Y
+Compare_Serial_Number_Fail,SN000003,CommErr_Compare_Serial_Number_Fail,检查序列号失败,Compare Serial Number fail,Y
+//**Device ID,,,,,
+Read_Device_ID_Fail,DEVIID01,CommErr_Read_Device_ID_Fail,读设备ID失败,Read Device ID fail,Y
+Check_DeviceID_Fail,DEVIID02,CommErr_Check_DeviceID_Fail,写设备ID失败,Write Device ID fail,Y
+Write_Device_ID_Fail,DEVIID03,CommErr_Write_Device_ID_Fail,检查设备ID失败,Compare Device ID fail,Y
+//**NAL,,,,,
+Check_NAL_Rule_Fail,NAL00001,CommErr_Check_NAL_Rule_Fail,NAL不符合规则,Check MAL Length & Rule fail,N
+NAL_NOT_IN_DB,NAL00002,CommErr_NAL_NOT_IN_DB,NAL不在数据库中,NAL NOT IN DB,N
+NAL_DUPLICATED,NAL00003,CommErr_NAL_Duplicated,NAL重复,NAL Duplicated,Y
+//**DRM,,,,,
+Create_DRM_Fail,DRM00001,CommErr_Create_DRM_Fail,产生DRM数据失败,Create DRM Fail,Y
+DRM_Backup_Fail,DRM00002,CommErr_DRM_Backup_Fail,DRM Backup失败,DRM Backup Fail,Y
+//**Device Control,,,,,
+PowerSupply_Control_Fail,DVCT0001,CommErr_PowerSupply_Control_Fail,控制PowerSupply失败,Control PowerSupply fail,N
+RelayBoard_Control_Fail,DVCT0002,CommErr_RelayBoard_Control_Fail,控制RelayBoard失败,Control RelayBoard fail,N
+Jig_Move_Fail,DVCT0003,CommErr_Jig_Move_Fail,治具移动失败,Jig Move fail,N
+Detect_RF_Tester_Fail,DVCT0004,CommErr_Detect_RF_Tester_Fail,侦测RF测试仪器失败,Detect RF tester fail,N
+Check_RF_Tester_Option_Fail,DVCT0005,CommErr_Check_RF_Tester_Option_Fail,RF测试仪器 option 不足,The option of RF tester is not enough,N
+RF_Tester_Fail_Need_Restart,DVCT0006,CommErr_RF_Tester_Fail_Need_Restart,RF测试仪器故障请重新连接或重启,Test device need restart due to fatal error,N
+Assist_Device_Detect_Fail,DVCT0007,CommErr_Assist_Device_Detect_Fail,侦测N4010A失败,Detect N4010A fail,N
+BIST_Board_Error,DVCT0008,CommErr_BIST_Board_Error,BIST board 发生错误,BIST board error,N
+//**RF,,,,,
+Get_Channel_Type_Fail,RF000001,CommErr_Get_Channel_Type_Fail,获取信道类型失败,Get channel type fail,N
+No_Band_Define_Fail,RF000002,CommErr_No_Band_Define_Fail,没有定义的 Band,No this band define,N
+BandIDTemperature_Fail,RF000003,CommErr_BandIDTemperature_Fail,Band ID Temperature 错误,Check Band ID Temperature fail,Y
+//**Flag,,,,,
+Write_FC_Flag_Fail,FLAG0001,CommErr_Write_FC_Flag_Fail,写 FC 标识失败,Write FC flag fail,Y
+Check_FC_Flag_Fail,FLAG0002,CommErr_Check_FC_Flag_Fail,检查 FC 标识失败,Check FC flag fail,Y
+//**UI,,,,,
+UI_Unknown_Error_From_DLL,UI000000,CommErr_UI_Unknown_Error_From_DLL,未知DLL错误,Unknown Errorcode from DLL,N
+UI_Init_Diag_Fail,UI000001,CommErr_UI_Init_Diag_Fail,初始化对话框失败,Fail to initial dialog,N
+UI_DLL_Load_Fail,UI000002,CommErr_UI_DLL_Load_Fail,加载DLL失败,Fail to load dll,N
+UI_Config_File_Not_Found,UI000003,CommErr_UI_Config_File_Not_Found,UI配置文件丢失,UI config file missed,N
+UI_Config_File_Miss_Parameter,UI000004,CommErr_UI_Config_File_Miss_Parameter,UI配置文件中参数丢失,UI config parameter missed,N
+UI_Init_TestItem_Fail,UI000005,CommErr_UI_Init_TestItem_Fail,从DLL获取测项失败,Fail to initial test item,N
+UI_Run_Thread_Fail,UI000006,CommErr_UI_Run_Thread_Fail,开启线程失败,Fail to start thread,N
+//**UICIM,,,,,
+UI_CIM_MobileID_Match_Fail,UI001001,CommErr_UI_CIM_MobileID_Match_Fail,手机中mobileID与CIM中不匹配,Mobileid in phone and CIM mismatch,N
+UI_CIM_SO_CR_Count_Over_Upper,UI001002,CommErr_UI_CIM_SO_CR_Count_Over_Upper,CR工单测试数量超出上限,CR test count over limited,N
+UI_CIM_SO_NULL,UI001003,CommErr_UI_CIM_SO_NULL,工单号为空,SO is null,N
+UI_CIM_SMT_Picasso_Not_Exist,UI001004,CommErr_UI_CIM_SMT_Picasso_Not_Exist,该picasso在SMT系统中未维护,Picasso is not maintained in SMT,N
+UI_CIM_Picasso_Locked,UI001005,CommErr_UI_CIM_Picasso_Locked,该picasso状态被锁定,Picasso status is Locked,N
+UI_CIM_Picasso_Status_Invalide,UI001006,CommErr_UI_CIM_Picasso_Status_Invalide,该picasso状态非法,Picasso status is invalide,N
+UI_CIM_Picasso_Match_Phone_Fail,UI001007,CommErr_UI_CIM_Picasso_Match_Phone_Fail,手机中picasso与CIM中不匹配,Picasso in mobile and CIM mismatch,N
+UI_CIM_Routing_Check_Fail,UI001008,CommErr_UI_CIM_Routing_Check_Fail,检测手机例行站测试记录失败,Check pre-station test record fail,N
+UI_CIM_Connect_Fail,UI001009,CommErr_UI_CIM_Connect_Fail,连接CIM数据库失败,Connect CIMDB fail,N
+UI_CIM_Picasso_QA_Hold,UI001010,CommErr_UI_CIM_Picasso_QA_Hold,该手机被QA Hold,Phone is hold by QA,N
+UI_CIM_Pics_Clean_Fail,UI001011,CommErr_UI_CIM_Pics_Clean_Fail,清除DB中pics数据失败,Clear DB pics data fail,N
+UI_CIM_Interface_Get_Fail,UI001012,CommErr_UI_CIM_Interface_Get_Fail,获取DB接口函数失败,Fail to get DB interface,N
+UI_CIM_Picasso_Match_IMEI_Fail,UI001013,CommErr_UI_CIM_Picasso_Match_IMEI_Fail,手机中picasso与IMEI不匹配,IMEI mismatch with picasso in phone,N
+UI_CIM_Tool_Version_Invalide,UI001014,CommErr_UI_CIM_Tool_Version_Invalide,Tool版本与CIM中不匹配,Tool version is not same with that in CIM,N
+UI_CIM_IMEI_Status_Invalide,UI001015,CommErr_UI_CIM_IMEI_Status_Invalide,IMEI状态不符合要求,IMEI status fail to meet requirement,N
+UI_CIM_EmployeeID_Not_TS,UI001016,CommErr_UI_CIM_EmployeeID_Not_TS,输入的员工号码不是TS员工号,Employee ID is not TS,N
+UI_CIM_Phone_Init_Not_Record,UI001017,CommErr_UI_CIM_Phone_Init_Not_Record,手机中有标签但记录未上传系统,Stamp in phone but no record in CIM,Y
+UI_CIM_Phone_Reocrd_Not_Init,UI001018,CommErr_UI_CIM_Phone_Reocrd_Not_Init,系统中有记录但手机中标签被非法清除,Record in CIM but no stamp in phone,Y
+//**UIPVCS,,,,,
+UI_PVCS_ParamList_Invalide,UI002001,CommErr_UI_PVCS_ParamList_Invalide,PVCS系统中查询出的参数列表有错误,ParamList invalide from PVCS,N
+UI_PVCS_PN_Segment_Match_Fail,UI002002,CommErr_UI_PVCS_PN_Segment_Match_Fail,PVCS系统查询出的料号名称与线别不符,Pn is not fit this line,N
+UI_PVCS_ImageList_Empty_Fail,UI002003,CommErr_UI_PVCS_ImageList_Empty_Fail,PVCS系统中查询出的软件版本为空,Image list empty from PVCS,N
+//**UIinputcheck,,,,,
+UI_Picasso_Invalide,UI003001,CommErr_UI_Picasso_Invalide,Picasso不符合规则,Picasso is invalide,N
+UI_Picasso_Not_Input,UI003002,CommErr_UI_Picasso_Not_Input,Picasso未扫入,Picasso is not scanned in,N
+UI_Picasso_Duplicated,UI003003,CommErr_UI_Picasso_Duplicated,Picasso重复,Same picasso scanned in,N
+UI_Picasso_Match_Phone_Fail,UI003004,CommErr_UI_Picasso_Match_Phone_Fail,扫入的picasso与手机中不匹配,Picasso scanned not match with phone,N
+UI_IMEI_Not_Input,UI003005,CommErr_UI_IMEI_Not_Input,IMEI未扫入,IMEI is not scanned in,N
+UI_IMEI_Rule_Check_Fail,UI003006,CommErr_UI_IMEI_Rule_Check_Fail,UI IMEI不符合规则,IMEI is invalide,N
+UI_IMEI_First_Part_Fail,UI003007,CommErr_UI_IMEI_First_Part_Fail,IMEI前缀不符合要求,IMEI prefix is not meet requirement,N
+UI_NAL_Not_Input,UI003008,CommErr_UI_NAL_Not_Input,入网许可证未扫入,NAL is not scanned in,N
+UI_NAL_Rule_Check_Fail,UI003009,CommErr_UI_NAL_Rule_Check_Fail,入网许可证不符合规则,NAL is invalide,N
+UI_FA_Model_Invalide,UI003010,CommErr_UI_FA_Model_Invalide,Model不符合规则,Model name is invalide,N
+UI_FA_SWVersion_Invalide,UI003011,CommErr_UI_FA_SWVersion_Invalide,软体版本不符合规则,SW version is invalide,N
+UI_ACER22_Not_Input,UI003012,CommErr_UI_ACER22_Not_Input,ACER22 为输入,ACER22 has not input,N
+UI_ACER22_Rule_Check_Fail,UI003013,CommErr_UI_ACER22_Rule_Check_Fail,ACER22不符合规则,Check ACER22 rule fail,N
+UI_Picasso_Scaned_Fail,UI003014,CommErr_UI_Picasso_Scaned_Fail,扫描Picasso失败,Picasso Scanned fail,N
+UI_ID_Invalid,UI003015,CommErr_UI_ID_Invalid,UI 不支持此 ID 类型,Invalid ID,N
+//**UIDLpage,,,,,
+UI_DL_Image_Not_Exist,UI004001,CommErr_UI_DL_Image_Not_Exist,Image文件不存在,Image file is not exist,N
+//**UIinterface,,,,,
+UI_Interface_Prerun_Fail,UI005001,CommErr_UI_Interface_Prerun_Fail,UI运行接口Prerun失败,Fail to run interface Prerun,N
+UI_Interface_Setparameter_Fail,UI005002,CommErr_UI_Interface_Setparameter_Fail,UI运行接口Setparameter失败,Fail to run interface Setparameter,N
+UI_Interface_Getparameter_Fail,UI005003,CommErr_UI_Interface_Getparameter_Fail,UI运行接口Getparameter失败,Fail to run interface Getparameter,N
+UI_Interface_GetFA_Fail,UI005004,CommErr_UI_Interface_GetFA_Fail,UI运行接口GetFA失败,Fail to run interface GetFA,N
+UI_Interface_SetFA_Fail,UI005005,CommErr_UI_Interface_SetFA_Fail,UI运行接口SetFA失败,Fail to run interface SetFA,N
+UI_Interface_Begin_Fail,UI005006,CommErr_UI_Interface_Begin_Fail,UI运行接口Begin失败,Fail to run interface Begin,
+//**UIpowersupply,,,,,
+UI_PowerSupply_On_Fail,UI006001,CommErr_UI_PowerSupply_On_Fail,打开Powersupply失败,Fail to open powersupply,N
+UI_PowerSupply_Off_Fail,UI006002,CommErr_UI_PowerSupply_Off_Fail,关闭Powersupply失败,Fail to close powersupply,N
+UI_PowerSupply_Detect_Fail,UI006003,CommErr_UI_PowerSupply_Detect_Fail,未侦测到指定地址的Powersupply,Fail to detect designed powersupply,N
+//**UIjigcontrol,,,,,
+UI_Jig_Open_Fail,UI007001,CommErr_UI_Jig_Open_Fail,打开治具失败,Fail to open jig,N
+UI_Jig_Close_Fail,UI007002,CommErr_UI_Jig_Close_Fail,闭合治具失败,Fail to close jig,N
+UI_Jig_Com_Open_Fail,UI007003,CommErr_UI_Jig_Com_Open_Fail,打开治具指令串口失败,Fail to open com port,N
+UI_Jig_Data_Send_Fail,UI007004,CommErr_UI_Jig_Data_Send_Fail,向治具指令串口发送数据失败,Fail to send data to com port,N
+//**UIrelayboard,,,,,
+UI_RelayBoard_Init_Fail,UI008001,CommErr_UI_RelayBoard_Init_Fail,初始化Relayboard失败,Fail to initial relayboard,N
+UI_RelayBoard_Set_Fail,UI008002,CommErr_UI_RelayBoard_Set_Fail,设置Relayboard开关失败,Fail to set On/Off to relayboard,N
+//**UICMD,,,,,
+UI_Cmd_Fail,UI009001,CommErr_UI_Cmd_Fail,运行BAT命令失败,Fail to run batch command,N
+UI_Cmd_Time_Syn_Fail,UI009002,CommErr_UI_Cmd_Time_Syn_Fail,运行时间同步命令失败,Fail to syn time with server,N
+//**MD5,,,,,
+MD5_Check_Fail,MD500001,CommErr_MD5_Check_Fail,校验MD5失败,Check MD5 fail,N
+//**WVL1,,,,,
+Write_WVL1_Key_Fail,WVL10001,CommErr_Write_WVL1_Key_Fail,写入WVL1 Key失败,Write WVL1 Key Fail,Y
+Read_WVL1_Key_Fail,WVL10002,CommErr_Read_WVL1_Key_Fail,读取WVL1 Key失败,Read WVL1 Key Fail,Y
+Remove_WVL1_Key_Fail,WVL10003,CommErr_Remove_WVL1_Key_Fail,删除WVL1 Key失败,Remove WVL1 Key Fail,Y
+Compare_WVL1_Key_Fail,WVL10004,CommErr_Compare_WVL1_Key_Fail,比对WVL1 Key失败,Compare WVL1 Key Fail,Y
+//**HDCP,,,,,
+Write_HDCP_Key_Fail,HDCP0001,CommErr_Write_HDCP_Key_Fail,写入HDCP Key失败,Write HDCP Key Fail,Y
+Read_HDCP_Key_Fail,HDCP0002,CommErr_Read_HDCP_Key_Fail,读取HDCP Key失败,Read HDCP Key Fail,Y
+Remove_HDCP_Key_Fail,HDCP0003,CommErr_Remove_HDCP_Key_Fail,删除HDCP Key失败,Remove HDCP Key Fail,Y
+Compare_HDCP_Key_Fail,HDCP0004,CommErr_Compare_HDCP_Key_Fail,比对HDCP Key失败,Compare HDCP Key Fail,Y
+//**WifiCountryCode,,,,,
+Write_WifiCountryCode_Fail,WIFICD01,CommErr_Write_WifiCountryCode_Fail,写入WifiCountryCode失败,Write WifiCountryCode Fail,Y
+Read_WifiCountryCode_Fail,WIFICD02,CommErr_Read_WifiCountryCode_Fail,读取WifiCountryCode失败,Read WifiCountryCode Fail,Y
+Compare_WifiCountryCode_Fail,WIFICD03,CommErr_Compare_WifiCountryCode_Fail,比对WifiCountryCode失败,Compare WifiCountryCode Fail,Y
+//**Factory time,,,,,
+Write_Factory_Time_Fail,FACTT001,CommErr_Write_Factory_Time_Fail,写入生产时间失败,Write factory time fail,Y
+Read_Factory_Time_Fail,FACTT002,CommErr_Read_Factory_Time_Fail,读取生产时间失败,Read factory time fail,Y
+//**Ethernet,,,,,
+Read_Ethernet_Mac_Address_Fail,ETHE0001,CommErr_Read_Ethernet_Mac_Address_Fail,读以太网Mac地址失败,Read Ethernet Mac Address Fail,Y
+Write_Ethernet_Mac_Address_Fail,ETHE0002,CommErr_Write_Ethernet_Mac_Address_Fail,写以太网Mac地址失败,Write Ethernet Mac Address Fail,Y
+//**TimeOut,,,,,
+Timeout_Error,TMOT0001,CommErr_Timeout_Error,测试超时,Time out,N
+L1_Timeout_Error,TMOT0002,CommErr_L1_Timeout_Error,L1 测试超时,L1 Time out,N
+System_Timeout_Error,TMOT0003,CommErr_System_Timeout_Error,System 测试超时,System Time out,N
+//**others,,,,,
+Load_DLL_Fail,DLL00001,CommErr_Load_DLL_Fail,加载dll失败,Load dll fail,N
+Install_APK_Fail,APK00001,CommErr_Install_APK_Fail,安装APK失败,Install APK fail,Y
+MMI_ManualTest_Miss,MMIM0001,CommErr_MMI_ManualTest_Miss,MMI手动测项漏测,MMI Manual test miss,N
+Slot_Index_Error,SLOT0001,CommErr_Slot_Index_Error,槽位设定错误,Slot index error,N
+Parsing_Token_Error,PARS0001,CommErr_Parsing_Token_Error,解析测项参数错误,Parsing token error,N
+Testing_Terminated_Error,TESTTM01,CommErr_Testing_Terminated_Error,测试中断,Testing terminated,N
+Test_Item_Uncheck_Error,TESTIT01,CommErr_Test_Item_Uncheck_Error,检查到有未测试项目,Test Item Uncheck Error,N
+Test_Item_Not_Found_Error,TESTIT02,CommErr_Test_Item_Not_Found_Error,测试项目无法找到对应,Test item not found,N
+SBL1_Start_Fail,SBL1S001,CommErr_SBL1_Start_Fail,SBL1执行失败,Executing SBL1 start fail,Y
+SBL1_End_Fail,SBL1S002,CommErr_SBL1_End_Fail,SBL1结束失败,Executing SBL1 end fail,Y

@@ -1,0 +1,368 @@
+<Configuration>
+	<ToolInfo>
+		<TestAllEvenFail>FALSE</TestAllEvenFail>
+		<UseCablelossFile>FALSE</UseCablelossFile>
+		<TOOL_VERSION>V1.000</TOOL_VERSION>
+		<UsingGPIB>FALSE</UsingGPIB>
+	</ToolInfo>
+	
+	<TestProcessor>
+		<Name Editable="TRUE" Type="String">CCommonProcessor</Name>
+		<Phone>
+  			<ClassName>CPhone</ClassName>
+			<ClassNameChip>CAndroidPhone</ClassNameChip>
+			<COMPort>0</COMPort>
+			<FtdPort>2000</FtdPort>
+			<FtdTimeOut>15000</FtdTimeOut>
+			<AutoFTDMode>FALSE</AutoFTDMode>
+			<SetFTDMode>FALSE</SetFTDMode>
+			<SetQMode>FALSE</SetQMode>
+			<Keyword Type="String">Diagnostics</Keyword>
+			<QisdaCmdModule>QcomDiagModule.dll</QisdaCmdModule>			
+			<WaitTimeStartingUp>50000</WaitTimeStartingUp>
+			<RebootDelayTime>10000</RebootDelayTime>
+			<IsDiagCmd>1</IsDiagCmd><!--0:Diag  1:ADB-->
+			<IsNeedQXDMLog>FALSE</IsNeedQXDMLog>
+			<SWVersion>0</SWVersion>
+			<Variant>UMTS</Variant>
+			<LogUpload>TRUE</LogUpload>
+	        <UploadServerIP>10.85.68.13</UploadServerIP>
+		</Phone>
+	</TestProcessor>
+	
+	<TestItemList>		
+		
+		<!-- PreRun -->
+		<Item Name="IsPhoneConnected" Type="PRERUN" Enabled="FALSE"/>
+		<Item Name="INJig" Enabled="FALSE"/>
+	
+		<!-- Common -->
+		<Item Name="CheckSWVersion" Enabled="FALSE"/>
+		<Item Name="CheckHWVersion" Enabled="FALSE"/>
+		<Item Name="Atest" Enabled="FALSE"/>
+		<Item Name="Detect_EarPhone" Enabled="FALSE"/>
+		<Item Name="CheckBatteryCapacity" Enabled="FALSE"/>
+	
+		<!-- AUDIO Test -->
+		
+		<Item Name="BatteryDetectEmpty" Enabled="TRUE"  />
+		<Item Name="HeadsetDetectTest" Enabled="TRUE" />
+		
+		<Item Name="BottomMicTest" Enabled="TRUE"/>
+		<Item Name="HeadsetMicTest" Enabled="TRUE"/>
+
+		<Item Name="Speaker_R_Test" Enabled="TRUE"/>
+		<Item Name="Speaker_L_Test" Enabled="TRUE"/>
+		
+		<Item Name="HeadsetReceiverTest" Enabled="FALSE"/>
+		
+		<!-- no use -->
+		<Item Name="ReceiverTest" Enabled="FALSE"/>
+		<Item Name="TopMicTest" Enabled="FALSE"/>
+		<!-- PostRun -->
+		<Item Name="BackupSWLog" Type="POSTRUN" Enabled="FALSE"/>
+		<Item Name="Kill_ADB_Server" Type="POSTRUN" Enabled="FALSE"/>
+		<Item Name="Start_ADB_Server_No_Wait" Type="POSTRUN" Enabled="FALSE"/>
+		<Item Name="OUTJig" Type="POSTRUN" Enabled="FALSE"/>
+		
+	</TestItemList>
+
+		
+	<ProcessObjectSet>
+		<AudioObjects>
+			<ProcessObject ClassName="CBatteryCapacity" Name="BatteryDetectEmpty">
+				<Name Editable="TRUE" Type="string">BatteryDetectEmpty</Name>
+				<BatteryLimit Editable="TRUE" Type="string">25</BatteryLimit>
+			</ProcessObject>
+		</AudioObjects>
+
+		<MMIBBLoopTestObjects>
+			<ProcessObject ClassName="CMMIBB_AudioRetryTest" Name="HeadsetDetectTest">
+				<AudtioTestItem Editable="TRUE" Type="string">HeadsetDetectTest</AudtioTestItem>
+				<AudtioCMDItem Editable="TRUE" Type="string">3</AudtioCMDItem>
+				<AudtioOffCMDItem Editable="TRUE" Type="string">3</AudtioOffCMDItem>
+				<Path Editable="TRUE" Type="string">SPK.wav /cache/SPK.wav</Path>
+				<OnSleepTime Editable="TRUE" Type="Integer">0</OnSleepTime>
+				<OffSleepTime Editable="TRUE" Type="Integer">0</OffSleepTime>
+				<RetryTime Editable="TRUE" Type="Integer">1</RetryTime>
+			</ProcessObject>
+		</MMIBBLoopTestObjects>
+		
+	<AudioObjects>
+		<ProcessObject ClassName="CDetectEarPhone" Name="Detect_EarPhone">
+			<DialogMessage Type="String">==</DialogMessage>
+		</ProcessObject>
+	</AudioObjects>
+
+	
+	
+		<!-- PreRun -->
+	<AudioObjects>
+		<ProcessObject ClassName="CConnectPhone" Name="IsPhoneConnected">
+			<Enum_keyword Type="String">ADB</Enum_keyword>
+			<WaitTimeForBoot Type="Integer">1000</WaitTimeForBoot>
+			<RetryConnectTimes Type="Integer">50</RetryConnectTimes>
+			<WaitTimeAfterConnect Type="Integer">0</WaitTimeAfterConnect>
+		</ProcessObject>
+	</AudioObjects>	
+	
+	<AudioObjects>
+		<ProcessObject ClassName="CInJig" Name="INJig">
+			<WaitAfterStartMoveJig Editable="TRUE">5000</WaitAfterStartMoveJig>
+			<JigAction Editable="TRUE" Type="String">OUT</JigAction>
+		</ProcessObject>
+    </AudioObjects>
+		
+	<AudioObjects>		
+		<!-- Common-->
+		<ProcessObject ClassName="CCheckSWVersion" Name="CheckSWVersion">
+			<SWVersion Type="String">SWFP_VENENO_ONE_00_v51.001.01.a_GVENB1A</SWVersion>
+			<PICSName Type="String">SW_Version</PICSName>
+		</ProcessObject>
+	</AudioObjects>
+			
+	<AudioObjects>
+		<ProcessObject ClassName="CCheckHWVersion" Name="CheckHWVersion">
+			<HWMapping Enabled="TRUE" Variant_ID="0x7fffffff" CPU_ID="7"/>
+			<PICSName Type="String">HW_Version</PICSName>
+		</ProcessObject>
+	</AudioObjects>
+	
+	<AudioObjects>
+		<ProcessObject ClassName="CBatteryCapacity" Name="CheckBatteryCapacity">
+			<CheckLower Enabled="TRUE">20</CheckLower>
+			<PICSName>BatteryCapacity</PICSName>
+		</ProcessObject>
+	</AudioObjects>
+	
+	<AudioObjects>
+		<ProcessObject ClassName="CAtest" Name="Atest">
+			<DialogMessage Type="String">==</DialogMessage>
+		</ProcessObject>
+	</AudioObjects>
+	
+	
+	<AudioObjects>
+		<ProcessObject ClassName="CMicTest" Name="TopMicTest">
+			<TestItemName Type="String">TopMic</TestItemName>
+			<Channels Type="String">LR_ch</Channels><!-- no use-->
+			<!-- SPEC -->
+			<SPEC_Freq_lower Type="Double">980</SPEC_Freq_lower>
+			<SPEC_Freq_upper Type="Double">1020</SPEC_Freq_upper>
+			<SPEC_RMS_lower Type="Double">0.004255</SPEC_RMS_lower>
+			<SPEC_RMS_upper Type="Double">0.5</SPEC_RMS_upper>
+			<SPEC_DB_lower Type="Double">-60</SPEC_DB_lower>
+			<SPEC_DB_difference Type="Double">0</SPEC_DB_difference>
+			<!-- Retry -->
+			<RetryForTest Type="Integer">2</RetryForTest>
+			<RetryForPlayAndRecord Type="Integer">5</RetryForPlayAndRecord>
+			<RetryForPullWav Type="Integer">5</RetryForPullWav>
+			<RetryForCheckWavFile Type="Integer">5</RetryForCheckWavFile>
+			<!-- Delay/Sleep -->
+			<DelayForNextAudioPathStart Type="Integer">0</DelayForNextAudioPathStart>
+			<DelayForWaitingRecord Type="Integer">3500</DelayForWaitingRecord><!-- Sleep after record command success-->
+			<DelayForSwitchPathAndRecordAfterPlayWav Type="Integer">1000</DelayForSwitchPathAndRecordAfterPlayWav><!-- no use-->
+			<DelayAfterCloseAudioPath Type="Integer">800</DelayAfterCloseAudioPath><!-- Sleep after stopping audio path success-->
+			<DelayAfterPullWav Type="Integer">500</DelayAfterPullWav><!-- Only for fail case: (1)pull wav fail;(2)check file fail after pull file finished-->
+			<DelayAfterOpenWavFail Type="Integer">5000</DelayAfterOpenWavFail>
+			<!-- Audio command -->
+			<AudioCmd_StartRecording Type="String">on,back,80,68,/data/ftd_record.wav</AudioCmd_StartRecording>
+			<AudioCmd_StopRecording Type="String">off,back,80,68,/data/ftd_record.wav</AudioCmd_StopRecording>
+		</ProcessObject>
+	</AudioObjects>
+
+	
+	<AudioObjects>
+		<ProcessObject ClassName="CMicTest" Name="BottomMicTest">	
+			<TestItemName Type="String">BottomMic</TestItemName>
+			<Channels Type="String">LR_ch</Channels><!-- no use-->
+			<!-- SPEC -->
+			<SPEC_Freq_lower Type="Double">980</SPEC_Freq_lower>
+			<SPEC_Freq_upper Type="Double">1020</SPEC_Freq_upper>
+			<SPEC_RMS_lower Type="Double">0.000192</SPEC_RMS_lower>
+			<SPEC_RMS_upper Type="Double">0.5</SPEC_RMS_upper>
+			<SPEC_DB_lower Type="Double">-60</SPEC_DB_lower>
+			<SPEC_DB_difference Type="Double">0</SPEC_DB_difference>
+			<!-- Retry -->
+			<RetryForTest Type="Integer">2</RetryForTest>
+			<RetryForPlayAndRecord Type="Integer">5</RetryForPlayAndRecord>
+			<RetryForPullWav Type="Integer">5</RetryForPullWav>
+			<RetryForCheckWavFile Type="Integer">5</RetryForCheckWavFile>
+			<!-- Delay/Sleep -->
+			<DelayForNextAudioPathStart Type="Integer">1000</DelayForNextAudioPathStart>
+			<DelayForWaitingRecord Type="Integer">7500</DelayForWaitingRecord><!-- Sleep after record command success-->
+			<DelayForSwitchPathAndRecordAfterPlayWav Type="Integer">1000</DelayForSwitchPathAndRecordAfterPlayWav><!-- no use-->
+			<DelayAfterCloseAudioPath Type="Integer">800</DelayAfterCloseAudioPath><!-- Sleep after stopping audio path success-->
+			<DelayAfterPullWav Type="Integer">500</DelayAfterPullWav><!-- Only for fail case: (1)pull wav fail;(2)check file fail after pull file finished-->
+			<DelayAfterOpenWavFail Type="Integer">5000</DelayAfterOpenWavFail>
+			<!-- Audio command -->
+			<AudioCmd_StartRecording Type="String">on,front,80,68,/data/ftd_record.wav</AudioCmd_StartRecording>
+			<AudioCmd_StopRecording Type="String">off,front,80,68,/data/ftd_record.wav</AudioCmd_StopRecording>
+		</ProcessObject>
+	</AudioObjects>
+
+	<AudioObjects>
+		<ProcessObject ClassName="CMicTest" Name="HeadsetMicTest">		
+			<TestItemName Type="String">HeadsetMic</TestItemName>
+			<Channels Type="String">LR_ch</Channels><!-- no use-->
+			<!-- SPEC -->
+			<SPEC_Freq_lower Type="Double">980</SPEC_Freq_lower>
+			<SPEC_Freq_upper Type="Double">1020</SPEC_Freq_upper>
+			<SPEC_RMS_lower Type="Double">0.001366</SPEC_RMS_lower>
+			<SPEC_RMS_upper Type="Double">0.5</SPEC_RMS_upper>
+			<SPEC_DB_lower Type="Double">-60</SPEC_DB_lower>
+			<SPEC_DB_difference Type="Double">0</SPEC_DB_difference>
+			<!-- Retry -->
+			<RetryForTest Type="Integer">2</RetryForTest>
+			<RetryForPlayAndRecord Type="Integer">5</RetryForPlayAndRecord>
+			<RetryForPullWav Type="Integer">5</RetryForPullWav>
+			<RetryForCheckWavFile Type="Integer">5</RetryForCheckWavFile>
+			<!-- Delay/Sleep -->
+			<DelayForNextAudioPathStart Type="Integer">1000</DelayForNextAudioPathStart>
+			<DelayForWaitingRecord Type="Integer">3500</DelayForWaitingRecord><!-- Sleep after record command success-->
+			<DelayForSwitchPathAndRecordAfterPlayWav Type="Integer">1000</DelayForSwitchPathAndRecordAfterPlayWav><!-- no use-->
+			<DelayAfterCloseAudioPath Type="Integer">800</DelayAfterCloseAudioPath><!-- Sleep after stopping audio path success-->
+			<DelayAfterPullWav Type="Integer">500</DelayAfterPullWav><!-- Only for fail case: (1)pull wav fail;(2)check file fail after pull file finished-->
+			<DelayAfterOpenWavFail Type="Integer">5000</DelayAfterOpenWavFail>
+			<!-- Audio command -->
+			<AudioCmd_StartRecording Type="String">on,headmic,80,68,/data/ftd_record.wav</AudioCmd_StartRecording>
+			<AudioCmd_StopRecording Type="String">off,headmic,80,68,/data/ftd_record.wav</AudioCmd_StopRecording>
+		</ProcessObject>
+	</AudioObjects>
+	
+	<AudioObjects>
+		<ProcessObject ClassName="CSpeakerTest" Name="Speaker_R_Test">			
+			<TestItemName Type="String">Speaker_R</TestItemName>
+			<MixerPath Type="Integer">3</MixerPath>					<!--MicIn:3	LineIn:0-->
+			<MixerVolume Type="Double">100</MixerVolume>
+			<RTA_queue_szie Type="Integer">10</RTA_queue_szie>
+			<RTA_max_accumlate Type="Integer">40</RTA_max_accumlate>
+			<RTA_channel Type="Double">LR_ch</RTA_channel>
+			<!-- SPEC -->
+			<SPEC_Freq_lower Type="Double">980</SPEC_Freq_lower>
+			<SPEC_Freq_upper Type="Double">1020</SPEC_Freq_upper>
+			<SPEC_RMS_lower Type="Double">0.000496</SPEC_RMS_lower>
+			<SPEC_RMS_upper Type="Double">1.0</SPEC_RMS_upper>
+			<SPEC_DB_lower Type="Double">-50</SPEC_DB_lower>
+			<SPEC_DB_difference Type="Double">0</SPEC_DB_difference>
+			<!-- Delay/Sleep -->
+			<WaitForStartAnalysis Type="Integer">0</WaitForStartAnalysis><!-- no use-->
+			<DelayForNextAudioPathStart Type="Integer">1000</DelayForNextAudioPathStart>
+			<!-- Audio command -->
+			<AudioPlayCommand Type="String">on,speaker,70,100,/system/data/1kTone_spk_R_test.wav</AudioPlayCommand>
+			<AudioCloseCommand Type="String">off,speaker,70,100,/system/data/1kTone_spk_R_test.wav</AudioCloseCommand>
+		</ProcessObject>
+	</AudioObjects>
+
+
+	
+	<AudioObjects>
+		<ProcessObject ClassName="CSpeakerTest" Name="Speaker_L_Test">	
+			<TestItemName Type="String">Speaker_L</TestItemName>
+			<MixerPath Type="Integer">3</MixerPath>					<!--MicIn:3	LineIn:0-->
+			<MixerVolume Type="Double">100</MixerVolume>
+			<RTA_queue_szie Type="Integer">10</RTA_queue_szie>
+			<RTA_max_accumlate Type="Integer">40</RTA_max_accumlate>
+			<RTA_channel Type="Double">LR_ch</RTA_channel>
+			<!-- SPEC -->
+			<SPEC_Freq_lower Type="Double">980</SPEC_Freq_lower>
+			<SPEC_Freq_upper Type="Double">1020</SPEC_Freq_upper>
+			<SPEC_RMS_lower Type="Double">0.000496</SPEC_RMS_lower>
+			<SPEC_RMS_upper Type="Double">1.0</SPEC_RMS_upper>
+			<SPEC_DB_lower Type="Double">-50</SPEC_DB_lower>
+			<SPEC_DB_difference Type="Double">0</SPEC_DB_difference>
+			<!-- Delay/Sleep -->
+			<WaitForStartAnalysis Type="Integer">0</WaitForStartAnalysis><!-- no use-->
+			<DelayForNextAudioPathStart Type="Integer">1000</DelayForNextAudioPathStart>
+			<!-- Audio command -->
+			<AudioPlayCommand Type="String">on,speaker,70,100,/system/data/1kTone_spk_L_test.wav</AudioPlayCommand>
+			<AudioCloseCommand Type="String">off,speaker,70,100,/system/data/1kTone_spk_L_test.wav</AudioCloseCommand>
+		</ProcessObject>
+	</AudioObjects>
+	
+	<AudioObjects>
+		<ProcessObject ClassName="CSpeakerTest" Name="HeadsetReceiverTest">
+			<TestItemName Type="String">HeadsetReceiver</TestItemName>
+			<MixerPath Type="Integer">0</MixerPath>				<!--MicIn:3	LineIn:0-->
+			<MixerVolume Type="Double">100</MixerVolume>
+			<RTA_queue_szie Type="Integer">10</RTA_queue_szie>
+			<RTA_max_accumlate Type="Integer">40</RTA_max_accumlate>
+			<RTA_channel Type="Double">LR_ch</RTA_channel>
+			<!-- SPEC -->
+			<SPEC_Freq_lower Type="Double">980</SPEC_Freq_lower>
+			<SPEC_Freq_upper Type="Double">1020</SPEC_Freq_upper>
+			<SPEC_RMS_lower Type="Double">0.000493</SPEC_RMS_lower>
+			<SPEC_RMS_upper Type="Double">1.0</SPEC_RMS_upper>
+			<SPEC_DB_lower Type="Double">-40</SPEC_DB_lower>
+			<SPEC_DB_difference Type="Double">0</SPEC_DB_difference>
+			<!-- Delay/Sleep -->
+			<WaitForStartAnalysis Type="Integer">0</WaitForStartAnalysis><!-- no use-->
+			<DelayForNextAudioPathStart Type="Integer">1000</DelayForNextAudioPathStart>
+			<!-- Audio command -->
+			<AudioPlayCommand Type="String">5;4;0;0;on,headset_mono,60,100</AudioPlayCommand>
+			<AudioCloseCommand Type="String">5;4;0;0;off,headset_mono,60,100</AudioCloseCommand>
+		</ProcessObject>
+	</AudioObjects>
+
+	<AudioObjects>
+		<ProcessObject ClassName="CSpeakerTest" Name="ReceiverTest">
+			<TestItemName Type="String">Receiver</TestItemName>
+			<MixerPath Type="Integer">3</MixerPath>				<!--MicIn:3	LineIn:0-->
+			<MixerVolume Type="Double">100</MixerVolume>
+			<RTA_queue_szie Type="Integer">10</RTA_queue_szie>
+			<RTA_max_accumlate Type="Integer">40</RTA_max_accumlate>
+			<RTA_channel Type="Double">LR_ch</RTA_channel>
+			<!-- SPEC -->
+			<SPEC_Freq_lower Type="Double">980</SPEC_Freq_lower>
+			<SPEC_Freq_upper Type="Double">1020</SPEC_Freq_upper>
+			<SPEC_RMS_lower Type="Double">0.000069</SPEC_RMS_lower>
+			<SPEC_RMS_upper Type="Double">1.0</SPEC_RMS_upper>
+			<SPEC_DB_lower Type="Double">-45</SPEC_DB_lower>
+			<SPEC_DB_difference Type="Double">0</SPEC_DB_difference>
+			<!-- Delay/Sleep -->
+			<WaitForStartAnalysis Type="Integer">0</WaitForStartAnalysis><!-- no use-->
+			<DelayForNextAudioPathStart Type="Integer">1000</DelayForNextAudioPathStart>
+			<!-- Audio command -->
+			<AudioPlayCommand Type="String">on,receiver,70,100</AudioPlayCommand>
+			<AudioCloseCommand Type="String">off,receiver,70,100</AudioCloseCommand>
+		</ProcessObject>
+	</AudioObjects>
+	
+	<AudioObjects>
+		<ProcessObject ClassName="CADBReboot" Name="Reboot">
+			<PICSName Type="String">ADB_Reboot</PICSName>
+			<ADBSync Type="Boolean">TRUE</ADBSync>
+			<WaitAfterSync Type="Integer">0</WaitAfterSync>
+			<IgnorePassCase>FALSE</IgnorePassCase>
+		</ProcessObject>
+	</AudioObjects>
+		
+		<!-- PostRun -->
+	<AudioObjects>
+		<ProcessObject ClassName="CBackupSWLog" Name="BackupSWLog">
+			<TimeOut>5000</TimeOut>
+			<IgnorePassCase>TRUE</IgnorePassCase>
+		</ProcessObject>
+	</AudioObjects>
+		
+	<AudioObjects>
+		<ProcessObject ClassName="CAdbServerControl" Name="Kill_ADB_Server">
+			<Action>kill-server</Action> <!-- kill-server / start-server-wait / start-server-no-wait -->
+		</ProcessObject>
+	</AudioObjects>
+	
+	<AudioObjects>
+		<ProcessObject ClassName="CAdbServerControl" Name="Start_ADB_Server_No_Wait">
+			<Action>start-server-no-wait</Action> <!-- kill-server / start-server-wait / start-server-no-wait -->
+		</ProcessObject>
+	</AudioObjects>
+	
+	<AudioObjects>
+		<ProcessObject ClassName="CInJig" Name="OUTJig">
+			<WaitAfterStartMoveJig Editable="TRUE">0</WaitAfterStartMoveJig>
+			<JigAction Editable="TRUE" Type="String">IN</JigAction>
+		</ProcessObject>
+	</AudioObjects>	
+	
+	</ProcessObjectSet>
+</Configuration>

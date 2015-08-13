@@ -1,0 +1,100 @@
+<Configuration>
+	<ToolInfo>
+		<StationID>1</StationID>
+		<TOOL_VERSION>V1.000</TOOL_VERSION>
+		<Variant>US</Variant>
+	</ToolInfo>
+	<Memo>
+		<Model>GF80B2A</Model>
+		<Station>FCHECK</Station>
+	</Memo>
+	<TestProcessor>
+		<Name Editable="TRUE" Type="String">CCommonProcessor</Name>
+		<Phone>
+  			<ClassName>CPhone</ClassName>
+			<FtdPort>2000</FtdPort>
+			<FtdTimeOut>15000</FtdTimeOut>
+			<AutoFTDMode>FALSE</AutoFTDMode>
+			<SetFTDMode>FALSE</SetFTDMode>
+			<WaitTimeStartingUp>50000</WaitTimeStartingUp>
+			<RebootDelayTime>10000</RebootDelayTime>
+			<SWVersion>0</SWVersion>
+			<Variant>UMTS</Variant>
+			<LogUpload>TRUE</LogUpload>
+	        <UploadServerIP>10.85.68.13</UploadServerIP>
+			<IMEILength>15</IMEILength>
+		</Phone>
+	</TestProcessor>
+	<TestItemList>
+		<Item Name="CheckConnected" Enabled="TRUE"/>
+		<Item Name="CheckBattCapacity" Enabled="TRUE"/>
+		<Item Name="CheckSWVersion" Enabled="TRUE"/>
+		<Item Name="TouchCheck" Enabled="TRUE"/>
+		<Item Name="CheckNVs" Enabled="TRUE"/>
+		<Item Name="QueryIMEIStatus" Enabled="TRUE"/>
+		<Item Name="QueryMSNBt" Enabled="TRUE"/>
+		<Item Name="CheckDeviceInfo" Enabled="TRUE"/>
+		<Item Name="UpdateIMEIStatus_I" Enabled="TRUE"/>
+		<Item Name="BackupToOTP" Enabled="TRUE"/>
+		<Item Name="FactoryReset" Enabled="TRUE"/>
+		<Item Name="CheckFTDandShutdown" Enabled="TRUE"/>
+
+	</TestItemList>
+	<ProcessObjectSet>
+		<FCHECKObjects>
+			<ProcessObject ClassName="CConnectPhone_QMSL" Name="CheckConnected">
+				<WaitTimeForBoot Type="Integer">0</WaitTimeForBoot>
+				<RetryConnectTimes Type="Integer">60</RetryConnectTimes>
+				<WaitTimeAfterConnect Type="Integer">0</WaitTimeAfterConnect>
+			</ProcessObject>
+			<ProcessObject ClassName="CBatteryCapacity" Name="CheckBattCapacity">
+				<Name Editable="TRUE" Type="string">BatteryDetectEmpty</Name>
+				<BatteryLimit Editable="TRUE" Type="string">50</BatteryLimit>
+			</ProcessObject>
+			<ProcessObject ClassName="CCheckSWVersion" Name="CheckSWVersion">
+				<WaitTime Editable="TRUE" Type="Integer">0</WaitTime>
+				<!-- Tline,Aline:Factory Pline:Ship -->
+				<VersionType Editable="TRUE" Type="string">Ship</VersionType>
+			</ProcessObject>
+			<ProcessObject ClassName="CCheckTouch" Name="TouchCheck">
+				<RetryTimes Type="Integer">3</RetryTimes>
+			</ProcessObject>
+			<ProcessObject ClassName="CCheckNVs" Name="CheckNVs">
+				<RetryTimes Type="Integer">3</RetryTimes>
+				<NVLists Type="IntegerList">30002,30003,30004</NVLists>
+			</ProcessObject>
+			<ProcessObject ClassName="CQueryIMEIStatus" Name="QueryIMEIStatus">
+				<RetryTimes Type="Integer">3</RetryTimes>
+			</ProcessObject>
+			<ProcessObject ClassName="CQueryMSNBt" Name="QueryMSNBt">
+				<RetryTimes Type="Integer">3</RetryTimes>
+				<Station Type="String">FCHECK</Station>
+			</ProcessObject>
+			<ProcessObject ClassName="CUpdateIMEIStatus" Name="UpdateIMEIStatus_F">
+				<RetryTimes Type="Integer">3</RetryTimes>
+				<Status Type="Char">F</Status>
+			</ProcessObject>
+			<ProcessObject ClassName="CUpdateIMEIStatus" Name="UpdateIMEIStatus_I">
+				<RetryTimes Type="Integer">3</RetryTimes>
+				<Status Type="Char">I</Status>
+			</ProcessObject>
+			<ProcessObject ClassName="CCheckDeviceInfo" Name="CheckDeviceInfo">
+				<RetryTimes Type="Integer">3</RetryTimes>
+				<!-- IMEI; BT; WIFI; ServiceTag; FSN; SIMData -->
+				<CheckItems Type="IntegerList">1,1,1,0,0,0</CheckItems>
+			</ProcessObject>
+			<ProcessObject ClassName="CBackupToOTP" Name="BackupToOTP">
+				<RetryTimes Type="Integer">3</RetryTimes>
+				<Backup Type="IntegerList">1,1,1</Backup> <!-- FA; CFG; ModemCFG -->
+			</ProcessObject>
+			<ProcessObject ClassName="CFactoryReset" Name="FactoryReset">
+				<RetryTimes Type="Integer">3</RetryTimes>
+			</ProcessObject>
+			<ProcessObject ClassName="CShutdown" Name="CheckFTDandShutdown">
+				<FTDRetry Type="Integer">150</FTDRetry>
+				<ShutDownRetry Type="Integer">20</ShutDownRetry>
+			</ProcessObject>
+		</FCHECKObjects>
+	</ProcessObjectSet>
+
+</Configuration>

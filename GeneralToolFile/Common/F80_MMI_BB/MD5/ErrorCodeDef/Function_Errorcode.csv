@@ -1,0 +1,567 @@
+//**Error Message,Error Code,Error defined in .h,Error description in Chinese,Error description in English,Is in CIM
+//**Battery & Coin Cell,,,,,
+Check_Battery_ID_Fail,BATT0001,FunErr_Check_Battery_ID_Fail,检测电池 ID失败,Check battery ID fail,Y
+Check_Battery_Temperatur_Fail,BATT0002,FunErr_Check_Battery_Temperature_Fail,检测电池温度失败,Check battery temperature fail,Y
+Check_Battery_Voltage_Fail,BATT0003,FunErr_Check_Battery_Voltage_Fail,检测电池电压失败,Check battery voltage fail,N
+Detect_Battery_Cover_Fail,BATT0004,FunErr_Detect_Battery_Cover_Fail,检测Battery Cover失败,Battery cover detect fail,Y
+Check_Coin_Cell_Voltage_Fail,BATT0005,FunErr_Check_Coin_Cell_Voltage_Fail,检测小锂电电压失败,Check coin cell voltage fail,Y
+Charge_ID_Fail,BATT0006,FunErr_Charge_ID_Fail,Charge ID 检测失败,Charge ID fail,Y
+Check_Battery_Impedance_Fail,BATT0007,FunErr_Check_Battery_Impedance_Fail,检测电池阻抗失败,Check battery impedance fail,Y
+Check_Battery_Current_Fail,BATT0008,FunErr_Check_Battery_Current_Fail,检测电池电流失败,Check battery current fail,Y
+Battery_Voltage_Too_Low,BATT0009,FunErr_Battery_Voltage_Too_Low,电池电压太低请充电后再测试,Voltage too low need to charge then test again,N
+Check_Battery_Capacity_Fail,BATT0010,FunErr_Check_Battery_Capacity_Fail,检测电池电量失败,Check battery capacity fail,N
+Battery_RSense_Calibration_Fail,BATT0011,FunErr_Battery_RSense_Calibration_Fail,电池Rsense K测失败,Battery rsense calibration fail,Y
+Battery_Voltage_Too_High,BATT0012,FunErr_Battery_Voltage_Too_High,电池电量太满,Voltage too high,N
+Read_Battery_Capacity_Fail,BATT0013,FunErr_Read_Battery_Capacity_Fail,读取电量失败,Read Battery Capacity Fail,Y
+//**charging,,,,,
+Switch_To_USB_Charging_Fail,CHAG0001,FunErr_Switch_To_USB_Charging_Fail,切换用 USB 充电失败,Switch to USB charging fail,Y
+USB_Charge_Fail,CHAG0002,FunErr_USB_Charge_Fail,USB充电失败,USB charging fail         ,Y
+Stop_Coin_Cell_Charge_Fail,CHAG0003,FunErr_Stop_Coin_Cell_Charge_Fail,停止小锂电充电失败,Stop coin cell charging fail,Y
+Start_Coin_Cell_Charging_Fail,CHAG0004,FunErr_Start_Coin_Cell_Charging_Fail,开始小锂电充电失败,Start Coin Cell charging fail,Y
+Stop_USB_Charging_Fail,CHAG0005,FunErr_Stop_USB_Charging_Fail,停止USB充电失败,Stop USB charging fail,Y
+//**BT,,,,,
+BT_Test_Init_Device_Fail,BT000001,FunErr_BT_Test_Init_Device_Fail,BT测试初始化仪器失败,Initial BT test device fail,N
+BT_Test_Set_Command_Fail,BT000002,FunErr_BT_Test_Set_Command_Fail,BT测试指令失败,BT test command fail,Y
+BT_Module_ON_Fail,BT000003,FunErr_BT_Module_ON_Fail,加载BT模块失败,Load BT module fail,Y
+BT_Module_OFF_Fail,BT000004,FunErr_BT_Module_OFF_Fail,卸载BT模块失败,Unload BT module fail,Y
+BT_Power_ON_Fail,BT000005,FunErr_BT_Power_ON_Fail,打开BT失败,Open BT fail,Y
+BT_Power_OFF_Fail,BT000006,FunErr_BT_Power_OFF_Fail,关闭BT失败,Close BT fail,Y
+BT_Test_OutPower_OutRange,BT000007,FunErr_BT_Test_OutPower_OutRange,BT测试输出Power超出范围,BT test outpower out range,Y
+BT_ID_Fail,BT000008,FunErr_BT_ID_Fail,BT ID错误,Check BT ID fail,Y
+BT_Hardware_Selftest_Fail,BT000009,FunErr_BT_Hardware_Selftest_Fail,BT自测失败,BT selftest fail,Y
+BT_EM_Test_Fail,BT000010,FunErr_BT_EM_Test_Fail,EM BT测试失败,BT EM test fail,Y
+BT_Modulation_Characteristic_Fail,BT000011,FunErr_BT_Modulation_Characteristic_Fail,BT 调变特性测试失败,BT modulation characteristic fail,Y
+BT_ICFT_Fail,BT000012,FunErr_BT_ICFT_Fail,BT ICFT 测试失败,BT ICFT fail,Y
+BT_Carrier_Drift_Fail,BT000013,FunErr_BT_Carrier_Drift_Fail,BT 载波飘移测试失败,BT carrier drift fail,Y
+BT_EDR_Freq_Stab_Mod_ACC_Fail,BT000014,FunErr_BT_EDR_Freq_Stab_Mod_ACC_Fail,BT EDR载波频率稳定度和调变准确度测试失败,BT EDR frequency stab mod ACC fail,Y
+BT_EDR_Diff_Phase_Encoding_Fail,BT000015,FunErr_BT_EDR_Diff_Phase_Encoding_Fail,BT EDR差分相位编码测试失败,BT EDR diff phase encoding fail,Y
+BT_Singleslot_Sensitivity_Fail,BT000016,FunErr_BT_Singleslot_Sensitivity_Fail,BT 单通灵敏度测试失败,BT single slot sensitivity fail,Y
+BT_Multislot_Sensitivity_Fail,BT000017,FunErr_BT_Multislot_Sensitivity_Fail,BT 多通灵敏度测试失败,BT multi slot sensitivity fail,Y
+BT_Max_Usable_Signal_Level_Fail,BT000018,FunErr_BT_Max_Usable_Signal_Level_Fail,BT 最大可用讯号程度测试失败,BT max usable signal level fail,Y
+BT_EDR_Sensitivity_Fail,BT000019,FunErr_BT_EDR_Sensitivity_Fail,BT EDR灵敏度测试失败,BT EDR sensitivity fail,Y
+BT_EDR_BER_Floor_Fail,BT000020,FunErr_BT_EDR_BER_Floor_Fail,BT EDR BER平坦性能测试失败,BT EDR BER floor fail,Y
+BT_EDR_Max_Input_Level_Fail,BT000021,FunErr_BT_EDR_Max_Input_Level_Fail,BT EDR 最大输入程度测试失败,BT EDR max input level fail,Y
+BT_Power_Control_Fail,BT000022,FunErr_BT_Power_Control_Fail,BT 功率控制测试失败,BT power control fail,Y
+BT_EDR_Relative_Power_Fail,BT000023,FunErr_BT_EDR_Relative_Power_Fail,BT EDR 相关功率测试失败,BT EDR relative power fail,Y
+BT_SCO_Path_Fail,BT000024,FunErr_BT_SCO_Path_Fail,BT SCO 路径失败,BT SCO path test fail,Y
+BT_Play_To_A2DP_Fail,BT000025,FunErr_BT_Play_To_A2DP_Fail,BT 播放音乐到A2DP装置失败,BT play to A2DP fail,Y
+//**FM,,,,,
+FM_Test_Init_Device_Fail,FM000001,FunErr_FM_Test_Init_Device_Fail,FM测试初始化仪器失败,Initial FM test device fail,N
+FM_Test_Set_Command_Fail,FM000002,FunErr_FM_Test_Set_Command_Fail,FM测试指令失败,FM test command fail,Y
+FM_Test_Fail,FM000003,FunErr_FM_Test_Fail,FM测试失败,FM test fail,Y
+FM_ID_Fail,FM000004,FunErr_FM_ID_Fail,FM ID错误,Check FM ID fail,Y
+//**WLAN,,,,,
+WLAN_Test_Init_Device_Fail,WLAN0001,FunErr_WLAN_Test_Init_Device_Fail,WLAN测试初始化仪器失败,Initial WLAN test device fail,N
+WLAN_Test_Set_Command_Fail,WLAN0002,FunErr_WLAN_Test_Set_Command_Fail,WLAN测试指令失败,WLAN test command fail,Y
+WLAN_Module_ON_Fail,WLAN0003,FunErr_WLAN_Module_ON_Fail,加载WLAN模块失败,Load WLAN module fail,Y
+WLAN_Module_OFF_Fail,WLAN0004,FunErr_WLAN_Module_OFF_Fail,卸载WLAN模块失败,Unload WLAN module fail,Y
+WLAN_Power_ON_Fail,WLAN0005,FunErr_WLAN_Power_ON_Fail,打开WLAN失败,Open WLAN fail,Y
+WLAN_Power_OFF_Fail,WLAN0006,FunErr_WLAN_Power_OFF_Fail,关闭WLAN失败,Close WLAN fail,Y
+WLAN_Test_OutPower_OutRange,WLAN0007,FunErr_WLAN_Test_OutPower_OutRange,WLAN测试输出Power超出范围,WLAN test outpower out range,Y
+WLAN_ID_Fail,WLAN0008,FunErr_WLAN_ID_Fail,WLAN ID错误,Check WLAN ID fail,Y
+WLAN_Hardware_Selftest_Fail,WLAN0009,FunErr_WLAN_Hardware_Selftest_Fail,WLAN自测失败,WLAN selftest fail,Y
+WLAN_Fetch_OutPower_Fail,WLAN0010,FunErr_WLAN_Fetch_OutPower_Fail,从仪器读取WLAN POWER失败,Fetch WLAN out power fail,Y
+WLAN_Connect_Fail,WLAN0011,FunErr_WLAN_Connect_Fail,无线连接失败,WLAN connect fail,Y
+WLAN_EM_Test_Fail,WLAN0012,FunErr_WLAN_EM_Test_Fail,EM WLAN测试失败,WLAN EM test fail,Y
+WLAN_EVM_Fail,WLAN0013,FunErr_WLAN_EVM_Fail,WLAN EVM测试失败,WLAN EVM Fail,Y
+WLAN_Carrier_Suppresion_Fail,WLAN0014,FunErr_WLAN_Carrier_Suppresion_Fail,WLAN 载波抑制测试失败,WLAN carrier suppression fail,Y
+WLAN_Freq_Error_Fail,WLAN0015,FunErr_WLAN_Freq_Error_Fail,WLAN 频率误差测试失败,WLAN frequency error fail,Y
+WLAN_Demod_Fail,WLAN0016,FunErr_WLAN_Demod_Fail,WLAN DEMOD测试失败,WLAN demod fail,Y
+WLAN_Power_Ramp_Fail,WLAN0017,FunErr_WLAN_Power_Ramp_Fail,WLAN 功率提升测试失败,WLAN power ramp fail,Y
+WLAN_Spectral_Mask_Fail,WLAN0018,FunErr_WLAN_Spectral_Mask_Fail,WLAN 频谱屏蔽测试失败,WLAN spectral mask fail,Y
+WLAN_Spectral_Flatness_Fail,WLAN0019,FunErr_WLAN_Spectral_Flatness_Fail,WLAN 频谱平坦度测试失败,WLAN spectral flatness fail,Y
+WLAN_RX_Minsens_Fail,WLAN0020,FunErr_WLAN_RX_Minsens_Fail,WLAN RX_最低敏感度测试失败,WLAN RX min sensitivity fail,Y
+WLAN_Load_Bin_Fail,WLAN0021,FunErr_WLAN_Load_bin_Fail,WLAN无法从OTP中Load到正确的Bin Data,WLAN load bin data from OTP fail,Y
+WLAN_Save_Bin_Fail,WLAN0022,FunErr_WLAN_Save_Bin_Fail,保存Bin文件失败,Save bin file fail,Y
+WLAN_Antenna_IC_ID,WLAN0023,FunErr_WLAN_Antenna_IC_ID_Fail,读取Antenna IC ID fail,Y
+//**GPS,,,,,
+GPS_Test_Init_Device_Fail,GPS00001,FunErr_GPS_Test_Init_Device_Fail,GPS测试初始化仪器失败,Initial GPS test device fail,N
+GPS_Test_Set_Command_Fail,GPS00002,FunErr_GPS_Test_Set_Command_Fail,GPS测试指令失败,GPS test command fail,Y
+GPS_Test_CN0_OutRange,GPS00003,FunErr_GPS_Test_CN0_OutRange,GPS测试CN0超出范围,GPS test CN0 outrange,Y
+GPS_Test_Fail,GPS00004,FunErr_GPS_Test_Fail,GPS测试失败,GPS test fail,Y
+//**WirelessGSM,,,,,
+WirelessGSM_Test_Set_Command,WL2G0001,FunErr_WirelessGSM_Test_Set_Command_Fail,GSM测试对手机下发指令失败,GSM test set command to phone fail,Y
+WirelessGSM_Test_Init_Device,WL2G0002,FunErr_WirelessGSM_Test_Init_Device_Fail,GSM测试对CMU下发设置指令失败,GSM test set command to CMU fail,Y
+WirelessGSM_Test_OutPower,WL2G0003,FunErr_WirelessGSM_Test_OutPower_OutRange,GSM测试TxPower超出范围,GSM test Tx power out range,Y
+WirelessGSM_Online_Call,WL2G0004,FunErr_WirelessGSM_Online_Call_Fail,GSM测试建Online Call失败,GSM test setup online call fail,Y
+WirelessGSM_Online_BER,WL2G0005,FunErr_WirelessGSM_Online_BER_OutRange,GSM测试BER超出范围,GSM test BER out range,Y
+WirelessGSM_Online_RSSI,WL2G0006,FunErr_WirelessGSM_Online_RSSI_OutRange,GSM测试RSSI超出范围,GSM test RSSI out range,Y
+WirelessGSM_Online_EndCall,WL2G0007,FunErr_WirelessGSM_Online_EndCall_Fail,GSM测试断Call失败,GSM test end call fail,Y
+WirelessGSM_Online_Handover,WL2G0008,FunErr_WirelessGSM_Online_Handover_Fail,GSM测试online handover失败,GSM test handover fail,Y
+WirelessGSM_Get_PhoneMode_Fail,WL2G0009,FunErr_WirelessGSM_Get_PhoneMode_Fail,GSM获取手机模式失败,WirelessGSM get phone mode fail,Y
+WirelessGSM_Set_Band_CH_Fail,WL2G0010,FunErr_WirelessGSM_Set_Band_CH_Fail,GSM设置手机频段和信道失败,WirelessGSM set band and channel fail,Y
+WirelessGSM_Set_PhoneMode_Fail,WL2G0011,FunErr_WirelessGSM_Set_PhoneMode_Fail,GSM设置手机模式失败,WirelessGSM set phone mode fail,Y
+WirelessGSM_Set_PhoneBand_Fail,WL2G0012,FunErr_WirelessGSM_Set_PhoneBand_Fail,GSM设置手机频段失败,WirelessGSM set phone band fail,Y
+WirelessGSM_Set_PhoneCH_Fail,WL2G0013,FunErr_WirelessGSM_Set_PhoneCH_Fail,GSM设置手机信道失败,WirelessGSM set phone channel fail,Y
+WirelessGSM_Set_PA_Range_Fail,WL2G0014,FunErr_WirelessGSM_Set_PA_Range_Fail,GSM设置手机PA范围失败,WirelessGSM set PA range fail,Y
+WirelessGSM_Set_WAVE_Fail,WL2G0015,FunErr_WirelessGSM_Set_WAVE_Fail,GSM设置手机WAVE失败,WirelessGSM set WAVE form fail,Y
+WirelessGSM_Set_TX_PDM_Fail,WL2G0016,FunErr_WirelessGSM_Set_TX_PDM_Fail,GSM设置PDM失败,WirelessGSM set TX PDM fail,Y
+WirelessGSM_Set_TX_ONOFF_Fail,WL2G0017,FunErr_WirelessGSM_Set_TX_ONOFF_Fail,GSM设置手机Tx ON失败,WirelessGSM set TX ONOFF fail,Y
+WirelessGSM_Fetch_Max_Power_Fail,WL2G0018,FunErr_WirelessGSM_Fetch_Max_Power_Fail,GSM从仪器读取发射功率失败,WirelessGSM fetch max power fail,Y
+WirelessGSM_Set_RGI_Fail,WL2G0019,FunErr_WirelessGSM_Set_RGI_Fail,GSM设置手机RGI失败,WirelessGSM set RGI from phone fail,Y
+WirelessGSM_Get_RGI_Fail,WL2G0020,FunErr_WirelessGSM_Get_RGI_Fail,GSM从手机读取RGI失败,WirelessGSM get RGI from phone fail,Y
+WirelessGSM_Online_Sync_Fail,WL2G0021,FunErr_WirelessGSM_Online_Sync_Fail,GSM建Online Call同步失败,WirelessGSM online sync fail,Y
+//**WirelessWCDMA,,,,,
+WirelessWCDMA_Test_Set_Command,WL3G0001,FunErr_WirelessWCDMA_Test_Set_Command_Fail,WCDMA测试对手机下发指令失败,WCDMA test set command to phone fail,Y
+WirelessWCDMA_Test_Init_Device,WL3G0002,FunErr_WirelessWCDMA_Test_Init_Device_Fail,WCDMA测试对CMU下发设置指令失败,WCDMA test set command to CMU fail,Y
+WirelessWCDMA_Test_OutPower,WL3G0003,FunErr_WirelessWCDMA_Test_OutPower_OutRange,WCDMA测试TxPower超出范围,WCDMA test Tx power out range,Y
+WirelessWCDMA_Online_Call,WL3G0004,FunErr_WirelessWCDMA_Online_Call_Fail,WCDMA测试建Online Call失败,WCDMA test setup online call fail,Y
+WirelessWCDMA_Online_BER,WL3G0005,FunErr_WirelessWCDMA_Online_BER_OutRange,WCDMA测试BER超出范围,WCDMA test BER out range,Y
+WirelessWCDMA_Online_RSCP,WL3G0006,FunErr_WirelessWCDMA_Online_RSCP_OutRange,WCDMA测试RSCP超出范围,WCDMA test RSCP out range,Y
+WirelessWCDMA_Online_EndCall,WL3G0007,FunErr_WirelessWCDMA_Online_EndCall_Fail,WCDMA测试断Call失败,WCDMA test end call fail,Y
+WirelessWCDMA_Online_Handover,WL3G0008,FunErr_WirelessWCDMA_Online_Handover_Fail,WCDMA测试online handover失败,WCDMA test handover fail,Y
+WirelessWCDMA_Get_PhoneMode_Fail,WL3G0009,FunErr_WirelessWCDMA_Get_PhoneMode_Fail,WCDMA获取手机模式失败,WirelessWCDMA get phone mode fail,Y
+WirelessWCDMA_Fetch_Max_Power_Fail,WL3G0010,FunErr_WirelessWCDMA_Fetch_Max_Power_Fail,WCDMA从仪器读取发射功率失败,WirelessWCDMA fetch max power fail,Y
+WirelessWCDMA_Set_Band_CH_Fail,WL3G0011,FunErr_WirelessWCDMA_Set_Band_CH_Fail,WCDMA设置手机频段和信道失败,WirelessWCDMA set band and channel fail,Y
+WirelessWCDMA_Set_PhoneMode_Fail,WL3G0012,FunErr_WirelessWCDMA_Set_PhoneMode_Fail,WCDMA设置手机模式失败,WirelessWCDMA set phone mode fail,Y
+WirelessWCDMA_Set_PhoneBand_Fail,WL3G0013,FunErr_WirelessWCDMA_Set_PhoneBand_Fail,WCDMA设置手机频段失败,WirelessWCDMA_set phone band fail,Y
+WirelessWCDMA_Set_PhoneCH_Fail,WL3G0014,FunErr_WirelessWCDMA_Set_PhoneCH_Fail,WCDMA设置手机信道失败,WirelessWCDMA set phone channel fail,Y
+WirelessWCDMA_Set_PA_Range_Fail,WL3G0015,FunErr_WirelessWCDMA_Set_PA_Range_Fail,WCDMA设置手机PA范围失败,WirelessWCDMA set PA range fail,Y
+WirelessWCDMA_Set_WAVE_Fail,WL3G0016,FunErr_WirelessWCDMA_Set_WAVE_Fail,WCDMA设置手机WAVE失败,WirelessWCDMA set WAVE form fail,Y
+WirelessWCDMA_Set_TX_PDM_Fail,WL3G0017,FunErr_WirelessWCDMA_Set_TX_PDM_Fail,WCDMA设置PDM失败,WirelessWCDMA set TX PDM fail,Y
+WirelessWCDMA_Get_TX_PDM_Fail,WL3G0018,FunErr_WirelessWCDMA_Get_TX_PDM_Fail,WCDMA读取PDM失败,WirelessWCDMA get TX PDM fail,Y
+WirelessWCDMA_Set_TX_ONOFF_Fail,WL3G0019,FunErr_WirelessWCDMA_Set_TX_ONOFF_Fail,WCDMA设置手机Tx ON或OFF失败,WirelessWCDMA set TX ONOFF fail,Y
+WirelessWCDMA_Online_Sync_Fail,WL3G0020,FunErr_WirelessWCDMA_Online_Sync_Fail,WCDMA建Online Call同步失败,WirelessWCDMA online sync fail,Y
+//**WirelessCDMA2000,,,,,
+WirelessCDMA2000_Get_PhoneMode_Fail,WLC20001,FunErr_WirelessCDMA2000_Get_PhoneMode_Fail,CDMA2000获取手机模式失败,WirelessCDMA2000 get phone mode fail,Y
+WirelessCDMA2000_Fetch_Max_Power_Fail,WLC20002,FunErr_WirelessCDMA2000_Fetch_Max_Power_Fail,CDMA2000从仪器读取发射功率失败,WirelessCDMA2000 fetch max power fail,Y
+WirelessCDMA2000_Set_Band_CH_Fail,WLC20003,FunErr_WirelessCDMA2000_Set_Band_CH_Fail,CDMA2000设置手机频段和信道失败,WirelessCDMA2000 set band and channel fail,Y
+WirelessCDMA2000_Set_TX_ONOFF_Fail,WLC20004,FunErr_WirelessCDMA2000_Set_TX_ONOFF_Fail,CDMA2000设置手机Tx ON或OFF失败,WirelessCDMA2000 set TX ONOFF fail,Y
+WirelessCDMA2000_Get_PDM_NV_Fail,WLC20005,FunErr_WirelessCDMA2000_Get_PDM_NV_Fail,CDMA2000读取PDM失败,WirelessCDMA2000 get TX PDM fail,Y
+WirelessCDMA2000_Test_Init_Device_Fail,WLC20006,FunErr_WirelessCDMA2000_Test_Init_Device_Fail,CDMA2000仪器设置失败,WirelessCDMA2001 device setting fail,Y
+WirelessCDMA2000_Test_OutPower,WLC20007,FunErr_WireleseCDMA2000_Test_OutPower_OutRange,CDMA2000发射功率不在测试范围内,WirelessCDMA2002 out power out of range,Y
+//**WirelessLTE,,,,,
+WirelessLTE_Tx_Power_Fail,WL4G0001,FunErr_WirelessLTE_TX_Power_Fail,WirelessLTE  测试输出 Power 超出范围,WirelessLTE Tx Power Fail,Y
+WirelessLTE_Diversity_RxRSSI_Fail,WL4G0002,FunErr_WirelessLTE_Diversity_RxRSSI_Fail,WirelessLTE Diversity  测试 RSSI 超出范围,WirelessLTE Diversity RSSI Fail,Y
+WirelessLTE_Test_Set_Command,WL4G0003,FunErr_WirelessLTE_Test_Set_Command_Fail,WirelessLTE测试对手机下发指令失败,WirelessLTE test set command to phone fail,Y
+WirelessLTE_Test_Init_Device,WL4G0004,FunErr_WirelessLTE_Test_Init_Device_Fail,WirelessLTE测试对测试仪器下发设置指令失败,WirelessLTE test set command to test device fail,Y
+WirelessLTE_Rx_Power_Fail,WL4G0005,FunErr_WirelessLTE_RX_Power_Fail,WirelessLTE RX 测试输出 Power 超出范围,WirelessLTE Rx Power Fail,Y
+//**Camera,,,,,
+Front_Camera_Test_Macro_Capture_Fail,CAMA0001,FunErr_Front_Camera_Test_Macro_Capture_Fail,前摄像头微距拍照失败,Front Camera Macro Capture fail,Y
+Front_Camera_Test_Capture_Fail,CAMA0002,FunErr_Front_Camera_Test_Capture_Fail,前摄像头拍照失败,Front Camera Capture fail,Y
+Front_Camera_Test_Shutdown_Fail,CAMA0003,FunErr_Front_Camera_Test_Shutdown_Fail,前摄像头关闭失败,Front Camera shut down fail,Y
+Front_Camera_Test_Read_ID_Fail,CAMA0004,FunErr_Front_Camera_Test_Read_ID_Fail,前摄像头设备读取失败,Read front camera ID Fail,Y
+Front_Camera_Test_Shading_Fail,CAMA0005,FunErr_Front_Camera_Test_Shading_Fail,前摄像头拍摄照片亮度均值偏低,front camera shading fail,Y
+Front_Camera_Test_Blemish_Fail,CAMA0006,FunErr_Front_Camera_Test_Blemish_Fail,前摄像头存在黑斑,front camera Blemish Fail,Y
+Front_Camera_Test_MTF_Fail,CAMA0007,FunErr_Front_Camera_Test_MTF_Fail,前摄像头黑白不均,front camera MTF Fail,Y
+Front_Camera_Test_Tile_Fail,CAMA0008,FunErr_Front_Camera_Test_Tile_Fail,前摄像头安装过度倾斜,front camera Tile Fail,Y
+Front_Camera_Test_Rotation_Fail,CAMA0009,FunErr_Front_Camera_Test_Rotation_Fail,前摄像头安装过度旋转,front camera Rotation Fail,Y
+Front_Camera_Test_Color_Fail,CAMA0010,FunErr_Front_Camera_Test_Color_Fail,前摄像头色彩不正常,front camera Color Fail,Y
+Rear_Camera_Test_Capture_Fail,CAMA0011,FunErr_Rear_Camera_Test_Capture_Fail,后摄像头拍照失败,Rear Camera Capture fail,Y
+Rear_Camera_Test_Read_ID_Fail,CAMA0012,FunErr_Rear_Camera_Test_Read_ID_Fail,后摄像头设备读取失败,Read rear camera ID Fail,Y
+Rear_Camera_Test_Shading_Fail,CAMA0013,FunErr_Rear_Camera_Test_Shading_Fail,后摄像头拍摄照片亮度均值偏低,rear camera shading fail,Y
+Rear_Camera_Test_Blemish_Fail,CAMA0014,FunErr_Rear_Camera_Test_Blemish_Fail,后摄像头存在黑斑,rear camera Blemish Fail,Y
+Rear_Camera_Test_MTF_Fail,CAMA0015,FunErr_Rear_Camera_Test_MTF_Fail,后摄像头黑白不均,rear camera MTF Fail,Y
+Rear_Camera_Test_Tile_Fail,CAMA0016,FunErr_Rear_Camera_Test_Tile_Fail,后摄像头安装过度倾斜,rear camera Tile Fail,Y
+Rear_Camera_Test_Rotation_Fail,CAMA0017,FunErr_Rear_Camera_Test_Rotation_Fail,后摄像头安装过度旋转,rear camera Rotation Fail,Y
+Rear_Camera_Test_Color_Fail,CAMA0018,FunErr_Rear_Camera_Test_Color_Fail,后摄像头色彩不正常,rear camera Color Fail,Y
+Reset_PictureIndex_Fail,CAMA0019,FunErr_Camera_Reset_PictureIndex_Fail,重置照片索引失败,Reset picture index fail,Y
+Rear_Camera_Test_Macro_Capture_Fail,CAMA0020,FunErr_Rear_Camera_Test_Macro_Capture_Fail,后摄像头微距拍照失败,Rear camera test macro capture fail,Y
+Rear_Camera_Test_Shutdown_Fail,CAMA0021,FunErr_Rear_Camera_Test_Shutdown_Fail,后摄像头关闭失败,Rear camera test shutdown fail,Y
+Front_Camera_Color_Shading_Fail,CAMA0022,FunErr_Front_Camera_Color_Shading_Fail,前摄像头拍摄照片彩色亮度均值偏低,front camera color shading fail,Y
+Rear_Camera_Color_Shading_Fail,CAMA0023,FunErr_Rear_Camera_Color_Shading_Fail,后摄像头拍摄照片彩色亮度均值偏低,rear camera color shading fail,Y
+Camera_SendKeyEvent_Fail,CAMA0024,FunErr_Camera_SendKeyEvent_Fail,传送KeyEvent失败,send key event fail,Y
+Camera_Test_Fail,CAMA0025,FunErr_Camera_Test_Fail,Camera测试失败,Camera test fail,Y
+Camera_Launch_APP_Fail,CAMA0026,FunErr_Camera_Launch_APP_Fail,启动 Camera app 失败,launch camera app fail,Y
+Rear_Camera_Test_Macro_MTF_Fail,CAMA0027,FunErr_Rear_Camera_Test_Macro_MTF_Fail,后镜头微距MTF測試失敗,rear camera Macro MTF Fail,Y
+Rear_Camera_Test_Read_OTP_AWB_Fail,CAMA0028,FunErr_Rear_Camera_Test_OTP_AWB_Fail,后摄像头AWB读取失败,Read OTP AWB Fail,Y
+Rear_Camera_Test_Read_OTP_AFMacro_Fail,CAMA0029,FunErr_Rear_Camera_Test_OTP_AFMacro_Fail,"后摄像头 AFMacro读取失败,",Read OTP AFMacro Fail,Y
+Rear_Camera_Test_Read_OTP_AFInfinity_Fail,CAMA0030,FunErr_Rear_Camera_Test_OTP_AFInfinity_Fail,后摄像头AFInfinity读取失败,Read OTP AFInfinity Fail,Y
+Camera_Flashlight_Disable_Fail,CAMA0031,FunErr_Camera_Flashlight_Disable_Fail,关闭闪光灯失败,Disable flashlight fail,Y
+Camera_Flashlight_Enable_Fail,CAMA0032,FunErr_Camera_Flashlight_Enable_Fail,开启闪光灯失败,Enable flashlight fail,Y
+Camera_OIS_Enable_Fail,CAMA0033,FunErr_Camera_OIS_Enable_Fail,开启防手震失败,Enable OIS fail,Y
+Camera_OIS_Disable_Fail,CAMA0034,FunErr_Camera_OIS_Disable_Fail,关闭防手震失败,Disable OIS fail,Y
+Rear_Camera_Test_Flash_Fail,CAMA0035,FunErr_Rear_Camera_Test_Flash_Fail,后镜头测试闪光灯失败,Rear Camera test flash fail,Y
+Rear_Camera_Test_OIS_Fail,CAMA0036,FunErr_Rear_Camera_Test_OIS_Fail,后镜头测试防手震失败,Rear Camera test OIS fail,Y
+Switch_Camera_Fail,CAMA0037,FunErr_Switch_Camera_Fail,切换镜头失败,Switch Camera Fail,Y
+Camera_Scan_Barcode_Fail,CAMA0038,FunErr_Camera_Scan_Barcode_Fail,摄像头扫描条码失败,camera scan barcode fail,Y
+Camera_AutoFocus_Fail,CAMA0039,FunErr_Camera_AutoFocus_Fail,相机对焦失败,Camera AutoFocus Fail,Y
+Camera_FetchPicture_Fail,CAMA0040,FunErr_Camera_FetchPicture_Fail,图片抓取失败,Camera FetchPicture Fail,Y
+Front_Camera_Start_Fail,CAMA0041,FunErr_Front_Camera_Start_Fail,前摄像头开启失败,Front camera start fail,Y
+Rear_Camera_Start_Fail,CAMA0042,FunErr_Rear_Camera_Start_Fail,后摄像头开启失败,Rear camera start fail,Y
+Rear_Camera_Read_FuseID_Fail,CAMA0043,FunErr_Rear_Camera_Read_FuseID_Fail,后摄像头读取FuseID失败,Rear camera read FuseID fail,Y
+Front_Camera_Read_FuseID_Fail,CAMA0044,FunErr_Front_Camera_Read_FuseID_Fail,前摄像头读取FuseID失败,Front camera read FuseID fail,Y
+Front_Camera_Write_FuseID_Fail,CAMA0045,FunErr_Front_Camera_Write_FuseID_Fail,前摄像头写入FuseID失败,Front camera write FuseID fail,Y
+Front_Camera_FuseID_Mismatch_Fail,CAMA0046,FunErr_Front_Camera_FuseID_Mismatch_Fail,前摄像头读写FuseID不匹配,Front camera FuseID mismatch fail,Y
+Zoom_Ring_Test_Fail,CAMA0047,FunErr_Zoom_Ring_Test_Fail,Zoom Ring 测试失败,Zoom Ring Test Fail,Y
+Focus_Ring_Test_Fail,CAMA0048,FunErr_Focus_Ring_Test_Fail,Focus Ring 测试失败,Foucs Ring Test Fail,Y
+Shutter_Calibration_Fail,CAMA0049,FunErr_Shutter_Calibration_Fail,快门校准失败,Shutter Calibration Fail,Y
+//**Camera Key,,,,,
+Zoom_Motion_Fail,KEYCAM01,FunErr_Zoom_Motion_Fail,Zoom 移动失败,Zoom Motion Fail,Y
+Focus_Motion_Fail,KEYCAM02,FunErr_Focus_Motion_Fail,Focus 移动失败,Focus Motion Fail,Y
+Wheel_Key_Fail,KEYCAM03,FunErr_Wheel_Key_Fail,滚轮键侦测失败,Wheel Key Fail,Y
+Focus_Key_Fail,KEYCAM04,FunErr_Focus_Key_Fail,对焦键侦测失败,Focus Key Fail,Y
+Shot_Key_Fail,KEYCAM05,FunErr_Shot_Key_Fail,拍摄键侦测失败,Shot Key Fail,Y
+BatteryDoor_Key_Fail,KEYCAM06,FunErr_BatteryDoor_Key_Fail,电池盖侦测失败,Battery Door Key Fail,Y
+//**Touch,,,,,
+Touch_ID_Test_Fail,TOUH0001,FunErr_Touch_ID_Test_Fail,触摸屏ID检测失败,Touch ID test fail,Y
+Touch_Calibration_Fail,TOUH0002,FunErr_Touch_Calibration_Fail,触摸屏校验失败,Touch calibration fail,Y
+Touch_Test_IDAC_Fail,TOUH0003,FunErr_Touch_Test_IDAC_Fail,触摸屏测试 IDAC 失败,Touch test IDAC fail,Y
+Touch_Test_Delta_Fail,TOUH0004,FunErr_Touch_Test_Delta_Fail,触摸屏测试 Delta 失败,Touch test Delta fail,Y
+Touch_Test_Baseline_Fail,TOUH0005,FunErr_Touch_Test_Baseline_Fail,触摸屏测试 Baseline 失败,Touch test Baseline fail,Y
+Touch_Test_Finger_ID_Out_Of_Setting,TOUH0006,FunErr_Touch_Test_Finger_ID_Out_Of_Setting,Finger ID 超出设定范围,Finger ID out of setting,Y
+Touch_Test_Point_Out_Of_Setting,TOUH0007,FunErr_Touch_Test_Point_Out_Of_Setting,Piont超出设定范围,Point out of setting,Y
+Touch_Test_Event_Type_M_Occur_Without_T_Before,TOUH0008,FunErr_Touch_Test_Event_Type_M_Occur_Without_T_Before,触碰事件M出现前未出现T,Event type M occur without T before,Y
+Touch_Test_Event_Type_R_Occur_Without_T_Before,TOUH0009,FunErr_Touch_Test_Event_Type_R_Occur_Without_T_Before,触碰事件R出现前未出现T,Event type R occur without T before,Y
+Touch_Test_Undefined_Event_Type,TOUH0010,FunErr_Touch_Test_Undefined_Event_Type,未定义的触碰事件,Undefined event type,Y
+Touch_Test_No_Mapped_Line,TOUH0011,FunErr_Touch_Test_No_Mapped_Line,无对应线段,No mapped line,Y
+Touch_Test_Broken_Line,TOUH0012,FunErr_Touch_Test_Broken_Line,断线,Broken line,Y
+Touch_Download_Firmware_Fail,TOUH0013,FunErr_Touch_Download_Firmware_Fail,触摸屏固件下载失败,Touch Download Firmware fail,Y
+Touch_General_Fail,TOUH0014,FunErr_Touch_General_Fail,触屏测试错误,Touch general fail,Y
+Touch_Check_Range_Fail,TOUH0015,FunErr_Touch_Check_Range_Fail,触屏测试范围错误,Touch check range fail,Y
+Touch_Auto_Check_Fail,TOUH0016,FunErr_Touch_Auto_Check_Fail,触屏自动测试失败,Touch auto check fail,Y
+Touch_Pin_Fail,TOUH0017,FunErr_Touch_Pin_Fail,触屏pin错误,Touch pin fault,Y
+Touch_Panel_Fail,TOUH0018,FunErr_Touch_Panel_Fail,触屏Panel测试失败,Touch panel test fail,Y
+Touch_Capkey_Fail,TOUH0019,FunErr_Touch_Capkey_Fail,触屏Capkey测试失败,Touch capkey panel test fail,Y
+Touch_Enable_Fail,TOUH0020,FunErr_Touch_Enable_Fail,启动Touch失败,Enable Touch Fail,Y
+Touch_Disable_Fail,TOUH0021,FunErr_Touch_Disable_Fail,停止Touch失败,Disable Touch Fail,Y
+Touch_Slider_Test_Fail,TOUH0022,FunErr_Touch_Slider_Test_Fail,触屏Slider测试失败,Touch slider test fail,Y
+Touch_Keypad_Test_Fail,TOUH0023,FunErr_Touch_Keypad_Test_Fail,触屏Keypad测试失败,Touch keypad test fail,Y
+Touch_Self_Test_Fail,TOUH0024,FunErr_Touch_Self_Test_Fail,触屏模拟触摸测试失败,Touch self test fail,Y
+Touch_Write_Flag_Fail,TOUH0025,FunErr_Touch_Write_Flag_Fail,写入触屏类别失败l,Touch Write Flag Fai,Y
+Get_Touch_FW_Fail,TOUH0026,FunErr_Get_Touch_FW_Fail,获取触屏固件版本失败,Get touch firmware version fail,Y
+Check_Touch_FW_Fail,TOUH0027,FunErr_Check_Touch_FW_Fail,检查触屏固件版本失败,Check touch firmware version fail,Y
+Touch_Model_Test_Fail,TOUH0028,FunErr_Touch_Model_Test_Fail,触屏Model测试失败,Touch Model test fail,Y
+Check_Touch_HW_Fail,TOUH0029,FunErr_Check_Touch_HW_Fail,检查触屏硬件版本失败,Check touch hw version fail,Y
+Touch_Close_Watch_Dog_Fail,TOUH0030,FunErr_Touch_Close_Watch_Dog_Fail,关闭WatchDog失败,Touch close watchdog fail,Y
+Touch_Auto_Short_Fail,TOUH0031,FunErr_Touch_Auto_Short_Fail,触屏 auto short test 失败,Touch auto short fail,Y
+Touch_Open_Test_Fail,TOUH0032,FunErr_Touch_Open_Test_Fail,触屏 open test 失败,Touch open test fail,Y
+Touch_Mutual_RawData_Test_Fail,TOUH0033,FunErr_Touch_Mutual_RawData_Test_Fail,触屏 mutual raw data 测试失败,Touch mutual raw data test fail,Y
+Touch_Self_RawData_Test_Fail,TOUH0034,FunErr_Touch_Self_RawData_Test_Fail,触屏 self raw data 测试失败,Touch self raw data test fail,Y
+//**SD,,,,,
+Detect_SD_Fail,SD000001,FunErr_Detect_SD_Fail,侦测SD卡失败,Detect sd card fail,Y
+SD_Mount_Fail,SD000002,FunErr_SD_Mount_Fail,加载SD卡失败,SD card mount fail,Y
+Select_SD_Fail,SD000003,FunErr_Select_SD_Fail,选择SD卡存储失败,Select SD card fail,Y
+SD_UnMount_Fail,SD000004,FunErr_SD_UnMount_Fail,卸载SD卡失败,SD card unmount fail,Y
+Get_SD_Size_Fail,SD000005,FunErr_Get_SD_Size_Fail,获取SD卡大小失败,Get SD card size fail,Y
+SD_Operate_Fail,SD000006,FunErr_SD_Operate_Fail,操作SD卡失败,Operate SD card Fail,Y
+SD_ReadWrite_Data_Fail,SD000007,FunErr_SD_ReadWrite_Data_Fail,SD卡读写资料失败,SD Read/Write Data Fail,Y
+SD_Write_Protect_Test_Fail,SD000008,FunErr_SD_Write_Protect_Test_Fail,SD卡写入保护测试失败,SD Write Protect Test Fail,Y
+SD_Delect_DCIM_Fail,SD000009,FunErr_SD_Delect_DCIM_Fail,删除SD卡内DCIM文件夹失败,SD delete DCIM fail,Y
+Get_SD_Info_Fail,SD000010,FunErr_Get_SD_Info_Fail,获取SD卡信息失败,Get SD card info fail,Y
+SD_ClockRate_Test_Fail,SD000011,FunErr_SD_ClockRate_Test_Fail,SD卡时钟速度测试失败,SD clock rate test fail,Y
+//**LED,,,,,
+LED_Test_Fail,LED00001,FunErr_LED_Test_Fail,LED测试失败,LED test fail,Y
+CapKey_LED_Test_Fail,LED00002,FunErr_CapKey_LED_Test_Fail,Capkey指示灯测试失败,CapKey LED fail,Y
+Flash_LED_Test_Fail,LED00003,FunErr_Flash_LED_Test_Fail,相机闪光灯测试失败,Flash LED fail,Y
+Green_Power_LED_Test_Fail,LED00004,FunErr_Green_Power_LED_Test_Fail,绿 Power LED 测试失败,Green PowerLED fail,Y
+Red_Power_LED_Test_Fail,LED00005,FunErr_Red_Power_LED_Test_Fail,红 Power LED 测试失败,Red PowerLED fail,Y
+Flash_LED_ID_Fail,LED00006,FunErr_Flash_LED_ID_Fail,Flash LED ID错误,Check flash LED ID fail,Y
+Blue_Power_LED_Test_Fail,LED00007,FunErr_Blue_Power_LED_Test_Fail,蓝 Power LED 测试失败,Blue PowerLED fail,Y
+Flash_RGB_LED_ID_Test_Fail,LED00008,FunErr_Flash_RGB_LED_ID_Fail,获取RGB ID 失败,Get RGB ID fail,Y
+Indicator_LED_R_Fail,LED00009,FunErr_Check_Indicator_LED_R_Fail,红指示灯测试失败,Check Red Indicator fail,Y
+Indicator_LED_G_Fail,LED00010,FunErr_Check_Indicator_LED_G_Fail,绿指示灯测试失败,Check Green Indicator fail,Y
+Indicator_LED_B_Fail,LED00011,FunErr_Check_Indicator_LED_B_Fail,蓝指示灯测试失败,Check Blue Indicator  fail,Y
+Indicator_LED_OFF_Fail,LED00012,FunErr_Check_Indicator_LED_OFF_Fail,关闭指示灯测试失败,Indicator OFF fail,Y
+//**SIM,,,,,
+Detect_SIM_Card_Fail,SIMC0001,FunErr_Detect_SIM_Card_Fail,侦测SIM卡失败,detect SIM card fail,Y
+//**L-Sensor,,,,,
+LSensor_Check_ID_Fail,LSEN0001,FunErr_LSensor_Check_ID_Fail,Lsensor 读取设备ID失败或者ID不匹配,LSensor check ID fail,Y
+LSensor_Range_Check_Fail,LSEN0002,FunErr_LSensor_Range_Check_Fail,Lsensor测试不在范围内,LSensor range check fail,Y
+LSensor_Data_Equaul_With_Two_Situation,LSEN0003,FunErr_LSensor_Data_Equaul_With_Two_Situation,Lsensor两种不同状态下的数值相同,LSensor Data equaul with two situation,Y
+LSensor_Calibration_Fail,LSEN0004,FunErr_LSensor_Calibration_Fail,Lsensor校准失败,LSensor Calibration fail,Y
+LSensor_Verification_Fail,LSEN0005,FunErr_LSensor_Verification_Fail,Lsensor验证失败,LSensor verification fail,Y
+LSensor_LuxCheck_Fail,LSEN0006,FunErr_LSensor_LuxCheck_Fail,Lsensor自动调光失败,LSensor LuxCheck fail,N
+//**P-Sensor,,,,,
+PSensor_Check_ID_Fail,PSEN0001,FunErr_PSensor_Check_ID_Fail,Psensor 读取设备ID失败或者ID不匹配,PSensor check ID fail,Y
+PSensor_Range_Check_Fail,PSEN0002,FunErr_PSensor_Range_Check_Fail,Psensor测试不在范围内,PSensor range check fail,Y
+PSensor_Data_Equaul_With_Two_Situation,PSEN0003,FunErr_PSensor_Data_Equaul_With_Two_Situation,Psensor两种不同状态下的数值相同,PSensor Data equaul with two situation,Y
+PSensor_Calibration_Fail,PSEN0004,FunErr_PSensor_Calibration_Fail,Psensor校准失败,PSensor calibration fail,Y
+PSensor_Verification_Fail,PSEN0005,FunErr_PSensor_Verification_Fail,Psensor验证失败,PSensor verification fail,Y
+PSensor_Proximity_Test_Fail,PSEN0006,FunErr_PSensor_Proximity_Test_Fail,proximity 小于标准值,PSensor proximity fail,Y
+//**G-Sensor,,,,,
+GSensor_Calibration_Fail,GSEN0001,FunErr_GSensor_Calibration_Fail,GSensor校准失败,GSensor calibration fail,Y
+GSensor_Test_Fail,GSEN0002,FunErr_GSensor_Test_Fail,GSensor测试失败,GSensor test fail,Y
+GSensor_ID_Fail,GSEN0003,FunErr_GSensor_ID_Fail,GSensor ID 错误,Check GSensor ID fail,Y
+GSensor_SelfTest_Fail,GSEN0004,FunErr_GSensor_SelfTest_Fail,GSensor SelfTest失败,GSensor SelfTest Fail,Y
+GSensor_X_Axis_Fail,GSEN0005,FunErr_GSensor_X_Axis_Fail,GSensor X轴偏移过大,GSensor X Axis Fail,Y
+GSensor_Y_Axis_Fail,GSEN0006,FunErr_GSensor_Y_Axis_Fail,GSensor Y轴偏移过大,GSensor Y Axis Fail,Y
+GSensor_Z_Axis_Fail,GSEN0007,FunErr_GSensor_Z_Axis_Fail,GSensor Z轴偏移过大,GSensor Z Axis Fail,Y
+//**Speaker,,,,,
+Speaker_Amp_Test_Fail,SPEK0001,FunErr_Speaker_Amp_Test_Fail,扬声器AMP测试失败,Speaker amp test fail,Y
+Speaker_L_Test_Fail,SPEK0002,FunErr_Speaker_L_Test_Fail,扬声器左声道测试失败,Speaker L test fail,Y
+Speaker_R_Test_Fail,SPEK0003,FunErr_Speaker_R_Test_Fail,扬声器右声道测试失败,Speaker R test fail,Y
+Switch_Speaker_Fail,SPEK0004,FunErr_Switch_Speaker_Fail,切到扬声器失败,Switch Speaker Fail,Y
+Speaker_Play_Fail,SPEK0005,FunErr_Speaker_Play_Fail,扬声器播放WAV失败,Speaker play fail,Y
+Speaker_Play_Stop_Fail,SPEK0006,FunErr_Speaker_Play_Stop_Fail,停止扬声器播放失败,Speaker stop play wav fail,Y
+Speaker_Loud_Test_Fail,SPEK0007,FunErr_Speaker_Loud_Test_Fail,Loud Speaker测试失败,Loud Speaker test fail,Y
+Analyse_Speaker_Frequence_Fail,SPEK0008,FunErr_Analyse_Speaker_Frequence_Fail,分析扬声器频率失败,Analyse speaker frequence fail,Y
+Analyse_Speaker_VPP_Fail,SPEK0009,FunErr_Analyse_Speaker_VPP_Fail,分析扬声器VPP失败,Analyse speaker VPP fail,Y
+Speaker2_Play_Fail,SPEK0010,FunErr_Speaker2_Play_Fail,手機喇叭2播放失敗,Speaker2 Play Fail,Y
+Speaker1_Test_Fail,SPEK0011,FunErr_Speaker1_Test_Fail,手機喇叭1測試失敗,Speaker1 Test Fail,Y
+Speaker2_Test_Fail,SPEK0012,FunErr_Speaker2_Test_Fail,手機喇叭2測試失敗,Speaker2 Test Fail,Y
+Speaker_SNR_Test_Fail,SPEK00013,FunErr_Speaker_SNR_Test_Fail,扬声器讯噪比测试失败,Speaker SNR test fail,Y
+//**Receiver,,,,,
+Switch_Receiver_Fail,RECV0001,FunErr_Switch_Receiver_Fail,切到听筒失败,Switch to receiver fail,Y
+Receiver_Play_Fail,RECV0002,FunErr_Receiver_Play_Fail,听筒播放WAV失败,Receiver play fail,Y
+Receiver_Play_Stop_Fail,RECV0003,FunErr_Receiver_Play_Stop_Fail,停止听筒播放失败,Receiver stop play wav fail,Y
+Receiver_Test_Fail,RECV0004,FunErr_Receiver_Test_Fail,听筒测试失败,Receiver test fail,Y
+Analyse_Receiver_Frequence_Fail,RECV0005,FunErr_Analyse_Receiver_Frequence_Fail,分析听筒频率失败,Analyse receiver frequence fail,Y
+Analyse_Receiver_VPP_Fail,RECV0006,FunErr_Analyse_Receiver_VPP_Fail,分析听筒VPP失败,Analyse receiver VPP fail,Y
+Receiver_SNR_Test_Fail,RECV0007,FunErr_Receiver_SNR_Test_Fail,听筒讯噪比测试失败,Receiver SNR test fail,Y
+//**Mic,,,,,
+Mic_Record_Wav_Fail,MIC00001,FunErr_Mic_Record_Wav_Fail,麦克风录音失败,MIC Recorad wav fail,Y
+Switch_Mic_Fail,MIC00002,FunErr_Switch_Mic_Fail,切到麦克风失败,Switch to MIC Fail,Y
+Mic2_Stop_Record_Fail,MIC00003,FunErr_Mic2_Stop_Record_Fail,麦克风2 停止录音失败,Stop MIC2 record fail,Y
+Mic_Stop_Record_Fail,MIC00004,FunErr_Mic_Stop_Record_Fail,麦克风停止录音失败,Stop MIC record fail,Y
+Mic2_Record_Wav_Fail,MIC00005,FunErr_Mic2_Record_Wav_Fail,麦克风2 录音失败,MIC2 record wav fail,Y
+Switch_Mic2_Fail,MIC00006,FunErr_Switch_Mic2_Fail,切到麦克风2失败,Switch MIC2 fail,Y
+Mic_Record_Chip_ID_Fail,MIC00007,FunErr_Mic_Record_Chip_ID_Fail,麦克风 Record ID检测失败,Check MIC Record chip ID fail,Y
+Mic_Test_Fail,MIC00008,FunErr_Mic_Test_Fail,麦克风测试失败,MIC Test Fail,Y
+Mic2_Test_Fail,MIC00009,FunErr_Mic2_Test_Fail,麦克风2测试失败,MIC2 Test Fail,Y
+Loopback_Mic_To_Speaker_Fail,MIC00010,FunErr_Loopback_Mic_To_Speaker_Fail,Loop back麦克风到听筒测试失败,Loopback MIC To Speaker Fail,Y
+Loopback_Mic_To_Headset_Fail,MIC00011,FunErr_Loopback_Mic_To_Headset_Fail,由麦克风切换至耳机失败,Loopback MIC to headset fail,Y
+Loopback_Mic2_To_Headset_Fail,MIC00012,FunErr_Loopback_Mic2_To_Headset_Fail,由麦克风2切换至耳机失败,Loopback MIC2 to headset fail,Y
+Mic_Bias_Fail,MIC00013,FunErr_Mic_Bias_Fail,麦克风偏压测试失败,MIC Bias test fail,Y
+Mic2_Bias_Fail,MIC00014,FunErr_Mic2_Bias_Fail,麦克风2偏压测试失败,MIC2 Bias test fail,Y
+Loopback_Mic2_To_Receiver_Fail,MIC00015,FunErr_Loopback_Mic2_To_Receiver_Fail,由麦克风2切换至话筒失败,Loopback MIC2 to receiver fail,Y
+Mic3_Test_Fail,MIC00016,FunErr_Mic3_Test_Fail,麦克风3测试失败,Mic3 test Fail,Y
+Mic4_Test_Fail,MIC00017,FunErr_Mic4_Test_Fail,麦克风4测试失败,Mic4 test Fail,Y
+Mic3_Stop_Record_Fail,MIC00018,FunErr_Mic3_Stop_Record_Fail,麦克风3停止录音失败,Mic3 Stop Record Fail,Y
+Mic4_Stop_Record_Fail,MIC00019,FunErr_Mic4_Stop_Record_Fail,麦克风4停止录音失败,Mic4 Stop Record Fail,Y
+Loopback_Mic3_To_Headset_Fail,MIC00020,FunErr_Loopback_Mic3_To_Headset_Fail,麦克风3到耳机测试失败,Mic3 To Headset Fail,Y
+Loopback_Mic4_To_Headset_Fail,MIC00021,FunErr_Loopback_Mic4_To_Headset_Fail,麦克风4到耳机测试失败,Mic4 To Headset Fail,Y
+Loopback_Mic2_To_Speaker_Fail,MIC00022,FunErr_Loopback_Mic2_To_Speaker_Fail,播放声音从Mic2到免提失败,Loopback mic2 to speaker fail,Y
+Mic_SNR_Test_Fail,MIC00023,FunErr_Mic_SNR_Test_Fail,麦克风讯噪比测试失败,Mic SNR test fail,Y
+Mic2_SNR_Test_Fail,MIC00024,FunErr_Mic2_SNR_Test_Fail,麦克风2讯噪比测试失败,Mic2 SNR test fail,Y
+Mic3_SNR_Test_Fail,MIC00025,FunErr_Mic3_SNR_Test_Fail,麦克风3讯噪比测试失败,Mic3 SNR test fail,Y
+Mic4_SNR_Test_Fail,MIC00026,FunErr_Mic4_SNR_Test_Fail,麦克风4讯噪比测试失败,Mic4 SNR test fail,Y
+//**Headset,,,,,
+Detect_Headset_Fail,HDST0001,FunErr_Detect_Headset_Fail,耳机侦测失败,Headset detect fail,Y
+No_Headset_But_Detect_It,HDST0002,FunErr_No_Headset_But_Detect_It,为插入耳机却误侦测到,Have no headset but detect headset,Y
+Headset_Send_Key_Fail,HDST0003,FunErr_Headset_Send_Key_Fail,耳机Send按钮错误,Headset send key fail,Y
+Headset_Mic_Fail,HDST0004,FunErr_Headset_Mic_Fail,耳机录音失败,Headset Mic Fail,Y
+Headset_Play_Fail_or_Mic_exception,HDST0005,FunErr_Headset_Play_Fail_or_Mic_exception,Headset播放失败或Headset录音异常,Headset play Fail or Mic exception,Y
+Headset_L_Test_Fail,HDST0006,FunErr_Headset_L_Test_Fail,左边耳机测试失败,Headset L test fail,Y
+Headset_R_Test_Fail,HDST0007,FunErr_Headset_R_Test_Fail,右边耳机测试失败,Headset R test fail,Y
+Switch_Headset_Fail,HDST0008,FunErr_Switch_Headset_Fail,切换到耳机失败,Swith to hendset fail,Y
+Headset_Switch_Mic_Fail,HDST0009,FunErr_Headset_Switch_Mic_Fail,切换到耳机麦克风失败,Switch to headset MIC fail,Y
+Headset_Switch_Speaker_Fail,HDST0010,FunErr_Headset_Switch_Speaker_Fail,切换到耳机扬声器失败,Switch to headset speaker fail,Y
+Headset_Mic_Stop_Record_Fail,HDST0011,FunErr_Headset_Mic_Stop_Record_Fail,耳机麦克风停止录音失败,Headset Mic stop record fail,Y
+Headset_Speaker_Play_Stop_Fail,HDST0012,FunErr_Headset_Speaker_Play_Stop_Fail,耳机扬声器停止播放失败,Headset speaker play stop fail,Y
+Headset_Speaker_Test_Fail,HDST0013,FunErr_Headset_Speaker_Test_Fail,耳机扬声器测试失败,Headset speaker test fail,Y
+Headset_Test_Fail,HDST0014,FunErr_Headset_Test_Fail,耳机测试失败,Headset test fail,Y
+Loopback_Headmic_To_Headset_Fail,HDST0015,FunErr_Loopback_Headmic_To_Headset_Fail ,Loop back耳机麦克风到耳机听筒测试失败,Loopback Headmic To Headset Fail,Y
+Analyse_Headset_Frequence_Fail,HDST0016,FunErr_Analyse_Headset_Frequence_Fail,分析耳机频率失败,Analyse headset frequence fail,Y
+Analyse_Headset_VPP_Fail,HDST0017,FunErr_Analyse_Headset_VPP_Fail,分析耳机VPP失败,Analyse headset VPP fail,Y
+Headset_Timeout_Fail,HDST0018,FunErr_Headset_Timeout_Fail,耳机插入超时,Headset Timeout fail,Y
+Headset_Calibration_Fail,HDST0019,FunErr_Headset_Calibration_Fail,耳机校准失败,Headset Calibration fail,Y
+Read_Headset_Info_Fail,HDST0020,FunErr_Headset_Info_Fail ,读取耳机讯息失败,Read Headset Info Fail,Y
+Loopback_Headmic_To_Receiver_Fail,HDST0021,FunErr_Loopback_Headmic_To_Receiver_Fail,播放声音从耳机麦克风到听筒失败,Loopback headmic to receiver fail,Y
+Headset_Play_Fail,HDST0022,FunErr_Headset_Play_Fail,手机耳机播放失败,Headset Play Fail,Y
+Headset_L_SNR_Test_Fail,HDST0023,FunErr_Headset_L_SNR_Test_Fail,左边耳机讯噪比测试失败,Headset L SNR test fail,Y
+Headset_R_SNR_Test_Fail,HDST0024,FunErr_Headset_R_SNR_Test_Fail,右边耳机讯噪比测试失败,Headset R SNR test fail,Y
+//**Current,,,,,
+USB_Charging_Current_Test_Fail,CURR0001,FunErr_USB_Charging_Current_Test_Fail,USB充电电流测试失败,USB charging current test fail,Y
+HC_Charging_Current_Test_Fail,CURR0002,FunErr_HC_Charging_Current_Test_Fail,电源适配器充电电流测试失败,HC charging current test fail,Y
+LCD_Off_Current_Test_Fail,CURR0003,FunErr_LCD_Off_Current_Test_Fail,LCD关闭后电流测试失败,LCD off current test fail,Y
+Sleep_Current_Test_Fail,CURR0004,FunErr_Sleep_Current_Test_Fail,睡眠状态电流测试失败,Sleep current test fail,Y
+Boot_Current_Test_Fail,CURR0005,FunErr_Boot_Current_Test_Fail,开机电流测试失败,Boot current test fail,Y
+Leakage_Current_Test_Fail,CURR0006,FunErr_Leakage_Current_Test_Fail,漏电流测试失败,Leakage current test fail,Y
+Average_Current_Test_Fail,CURR0007,FunErr_Average_Current_Test_Fail,平均电流测试失败,Average current test fail,Y
+Max_Current_Test_Fail,CURR0008,FunErr_Max_Current_Test_Fail,最大电流测试失败,Max current test fail,Y
+LCD_On_Current_Test_Fail,CURR0009,FunErr_LCD_On_Current_Test_Fail,LCD开启的情况下电流测试失败,LCD on current test fail,Y
+//**Audio,,,,,
+Audio_Test_Fail,AUDO0001,FunErr_Audio_Test_Fail,Audio测试失败,Audio test fail,Y
+Collect_Audio_Fail,AUDO0002,FunErr_Collect_Audio_Fail,采集audio失败,Collect audio Fail,Y
+Analyse_Collected_Audio_Fail,AUDO0003,FunErr_Analyse_Collected_Audio_Fail,分析audio数据失败,Analyse collected audio Fail,Y
+Audio_Test_PC_Play_Wav_Fail,AUDO0004,FunErr_Audio_PC_Play_Wav_Fail,PC播放音乐失败,PC play wav fail,Y
+Audio_Test_Push_Wav_Fail,AUDO0005,FunErr_Audio_Push_Wav_Fail,存放音乐文件到手机失败,Push wav to handset fail,Y
+Audio_ID_Fail,AUDO0006,FunErr_Audio_ID_Fail,Audio ID 错误,Check Audio ID fail,Y
+Audio_Mic_Speaker_Analyse_Collected_Fail,AUDO0007,FunErr_Audio_Mic_Speaker_Analyse_Collected_Fail,麦克风到扬声器回路音频分析失败,Audio Mic to speaker analyse collected fail,Y
+Audio_Mic_Receiver_Analyse_Collected_Fail,AUDO0008,FunErr_Audio_Mic_Receiver_Analyse_Collected_Fail,麦克风到听筒回路音频分析失败,Audio Mic to receiver analyse collected fail,Y
+Audio_Hankset_Mic_L_Speaker_Analyse_Collected_Fail,AUDO0009,FunErr_Audio_Hankset_Mic_L_Speaker_Analyse_Collected_Fail,耳机麦克风到左声道回路音频分析失败,Audio handset Mic to left speaker analyse collected fail,Y
+Audio_Hankset_Mic_R_Speaker_Analyse_Collected_Fail,AUDO0010,FunErr_Audio_Hankset_Mic_R_Speaker_Analyse_Collected_Fail,耳机麦克风到右声道回路音频分析失败,Audio handset Mic to rigth speaker analyse collected fail,Y
+Audio_Mic2_Speaker_Analyse_Collected_Fail,AUDO0011,FunErr_Audio_Mic2_Speaker_Analyse_Collected_Fail,麦克风2到扬声器回路音频分析失败,Audio Mic2 to speaker analyse collected fail,Y
+Audio_Search_Wave_In_Device_Fail,AUDO0012,FunErr_Audio_Search_Wave_In_Device_Fail,搜寻输入装置失败,Audio Search WaveInDevice Fail,Y
+Audio_Open_Wave_In_Device_Fail,AUDO0013,FunErr_Audio_Open_Wave_In_Device_Fail,开启输入装置失败,Audio Open WaveInDevice Fail,Y
+Audio_Open_Wave_Out_Device_Fail,AUDO0014,FunErr_Audio_Open_Wave_Out_Device_Fail,开启输出装置失败,Audio Open WaveOutDevice Fail,Y
+Audio_Search_Mixer_Device_Fail,AUDO0015,FunErr_Audio_Search_Mixer_Device_Fail,搜寻混音装置失败,Audio Search MixerDevice Fail,Y
+Audio_Set_Mixer_Path_and_Volume_Fail,AUDO0016,FunErr_Audio_Set_Mixer_Path_and_Volume_Fail,设定混音装置失败,Audio Set Mixer Path and Volume Fail,Y
+Audio_Set_Mixer_Volume_Fail,AUDO0017,FunErr_Audio_Set_Mixer_Volume_Fail,设定混音装置音量失败,Audio Set Mixer Volume Fail,Y
+Audio_Convert_file_fail,AUDO0018,FunErr_Audio_Convert_file_fail,Audio 转档失败,Audio Convert file fail,Y
+//**LCD,,,,,
+LCD_Backlight_Test_Fail,LCD00001,FunErr_LCD_Backlight_Test_Fail,LCD背光测试失败,LCD backlight test fail,Y
+LCD_Display_Fail,LCD00002,FunErr_LCD_Display_Fail,LCD测试失败,LCD test fail,Y
+Set_LCD_Backlight_Fail,LCD00003,FunErr_Set_Backlight_Fail,设定LCD背光level失败,Set LCD backlight fail,Y
+Get_Backlight_Level_Fail,LCD00004,FunErr_Get_Backlight_Level_Fail,获取LCD 背光 level 失败,Get lcd backlight level fail,Y
+//**Gauge,,,,,
+Guage_IC_Check_Fail,GAUG0001,FunErr_Guage_IC_Check_Fail,Gauge测试不在范围内,Gauge check fail,Y
+Guage_IC_DFI_Calibration_Fail,GAUG0002,FunErr_Guage_IC_DFI_Calibration_Fail,校正GaugeIC的DFI失败,Gauge IC DFI Calibration fail,Y
+Check_DFI_Enable_Status_Fail,GAUG0003,FunErr_Check_DFI_Enable_Status_Fail,检查DFI 激活状态失败,Check DFI enable status Fail,Y
+Enable_Gauge_DFI_IT_Fail,GAUG0004,FunErr_Enable_Gauge_DFI_IT_Fail,使能Gauge的阻抗跟踪算法失败,Enable Gauge DFI IT fail,Y
+Guage_ID_Fail,GAUG0005,FunErr_Guage_ID_Fail,Guage ID 错误,Check Guage ID fail,Y
+DFI_Version_Check_Fail,GAUG0006,FunErr_DFI_Version_Check_Fail,DFI版本检查失败,DFI version check fail,Y
+//**NFC,,,,,
+NFC_Test_Fail,NFC00001,FunErr_NFC_Test_Fail,NFC测试失败,NFC test fail,Y
+Check_NFC_Upgrade_Fail ,NFC00002,FunErr_Check_NFC_Upgrade_Fail,检查NFC升级是否成功,Check NFC upgrade fail,Y
+NFC_Card_Mode_Fail,NFC00003,FunErr_NFC_Card_Mode_Fail,NFC 卡片模式测试失败,NFC card mode fail,Y
+NFC_Read_Mode_Fail,NFC00004,FunErr_NFC_Read_Mode_Fail,NFC 读取模式测试失败,NFC read mode fail,Y
+NFC_Read_Mode_Type1_Fail,NFC00005,FunErr_NFC_Read_Mode_Type1_Fail,NFC读取模式Type 1失败(4公分),Read Type 1 NFC Tag (4cm) Fail,Y
+NFC_Read_Mode_Type2_Fail,NFC00006,FunErr_NFC_Read_Mode_Type2_Fail,NFC读取模式Type 2失败(4公分),Read Type 2 NFC Tag (4cm) Fail,Y
+NFC_Read_Mode_Type4_Fail,NFC00007,FunErr_NFC_Read_Mode_Type4_Fail,NFC读取模式Type 4失败(2公分),Read Type 4 NFC Tag (2cm) Fail,Y
+NFC_Card_Mode_0cm_PowerOn_Fail,NFC00008,FunErr_NFC_Card_Mode_0cm_PowerOn_Fail,开机测试NFC卡模式0cm失败,Card Mode 0 cm  Power On Fail,Y
+NFC_Card_Mode_0cm_PowerOff_Fail,NFC00009,FunErr_NFC_Card_Mode_0cm_PowerOff_Fail,关机测试NFC卡模式0cm失败,Card Mode 0 cm  Power Off Fail,Y
+NFC_Card_Mode_4cm_PowerOn_Fail,NFC00010,FunErr_NFC_Card_Mode_4cm_PowerOn_Fail,开机测试NFC卡模式4cm失败,Card Mode 4 cm Power On Fail,Y
+NFC_Card_Mode_4cm_PowerOff_Fail,NFC00011,FunErr_NFC_Card_Mode_4cm_PowerOff_Fail,关机测试NFC卡模式4cm失败,Card Mode 4 cm Power Off Fail,Y
+NFC_Chip_ID_Fail,NFC00012,FunErr_NFC_Chip_ID_Fail,读取NFC ID失败,Read NFC Chip ID Fail,Y
+NFC_FW_Version_Fail,NFC00013,FunErr_NFC_FW_Version_Fail,读取NFC韧体版本失败,Read NFC FW Version Fail,Y
+NFC_Antenna_Selftest_Fail,NFC00014,FunErr_NFC_Antenna_Selftest_Fail,NFC Antenna测试失败,NFC Antenna Selftest Fail,Y
+NFC_SWP_Selftest_Fail,NFC00015,FunErr_NFC_SWP_Selftest_Fail,NFC SWP测试失败,NFC SWP Selftest Fail,Y
+NFC_Card_Mode_2cm_PowerOff_Fail,NFC00016,FunErr_NFC_Card_Mode_2cm_PowerOff_Fail,关机测试NFC卡模式2cm失败,Card Mode 2 cm Fail,Y
+NFC_HCI_TypeA_Reader,NFC00017,FunErr_NFC_HCI_TypeA_Reader_Fail,读取 NFC HCI TypeA Reader UID 失败,Read NFC HCI type fail,Y
+NFC_Antenna_IC_ID,NFC00018,FunErr_NFC_Antenna_IC_ID_Fail,读取 NFC Antenna IC ID 失败,Read NFC Antenna IC ID fail,Y
+NFC_Card_Mode_3_5cm_PowerOff_Fail,NFC00019,FunErr_NFC_Card_Mode_3_5cm_PowerOff_Fail,关机NFC card mode 3.5公分测试失败,NFC Card Mode 3.5 cm Power Off Fail,Y
+//**VIBRATOR,,,,,
+Vibrator_Test_Fail,VBRT0001,FunErr_Vibrator_Test_Fail,振动测试失败,Vibrator test fail,Y
+//**Memory,,,,,
+Check_eMMC_Fail,MEMY0001,FunErr_Check_eMMC_Fail,检查eMMC失败,Check eMMC format Fail,Y
+DDR_ReadWrite_Data_Fail,MEMY0002,FunErr_DDR_ReadWrite_Data_Fail,读写DDR数据失败,DDR Read and write data fail,Y
+DDR_Size_Fail,MEMY0003,FunErr_DDR_Size_Fail,DDR容量检查失败,Check DDR size fail,Y
+Flash_ReadWrite_Data_Fail,MEMY0004,FunErr_Flash_ReadWrite_Data_Fail,Flash记忆体读写失败,Flash read or write fail,Y
+DDR_ID_Fail,MEMY0005,FunErr_DDR_ID_Fail,DDR ID 错误,Check DDR ID fail,Y
+DDR_SelfTest_Fail,MEMY0006,FunErr_DDR_SelfTest_Fail,DDR SelfTest失败,DDR SelfTest Fail,Y
+eMMC_ID_Fail,MEMY0007,FunErr_eMMC_ID_Fail,eMMC ID 错误,Check eMMC ID fail,Y
+eMMC_Version_Fail,MEMY0008,FunErr_eMMC_Version_Fail,eMMC 版本错误,Check eMMC version fail,Y
+//**Ecompass,,,,,
+ECompassr_Test_Fail,ECOP0001,FunErr_ECompassr_Test_Fail,Ecompassr测试失败,Ecompassr test fail,Y
+ECompassr_ID_Fail,ECOP0002,FunErr_ECompassr_ID_Fail,ECompassr ID 错误,Check ECompassr ID fail,Y
+ECompass_SelfTest_Fail,ECOP0003,FunErr_ECompass_SelfTest_Fail,ECompassr SelfTest失败,ECompassr SelfTest Fail,Y
+//**SBL,,,,,
+SBL_Booting_Fail,SBL00001,FunErr_SBL_Booting_Fail,SBL booting 失败,SBL booting fail,Y
+//**PMIC,,,,,
+PMIC_ID_Fail,PMIC0001,FunErr_PMIC_ID_Fail,PMIC ID 错误,Check PMIC ID fail,Y
+PMIC_Temperature_Read_Fail,PMIC0002,FunErr_PMIC_Temperature_Read_Fail,PMIC温度读取失败,PMIC Temperature Read Fail,Y
+PMIC_Temperature_Check_Fail,PMIC0003,FunErr_PMIC_Temperature_Check_Fail,PMIC温度测试失败,PMIC Temperature Check Fail,Y
+//**Gyro,,,,,
+Gyro_ID_Fail,GYRO0001,FunErr_Gyro_ID_Fail,陀螺仪ID错误,Check Gyro ID fail,Y
+Gyro_Sensor_Test_Fail,GYRO0002,FunErr_Gyro_Sensor_Test_Fail,陀螺仪测试失败,Gyro sensor test fail,Y
+Gyro_Sensor_SelfTest_Fail,GYRO0003,FunErr_Gyro_Sensor_SelfTest_Fail,Gyro Sensor SelfTest失败,Gyro Sensor SelfTest Fail,Y
+Gyro_Calibration_Fail,GYRO0004,FunErr_Gyro_Calibration_Fail,陀螺仪校准失败,Gyro Calibration Fail,Y
+//**CPU,,,,,
+Check_CPU_Version_Fail,CPU00001,FunErr_Check_CPU_Version_Fail,CPU 版本错误,Check CPU version fail,Y
+//**RF_chip,,,,,
+RFChip_ID_Fail,RFCP0001,FunErr_RFChip_ID_Fail,RFChip ID 错误,Check RF Chip ID fail,Y
+Check_RF_Band_Temperatur_Fail,RFCP0002,FunErr_Check_RF_Band_Temperature_Fail,检测 RF Band 温度失败,Check RF Band temperature fail,Y
+RF_PA_ID_Fail,RFCP0003,FunErr_RF_PA_ID_Fail,RF PA ID 错误,Check RF PA ID fail,Y
+ASM_ID_Fail,RFCP0004,FunErr_ASM_ID_Fail,天线开关塻组码错误,Check ASM ID fail,Y
+ASM2_ID_Fail,RFCP0005,FunErr_ASM2_ID_Fail,天线开关2塻组码错误,Check ASM 2 ID fail,Y
+ASM3_ID_Fail,RFCP0006,FunErr_ASM3_ID_Fail,天线开关3塻组码错误,Check ASM 3 ID fail,Y
+ASM4_ID_Fail,RFCP0007,FunErr_ASM4_ID_Fail,天线开关4塻组码错误,Check ASM 4 ID fail,Y
+ASM5_ID_Fail,RFCP0008,FunErr_ASM5_ID_Fail,天线开关5塻组码错误,Check ASM 5 ID fail,Y
+RF_PA2_ID_Fail,RFCP0009,FunErr_RF_PA2_ID_Fail,RF PA2 ID 错误,Check RF PA2 ID fail,Y
+RF_PA3_ID_Fail,RFCP0010,FunErr_RF_PA3_ID_Fail,RF PA3 ID 错误,Check RF PA3 ID fail,Y
+RF_PA4_ID_Fail,RFCP0011,FunErr_RF_PA4_ID_Fail,RF PA4 ID 错误,Check RF PA4 ID fail,Y
+RF_PA5_ID_Fail,RFCP0012,FunErr_RF_PA5_ID_Fail,RF PA5 ID 错误,Check RF PA5 ID fail,Y
+TUNER1_ID_Fail,RFCP0013,FunErr_TUNER1_ID_Fail,TUNER1 ID 错误,Check TUNER1 ID fail,Y
+TUNER2_ID_Fail,RFCP0014,FunErr_TUNER2_ID_Fail,TUNER2 ID 错误,Check TUNER2 ID fail,Y
+TUNER3_ID_Fail,RFCP0015,FunErr_TUNER3_ID_Fail,TUNER3 ID 错误,Check TUNER3 ID fail,Y
+TUNER4_ID_Fail,RFCP0016,FunErr_TUNER4_ID_Fail,TUNER4 ID 错误,Check TUNER4 ID fail,Y
+TUNER5_ID_Fail,RFCP0017,FunErr_TUNER5_ID_Fail,TUNER5 ID 错误,Check TUNER5 ID fail,Y
+//**RTC,,,,,
+RTC_Set_Fail,RTC00001,FunErr_RTC_Set_Fail,设置RTC值失败,RTC set fail,Y
+RTC_Test_Fail,RTC00002,FunErr_RTC_Test_Fail,RTC测试失败,RTC test fail,Y
+//**Capkey,,,,,
+Capkey_ID_Fail,CAPK0001,FunErr_Capkey_ID_Fail,Capkey ID 检测失败,Capkey ID fail,Y
+Capkey_Sensitivity_Check_Fail,CAPK0002,FunErr_Capkey_Sensitivity_Check_Fail,Capkey灵敏度测试失败,Capkey sensitivity test fail,Y
+//**Keypad,,,,,
+Keypad_Test_Fail,KEYP0001,FunErr_Keypad_Test_Fail,按键测试失败,Keypad test fail,Y
+SideKey_Test_Fail,KEYP0002,FunErr_Sidekey_Test_Fail,侧边按键测试失败,Side Key test fail,Y
+VolumeUpKey_Test_Fail,KEYP0003,FunErr_VolumeUpKey_Test_Fail,音量上键测试失败,Volume up key test fail,Y
+VolumeDownKey_Test_Fail,KEYP0004,FunErr_VolumeDownKey_Test_Fail,音量下键测试失败,Volume down key test fail,Y
+PowerKey_Test_Fail,KEYP0005,FunErr_PowerKey_Test_Fail,电源键测试失败,Power key test fail,Y
+Set_PowerKey_Event_Fail,KEYP0006,FunErr_Set_PowerKey_Event_Fail,下电源键按下指令失败,Set power key event fail,Y
+//**HDMI,,,,,
+HDMI_Test_Fail,HDMI0001,FunErr_HDMI_Test_Fail,HDMI测试失败,HDMI test fail,Y
+//**MHL,,,,,
+MHL_ID_Check_Fail,MHL00001,FunErr_MHL_ID_Check_Fail,MHL 读取设备ID失败或者ID不匹配,MHL ID Check Fail,Y
+//**Codec,,,,,
+Codec_ID_Check_Fail,CODE0001,FunErr_Codec_ID_Check_Fail,Codec 读取设备ID失败或者ID不匹配,Codec ID Check Fail,Y
+//**Run in,,,,,
+Run_In_Fail,RUN00001,FunErr_Run_In_Fail,Run in 测试失败,Run In fail,Y
+//**Browser,,,,,
+Browser_Test_Fail,BWSR0001,FunErr_Browser_Test_Fail,浏览器测试失败,Browser test fail,Y
+//**LCM,,,,,
+Check_LCM_Control_Panel_Fail,LCM00001,FunErr_Check_LCM_Control_Panel_Fail,LCM控制元件失效,Check LCM control panel Fail,Y
+//**Ethernet,,,,,
+Ethernet_Loopback_Test_Fail,ETH00001,FunErr_Ethernet_Loopback_Test_Fail,乙太网络Loopback测试失败,Ethernet Loopback Test Fail,Y
+Ethernet_Connection_Test_Fail,ETH00002,FunErr_Ethernet_Connection_Test_Fail,乙太网络链接测试失败,Ethernet Connection Test Fail,Y
+//**GPIO,,,,,
+GPIO_Test_Fail,GPIO0001,FunErr_GPIO_Test_Fail,GPIO測試失敗,GPIO Test Fail,Y
+//**UART,,,,,
+UART_Test_Fail,UART0001,FunErr_UART_Test_Fail,UART測試失敗,UART Test Fail,Y
+//**USB,,,,,
+USB_HOST_Test_Fail,USB00001,FunErr_USB_HOST_Test_Fail,USB主机测试失败,USB Host Test Fail,Y
+USB_Detect_Start_Fail,USB00002,FunErr_USB_Detect_Start_Fail,USB开启侦测失败,USB detect start fail,Y
+USB_Detect_End_Fail,USB00003,FunErr_USB_Detect_End_Fail,USB关闭侦测失败,USB detect end fail,Y
+USB30_Test_Fail,USB00004,FunErr_USB30_Test_Fail,USB3.0 測試失敗,USB 3.0 Test fail,Y
+UsbOTG_Test_Fail,USB00005,FunErr_UsbOTG_Test_Fail,Usb OTG 測試失败,USB OTG Test Fail,Y
+//**SmartCover,,,,,
+SmartCover_Detect_Fail,SCVR0001,FunErr_SmartCover_Detect_Fail,检测智能背盖失败,SmartCover Detect_Fail,Y
+SmartCover_Interrupt_Fail,SCVR0002,FunErr_SmartCover_Interrupt_Fail,智能背盖中断失败,SmartCover Interrupt Fail,Y
+SmartCover_Enable3V_Fail,SCVR0003,FunErr_SmartCover_Enable3V_Fail,智能背盖起动3V电压失败,SmartCover Enable3V Fail,Y
+SmartCover_CheckI2C_Fail,SCVR0004,FunErr_SmartCover_CheckI2C_Fail,智能背盖检测I2C失败,SmartCover CheckI2C Fail,Y
+SmartCover_Switch5V_Fail,SCVR0005,FunErr_SmartCover_Switch5V_Fail,智能背盖切换5V电压失败,SmartCover Switch5V Fail,Y
+//**fuse,,,,,
+Fuse_CheckSHKStatus_Fail,FUSE0001,FunErr_Fuse_CheckSHKStatus_Fail,读取Fuse SHK状态失败,Read Fuse SHK Status Fail,Y
+Fuse_CheckSecureStatus_Fail,FUSE0002,FunErr_Fuse_CheckSecureStatus_Fail,读取Fuse Secure Boot 状态失败,Read Fuse Secure Boot Status Fail,Y
+Fuse_ProgSHKFuse_Fail,FUSE0003,FunErr_Fuse_ProgSHKFuse_Fail,执行Fuse SHK失败,Execute Fuse SHK Fail,Y
+Fuse_ProgSecureFuse_Fail,FUSE0004,FunErr_Fuse_ProgSecureFuse_Fail,执行Fuse Secure Boot失败,Execute Fuse Secure Boot Fail,Y
+Fuse_ErasePartition_Fail,FUSE0005,FunErr_Fuse_ErasePartition_Fail,执行Fuse Erase Partition失败,Execute Erase Partition Fail,Y
+//**CapSense,,,,,
+Read_Capsense_FW_Falil,CAPS0001,FunErr_Read_CapSense_FW_Version,读取CapSense固件版本失败,Read CapSense Firmware Version Fail,Y
+Update_CapSense_FW_Fail,CAPS0002,FunErr_Update_CapSense_FW_Version,升级CapSense固件版本失败,Update CapSense Frimware Version Fail,Y
+//**FSG,,,,,
+FSG_Enable_Protect_Fail,FSG00001,FunErr_FSG_Enable_Protect_Fail,启动保护FSG失败,FSG Enable Protect Fail,Y
+FSG_Disable_Protect_Fail,FSG00002,FunErr_FSG_Disable_Protect_Fail,关闭保护FSG失败,FSG Disable Protect Fail,Y
+//**Lens,,,,,
+LensModule_Lens_Motor_Voltage_Test_Fail,LENS0001,FunErr_LensModule_Lens_Motor_Voltage_Test_Fail,镜头马达电压测试失败,Lens Module Lens Motor Voltage Test Fail,Y
+LensModule_Shutter_Motor_Voltage_Test_Fail,LENS0002,FunErr_LensModule_Shutter_Motor_Voltage_Test_Fail,快门马达电压测试失败,Lens Module Shutter Motor Voltage Test Fail,Y
+//**CameraSensor,,,,,
+CameraSensor_Read_ID_Fail,CSEN0001,FunErr_CameraSensor_Read_ID_Fail,读取CameraSensorID失败,Read CameraSensorID fail,Y
+CameraSensor_Check_ID_Fail,CSEN0002,FunErr_CameraSensor_Check_ID_Fail,检测CameraSensorID失败,Check CameraSensorID fail,Y
+//**MCU,,,,,
+Read_MCU_Version_Fail,MCU00001,FunErr_Read_MCU_Version_Fail,读取MCU Version失败,Read MCU Version fail,Y
+Check_MCU_Version_Fail,MCU00002,FunErr_Check_MCU_Version_Fail,检测MCU Version失败,Check MCU Version fail,Y
+MCU_Response_Error,MCU00003,FunErr_MCU_Response_Error,MCU回應錯誤,MCU Response Error,Y
+//**Lense Module XY,,,,,
+XyAlign_Place_XY_Panel_Fail,LMXY0001,FunErr_XyAlign_Place_XY_Panel_Fail,Place XY Panel 失败,Place XY Panel fail,Y
+XyAlign_Remove_XY_Panel_Fail,LMXY0002,FunErr_XyAlign_Remove_XY_Panel_Fail,执行 Remove XY Panel 失败,Remove XY Panel fail,Y
+XyAlign_Init_XY_Fail,LMXY0003,FunErr_XyAlign_Init_XY_Fail,执行Init XY 失败,Init XY fail,Y
+XyAlign_Get_XY_Meas_Fail,LMXY0004,FunErr_XyAlign_Get_XY_Meas_Fail,执行Get XY Meas 失败,Get XY Meas fail,Y
+XyAlign_Verify_XY_Meas_Fail,LMXY0005,FunErr_XyAlign_Verify_XY_Meas_Fail,执行Verify XY Meas 失败,Verify XY Meas fail,Y
+XyAlign_Stop_XY_Meas_Fail,LMXY0006,FunErr_XyAlign_Stop_XY_Meas_Fail,执行Stop XY Meas 失败,Stop XY Meas fail,Y
+//**Lense Module TIL,,,,,
+TiltCalb_Init_Tilt_Fail,LMTIL001,FunErr_TiltCalb_Init_Tilt_Fail,执行Init Tilt 失败,Init Tilt fail,Y
+TiltCalb_Get_Tilt_Meas_Fail,LMTIL002,FunErr_TiltCalb_Get_Tilt_Meas_Fail,执行Get Tilt Meas 失败,Get Tilt Meas fail,Y
+TiltCalb_Stop_Tilt_Meas_Fail,LMTIL003,FunErr_TiltCalb_Stop_Tilt_Meas_Fail,执行Stop Tilt Meas 失败,Stop Tilt Meas fail,Y
+//**Lense Module MOD,,,,,
+Mod_Data_Start_Test_Fail,LMMOD001,FunErr_Mod_Data_Start_Test_Fail,执行Mod Data Start Test 失败,Mod Data Start Test fail,Y
+//**Lense Module Hot Pixel,,,,,
+Hotpixel_Start_Test_Fail,LMHOT001,FunErr_Hotpixel_Start_Test_Fail,执行Hotpixel Start Test 失败,Hotpixel Start Test fail,Y
+//**Lense Module ZF,,,,,
+ZoomFocus_Start_Test_Fail,LMZF0001,FunErr_ZoomFocus_Start_Test_Fail,执行ZoomFocus Start Test 失败,ZoomFocus Start Test fail,Y
+//**NTC,,,,,
+NTC1_Read_Fail,NTC00001,FunErr_NTC1_Read_Fail,NTC1读取失败,NTC1 Read Fail,Y
+NTC1_Check_Fail,NTC00002,FunErr_NTC1_Check_Fail,NTC1测试失败,NTC1 Check Fail,Y
+NTC2_Read_Fail,NTC00003,FunErr_NTC2_Read_Fail,NTC2读取失败,NTC2 Read Fail,Y
+NTC2_Check_Fail,NTC00004,FunErr_NTC2_Check_Fail,NTC2测试失败,NTC2 Check Fail,Y
+NTC3_Read_Fail,NTC00005,FunErr_NTC3_Read_Fail,NTC3读取失败,NTC3 Read Fail,Y
+NTC3_Check_Fail,NTC00006,FunErr_NTC3_Check_Fail,NTC3测试失败,NTC3 Check Fail,Y
+//**Antenna Tuner,,,,,
+Antenna_Tuner_Self_Calibration_Fail,ANTE00001,FunErr_Antenna_Tuner_Self_Calibration,天线调谐器校验失败,Antenna Tuner IC Self Calibration Fail,Y
+//**CTP,,,,,
+CTP_ID_Fail,CTP00001,FunErr_CTP_ID_Fail,CTP读取设备ID失败或者ID不匹配,Check CTP ID Fail,Y
+CTP_Test_Fail,CTP00002,FunErr_CTP_Test_Fail,CTP測試失败,CTP Test Fail,Y
+//**Hall Sensor,,,,,
+HallSensor_Test_Fail,HALLSE01,FunErr_HallSensor_Test_Fail,HallSensor測試失败,Hall Sensor Test Fail,Y
+//**Screen,,,,,
+Unlock_Screen_Fail,SCREEN01,FunErr_Unlock_Screen_Fail,解除屏幕锁定失败,Unlock screen fail,Y
+//**MIPI,,,,,
+Check_MIPI_Device_Fail,MIPI0001,FunErr_Check_MIPI_Device_Fail,检查 MIPI 装置失败,Check MIPI Device Fail,Y
+//**Gesture,,,,,
+Gesture_Test_Fail,GEST0001,FunErr_Gesture_Test_Fail,手勢測試失敗,Gesture Test Fail,Y
+//**2G4,,,,,
+2G4_Power_Test_Fail,2G400001,FunErr_2G4_Power_Test_Fail,2G4 power测试失败,2G4 power test fail,Y
+//**FPGA,,,,,
+FPGA_ID_Fail,FPGA0001,FunErr_FPGA_ID_Fail,FPGA ID 错误,Check FPGA ID fail,Y

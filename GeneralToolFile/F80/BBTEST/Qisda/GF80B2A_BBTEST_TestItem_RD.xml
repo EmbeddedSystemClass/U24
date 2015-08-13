@@ -1,0 +1,793 @@
+<Configuration>
+	<ToolInfo>
+		<StationID>1</StationID>
+		<TOOL_VERSION>V1.000</TOOL_VERSION>
+		<Project>GF</Project>
+		<Variant>US</Variant>
+	</ToolInfo>
+	<Memo>
+		<Model>GF80B2A</Model>
+		<Station>BBTEST</Station>
+	</Memo>
+	<TestProcessor>
+		<Name Editable="TRUE" Type="String">CCommonProcessor</Name>
+		<Phone>
+  			<ClassName>CPhone</ClassName>
+			<COMPort>0</COMPort>
+			<FtdPort>2000</FtdPort>
+			<FtdTimeOut>15000</FtdTimeOut>
+			<AutoFTDMode>FALSE</AutoFTDMode>
+			<SetFTDMode>FALSE</SetFTDMode>
+			<WaitTimeStartingUp>50000</WaitTimeStartingUp>
+			<RebootDelayTime>10000</RebootDelayTime>
+			<IsDiagCmd>1</IsDiagCmd><!--0:Diag  1:ADB-->
+			<IsNeedQXDMLog>FALSE</IsNeedQXDMLog>
+			<SWVersion>0</SWVersion>
+			<Variant>UMTS</Variant>
+			<LogUpload>TRUE</LogUpload>
+	        <UploadServerIP>10.85.68.13</UploadServerIP>
+		</Phone>
+	</TestProcessor>
+	<TestItemList>
+						
+		<Item Name="Read_DDR_ID" Enabled="TRUE"/>
+		<Item Name="Read_DDRMR8_Size" Enabled="TRUE"/>				
+		<Item Name="Read_SKU_ID" Enabled="TRUE"/>
+		<Item Name="Read_Board_ID" Enabled="TRUE"/>
+		<Item Name="Read_SOC_version" Enabled="TRUE"/>			
+		<Item Name="Read_eMMC_ID" Enabled="TRUE"/>
+		<Item Name="Read_eMMC_SIZE" Enabled="TRUE"/>
+		<Item Name="Read_eMMC_FW_Version" Enabled="TRUE"/>	
+		<Item Name="Read_Charger_ID" Enabled="TRUE"/>		
+		<Item Name="Read_Gauge_ID" Enabled="TRUE"/>				
+		<Item Name="Read_PMIC_ID" Enabled="TRUE"/>	
+		<Item Name="Read_BUCK_ID" Enabled="TRUE"/>			
+		<Item Name="Read_Battry_Temperature" Enabled="TRUE"/>
+		<Item Name="Read_BACKLIGHT_ID" Enabled="TRUE"/>			
+		<Item Name="SDCardDetect" Enabled="TRUE"/>
+		<Item Name="SimCardDetect" Enabled="TRUE"/>		
+		<Item Name="Read_GsensorID" Enabled="TRUE"/>
+		<Item Name="Gsensor_Self_Test" Enabled="TRUE"/>		
+		<Item Name="Read_EcompassID" Enabled="TRUE"/>		
+		<Item Name="Ecompass_Self_Test" Enabled="TRUE"/>			
+		<Item Name="Read_Audio_ID" Enabled="TRUE"/>		
+		<Item Name="WLAN_Self_Test" Enabled="TRUE"/>		
+		<Item Name="BT_Self_Test" Enabled="TRUE"/>		
+		<Item Name="FM_Self_Test" Enabled="TRUE"/>						
+		<Item Name="Check_RF_PAQFE_ID" Enabled="TRUE"/>
+		<Item Name="Check_RF_ASM_ID" Enabled="TRUE"/>
+		<Item Name="SystemChargingAverageCurrent" Enabled="TRUE"/>
+		<Item Name="RebootTofastboot" Enabled="FALSE"/>	
+		<Item Name="PowerLeakageCurrent" Enabled="TRUE"/>								
+		<!--no use-->
+		<Item Name="Read_BUCK_FEATRUE_ID" Enabled="FALSE"/>	
+		<Item Name="Read_Gyro_ID" Enabled="FALSE"/>
+		<Item Name="Read_Flash_LED_ID" Enabled="FALSE"/>	
+		<Item Name="Read_SOC_feature" Enabled="FALSE"/>	
+		<Item Name="Check_NFC_ID" Enabled="FALSE"/>
+		<Item Name="Read_Flash_LED_driver_IC_ID" Enabled="FALSE"/>
+		<Item Name="Read_DDRMR6_RID" Enabled="FALSE"/>	
+		<Item Name="CheckSWVersion" Enabled="FALSE"/>
+		<Item Name="MaxPowerCurrent" Enabled="FALSE"/>
+		<Item Name="Read_RF_BandID_Temperature" Enabled="FALSE"/>
+		<Item Name="UsbDetectStart" Enabled="FALSE"/>
+		<Item Name="BatteryDetectEmpty" Enabled="FALSE"/>
+		<Item Name="ReadTouchModel" Enabled="FALSE"/>
+		<Item Name="ReadTouchID" Enabled="FALSE"/>
+		<Item Name="ReadFrontCameraID" Enabled="FALSE"/>
+		<Item Name="ReadRearCameraID" Enabled="FALSE"/>
+		<Item Name="ReadAntennaIC" Enabled="FALSE"/>
+        <Item Name="SimCardDetect" Enabled="FALSE"/>
+		<Item Name="SDCardDetect" Enabled="FALSE"/>
+		<Item Name="SpeakerOnTest" Enabled="FALSE"/>
+		<Item Name="ReceiverOnTest" Enabled="FALSE"/>
+		<Item Name="HeadsetDetectTest" Enabled="FALSE"/>
+        <Item Name="HeadsetOnTest" Enabled="FALSE"/>
+		<Item Name="FmTest" Enabled="FALSE"/>
+        <Item Name="Loop_FrontMicToSpeakOn" Enabled="FALSE"/>
+		<Item Name="Loop_HeadmicToHeadsetOn" Enabled="FALSE"/>
+		<Item Name="Loop_FrontMicToHeadsetOn" Enabled="FALSE"/>
+		<Item Name="Loop_BackMicToHeadsetOn" Enabled="FALSE"/>
+		<Item Name="HeadsetKeyTest" Enabled="FALSE"/>
+		<Item Name="VibratorTest" Enabled="FALSE"/>
+		<Item Name="RedLEDTest" Enabled="FALSE"/>
+		<Item Name="GreenLEDTest" Enabled="FALSE"/>
+		<Item Name="BlueLEDTest" Enabled="FALSE"/>
+		<Item Name="CapKeyLEDTest" Enabled="FALSE"/>
+		<Item Name="RedPatternTest" Enabled="FALSE"/>
+		<Item Name="GreenPatternTest" Enabled="FALSE"/>
+		<Item Name="BluePatternTest" Enabled="FALSE"/>
+		<Item Name="WhitePatternTest" Enabled="FALSE"/>
+		<Item Name="BackLightTest" Enabled="FALSE"/>
+		<Item Name="CameraLedTest" Enabled="FALSE"/>
+		<Item Name="UsbDetectEnd" Enabled="FALSE"/>
+		<Item Name="SideKeyTest" Enabled="FALSE"/>
+		<Item Name="Loop_BackMicToReceiverOn" Enabled="FALSE"/>
+		<Item Name="ReadTouchFWVersion" Enabled="FALSE"/>
+	</TestItemList>
+	<ProcessObjectSet>
+	
+		<CheckSWVersionObjects>
+			<ProcessObject ClassName="CCheckSWVersion" Name="CheckSWVersion">
+				<WaitTime Editable="TRUE" Type="Integer">0</WaitTime>
+                <VersionType Editable="TRUE" Type="string">Factory</VersionType>
+            </ProcessObject>
+        </CheckSWVersionObjects>
+		
+		<Read_DDR_IDObjects>
+			<ProcessObject ClassName="CStringCheckProc" Name="Read_DDR_ID">
+				<Name Editable="TRUE" Type="string">MCPddrID</Name>
+				<Value Editable="TRUE" Type="string">0h01</Value>
+				<CheckMatch Editable="TRUE" Type="Boolean">TRUE</CheckMatch>
+				<Sleep Editable="TRUE" Type="Integer">0</Sleep>
+            </ProcessObject>
+        </Read_DDR_IDObjects>		
+		<Read_DDR_MR8Objects>
+			<ProcessObject ClassName="CStringCheckProc" Name="Read_DDRMR8_Size">
+				<Name Editable="TRUE" Type="string">MCPddrmr8</Name>
+				<Value Editable="TRUE" Type="string">0h5b</Value>
+				<CheckMatch Editable="TRUE" Type="Boolean">TRUE</CheckMatch>
+				<Sleep Editable="TRUE" Type="Integer">0</Sleep>
+            </ProcessObject>
+        </Read_DDR_MR8Objects>	
+
+		<Read_SKU_IDObjects>
+			<ProcessObject ClassName="CStringCheckProc" Name="Read_SKU_ID">
+				<Name Editable="TRUE" Type="string">SKU_ID</Name>
+				<Value Editable="TRUE" Type="string">0h1110</Value>
+				<CheckMatch Editable="TRUE" Type="Boolean">TRUE</CheckMatch>
+				<Sleep Editable="TRUE" Type="Integer">0</Sleep>
+            </ProcessObject>
+        </Read_SKU_IDObjects>
+		
+		<Read_Board_IDObjects>
+			<ProcessObject ClassName="CRangeCheckProc" Name="Read_Board_ID">
+				<Name Editable="TRUE" Type="string">Board_ID</Name>
+				<ServerStation Editable="TRUE" Type="string">BoardID</ServerStation>
+				<Value Editable="TRUE" Type="string">670,870</Value>
+				<CheckMatch Editable="TRUE" Type="Boolean">TRUE</CheckMatch>
+				<Sleep Editable="TRUE" Type="Integer">0</Sleep>
+            </ProcessObject>
+        </Read_Board_IDObjects>	
+		
+		<Read_SOC_versionObjects>
+			<ProcessObject ClassName="CStringCheckProc" Name="Read_SOC_version">
+				<Name Editable="TRUE" Type="string">SOCversion</Name>
+				<Value Editable="TRUE" Type="string">0h0090b0e1</Value>
+				<CheckMatch Editable="TRUE" Type="Boolean">TRUE</CheckMatch>
+				<Sleep Editable="TRUE" Type="Integer">0</Sleep>
+            </ProcessObject>
+        </Read_SOC_versionObjects>		
+		
+		<Read_SOC_featureObjects>
+			<ProcessObject ClassName="CStringCheckProc" Name="Read_SOC_feature">
+				<Name Editable="TRUE" Type="string">SOCfeature_ID</Name>
+				<Value Editable="TRUE" Type="string">0h06</Value>
+				<CheckMatch Editable="TRUE" Type="Boolean">TRUE</CheckMatch>
+				<Sleep Editable="TRUE" Type="Integer">0</Sleep>
+            </ProcessObject>
+        </Read_SOC_featureObjects>			
+		
+		<Read_eMMC_IDObjects>
+			<ProcessObject ClassName="CStringCheckProc" Name="Read_eMMC_ID">
+				<Name Editable="TRUE" Type="string">MCPflashID</Name>
+				<Value Editable="TRUE" Type="string">0h15</Value>
+				<CheckMatch Editable="TRUE" Type="Boolean">TRUE</CheckMatch>
+				<Sleep Editable="TRUE" Type="Integer">0</Sleep>
+            </ProcessObject>
+        </Read_eMMC_IDObjects>			
+		<Read_eMMC_SIZEObjects>
+			<ProcessObject ClassName="CStringCheckProc" Name="Read_eMMC_SIZE">
+				<Name Editable="TRUE" Type="string">MCPemmcsize</Name>
+				<Value Editable="TRUE" Type="string">0h01d1f000</Value>
+				<CheckMatch Editable="TRUE" Type="Boolean">TRUE</CheckMatch>
+				<Sleep Editable="TRUE" Type="Integer">0</Sleep>
+            </ProcessObject>
+        </Read_eMMC_SIZEObjects>				
+		<Read_eMMC_FW_VersionObjects>
+			<ProcessObject ClassName="CStringCheckProc" Name="Read_eMMC_FW_Version">
+				<Name Editable="TRUE" Type="string">MCPemmcFWversion</Name>
+				<Value Editable="TRUE" Type="string">0h00</Value>
+				<CheckMatch Editable="TRUE" Type="Boolean">TRUE</CheckMatch>
+				<Sleep Editable="TRUE" Type="Integer">0</Sleep>
+            </ProcessObject>
+        </Read_eMMC_FW_VersionObjects>	
+		
+		<Read_Charger_IDObjects>
+			<ProcessObject ClassName="CStringCheckProc" Name="Read_Charger_ID">
+				<Name Editable="TRUE" Type="string">ChargerID</Name>
+				<Value Editable="TRUE" Type="string">0h05</Value>
+				<CheckMatch Editable="TRUE" Type="Boolean">TRUE</CheckMatch>
+				<Sleep Editable="TRUE" Type="Integer">0</Sleep>
+            </ProcessObject>			
+        </Read_Charger_IDObjects>	
+		
+		<Read_Gauge_IDObjects>
+			<ProcessObject ClassName="CStringCheckProc" Name="Read_Gauge_ID">
+				<Name Editable="TRUE" Type="string">Gauge</Name>
+				<Value Editable="TRUE" Type="string">0hA0;0h6B;0h6C;0h6E;0h6F</Value>
+				<CheckMatch Editable="TRUE" Type="Boolean">TRUE</CheckMatch>
+				<Sleep Editable="TRUE" Type="Integer">0</Sleep>
+            </ProcessObject>			
+        </Read_Gauge_IDObjects>	
+	
+		<Read_PMIC_IDObjects>
+			<ProcessObject ClassName="CStringCheckProc" Name="Read_PMIC_ID">
+				<Name Editable="TRUE" Type="string">PMICID</Name>
+				<Value Editable="TRUE" Type="string">0h0B,0h02,0h00,0h00</Value>
+				<CheckMatch Editable="TRUE" Type="Boolean">TRUE</CheckMatch>
+				<Sleep Editable="TRUE" Type="Integer">0</Sleep>
+            </ProcessObject>
+        </Read_PMIC_IDObjects>	
+		
+		<Check_BUCK_IDObjects>
+			<ProcessObject ClassName="CStringCheckProc" Name="Read_BUCK_ID">
+				<Name Editable="TRUE" Type="string">BuckID</Name>
+				<Value Editable="TRUE" Type="string">0h15;0h80</Value>
+				<CheckMatch Editable="TRUE" Type="Boolean">TRUE</CheckMatch>
+				<Sleep Editable="TRUE" Type="Integer">0</Sleep>
+            </ProcessObject>
+        </Check_BUCK_IDObjects>	
+		<Check_BUCK_FEATURE_IDObjects>
+			<ProcessObject ClassName="CStringCheckProc" Name="Read_BUCK_FEATRUE_ID">
+				<Name Editable="TRUE" Type="string">BuckFeature</Name>
+				<Value Editable="TRUE" Type="string">0h00</Value>
+				<CheckMatch Editable="TRUE" Type="Boolean">TRUE</CheckMatch>
+				<Sleep Editable="TRUE" Type="Integer">0</Sleep>
+            </ProcessObject>
+        </Check_BUCK_FEATURE_IDObjects>	
+		
+		<Read_Battry_TemperatureObjects>
+			<ProcessObject ClassName="CRangeCheckProc" Name="Read_Battry_Temperature">
+				<Name Editable="TRUE" Type="string">PWRgaugeTemperature</Name>
+				<Value Editable="TRUE" Type="DoubleList">200,400</Value>
+				<CheckMatch Editable="TRUE" Type="Boolean">TRUE</CheckMatch>
+				<Sleep Editable="TRUE" Type="Integer">0</Sleep>
+            </ProcessObject>
+        </Read_Battry_TemperatureObjects>
+		
+		<Check_BACKLIGHT_IDObjects>
+			<ProcessObject ClassName="CStringCheckProc" Name="Read_BACKLIGHT_ID">
+				<Name Editable="TRUE" Type="string">BacklightDriver</Name>
+				<Value Editable="TRUE" Type="string">0h33</Value>
+				<CheckMatch Editable="TRUE" Type="Boolean">TRUE</CheckMatch>
+				<Sleep Editable="TRUE" Type="Integer">0</Sleep>
+            </ProcessObject>
+        </Check_BACKLIGHT_IDObjects>
+		
+		<Read_LED_IDObjects>
+			<ProcessObject ClassName="CStringCheckProc" Name="Read_Flash_LED_ID">
+				<Name Editable="TRUE" Type="string">FlashLED_ID</Name>
+				<Value Editable="TRUE" Type="string">0h00</Value>
+				<CheckMatch Editable="TRUE" Type="Boolean">TRUE</CheckMatch>
+				<Sleep Editable="TRUE" Type="Integer">0</Sleep>
+            </ProcessObject>
+        </Read_LED_IDObjects>	
+
+		<CardDetectObjects>
+			<ProcessObject ClassName="CardDetectProc" Name="SimCardDetect">
+				<Name Editable="TRUE" Type="string">SIMCardDetect</Name>
+				<Value Editable="TRUE" Type="DoubleList">0</Value>
+				<CheckMatch Editable="TRUE" Type="Boolean">TRUE</CheckMatch>
+			</ProcessObject>
+		</CardDetectObjects>
+		<CardDetectObjects>
+			<ProcessObject ClassName="CardDetectProc" Name="SDCardDetect">
+				<Name Editable="TRUE" Type="string">SDCardDetect</Name>
+				<Value Editable="TRUE" Type="DoubleList">0</Value>
+				<CheckMatch Editable="TRUE" Type="Boolean">TRUE</CheckMatch>
+			</ProcessObject>
+		</CardDetectObjects>
+
+		<Read_GSENSOR_IDObjects>
+			<ProcessObject ClassName="CStringCheckProc" Name="Read_GsensorID">
+				<Name Editable="TRUE" Type="string">SNSR_GsensorID</Name>
+				<Value Editable="TRUE" Type="string">bma2x2-0hFA</Value>
+				<CheckMatch Editable="TRUE" Type="Boolean">TRUE</CheckMatch>
+				<Sleep Editable="TRUE" Type="Integer">0</Sleep>
+			</ProcessObject>
+		</Read_GSENSOR_IDObjects>
+		
+		<Gsensor_Self_TestObjects>
+			<ProcessObject ClassName="CStringCheckProc" Name="Gsensor_Self_Test">
+				<Name Editable="TRUE" Type="string">SNSR_GsensorSelfTest</Name>
+				<Value Editable="TRUE" Type="string">PASSED</Value>
+				<CheckMatch Editable="TRUE" Type="Boolean">TRUE</CheckMatch>
+				<Sleep Editable="TRUE" Type="Integer">0</Sleep>
+			</ProcessObject>
+		</Gsensor_Self_TestObjects>	
+		
+		<Read_EcompassIDObjects>
+			<ProcessObject ClassName="CStringCheckProc" Name="Read_EcompassID">
+				<Name Editable="TRUE" Type="string">SNSR_EcompassID</Name>
+				<Value Editable="TRUE" Type="string">bmm050-0h32</Value>
+				<CheckMatch Editable="TRUE" Type="Boolean">TRUE</CheckMatch>
+				<Sleep Editable="TRUE" Type="Integer">0</Sleep>
+			</ProcessObject>
+		</Read_EcompassIDObjects>	
+				
+		<Ecompass_Self_TestObjects>
+			<ProcessObject ClassName="CStringCheckProc" Name="Ecompass_Self_Test">
+				<Name Editable="TRUE" Type="string">SNSR_EcompassSelfTest</Name>
+				<Value Editable="TRUE" Type="string">PASSED</Value>
+				<CheckMatch Editable="TRUE" Type="Boolean">TRUE</CheckMatch>
+				<Sleep Editable="TRUE" Type="Integer">0</Sleep>
+			</ProcessObject>
+		</Ecompass_Self_TestObjects>	
+
+		<Read_Gyro_IDObjects>
+			<ProcessObject ClassName="CStringCheckProc" Name="Read_Gyro_ID">
+				<Name Editable="TRUE" Type="string">GyroID</Name>
+				<Value Editable="TRUE" Type="string">bmg160-0h0F</Value>
+				<CheckMatch Editable="TRUE" Type="Boolean">TRUE</CheckMatch>
+				<Sleep Editable="TRUE" Type="Integer">0</Sleep>
+            </ProcessObject>
+        </Read_Gyro_IDObjects>			
+		
+		<Read_Audio_IDObjects>
+			<ProcessObject ClassName="CStringCheckProc" Name="Read_Audio_ID">
+				<Name Editable="TRUE" Type="string">AudioID</Name>
+				<Value Editable="TRUE" Type="string">0h01030001,0h01</Value>
+				<CheckMatch Editable="TRUE" Type="Boolean">TRUE</CheckMatch>
+				<Sleep Editable="TRUE" Type="Integer">0</Sleep>
+            </ProcessObject>
+        </Read_Audio_IDObjects>	
+		
+		<WLAN_Self_TestObjects>
+			<ProcessObject ClassName="CWLanTest" Name="WLAN_Self_Test">
+				<Name Editable="TRUE" Type="string">WLAN_Self_Test</Name>
+				<Value Editable="TRUE" Type="string">00</Value>
+				<CheckMatch Editable="TRUE" Type="Boolean">TRUE</CheckMatch>
+				<Sleep Editable="TRUE" Type="Integer">0</Sleep>
+            </ProcessObject>
+        </WLAN_Self_TestObjects>
+		<BT_Self_TestObjects>
+			<ProcessObject ClassName="CStringCheckProc" Name="BT_Self_Test">
+				<Name Editable="TRUE" Type="string">BT_SelfTest</Name>
+				<Value Editable="TRUE" Type="string">00</Value>
+				<CheckMatch Editable="TRUE" Type="Boolean">TRUE</CheckMatch>
+				<Sleep Editable="TRUE" Type="Integer">0</Sleep>
+			</ProcessObject>
+		</BT_Self_TestObjects>			
+		
+		<FM_Self_TestObjects>
+			<ProcessObject ClassName="CStringCheckProc" Name="FM_Self_Test">
+				<Name Editable="TRUE" Type="string">FM_SelfTest</Name>
+				<Value Editable="TRUE" Type="string">00</Value>
+				<CheckMatch Editable="TRUE" Type="Boolean">TRUE</CheckMatch>
+				<Sleep Editable="TRUE" Type="Integer">0</Sleep>
+			</ProcessObject>
+		</FM_Self_TestObjects>			
+		
+		<Check_RF_PAQFE_IDObjects>
+			<ProcessObject ClassName="CStringCheckProc" Name="Check_RF_PAQFE_ID">
+				<Name Editable="TRUE" Type="string">RF_PA_QFE_ID</Name>
+				<Value Editable="TRUE" Type="string">0h14,0h00,0h00,0h00</Value>
+				<CheckMatch Editable="TRUE" Type="Boolean">TRUE</CheckMatch>
+				<Sleep Editable="TRUE" Type="Integer">0</Sleep>
+            </ProcessObject>
+        </Check_RF_PAQFE_IDObjects>			
+		<Check_RF_ASM_IDObjects>
+			<ProcessObject ClassName="CStringCheckProc" Name="Check_RF_ASM_ID">
+				<Name Editable="TRUE" Type="string">RF_ASM_ID</Name>
+				<Value Editable="TRUE" Type="string">0h08</Value>
+				<CheckMatch Editable="TRUE" Type="Boolean">TRUE</CheckMatch>
+				<Sleep Editable="TRUE" Type="Integer">0</Sleep>
+            </ProcessObject>
+        </Check_RF_ASM_IDObjects>			
+		<SystemChargingAverageCurrentObjects>
+			<ProcessObject ClassName="ChargeAverageCurrent" Name="SystemChargingAverageCurrent">
+				<Name Editable="TRUE" Type="string">ChargingAverageCurrent</Name>
+				<Value Editable="TRUE" Type="DoubleList">-0.7,-0.3</Value>
+				<CheckMode Editable="TRUE" Type="Boolean">1</CheckMode>		
+				<ReadMode Editable="TRUE" Type="Integer">1</ReadMode>					
+				<CheckMatch Editable="TRUE" Type="Boolean">TRUE</CheckMatch>
+				<Sleep Editable="TRUE" Type="Integer">1000</Sleep>
+				<ChargeTime Editable="TRUE" Type="Integer">1000</ChargeTime>
+            </ProcessObject>
+        </SystemChargingAverageCurrentObjects>					
+		<PowerLeakageCurrentObjects>
+			<ProcessObject ClassName="CLeakageCurrent" Name="PowerLeakageCurrent">
+				<Name Editable="TRUE" Type="string">LeakageCurrent</Name>
+				<Value Editable="TRUE" Type="DoubleList">0,10</Value>
+				<CheckMatch Editable="TRUE" Type="Boolean">TRUE</CheckMatch>
+				<Sleep Editable="TRUE" Type="Integer">0</Sleep>
+				<WaitTimeForShutdown Editable="TRUE" Type="Integer">1500</WaitTimeForShutdown>
+				<WaitTimeForFetch Editable="TRUE" Type="Integer">1000</WaitTimeForFetch>
+            </ProcessObject>
+        </PowerLeakageCurrentObjects>	
+		<RebootTofastbootObjects>
+			<ProcessObject ClassName="CFactoryReset" Name="RebootTofastboot">
+				<Name Editable="TRUE" Type="string">SetFastboot</Name>
+				<WaitModeCheckTimeout Type="String">20000</WaitModeCheckTimeout>
+				<WaitRebootTimeout Type="String">30000</WaitRebootTimeout>
+			</ProcessObject>		
+		</RebootTofastbootObjects>
+		
+		<RebootToADBObjects>
+			<ProcessObject ClassName="CFactoryReset" Name="RebootToADB">
+				<Name Editable="TRUE" Type="string">SetAdb</Name>
+				<WaitModeCheckTimeout Type="String">20000</WaitModeCheckTimeout>
+				<WaitRebootTimeout Type="String">30000</WaitRebootTimeout>
+			</ProcessObject>		
+		</RebootToADBObjects>	
+		
+				
+		<!--no use-->
+		
+		<Check_NFC_IDObjects>
+			<ProcessObject ClassName="CStringCheckProc" Name="Check_NFC_ID">
+				<Name Editable="TRUE" Type="string">NFC_ID</Name>
+				<Value Editable="TRUE" Type="string">0h0300</Value>
+				<CheckMatch Editable="TRUE" Type="Boolean">TRUE</CheckMatch>
+				<Sleep Editable="TRUE" Type="Integer">0</Sleep>
+            </ProcessObject>
+        </Check_NFC_IDObjects>			
+		
+	
+		
+		<Read_RF_BandID_TemperatureObjects>
+			<ProcessObject ClassName="CRangeCheckProc" Name="Read_RF_BandID_Temperature">
+				<Name Editable="TRUE" Type="string">RFBandIDTemperature</Name>
+				<Value Editable="TRUE" Type="DoubleList">15,50</Value>
+				<CheckMatch Editable="TRUE" Type="Boolean">TRUE</CheckMatch>
+				<Sleep Editable="TRUE" Type="Integer">0</Sleep>
+            </ProcessObject>
+        </Read_RF_BandID_TemperatureObjects>		
+		<LED_IDObjects>
+			<ProcessObject ClassName="CStringCheckProc" Name="Read_Flash_LED_driver_IC_ID">
+				<Name Editable="TRUE" Type="string">LEDid</Name>
+				<Value Editable="TRUE" Type="string">34</Value>
+				<CheckMatch Editable="TRUE" Type="Boolean">TRUE</CheckMatch>
+				<Sleep Editable="TRUE" Type="Integer">0</Sleep>
+            </ProcessObject>
+        </LED_IDObjects>				
+		<MaxPowerCurrentObjects>
+			<ProcessObject ClassName="CRangeCheckProc" Name="MaxPowerCurrent">
+				<Name Editable="TRUE" Type="string">PowerMaxCurrent</Name>
+				<Value Editable="TRUE" Type="DoubleList">100,1100</Value>
+				<CheckMatch Editable="TRUE" Type="Boolean">TRUE</CheckMatch>
+				<Sleep Editable="TRUE" Type="Integer">0</Sleep>
+            </ProcessObject>
+        </MaxPowerCurrentObjects>	
+		
+		<CFtdObjects>
+			<ProcessObject ClassName="CSapporoFtdTest" Name="UsbDetectStart">
+				<Name Editable="TRUE" Type="string">runUsbDetectStart</Name>
+			</ProcessObject>
+		</CFtdObjects>
+		<ReadTouchIDObjects>
+			<ProcessObject ClassName="CIDTestProc" Name="ReadTouchID">
+				<IDType Editable="TRUE" Type="string">Touch</IDType>
+				<ID Editable="TRUE" Type="Integer">1</ID>
+			</ProcessObject>
+		</ReadTouchIDObjects>
+		<ReadTouchModelObjects>
+			<ProcessObject ClassName="CCheckTouch" Name="ReadTouchFWVersion">
+				<IDType Editable="TRUE" Type="string">TouchFWVersion</IDType>
+				<ID Editable="TRUE" Type="Integer">1421304</ID><!--1471960:0h54503130-->
+			</ProcessObject>
+		</ReadTouchModelObjects>
+		<ReadTouchModelObjects>
+			<ProcessObject ClassName="CCheckTouch" Name="ReadTouchModel">
+				<IDType Editable="TRUE" Type="string">TouchModelLimitLength</IDType>
+				<!--TouchModel,TouchModelLimitLength-->				
+				<ID Editable="TRUE" Type="Integer">F5_TPI_B12,1421304;F5_TPI_W01,1421304</ID>
+				<!--F5_TPS_B01,1471960,1396846896:F5_TPI_B01,1471960,1229074736 -->
+			</ProcessObject>
+		</ReadTouchModelObjects>
+		<ReadFrontCameraIDObjects>
+			<ProcessObject ClassName="CIDTestProc" Name="ReadFrontCameraID">
+				<IDType Editable="TRUE" Type="string">FrontCamera</IDType>
+				<ID Editable="TRUE" Type="Integer">9861</ID>
+			</ProcessObject>
+		</ReadFrontCameraIDObjects>
+		<ReadFrontCameraIDObjects>
+			<ProcessObject ClassName="CIDTestProc" Name="ReadAntennaIC">
+				<IDType Editable="TRUE" Type="string">AntennaICID</IDType>
+				<ID Editable="TRUE" Type="Integer">2</ID>
+			</ProcessObject>
+		</ReadFrontCameraIDObjects>
+		<ReadRearCameraIDObjects>
+			<ProcessObject ClassName="CIDTestProc" Name="ReadRearCameraID">
+				<IDType Editable="TRUE" Type="string">BostonRearCamera</IDType>
+				<ID Editable="TRUE" Type="Integer">309,1</ID>
+			</ProcessObject>
+		</ReadRearCameraIDObjects>
+
+		
+		<Read_DDR_MR6Objects>
+			<ProcessObject ClassName="CStringCheckProc" Name="Read_DDRMR6_RID">
+				<Name Editable="TRUE" Type="string">MCPddrmr6</Name>
+				<Value Editable="TRUE" Type="string">0h04;0h03</Value>
+				<CheckMatch Editable="TRUE" Type="Boolean">TRUE</CheckMatch>
+				<Sleep Editable="TRUE" Type="Integer">0</Sleep>
+            </ProcessObject>
+        </Read_DDR_MR6Objects>				
+		
+	
+
+		<MMIBBLoopTestObjects>
+			<ProcessObject ClassName="CMMIBB_RGBVibratorRetryTest" Name="CameraLedTest">
+				<XMLTestItem Editable="TRUE" Type="string">CameraLedTest</XMLTestItem>
+				<XMLCMDItem Editable="TRUE" Type="string">1</XMLCMDItem>
+				<XMLOffCMDItem Editable="TRUE" Type="string">0</XMLOffCMDItem>
+				<XMLOnSleepTime Editable="TRUE" Type="Integer">500</XMLOnSleepTime>
+				<XMLOffSleepTime Editable="TRUE" Type="Integer">500</XMLOffSleepTime>
+				<XMLRetryTime Editable="TRUE" Type="Integer">1</XMLRetryTime>
+			</ProcessObject>
+		</MMIBBLoopTestObjects>
+
+		<MMIBBLoopTestObjects>
+			<ProcessObject ClassName="CMMIBB_RGBVibratorRetryTest" Name="RedLEDTest">
+				<XMLTestItem Editable="TRUE" Type="string">RedLEDTest</XMLTestItem>
+				<XMLCMDItem Editable="TRUE" Type="string">255,0,0,0</XMLCMDItem>
+				<XMLOffCMDItem Editable="TRUE" Type="string">0,0,0,0</XMLOffCMDItem>
+				<XMLOnSleepTime Editable="TRUE" Type="Integer">500</XMLOnSleepTime>
+				<XMLOffSleepTime Editable="TRUE" Type="Integer">500</XMLOffSleepTime>
+				<XMLRetryTime Editable="TRUE" Type="Integer">1</XMLRetryTime>
+			</ProcessObject>
+		</MMIBBLoopTestObjects>
+		<MMIBBLoopTestObjects>
+			<ProcessObject ClassName="CMMIBB_RGBVibratorRetryTest" Name="GreenLEDTest">
+				<XMLTestItem Editable="TRUE" Type="string">GreenLEDTest</XMLTestItem>
+				<XMLCMDItem Editable="TRUE" Type="string">0,255,0,0</XMLCMDItem>
+				<XMLOffCMDItem Editable="TRUE" Type="string">0,0,0,0</XMLOffCMDItem>
+				<XMLOnSleepTime Editable="TRUE" Type="Integer">500</XMLOnSleepTime>
+				<XMLOffSleepTime Editable="TRUE" Type="Integer">500</XMLOffSleepTime>
+				<XMLRetryTime Editable="TRUE" Type="Integer">1</XMLRetryTime>
+			</ProcessObject>
+		</MMIBBLoopTestObjects>
+		<MMIBBLoopTestObjects>
+			<ProcessObject ClassName="CMMIBB_RGBVibratorRetryTest" Name="BlueLEDTest">
+				<XMLTestItem Editable="TRUE" Type="string">BlueLEDTest</XMLTestItem>
+				<XMLCMDItem Editable="TRUE" Type="string">0,0,255,0</XMLCMDItem>
+				<XMLOffCMDItem Editable="TRUE" Type="string">0,0,0,0</XMLOffCMDItem>
+				<XMLOnSleepTime Editable="TRUE" Type="Integer">500</XMLOnSleepTime>
+				<XMLOffSleepTime Editable="TRUE" Type="Integer">500</XMLOffSleepTime>
+				<XMLRetryTime Editable="TRUE" Type="Integer">1</XMLRetryTime>
+			</ProcessObject>
+		</MMIBBLoopTestObjects>
+		<MMIBBLoopTestObjects>
+			<ProcessObject ClassName="CMMIBB_RGBVibratorRetryTest" Name="CapKeyLEDTest">
+				<XMLTestItem Editable="TRUE" Type="string">CapKeyLEDTest</XMLTestItem>
+				<XMLCMDItem Editable="TRUE" Type="string">0,0,0,20</XMLCMDItem>
+				<XMLOffCMDItem Editable="TRUE" Type="string">0,0,0,0</XMLOffCMDItem>
+				<XMLOnSleepTime Editable="TRUE" Type="Integer">500</XMLOnSleepTime>
+				<XMLOffSleepTime Editable="TRUE" Type="Integer">500</XMLOffSleepTime>
+				<XMLRetryTime Editable="TRUE" Type="Integer">1</XMLRetryTime>
+			</ProcessObject>
+		</MMIBBLoopTestObjects>
+		<MMIBBLoopTestObjects>
+			<ProcessObject ClassName="CMMIBB_RGBVibratorRetryTest" Name="RedPatternTest">
+				<XMLTestItem Editable="TRUE" Type="string">RedPatternTest</XMLTestItem>
+				<XMLCMDItem Editable="TRUE" Type="string">r</XMLCMDItem>
+				<XMLOffCMDItem Editable="TRUE" Type="string">0,0,0,0</XMLOffCMDItem>
+				<XMLOnSleepTime Editable="TRUE" Type="Integer">500</XMLOnSleepTime>
+				<XMLOffSleepTime Editable="TRUE" Type="Integer">500</XMLOffSleepTime>
+				<XMLRetryTime Editable="TRUE" Type="Integer">1</XMLRetryTime>
+			</ProcessObject>
+		</MMIBBLoopTestObjects>
+		<MMIBBLoopTestObjects>
+			<ProcessObject ClassName="CMMIBB_RGBVibratorRetryTest" Name="GreenPatternTest">
+				<XMLTestItem Editable="TRUE" Type="string">GreenPatternTest</XMLTestItem>
+				<XMLCMDItem Editable="TRUE" Type="string">g</XMLCMDItem>
+				<XMLOffCMDItem Editable="TRUE" Type="string">0,0,0,0</XMLOffCMDItem>
+				<XMLOnSleepTime Editable="TRUE" Type="Integer">500</XMLOnSleepTime>
+				<XMLOffSleepTime Editable="TRUE" Type="Integer">500</XMLOffSleepTime>
+				<XMLRetryTime Editable="TRUE" Type="Integer">1</XMLRetryTime>
+			</ProcessObject>
+		</MMIBBLoopTestObjects>
+		<MMIBBLoopTestObjects>
+			<ProcessObject ClassName="CMMIBB_RGBVibratorRetryTest" Name="BluePatternTest">
+				<XMLTestItem Editable="TRUE" Type="string">BluePatternTest</XMLTestItem>
+				<XMLCMDItem Editable="TRUE" Type="string">b</XMLCMDItem>
+				<XMLOffCMDItem Editable="TRUE" Type="string">0,0,0,0</XMLOffCMDItem>
+				<XMLOnSleepTime Editable="TRUE" Type="Integer">500</XMLOnSleepTime>
+				<XMLOffSleepTime Editable="TRUE" Type="Integer">500</XMLOffSleepTime>
+				<XMLRetryTime Editable="TRUE" Type="Integer">1</XMLRetryTime>
+			</ProcessObject>
+		</MMIBBLoopTestObjects>
+		<MMIBBLoopTestObjects>
+			<ProcessObject ClassName="CMMIBB_RGBVibratorRetryTest" Name="WhitePatternTest">
+				<XMLTestItem Editable="TRUE" Type="string">WhitePatternTest</XMLTestItem>
+				<XMLCMDItem Editable="TRUE" Type="string">w</XMLCMDItem>
+				<XMLOffCMDItem Editable="TRUE" Type="string">0,0,0,0</XMLOffCMDItem>
+				<XMLOnSleepTime Editable="TRUE" Type="Integer">500</XMLOnSleepTime>
+				<XMLOffSleepTime Editable="TRUE" Type="Integer">500</XMLOffSleepTime>
+				<XMLRetryTime Editable="TRUE" Type="Integer">1</XMLRetryTime>
+			</ProcessObject>
+		</MMIBBLoopTestObjects>
+
+		<MMIBBLoopTestObjects>
+			<ProcessObject ClassName="CMMIBB_RGBVibratorRetryTest" Name="VibratorTest">
+				<XMLTestItem Editable="TRUE" Type="string">VibratorTest</XMLTestItem>
+				<XMLCMDItem Editable="TRUE" Type="string">1</XMLCMDItem>
+				<XMLOffCMDItem Editable="TRUE" Type="string">0</XMLOffCMDItem>
+				<XMLOnSleepTime Editable="TRUE" Type="Integer">200</XMLOnSleepTime>
+				<XMLOffSleepTime Editable="TRUE" Type="Integer">200</XMLOffSleepTime>
+				<XMLRetryTime Editable="TRUE" Type="Integer">1</XMLRetryTime>
+			</ProcessObject>
+		</MMIBBLoopTestObjects>
+
+		<MMIBBLoopTestObjects>
+			<ProcessObject ClassName="CMMIBB_RGBVibratorRetryTest" Name="BackLightTest">
+				<XMLTestItem Editable="TRUE" Type="string">BackLightTest</XMLTestItem>
+				<XMLCMDItem Editable="TRUE" Type="string">255</XMLCMDItem>
+				<XMLOffCMDItem Editable="TRUE" Type="string">100</XMLOffCMDItem>
+				<XMLOnSleepTime Editable="TRUE" Type="Integer">500</XMLOnSleepTime>
+				<XMLOffSleepTime Editable="TRUE" Type="Integer">500</XMLOffSleepTime>
+				<XMLRetryTime Editable="TRUE" Type="Integer">1</XMLRetryTime>
+			</ProcessObject>
+		</MMIBBLoopTestObjects>
+
+		<MMIBBLoopTestObjects>
+			<ProcessObject ClassName="CMMIBB_KeyButtonRetryTest" Name="SideKeyTest">
+			<XMLTestItem Editable="TRUE" Type="string">SideKeyTest</XMLTestItem>
+			<XMLTimeOut Editable="TRUE" Type="Integer">10</XMLTimeOut>
+			<XMLRetryTime Editable="TRUE" Type="Integer">1</XMLRetryTime>
+			</ProcessObject>
+		</MMIBBLoopTestObjects>
+		<MMIBBLoopTestObjects>
+			<ProcessObject ClassName="CMMIBB_KeyButtonRetryTest" Name="HeadsetKeyTest">
+			<XMLTestItem Editable="TRUE" Type="string">HeadsetKeyTest</XMLTestItem>
+			<XMLTimeOut Editable="TRUE" Type="Integer">10</XMLTimeOut>
+			<XMLRetryTime Editable="TRUE" Type="Integer">1</XMLRetryTime>
+			</ProcessObject>
+		</MMIBBLoopTestObjects>
+		<MMIBBLoopTestObjects>
+			<ProcessObject ClassName="CMMIBB_AudioRetryTest" Name="HeadsetDetectTest">
+				<AudtioTestItem Editable="TRUE" Type="string">HeadsetDetectTest</AudtioTestItem>
+				<AudtioCMDItem Editable="TRUE" Type="string">3</AudtioCMDItem>
+				<AudtioOffCMDItem Editable="TRUE" Type="string">3</AudtioOffCMDItem>
+				<Path Editable="TRUE" Type="string">SPK.wav /cache/SPK.wav</Path>
+				<OnSleepTime Editable="TRUE" Type="Integer">0</OnSleepTime>
+				<OffSleepTime Editable="TRUE" Type="Integer">0</OffSleepTime>
+				<RetryTime Editable="TRUE" Type="Integer">1</RetryTime>
+			</ProcessObject>
+		</MMIBBLoopTestObjects>
+
+		<MMIBBLoopTestObjects>
+			<ProcessObject ClassName="CMMIBB_AudioRetryTest" Name="FmTest">
+				<AudtioTestItem Editable="TRUE" Type="string">FmTest</AudtioTestItem>
+				<AudtioCMDItem Editable="TRUE" Type="string">1,87900,0,80,80</AudtioCMDItem>
+				<AudtioOffCMDItem Editable="TRUE" Type="string">0,87900,0,80,80</AudtioOffCMDItem>
+				<Path Editable="TRUE" Type="string">SPK.wav /cache/SPK.wav</Path>
+				<OnSleepTime Editable="TRUE" Type="Integer">2000</OnSleepTime>
+				<OffSleepTime Editable="TRUE" Type="Integer">2000</OffSleepTime>
+				<RetryTime Editable="TRUE" Type="Integer">1</RetryTime>
+			</ProcessObject>
+		</MMIBBLoopTestObjects>
+		<SpeakerOnTestObjects>
+			<ProcessObject ClassName="CMMIBB_AudioRetryTest" Name="SpeakerOnTest">
+				<AudtioTestItem Editable="TRUE" Type="string">SpeakerOnTest</AudtioTestItem>
+				<AudtioCMDItem Editable="TRUE" Type="string">on,speaker,80,80,/cache/SPK.wav</AudtioCMDItem>
+				<AudtioOffCMDItem Editable="TRUE" Type="string">off,speaker,80,80,/cache/SPK.wav</AudtioOffCMDItem>
+				<Path Editable="TRUE" Type="string">SPK.wav /cache/SPK.wav</Path>
+				<OnSleepTime Editable="TRUE" Type="Integer">2000</OnSleepTime>
+				<OffSleepTime Editable="TRUE" Type="Integer">2000</OffSleepTime>
+				<RetryTime Editable="TRUE" Type="Integer">1</RetryTime>
+			</ProcessObject>
+		</SpeakerOnTestObjects>
+		<HeadsetOnTestObjects>
+			<ProcessObject ClassName="CMMIBB_AudioRetryTest" Name="HeadsetOnTest">
+				<AudtioTestItem Editable="TRUE" Type="string">HeadsetOnTest</AudtioTestItem>
+				<AudtioCMDItem Editable="TRUE" Type="string">on,headset,60,60,/cache/HP.wav</AudtioCMDItem>
+				<AudtioOffCMDItem Editable="TRUE" Type="string">off,headset,60,60,/cache/HP.wav</AudtioOffCMDItem>
+				<Path Editable="TRUE" Type="string">HP.wav /cache/HP.wav</Path>
+				<OnSleepTime Editable="TRUE" Type="Integer">2000</OnSleepTime>
+				<OffSleepTime Editable="TRUE" Type="Integer">2000</OffSleepTime>
+				<RetryTime Editable="TRUE" Type="Integer">1</RetryTime>
+			</ProcessObject>
+		</HeadsetOnTestObjects>
+		<ReceiverOnTestObjects>
+			<ProcessObject ClassName="CMMIBB_AudioRetryTest" Name="ReceiverOnTest">
+				<AudtioTestItem Editable="TRUE" Type="string">ReceiverOnTest</AudtioTestItem>
+				<AudtioCMDItem Editable="TRUE" Type="string">on,receiver,80,80,/cache/Receiver.wav</AudtioCMDItem>
+				<AudtioOffCMDItem Editable="TRUE" Type="string">off,receiver,80,80,/cache/Receiver.wav</AudtioOffCMDItem>
+				<Path Editable="TRUE" Type="string">Receiver.wav /cache/Receiver.wav</Path>
+				<OnSleepTime Editable="TRUE" Type="Integer">2000</OnSleepTime>
+				<OffSleepTime Editable="TRUE" Type="Integer">2000</OffSleepTime>
+				<RetryTime Editable="TRUE" Type="Integer">1</RetryTime>
+			</ProcessObject>
+		</ReceiverOnTestObjects>
+
+		<Loop_FrontMicToSpeakOnObjects>
+			<ProcessObject ClassName="CMMIBB_AudioLoopRetryTest" Name="Loop_FrontMicToSpeakOn">
+				<AudtioTestItem Editable="TRUE" Type="string">Loop_FrontMicToSpeakOn</AudtioTestItem>
+				<AudtioCMDItem Editable="TRUE" Type="string">on,front,50,68,speaker,50,68</AudtioCMDItem>
+				<AudtioOffCMDItem Editable="TRUE" Type="string">off,front,50,68,speaker,50,68</AudtioOffCMDItem>
+				<Path Editable="TRUE" Type="string">Receiver.wav /cache/Receiver.wav</Path>
+				<OnSleepTime Editable="TRUE" Type="Integer">2000</OnSleepTime>
+				<OffSleepTime Editable="TRUE" Type="Integer">2000</OffSleepTime>
+				<RetryTime Editable="TRUE" Type="Integer">1</RetryTime>
+			</ProcessObject>
+		</Loop_FrontMicToSpeakOnObjects>
+
+		<Loop_FrontMicToSpeakOnObjects>
+			<ProcessObject ClassName="CMMIBB_AudioLoopRetryTest" Name="Loop_BackMicToReceiverOn">
+				<AudtioTestItem Editable="TRUE" Type="string">Loop_BackMicToReceiverOn</AudtioTestItem>
+				<AudtioCMDItem Editable="TRUE" Type="string">on,back,90,68,receiver,0,68</AudtioCMDItem>
+				<AudtioOffCMDItem Editable="TRUE" Type="string">off,back,90,68,receiver,0,68</AudtioOffCMDItem>
+				<Path Editable="TRUE" Type="string">Receiver.wav /cache/Receiver.wav</Path>
+				<OnSleepTime Editable="TRUE" Type="Integer">2000</OnSleepTime>
+				<OffSleepTime Editable="TRUE" Type="Integer">2000</OffSleepTime>
+				<RetryTime Editable="TRUE" Type="Integer">1</RetryTime>
+			</ProcessObject>
+		</Loop_FrontMicToSpeakOnObjects>
+		<Loop_FrontMicToSpeakOnObjects>
+			<ProcessObject ClassName="CMMIBB_AudioLoopRetryTest" Name="Loop_HeadmicToHeadsetOn">
+				<AudtioTestItem Editable="TRUE" Type="string">Loop_HeadmicToHeadsetOn</AudtioTestItem>
+				<AudtioCMDItem Editable="TRUE" Type="string">on,headmic,70,68,headset,65,68</AudtioCMDItem>
+				<AudtioOffCMDItem Editable="TRUE" Type="string">off,headmic,70,68,headset,65,68</AudtioOffCMDItem>
+				<Path Editable="TRUE" Type="string">Receiver.wav /cache/Receiver.wav</Path>
+				<OnSleepTime Editable="TRUE" Type="Integer">2000</OnSleepTime>
+				<OffSleepTime Editable="TRUE" Type="Integer">2000</OffSleepTime>
+				<RetryTime Editable="TRUE" Type="Integer">1</RetryTime>
+			</ProcessObject>
+		</Loop_FrontMicToSpeakOnObjects>
+		<Loop_FrontMicToSpeakOnObjects>
+			<ProcessObject ClassName="CMMIBB_AudioLoopRetryTest" Name="Loop_FrontMicToHeadsetOn">
+				<AudtioTestItem Editable="TRUE" Type="string">Loop_FrontMicToHeadsetOn</AudtioTestItem>
+				<AudtioCMDItem Editable="TRUE" Type="string">on,front,50,68,headset,65,68</AudtioCMDItem>
+				<AudtioOffCMDItem Editable="TRUE" Type="string">off,front,50,68,headset,65,68</AudtioOffCMDItem>
+				<Path Editable="TRUE" Type="string">Receiver.wav /cache/Receiver.wav</Path>
+				<OnSleepTime Editable="TRUE" Type="Integer">2000</OnSleepTime>
+				<OffSleepTime Editable="TRUE" Type="Integer">2000</OffSleepTime>
+				<RetryTime Editable="TRUE" Type="Integer">1</RetryTime>
+			</ProcessObject>
+		</Loop_FrontMicToSpeakOnObjects>
+		<Loop_FrontMicToSpeakOnObjects>
+			<ProcessObject ClassName="CMMIBB_AudioLoopRetryTest" Name="Loop_BackMicToHeadsetOn">
+				<AudtioTestItem Editable="TRUE" Type="string">Loop_BackMicToHeadsetOn</AudtioTestItem>
+				<AudtioCMDItem Editable="TRUE" Type="string">on,back,90,68,headset,70,68</AudtioCMDItem>
+				<AudtioOffCMDItem Editable="TRUE" Type="string">off,back,90,68,headset,70,68</AudtioOffCMDItem>
+				<Path Editable="TRUE" Type="string">Receiver.wav /cache/Receiver.wav</Path>
+				<OnSleepTime Editable="TRUE" Type="Integer">2000</OnSleepTime>
+				<OffSleepTime Editable="TRUE" Type="Integer">2000</OffSleepTime>
+				<RetryTime Editable="TRUE" Type="Integer">1</RetryTime>
+			</ProcessObject>
+		</Loop_FrontMicToSpeakOnObjects>
+
+
+		<CCameraFrontTestObjects>
+			<ProcessObject ClassName="CCameraTest" Name="CCameraFrontTest">
+			<CameraType Editable="TRUE" Type="string">front</CameraType>
+			</ProcessObject>
+		</CCameraFrontTestObjects>
+		<CCameraBackTestObjects>
+			<ProcessObject ClassName="CCameraTest" Name="CCameraBackTest">
+			<CameraType Editable="TRUE" Type="string">back</CameraType>
+			</ProcessObject>
+		</CCameraBackTestObjects>
+		<CCameraEndTestObjects>
+			<ProcessObject ClassName="CCameraEnd" Name="CCameraEndTest">
+			</ProcessObject>
+		</CCameraEndTestObjects>
+		<ReadLSensorIDObjects>
+			<ProcessObject ClassName="CIDTestProc" Name="ReadLSensorID">
+				<IDType Editable="TRUE" Type="string">LSensor</IDType>
+				<ID Editable="TRUE" Type="Integer">TMD2771-41</ID>
+			</ProcessObject>
+		</ReadLSensorIDObjects>
+		<ReadPSensorIDObjects>
+			<ProcessObject ClassName="CIDTestProc" Name="ReadPSensorID">
+				<IDType Editable="TRUE" Type="string">PSensor</IDType>
+				<ID Editable="TRUE" Type="Integer">TMD2771-41</ID>
+			</ProcessObject>
+		</ReadPSensorIDObjects>
+
+		<CBatteryCapacityObjects>
+			<ProcessObject ClassName="CBatteryCapacity" Name="BatteryDetectEmpty">
+				<Name Editable="TRUE" Type="string">BatteryDetectEmpty</Name>
+				<BatteryLimit Editable="TRUE" Type="string">25</BatteryLimit><!--R,G,B 0:off,1:on-->
+			</ProcessObject>
+		</CBatteryCapacityObjects>
+		<CFtdObjects>
+			<ProcessObject ClassName="CSapporoFtdTest" Name="UsbDetectEnd">
+				<Name Editable="TRUE" Type="string">runUsbDetectEnd</Name>
+			</ProcessObject>
+		</CFtdObjects>
+	</ProcessObjectSet>
+
+</Configuration>

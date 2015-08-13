@@ -1,0 +1,43 @@
+<Configuration>
+	<Memo>
+		<Model>GF99B1A</Model>
+		<Station>BBTEST</Station>
+	</Memo>
+	<TestProcessor>
+		<UsingGPIB Type="Boolean">TRUE</UsingGPIB>
+		<GPIBInterfaceID Editable="TRUE" Type="Integer">0</GPIBInterfaceID>
+		<GPIBCardAddress Editable="TRUE" Type="Integer">20</GPIBCardAddress>
+		<ForceToPass Type="Boolean">FALSE</ForceToPass>
+		<TesterDevice>
+			<Item ClassName="CCMU200" Name="CMU 200"/>
+			<Item ClassName="CFSP" Name="FS"/>
+			<RFInputPort>2</RFInputPort>
+			<RFOutputPort>2</RFOutputPort>			
+		</TesterDevice>
+		<PowerSupply>
+			<PowerSupplyCount Editable="TRUE" Type="Interger">2</PowerSupplyCount>
+			<PowerSupplyList>
+				<PS1Address>5</PS1Address>
+				<PS2Address>6</PS2Address>
+			</PowerSupplyList>
+			<Item ClassName="CCommonPS" Name="E3631"/>
+			<Item ClassName="CCommonPS" Name="66311"/>
+			<Item ClassName="CCommonPS" Name="66319"/>
+			<Item ClassName="CCommonPS" Name="66332"/>
+			<Item ClassName="CKeithley2304" Name="2304"/>
+			<Item ClassName="CKeithley2306" Name="2306"/>
+			<PS1_OnOff Editable="TRUE" Type="Boolean">FALSE</PS1_OnOff>
+			<PS2_OnOff Editable="TRUE" Type="Boolean">FALSE</PS2_OnOff>
+			<Voltage Editable="TRUE" Type="Double">3.8</Voltage> 
+ 			<Current Editable="TRUE" Type="Double">1.2</Current>
+			<Voltage2 Editable="TRUE" Type="Double">5.0</Voltage2> 
+ 			<Current2 Editable="TRUE" Type="Double">1.5</Current2>			
+		</PowerSupply>
+		<PowerOnCheck>
+				<IsUsed Editable="TRUE" Type="Boolean">FALSE</IsUsed>
+				<PowerCheckOnTime Editable="TRUE" Type="Integer">30</PowerCheckOnTime>		
+				<PS1Value Editable="TRUE" Type="DoubleList">0,0.2</PS1Value>		
+				<PS2Value Editable="TRUE" Type="DoubleList">-1.0,1.5</PS2Value>	
+        </PowerOnCheck>						
+	</TestProcessor>
+</Configuration>

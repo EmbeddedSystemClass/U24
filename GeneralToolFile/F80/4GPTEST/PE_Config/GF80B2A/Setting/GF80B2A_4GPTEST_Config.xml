@@ -1,0 +1,13 @@
+<Configuration>
+	<Phone>
+		<COMPort Type="Integer">0</COMPort>
+		<Keyword Type="String">Diag</Keyword>
+		<CMW500Port1 Type="String">RFAC</CMW500Port1>
+		<CMW500Port2 Type="String">RFAO</CMW500Port2>
+		<CMW500Port3 Type="String">RFBC</CMW500Port3>
+		<CMU200Port1 Type="String">2</CMU200Port1>
+		<CMU200Port2 Type="String">1</CMU200Port2>
+	</Phone>
+	<ProcessObjectSet>
+	</ProcessObjectSet>
+</Configuration>

@@ -1,0 +1,6 @@
+; UnifyDLL_RF_U2416_WLS.def : Declares the module parameters for the DLL.
+
+LIBRARY      "FT"
+
+EXPORTS
+    ; Explicit exports can go here

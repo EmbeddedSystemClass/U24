@@ -1,0 +1,135 @@
+<Configuration>
+	<ToolInfo>
+		<StationID>1</StationID>
+		<TOOL_VERSION>V1.000</TOOL_VERSION>
+		<Variant>US</Variant>
+	</ToolInfo>
+	<Memo>
+		<Model>GF80B1A</Model>
+		<Station>IMEI</Station>
+	</Memo>
+	<TestProcessor>
+		<Name Editable="TRUE" Type="String">CCommonProcessor</Name>
+		<Phone>
+  			<ClassName>CPhone</ClassName>
+			<FtdPort>2000</FtdPort>
+			<FtdTimeOut>15000</FtdTimeOut>
+			<AutoFTDMode>FALSE</AutoFTDMode>
+			<SetFTDMode>FALSE</SetFTDMode>
+			<WaitTimeStartingUp>50000</WaitTimeStartingUp>
+			<RebootDelayTime>10000</RebootDelayTime>
+			<SWVersion>0</SWVersion>
+			<Variant>UMTS</Variant>
+			<LogUpload>TRUE</LogUpload>
+	        <UploadServerIP>10.85.68.13</UploadServerIP>
+			<IMEILength>15</IMEILength>
+		</Phone>
+	</TestProcessor>
+	<TestItemList>
+		<Item Name="CheckConnected" Enabled="FALSE"/>
+		<Item Name="CheckBoardID" Enabled="FALSE"/>
+		<Item Name="CheckBattCapacity" Enabled="FALSE"/>
+		<Item Name="CheckSWVersion" Enabled="FALSE"/>
+		<Item Name="CheckNotOSMode" Enabled="TRUE"/>
+		<Item Name="QueryOfflineDeviceInfo" Enabled="TRUE"/>
+		<Item Name="Unlock_OTP" Enabled="TRUE"/>
+		<Item Name="WriteDeviceInfo" Enabled="TRUE"/>
+		<Item Name="CheckDeviceInfo" Enabled="TRUE"/>
+		<Item Name="Lock_OTP" Enabled="TRUE"/>
+		<Item Name="PushQRScannerAPK" Enabled="TRUE"/>
+		<Item Name="PushSOlibcharger" Enabled="TRUE"/>
+		<Item Name="AdbFastShutdown" Enabled="TRUE"/>
+
+	</TestItemList>
+	<ProcessObjectSet>
+		<IMEIObjects>
+			<ProcessObject ClassName="CRangeCheckProc" Name="CheckBoardID">
+				<Name Editable="TRUE" Type="string">Board_ID</Name>
+				<Value Editable="TRUE" Type="string">0,250</Value>
+				<CheckMatch Editable="TRUE" Type="Boolean">TRUE</CheckMatch>
+				<Sleep Editable="TRUE" Type="Integer">0</Sleep>
+            </ProcessObject>
+
+			<ProcessObject ClassName="CConnectPhone_QMSL" Name="CheckConnected">
+				<WaitTimeForBoot Type="Integer">0</WaitTimeForBoot>
+				<RetryConnectTimes Type="Integer">60</RetryConnectTimes>
+				<WaitTimeAfterConnect Type="Integer">0</WaitTimeAfterConnect>
+			</ProcessObject>
+
+			<ProcessObject ClassName="CBatteryCapacity" Name="CheckBattCapacity">
+				<Name Editable="TRUE" Type="string">BatteryDetectEmpty</Name>
+				<BatteryLimit Editable="TRUE" Type="string">25</BatteryLimit>
+			</ProcessObject>
+
+			<ProcessObject ClassName="CCheckSWVersion" Name="CheckSWVersion">
+				<WaitTime Editable="TRUE" Type="Integer">0</WaitTime>
+				<!-- Tline,Aline:Factory Pline:Ship -->
+				<VersionType Editable="TRUE" Type="string">Ship</VersionType>
+			</ProcessObject>
+
+			<ProcessObject ClassName="CCheckDeviceNotInOSMode" Name="CheckNotOSMode">
+				<RetryTimes Type="Integer">3</RetryTimes>
+			</ProcessObject>
+
+			<ProcessObject ClassName="CCheckMobileIMEI" Name="CheckMobileIMEI">
+				<RetryTimes Type="Integer">3</RetryTimes>
+			</ProcessObject>
+
+			<ProcessObject ClassName="CWriteDeviceInfo" Name="WriteDeviceInfo">
+				<RetryTimes Type="Integer">3</RetryTimes>
+				<!-- IMEI; BT; WIFI; ServiceTag; FSN; SIMData -->
+				<WriteItems Type="IntegerList">1,1,1,1,1,1</WriteItems>
+			</ProcessObject>
+
+			<ProcessObject ClassName="CCheckDeviceInfo" Name="CheckDeviceInfo">
+				<RetryTimes Type="Integer">3</RetryTimes>
+				<!-- IMEI; BT; WIFI; ServiceTag; FSN; SIMData -->
+				<CheckItems Type="IntegerList">1,1,1,1,1,1</CheckItems>
+			</ProcessObject>
+
+			<ProcessObject ClassName="COTPLocker" Name="Unlock_OTP">
+				<RetryTimes Type="Integer">3</RetryTimes>
+				<OTPLock Type="Boolean">FALSE</OTPLock>	<!-- TRUE or FALSE -->
+			</ProcessObject>
+
+			<ProcessObject ClassName="COTPLocker" Name="Lock_OTP">
+				<RetryTimes Type="Integer">3</RetryTimes>
+				<OTPLock Type="Boolean">TRUE</OTPLock>	<!-- TRUE or FALSE -->
+			</ProcessObject>		
+
+			<ProcessObject ClassName="CExeADBCmd" Name="PushQRScannerAPK">
+				<RetryTimes Type="Integer">3</RetryTimes>
+				<Title Type="String">Push QRcode scanner APK</Title>
+				<Command Type="String">push kgkgkg.hong.hscanner.apk /data/app</Command>
+				<ErrorCode Type="String">CommErr_Push_File_To_Device_Fail</ErrorCode>
+			</ProcessObject>
+
+			<ProcessObject ClassName="CExeADBCmd" Name="PushSOlibcharger">
+				<RetryTimes Type="Integer">3</RetryTimes>
+				<Title Type="String">Push libcharger.so</Title>
+				<Command Type="String">push libcharger.so /data/lib</Command>
+				<ErrorCode Type="String">CommErr_Push_File_To_Device_Fail</ErrorCode>
+			</ProcessObject>		
+		
+			<ProcessObject ClassName="CExeADBCmd" Name="AdbFastShutdown">
+				<RetryTimes Type="Integer">3</RetryTimes>
+				<Title Type="String">Adb Fast Shutdown</Title>
+				<Command Type="String">shell cat /sys/kernel/debug/android_usb/connected</Command>
+				<ErrorCode Type="String">CommErr_Get_ADB_Fail</ErrorCode>
+			</ProcessObject>
+
+			<ProcessObject ClassName="CQueryOfflineDeviceInfo" Name="QueryOfflineDeviceInfo">
+				<RetryTimes Type="Integer">3</RetryTimes>
+				<CSVFile Type="String">F80_EVT.csv</CSVFile>
+			</ProcessObject>
+
+			<ProcessObject ClassName="CWriteDeviceInfo" Name="ClearIMEIInfo">
+				<RetryTimes Type="Integer">3</RetryTimes>
+				<ClaerData Type="Boolean">TRUE</ClaerData>
+				<!-- IMEI; BT; WIFI; ServiceTag; FSN; SIMData -->
+				<WriteItems Type="IntegerList">1,0,0,0,0,0</WriteItems>
+			</ProcessObject>
+		</IMEIObjects>
+	</ProcessObjectSet>
+
+</Configuration>

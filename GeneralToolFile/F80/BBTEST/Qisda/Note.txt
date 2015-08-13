@@ -1,0 +1,2 @@
+1. PowerOn Check 現在沒有USB4702，改成在Initial Power 的時候檢查。如果不開啟必須在DeviceItem內設定FALSE。
+2.外部PS 的設定必須為0

@@ -1,0 +1,636 @@
+<Configuration>
+	<ToolInfo>
+		<TestAllEvenFail>FALSE</TestAllEvenFail>
+		<UseCablelossFile>FALSE</UseCablelossFile>
+		<TOOL_VERSION>V1.000</TOOL_VERSION>
+		<UsingGPIB>FALSE</UsingGPIB>
+	</ToolInfo>
+	
+	<Memo>
+		<Model>GF80B1A</Model>
+		<Station>BBTEST</Station>
+	</Memo>
+	
+	<TestProcessor>
+		<Name Editable="TRUE" Type="String">CCommonProcessor</Name>
+		<Phone>
+  			<ClassName>CPhone</ClassName>
+			<ClassNameChip>CAndroidPhone</ClassNameChip>
+			<COMPort>0</COMPort>
+			<FtdPort>2000</FtdPort>
+			<FtdTimeOut>15000</FtdTimeOut>
+			<AutoFTDMode>FALSE</AutoFTDMode>
+			<SetFTDMode>FALSE</SetFTDMode>
+			<SetQMode>TRUE</SetQMode>
+			<Keyword Type="String">Diagnostics</Keyword>
+			<QisdaCmdModule>QcomDiagModule.dll</QisdaCmdModule>			
+			<WaitTimeStartingUp>50000</WaitTimeStartingUp>
+			<RebootDelayTime>10000</RebootDelayTime>
+			<IsDiagCmd>1</IsDiagCmd><!--0:Diag  1:ADB-->
+			<IsNeedQXDMLog>FALSE</IsNeedQXDMLog>
+			<SWVersion>0</SWVersion>
+			<Variant>UMTS</Variant>
+			<LogUpload>TRUE</LogUpload>
+	        <UploadServerIP>10.85.68.13</UploadServerIP>
+		</Phone>		
+	</TestProcessor>
+	
+	<TestItemList>		
+		<Item Name="CheckSWVersion" Enabled="FALSE"/>
+		
+		<Item Name="UsbDetectStart" Enabled="TRUE"/>
+		<Item Name="BatteryDetectEmpty" Enabled="TRUE"/>
+		
+		<!-- mmibb Test -->
+		<Item Name="ReadTouchModel" Enabled="TRUE"/>
+		<Item Name="ReadTouchID" Enabled="TRUE"/>
+		<Item Name="ReadFrontCameraID" Enabled="TRUE"/>
+		<Item Name="ReadRearCameraID" Enabled="TRUE"/>
+	
+		<!-- als Test -->
+		<Item Name="ReadPWRgaugeTemperature" Enabled="TRUE"/>
+		<Item Name="ReadLSensorID" Enabled="TRUE"/>
+		<Item Name="TouchSelfTest" Enabled="TRUE"/>
+		<Item Name="EcompassSelfTest" Enabled="TRUE"/>			
+		<Item Name="LSensorLuxCheck" Enabled="TRUE"/><!--auto adjust light-->
+		<Item Name="LSensorCalibration" Enabled="TRUE"/>
+		<Item Name="PSensorCalibration" Enabled="TRUE"/>
+		<Item Name="GSensorCalibrationTest" Enabled="TRUE"/>
+		<Item Name="GSensorCalibrationValueTest" Enabled="TRUE"/>		
+		
+		<!-- AUDIO Test -->
+		<Item Name="HeadsetDetectTest" Enabled="TRUE" />
+		<Item Name="BottomMicTest" Enabled="TRUE"/>
+		<Item Name="HeadsetMicTest" Enabled="TRUE"/>
+		<Item Name="SpeakerTest" Enabled="TRUE"/>
+		<Item Name="HeadsetReceiverTest" Enabled="TRUE"/>
+
+		<!-- online wls Test -->
+		<Item Name="CONNECT_QMSL" Enabled="TRUE"/>
+		<Item Name="CheckBattVoltage" Enabled="TRUE"/>
+		<Item Name="GSM_RxLevel" Enabled="TRUE"/>	
+		<Item Name="LTE_B7_PRxRSSI" Enabled="TRUE"/>	
+		<Item Name="LTE_B3_DRxRSSI" Enabled="TRUE"/>						
+		<Item Name="BT_TxPowerTest" Enabled="TRUE"/>
+		<Item Name="GPS_CN0" Enabled="TRUE"/>		
+		
+		<!-- common -->
+		<Item Name="UsbDetectEnd" Enabled="TRUE"/>
+		<Item Name="TargetReboot" Type="MUST" Enabled="TRUE"/>
+		
+		<!--no use-->
+		<Item Name="Speaker_R_Test" Enabled="FALSE"/>
+		<Item Name="Speaker_L_Test" Enabled="FALSE"/>
+		
+	</TestItemList>
+
+	<ProcessObjectSet>
+		<ReadLSensorIDObjects>
+			<ProcessObject ClassName="CIDTestProc" Name="TargetReboot">
+				<IDType Editable="TRUE" Type="string">TargetReboot</IDType>
+				<ID Editable="TRUE" Type="Integer">ap321x_pls-0h02</ID>
+			</ProcessObject>
+		</ReadLSensorIDObjects>
+		
+		<CONNECT_QMSLObjects>
+			<ProcessObject ClassName="CSystemConnect" Name="CONNECT_QMSL">
+				<Name Editable="TRUE" Type="string">Connect_QMSL</Name>
+				<Sleep Editable="TRUE" Type="Integer">0</Sleep>
+            </ProcessObject>
+        </CONNECT_QMSLObjects>
+		
+		<AudioObjects>
+			<ProcessObject ClassName="CCheckBattVoltage" Name="CheckBattVoltage">
+				<Range Type="Double">3.8</Range>
+			</ProcessObject>
+		</AudioObjects>
+		
+		<AudioObjects>
+			<ProcessObject ClassName="CWireless_GSM_RxLevel" Name="GSM_RxLevel">
+				<PICSName Type="String">Wireless_GSM_Rx_Level</PICSName>
+				<DelayAfterCMURun Type="Integer">1000</DelayAfterCMURun>
+				<Expected_RX_Power_dbm16 Type="Integer">960</Expected_RX_Power_dbm16>
+				<Number_of_Averages Type="Integer">5</Number_of_Averages>
+				<Channel Type="Integer">661</Channel>
+				<Rx_Level Type="String">-55,-45</Rx_Level>
+				<Frequency Type="Double">1960.07</Frequency>
+				<AFFrequency Type="Integer">5000</AFFrequency>
+				<ModIndex>100</ModIndex>
+				<OutputPort Type="Integer">2</OutputPort>
+				<RFLevel>-50</RFLevel>
+			</ProcessObject>
+		</AudioObjects>
+		
+		<AudioObjects>
+			<ProcessObject ClassName="CWireless_LTE_Band_RxRSSI" Name="LTE_B7_PRxRSSI">
+				<PICSName Type="String">Wireless_LTE_B7_PRxRSSI</PICSName>
+				<Band Type="Integer">7</Band>
+				<RXMode Type="String">P</RXMode>	
+				<ReadMode Type="String">AGC</ReadMode>	
+				<LNAValue Type="Integer">2</LNAValue>	
+				<CalibrationState Type="Integer">1</CalibrationState>
+				<TxBandwidth Type="Integer">1</TxBandwidth>
+				<RxBandwidth Type="Integer">1</RxBandwidth>
+				<Channel Type="Integer">21100</Channel>
+				<RFLevel>-50</RFLevel>
+				<OutputPort Type="Integer">3</OutputPort>
+				<DelayAfterCMURun>1000</DelayAfterCMURun>
+				<RetryTimes Type="Integer">10</RetryTimes>
+				<CommandDelay>200</CommandDelay>				
+				<Range Type="DoubleList">-55.0,-45.0</Range>
+				<WriteCPKLog>1</WriteCPKLog>
+				<Wireless_LTE_Band_PRxRSSI_CPKcolumn>
+					<Item Name="SN" />
+					<Item Name="Result" />
+					<Item Name="Time" />
+					<Item Name="LTE_Band_PRxRSSI_VALUE" />
+				</Wireless_LTE_Band_PRxRSSI_CPKcolumn>
+			</ProcessObject>
+		</AudioObjects>
+		
+		<AudioObjects>
+			<ProcessObject ClassName="CWireless_LTE_Band_RxRSSI" Name="LTE_B3_DRxRSSI">
+				<PICSName Type="String">Wireless_LTE_B3_DRxRSSI</PICSName>
+				<Band Type="Integer">3</Band>
+				<RXMode Type="String">D</RXMode>	
+				<ReadMode Type="String">AGC</ReadMode>	
+				<LNAValue Type="Integer">2</LNAValue>		
+				<CalibrationState Type="Integer">1</CalibrationState>					
+				<TxBandwidth Type="Integer">1</TxBandwidth>
+				<RxBandwidth Type="Integer">1</RxBandwidth>
+				<Channel Type="Integer">19575</Channel>
+				<RFLevel>-50</RFLevel>
+				<OutputPort Type="Integer">1</OutputPort>
+				<DelayAfterCMURun>1000</DelayAfterCMURun>
+				<RetryTimes Type="Integer">10</RetryTimes>
+				<CommandDelay>200</CommandDelay>				
+				<Range Type="DoubleList">-55.0,-45.0</Range>
+				<WriteCPKLog>1</WriteCPKLog>
+				<Wireless_LTE_Band_DRxRSSI_CPKcolumn>
+					<Item Name="SN" />
+					<Item Name="Result" />
+					<Item Name="Time" />
+					<Item Name="LTE_Band_DRxRSSI_VALUE" />
+				</Wireless_LTE_Band_DRxRSSI_CPKcolumn>
+			</ProcessObject>
+		</AudioObjects>
+		
+		<AudioObjects>
+			<ProcessObject ClassName="CWireless_BT_TxTest" Name="BT_TxPowerTest">
+				<PICSName Type="String">Wireless_BT_TxTest</PICSName>
+				<BTInput Type="String">39,9,4,4,0</BTInput> <!--channel,power,type,pattern,hopping-->
+				<CommandDelay Type="Integer">200</CommandDelay>
+				<BTStartDelay Type="Integer">5</BTStartDelay>
+				<PowerDegree Type="Integer">1</PowerDegree>
+				<Frequency Type="Double">2441.0</Frequency>
+				<RetryTimes Type="Integer">10</RetryTimes>
+				<InputPort Type="Integer">1</InputPort>
+				<Range Type="DoubleList">4.9,13.6</Range>
+				<WriteCPKLog>1</WriteCPKLog>
+				<BtCPKcolumn>
+					<Item Name="SN" />
+					<Item Name="Result" />
+					<Item Name="Time" />
+					<Item Name="BT_TxPower_VALUE" />
+				</BtCPKcolumn>
+			</ProcessObject>
+		</AudioObjects>
+
+			<!--GPS Test-->
+		<AudioObjects>
+			<ProcessObject ClassName="CWireless_GPS_CN0Test" Name="GPS_CN0">
+				<PICSName Type="String">Wireless_GPS_CN0Test</PICSName>
+				<RetryTimes Type="Integer">10</RetryTimes>
+				<CommandDelay>500</CommandDelay>
+				<Frequency Type="Double">1575.52</Frequency>
+				<RFLevel>-110</RFLevel>
+				<OutputPort Type="Integer">1</OutputPort>
+				<DelayAfterCMURun>4000</DelayAfterCMURun>
+				<Range Type="DoubleList">57,63</Range>
+				<FreqRange Editable="TRUE" Type="IntegerList">96850,103150</FreqRange>
+				<WriteCPKLog>1</WriteCPKLog>
+				<GpsCPKcolumn>
+					<Item Name="SN" />
+					<Item Name="Result" />
+					<Item Name="Time" />
+					<Item Name="GPS_CN0" />
+					<Item Name="GPS_FreqOffset" />
+				</GpsCPKcolumn>
+			</ProcessObject>
+		</AudioObjects>
+			
+			
+		<AudioObjects>
+			<ProcessObject ClassName="CBatteryCapacity" Name="BatteryDetectEmpty">
+				<Name Editable="TRUE" Type="string">BatteryDetectEmpty</Name>
+				<BatteryLimit Editable="TRUE" Type="string">25</BatteryLimit>
+			</ProcessObject>
+		</AudioObjects>
+
+		<CheckSWVersionObjects>
+			<ProcessObject ClassName="CCheckSWVersion" Name="CheckSWVersion">
+				<WaitTime Editable="TRUE" Type="Integer">0</WaitTime>
+                <VersionType Editable="TRUE" Type="string">Factory</VersionType>
+            </ProcessObject>
+        </CheckSWVersionObjects>
+		<CFtdObjects>
+			<ProcessObject ClassName="CSapporoFtdTest" Name="UsbDetectStart">
+				<Name Editable="TRUE" Type="string">runUsbDetectStart</Name>
+			</ProcessObject>
+		</CFtdObjects>
+		<ReadTouchIDObjects>
+			<ProcessObject ClassName="CIDTestProc" Name="ReadTouchID">
+				<IDType Editable="TRUE" Type="string">Touch</IDType>
+				<ID Editable="TRUE" Type="Integer">1</ID>
+			</ProcessObject>
+		</ReadTouchIDObjects>
+
+		<ReadTouchModelObjects>
+			<ProcessObject ClassName="CCheckTouch" Name="ReadTouchModel">
+				<IDType Editable="TRUE" Type="string">TouchModelLimitLength</IDType>
+				<!--TouchModel,TouchModelLimitLength-->
+				<ID Editable="TRUE" Type="Integer">T47TCAIB01,1421304;T47TCAIB02,1421304</ID>
+			</ProcessObject>
+		</ReadTouchModelObjects>
+		<ReadFrontCameraIDObjects>
+			<ProcessObject ClassName="CIDTestProc" Name="ReadFrontCameraID">
+				<IDType Editable="TRUE" Type="string">FrontCamera</IDType>
+				<ID Editable="TRUE" Type="Integer">9861</ID>
+			</ProcessObject>
+		</ReadFrontCameraIDObjects>
+
+		<ReadRearCameraIDObjects>
+			<ProcessObject ClassName="CIDTestProc" Name="ReadRearCameraID">
+				<IDType Editable="TRUE" Type="string">BostonRearCamera</IDType>
+				<ID Editable="TRUE" Type="Integer">34917,17</ID>
+			</ProcessObject>
+		</ReadRearCameraIDObjects>
+
+		<ReadLSensorIDObjects>
+			<ProcessObject ClassName="CIDTestProc" Name="ReadLSensorID">
+				<IDType Editable="TRUE" Type="string">LSensor</IDType>
+				<ID Editable="TRUE" Type="Integer">TMD2771-41</ID>
+			</ProcessObject>
+		</ReadLSensorIDObjects>
+		<ReadPSensorIDObjects>
+			<ProcessObject ClassName="CIDTestProc" Name="ReadPSensorID">
+				<IDType Editable="TRUE" Type="string">PSensor</IDType>
+				<ID Editable="TRUE" Type="Integer">TMD2771-41</ID>
+			</ProcessObject>
+		</ReadPSensorIDObjects>
+
+		<CBatteryCapacityObjects>
+			<ProcessObject ClassName="CBatteryCapacity" Name="BatteryDetectEmpty">
+				<Name Editable="TRUE" Type="string">BatteryDetectEmpty</Name>
+				<BatteryLimit Editable="TRUE" Type="string">25</BatteryLimit><!--R,G,B 0:off,1:on-->
+			</ProcessObject>
+		</CBatteryCapacityObjects>
+
+		<CFQCObjects>
+			<ProcessObject ClassName="CFQC" Name="ReadBatteryVoltage">
+				<XMLTestItem Editable="TRUE" Type="string">ReadBatteryVoltage</XMLTestItem>
+				<XMLCMDItem Editable="TRUE" Type="string">0</XMLCMDItem>
+				<XMLOffCMDItem Editable="TRUE" Type="string">0</XMLOffCMDItem>
+				<XMLSleepTime Editable="TRUE" Type="Integer">0</XMLSleepTime>	
+				<XMLRetryTime Editable="TRUE" Type="Integer">0</XMLRetryTime> <!--6 x 5s = 30s -->
+			</ProcessObject>
+		</CFQCObjects>		
+		<CFQCObjects>
+			<ProcessObject ClassName="CFQC" Name="ReadBatteryCurrent">
+				<XMLTestItem Editable="TRUE" Type="string">ReadBatteryCurrent</XMLTestItem>
+				<XMLCMDItem Editable="TRUE" Type="string">0</XMLCMDItem>
+				<XMLOffCMDItem Editable="TRUE" Type="string">0</XMLOffCMDItem>
+				<XMLSleepTime Editable="TRUE" Type="Integer">0</XMLSleepTime>	
+				<XMLRetryTime Editable="TRUE" Type="Integer">0</XMLRetryTime> <!--6 x 5s = 30s -->
+			</ProcessObject>
+		</CFQCObjects>		
+		
+		<!-- ALS -->
+		<GyroTestObjects>
+			<ProcessObject ClassName="CGyroTest" Name="GyroSelfTest">
+			<Name Editable="TRUE" Type="string">GyroTest</Name>
+				<GyroSpec Editable="TRUE" Type="Integer">-1.3,1.3</GyroSpec>		
+			</ProcessObject>
+		</GyroTestObjects>
+		<EcompassSelfTestObjects>
+			<ProcessObject ClassName="CEcompassSelfTest" Name="EcompassSelfTest">
+			<Name Editable="TRUE" Type="string">EcompassSelfTest</Name>		
+			</ProcessObject>
+		</EcompassSelfTestObjects>
+		<GSensorCalibrationObjects>
+			<ProcessObject ClassName="CSensorCalibration" Name="GSensorCalibration">
+				<SensorType Editable="TRUE" Type="string">GSensor</SensorType>
+			</ProcessObject>
+		</GSensorCalibrationObjects>
+		<PSensorCheckValueTestObjects>
+			<ProcessObject ClassName="CBostonPSensorCalibration" Name="PSensorCalibration">
+				<PSensorCalibrationFarSpec Editable="TRUE" Type="Integer">0,2000</PSensorCalibrationFarSpec>
+				<PSensorCalibrationNearSpec Editable="TRUE" Type="Integer">0,2000</PSensorCalibrationNearSpec>
+				<SleepTime Editable="TRUE" Type="Integer">1</SleepTime>
+				<WaitForK Editable="TRUE" Type="Integer">6</WaitForK>
+				<Retry  Editable="TRUE" Type="Integer">3</Retry> <!--retry times -->
+				<EnableJIG  Editable="TRUE" Type="Integer">1</EnableJIG> <!--Enable JIG -->
+			</ProcessObject>
+		</PSensorCheckValueTestObjects>
+		<LSensorCalibrationTestObjects>
+			<ProcessObject ClassName="CLSensorCalibration" Name="LSensorCalibration">
+				<LSensorCalibrationGainSpec Editable="TRUE" Type="Double">0.2,3</LSensorCalibrationGainSpec><!--0.35,1.9 -->
+				<SleepTime Editable="TRUE" Type="Integer">1</SleepTime>
+				<Retry  Editable="TRUE" Type="Integer">3</Retry> <!--retry times -->
+				<StandardLux  Editable="TRUE" Type="Integer">500</StandardLux>
+				<EnableJIG  Editable="TRUE" Type="Integer">1</EnableJIG> <!--Enable JIG -->
+			</ProcessObject>
+		</LSensorCalibrationTestObjects>
+	<LSensorLuxCheckObjects>
+			<ProcessObject ClassName="CSensorLuxCheckHShark" Name="LSensorLuxCheck">
+				<TestItem Editable="TRUE" Type="string">LSensorLuxCheck</TestItem>
+				<LuxVersion Editable="TRUE" Type="string">V17</LuxVersion>
+				<ChipVersion Editable="TRUE" Type="string">PROLIFIC</ChipVersion>
+				<Repeat Editable="TRUE" Type="Integer">10</Repeat> <!--Get repeat times and average-->
+				<Shift Editable="TRUE" Type="Integer">0</Shift>
+				<SleepTime Editable="TRUE" Type="Integer">1</SleepTime>
+				<ReadDataDelay Editable="TRUE" Type="Integer">2000</ReadDataDelay>
+				<RetryTimes Editable="TRUE" Type="Integer">20</RetryTimes>
+				<EnableJIG  Editable="TRUE" Type="Integer">1</EnableJIG> <!--Enable JIG -->
+			</ProcessObject>
+		</LSensorLuxCheckObjects>				
+		<ReadLSensorIDObjects>
+			<ProcessObject ClassName="CIDTestProc" Name="ReadLSensorID">
+				<IDType Editable="TRUE" Type="string">LSensor</IDType>
+				<ID Editable="TRUE" Type="Integer">ap321x_pls-0h02</ID>
+			</ProcessObject>
+		</ReadLSensorIDObjects>
+		<ReadPSensorIDObjects>
+			<ProcessObject ClassName="CIDTestProc" Name="ReadPSensorID">
+				<IDType Editable="TRUE" Type="string">PSensor</IDType>
+				<ID Editable="TRUE" Type="Integer">TMD277x-57</ID>
+			</ProcessObject>
+		</ReadPSensorIDObjects>	
+		<ReadBatteryIDObjects>
+			<ProcessObject ClassName="CreadBatteryID" Name="ReadBatteryID">
+				<IDType Editable="TRUE" Type="string">Battery</IDType>
+				<ID Editable="TRUE" Type="Integer">590831</ID>
+				<Battery_IDRange Editable="TRUE" Type="Integer">450000,740000</Battery_IDRange>
+			</ProcessObject>
+		</ReadBatteryIDObjects>			
+		<GSensorCalibrationTestObjects>
+			<ProcessObject ClassName="CCheckGSensorValue" Name="GSensorCalibrationValueTest">
+				<GSensorSpec Editable="TRUE" Type="Integer">0,0,9.8</GSensorSpec>
+				<SleepTime Editable="TRUE" Type="Integer">0</SleepTime><!--Unit:s -->
+			</ProcessObject>
+		</GSensorCalibrationTestObjects>		
+		<GSensorCalibrationTestObjects>
+			<ProcessObject ClassName="CGSensorCalibration" Name="GSensorCalibrationTest">
+				<SleepTime Editable="TRUE" Type="Integer">0</SleepTime><!--Unit:s -->
+			</ProcessObject>
+		</GSensorCalibrationTestObjects>
+		<TouchSelfTestObjects>
+			<ProcessObject ClassName="CBostonTouchSelfTest" Name="TouchSelfTest">
+			<Name Editable="TRUE" Type="string">TouchSelfTest</Name>
+			<XMLCMDItem Editable="TRUE" Type="string">true</XMLCMDItem>				
+			</ProcessObject>
+		</TouchSelfTestObjects>
+		<ReadPWRgaugeTemperatureObjects>
+			<ProcessObject ClassName="CRangeCheckProc" Name="ReadPWRgaugeTemperature">
+				<Name Editable="TRUE" Type="string">PWRgaugeTemperature</Name>
+				<Value Editable="TRUE" Type="DoubleList">150,400</Value>
+				<CheckMatch Editable="TRUE" Type="Boolean">TRUE</CheckMatch>
+				<Sleep Editable="TRUE" Type="Integer">0</Sleep>
+			</ProcessObject>
+		</ReadPWRgaugeTemperatureObjects>
+		<CBostonAdbLogcatObjects>
+			<ProcessObject ClassName="CBostonAdbLogcat" Name="BostonLogcat">
+			</ProcessObject>
+		</CBostonAdbLogcatObjects>	
+
+		
+		<MMIBBLoopTestObjects>
+			<ProcessObject ClassName="CMMIBB_AudioRetryTest" Name="HeadsetDetectTest">
+				<AudtioTestItem Editable="TRUE" Type="string">HeadsetDetectTest</AudtioTestItem>
+				<AudtioCMDItem Editable="TRUE" Type="string">3</AudtioCMDItem>
+				<AudtioOffCMDItem Editable="TRUE" Type="string">3</AudtioOffCMDItem>
+				<Path Editable="TRUE" Type="string">SPK.wav /cache/SPK.wav</Path>
+				<OnSleepTime Editable="TRUE" Type="Integer">0</OnSleepTime>
+				<OffSleepTime Editable="TRUE" Type="Integer">0</OffSleepTime>
+				<RetryTime Editable="TRUE" Type="Integer">1</RetryTime>
+			</ProcessObject>
+		</MMIBBLoopTestObjects>
+	
+	<AudioObjects>
+		<ProcessObject ClassName="CMicTest" Name="TopMicTest">
+			<TestItemName Type="String">TopMic</TestItemName>
+			<Channels Type="String">LR_ch</Channels><!-- no use-->
+			<!-- SPEC -->
+			<SPEC_Freq_lower Type="Double">980</SPEC_Freq_lower>
+			<SPEC_Freq_upper Type="Double">1020</SPEC_Freq_upper>
+			<SPEC_RMS_lower Type="Double">0.004255</SPEC_RMS_lower>
+			<SPEC_RMS_upper Type="Double">0.5</SPEC_RMS_upper>
+			<SPEC_DB_lower Type="Double">-60</SPEC_DB_lower>
+			<SPEC_DB_difference Type="Double">0</SPEC_DB_difference>
+			<!-- Retry -->
+			<RetryForTest Type="Integer">2</RetryForTest>
+			<RetryForPlayAndRecord Type="Integer">5</RetryForPlayAndRecord>
+			<RetryForPullWav Type="Integer">5</RetryForPullWav>
+			<RetryForCheckWavFile Type="Integer">5</RetryForCheckWavFile>
+			<!-- Delay/Sleep -->
+			<DelayForNextAudioPathStart Type="Integer">0</DelayForNextAudioPathStart>
+			<DelayForWaitingRecord Type="Integer">3500</DelayForWaitingRecord><!-- Sleep after record command success-->
+			<DelayForSwitchPathAndRecordAfterPlayWav Type="Integer">1000</DelayForSwitchPathAndRecordAfterPlayWav><!-- no use-->
+			<DelayAfterCloseAudioPath Type="Integer">800</DelayAfterCloseAudioPath><!-- Sleep after stopping audio path success-->
+			<DelayAfterPullWav Type="Integer">500</DelayAfterPullWav><!-- Only for fail case: (1)pull wav fail;(2)check file fail after pull file finished-->
+			<DelayAfterOpenWavFail Type="Integer">5000</DelayAfterOpenWavFail>
+			<!-- Audio command -->
+			<AudioCmd_StartRecording Type="String">on,back,80,68,/data/ftd_record.wav</AudioCmd_StartRecording>
+			<AudioCmd_StopRecording Type="String">off,back,80,68,/data/ftd_record.wav</AudioCmd_StopRecording>
+		</ProcessObject>
+	</AudioObjects>
+
+	
+	<AudioObjects>
+		<ProcessObject ClassName="CMicTest" Name="BottomMicTest">	
+			<TestItemName Type="String">BottomMic</TestItemName>
+			<Channels Type="String">LR_ch</Channels><!-- no use-->
+			<!-- SPEC -->
+			<SPEC_Freq_lower Type="Double">980</SPEC_Freq_lower>
+			<SPEC_Freq_upper Type="Double">1020</SPEC_Freq_upper>
+			<SPEC_RMS_lower Type="Double">0.000192</SPEC_RMS_lower>
+			<SPEC_RMS_upper Type="Double">0.5</SPEC_RMS_upper>
+			<SPEC_DB_lower Type="Double">-60</SPEC_DB_lower>
+			<SPEC_DB_difference Type="Double">0</SPEC_DB_difference>
+			<!-- Retry -->
+			<RetryForTest Type="Integer">2</RetryForTest>
+			<RetryForPlayAndRecord Type="Integer">5</RetryForPlayAndRecord>
+			<RetryForPullWav Type="Integer">5</RetryForPullWav>
+			<RetryForCheckWavFile Type="Integer">5</RetryForCheckWavFile>
+			<!-- Delay/Sleep -->
+			<DelayForNextAudioPathStart Type="Integer">1000</DelayForNextAudioPathStart>
+			<DelayForWaitingRecord Type="Integer">7500</DelayForWaitingRecord><!-- Sleep after record command success-->
+			<DelayForSwitchPathAndRecordAfterPlayWav Type="Integer">1000</DelayForSwitchPathAndRecordAfterPlayWav><!-- no use-->
+			<DelayAfterCloseAudioPath Type="Integer">800</DelayAfterCloseAudioPath><!-- Sleep after stopping audio path success-->
+			<DelayAfterPullWav Type="Integer">500</DelayAfterPullWav><!-- Only for fail case: (1)pull wav fail;(2)check file fail after pull file finished-->
+			<DelayAfterOpenWavFail Type="Integer">5000</DelayAfterOpenWavFail>
+			<!-- Audio command -->
+			<AudioCmd_StartRecording Type="String">on,front,80,68,/data/ftd_record.wav</AudioCmd_StartRecording>
+			<AudioCmd_StopRecording Type="String">off,front,80,68,/data/ftd_record.wav</AudioCmd_StopRecording>
+		</ProcessObject>
+	</AudioObjects>
+
+	<AudioObjects>
+		<ProcessObject ClassName="CMicTest" Name="HeadsetMicTest">		
+			<TestItemName Type="String">HeadsetMic</TestItemName>
+			<Channels Type="String">LR_ch</Channels><!-- no use-->
+			<!-- SPEC -->
+			<SPEC_Freq_lower Type="Double">980</SPEC_Freq_lower>
+			<SPEC_Freq_upper Type="Double">1020</SPEC_Freq_upper>
+			<SPEC_RMS_lower Type="Double">0.001366</SPEC_RMS_lower>
+			<SPEC_RMS_upper Type="Double">0.5</SPEC_RMS_upper>
+			<SPEC_DB_lower Type="Double">-60</SPEC_DB_lower>
+			<SPEC_DB_difference Type="Double">0</SPEC_DB_difference>
+			<!-- Retry -->
+			<RetryForTest Type="Integer">2</RetryForTest>
+			<RetryForPlayAndRecord Type="Integer">5</RetryForPlayAndRecord>
+			<RetryForPullWav Type="Integer">5</RetryForPullWav>
+			<RetryForCheckWavFile Type="Integer">5</RetryForCheckWavFile>
+			<!-- Delay/Sleep -->
+			<DelayForNextAudioPathStart Type="Integer">1000</DelayForNextAudioPathStart>
+			<DelayForWaitingRecord Type="Integer">3500</DelayForWaitingRecord><!-- Sleep after record command success-->
+			<DelayForSwitchPathAndRecordAfterPlayWav Type="Integer">1000</DelayForSwitchPathAndRecordAfterPlayWav><!-- no use-->
+			<DelayAfterCloseAudioPath Type="Integer">800</DelayAfterCloseAudioPath><!-- Sleep after stopping audio path success-->
+			<DelayAfterPullWav Type="Integer">500</DelayAfterPullWav><!-- Only for fail case: (1)pull wav fail;(2)check file fail after pull file finished-->
+			<DelayAfterOpenWavFail Type="Integer">5000</DelayAfterOpenWavFail>
+			<!-- Audio command -->
+			<AudioCmd_StartRecording Type="String">on,headmic,80,68,/data/ftd_record.wav</AudioCmd_StartRecording>
+			<AudioCmd_StopRecording Type="String">off,headmic,80,68,/data/ftd_record.wav</AudioCmd_StopRecording>
+		</ProcessObject>
+	</AudioObjects>
+	
+	<AudioObjects>
+		<ProcessObject ClassName="CSpeakerTest" Name="SpeakerTest">
+			<TestItemName Type="String">Speaker</TestItemName>
+			<MixerPath Type="Integer">3</MixerPath>					<!--MicIn:3	LineIn:0-->
+			<MixerVolume Type="Double">100</MixerVolume>
+			<RTA_queue_szie Type="Integer">10</RTA_queue_szie>
+			<RTA_max_accumlate Type="Integer">40</RTA_max_accumlate>
+			<RTA_channel Type="Double">LR_ch</RTA_channel>
+			<!-- SPEC -->
+			<SPEC_Freq_lower Type="Double">980</SPEC_Freq_lower>
+			<SPEC_Freq_upper Type="Double">1020</SPEC_Freq_upper>
+			<SPEC_RMS_lower Type="Double">0.000496</SPEC_RMS_lower>
+			<SPEC_RMS_upper Type="Double">1.0</SPEC_RMS_upper>
+			<SPEC_DB_lower Type="Double">-50</SPEC_DB_lower>
+			<SPEC_DB_difference Type="Double">0</SPEC_DB_difference>
+			<!-- Delay/Sleep -->
+			<WaitForStartAnalysis Type="Integer">0</WaitForStartAnalysis><!-- no use-->
+			<DelayForNextAudioPathStart Type="Integer">1000</DelayForNextAudioPathStart>
+			<!-- Audio command -->
+			<AudioPlayCommand Type="String">on,speaker,70,100</AudioPlayCommand>
+			<AudioCloseCommand Type="String">off,speaker,70,100</AudioCloseCommand>
+		</ProcessObject>
+	</AudioObjects>
+		
+	<AudioObjects>
+		<ProcessObject ClassName="CSpeakerTest" Name="Speaker_R_Test">			
+			<TestItemName Type="String">Speaker_R</TestItemName>
+			<MixerPath Type="Integer">3</MixerPath>					<!--MicIn:3	LineIn:0-->
+			<MixerVolume Type="Double">100</MixerVolume>
+			<RTA_queue_szie Type="Integer">10</RTA_queue_szie>
+			<RTA_max_accumlate Type="Integer">40</RTA_max_accumlate>
+			<RTA_channel Type="Double">LR_ch</RTA_channel>
+			<!-- SPEC -->
+			<SPEC_Freq_lower Type="Double">980</SPEC_Freq_lower>
+			<SPEC_Freq_upper Type="Double">1020</SPEC_Freq_upper>
+			<SPEC_RMS_lower Type="Double">0.000496</SPEC_RMS_lower>
+			<SPEC_RMS_upper Type="Double">1.0</SPEC_RMS_upper>
+			<SPEC_DB_lower Type="Double">-50</SPEC_DB_lower>
+			<SPEC_DB_difference Type="Double">0</SPEC_DB_difference>
+			<!-- Delay/Sleep -->
+			<WaitForStartAnalysis Type="Integer">0</WaitForStartAnalysis><!-- no use-->
+			<DelayForNextAudioPathStart Type="Integer">1000</DelayForNextAudioPathStart>
+			<!-- Audio command -->
+			<AudioPlayCommand Type="String">on,speaker,70,100,/system/data/1kTone_spk_R_test.wav</AudioPlayCommand>
+			<AudioCloseCommand Type="String">off,speaker,70,100,/system/data/1kTone_spk_R_test.wav</AudioCloseCommand>
+		</ProcessObject>
+	</AudioObjects>
+
+
+	
+	<AudioObjects>
+		<ProcessObject ClassName="CSpeakerTest" Name="Speaker_L_Test">	
+			<TestItemName Type="String">Speaker_L</TestItemName>
+			<MixerPath Type="Integer">3</MixerPath>					<!--MicIn:3	LineIn:0-->
+			<MixerVolume Type="Double">100</MixerVolume>
+			<RTA_queue_szie Type="Integer">10</RTA_queue_szie>
+			<RTA_max_accumlate Type="Integer">40</RTA_max_accumlate>
+			<RTA_channel Type="Double">LR_ch</RTA_channel>
+			<!-- SPEC -->
+			<SPEC_Freq_lower Type="Double">980</SPEC_Freq_lower>
+			<SPEC_Freq_upper Type="Double">1020</SPEC_Freq_upper>
+			<SPEC_RMS_lower Type="Double">0.000496</SPEC_RMS_lower>
+			<SPEC_RMS_upper Type="Double">1.0</SPEC_RMS_upper>
+			<SPEC_DB_lower Type="Double">-50</SPEC_DB_lower>
+			<SPEC_DB_difference Type="Double">0</SPEC_DB_difference>
+			<!-- Delay/Sleep -->
+			<WaitForStartAnalysis Type="Integer">0</WaitForStartAnalysis><!-- no use-->
+			<DelayForNextAudioPathStart Type="Integer">1000</DelayForNextAudioPathStart>
+			<!-- Audio command -->
+			<AudioPlayCommand Type="String">on,speaker,70,100,/system/data/1kTone_spk_L_test.wav</AudioPlayCommand>
+			<AudioCloseCommand Type="String">off,speaker,70,100,/system/data/1kTone_spk_L_test.wav</AudioCloseCommand>
+		</ProcessObject>
+	</AudioObjects>
+	
+	<AudioObjects>
+		<ProcessObject ClassName="CSpeakerTest" Name="HeadsetReceiverTest">
+			<TestItemName Type="String">HeadsetReceiver</TestItemName>
+			<MixerPath Type="Integer">0</MixerPath>				<!--MicIn:3	LineIn:0-->
+			<MixerVolume Type="Double">100</MixerVolume>
+			<RTA_queue_szie Type="Integer">10</RTA_queue_szie>
+			<RTA_max_accumlate Type="Integer">40</RTA_max_accumlate>
+			<RTA_channel Type="Double">LR_ch</RTA_channel>
+			<!-- SPEC -->
+			<SPEC_Freq_lower Type="Double">980</SPEC_Freq_lower>
+			<SPEC_Freq_upper Type="Double">1020</SPEC_Freq_upper>
+			<SPEC_RMS_lower Type="Double">0.000493</SPEC_RMS_lower>
+			<SPEC_RMS_upper Type="Double">1.0</SPEC_RMS_upper>
+			<SPEC_DB_lower Type="Double">-40</SPEC_DB_lower>
+			<SPEC_DB_difference Type="Double">0</SPEC_DB_difference>
+			<!-- Delay/Sleep -->
+			<WaitForStartAnalysis Type="Integer">0</WaitForStartAnalysis><!-- no use-->
+			<DelayForNextAudioPathStart Type="Integer">1000</DelayForNextAudioPathStart>
+			<!-- Audio command -->
+			<AudioPlayCommand Type="String">5;4;0;0;on,headset_mono,60,100</AudioPlayCommand>
+			<AudioCloseCommand Type="String">5;4;0;0;off,headset_mono,60,100</AudioCloseCommand>
+		</ProcessObject>
+	</AudioObjects>
+
+	<AudioObjects>
+		<ProcessObject ClassName="CSpeakerTest" Name="ReceiverTest"> 
+			<TestItemName Type="String">Receiver</TestItemName>
+			<MixerPath Type="Integer">3</MixerPath>				<!--MicIn:3	LineIn:0-->
+			<MixerVolume Type="Double">100</MixerVolume>
+			<RTA_queue_szie Type="Integer">10</RTA_queue_szie>
+			<RTA_max_accumlate Type="Integer">40</RTA_max_accumlate>
+			<RTA_channel Type="Double">LR_ch</RTA_channel>
+			<!-- SPEC -->
+			<SPEC_Freq_lower Type="Double">980</SPEC_Freq_lower>
+			<SPEC_Freq_upper Type="Double">1020</SPEC_Freq_upper>
+			<SPEC_RMS_lower Type="Double">0.000069</SPEC_RMS_lower>
+			<SPEC_RMS_upper Type="Double">1.0</SPEC_RMS_upper>
+			<SPEC_DB_lower Type="Double">-45</SPEC_DB_lower>
+			<SPEC_DB_difference Type="Double">0</SPEC_DB_difference>
+			<!-- Delay/Sleep -->
+			<WaitForStartAnalysis Type="Integer">0</WaitForStartAnalysis><!-- no use-->
+			<DelayForNextAudioPathStart Type="Integer">1000</DelayForNextAudioPathStart>
+			<!-- Audio command -->
+			<AudioPlayCommand Type="String">on,receiver,70,100</AudioPlayCommand>
+			<AudioCloseCommand Type="String">off,receiver,70,100</AudioCloseCommand>
+		</ProcessObject>
+	</AudioObjects>
+	
+		<CFtdObjects>
+			<ProcessObject ClassName="CSapporoFtdTest" Name="UsbDetectEnd">
+				<Name Editable="TRUE" Type="string">runUsbDetectEnd</Name>
+			</ProcessObject>
+		</CFtdObjects>
+			
+	</ProcessObjectSet>
+</Configuration>

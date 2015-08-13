@@ -1,0 +1,213 @@
+<FrameworkConfig>
+	<RfSettings>
+		<RfCable>
+			<CurrentRfLosses>SystemLoss1</CurrentRfLosses>
+			<RfLosses name="SystemLoss1">
+				<RfType name="TX">
+					<RfBand name="UMTSBand1">
+						<RfChannel name="9612" range="low">
+							<RfLoss>0.55</RfLoss>
+						</RfChannel>
+						<RfChannel name="9750" range="mid">
+							<RfLoss>0.55</RfLoss>
+						</RfChannel>
+						<RfChannel name="9888" range="high">
+							<RfLoss>0.55</RfLoss>
+						</RfChannel>
+					</RfBand>
+					<RfBand name="UMTSBand2">
+						<RfChannel name="9262" range="low">
+							<RfLoss>0.55</RfLoss>
+						</RfChannel>
+						<RfChannel name="9400" range="mid">
+							<RfLoss>0.55</RfLoss>
+						</RfChannel>
+						<RfChannel name="9538" range="high">
+							<RfLoss>0.55</RfLoss>
+						</RfChannel>
+					</RfBand>
+					<RfBand name="UMTSBand5">
+						<RfChannel name="4132" range="low">
+							<RfLoss>0.4</RfLoss>
+						</RfChannel>
+						<RfChannel name="4182" range="mid">
+							<RfLoss>0.4</RfLoss>
+						</RfChannel>
+						<RfChannel name="4233" range="high">
+							<RfLoss>0.4</RfLoss>
+						</RfChannel>
+					</RfBand>
+					<RfBand name="UMTSBand8">
+						<RfChannel name="2712" range="low">
+							<RfLoss>0.4</RfLoss>
+						</RfChannel>
+						<RfChannel name="2787" range="mid">
+							<RfLoss>0.4</RfLoss>
+						</RfChannel>
+						<RfChannel name="2863" range="high">
+							<RfLoss>0.4</RfLoss>
+						</RfChannel>
+					</RfBand>
+					<RfBand name="LTEBand2">
+						<RfChannel name="18650" range="low">
+							<RfLoss>0.55</RfLoss>
+						</RfChannel>
+						<RfChannel name="18900" range="mid">
+							<RfLoss>0.55</RfLoss>
+						</RfChannel>
+						<RfChannel name="19150" range="high">
+							<RfLoss>0.55</RfLoss>
+						</RfChannel>
+					</RfBand>
+					<RfBand name="LTEBand4">
+						<RfChannel name="20000" range="low">
+							<RfLoss>0.55</RfLoss>
+						</RfChannel>
+						<RfChannel name="20175" range="mid">
+							<RfLoss>0.55</RfLoss>
+						</RfChannel>
+						<RfChannel name="20350" range="high">
+							<RfLoss>0.55</RfLoss>
+						</RfChannel>
+					</RfBand>
+					<RfBand name="LTEBand5">
+						<RfChannel name="20450" range="low">
+							<RfLoss>0.55</RfLoss>
+						</RfChannel>
+						<RfChannel name="20525" range="mid">
+							<RfLoss>0.55</RfLoss>
+						</RfChannel>
+						<RfChannel name="20600" range="high">
+							<RfLoss>0.55</RfLoss>
+						</RfChannel>
+					</RfBand>
+				</RfType>
+				<RfType name="RX">
+					<RfBand name="UMTSBand1">
+						<RfChannel name="10562" range="low">
+							<RfLoss>0.55</RfLoss>
+						</RfChannel>
+						<RfChannel name="10700" range="mid">
+							<RfLoss>0.55</RfLoss>
+						</RfChannel>
+						<RfChannel name="10838" range="high">
+							<RfLoss>0.55</RfLoss>
+						</RfChannel>
+					</RfBand>
+					<RfBand name="UMTSBand2">
+						<RfChannel name="9662" range="low">
+							<RfLoss>0.55</RfLoss>
+						</RfChannel>
+						<RfChannel name="9800" range="mid">
+							<RfLoss>0.55</RfLoss>
+						</RfChannel>
+						<RfChannel name="9938" range="high">
+							<RfLoss>0.55</RfLoss>
+						</RfChannel>
+					</RfBand>
+					<RfBand name="UMTSBand5">
+						<RfChannel name="4357" range="low">
+							<RfLoss>0.5</RfLoss>
+						</RfChannel>
+						<RfChannel name="4407" range="mid">
+							<RfLoss>0.5</RfLoss>
+						</RfChannel>
+						<RfChannel name="4458" range="high">
+							<RfLoss>0.5</RfLoss>
+						</RfChannel>
+					</RfBand>
+					<RfBand name="UMTSBand8">
+						<RfChannel name="2937" range="low">
+							<RfLoss>0.4</RfLoss>
+						</RfChannel>
+						<RfChannel name="3012" range="mid">
+							<RfLoss>0.4</RfLoss>
+						</RfChannel>
+						<RfChannel name="3088" range="high">
+							<RfLoss>0.4</RfLoss>
+						</RfChannel>
+					</RfBand>
+					<RfBand name="LTEBand2">
+						<RfChannel name="650" range="low">
+							<RfLoss>0.55</RfLoss>
+						</RfChannel>
+						<RfChannel name="900" range="mid">
+							<RfLoss>0.55</RfLoss>
+						</RfChannel>
+						<RfChannel name="1150" range="high">
+							<RfLoss>0.55</RfLoss>
+						</RfChannel>
+					</RfBand>
+					<RfBand name="LTEBand4">
+						<RfChannel name="2000" range="low">
+							<RfLoss>0.65</RfLoss>
+						</RfChannel>
+						<RfChannel name="2175" range="mid">
+							<RfLoss>0.65</RfLoss>
+						</RfChannel>
+						<RfChannel name="2350" range="high">
+							<RfLoss>0.65</RfLoss>
+						</RfChannel>
+					</RfBand>
+					<RfBand name="LTEBand5">
+						<RfChannel name="2450" range="low">
+							<RfLoss>0.35</RfLoss>
+						</RfChannel>
+						<RfChannel name="2525" range="mid">
+							<RfLoss>0.35</RfLoss>
+						</RfChannel>
+						<RfChannel name="2600" range="high">
+							<RfLoss>0.35</RfLoss>
+						</RfChannel>
+					</RfBand>
+				</RfType>
+				<RfType name="DRX">
+					<RfBand name="UMTSBand1">
+						<RfChannel name="10562" range="low">
+							<RfLoss>0.75</RfLoss>
+						</RfChannel>
+						<RfChannel name="10700" range="mid">
+							<RfLoss>0.75</RfLoss>
+						</RfChannel>
+						<RfChannel name="10838" range="high">
+							<RfLoss>0.75</RfLoss>
+						</RfChannel>
+					</RfBand>
+					<RfBand name="LTEBand2">
+						<RfChannel name="650" range="low">
+							<RfLoss>0.55</RfLoss>
+						</RfChannel>
+						<RfChannel name="900" range="mid">
+							<RfLoss>0.55</RfLoss>
+						</RfChannel>
+						<RfChannel name="1150" range="high">
+							<RfLoss>0.55</RfLoss>
+						</RfChannel>
+					</RfBand>
+					<RfBand name="LTEBand4">
+						<RfChannel name="2000" range="low">
+							<RfLoss>0.65</RfLoss>
+						</RfChannel>
+						<RfChannel name="2175" range="mid">
+							<RfLoss>0.65</RfLoss>
+						</RfChannel>
+						<RfChannel name="2350" range="high">
+							<RfLoss>0.65</RfLoss>
+						</RfChannel>
+					</RfBand>
+					<RfBand name="LTEBand5">
+						<RfChannel name="2450" range="low">
+							<RfLoss>0.35</RfLoss>
+						</RfChannel>
+						<RfChannel name="2525" range="mid">
+							<RfLoss>0.35</RfLoss>
+						</RfChannel>
+						<RfChannel name="2600" range="high">
+							<RfLoss>0.35</RfLoss>
+						</RfChannel>
+					</RfBand>
+				</RfType>
+			</RfLosses>
+		</RfCable>
+	</RfSettings>
+</FrameworkConfig>

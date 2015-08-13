@@ -1,0 +1,37 @@
+#ifndef _C_WCDMA_ONLINE_END_CALL_II_H_
+#define _C_WCDMA_ONLINE_END_CALL_II_H_
+
+
+#include "../../../CommonUtility/BaseObject/ITestProcessor.h"
+
+
+class CWCDMA_Online_EndCall_II : public ITestProcessor
+{
+RF_DECLARE_DYNCREATE(CWCDMA_Online_EndCall_II)
+
+
+// Data members
+public:
+protected:
+private:
+    std::string     m_strBand ;
+    std::string     m_strChannel ;
+    std::string     m_strMsg ;
+    std::string     m_strErrCode ;
+
+
+// Member functions
+public:
+	CWCDMA_Online_EndCall_II() {}
+	~CWCDMA_Online_EndCall_II() {}
+
+	virtual bool InitData(std::map<std::string, std::string>& paramMap);
+    virtual bool Run();
+
+protected:
+private:
+    bool MainFunction() ;
+};
+
+
+#endif // End of #ifndef _C_WCDMA_ONLINE_END_CALL_II_H_

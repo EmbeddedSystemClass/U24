@@ -1,0 +1,235 @@
+<Configuration>
+	<ToolInfo>
+		<StationID>2</StationID>
+		<TOOL_VERSION>V1.003</TOOL_VERSION>
+		<Project>Detroit</Project>
+		<Variant>US</Variant>
+	</ToolInfo>
+	<Memo>
+		<Model>GDETB1A</Model>
+		<Station>ALS</Station>
+	</Memo>
+	<TestProcessor>
+		<Name Editable="TRUE" Type="String">CCommonProcessor</Name>
+		<Phone>
+  			<ClassName>CPhone</ClassName>
+			<COMPort>0</COMPort>
+			<FtdPort>2000</FtdPort>
+			<FtdTimeOut>15000</FtdTimeOut>
+			<AutoFTDMode>FALSE</AutoFTDMode>
+			<SetFTDMode>FALSE</SetFTDMode>
+			<WaitTimeStartingUp>50000</WaitTimeStartingUp>
+			<RebootDelayTime>10000</RebootDelayTime>
+			<IsDiagCmd>1</IsDiagCmd><!--0:Diag  1:ADB-->
+			<IsNeedQXDMLog>TRUE</IsNeedQXDMLog>
+			<SWVersion>0</SWVersion>
+			<Variant>US</Variant>
+			<AdbShellStart>FALSE</AdbShellStart>
+			<LogUpload>TRUE</LogUpload>
+	        <UploadServerIP>10.85.68.13</UploadServerIP>
+		</Phone>
+	</TestProcessor>
+	<TestItemList>
+		<Item Name="CheckSWVersion" Enabled="FALSE"/>	
+		<Item Name="UsbDetectStart" Enabled="TRUE"/>
+		
+		<Item Name="BatteryDetectEmpty" Enabled="TRUE"/>			
+			
+
+		<Item Name="ReadLSensorID" Enabled="TRUE"/>
+		
+		<Item Name="TouchSelfTest" Enabled="TRUE"/>
+		
+		<Item Name="EcompassSelfTest" Enabled="TRUE"/>		
+		
+		<Item Name="LSensorLuxCheck" Enabled="FALSE"/><!--auto adjust light-->
+		<Item Name="LSensorLuxCheckold" Enabled="TRUE"/>
+		<Item Name="LSensorCalibration" Enabled="TRUE"/>
+		
+		<Item Name="GSensorCalibrationTest" Enabled="TRUE"/>
+		<Item Name="GSensorCalibrationValueTest" Enabled="TRUE"/>		
+		<Item Name="ReadPWRgaugeTemperature" Enabled="TRUE"/>
+		<Item Name="UsbDetectEnd" Enabled="TRUE"/>
+		<Item Name="BostonLogcat" Enabled="TRUE"/>
+		
+			<!--False  -->	
+			<Item Name="CloseLight" Enabled="FALSE"/><!--close light-->
+			<Item Name="HallSensorOpenTest" Enabled="FALSE"/>
+			<Item Name="HallSensorCloseTest" Enabled="FALSE"/>
+			<Item Name="GyroSelfTest" Enabled="FALSE"/>	
+			<Item Name="PSensorCalibration" Enabled="FALSE"/>
+			<Item Name="ReadBatteryID" Enabled="FALSE"/>
+			<Item Name="ReadPSensorID" Enabled="FALSE"/>
+			<Item Name="BatteryDetectFull" Enabled="FALSE"/>
+	</TestItemList>
+	<ProcessObjectSet>
+		<GyroTestObjects>
+			<ProcessObject ClassName="CGyroTest" Name="GyroSelfTest">
+			<Name Editable="TRUE" Type="string">GyroTest</Name>
+				<GyroSpec Editable="TRUE" Type="Integer">-1.3,1.3</GyroSpec>		
+			</ProcessObject>
+		</GyroTestObjects>
+		<EcompassSelfTestObjects>
+			<ProcessObject ClassName="CEcompassSelfTest" Name="EcompassSelfTest">
+			<Name Editable="TRUE" Type="string">EcompassSelfTest</Name>		
+			</ProcessObject>
+		</EcompassSelfTestObjects>
+		<CBatteryCapacityObjects>
+			<ProcessObject ClassName="CBatteryCapacity" Name="BatteryDetectEmpty">
+				<Name Editable="TRUE" Type="string">BatteryDetectEmpty</Name>
+				<BatteryLimit Editable="TRUE" Type="string">25</BatteryLimit><!--R,G,B 0:off,1:on-->
+			</ProcessObject>
+		</CBatteryCapacityObjects>		
+		<LSensorLuxCheckObjects>
+			<ProcessObject ClassName="CBostonLSensorLuxCheck" Name="LSensorLuxCheckold">
+				<LuxSpec Editable="TRUE" Type="Integer">605,705</LuxSpec>
+				<Repeat Editable="TRUE" Type="Integer">10</Repeat> <!--Get repeat times and average-->
+				<Comport Editable="TRUE" Type="string">COM9</Comport>
+				<Shift Editable="TRUE" Type="Integer">0</Shift>
+				<SleepTime Editable="TRUE" Type="Integer">1</SleepTime>
+				<ReadDataDelay Editable="TRUE" Type="Integer">2000</ReadDataDelay>
+				<RetryTimes Editable="TRUE" Type="Integer">20</RetryTimes>
+				<EnableJIG  Editable="TRUE" Type="Integer">0</EnableJIG> <!--Enable JIG -->
+			</ProcessObject>
+		</LSensorLuxCheckObjects>		
+		<CheckSWVersionObjects>
+			<ProcessObject ClassName="CCheckSWVersion" Name="CheckSWVersion">
+				<WaitTime Editable="TRUE" Type="Integer">0</WaitTime>
+				<!-- Tline,Aline:Factory Pline:Ship -->
+				<VersionType Editable="TRUE" Type="string">Factory</VersionType>
+			</ProcessObject>	
+		</CheckSWVersionObjects>
+		<CommonTestObjects>
+			<ProcessObject ClassName="CAdbShellStart" Name="AdbShellStart">
+				<WaitTime Editable="FALSE" Type="Integer">3000</WaitTime>
+			</ProcessObject>	
+		</CommonTestObjects>
+		<PSensorCheckValueTestObjects>
+			<ProcessObject ClassName="CBostonPSensorCalibration" Name="PSensorCalibration">
+				<PSensorCalibrationFarSpec Editable="TRUE" Type="Integer">0,500</PSensorCalibrationFarSpec>
+				<PSensorCalibrationNearSpec Editable="TRUE" Type="Integer">200,800</PSensorCalibrationNearSpec>
+				<SleepTime Editable="TRUE" Type="Integer">1</SleepTime>
+				<WaitForK Editable="TRUE" Type="Integer">6</WaitForK>
+				<Retry  Editable="TRUE" Type="Integer">3</Retry> <!--retry times -->
+				<EnableJIG  Editable="TRUE" Type="Integer">0</EnableJIG>  <!--Enable JIG -->
+			</ProcessObject>
+		</PSensorCheckValueTestObjects>
+		<CHallSensorTestObjects>
+			<ProcessObject ClassName="CHallSensor" Name="HallSensorOpenTest">
+				<XMLTestItem Editable="TRUE" Type="string">HallSensorOpenTest</XMLTestItem>
+				<SleepTime Editable="TRUE" Type="Integer">1</SleepTime>
+				<Retry  Editable="TRUE" Type="Integer">3</Retry> <!--retry times -->
+				<EnableJIG  Editable="TRUE" Type="Integer">0</EnableJIG>  <!--Enable JIG -->
+			</ProcessObject>
+		</CHallSensorTestObjects>	
+		<CHallSensorTestObjects>
+			<ProcessObject ClassName="CHallSensor" Name="HallSensorCloseTest">
+				<XMLTestItem Editable="TRUE" Type="string">HallSensorCloseTest</XMLTestItem>
+				<SleepTime Editable="TRUE" Type="Integer">1</SleepTime>
+				<Retry  Editable="TRUE" Type="Integer">3</Retry> <!--retry times -->
+				<EnableJIG  Editable="TRUE" Type="Integer">0</EnableJIG>  <!--Enable JIG -->
+			</ProcessObject>
+		</CHallSensorTestObjects>			
+		<LSensorCalibrationTestObjects>
+			<ProcessObject ClassName="CLSensorCalibration" Name="LSensorCalibration">
+				<LSensorCalibrationGainSpec Editable="TRUE" Type="Double">0.3,3.5</LSensorCalibrationGainSpec><!--0.35,1.9 -->
+				<SleepTime Editable="TRUE" Type="Integer">1</SleepTime>
+				<Retry  Editable="TRUE" Type="Integer">3</Retry> <!--retry times -->
+				<StandardLux  Editable="TRUE" Type="Integer">500</StandardLux>
+				<EnableJIG  Editable="TRUE" Type="Integer">0</EnableJIG>  <!--Enable JIG -->
+			</ProcessObject>
+		</LSensorCalibrationTestObjects>
+	<LSensorLuxCheckObjects>
+			<ProcessObject ClassName="CSensorLuxCheckHShark" Name="LSensorLuxCheck">
+				<TestItem Editable="TRUE" Type="string">LSensorLuxCheck</TestItem>
+				<LuxVersion Editable="TRUE" Type="string">V17</LuxVersion>
+				<ChipVersion Editable="TRUE" Type="string">PROLIFIC</ChipVersion>
+				<Repeat Editable="TRUE" Type="Integer">10</Repeat> <!--Get repeat times and average-->
+				<Shift Editable="TRUE" Type="Integer">0</Shift>
+				<SleepTime Editable="TRUE" Type="Integer">1</SleepTime>
+				<ReadDataDelay Editable="TRUE" Type="Integer">2000</ReadDataDelay>
+				<RetryTimes Editable="TRUE" Type="Integer">20</RetryTimes>
+				<EnableJIG  Editable="TRUE" Type="Integer">0</EnableJIG>  <!--Enable JIG -->
+			</ProcessObject>
+		</LSensorLuxCheckObjects>		
+		<LSensorLuxCheckObjects>
+			<ProcessObject ClassName="CSensorLuxCheckHShark" Name="CloseLight">
+				<TestItem Editable="TRUE" Type="string">CloseLight</TestItem>
+				<LuxVersion Editable="TRUE" Type="string">V17</LuxVersion>
+				<ChipVersion Editable="TRUE" Type="string">PROLIFIC</ChipVersion>
+				<Repeat Editable="TRUE" Type="Integer">10</Repeat> <!--Get repeat times and average-->
+				<Shift Editable="TRUE" Type="Integer">0</Shift>
+				<SleepTime Editable="TRUE" Type="Integer">1</SleepTime>
+				<ReadDataDelay Editable="TRUE" Type="Integer">2000</ReadDataDelay>
+				<RetryTimes Editable="TRUE" Type="Integer">40</RetryTimes>
+				<EnableJIG  Editable="TRUE" Type="Integer">0</EnableJIG>  <!--Enable JIG -->
+			</ProcessObject>
+		</LSensorLuxCheckObjects>			
+		<ReadLSensorIDObjects>
+			<ProcessObject ClassName="CIDTestProc" Name="ReadLSensorID">
+				<IDType Editable="TRUE" Type="string">LSensor</IDType>
+				<ID Editable="TRUE" Type="Integer">al3201-0h38</ID>
+			</ProcessObject>
+		</ReadLSensorIDObjects>
+		<ReadPSensorIDObjects>
+			<ProcessObject ClassName="CIDTestProc" Name="ReadPSensorID">
+				<IDType Editable="TRUE" Type="string">PSensor</IDType>
+				<ID Editable="TRUE" Type="Integer">TMD277x-57</ID>
+			</ProcessObject>
+		</ReadPSensorIDObjects>	
+		<ReadBatteryIDObjects>
+			<ProcessObject ClassName="CreadBatteryID" Name="ReadBatteryID">
+				<IDType Editable="TRUE" Type="string">Battery</IDType>
+				<ID Editable="TRUE" Type="Integer">590831</ID>
+				<Battery_IDRange Editable="TRUE" Type="Integer">450000,740000</Battery_IDRange>
+			</ProcessObject>
+		</ReadBatteryIDObjects>			
+		<GSensorCalibrationTestObjects>
+			<ProcessObject ClassName="CCheckGSensorValue" Name="GSensorCalibrationValueTest">
+				<GSensorSpec Editable="TRUE" Type="Integer">0,0,9.8</GSensorSpec>
+				<SleepTime Editable="TRUE" Type="Integer">0</SleepTime><!--Unit:s -->
+			</ProcessObject>
+		</GSensorCalibrationTestObjects>		
+		<GSensorCalibrationTestObjects>
+			<ProcessObject ClassName="CGSensorCalibration" Name="GSensorCalibrationTest">
+				<SleepTime Editable="TRUE" Type="Integer">0</SleepTime><!--Unit:s -->
+			</ProcessObject>
+		</GSensorCalibrationTestObjects>
+		<TouchSelfTestObjects>
+			<ProcessObject ClassName="CBostonTouchSelfTest" Name="TouchSelfTest">
+			<Name Editable="TRUE" Type="string">TouchSelfTest</Name>	
+			<XMLCMDItem Editable="TRUE" Type="string">true</XMLCMDItem>					
+			</ProcessObject>
+		</TouchSelfTestObjects>
+		<ReadPWRgaugeTemperatureObjects>
+			<ProcessObject ClassName="CRangeCheckProc" Name="ReadPWRgaugeTemperature">
+				<Name Editable="TRUE" Type="string">PWRgaugeTemperature</Name>
+				<Value Editable="TRUE" Type="DoubleList">150,400</Value>
+				<CheckMatch Editable="TRUE" Type="Boolean">TRUE</CheckMatch>
+				<Sleep Editable="TRUE" Type="Integer">0</Sleep>
+			</ProcessObject>
+		</ReadPWRgaugeTemperatureObjects>
+		<CBostonAdbLogcatObjects>
+			<ProcessObject ClassName="CBostonAdbLogcat" Name="BostonLogcat">
+			</ProcessObject>
+		</CBostonAdbLogcatObjects>	
+		<CFtdObjects>
+			<ProcessObject ClassName="CSapporoFtdTest" Name="UsbDetectEnd">
+				<Name Editable="TRUE" Type="string">runUsbDetectEnd</Name>
+			</ProcessObject>
+		</CFtdObjects>		
+		<CFtdObjects>
+			<ProcessObject ClassName="CSapporoFtdTest" Name="UsbDetectStart">
+				<Name Editable="TRUE" Type="string">runUsbDetectStart</Name>
+			</ProcessObject>
+		</CFtdObjects>	
+	
+		<CBatteryCapacityObjects>
+			<ProcessObject ClassName="CBatteryCapacity" Name="BatteryDetectFull">
+				<Name Editable="TRUE" Type="string">BatteryDetectFull</Name>
+				<BatteryLimit Editable="TRUE" Type="string">90</BatteryLimit><!--R,G,B 0:off,1:on-->
+			</ProcessObject>
+		</CBatteryCapacityObjects>	
+				
+	</ProcessObjectSet>
+</Configuration>

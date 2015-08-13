@@ -1,0 +1,20 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "UnifyUI_RF_U2416_Certification", "..\UI\UnifyUI_RF_U2416_Certification\UnifyUI_ServiceTool.vcproj", "{9A3F00E5-4170-42D4-8B2F-4E68314FE209}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9A3F00E5-4170-42D4-8B2F-4E68314FE209}.Debug|Win32.ActiveCfg = Debug|Win32
+		{9A3F00E5-4170-42D4-8B2F-4E68314FE209}.Debug|Win32.Build.0 = Debug|Win32
+		{9A3F00E5-4170-42D4-8B2F-4E68314FE209}.Release|Win32.ActiveCfg = Release|Win32
+		{9A3F00E5-4170-42D4-8B2F-4E68314FE209}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,448 @@
+<FrameworkConfig>
+	<RfSettings>
+		<RfCable>
+			<CurrentRfLosses>SystemLoss1</CurrentRfLosses>
+			<RfLosses name="SystemLoss1">
+				<RfType name="TX">
+					<RfBand name="GSM850">
+						<RfChannel name="128" range="low">
+							<RfLoss>0.5</RfLoss>
+						</RfChannel>
+						<RfChannel name="178" range="mid">
+							<RfLoss>0.5</RfLoss>
+						</RfChannel>
+						<RfChannel name="251" range="high">
+							<RfLoss>0.5</RfLoss>
+						</RfChannel>
+					</RfBand>
+					<RfBand name="GSM900">
+						<RfChannel name="975" range="low">
+							<RfLoss>3.49</RfLoss>
+						</RfChannel>
+						<RfChannel name="021" range="mid">
+							<RfLoss>3.49</RfLoss>
+						</RfChannel>
+						<RfChannel name="124" range="high">
+							<RfLoss>3.53</RfLoss>
+						</RfChannel>
+					</RfBand>
+					<RfBand name="GSM1800">
+						<RfChannel name="512" range="low">
+							<RfLoss>6.02</RfLoss>
+						</RfChannel>
+						<RfChannel name="662" range="mid">
+							<RfLoss>6.05</RfLoss>
+						</RfChannel>
+						<RfChannel name="885" range="high">
+							<RfLoss>6.09</RfLoss>
+						</RfChannel>
+					</RfBand>
+					<RfBand name="GSM1900">
+						<RfChannel name="512" range="low">
+							<RfLoss>0.7</RfLoss>
+						</RfChannel>
+						<RfChannel name="632" range="mid">
+							<RfLoss>0.7</RfLoss>
+						</RfChannel>
+						<RfChannel name="810" range="high">
+							<RfLoss>0.7</RfLoss>
+						</RfChannel>
+					</RfBand>
+					<RfBand name="UMTSBand1">
+						<RfChannel name="9612" range="low">
+							<RfLoss>6.51</RfLoss>
+						</RfChannel>
+						<RfChannel name="9750" range="mid">
+							<RfLoss>6.31</RfLoss>
+						</RfChannel>
+						<RfChannel name="9888" range="high">
+							<RfLoss>6.48</RfLoss>
+						</RfChannel>
+					</RfBand>
+					<RfBand name="UMTSBand2">
+						<RfChannel name="9262" range="low">
+							<RfLoss>0.7</RfLoss>
+						</RfChannel>
+						<RfChannel name="9400" range="mid">
+							<RfLoss>0.7</RfLoss>
+						</RfChannel>
+						<RfChannel name="9538" range="high">
+							<RfLoss>0.7</RfLoss>
+						</RfChannel>
+					</RfBand>
+					<RfBand name="UMTSBand3">
+						<RfChannel name="937" range="low">
+							<RfLoss>0.7</RfLoss>
+						</RfChannel>
+						<RfChannel name="1113" range="mid">
+							<RfLoss>0.7</RfLoss>
+						</RfChannel>
+						<RfChannel name="1288" range="high">
+							<RfLoss>0.7</RfLoss>
+						</RfChannel>
+					</RfBand>
+					<RfBand name="UMTSBand4">
+						<RfChannel name="1312" range="low">
+							<RfLoss>0.7</RfLoss>
+						</RfChannel>
+						<RfChannel name="1412" range="mid">
+							<RfLoss>0.7</RfLoss>
+						</RfChannel>
+						<RfChannel name="1513" range="high">
+							<RfLoss>0.7</RfLoss>
+						</RfChannel>
+					</RfBand>
+					<RfBand name="UMTSBand5">
+						<RfChannel name="4132" range="low">
+							<RfLoss>0.5</RfLoss>
+						</RfChannel>
+						<RfChannel name="4182" range="mid">
+							<RfLoss>0.5</RfLoss>
+						</RfChannel>
+						<RfChannel name="4233" range="high">
+							<RfLoss>0.5</RfLoss>
+						</RfChannel>
+					</RfBand>
+					<RfBand name="UMTSBand6">
+						<RfChannel name="4162" range="low">
+							<RfLoss>0.5</RfLoss>
+						</RfChannel>
+						<RfChannel name="4175" range="mid">
+							<RfLoss>0.5</RfLoss>
+						</RfChannel>
+						<RfChannel name="4188" range="high">
+							<RfLoss>0.5</RfLoss>
+						</RfChannel>
+					</RfBand>
+					<RfBand name="UMTSBand7">
+						<RfChannel name="2012" range="low">
+							<RfLoss>0.5</RfLoss>
+						</RfChannel>
+						<RfChannel name="2175" range="mid">
+							<RfLoss>0.5</RfLoss>
+						</RfChannel>
+						<RfChannel name="2338" range="high">
+							<RfLoss>0.5</RfLoss>
+						</RfChannel>
+					</RfBand>
+					<RfBand name="UMTSBand8">
+						<RfChannel name="2712" range="low">
+							<RfLoss>0.5</RfLoss>
+						</RfChannel>
+						<RfChannel name="2787" range="mid">
+							<RfLoss>0.5</RfLoss>
+						</RfChannel>
+						<RfChannel name="2863" range="high">
+							<RfLoss>0.5</RfLoss>
+						</RfChannel>
+					</RfBand>
+					<RfBand name="CDMA800">
+						<RfChannel name="1013" range="low">
+							<RfLoss>3.69</RfLoss>
+						</RfChannel>
+						<RfChannel name="384" range="mid">
+							<RfLoss>3.68</RfLoss>
+						</RfChannel>
+						<RfChannel name="777" range="high">
+							<RfLoss>3.63</RfLoss>
+						</RfChannel>
+					</RfBand>
+					<RfBand name="WirelessGSM850">
+						<RfChannel name="WirelessMidChannel">
+							<RfLoss>0.7</RfLoss>
+						</RfChannel>
+					</RfBand>
+					<RfBand name="WirelessGSM900">
+						<RfChannel name="WirelessMidChannel">
+							<RfLoss>25.5</RfLoss>
+						</RfChannel>
+					</RfBand>
+					<RfBand name="WirelessGSM1800">
+						<RfChannel name="WirelessMidChannel">
+							<RfLoss>25</RfLoss>
+						</RfChannel>
+					</RfBand>
+					<RfBand name="WirelessGSM1900">
+						<RfChannel name="WirelessMidChannel">
+							<RfLoss>0.7</RfLoss>
+						</RfChannel>
+					</RfBand>
+					<RfBand name="WirelessWCDMA850">
+						<RfChannel name="WirelessMidChannel">
+							<RfLoss>0.7</RfLoss>
+						</RfChannel>
+					</RfBand>
+					<RfBand name="WirelessWCDMA2100">
+						<RfChannel name="WirelessMidChannel">
+							<RfLoss>15.8</RfLoss>
+						</RfChannel>
+					</RfBand>
+					<RfBand name="WirelessWCDMA1900">
+						<RfChannel name="WirelessMidChannel">
+							<RfLoss>0.7</RfLoss>
+						</RfChannel>
+					</RfBand>
+					<RfBand name="WirelessWCDMA900">
+						<RfChannel name="WirelessMidChannel">
+							<RfLoss>0.7</RfLoss>
+						</RfChannel>
+					</RfBand>
+					<RfBand name="WirelessWCDMA1700">
+						<RfChannel name="WirelessMidChannel">
+							<RfLoss>0.7</RfLoss>
+						</RfChannel>
+					</RfBand>
+					<RfBand name="WirelessCDMA2000_800">
+						<RfChannel name="WirelessMidChannel">
+							<RfLoss>0.7</RfLoss>
+						</RfChannel>
+					</RfBand>
+					<RfBand name="BT">
+						<RfChannel name="240"> <!--2402 MHz-->
+							<RfLoss>0.7</RfLoss>
+						</RfChannel>
+						<RfChannel name="241"> <!--2441 MHz-->
+							<RfLoss>14.5</RfLoss>
+						</RfChannel>
+						<RfChannel name="242"> <!--2480 MHz-->
+							<RfLoss>0.7</RfLoss>
+						</RfChannel>
+					</RfBand>
+					<RfBand name="WLAN">
+						<RfChannel name="1">   
+							<RfLoss>0.7</RfLoss>
+						</RfChannel>
+						<RfChannel name="6">
+							<RfLoss>15.5</RfLoss>
+						</RfChannel>
+						<RfChannel name="11">
+							<RfLoss>0.7</RfLoss>
+						</RfChannel>
+						<RfChannel name="13">
+							<RfLoss>0.7</RfLoss>
+						</RfChannel>
+					</RfBand>
+					<RfBand name="WirelessBT">
+						<RfChannel name="240"> <!--2402 MHz-->
+							<RfLoss>0.7</RfLoss>
+						</RfChannel>
+						<RfChannel name="241"> <!--2441 MHz-->
+							<RfLoss>29</RfLoss>
+						</RfChannel>
+						<RfChannel name="242"> <!--2480 MHz-->
+							<RfLoss>0.7</RfLoss>
+						</RfChannel>
+					</RfBand>
+					<RfBand name="WirelessWLAN">
+						<RfChannel name="1">
+							<RfLoss>0.7</RfLoss>
+						</RfChannel>
+						<RfChannel name="6">
+							<RfLoss>27.5</RfLoss>
+						</RfChannel>
+						<RfChannel name="11">
+							<RfLoss>15.15</RfLoss>
+						</RfChannel>
+						<RfChannel name="13">
+							<RfLoss>0.7</RfLoss>
+						</RfChannel>
+					</RfBand>
+				</RfType>
+				<RfType name="RX">
+					<RfBand name="GSM850">
+						<RfChannel name="128" range="low">
+							<RfLoss>0.5</RfLoss>
+						</RfChannel>
+						<RfChannel name="178" range="mid">
+							<RfLoss>0.5</RfLoss>
+						</RfChannel>
+						<RfChannel name="251" range="high">
+							<RfLoss>0.5</RfLoss>
+						</RfChannel>
+					</RfBand>
+					<RfBand name="GSM900">
+						<RfChannel name="975" range="low">
+							<RfLoss>3.49</RfLoss>
+						</RfChannel>
+						<RfChannel name="021" range="mid">
+							<RfLoss>3.49</RfLoss>
+						</RfChannel>
+						<RfChannel name="124" range="high">
+							<RfLoss>3.53</RfLoss>
+						</RfChannel>
+					</RfBand>
+					<RfBand name="GSM1800">
+						<RfChannel name="512" range="low">
+							<RfLoss>6.02</RfLoss>
+						</RfChannel>
+						<RfChannel name="662" range="mid">
+							<RfLoss>6.05</RfLoss>
+						</RfChannel>
+						<RfChannel name="885" range="high">
+							<RfLoss>6.09</RfLoss>
+						</RfChannel>
+					</RfBand>
+					<RfBand name="GSM1900">
+						<RfChannel name="512" range="low">
+							<RfLoss>0.7</RfLoss>
+						</RfChannel>
+						<RfChannel name="632" range="mid">
+							<RfLoss>0.7</RfLoss>
+						</RfChannel>
+						<RfChannel name="810" range="high">
+							<RfLoss>0.7</RfLoss>
+						</RfChannel>
+					</RfBand>
+					<RfBand name="UMTSBand1">
+						<RfChannel name="10562" range="low">
+							<RfLoss>6.51</RfLoss>
+						</RfChannel>
+						<RfChannel name="10700" range="mid">
+							<RfLoss>6.31</RfLoss>
+						</RfChannel>
+						<RfChannel name="10838" range="high">
+							<RfLoss>6.48</RfLoss>
+						</RfChannel>
+					</RfBand>
+					<RfBand name="UMTSBand2">
+						<RfChannel name="9662" range="low">
+							<RfLoss>0.7</RfLoss>
+						</RfChannel>
+						<RfChannel name="9800" range="mid">
+							<RfLoss>0.7</RfLoss>
+						</RfChannel>
+						<RfChannel name="9938" range="high">
+							<RfLoss>0.7</RfLoss>
+						</RfChannel>
+					</RfBand>
+					<RfBand name="UMTSBand3">
+						<RfChannel name="1162" range="low">
+							<RfLoss>0.7</RfLoss>
+						</RfChannel>
+						<RfChannel name="1338" range="mid">
+							<RfLoss>0.7</RfLoss>
+						</RfChannel>
+						<RfChannel name="1513" range="high">
+							<RfLoss>0.7</RfLoss>
+						</RfChannel>
+					</RfBand>
+					<RfBand name="UMTSBand4">
+						<RfChannel name="1537" range="low">
+							<RfLoss>0.7</RfLoss>
+						</RfChannel>
+						<RfChannel name="1637" range="mid">
+							<RfLoss>0.7</RfLoss>
+						</RfChannel>
+						<RfChannel name="1738" range="high">
+							<RfLoss>0.7</RfLoss>
+						</RfChannel>
+					</RfBand>
+					<RfBand name="UMTSBand5">
+						<RfChannel name="4357" range="low">
+							<RfLoss>0.5</RfLoss>
+						</RfChannel>
+						<RfChannel name="4407" range="mid">
+							<RfLoss>0.5</RfLoss>
+						</RfChannel>
+						<RfChannel name="4458" range="high">
+							<RfLoss>0.5</RfLoss>
+						</RfChannel>
+					</RfBand>
+					<RfBand name="UMTSBand6">
+						<RfChannel name="4387" range="low">
+							<RfLoss>0.5</RfLoss>
+						</RfChannel>
+						<RfChannel name="4400" range="mid">
+							<RfLoss>0.5</RfLoss>
+						</RfChannel>
+						<RfChannel name="4413" range="high">
+							<RfLoss>0.5</RfLoss>
+						</RfChannel>
+					</RfBand>
+					<RfBand name="UMTSBand7">
+						<RfChannel name="2237" range="low">
+							<RfLoss>0.5</RfLoss>
+						</RfChannel>
+						<RfChannel name="2400" range="mid">
+							<RfLoss>0.5</RfLoss>
+						</RfChannel>
+						<RfChannel name="2563" range="high">
+							<RfLoss>0.5</RfLoss>
+						</RfChannel>
+					</RfBand>
+					<RfBand name="UMTSBand8">
+						<RfChannel name="2937" range="low">
+							<RfLoss>0.5</RfLoss>
+						</RfChannel>
+						<RfChannel name="3012" range="mid">
+							<RfLoss>0.5</RfLoss>
+						</RfChannel>
+						<RfChannel name="3088" range="high">
+							<RfLoss>0.5</RfLoss>
+						</RfChannel>
+					</RfBand>
+					<RfBand name="CDMA800">
+						<RfChannel name="1013" range="low">
+							<RfLoss>3.69</RfLoss>
+						</RfChannel>
+						<RfChannel name="384" range="mid">
+							<RfLoss>3.68</RfLoss>
+						</RfChannel>
+						<RfChannel name="777" range="high">
+							<RfLoss>3.63</RfLoss>
+						</RfChannel>
+					</RfBand>
+					<RfBand name="WirelessGSM850">
+						<RfChannel name="WirelessMidChannel">
+							<RfLoss>0.7</RfLoss>
+						</RfChannel>
+					</RfBand>
+					<RfBand name="WirelessGSM900">
+						<RfChannel name="WirelessMidChannel">
+							<RfLoss>0.7</RfLoss>
+						</RfChannel>
+					</RfBand>
+					<RfBand name="WirelessGSM1800">
+						<RfChannel name="WirelessMidChannel">
+							<RfLoss>0.7</RfLoss>
+						</RfChannel>
+					</RfBand>
+					<RfBand name="WirelessGSM1900">
+						<RfChannel name="WirelessMidChannel">
+							<RfLoss>0.7</RfLoss>
+						</RfChannel>
+					</RfBand>
+					<RfBand name="WirelessCDMA2000_800">
+						<RfChannel name="WirelessMidChannel">
+							<RfLoss>0.7</RfLoss>
+						</RfChannel>
+					</RfBand>
+					<RfBand name="FMRssi">
+						<RfChannel name="97500">   <!--97500 kHz = 97.5 MHz-->
+							<RfLoss>0.7</RfLoss>
+						</RfChannel>
+						<RfChannel name="8810">
+							<RfLoss>0.7</RfLoss>
+						</RfChannel>
+						<RfChannel name="9810">
+							<RfLoss>0.7</RfLoss>
+						</RfChannel>
+						<RfChannel name="10800">
+							<RfLoss>0.7</RfLoss>
+						</RfChannel>
+					</RfBand>
+					<RfBand name="GPS">
+						<RfChannel name="GPSFixFreq">
+							<RfLoss>3.0</RfLoss>
+						</RfChannel>
+					</RfBand>
+					<RfBand name="WirelessGPS">
+						<RfChannel name="GPSFixFreq">
+							<RfLoss>3.7</RfLoss>
+						</RfChannel>
+					</RfBand>
+				</RfType>
+			</RfLosses>
+		</RfCable>
+	</RfSettings>
+</FrameworkConfig>

@@ -1,0 +1,171 @@
+<Configuration>
+	<ToolInfo>
+		<StationID>5</StationID>
+		<TOOL_VERSION>V1.003</TOOL_VERSION>
+		<Project>Detroit</Project>
+		<Variant>US</Variant>
+	</ToolInfo>
+	<Memo>
+		<Model>GDETB1A</Model>
+		<Station>MMI_BB</Station>
+	</Memo>
+	<TestProcessor>
+		<Name Editable="TRUE" Type="String">CCommonProcessor</Name>
+		<Phone>
+  			<ClassName>CPhone</ClassName>
+			<COMPort>0</COMPort>
+			<FtdPort>2000</FtdPort>
+			<FtdTimeOut>15000</FtdTimeOut>
+			<AutoFTDMode>FALSE</AutoFTDMode>
+			<SetFTDMode>FALSE</SetFTDMode>
+			<WaitTimeStartingUp>50000</WaitTimeStartingUp>
+			<RebootDelayTime>10000</RebootDelayTime>
+			<IsDiagCmd>1</IsDiagCmd><!--0:Diag  1:ADB-->
+			<IsNeedQXDMLog>FALSE</IsNeedQXDMLog>
+			<SWVersion>0</SWVersion>
+			<Variant>UMTS</Variant>
+			<LogUpload>TRUE</LogUpload>
+	        <UploadServerIP>10.85.68.13</UploadServerIP>
+		</Phone>
+	</TestProcessor>
+	<TestItemList>
+	<Item Name="CheckSWVersion" Enabled="FALSE"/>
+	
+		<Item Name="runIn_2D" Enabled="TRUE"/>
+		<Item Name="runIn_3D" Enabled="TRUE"/>
+		<Item Name="runIn_CPU" Enabled="FALSE"/><!-- => 不測-->
+		<Item Name="runIn_Audio" Enabled="TRUE"/>
+		<Item Name="runIn_AudioToRece" Enabled="TRUE"/>
+		<Item Name="runIn_Video" Enabled="TRUE"/>
+		<Item Name="runIn_Camera" Enabled="TRUE"/>
+		<Item Name="runIn_Storage" Enabled="FALSE"/><!-- => 不測-->
+		<Item Name="runIn_Memory" Enabled="FALSE"/> <!-- => 不測-->
+		<Item Name="runIn_Sleep" Enabled="TRUE"/>
+		<Item Name="runIn_Reboot" Enabled="TRUE"/>
+		<Item Name="phoneShutdown" Enabled="TRUE"/>
+		
+	</TestItemList>
+	<ProcessObjectSet>
+		<CRUN_INObjects>
+			<ProcessObject ClassName="CRUN_IN" Name="phoneShutdown">
+				<XMLTestItem Editable="TRUE" Type="string">phoneShutdown</XMLTestItem>
+				<XMLCMDItem Editable="TRUE" Type="string">/data/data/com.oem.runin/files/runin.txt</XMLCMDItem>
+				<XMLOffCMDItem Editable="TRUE" Type="string">0</XMLOffCMDItem>
+				<XMLSleepTime Editable="TRUE" Type="Integer">60000</XMLSleepTime>	
+				<XMLRetryTime Editable="TRUE" Type="Integer">1</XMLRetryTime>
+				<XMLFQC_L1L2 Editable="TRUE" Type="Integer">0</XMLFQC_L1L2><!--0=FQC, 1=L1L2-->
+			</ProcessObject>
+		</CRUN_INObjects>		
+		<CRUN_INObjects>
+			<ProcessObject ClassName="CRUN_IN" Name="runIn_2D">
+				<XMLTestItem Editable="TRUE" Type="string">runIn_2D</XMLTestItem>
+				<XMLCMDItem Editable="TRUE" Type="string">/data/data/com.oem.runin/files/runin.txt</XMLCMDItem>
+				<XMLOffCMDItem Editable="TRUE" Type="string">0</XMLOffCMDItem>
+				<XMLSleepTime Editable="TRUE" Type="Integer">60000</XMLSleepTime>	
+				<XMLRetryTime Editable="TRUE" Type="Integer">1</XMLRetryTime>
+				<XMLFQC_L1L2 Editable="TRUE" Type="Integer">0</XMLFQC_L1L2><!--0=FQC, 1=L1L2-->
+			</ProcessObject>
+		</CRUN_INObjects>
+		<CRUN_INObjects>
+			<ProcessObject ClassName="CRUN_IN" Name="runIn_3D">
+				<XMLTestItem Editable="TRUE" Type="string">runIn_3D</XMLTestItem>
+				<XMLCMDItem Editable="TRUE" Type="string">/data/data/com.oem.runin/files/runin.txt</XMLCMDItem>
+				<XMLOffCMDItem Editable="TRUE" Type="string">1</XMLOffCMDItem>
+				<XMLSleepTime Editable="TRUE" Type="Integer">60000</XMLSleepTime>	
+				<XMLRetryTime Editable="TRUE" Type="Integer">1</XMLRetryTime>
+				<XMLFQC_L1L2 Editable="TRUE" Type="Integer">0</XMLFQC_L1L2><!--0=FQC, 1=L1L2-->
+			</ProcessObject>
+		</CRUN_INObjects>	
+		<CRUN_INObjects>
+			<ProcessObject ClassName="CRUN_IN" Name="runIn_CPU">
+				<XMLTestItem Editable="TRUE" Type="string">runIn_CPU</XMLTestItem>
+				<XMLCMDItem Editable="TRUE" Type="string">/data/data/com.oem.runin/files/runin.txt</XMLCMDItem>
+				<XMLOffCMDItem Editable="TRUE" Type="string">2</XMLOffCMDItem>
+				<XMLSleepTime Editable="TRUE" Type="Integer">60000</XMLSleepTime>	
+				<XMLRetryTime Editable="TRUE" Type="Integer">1</XMLRetryTime>
+				<XMLFQC_L1L2 Editable="TRUE" Type="Integer">0</XMLFQC_L1L2><!--0=FQC, 1=L1L2-->
+			</ProcessObject>
+		</CRUN_INObjects>	
+		<CRUN_INObjects>
+			<ProcessObject ClassName="CRUN_IN" Name="runIn_Audio">
+				<XMLTestItem Editable="TRUE" Type="string">runIn_Audio</XMLTestItem>
+				<XMLCMDItem Editable="TRUE" Type="string">/data/data/com.oem.runin/files/runin.txt</XMLCMDItem>
+				<XMLOffCMDItem Editable="TRUE" Type="string">3</XMLOffCMDItem>
+				<XMLSleepTime Editable="TRUE" Type="Integer">60000</XMLSleepTime>	
+				<XMLRetryTime Editable="TRUE" Type="Integer">1</XMLRetryTime>
+				<XMLFQC_L1L2 Editable="TRUE" Type="Integer">0</XMLFQC_L1L2><!--0=FQC, 1=L1L2-->
+			</ProcessObject>
+		</CRUN_INObjects>
+		<CRUN_INObjects>
+			<ProcessObject ClassName="CRUN_IN" Name="runIn_AudioToRece">
+				<XMLTestItem Editable="TRUE" Type="string">runIn_AudioToRece</XMLTestItem>
+				<XMLCMDItem Editable="TRUE" Type="string">/data/data/com.oem.runin/files/runin.txt</XMLCMDItem>
+				<XMLOffCMDItem Editable="TRUE" Type="string">4</XMLOffCMDItem>
+				<XMLSleepTime Editable="TRUE" Type="Integer">60000</XMLSleepTime>	
+				<XMLRetryTime Editable="TRUE" Type="Integer">1</XMLRetryTime>
+				<XMLFQC_L1L2 Editable="TRUE" Type="Integer">0</XMLFQC_L1L2><!--0=FQC, 1=L1L2-->
+			</ProcessObject>
+		</CRUN_INObjects>	
+		<CRUN_INObjects>
+			<ProcessObject ClassName="CRUN_IN" Name="runIn_Video">
+				<XMLTestItem Editable="TRUE" Type="string">runIn_Video</XMLTestItem>
+				<XMLCMDItem Editable="TRUE" Type="string">/data/data/com.oem.runin/files/runin.txt</XMLCMDItem>
+				<XMLOffCMDItem Editable="TRUE" Type="string">5</XMLOffCMDItem>
+				<XMLSleepTime Editable="TRUE" Type="Integer">60000</XMLSleepTime>	
+				<XMLRetryTime Editable="TRUE" Type="Integer">1</XMLRetryTime>
+				<XMLFQC_L1L2 Editable="TRUE" Type="Integer">0</XMLFQC_L1L2><!--0=FQC, 1=L1L2-->
+			</ProcessObject>
+		</CRUN_INObjects>	
+		<CRUN_INObjects>
+			<ProcessObject ClassName="CRUN_IN" Name="runIn_Camera">
+				<XMLTestItem Editable="TRUE" Type="string">runIn_Camera</XMLTestItem>
+				<XMLCMDItem Editable="TRUE" Type="string">/data/data/com.oem.runin/files/runin.txt</XMLCMDItem>
+				<XMLOffCMDItem Editable="TRUE" Type="string">6</XMLOffCMDItem>
+				<XMLSleepTime Editable="TRUE" Type="Integer">60000</XMLSleepTime>	
+				<XMLRetryTime Editable="TRUE" Type="Integer">1</XMLRetryTime>
+				<XMLFQC_L1L2 Editable="TRUE" Type="Integer">0</XMLFQC_L1L2><!--0=FQC, 1=L1L2-->
+			</ProcessObject>
+		</CRUN_INObjects>	
+		<CRUN_INObjects>
+			<ProcessObject ClassName="CRUN_IN" Name="runIn_Storage">
+				<XMLTestItem Editable="TRUE" Type="string">runIn_Storage</XMLTestItem>
+				<XMLCMDItem Editable="TRUE" Type="string">/data/data/com.oem.runin/files/runin.txt</XMLCMDItem>
+				<XMLOffCMDItem Editable="TRUE" Type="string">7</XMLOffCMDItem>
+				<XMLSleepTime Editable="TRUE" Type="Integer">60000</XMLSleepTime>	
+				<XMLRetryTime Editable="TRUE" Type="Integer">1</XMLRetryTime>
+				<XMLFQC_L1L2 Editable="TRUE" Type="Integer">0</XMLFQC_L1L2><!--0=FQC, 1=L1L2-->
+			</ProcessObject>
+		</CRUN_INObjects>		
+		<CRUN_INObjects>
+			<ProcessObject ClassName="CRUN_IN" Name="runIn_Memory">
+				<XMLTestItem Editable="TRUE" Type="string">runIn_Memory</XMLTestItem>
+				<XMLCMDItem Editable="TRUE" Type="string">/data/data/com.oem.runin/files/runin.txt</XMLCMDItem>
+				<XMLOffCMDItem Editable="TRUE" Type="string">8</XMLOffCMDItem>
+				<XMLSleepTime Editable="TRUE" Type="Integer">60000</XMLSleepTime>	
+				<XMLRetryTime Editable="TRUE" Type="Integer">1</XMLRetryTime>
+				<XMLFQC_L1L2 Editable="TRUE" Type="Integer">0</XMLFQC_L1L2><!--0=FQC, 1=L1L2-->
+			</ProcessObject>
+		</CRUN_INObjects>	
+		<CRUN_INObjects>
+			<ProcessObject ClassName="CRUN_IN" Name="runIn_Sleep">
+				<XMLTestItem Editable="TRUE" Type="string">runIn_Sleep</XMLTestItem>
+				<XMLCMDItem Editable="TRUE" Type="string">/data/data/com.oem.runin/files/runin.txt</XMLCMDItem>
+				<XMLOffCMDItem Editable="TRUE" Type="string">9</XMLOffCMDItem>
+				<XMLSleepTime Editable="TRUE" Type="Integer">60000</XMLSleepTime>	
+				<XMLRetryTime Editable="TRUE" Type="Integer">1</XMLRetryTime>
+				<XMLFQC_L1L2 Editable="TRUE" Type="Integer">0</XMLFQC_L1L2><!--0=FQC, 1=L1L2-->
+			</ProcessObject>
+		</CRUN_INObjects>			
+		<CRUN_INObjects>
+			<ProcessObject ClassName="CRUN_IN" Name="runIn_Reboot">
+				<XMLTestItem Editable="TRUE" Type="string">runIn_Reboot</XMLTestItem>
+				<XMLCMDItem Editable="TRUE" Type="string">/data/data/com.oem.runin/files/runin.txt</XMLCMDItem>
+				<XMLOffCMDItem Editable="TRUE" Type="string">10</XMLOffCMDItem>
+				<XMLSleepTime Editable="TRUE" Type="Integer">60000</XMLSleepTime>	
+				<XMLRetryTime Editable="TRUE" Type="Integer">1</XMLRetryTime>
+				<XMLFQC_L1L2 Editable="TRUE" Type="Integer">0</XMLFQC_L1L2><!--0=FQC, 1=L1L2-->
+			</ProcessObject>
+		</CRUN_INObjects>					
+	</ProcessObjectSet>
+
+</Configuration>

@@ -1,0 +1,2 @@
+cd /d D:\Sapporo\DVT\GSAPB1A_BTWLAN_20131023
+start UnifyUI_FacTestTool.exe 1216019 2345678 V5.06 0 0

@@ -1,0 +1,170 @@
+#ifndef _RF_ERRORDEFINE_H
+#define _RF_ERRORDEFINE_H
+
+//////////////////////////////////////////////////////////////////////////
+//   QLib Phone Command Phone Error Code
+//////////////////////////////////////////////////////////////////////////
+#define		ERR_QLIB_PHONE_CONNECT                          "Qlib_Connect_Phone_Fail"
+#define		ERR_QLIB_SET_FTM                                "Qlib_Set_FTM_Fail"
+#define		ERR_QLIB_SET_ONLINE                             "Qlib_Set_Online_Fail"
+#define		ERR_QLIB_SET_OFFLINE                            "Qlib_Phone_Offline_Fail"
+#define		ERR_QLIB_SET_PHONE_MODE				            "Qlib_Set_Phone_Mode_Fail"
+#define		ERR_QLIB_SET_PHONE_BAND                         "Qlib_Set_Phone_Band_Fail"
+#define		ERR_QLIB_WRITE_RFNV_INBATCH_MODE                "Qlib_WriteNV_Inbatch_Mode_Fail"
+#define		ERR_QLIB_FLUSH_RFNV_INBATCH_QUEUE               "Qlib_FlushNV_Fail"
+#define		ERR_QLIB_FTM_LOAD_RF_DATA                       "Qlib_FTM_Load_RF_Data_Fail"
+#define		ERR_QLIB_SET_COMMAND_CODE				        "Qlib_Set_Command_Code_Fail"
+#define		ERR_QLIB_SET_CHANNEL                            "Qlib_Set_Channel_Fail"
+#define     ERR_QLIB_SET_SECONDARY_CHAIN                    "Qlib_Set_Secondary_Chain_Fail"
+#define     ERR_QLIB_SET_TX_ONOFF                           "Qlib_Set_TX_ONOFF_Fail"
+#define     ERR_QLIB_WRITE_NV                               "Qlib_Write_NV_Fail"
+#define		ERR_QLIB_READ_NV                                "Qlib_Read_NV_Fail"
+#define     ERR_QLIB_SET_PDM                                "Qlib_Set_PDM_Fail"
+#define     ERR_QLIB_SET_MODE_ID                            "Qlib_Set_Mode_Id_Fail"
+#define     ERR_QLIB_CONFIG_TIMEOUT                         "Qlib_Config_Timeout_Fail"
+#define		ERR_QLIB_GET_THERM							    "Qlib_Get_Therm_Fail"
+#define     ERR_QLIB_DO_XO_DC_CAL                           "Qlib_Do_Xo_DC_Cal_Fail"
+#define     ERR_QLIB_DO_XO_FT_COLLECT_SAMPLE                "Qlib_Do_Xo_Ft_Collect_Sample_Fail"
+#define     ERR_QLIB_DO_XO_FT_CURVE                         "Qlib_Do_Xo_FT_Curve_Fail"
+
+//////////////////////////////////////////////////////////////////////////
+//   QLib Phone GSM/EDGE Command Error Code
+//////////////////////////////////////////////////////////////////////////
+
+#define     ERR_QLIB_EGPRS_BER_ASSIGN_BCCH                   "Qlib_EGPRS_Ber_Assign_BCCH_Fail"
+#define     ERR_QLIB_EGPRS_BER_CONFIGURE_DL_TBF              "Qlib_EGPRS_Ber_Configure_DL_TBF_Fail"
+#define		ERR_QLIB_EGPRS_BER_CONFIGURE_UL_TBF				 "Qlib_EGPRS_Ber_Configure_UL_TBF_Fail"
+#define		ERR_QLIB_EGPRS_BER_ESTABLISH_SRB_LOOPBACK		 "Qlib_EGPRS_Ber_Establish_SRB_Loopback_Fail"
+#define		ERR_QLIB_EGPRS_BER_RELEASE_ALL_TBF				 "Qlib_EGPRS_Ber_Release_all_TBF_Fail"
+#define     ERR_QLIB_GSM_TX_BER_START_SESSION                "Qlib_GSM_Tx_Ber_Start_Session_Fail"
+#define		ERR_QLIB_GSM_BER_ASSIGN_BCCH					 "Qlib_GSM_Ber_Assign_BCCH_Fail"
+#define		ERR_QLIB_GSM_BER_HANDOVER						 "Qlib_GSM_Ber_Handover_Fail"
+#define		ERR_QLIB_GSM_BER_CLEAR_STATUS					 "Qlib_GSM_Ber_Clear_Status_Fail"
+#define		ERR_QLIB_GSM_CONFIG_LOOPBACK_TYPE				 "Qlib_GSM_Config_Loopback_Type_Fail"
+#define		ERR_QLIB_RX_GAIN_RANGE_CAL						 "Qlib_Rx_Gain_Range_Cal_Fail"
+#define     ERR_QLIB_FTM_DA_CAL                              "Qlib_FTM_DA_Cal_Fail"
+#define		ERR_QLIB_SET_PA_DAC_INPUT						 "Qlib_Set_PA_Dac_Input_Fail"
+
+//////////////////////////////////////////////////////////////////////////
+//   QLib Phone WCDMA/CDMA Command Error Code
+//////////////////////////////////////////////////////////////////////////
+
+#define     ERR_QLIB_GET_HDET                               "Qlib_Get_Hdet_Fail"
+#define     ERR_QLIB_SET_TX_SWEEP_STEP_SIZE                 "Qlib_Set_TX_Sweep_Step_Size_Fail"
+#define     ERR_QLIB_FTM_CONFIGURE_TX_SWEEP_CAL             "Qlib_Ftm_Configure_TX_Sweep_Cal_Fail"
+#define     ERR_QLIB_TX_SWEEP_CAL_ONOFF                     "Qlib_Tx_Sweep_Cal_Onoff_Fail"
+#define     ERR_QLIB_WCDMA_TX_RX_FREQ_CAL_SWEEP             "Qlib_WCDMA_Tx_Rx_Freq_Cal_Sweep_Fail"
+#define     ERR_QLIB_SET_LNA_RANGE                          "Qlib_Set_Lna_Range_Fail"
+#define     ERR_QLIB_SET_CW_WAVEFORM                        "Qlib_Set_CW_Waveform_Fail"
+#define     ERR_QLIB_SET_PA_RANGE                           "Qlib_Set_Pa_Range_Fail"
+#define     ERR_QLIB_GET_IM2_VALUE                          "Qlib_Get_Im2_Value_Fail"
+#define     ERR_QLIB_WCDMA_BER_STOP_SESSION                 "Qlib_WCDMA_Ber_Stop_Session_Fail"
+#define     ERR_QLIB_DO_DC_CAL                              "Qlib_Dodc_Cal_Fail"
+#define     ERR_QLIB_WCDMA_BER_RMC_DCH_TFCS_CONFIG_REQ      "Qlib_WCDMA_Ber_Rmc_Dch_Tfcs_Config_Req_Fail"
+#define     ERR_QLIB_WCDMA_BER_START_SESSION                "Qlib_WCDMA_Ber_Start_Session_Fail"
+#define     ERR_QLIB_WCDMA_BER_ACQUIRE_PILOT                "Qlib_WCDMA_Ber_Acquire_Pilot_Fail"
+#define     ERR_QLIB_WCDMA_BER_HAND_OVER                    "Qlib_WCDMA_Ber_Hand_Over_Fail"
+#define     ERR_QLIB_WCDMACAL_GET_DVGA_OFFSET               "Qlib_WCDMACal_Get_Dvga_Offset_Fail"
+#define     ERR_QLIB_SET_CALIBRATION_STATE                  "Qlib_Set_Calibration_State_Fail"
+#define		ERR_QLIB_SET_SMPS_BIAS_VAL                      "Qlib_Set_Smps_Pa_Bias_Val_Fail"
+#define		ERR_QLIB_SET_SMPS_BIAS_OVERRIDE				    "Qlib_Set_Smps_Bias_Override_Fail"
+#define		ERR_QLIB_LOAD_TX_LINEARIZER_CAL_DATA            "Qlib_Load_Tx_Linearizer_Cal_Dada_Fail"
+#define		ERR_QLIB_FTM_LOAD_TX_FREQCOMP_CAL_DATA          "Qlib_Ftm_Load_Tx_Freqcomp_Cal_Data_Fail"
+#define		ERR_QLIB_PHONE_SET_TX_ENH_CAL_ACTION            "Qlib_Set_Tx_ENH_Cal_Action_Fail"
+#define     ERR_QLIB_FTM_WCDMA_AGC_Start_Log                "Qlib_Ftm_Wcdma_Agc_Start_Log_Fail"
+#define     ERR_QLIB_FTM_WCDMA_AGC_WaitForNextLog           "Qlib_Ftm_Wcdma_Agc_WaitForNextLog_Fail"
+#define     ERR_QLIB_FTM_WCDMA_AGC_Stop_Log                 "Qlib_Ftm_Wcdma_Agc_Stop_Log"
+
+#define     ERR_QLIB_CDMA_API2_CAL_DVGA                     "Qlib_CDMA_Api2_Cal_Dvga_Fail"
+#define     ERR_QLIB_CDMA_API2_CAL_Intelliceiver            "Qlib_CDMA_Api2_Cal_Intelliceiver_Fail"
+#define     ERR_QLIB_CDMA_RX_INTELLICEIVER_CAL_RESULT       "Qlib_CDMA_Rx_Intelliceiver_Cal_Result_Fail"
+#define     ERR_QLIB_CDMA_CMD_RELEASE                       "Qlib_CDMA_Cmd_Release_Fail"
+#define     ERR_QLIB_FTM_CDMA2000_NS_Start                  "Qlib_FTM_CDMA_NS_Start_Fail"
+#define     ERR_QLIB_FTM_CDMA2000_FTM_FWD_HHO_SC            "Qlib_FTM_CDMA_FTM_FWD_HHO_SC_Fail"
+#define     ERR_QLIB_FTM_CDMA2000_NS_Get_FCH_SER_FER        "Qlib_CDMA_NS_Get_FCH_Ser_Fer_Fail"
+#define     ERR_QLIB_FTM_CDMA2000_NS_SetSER_RCandRS         "Qlib_CDMA_NS_Set_Ser_RCandRS_Fail"
+#define     ERR_QLIB_DIAG_READ_ESN_F                        "Qlib_Read_ESN_Fail"
+#define     ERR_QLIB_RFCAL_CDMA_Tx_LinVsFreq_Results        "Qlib_RFCal_CDMA_Tx_LinVsFreq_Results_Fail"
+#define     ERR_QLIB_RFCAL_CDMA_Tx_LimVsFreq_Results        "Qlib_RFCal_CDMA_Tx_LimVsFreq_Results_Fail"
+#define     ERR_QLIB_RFCAL_CDMA_RxCal_Results               "Qlib_RFCal_CDMA_Rxcal_Results_Fail"
+#define     ERR_QLIB_RFCAL_CDMA_TxLinCal_BetaScaling_Results "Qlib_RFCal_CDMA_TxLinCal_BetaScaling_Results_Fail"
+#define     ERR_QLIB_FTM_CDMA2000_NS_Stop                    "Qlib_Ftm_CDMA2000_NS_Stop_Fail"
+#define     ERR_QLIB_FTM_CDMA2000_NS_ClearStatus             "Qlib_Ftm_CDMA2000_NS_ClearStatus_Fail"
+#define     ERR_QLIB_FTM_CDMA2000_DEMOD_SYNC                 "Qlib_Ftm_CDMA2000_Demod_Sync_Fail"
+#define     ERR_QLIB_FTM_CDMA2000_DEMOD_FCH                  "Qlib_Ftm_CDMA2000_Demod_Fch_Fail"
+
+//////////////////////////////////////////////////////////////////////////
+//   Device Error Code
+//////////////////////////////////////////////////////////////////////////
+#define     ERR_DEVICE_GSM_Calibration                      "Device_GSM_Calibration_Fail"
+#define     ERR_DEVICE_GSM_Test                             "Device_GSM_Test_Fail"
+#define     ERR_DEVICE_EDGE_Test                            "Device_EDGE_Test_Fail"
+#define     ERR_DEVICE_WCDMA_Calibration                    "Device_WCDMA_Calibration_Fail"
+#define     ERR_DEVICE_WCDMA_Test                           "Device_WCDMA_Test_Fail"
+#define     ERR_DEVICE_CDMA_Calibration                     "Device_CDMA_Calibration_Fail"
+#define     ERR_DEVICE_CDMA_Test                            "Device_CDMA_Test_Fail"
+
+#define     ERR_DEVICE_PS_INIT                              "Device_PS_Init_Fail"
+#define     ERR_DEVICE_PS_GET_CURR                          "Device_PS_Get_Curr_Fail"
+#define     ERR_DEVICE_PS_SET_VOL                           "Device_PS_Set_Vol_Fail"
+#define     ERR_DEVICE_PS_SET_CURR_LIMIT                    "Device_PS_Set_Curr_Limit_Fail"
+#define     ERR_DEVICE_PS_SET_ONOFF                         "Device_PS_Set_OnOff_Fail"
+
+//////////////////////////////////////////////////////////////////////////
+//   Test spec
+//////////////////////////////////////////////////////////////////////////
+
+//GSM TEST SPEC
+#define     ERR_GSMTEST_MAX_POWER                           "GSMTest_Max_Power_Fail"
+#define     ERR_GSMTEST_PVT                                 "GSMTest_PVT_Fail"
+#define     ERR_GSMTEST_PEAK_PHASE                          "GSMTest_Peak_Phase_Fail"
+#define     ERR_GSMTEST_AVG_RMS_PHASE                       "GSMTest_Avg_RMS_Phase_Fail"
+#define     ERR_GSMTEST_FREQUENCY                           "GSMTest_Frequency_Fail"
+#define     ERR_GSMTEST_SPECTRUM_SWIT                       "GSMTest_Spectrum_Swit_Fail"
+#define     ERR_GSMTEST_SPECTRUM_MOD                        "GSMTest_Spectrum_Mod_Fail"
+#define     ERR_GSMTEST_RX_LEV                              "GSMTest_Rx_Lev_Fail"
+#define     ERR_GSMTEST_TX_CURR                             "GSMTest_Tx_Curr_Fail"
+#define     ERR_GSMTEST_BER                                 "GSMTest_Ber_Fail"
+//EDGE TEST SPEC
+#define		ERR_EDGETEST_MAX_POWER							"EDGETest_Max_Power_Fail"
+#define     ERR_EDGETEST_EVM_RMS                            "EDGETest_EVM_RMS_Fail"
+#define		ERR_EDGETEST_EVM_95								"EDGETest_EVM_95_Fail"
+#define     ERR_EDGETEST_FREQUENCY                          "EDGETest_Frequency_Fail"
+#define     ERR_EDGETEST_SPECTRUM_SWIT                      "EDGETest_Spectrum_Swit_Fail"
+#define     ERR_EDGETEST_SPECTRUM_MOD                       "EDGETest_Spectrum_Mod_Fail"
+#define     ERR_EDGETEST_PVT                                "EDGETest_PVT_Fail"
+#define     ERR_EDGETEST_Peak_EVM                           "EDGETest_Peak_EVM_Fail"
+//CDMA TEST SPEC
+#define     ERR_CDMATEST_WAVEFORM_QUALITY                   "CDMATest_Waveform_Quality_Fail"
+#define     ERR_CDMATEST_FREQUENCY                          "CDMATest_Frequency_Fail"
+#define     ERR_CDMATEST_TIME_ERROR                         "CDMATest_Time_Error_Fail"
+#define     ERR_CDMATEST_CARRIERFTH                         "CDMATest_CarrierFTH_Fail"
+#define     ERR_CDMATEST_PHASE                              "CDMATest_Phase_Fail"
+#define     ERR_CDMATEST_MAGNITUDE                          "CDMATest_Magnitude_Fail"
+#define     ERR_CDMATEST_EVM                                "CDMATest_EVM_Fail"
+#define     ERR_CDMATEST_TX_CURR                            "CDMATest_Tx_Curr_Fail"
+#define     ERR_CDMATEST_RCLPC                              "CDMATest_RCLPC_Fail"
+#define     ERR_CDMATEST_CDPOWER                            "CDMATest_CDPower_Fail"
+#define     ERR_CDMATEST_TIME_TOLERANCE                     "CDMATest_Time_Tolerance_Fail"
+#define     ERR_CDMATEST_PHASE_TOLERANCE                    "CDMATest_Phase_Tolerance_Fail"
+#define     ERR_CDMATEST_MIN_POWER                          "CDMATest_Min_Power_Fail"
+#define     ERR_CDMATEST_MAX_POWER                          "CDMATest_Max_Power_Fail"
+#define     ERR_CDMATEST_RX_SENSITIVITY                     "CDMATest_Rx_Sensitivity_Fail"
+#define     ERR_CDMATEST_RX_DYNAMIC_RANGE                   "CDMATest_Rx_Dynamic_Range_Fail"
+#define     ERR_CDMATEST_ACPR                               "CDMATest_ACPR_Fail"
+//WCDMA TEST SPEC
+#define     ERR_WCDMATEST_MAX_POWER                         "WCDMATest_Max_Power_Fail"
+#define     ERR_WCDMATEST_MINPOWER                          "WCDMATest_Min_Power_Fail"
+#define     ERR_WCDMATEST_EVM_RMS                           "WCDMATest_EVM_RMS_Fail"
+#define     ERR_WCDMATEST_FREQUENCY                         "WCDMATest_Frequency_Fail"
+#define     ERR_WCDMATEST_TRANS_TIME                        "WCDMATest_Trans_Time_Fail"
+#define     ERR_WCDMATEST_SPECTRUM_EMASK                    "WCDMATest_Spectrum_EMask_Fail"
+#define     ERR_WCDMATEST_OBW                               "WCDMATest_OBW_Fail"
+#define     ERR_WCDMATEST_BER                               "WCDMATest_BER_Fail"
+#define     ERR_WCDMATEST_RXLEV                             "WCDMATest_RxLev_Fail"
+#define		ERR_WCDMATEST_ILPCE							    "WCDMATest_ILPCE_Fail"
+#define     ERR_WCDMATEST_ILPCF                             "WCDMATest_ILPCF_Fail"
+#define     ERR_WCDMATEST_ACLR                              "WCDMATest_ACLR_Fail"
+#define     ERR_WCDMATEST_TX_CURR                           "WCDMATest_Tx_Curr_Fail"
+
+#endif //_RF_ERRORDEFINE_H

@@ -1,0 +1,6 @@
+; UnifyDLL_Detroit_WLS.def : Declares the module parameters for the DLL.
+
+LIBRARY      "FT"
+
+EXPORTS
+    ; Explicit exports can go here

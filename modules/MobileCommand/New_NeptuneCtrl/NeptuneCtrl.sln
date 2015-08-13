@@ -1,0 +1,20 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NeptuneCtrl", "NeptuneCtrl.vcproj", "{226637BE-81FF-4DEE-A64F-2D58914A09AA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{226637BE-81FF-4DEE-A64F-2D58914A09AA}.Debug|Win32.ActiveCfg = Debug|Win32
+		{226637BE-81FF-4DEE-A64F-2D58914A09AA}.Debug|Win32.Build.0 = Debug|Win32
+		{226637BE-81FF-4DEE-A64F-2D58914A09AA}.Release|Win32.ActiveCfg = Release|Win32
+		{226637BE-81FF-4DEE-A64F-2D58914A09AA}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

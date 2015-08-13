@@ -1,0 +1,16 @@
+<Configuration>
+	<Phone>
+		<COMPort Type="Integer">0</COMPort>
+		<Keyword Type="String">Diag</Keyword>
+	</Phone>
+	<IMEI_MAL>
+		<IMEI_DIFFERENCE Type="String">1</IMEI_DIFFERENCE>
+		<MAL_FIRST_PART Type="String">12345</MAL_FIRST_PART>
+		<LAST_WRITE_IMEI Type="String"></LAST_WRITE_IMEI>
+		<LAST_WRITE_NAL Type="String"></LAST_WRITE_NAL>
+	</IMEI_MAL>
+	<BACKUP>
+		<QCN_BACKUP_PATH Type="String">\\10.85.68.13\BackupFile</QCN_BACKUP_PATH>
+		<BRT_BACKUP_PATH Type="String">\\10.85.68.13\BackupFile</BRT_BACKUP_PATH>
+	</BACKUP>
+</Configuration>

@@ -1,0 +1,738 @@
+/* *** <<< DO NOT MODIFY OR REMOVE THIS LINE - BEGIN >>> *** */
+/***************************************************************************
+ *
+ *   This is a part of the Qisda RF Calibration and Test library.
+ *
+ *   This document contains propriety information, and except with written
+ *   permission of Qisda Corp., such information shall not be 
+ *   published, or disclosed to others, or used for any purpose, and the   
+ *   document shall not be duplicated in whole or in part.  
+ *
+ *   Copyright (C) 2009 Qisda Corporation
+ *   All Rights Reserved.
+ *
+ ***************************************************************************/
+/* *** <<< DO NOT MODIFY OR REMOVE THIS LINE - END >>> *** */
+
+#ifndef _EnumFiles_H_
+#define _EnumFiles_H_
+
+
+
+#define MAX_ARRAY_SIZE								4096
+
+#define NV_WCDMA_VGA_GAIN_OFFSET_I					856
+#define NV_WCDMA_VGA_GAIN_OFFSET_VS_FREQ_I			857
+#define NV_WCDMA_LNA_RANGE_OFFSET_I					524
+#define NV_WCDMA_LNA_RANGE_OFFSET_2_I				865	
+#define NV_WCDMA_LNA_RANGE_OFFSET_3_I				866
+#define NV_WCDMA_LNA_RANGE_OFFSET_4_I				4403 //new
+#define NV_WCDMA_LNA_OFFSET_VS_FREQ_I				525
+#define NV_WCDMA_LNA_OFFSET_VS_FREQ_2_I				867
+#define NV_WCDMA_LNA_OFFSET_VS_FREQ_3_I				868
+#define NV_WCDMA_LNA_OFFSET_VS_FREQ_4_I				4401 //new
+#define NV_WCDMA_TX_LIN_MASTER_0_I					529
+#define NV_WCDMA_TX_LIN_MASTER_1_I					530
+#define NV_WCDMA_TX_LIN_MASTER_2_I					2009	
+#define NV_WCDMA_TX_LIN_MASTER_3_I					2010
+#define NV_WCDMA_TX_PDM_LIN_0_I						3969
+#define NV_WCDMA_TX_PDM_LIN_1_I						3970
+#define NV_WCDMA_TX_PDM_LIN_2_I						3971
+#define NV_WCDMA_TX_PDM_LIN_3_I						3972
+#define NV_WCDMA_EXP_HDET_VS_AGC_I					542
+#define NV_WCDMA_HDET_OFF_I							543
+#define NV_WCDMA_HDET_SPN_I							544
+#define NV_WCDMA_TX_LIM_VS_FREQ_I					540
+#define NV_WCDMA_TX_COMP_VS_FREQ_0_I				531
+#define NV_WCDMA_TX_COMP_VS_FREQ_1_I				532
+#define NV_WCDMA_TX_COMP_VS_FREQ_2_I				2011
+#define NV_WCDMA_TX_COMP_VS_FREQ_3_I				2012
+#define NV_WCDMA_IM2_I_VALUE_I						869
+#define NV_WCDMA_IM2_Q_VALUE_I						870
+#define NV_WCDMA_IM2_TRANSCONDUCTOR_VALUE_I			871
+#define NV_WCDMA_TX_CAL_CHAN_I						1971
+#define NV_WCDMA_RX_CAL_CHAN_I						1972
+
+#define NV_WCDMA_TX_COMP_VS_FREQ_0_SECONDARY_I	4965 //new
+
+
+
+#define NV_WCDMA_1900_VGA_GAIN_OFFSET_I				1143
+#define NV_WCDMA_1900_VGA_GAIN_OFFSET_VS_FREQ_I		1144
+#define NV_WCDMA_1900_LNA_RANGE_OFFSET_I			1168
+#define NV_WCDMA_1900_LNA_RANGE_OFFSET_2_I			1152
+#define NV_WCDMA_1900_LNA_RANGE_OFFSET_3_I			1153
+#define NV_WCDMA_1900_LNA_RANGE_OFFSET_4_I			4408 //new
+#define NV_WCDMA_1900_LNA_OFFSET_VS_FREQ_I			1169
+#define NV_WCDMA_1900_LNA_OFFSET_VS_FREQ_2_I		1154	
+#define NV_WCDMA_1900_LNA_OFFSET_VS_FREQ_3_I		1155
+#define NV_WCDMA_1900_LNA_OFFSET_VS_FREQ_4_I		4406 //new
+#define NV_WCDMA_1900_TX_LIN_MASTER_0_I				1173
+#define NV_WCDMA_1900_TX_LIN_MASTER_1_I				1174
+#define NV_WCDMA_1900_TX_LIN_MASTER_2_I				2030
+#define NV_WCDMA_1900_TX_LIN_MASTER_3_I				2031
+#define NV_WCDMA_1900_TX_PDM_LIN_0_I				3977
+#define NV_WCDMA_1900_TX_PDM_LIN_1_I				3978
+#define NV_WCDMA_1900_TX_PDM_LIN_2_I				3979		
+#define NV_WCDMA_1900_TX_PDM_LIN_3_I				3980
+#define NV_WCDMA_1900_EXP_HDET_VS_AGC_I				1186
+#define NV_WCDMA_1900_HDET_OFF_I					1187
+#define NV_WCDMA_1900_HDET_SPN_I					1188
+#define NV_WCDMA_1900_TX_COMP_VS_FREQ_0_I			1175
+#define NV_WCDMA_1900_TX_COMP_VS_FREQ_1_I			1176
+#define NV_WCDMA_1900_TX_COMP_VS_FREQ_2_I			2032
+#define NV_WCDMA_1900_TX_COMP_VS_FREQ_3_I			2033
+#define NV_WCDMA_1900_TX_LIM_VS_FREQ_I				1184
+#define NV_WCDMA_1900_IM2_I_VALUE_I					1156
+#define NV_WCDMA_1900_IM2_Q_VALUE_I					1157
+#define NV_WCDMA_1900_IM2_TRANSCONDUCTOR_VALUE_I	1158
+#define NV_WCDMA_1900_TX_CAL_CHAN_I					1973
+#define NV_WCDMA_1900_RX_CAL_CHAN_I					1974
+
+#define NV_WCDMA_1900_TX_COMP_VS_FREQ_0_SECONDARY_I	4970 //new
+
+
+
+#define NV_WCDMA_BC4_VGA_GAIN_OFFSET_I                  3995
+#define NV_WCDMA_BC4_VGA_GAIN_OFFSET_VS_FREQ_I          3996
+#define NV_WCDMA_BC4_LNA_RANGE_OFFSET_I                 4020
+#define NV_WCDMA_BC4_LNA_RANGE_OFFSET_2_I               4004
+#define NV_WCDMA_BC4_LNA_RANGE_OFFSET_3_I               4005
+#define NV_WCDMA_BC4_LNA_RANGE_OFFSET_4_I               4428
+#define NV_WCDMA_BC4_LNA_OFFSET_VS_FREQ_I               4021
+#define NV_WCDMA_BC4_LNA_OFFSET_VS_FREQ_2_I             4006
+#define NV_WCDMA_BC4_LNA_OFFSET_VS_FREQ_3_I             4007
+#define NV_WCDMA_BC4_LNA_OFFSET_VS_FREQ_4_I             4426
+#define NV_WCDMA_BC4_TX_LIN_MASTER_0_I                  4025
+#define NV_WCDMA_BC4_TX_LIN_MASTER_1_I                  4026
+#define NV_WCDMA_BC4_TX_LIN_MASTER_2_I                  4051
+#define NV_WCDMA_BC4_TX_LIN_MASTER_3_I                  4052
+#define NV_WCDMA_BC4_TX_PDM_LIN_0_I                     4112
+#define NV_WCDMA_BC4_TX_PDM_LIN_1_I                     4113
+#define NV_WCDMA_BC4_TX_PDM_LIN_2_I                     4114
+#define NV_WCDMA_BC4_TX_PDM_LIN_3_I                     4115
+#define NV_WCDMA_BC4_EXP_HDET_VS_AGC_I                  4038
+#define NV_WCDMA_BC4_HDET_OFF_I                         4039
+#define NV_WCDMA_BC4_HDET_SPN_I                         4040
+#define NV_WCDMA_BC4_TX_COMP_VS_FREQ_0_I                4027
+#define NV_WCDMA_BC4_TX_COMP_VS_FREQ_1_I                4028
+#define NV_WCDMA_BC4_TX_COMP_VS_FREQ_2_I                4053
+#define NV_WCDMA_BC4_TX_COMP_VS_FREQ_3_I                4054
+#define NV_WCDMA_BC4_TX_LIM_VS_FREQ_I                   4036
+#define NV_WCDMA_BC4_IM2_I_VALUE_I                      4008
+#define NV_WCDMA_BC4_IM2_Q_VALUE_I                      4009
+#define NV_WCDMA_BC4_IM2_TRANSCONDUCTOR_VALUE_I         4010
+#define NV_WCDMA_BC4_TX_CAL_CHAN_I                      4049
+#define NV_WCDMA_BC4_RX_CAL_CHAN_I                      4050
+
+#define NV_WCDMA_BC4_TX_COMP_VS_FREQ_0_SECONDARY_I      4985
+
+
+
+#define NV_WCDMA_800_VGA_GAIN_OFFSET_I				1814
+#define NV_WCDMA_800_VGA_GAIN_OFFSET_VS_FREQ_I		1815
+#define NV_WCDMA_800_LNA_RANGE_OFFSET_I				1839
+#define NV_WCDMA_800_LNA_RANGE_OFFSET_2_I			1823
+#define NV_WCDMA_800_LNA_RANGE_OFFSET_3_I			1824
+#define NV_WCDMA_800_LNA_RANGE_OFFSET_4_I			4413 //new
+#define NV_WCDMA_800_LNA_OFFSET_VS_FREQ_I			1840
+#define NV_WCDMA_800_LNA_OFFSET_VS_FREQ_2_I			1825
+#define NV_WCDMA_800_LNA_OFFSET_VS_FREQ_3_I			1826
+#define NV_WCDMA_800_LNA_OFFSET_VS_FREQ_4_I			4411 //new
+#define NV_WCDMA_800_TX_LIN_MASTER_0_I				1844
+#define NV_WCDMA_800_TX_LIN_MASTER_1_I				1845
+#define NV_WCDMA_800_TX_LIN_MASTER_2_I				2055
+#define NV_WCDMA_800_TX_LIN_MASTER_3_I				2056
+#define NV_WCDMA_800_TX_PDM_LIN_0_I					3973
+#define NV_WCDMA_800_TX_PDM_LIN_1_I					3974
+#define NV_WCDMA_800_TX_PDM_LIN_2_I					3975
+#define NV_WCDMA_800_TX_PDM_LIN_3_I					3976
+#define NV_WCDMA_800_EXP_HDET_VS_AGC_I				1866
+#define NV_WCDMA_800_HDET_OFF_I						1867
+#define NV_WCDMA_800_HDET_SPN_I						1868
+#define NV_WCDMA_800_TX_COMP_VS_FREQ_0_I			1846
+#define NV_WCDMA_800_TX_COMP_VS_FREQ_1_I			1847
+#define NV_WCDMA_800_TX_COMP_VS_FREQ_2_I			2057
+#define NV_WCDMA_800_TX_COMP_VS_FREQ_3_I			2058
+#define NV_WCDMA_800_TX_LIM_VS_FREQ_I				1864
+#define NV_WCDMA_800_IM2_I_VALUE_I					1827
+#define NV_WCDMA_800_IM2_Q_VALUE_I					1828
+#define NV_WCDMA_800_IM2_TRANSCONDUCTOR_VALUE_I		1829
+#define NV_WCDMA_800_TX_CAL_CHAN_I					1975
+#define NV_WCDMA_800_RX_CAL_CHAN_I					1976
+
+#define NV_WCDMA_800_TX_COMP_VS_FREQ_0_SECONDARY_I	4975 //new
+
+#define NV_WCDMA_900_VGA_GAIN_OFFSET_I				3650
+#define NV_WCDMA_900_VGA_GAIN_OFFSET_VS_FREQ_I		3651
+#define NV_WCDMA_900_LNA_RANGE_OFFSET_I				3675
+#define NV_WCDMA_900_LNA_RANGE_OFFSET_2_I			3659
+#define NV_WCDMA_900_LNA_RANGE_OFFSET_3_I			3660
+#define NV_WCDMA_900_LNA_RANGE_OFFSET_4_I			4423 //new
+#define NV_WCDMA_900_LNA_OFFSET_VS_FREQ_I			3676
+#define NV_WCDMA_900_LNA_OFFSET_VS_FREQ_2_I			3661
+#define NV_WCDMA_900_LNA_OFFSET_VS_FREQ_3_I			3662
+#define NV_WCDMA_900_LNA_OFFSET_VS_FREQ_4_I			4421 //new
+#define NV_WCDMA_900_TX_LIN_MASTER_0_I				3680
+#define NV_WCDMA_900_TX_LIN_MASTER_1_I				3681
+#define NV_WCDMA_900_TX_LIN_MASTER_2_I				3706
+#define NV_WCDMA_900_TX_LIN_MASTER_3_I				3707
+#define NV_WCDMA_900_TX_PDM_LIN_0_I					3981
+#define NV_WCDMA_900_TX_PDM_LIN_1_I					3982
+#define NV_WCDMA_900_TX_PDM_LIN_2_I					3983
+#define NV_WCDMA_900_TX_PDM_LIN_3_I					3984
+#define NV_WCDMA_900_EXP_HDET_VS_AGC_I				3693
+#define NV_WCDMA_900_HDET_OFF_I						3694
+#define NV_WCDMA_900_HDET_SPN_I						3695
+#define NV_WCDMA_900_TX_COMP_VS_FREQ_0_I			3682
+#define NV_WCDMA_900_TX_COMP_VS_FREQ_1_I			3683
+#define NV_WCDMA_900_TX_COMP_VS_FREQ_2_I			3708
+#define NV_WCDMA_900_TX_COMP_VS_FREQ_3_I			3709
+#define NV_WCDMA_900_TX_LIM_VS_FREQ_I				3691
+#define NV_WCDMA_900_IM2_I_VALUE_I					3663
+#define NV_WCDMA_900_IM2_Q_VALUE_I					3664
+#define NV_WCDMA_900_IM2_TRANSCONDUCTOR_VALUE_I		3665
+#define NV_WCDMA_900_TX_CAL_CHAN_I					3704
+#define NV_WCDMA_900_RX_CAL_CHAN_I					3705
+
+#define NV_WCDMA_900_TX_COMP_VS_FREQ_0_SECONDARY_I	4990 //new
+
+
+
+#define NV_WCDMA_BC4_VGA_GAIN_OFFSET_I                  3995
+#define NV_WCDMA_BC4_VGA_GAIN_OFFSET_VS_FREQ_I          3996
+#define NV_WCDMA_BC4_LNA_RANGE_OFFSET_I                 4020
+#define NV_WCDMA_BC4_LNA_RANGE_OFFSET_2_I               4004
+#define NV_WCDMA_BC4_LNA_RANGE_OFFSET_3_I               4005
+#define NV_WCDMA_BC4_LNA_RANGE_OFFSET_4_I               4428
+#define NV_WCDMA_BC4_LNA_OFFSET_VS_FREQ_I               4021
+#define NV_WCDMA_BC4_LNA_OFFSET_VS_FREQ_2_I             4006
+#define NV_WCDMA_BC4_LNA_OFFSET_VS_FREQ_3_I             4007
+#define NV_WCDMA_BC4_LNA_OFFSET_VS_FREQ_4_I             4426
+#define NV_WCDMA_BC4_TX_LIN_MASTER_0_I                  4025
+#define NV_WCDMA_BC4_TX_LIN_MASTER_1_I                  4026
+#define NV_WCDMA_BC4_TX_LIN_MASTER_2_I                  4051
+#define NV_WCDMA_BC4_TX_LIN_MASTER_3_I                  4052
+#define NV_WCDMA_BC4_TX_PDM_LIN_0_I                     4112
+#define NV_WCDMA_BC4_TX_PDM_LIN_1_I                     4113
+#define NV_WCDMA_BC4_TX_PDM_LIN_2_I                     4114
+#define NV_WCDMA_BC4_TX_PDM_LIN_3_I                     4115
+#define NV_WCDMA_BC4_EXP_HDET_VS_AGC_I                  4038
+#define NV_WCDMA_BC4_HDET_OFF_I                         4039
+#define NV_WCDMA_BC4_HDET_SPN_I                         4040
+#define NV_WCDMA_BC4_TX_COMP_VS_FREQ_0_I                4027
+#define NV_WCDMA_BC4_TX_COMP_VS_FREQ_1_I                4028
+#define NV_WCDMA_BC4_TX_COMP_VS_FREQ_2_I                4053
+#define NV_WCDMA_BC4_TX_COMP_VS_FREQ_3_I                4054
+#define NV_WCDMA_BC4_TX_LIM_VS_FREQ_I                   4036
+#define NV_WCDMA_BC4_IM2_I_VALUE_I                      4008
+#define NV_WCDMA_BC4_IM2_Q_VALUE_I                      4009
+#define NV_WCDMA_BC4_IM2_TRANSCONDUCTOR_VALUE_I         4010
+#define NV_WCDMA_BC4_TX_CAL_CHAN_I                      4049
+#define NV_WCDMA_BC4_RX_CAL_CHAN_I                      4050
+
+#define NV_WCDMA_BC4_TX_COMP_VS_FREQ_0_SECONDARY_I      4985
+
+
+//WCDMA Rx Diversity Path relative to NV items
+#define NV_C1_WCDMA_2100_VGA_GAIN_OFFSET_I			3759
+#define NV_C1_WCDMA_2100_LNA_RANGE_OFFSET_I			3765
+#define NV_C1_WCDMA_2100_LNA_OFFSET_VS_FREQ_I		3766
+#define NV_C1_WCDMA_2100_VGA_GAIN_OFFSET_VS_FREQ_I	3767
+#define NV_C1_WCDMA_2100_LNA_RANGE_OFFSET_2_I		3778		
+#define NV_C1_WCDMA_2100_LNA_RANGE_OFFSET_3_I		3779
+#define NV_C1_WCDMA_2100_LNA_RANGE_OFFSET_4_I		3780
+#define NV_C1_WCDMA_2100_LNA_OFFSET_VS_FREQ_2_I		3781
+#define NV_C1_WCDMA_2100_LNA_OFFSET_VS_FREQ_3_I		3782
+#define NV_C1_WCDMA_2100_LNA_OFFSET_VS_FREQ_4_I		3783
+#define NV_C1_WCDMA_2100_IM2_I_VALUE_I				3784
+#define NV_C1_WCDMA_2100_IM2_Q_VALUE_I				3785
+#define NV_C1_WCDMA_2100_IM2_TRANSCONDUCTOR_VALUE_I	3786
+
+#define NV_C1_WCDMA_1900_VGA_GAIN_OFFSET_I			3789
+#define NV_C1_WCDMA_1900_LNA_RANGE_OFFSET_I			3815
+#define NV_C1_WCDMA_1900_LNA_OFFSET_VS_FREQ_I		3816
+#define NV_C1_WCDMA_1900_VGA_GAIN_OFFSET_VS_FREQ_I	3790
+#define NV_C1_WCDMA_1900_LNA_RANGE_OFFSET_2_I		3804		
+#define NV_C1_WCDMA_1900_LNA_RANGE_OFFSET_3_I		3805
+#define NV_C1_WCDMA_1900_LNA_RANGE_OFFSET_4_I		3806
+#define NV_C1_WCDMA_1900_LNA_OFFSET_VS_FREQ_2_I		3807
+#define NV_C1_WCDMA_1900_LNA_OFFSET_VS_FREQ_3_I		3808
+#define NV_C1_WCDMA_1900_LNA_OFFSET_VS_FREQ_4_I		3809
+#define NV_C1_WCDMA_1900_IM2_I_VALUE_I				3810
+#define NV_C1_WCDMA_1900_IM2_Q_VALUE_I				3811
+#define NV_C1_WCDMA_1900_IM2_TRANSCONDUCTOR_VALUE_I	3812
+
+#define NV_C1_WCDMA_800_VGA_GAIN_OFFSET_I			3819
+#define NV_C1_WCDMA_800_LNA_RANGE_OFFSET_I			3834
+#define NV_C1_WCDMA_800_LNA_OFFSET_VS_FREQ_I		3838
+#define NV_C1_WCDMA_800_VGA_GAIN_OFFSET_VS_FREQ_I	3820
+#define NV_C1_WCDMA_800_LNA_RANGE_OFFSET_2_I		3835		
+#define NV_C1_WCDMA_800_LNA_RANGE_OFFSET_3_I		3836
+#define NV_C1_WCDMA_800_LNA_RANGE_OFFSET_4_I		3837
+#define NV_C1_WCDMA_800_LNA_OFFSET_VS_FREQ_2_I		3839
+#define NV_C1_WCDMA_800_LNA_OFFSET_VS_FREQ_3_I		3840
+#define NV_C1_WCDMA_800_LNA_OFFSET_VS_FREQ_4_I		3841
+#define NV_C1_WCDMA_800_IM2_I_VALUE_I				3842
+#define NV_C1_WCDMA_800_IM2_Q_VALUE_I				3843
+#define NV_C1_WCDMA_800_IM2_TRANSCONDUCTOR_VALUE_I	3844
+
+#define NV_C1_WCDMA_900_VGA_GAIN_OFFSET_I			4463
+#define NV_C1_WCDMA_900_LNA_RANGE_OFFSET_I			4489
+#define NV_C1_WCDMA_900_LNA_OFFSET_VS_FREQ_I		4490
+#define NV_C1_WCDMA_900_VGA_GAIN_OFFSET_VS_FREQ_I	4464
+#define NV_C1_WCDMA_900_LNA_RANGE_OFFSET_2_I		4478		
+#define NV_C1_WCDMA_900_LNA_RANGE_OFFSET_3_I		4479
+#define NV_C1_WCDMA_900_LNA_RANGE_OFFSET_4_I		4480
+#define NV_C1_WCDMA_900_LNA_OFFSET_VS_FREQ_2_I		4481
+#define NV_C1_WCDMA_900_LNA_OFFSET_VS_FREQ_3_I		4482
+#define NV_C1_WCDMA_900_LNA_OFFSET_VS_FREQ_4_I		4483
+#define NV_C1_WCDMA_900_IM2_I_VALUE_I				4484
+#define NV_C1_WCDMA_900_IM2_Q_VALUE_I				4485
+#define NV_C1_WCDMA_900_IM2_TRANSCONDUCTOR_VALUE_I	4486
+
+#define NV_C1_WCDMA_BC4_VGA_GAIN_OFFSET_I               4492
+#define NV_C1_WCDMA_BC4_LNA_RANGE_OFFSET_I              4518
+#define NV_C1_WCDMA_BC4_LNA_OFFSET_VS_FREQ_I            4519
+#define NV_C1_WCDMA_BC4_VGA_GAIN_OFFSET_VS_FREQ_I       4493
+#define NV_C1_WCDMA_BC4_LNA_RANGE_OFFSET_2_I            4507
+#define NV_C1_WCDMA_BC4_LNA_RANGE_OFFSET_3_I            4508
+#define NV_C1_WCDMA_BC4_LNA_RANGE_OFFSET_4_I            4509
+#define NV_C1_WCDMA_BC4_LNA_OFFSET_VS_FREQ_2_I          4510
+#define NV_C1_WCDMA_BC4_LNA_OFFSET_VS_FREQ_3_I          4511
+#define NV_C1_WCDMA_BC4_LNA_OFFSET_VS_FREQ_4_I          4512
+#define NV_C1_WCDMA_BC4_IM2_I_VALUE_I                   4513
+#define NV_C1_WCDMA_BC4_IM2_Q_VALUE_I                   4514
+#define NV_C1_WCDMA_BC4_IM2_TRANSCONDUCTOR_VALUE_I      4515
+
+//Surbrin Chen: QSC6270 add new
+#define NV_WCDMA_TX_LIN_MASTER_0_ENH_I				5059
+#define NV_WCDMA_TX_PDM_LIN_0_ENH_I	                5065
+#define NV_WCDMA_BC4_TX_LIN_MASTER_0_ENH_I               5056
+#define NV_WCDMA_BC4_TX_PDM_LIN_0_ENH_I                      5062
+#define NV_WCDMA_1900_TX_LIN_MASTER_0_ENH_I			5058
+#define NV_WCDMA_1900_TX_PDM_LIN_0_ENH_I			5064
+#define NV_WCDMA_900_TX_LIN_MASTER_0_ENH_I			5055
+#define NV_WCDMA_900_TX_PDM_LIN_0_ENH_I				5061
+#define NV_WCDMA_800_TX_LIN_MASTER_0_ENH_I			5054
+#define NV_WCDMA_800_TX_PDM_LIN_0_ENH_I				5060
+
+
+#define NV_WCDMA_EXP_HDET_VS_AGC_V2_I				5459
+#define NV_WCDMA_HDET_OFF_V2_I						5465
+#define NV_WCDMA_HDET_SPN_V2_I						5471
+#define NV_WCDMA_BC4_EXP_HDET_VS_AGC_V2_I                  5462
+#define NV_WCDMA_BC4_HDET_OFF_V2_I                                5468
+#define NV_WCDMA_BC4_HDET_SPN_V2_I                                5474
+#define NV_WCDMA_1900_EXP_HDET_VS_AGC_V2_I			5460
+#define NV_WCDMA_1900_HDET_OFF_V2_I					5466
+#define NV_WCDMA_1900_HDET_SPN_V2_I					5472
+#define NV_WCDMA_900_EXP_HDET_VS_AGC_V2_I			5464
+#define NV_WCDMA_900_HDET_OFF_V2_I					5470
+#define NV_WCDMA_900_HDET_SPN_V2_I					5476
+#define NV_WCDMA_800_EXP_HDET_VS_AGC_V2_I			5461
+#define NV_WCDMA_800_HDET_OFF_V2_I					5467
+#define NV_WCDMA_800_HDET_SPN_V2_I					5473
+
+
+
+#define GSM_900AND850_PCL5_TRANSIENT_TABLE			1
+#define DCS_PCS__PCL0_TRANSIENT_TABLE				2
+#define GSM_ALL_PCL15_OR_PCL19_TRANSIENT_TABLE		3
+
+#define GSM_900AND850_PCL19_TRANSIENT_TABLE			1
+#define DCS_PCS_PCL15_TRANSIENT_TABLE				2
+#define GSM_ALL_PCL5_OR_PCL0_TRANSIENT_TABLE		3
+
+
+#define GSM_900AND850_TRANSIENT_TABLE				1
+#define DCS_PCS_TRANSIENT_TABLE						2
+
+#define GSM_BAND_900								10
+#define GSM_BAND_DCS								11
+#define GSM_BAND_PCS								12
+#define GSM_BAND_850								18
+
+#define GSM_BAND_900_to_850							28
+
+#define GSM_850_KV_CAL_CHAN							5270 //new KVco
+#define GSM_900_KV_CAL_CHAN							5271 //new KVco
+#define GSM_1800_KV_CAL_CHAN						5272 //new KVco
+#define GSM_1900_KV_CAL_CHAN						5273 //new KVco
+
+#define GSM_850_KV_CAL								5276 //new KVco
+#define GSM_900_KV_CAL								5277 //new KVco
+#define GSM_1800_KV_CAL								5278 //new KVco
+#define GSM_1900_KV_CAL								5279 //new KVco
+
+
+
+
+
+
+#define TRK_LO_ADJEST_PDM	0
+
+
+#define RSBMEASURECOUNTS	3
+/*--------------for nv test------------------*/
+
+#define NV_FREQ_TABLE_SIZ	16
+#define NV_TEMP_TABLE_SIZ	8
+
+#define  NV_GSM_CAL_ARFCN_SIZ    8
+
+//for rx compensation
+#define NV_GSM_RX_GAIN_RANGE_1_FREQ_COMP_I              726
+#define NV_GSM_RX_GAIN_RANGE_2_FREQ_COMP_I              727
+#define NV_GSM_RX_GAIN_RANGE_3_FREQ_COMP_I              728
+#define NV_GSM_RX_GAIN_RANGE_4_FREQ_COMP_I              729	 
+#define NV_DCS_RX_GAIN_RANGE_1_FREQ_COMP_I              730
+#define NV_DCS_RX_GAIN_RANGE_2_FREQ_COMP_I              731
+#define NV_DCS_RX_GAIN_RANGE_3_FREQ_COMP_I              732
+#define NV_DCS_RX_GAIN_RANGE_4_FREQ_COMP_I              733
+#define NV_GSM_1900_RX_GAIN_RANGE_1_FREQ_COMP_I         1058
+#define NV_GSM_1900_RX_GAIN_RANGE_2_FREQ_COMP_I         1059
+#define NV_GSM_1900_RX_GAIN_RANGE_3_FREQ_COMP_I         1060
+#define NV_GSM_1900_RX_GAIN_RANGE_4_FREQ_COMP_I         1061
+#define	NV_GSM_850_RX_GAIN_RANGE_1_FREQ_COMP_I			1102
+#define	NV_GSM_850_RX_GAIN_RANGE_2_FREQ_COMP_I			1103
+#define	NV_GSM_850_RX_GAIN_RANGE_3_FREQ_COMP_I			1104
+#define	NV_GSM_850_RX_GAIN_RANGE_4_FREQ_COMP_I			1105
+#define NV_GSM_RX_GAIN_RANGE_5_FREQ_COMP_I              3502	 
+#define NV_DCS_RX_GAIN_RANGE_5_FREQ_COMP_I              3503
+#define NV_GSM_1900_RX_GAIN_RANGE_5_FREQ_COMP_I         3505
+#define	NV_GSM_850_RX_GAIN_RANGE_5_FREQ_COMP_I			3504
+//for IM2 calibration
+#define NV_GSM_IM2_1800_I	4176
+#define NV_GSM_IM2_1900_I	4177
+
+//for polar nv item emu
+#define NV_GSM_AMAM_MASTER_TBL_SEG1_F1_I                2521
+#define NV_GSM_AMAM_MASTER_TBL_SEG2_F1_I                2522
+#define NV_GSM_AMAM_MASTER_TBL_SEG3_F1_I                2523
+#define NV_GSM_AMAM_MASTER_TBL_SEG4_F1_I                2524
+#define NV_GSM_AMAM_MASTER_TBL_SEG5_F1_I                2525
+#define NV_GSM_AMAM_MASTER_TBL_SEG6_F1_I                2526
+#define NV_GSM_AMAM_MASTER_TBL_SEG7_F1_I                2527
+#define NV_GSM_AMAM_MASTER_TBL_SEG8_F1_I                2528
+#define NV_DCS_AMAM_MASTER_TBL_SEG1_F1_I                2529
+#define NV_DCS_AMAM_MASTER_TBL_SEG2_F1_I                2530
+#define NV_DCS_AMAM_MASTER_TBL_SEG3_F1_I                2531
+#define NV_DCS_AMAM_MASTER_TBL_SEG4_F1_I                2532
+#define NV_DCS_AMAM_MASTER_TBL_SEG5_F1_I                2533
+#define NV_DCS_AMAM_MASTER_TBL_SEG6_F1_I                2534
+#define NV_DCS_AMAM_MASTER_TBL_SEG7_F1_I                2535
+#define NV_DCS_AMAM_MASTER_TBL_SEG8_F1_I                2536
+#define NV_GSM_850_AMAM_MASTER_TBL_SEG1__F1_I			2537
+#define NV_GSM_850_AMAM_MASTER_TBL_SEG2__F1_I			2538
+#define NV_GSM_850_AMAM_MASTER_TBL_SEG3__F1_I			2539
+#define NV_GSM_850_AMAM_MASTER_TBL_SEG4__F1_I			2540
+#define NV_GSM_850_AMAM_MASTER_TBL_SEG5__F1_I			2541
+#define NV_GSM_850_AMAM_MASTER_TBL_SEG6__F1_I			2542
+#define NV_GSM_850_AMAM_MASTER_TBL_SEG7__F1_I			2543
+#define NV_GSM_850_AMAM_MASTER_TBL_SEG8__F1_I			2544
+#define NV_GSM_1900_AMAM_MASTER_TBL_SEG1_F1_I           2545
+#define NV_GSM_AMAM_MASTER_TBL_SEG1_F2_I                2553
+#define NV_GSM_AMAM_MASTER_TBL_SEG2_F2_I                2554
+#define NV_GSM_AMAM_MASTER_TBL_SEG3_F2_I                2555
+#define NV_GSM_AMAM_MASTER_TBL_SEG4_F2_I                2556
+#define NV_GSM_AMAM_MASTER_TBL_SEG5_F2_I                2557
+#define NV_GSM_AMAM_MASTER_TBL_SEG6_F2_I                2558
+#define NV_GSM_AMAM_MASTER_TBL_SEG7_F2_I                2559
+#define NV_GSM_AMAM_MASTER_TBL_SEG8_F2_I                2560
+#define NV_DCS_AMAM_MASTER_TBL_SEG1_F2_I                2561
+#define NV_DCS_AMAM_MASTER_TBL_SEG2_F2_I                2562
+#define NV_DCS_AMAM_MASTER_TBL_SEG3_F2_I                2563
+#define NV_DCS_AMAM_MASTER_TBL_SEG4_F2_I                2564
+#define NV_DCS_AMAM_MASTER_TBL_SEG5_F2_I                2565
+#define NV_DCS_AMAM_MASTER_TBL_SEG6_F2_I                2566
+#define NV_DCS_AMAM_MASTER_TBL_SEG7_F2_I                2567
+#define NV_DCS_AMAM_MASTER_TBL_SEG8_F2_I                2568
+#define NV_GSM_850_AMAM_MASTER_TBL_SEG1__F2_I			2569
+#define NV_GSM_1900_AMAM_MASTER_TBL_SEG1_F2_I           2577
+#define NV_GSM_1900_AMAM_MASTER_TBL_SEG2_F2_I           2578
+#define NV_GSM_1900_AMAM_MASTER_TBL_SEG3_F2_I           2579
+#define NV_GSM_1900_AMAM_MASTER_TBL_SEG4_F2_I           2580
+#define NV_GSM_1900_AMAM_MASTER_TBL_SEG5_F2_I           2581
+#define NV_GSM_1900_AMAM_MASTER_TBL_SEG6_F2_I           2582
+#define NV_GSM_1900_AMAM_MASTER_TBL_SEG7_F2_I           2583
+#define NV_GSM_1900_AMAM_MASTER_TBL_SEG8_F2_I           2584
+#define NV_GSM_AMPM_MASTER_TBL_SEG1_F1_I                2585
+#define NV_GSM_AMPM_MASTER_TBL_SEG2_F1_I                2586
+#define NV_GSM_AMPM_MASTER_TBL_SEG3_F1_I                2587
+#define NV_GSM_AMPM_MASTER_TBL_SEG4_F1_I                2588
+#define NV_GSM_AMPM_MASTER_TBL_SEG5_F1_I                2589
+#define NV_GSM_AMPM_MASTER_TBL_SEG6_F1_I                2590
+#define NV_GSM_AMPM_MASTER_TBL_SEG7_F1_I                2591
+#define NV_GSM_AMPM_MASTER_TBL_SEG8_F1_I                2592
+#define NV_DCS_AMPM_MASTER_TBL_SEG1_F1_I                2593
+#define NV_DCS_AMPM_MASTER_TBL_SEG2_F1_I                2594
+#define NV_DCS_AMPM_MASTER_TBL_SEG3_F1_I                2595
+#define NV_DCS_AMPM_MASTER_TBL_SEG4_F1_I                2596
+#define NV_DCS_AMPM_MASTER_TBL_SEG5_F1_I                2597
+#define NV_DCS_AMPM_MASTER_TBL_SEG6_F1_I                2598
+#define NV_DCS_AMPM_MASTER_TBL_SEG7_F1_I                2599
+#define NV_DCS_AMPM_MASTER_TBL_SEG8_F1_I                2600
+#define NV_GSM_850_AMPM_MASTER_TBL_SEG1__F1_I			2601
+#define NV_GSM_1900_AMPM_MASTER_TBL_SEG1_F1_I           2609
+#define NV_GSM_1900_AMPM_MASTER_TBL_SEG2_F1_I           2610
+#define NV_GSM_1900_AMPM_MASTER_TBL_SEG3_F1_I           2611
+#define NV_GSM_1900_AMPM_MASTER_TBL_SEG4_F1_I           2612
+#define NV_GSM_1900_AMPM_MASTER_TBL_SEG5_F1_I           2613
+#define NV_GSM_1900_AMPM_MASTER_TBL_SEG6_F1_I           2614
+#define NV_GSM_1900_AMPM_MASTER_TBL_SEG7_F1_I           2615
+#define NV_GSM_1900_AMPM_MASTER_TBL_SEG8_F1_I           2616
+#define NV_GSM_AMPM_MASTER_TBL_SEG1_F2_I                2617
+#define NV_GSM_AMPM_MASTER_TBL_SEG2_F2_I                2618
+#define NV_GSM_AMPM_MASTER_TBL_SEG3_F2_I                2619
+#define NV_GSM_AMPM_MASTER_TBL_SEG4_F2_I                2620
+#define NV_GSM_AMPM_MASTER_TBL_SEG5_F2_I                2621
+#define NV_GSM_AMPM_MASTER_TBL_SEG6_F2_I                2622
+#define NV_GSM_AMPM_MASTER_TBL_SEG7_F2_I                2623
+#define NV_GSM_AMPM_MASTER_TBL_SEG8_F2_I                2624
+#define NV_DCS_AMPM_MASTER_TBL_SEG1_F2_I                2625
+#define NV_DCS_AMPM_MASTER_TBL_SEG2_F2_I                2626
+#define NV_DCS_AMPM_MASTER_TBL_SEG3_F2_I                2627
+#define NV_DCS_AMPM_MASTER_TBL_SEG4_F2_I                2628
+#define NV_DCS_AMPM_MASTER_TBL_SEG5_F2_I                2629
+#define NV_DCS_AMPM_MASTER_TBL_SEG6_F2_I                2630
+#define NV_DCS_AMPM_MASTER_TBL_SEG7_F2_I                2631
+#define NV_DCS_AMPM_MASTER_TBL_SEG8_F2_I                2632
+#define NV_GSM_850_AMPM_MASTER_TBL_SEG1__F2_I			2633
+#define NV_GSM_1900_AMPM_MASTER_TBL_SEG1_F2_I           2641
+#define NV_GSM_1900_AMPM_MASTER_TBL_SEG2_F2_I           2642
+#define NV_GSM_1900_AMPM_MASTER_TBL_SEG3_F2_I           2643
+#define NV_GSM_1900_AMPM_MASTER_TBL_SEG4_F2_I           2644
+#define NV_GSM_1900_AMPM_MASTER_TBL_SEG5_F2_I           2645
+#define NV_GSM_1900_AMPM_MASTER_TBL_SEG6_F2_I           2646
+#define NV_GSM_1900_AMPM_MASTER_TBL_SEG7_F2_I           2647
+#define NV_GSM_1900_AMPM_MASTER_TBL_SEG8_F2_I           2648
+//added by strong for supporting F3 
+#define NV_GSM_AMAM_MASTER_TBL_SEG1_F3_I                3078
+#define NV_DCS_AMAM_MASTER_TBL_SEG1_F3_I                3086
+#define NV_GSM_850_AMAM_MASTER_TBL_SEG1__F3_I            3094
+#define NV_GSM_1900_AMAM_MASTER_TBL_SEG1_F3_I           3102
+
+
+#define NV_GSM_AMPM_MASTER_TBL_SEG1_F3_I                3110
+#define NV_DCS_AMPM_MASTER_TBL_SEG1_F3_I                3118
+#define NV_GSM_850_AMPM_MASTER_TBL_SEG1__F3_I            3126
+#define NV_GSM_1900_AMPM_MASTER_TBL_SEG1_F3_I           3134
+
+
+#define NV_GSM_850_PA_TEMP_COMP_INDEX_11_I				1323
+#define NV_GSM_PA_TEMP_COMP_INDEX_11_I					1284
+#define NV_DCS_PA_TEMP_COMP_INDEX_11_I					1298
+#define NV_GSM_1900_PA_TEMP_COMP_INDEX_11_I				1337
+
+//Rsb calibration
+#define NV_DCS_TX_RSB_CORR_I		                      4180
+#define NV_GSM_1900_TX_RSB_CORR_I		                  4182	 
+
+//Timing delay
+#define NV_GSM_POLAR_PATH_DELAY_I                       2770
+#define NV_850_POLAR_PATH_DELAY_I						2772
+#define NV_DCS_POLAR_PATH_DELAY_I                       2771
+#define NV_GSM_1900_POLAR_PATH_DELAY_I                  2773
+
+#define RF_NUM_REF_FREQ 3
+
+//Therm cal
+#define NV_THERM_I							            141
+
+//EnhTherm cal
+#define NV_ENH_THERM_I							        5479	
+
+//Pout
+#define NV_DCS_PA_TEMP_COMP_INDEX_10_I                  1297
+#define NV_GSM_1900_PA_TEMP_COMP_INDEX_10_I             1336
+
+//VCO
+#define NV_VCO_DEFAULT_I								1882
+#define NV_VCO_SLOPE_I									1883
+
+//Carrier Suppression
+#define NV_GSM_DCS_CARRIER_SUPPRESSION					4871
+#define NV_GSM_1900_CARRIER_SUPPRESSION					4872
+
+//CDMA Tx NV ID
+#define NV_BC0_TX_LIN_0_I 4831
+#define NV_BC0_TX_LIN_1_I 4832
+#define NV_BC0_TX_LIN_2_I 4833
+#define NV_BC0_TX_LIN_3_I 4834
+
+#define NV_BC0_TX_PDM_0_I 4795
+#define NV_BC0_TX_PDM_1_I 4796
+#define NV_BC0_TX_PDM_2_I 4797
+#define NV_BC0_TX_PDM_3_I 4798
+
+#define NV_BC0_TX_COMP0_I 1720
+#define NV_BC0_TX_COMP1_I 1721
+#define NV_BC0_TX_COMP2_I 1722
+#define NV_BC0_TX_COMP3_I 1723
+
+#define NV_BC0_HDET_OFF_I			1731
+#define NV_BC0_HDET_SPN_I			1732
+#define NV_BC0_EXP_HDET_VS_AGC_I	1733
+#define NV_BC0_TX_LIM_VS_FREQ_I		1724
+
+#define NV_C0_BC0_TX_CAL_CHAN_I 1737
+
+#define NV_BC1_TX_LIN_0_I  4835
+#define NV_BC1_TX_LIN_1_I  4836
+#define NV_BC1_TX_LIN_2_I  4837
+#define NV_BC1_TX_LIN_3_I  4838
+
+#define NV_BC1_TX_PDM_0_I  4799
+#define NV_BC1_TX_PDM_1_I  4800
+#define NV_BC1_TX_PDM_2_I  4801
+#define NV_BC1_TX_PDM_3_I  4802
+
+#define NV_BC1_TX_COMP0_I  1631
+#define NV_BC1_TX_COMP1_I  1632
+#define NV_BC1_TX_COMP2_I  1633
+#define NV_BC1_TX_COMP3_I  1634
+
+#define NV_BC1_HDET_OFF_I			 1642
+#define NV_BC1_HDET_SPN_I			 1643
+#define NV_BC1_EXP_HDET_VS_AGC_I	 1644
+#define NV_BC1_TX_LIM_VS_FREQ_I		 1635
+
+#define NV_C0_BC1_TX_CAL_CHAN_I 1648
+
+//CDMA Rx Primary path NV ID
+#define NV_C0_BC0_LNA_1_OFFSET_VS_FREQ_I	1739 
+#define NV_C0_BC0_LNA_2_OFFSET_VS_FREQ_I	1740 
+#define NV_C0_BC0_LNA_3_OFFSET_VS_FREQ_I	1741 
+#define NV_C0_BC0_LNA_4_OFFSET_VS_FREQ_I	1742 
+#define NV_C0_BC0_LNA_1_OFFSET_I			1743 
+#define NV_C0_BC0_LNA_2_OFFSET_I			1744 
+#define NV_C0_BC0_LNA_3_OFFSET_I			1745 
+#define NV_C0_BC0_LNA_4_OFFSET_I			1746 
+#define NV_C0_BC0_VGA_GAIN_OFFSET_I			1749 
+#define NV_C0_BC0_VGA_GAIN_OFFSET_VS_FREQ_I 1750 
+#define NV_C0_BC0_INTELLICEIVER_CAL_I		3265 
+#define NV_C0_BC0_RX_CAL_CHAN_I				1738
+
+#define NV_C0_BC1_LNA_1_OFFSET_VS_FREQ_I	1650
+#define NV_C0_BC1_LNA_2_OFFSET_VS_FREQ_I	1651
+#define NV_C0_BC1_LNA_3_OFFSET_VS_FREQ_I	1652
+#define NV_C0_BC1_LNA_4_OFFSET_VS_FREQ_I	1653
+#define NV_C0_BC1_LNA_1_OFFSET_I			1654
+#define NV_C0_BC1_LNA_2_OFFSET_I			1655
+#define NV_C0_BC1_LNA_3_OFFSET_I			1666
+#define NV_C0_BC1_LNA_4_OFFSET_I			1667
+#define NV_C0_BC1_VGA_GAIN_OFFSET_I			1670
+#define NV_C0_BC1_VGA_GAIN_OFFSET_VS_FREQ_I 1671
+#define NV_C0_BC1_INTELLICEIVER_CAL_I		3266
+#define NV_C0_BC1_RX_CAL_CHAN_I				1649
+
+
+//CDMA Rx Diversity Path NV ID
+#define NV_C1_BC0_LNA_1_OFFSET_VS_FREQ_I	1766 
+#define NV_C1_BC0_LNA_2_OFFSET_VS_FREQ_I	1767 
+#define NV_C1_BC0_LNA_3_OFFSET_VS_FREQ_I	1768 
+#define NV_C1_BC0_LNA_4_OFFSET_VS_FREQ_I	1769 
+#define NV_C1_BC0_LNA_1_OFFSET_I			1770 
+#define NV_C1_BC0_LNA_2_OFFSET_I			1771 
+#define NV_C1_BC0_LNA_3_OFFSET_I			1772 
+#define NV_C1_BC0_LNA_4_OFFSET_I			1773 
+#define NV_C1_BC0_VGA_GAIN_OFFSET_I			1776 
+#define NV_C1_BC0_VGA_GAIN_OFFSET_VS_FREQ_I	1777 
+
+#define NV_C1_BC1_LNA_1_OFFSET_VS_FREQ_I	1687
+#define NV_C1_BC1_LNA_2_OFFSET_VS_FREQ_I	1689
+#define NV_C1_BC1_LNA_3_OFFSET_VS_FREQ_I	1690
+#define NV_C1_BC1_LNA_4_OFFSET_VS_FREQ_I	1691
+#define NV_C1_BC1_LNA_1_OFFSET_I			1692
+#define NV_C1_BC1_LNA_2_OFFSET_I			1693
+#define NV_C1_BC1_LNA_3_OFFSET_I			1694
+#define NV_C1_BC1_LNA_4_OFFSET_I			1695
+#define NV_C1_BC1_VGA_GAIN_OFFSET_I			1698
+#define NV_C1_BC1_VGA_GAIN_OFFSET_VS_FREQ_I 1699
+
+//Add by jackiesen GSM NV ID
+#define GSM850_ARFCN_F1								128
+#define GSM850_ARFCN_F2								190
+#define GSM850_ARFCN_F3								251
+#define GSM900_ARFCN_F1								975
+#define GSM900_ARFCN_F2								37
+#define GSM900_ARFCN_F3								124
+#define GSM1800_ARFCN_F1							512
+#define GSM1800_ARFCN_F2							700
+#define GSM1800_ARFCN_F3							885
+#define GSM1900_ARFCN_F1							512
+#define GSM1900_ARFCN_F2							661
+#define GSM1900_ARFCN_F3							810
+
+#define GSM850_PMEAS_G0_F1							5323	//NV ID
+#define GSM850_PMEAS_G0_F2							5327
+#define GSM850_PMEAS_G0_F3							5415
+#define GSM900_PMEAS_G0_F1							5331
+#define GSM900_PMEAS_G0_F2							5335
+#define GSM900_PMEAS_G0_F3							5419
+#define GSM1800_PMEAS_G0_F1							5339
+#define GSM1800_PMEAS_G0_F2							5343
+#define GSM1800_PMEAS_G0_F3							5423
+#define GSM1900_PMEAS_G0_F1							5347
+#define GSM1900_PMEAS_G0_F2							5351
+#define GSM1900_PMEAS_G0_F3							5427
+
+
+
+typedef enum qlib_library_mode 
+{
+	QPHONEMS,
+	QPST
+};
+
+typedef enum tagLNARangeType {
+	LNA_R0, // highest gain
+	LNA_R1,
+	LNA_R2,
+	LNA_R3,  // lowest gain
+	LNA_R4	 // Topaz
+} LNARangeType;
+
+typedef enum tagPARangeType {
+	PA_R0, // lowest gain state
+	PA_R1, // high gain state
+	PA_R2,
+	PA_R3 // highest gain state
+} PARangeType;
+
+/*
+typedef enum CalTestCase{
+	CAL_WCDMA,		
+	CAL_GSM,
+	TEST_WCDMA,
+	TEST_GSM,
+	TEST_AGPS,
+	ONLINE_CALL,
+	TEST_BT,
+} Caltc;
+
+typedef enum QualcommPlatform{
+	MSM7225, //add by JZ.Hou
+	MSM6280,
+	MSM6250,	
+} QPlatform;
+
+*/
+
+// Severity definition
+//enum EMsgLevel
+//{
+//	MSG_INFO,//110512 gilpin add for FT Tool message log
+//	MSG_WARNING,
+//	//MSG_LOW,
+//	//MSG_MID,
+//	//MSG_HIGH,
+//	MSG_ERROR,
+//	MSG_FATAL,	
+//	MSG_LAST = 0xff
+//};
+
+
+
+#endif //_EnumFiles_H_

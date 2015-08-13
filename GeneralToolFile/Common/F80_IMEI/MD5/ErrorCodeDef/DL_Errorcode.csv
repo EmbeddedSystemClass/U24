@@ -1,0 +1,85 @@
+//**Error Message,Error Code,Error defined in .h,Error description in Chinese,Error description in English,Is in CIM
+DL_Partition_Table_Fail,DOWL0001,DLErr_DL_Partition_Table_Fail,下载partition失败,Download partition Fail,Y
+DL_Hex_Fail,DOWL0002,DLErr_DL_Hex_Fail,下载hex失败,Download hex Fail,Y
+DL_MsImage_Fail,DOWL0003,DLErr_DL_MsImage_Fail,下载msimage失败,Download msimage Fail,Y
+DL_SBL1_Fail,DOWL0004,DLErr_DL_SBL1_Fail,下载sbl1失败,Download sbl1 Fail,Y
+DL_SBL2_Fail,DOWL0005,DLErr_DL_SBL2_Fail,下载sbl2失败,Download sbl2 Fail,Y
+DL_SBL3_Fail,DOWL0006,DLErr_DL_SBL3_Fail,下载sbl3失败,Download sbl3 Fail,Y
+DL_RPM_Fail,DOWL0007,DLErr_DL_RPM_Fail,下载rpm失败,Download rpm Fail,Y
+DL_TZ_Fail,DOWL0008,DLErr_DL_TZ_Fail,下载tz失败,Download tz Fail,Y
+DL_Emmc_Appboot_Fail,DOWL0009,DLErr_DL_Emmc_Appboot_Fail,下载emmc_appboot失败,Download emmc_appboot Fail,Y
+DL_Boot_Fail,DOWL0010,DLErr_DL_Boot_Fail,下载boot失败,Download boot Fail,Y
+DL_System_Fail,DOWL0011,DLErr_DL_System_Fail,下载system失败,Download system Fail,Y
+DL_Userdata_Fail,DOWL0012,DLErr_DL_Userdata_Fail,下载userdata失败,Download userdata Fail,Y
+DL_Persist_Fail,DOWL0013,DLErr_DL_Persist_Fail,下载persist失败,Download persist Fail,Y
+DL_Recovery_Fail,DOWL0014,DLErr_DL_Recovery_Fail,下载recovery失败,Download recovery Fail,Y
+DL_Nonhlos_Fail,DOWL0015,DLErr_DL_Nonhlos_Fail,下载nonhlos失败,Download nonhlos Fail,Y
+DL_Cache_Fail,DOWL0016,DLErr_DL_Cache_Fail,下载cache失败,Download cache Fail,Y
+DL_RC_Fail,DOWL0017,DLErr_DL_RC_Fail,下载rc失败,Download RC Fail,Y
+DL_Dmss_Nop_Fail,DOWL0018,DLErr_DL_Dmss_Nop_Fail,DMSS NOP失败,DMSS NOP Fail,Y
+DL_Streaming_Hello_Fail,DOWL0019,DLErr_DL_Streaming_Hello_Fail,Streaming Hello失败,Streaming Hello Fail,Y
+DL_Streaming_Security_Fail,DOWL0020,DLErr_DL_Streaming_Security_Fail,Streaming Security失败,Streaming Security Fail,Y
+DL_Streaming_Reset_Fail,DOWL0021,DLErr_DL_Streaming_Reset_Fail,Streaming Reset失败,Streaming Reset Fail,Y
+DL_qcsblhd_Fail,DOWL0022,DLErr_DL_QCSBLHD_Fail,下载qcsblhd失败,Download qcsblhd Fail,Y
+DL_qcsbl_Fail,DOWL0023,DLErr_DL_QCSBL_Fail,下载qcsbl失败,Download qcsbl Fail,Y
+DL_oemsblhd_Fail,DOWL0024,DLErr_DL_OEMSBLHD_Fail,下载oemsblhd失败,Download oemsblhd Fail,Y
+DL_oemsbl_Fail,DOWL0025,DLErr_DL_OEMSBL_Fail,下载oemsbl失败,Download oemsbl Fail,Y
+DL_amsshd_Fail,DOWL0026,DLErr_DL_AMSSHD_Fail,下载amsshd失败,Download amsshd Fail,Y
+DL_amss_Fail,DOWL0027,DLErr_DL_AMSS_Fail,下载amss失败,Download amss Fail,Y
+DL_appsboothd_Fail,DOWL0028,DLErr_DL_APPSBOOTHD_Fail,下载appsboothd失败,Download appsboothd Fail,Y
+DL_appsboot_Fail,DOWL0029,DLErr_DL_APPSBOOT_Fail,下载appsboot失败,Download appsboot Fail,Y
+DL_flex_Fail,DOWL0030,DLErr_DL_flex_Fail,下载flex失败,Download flex Fail,Y
+DL_logfilter_Fail,DOWL0031,DLErr_DL_logfilter_Fail,下载logfilter失败,Download logfilter Fail,Y
+DL_passport_Fail,DOWL0032,DLErr_DL_passport_Fail,下载passport失败,Download passport Fail,Y
+DL_wifibin_Fail,DOWL0033,DLErr_DL_WifiBin_Fail,下载wifibin失败,Download wifibin Fail,Y
+DL_md5_Fail,DOWL0034,DLErr_DL_md5_Fail,下载md5失败,Download md5 Fail,Y
+Set_Fastboot_Flag_Fail,DOWL0035,DLErr_Set_Fastboot_Flag_Fail,设置fastboot flag失败,Set fastboot flag Fail,Y
+Setting_Open_Fail,DOWL0036,DLErr_Setting_Open_Fail,打开设置项失败,Open setting Fail,Y
+DL_Tombstones_Fail,DOWL0037,DLErr_DL_Tombstones_Fail,下载Tombstones失败,Download Tombstones Fail,Y
+DL_Qglog_Fail,DOWL0038,DLErr_DL_Qglog_Fail,烧录Qglog fail,Download Qglog Fail,Y
+Read_PicassoNum_Fail,DOWL0039,DLErr_Read_PicassoNum_Fail,读取 Picasso number失败,Read Picasso number fail,Y
+Dump_SBL_Log_Fail,DOWL0040,DLErr_Dump_SBL_Log_Fail,下载 SBL log 失败,Dump SBL log fail,Y
+Dump_PBL_Log_Fail,DOWL0041,DLErr_Dump_PBL_Log_Fail,下载 PBL log 失败,Dump PBL log Fail,Y
+DL_Dmss_Parameter_Fail,DOWL0042,DLErr_DL_Dmss_Parameter_Fail,DMSS PARAMETER失败,DMSS PARAMETER Fail,Y
+DL_Dmss_Write32BIT_Fail,DOWL0043,DLErr_DL_Dmss_Write32BIT_Fail,DMSS Write32BIT失败,DMSS Write32BIT Fail,Y
+DL_Dmss_Go_Fail,DOWL0044,DLErr_DL_Dmss_Go_Fail,DMSS GO失败,DMSS GO Fail,Y
+DL_Streaming_Open_Image_Fail,DOWL0045,DLErr_DL_Streaming_Open_Image_Fail,Streaming Open Image失败,Streaming Open Image Fail,Y
+DLErr_DL_Logo_Fail,DOWL0046,DLErr_DL_Logo_Fail,烧录Logo fail,Download Logo Fail,Y
+DL_Glog_Fail,DOWL0047,DLErr_DL_Glog_Fail,烧录Glog fail,Download Glog Fail,Y
+DL_Sailfish_Fail,DOWL0048,DLErr_DL_Sailfish_Fail,烧录Sailfish 失败,Download Sailfish Fail,Y
+DL_SDI_Fail,DOWL0049,DLErr_DL_SDI_Fail,烧录SDI 失败,Download SDI Fail,Y
+DL_SBL1BAK_Fail,DOWL0050,DLErr_DL_SBL1BAK_Fail,烧录SBL1BAK 失败,Download SBL1BAK Fail,Y
+DL_RPMBAK_Fail,DOWL0051,DLErr_DL_RPMBAK_Fail,烧录RPMBAK 失败,Download RPMBAK Fail,Y
+DL_TZBAK_Fail,DOWL0052,DLErr_DL_TZBAK_Fail,烧录TZBAK 失败,Download TZBAK Fail,Y
+DL_ABOOTBAK_Fail,DOWL0053,DLErr_DL_ABOOTBAK_Fail,烧录ABOOTBAK 失败,Download ABOOTBAK Fail,Y
+//**others,,,,,
+DL_Read_Checksum_File_Fail,DOWL1001,DLErr_DL_Read_Checksum_File_Fail,读取CheckSum失败,Read CheckSum file Fail,N
+Phone_Is_Not_DL_Mode,DOWL1002,DLErr_Phone_Is_Not_DL_Mode,手机不是下载模式,Phone is not Download mode,Y
+Image_Is_not_Exist,DOWL1003,DLErr_Image_Is_not_Exist,下载文件不存在,Image is not exist,N
+Get_Unlock_Fail,DOWL1004,DLErr_Get_Unlock_Fail,解锁手机失败,Unlock phone Fail,Y
+Md5_Check_Open_Fail,DOWL1005,DLErr_Md5_Check_Open_Fail,打开md5检查失败,Open md5 check Fail,Y
+Reboot_Phone_Fail,DOWL1006,DLErr_Reboot_Phone_Fail,手机重启失败,Reboot phone Fail,Y
+Read_Config_File_Fail,DOWL1007,DLErr_Read_Config_File_Fail,读取配置文档失败,Read config file Fail,N
+Erase_User_Fat_Fail,DOWL1008,DLErr_Erase_User_Fat_Fail,擦除用户FAT失败,Erase User FAT Fail,Y
+Oem_All_Qon,DOWL1009,DLErr_Oem_All_Qon,打开所有 variable 权限失败,Oem all Qon fail,Y
+Erase_Inner_SD_Fail,DOWL1010,DLErr_Erase_Inner_SD_Fail,清除 inner SD 失败,Erase inner SD fail,Y
+Oem_Emmc_Rst_N_Enable_Fail,DOWL1011,DLErr_Oem_Emmc_Rst_N_Enable_Fail,Emmc RST_N 激活失败,Emmc RST_N enable fail,Y
+Erase_Modemst1_Fail,DOWL1012,DLErr_Erase_Modemst1_Fail,清除modemst1失败,Erase modemst1 fail,Y
+Erase_Modemst2_Fail,DOWL1013,DLErr_Erase_Modemst2_Fail,清除modemst2失败,Erase modemst2 fail,Y
+Erase_Fsg_Fail,DOWL1014,DLErr_Erase_Fsg_Fail,清除Fsg失败,Erase Fsg fail,Y
+Superlock_Fail,DOWL1015,DLErr_Superlock_Fail,执行Superlock指令 fail,Superlock command Fail,Y
+Erase_Qdlog_Fail,DOWL1016,DLErr_Erase_Qdlog_Fail,删除Qdlog fail,Erase Qdlog Fail,Y
+Format_Userdata_Fail,DOWL1017,DLErr_Format_Userdata_Fail,格式化userdata失败,Format userdata Fail,Y
+Format_Inner_SD_Fail,DOWL1018,DLErr_Format_Inner_SD_Fail,格式化inner SD失败,Format inner SD fail,Y
+Format_Drm_Fail,DOWL1019,DLErr_Format_Drm_Fail,格式化Drm失败,Format Drm Fail,Y
+DL_Qlogfilter_Fail,DOWL1020,DLErr_DL_Qlogfilter_Fail,下载Qlogfilter失败,Download Qlogfilter Fail,Y
+Format_Qglog_Fail,DOWL1021,DLErr_Format_Qglog_Fail,格式化Qglog失败,Format Qglog Fail,Y
+Format_Pad2_Fail,DOWL1022,DLErr_Format_Pad2_Fail,格式化Pad2失败,Format Pad2 Fail,Y
+Send_OEMCMD_Fail,DOWL1023,DLErr_DL_Send_OEMCMD_Fail,执行OEMCMD失败,Send OEMCMD Fail,Y
+Send_Reset_Fail,DOWL1024,DLErr_DL_Send_Reset_Fail,执行reset失败,Send Reset Fail,Y
+DL_Invalid_Slot,DOWL1025,DLErr_DL_Invalid_Slot,非法端口,Invalid slot,N
+Erase_Recovery_Fail,DOWL1026,DLErr_Erase_Recovery_Fail,清除 Recovery 失败,Erase Recovery Fail,Y
+Erase_Cache_Fail,DOWL1027,DLErr_Erase_Cache_Fail,清除 Cache 失败,Erase Cache Fail,Y
+Erase_Swap_Fail,DOWL1028,DLErr_Erase_Swap_Fail,清除 Swap 失败,Erase Swap Fail,Y
+Clean_adb_fastboot_Fail,DOWL1029,DLErr_Clean_adb_fastboot_Fail,刪除 adb.exe 和 fastboot.exe 失敗,Clean adb.exe and fastboot.exe fail,Y
+Format_Qcust_Fail,DOWL1030,DLErr_Format_Qcust_Fail,格式化Qcust失败,Format Qcust Fail,Y

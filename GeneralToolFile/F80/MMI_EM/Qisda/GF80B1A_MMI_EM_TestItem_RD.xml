@@ -1,0 +1,381 @@
+<Configuration>
+	<ToolInfo>
+		<StationID>5</StationID>
+		<TOOL_VERSION>V1.003</TOOL_VERSION>
+		<Project>F80</Project>
+		<Variant>US</Variant>
+	</ToolInfo>
+	<Memo>
+		<Model>GF80B1A</Model>
+		<Station>MMI_EM</Station>
+	</Memo>
+	<TestProcessor>
+		<Name Editable="TRUE" Type="String">CCommonProcessor</Name>
+		<Phone>
+  			<ClassName>CPhone</ClassName> 
+			<COMPort>0</COMPort>			
+			<FtdPort>2000</FtdPort>   
+			<FtdTimeOut>15000</FtdTimeOut>
+			<AutoFTDMode>FALSE</AutoFTDMode>
+			<SetFTDMode>FALSE</SetFTDMode>
+			<WaitTimeStartingUp>10000</WaitTimeStartingUp>
+			<RebootDelayTime>10000</RebootDelayTime>
+			<IsDiagCmd>1</IsDiagCmd><!--0:Diag  1:ADB-->
+			<IsNeedQXDMLog>TRUE</IsNeedQXDMLog>
+			<SWVersion>0</SWVersion>
+			<Variant>US</Variant>
+			<LogUpload>TRUE</LogUpload>
+		</Phone>
+	</TestProcessor>
+<!--
+offset		test item
+512			SIM Card Automatic Verification
+513			Ecampass Auto Verification
+514			GaugeIC Voltage Auto Verification
+515			GaugeIC Temperature Auto Verification
+516			Usb Charging Auto Verification
+517			SD Card Automatic Test Verification
+518			SingleTouch Manual
+519			Headset Detect Verification
+520			FM Manual Verification
+521			Headset KEY Manual Verification
+522			Headset Test Manual Verification
+523			Audio playmusic to Headset Verification
+524			Audio playmusic to Receiver Verification
+525			Audio playmusic to Loudspeaker Verification
+526			Audio Test Manual Verification
+527			LED Test Manual Verification
+528			Vibrator Test Manual Verification
+529			KEY Test Manual Verification
+530			Cap key Test Manual Verification
+531			G-Sensor Test Manual Verification
+532			Front Camera Test Manual Verification
+533			Back Camera Test Manual Verification
+534			LCD Backlight Verification
+535			LCD Verification
+536			Wifi Test Manual Verification
+537			Bluetooth Pairing Manual Verification
+538			Battery Automatic Verification
+539			HotSwap Test Manual Verification
+540			NFC Test Manual Verification
+541			SWP Test Automatic Verification
+542			Touch Firmware Automatic Verification
+543			Battery Impedance Verification
+544			Audio Top Loudspeaker Manual Verification (L)
+545			Audio Below Loudspeaker Manual Verification (R)
+
+-->
+	<TestItemList>  
+		<!--TestItem Begin-->
+		<Item Name="GetSensorLog" Enabled="TRUE"/>
+		<Item Name="BatteryDetectEmpty" Enabled="TRUE"/>
+		<Item Name="CheckSWVersion" Enabled="TRUE"/>
+		<Item Name="CheckBatteryImpedance" Enabled="FALSE"/>
+		<Item Name="TouchFirmware" Enabled="TRUE"/>
+		<Item Name="CheckSIMCard" Enabled="TRUE"/>
+		<Item Name="CheckSDCard" Enabled="TRUE"/>
+		<Item Name="CheckGSensor" Enabled="TRUE"/>
+		<Item Name="CheckSingleTouch" Enabled="TRUE"/>
+		<Item Name="CheckAudioTopLoudspeaker" Enabled="TRUE"/>
+		<Item Name="CheckAudioBelowLoudspeaker" Enabled="TRUE"/>
+		<Item Name="CheckLCDVerification" Enabled="TRUE"/>
+		<Item Name="CheckBluetooth" Enabled="TRUE"/>
+		<Item Name="CheckWifi" Enabled="TRUE"/>
+		<Item Name="GetBIResult" Enabled="FALSE"/>
+		
+		<!-- For EVT 1	
+		<Item Name="CheckNFCOffline3_5CmTestManual" Enabled="FALSE"/>
+		<Item Name="CheckNFCOffline4CmTestManual" Enabled="FALSE"/>
+		<Item Name="CheckNFCTest" Enabled="FALSE"/>
+		<Item Name="CheckFM" Enabled="FALSE"/>
+		<Item Name="CheckCapKey" Enabled="FALSE"/>
+		<Item Name="CheckHeadsetKey" Enabled="FALSE"/>
+		<Item Name="CheckLCDVerification" Enabled="FALSE"/>
+		<Item Name="CheckNfcFWVersion" Enabled="FALSE"/>
+		<Item Name="CheckNFCSWPTest" Enabled="FALSE"/>
+		<Item Name="CheckCamera" Enabled="FALSE"/>
+		<Item Name="CheckNFCOffline2CmTestManual" Enabled="FALSE"/>
+		<Item Name="CheckKey" Enabled="FALSE"/>
+		<Item Name="CheckAudioLoudspeaker" Enabled="FALSE"/>
+		<Item Name="CheckAudioHeadset" Enabled="FALSE"/>
+		<Item Name="CheckAudioHeadmicToRecv" Enabled="FALSE"/>
+		<Item Name="CheckAudioMic1ToHeadset" Enabled="FALSE"/>
+		<Item Name="CheckAudioMic2ToLoudspeaker" Enabled="FALSE"/>
+		<Item Name="CheckAudioHeadsetToHeadsetrecv" Enabled="FALSE"/>
+		<Item Name="CheckVibrator" Enabled="FALSE"/>
+		<Item Name="CheckCapKeyLed" Enabled="FALSE"/>
+		-->
+	</TestItemList> 
+	<ProcessObjectSet>
+		<CheckSWVersionObjects>
+			<ProcessObject ClassName="CCheckSWVersion" Name="CheckSWVersion">
+				<WaitTime Editable="TRUE" Type="Integer">0</WaitTime>
+				<!-- Tline,Aline:Factory Pline:Ship -->
+				<VersionType Editable="TRUE" Type="string">Factory</VersionType>
+			</ProcessObject>	
+		</CheckSWVersionObjects>
+		<CBatteryCapacityObjects>
+			<ProcessObject ClassName="CBatteryCapacity" Name="BatteryDetectEmpty">
+				<Name Editable="TRUE" Type="string">BatteryDetectEmpty</Name>
+				<BatteryLimit Editable="TRUE" Type="string">25</BatteryLimit><!--R,G,B 0:off,1:on-->
+			</ProcessObject>
+		</CBatteryCapacityObjects>
+		<getSensorLogObjects>
+			<ProcessObject ClassName="MMIBBProc" Name="GetSensorLog">
+				<Name Editable="TRUE" Type="string">GetSensorLog</Name>
+				<Offset Editable="TRUE" Type="Integer">0</Offset>
+				<Message Editable="TRUE" Type="string">SENSOR_LOG_TEST</Message>
+				<ErrorCode Editable="TRUE" Type="string">Pull_File_From_Device_Fail</ErrorCode>
+			</ProcessObject>
+		</getSensorLogObjects>
+		<checkSingleTouchObjects>
+			<ProcessObject ClassName="MMIBBProc" Name="CheckSingleTouch">
+				<Name Editable="TRUE" Type="string">SingleTouchTest</Name>
+				<Offset Editable="TRUE" Type="Integer">518</Offset>
+				<Message Editable="TRUE" Type="string">SINGLE_TOUCH_TEST</Message>
+				<ErrorCode Editable="TRUE" Type="string">Touch_General_Fail</ErrorCode>
+			</ProcessObject>
+		</checkSingleTouchObjects>
+		<checkAudioObjects>
+			<ProcessObject ClassName="MMIBBProc" Name="CheckAudio">
+				<Name Editable="TRUE" Type="string">AudioTest</Name>
+				<Offset Editable="TRUE" Type="Integer">526</Offset>
+				<Message Editable="TRUE" Type="string">AUDIO_TEST</Message>
+				<ErrorCode Editable="TRUE" Type="string">Audio_Test_Fail</ErrorCode>
+			</ProcessObject>
+		</checkAudioObjects>	
+		<checkAudioLoudspeakerObjects>
+			<ProcessObject ClassName="MMIBBProc" Name="CheckAudioLoudspeaker">
+				<Name Editable="TRUE" Type="string">AudioLoudspeakerTest</Name>
+				<Offset Editable="TRUE" Type="Integer">525</Offset>
+				<Message Editable="TRUE" Type="string">AUDIO_LOUDSPEAKER_TEST</Message>
+				<ErrorCode Editable="TRUE" Type="string">Speaker_Loud_Test_Fail</ErrorCode>
+			</ProcessObject>
+		</checkAudioLoudspeakerObjects>
+		<checkAudioHeadsetObjects>
+			<ProcessObject ClassName="MMIBBProc" Name="CheckAudioHeadset">
+				<Name Editable="TRUE" Type="string">AudioHeadsetTest</Name>
+				<Offset Editable="TRUE" Type="Integer">523</Offset>
+				<Message Editable="TRUE" Type="string">AUDIO_HEADSET_TEST</Message>
+				<ErrorCode Editable="TRUE" Type="string">Headset_Test_Fail</ErrorCode>
+			</ProcessObject>
+		</checkAudioHeadsetObjects>
+		<checkAudioHeadmicToRecvObjects>
+			<ProcessObject ClassName="MMIBBProc" Name="CheckAudioHeadmicToRecv">
+				<Name Editable="TRUE" Type="string">AudioHeadmicToRecvTest</Name>
+				<Offset Editable="TRUE" Type="Integer">542</Offset>
+				<Message Editable="TRUE" Type="string">AUDIO_HEADMIC_TO_RECV_TEST</Message>
+				<ErrorCode Editable="TRUE" Type="string">Loopback_Headmic_To_Receiver_Fail</ErrorCode>
+			</ProcessObject>
+		</checkAudioHeadmicToRecvObjects>
+		<checkBatteryImpedanceObjects>
+			<ProcessObject ClassName="MMIBBProc" Name="CheckBatteryImpedance">
+				<Name Editable="TRUE" Type="string">BatteryImpedanceTest</Name>
+				<Offset Editable="TRUE" Type="Integer">543</Offset>
+				<Message Editable="TRUE" Type="string">BATTERY_IMPEDANCE_TEST</Message>
+				<ErrorCode Editable="TRUE" Type="string">Battery_Impedance_Fail</ErrorCode>
+			</ProcessObject>
+		</checkBatteryImpedanceObjects>
+		<checkAudioMic2ToLoudspeakerObjects>
+			<ProcessObject ClassName="MMIBBProc" Name="CheckAudioMic2ToLoudspeaker">
+				<Name Editable="TRUE" Type="string">AudioMic2ToLoudspeakerTest</Name>
+				<Offset Editable="TRUE" Type="Integer">544</Offset>
+				<Message Editable="TRUE" Type="string">AUDIO_MIC2_TO_LOUDSPEAKER_TEST</Message>
+				<ErrorCode Editable="TRUE" Type="string">Loopback_Mic2_To_Speaker_Fail</ErrorCode>
+			</ProcessObject>
+		</checkAudioMic2ToLoudspeakerObjects>
+		<checkAudioMic1ToHeadsetObjects>
+			<ProcessObject ClassName="MMIBBProc" Name="CheckAudioMic1ToHeadset">
+				<Name Editable="TRUE" Type="string">AudioMic1ToHeadsetTest</Name>
+				<Offset Editable="TRUE" Type="Integer">543</Offset>
+				<Message Editable="TRUE" Type="string">AUDIO_MIC1_TO_HEADSET_TEST</Message>
+				<ErrorCode Editable="TRUE" Type="string">Loopback_Mic_To_Headset_Fail</ErrorCode>
+			</ProcessObject>
+		</checkAudioMic1ToHeadsetObjects>
+		<checkAudioHeadsetToHeadsetrecvObjects>
+			<ProcessObject ClassName="MMIBBProc" Name="CheckAudioHeadsetToHeadsetrecv">
+				<Name Editable="TRUE" Type="string">AudioHeadsetToHeadsetrecvTest</Name>
+				<Offset Editable="TRUE" Type="Integer">545</Offset>
+				<Message Editable="TRUE" Type="string">AUDIO_HEADSET_TO_HEADSETRECV_TEST</Message>
+				<ErrorCode Editable="TRUE" Type="string">Loopback_Headmic_To_Headset_Fail</ErrorCode>
+			</ProcessObject>
+		</checkAudioHeadsetToHeadsetrecvObjects>
+		<checkVibratorObjects>
+			<ProcessObject ClassName="MMIBBProc" Name="CheckVibrator">
+				<Name Editable="TRUE" Type="string">VibratorTest</Name>
+				<Offset Editable="TRUE" Type="Integer">528</Offset>
+				<Message Editable="TRUE" Type="string">VIBRATOR_TEST</Message>
+				<ErrorCode Editable="TRUE" Type="string">Vibrator_Test_Fail</ErrorCode>
+			</ProcessObject>
+		</checkVibratorObjects>
+		<checkCapKeyLedObjects>
+			<ProcessObject ClassName="MMIBBProc" Name="CheckCapKeyLed">
+				<Name Editable="TRUE" Type="string">CapKeyLedTest</Name>
+				<Offset Editable="TRUE" Type="Integer">541</Offset>
+				<Message Editable="TRUE" Type="string">CAPKEY_LED_TEST</Message>
+				<ErrorCode Editable="TRUE" Type="string">CapKey_LED_Test_Fail</ErrorCode>
+			</ProcessObject>
+		</checkCapKeyLedObjects>
+		<checkCameraObjects>
+			<ProcessObject ClassName="MMIBBProc" Name="CheckCamera">
+				<Name Editable="TRUE" Type="string">CameraTest</Name>
+				<Offset Editable="TRUE" Type="Integer">532</Offset>
+				<Message Editable="TRUE" Type="string">CAMERA_TEST</Message>
+				<ErrorCode Editable="TRUE" Type="string">Camera_Test_Fail</ErrorCode>
+			</ProcessObject>
+		</checkCameraObjects>
+		<checkKeyTestManualObjects>
+			<ProcessObject ClassName="MMIBBProc" Name="CheckKey">
+				<Name Editable="TRUE" Type="string">KeyTest</Name>
+				<Offset Editable="TRUE" Type="Integer">529</Offset>
+				<Message Editable="TRUE" Type="string">KEY_TEST</Message>
+				<ErrorCode Editable="TRUE" Type="string">Sidekey_Test_Fail</ErrorCode>
+			</ProcessObject>
+		</checkKeyTestManualObjects>
+		<checkFMManualObjects>
+			<ProcessObject ClassName="MMIBBProc" Name="CheckFM">
+				<Name Editable="TRUE" Type="string">FMTest</Name>
+				<Offset Editable="TRUE" Type="Integer">520</Offset>
+				<Message Editable="TRUE" Type="string">FM_TEST</Message>
+				<ErrorCode Editable="TRUE" Type="string">FM_Test_Fail</ErrorCode>
+			</ProcessObject>
+		</checkFMManualObjects>
+		<checkHeadsetKEYObjects>
+			<ProcessObject ClassName="MMIBBProc" Name="CheckHeadsetKey">
+				<Name Editable="TRUE" Type="string">HeadsetKeyTest</Name>
+				<Offset Editable="TRUE" Type="Integer">521</Offset>
+				<Message Editable="TRUE" Type="string">HEADSET_KEY_TEST</Message>
+				<ErrorCode Editable="TRUE" Type="string">Headset_Send_Key_Fail</ErrorCode>
+			</ProcessObject>
+		</checkHeadsetKEYObjects>
+		<checkBluetoothPairingManualObjects>
+			<ProcessObject ClassName="MMIBBProc" Name="CheckBluetooth">
+				<Name Editable="TRUE" Type="string">BluetoothTest</Name>
+				<Offset Editable="TRUE" Type="Integer">537</Offset>
+				<Message Editable="TRUE" Type="string">BLUETOOTH_TEST</Message>
+				<ErrorCode Editable="TRUE" Type="string">BT_Test_Set_Command_Fail</ErrorCode>
+			</ProcessObject>
+		</checkBluetoothPairingManualObjects>
+		<checkWifiTestManualObjects>
+			<ProcessObject ClassName="MMIBBProc" Name="CheckWifi">
+				<Name Editable="TRUE" Type="string">WifiTest</Name>
+				<Offset Editable="TRUE" Type="Integer">536</Offset>
+				<Message Editable="TRUE" Type="string">WIFI_TEST</Message>
+				<ErrorCode Editable="TRUE" Type="string">WirelessGSM_Test_Set_Command_Fail</ErrorCode>
+			</ProcessObject>
+		</checkWifiTestManualObjects>
+		<checkGSensorTestManualObjects>
+			<ProcessObject ClassName="MMIBBProc" Name="CheckGSensor">
+				<Name Editable="TRUE" Type="string">GSensorTest</Name>
+				<Offset Editable="TRUE" Type="Integer">531</Offset>
+				<Message Editable="TRUE" Type="string">GSENSOR_TEST</Message>
+				<ErrorCode Editable="TRUE" Type="string">GSensor_Test_Fail</ErrorCode>
+			</ProcessObject>
+		</checkGSensorTestManualObjects>
+		<checkSIMCardObjects>
+			<ProcessObject ClassName="MMIBBProc" Name="CheckSIMCard">
+				<Name Editable="TRUE" Type="string">SIMCardTest</Name>
+				<Offset Editable="TRUE" Type="Integer">512</Offset>
+				<Message Editable="TRUE" Type="string">SIM_CARD_TEST</Message>
+				<ErrorCode Editable="TRUE" Type="string">Detect_SIM_Card_Fail</ErrorCode>
+			</ProcessObject>
+		</checkSIMCardObjects>
+		<checkSDCardAutomaticObjects>
+			<ProcessObject ClassName="MMIBBProc" Name="CheckSDCard">
+				<Name Editable="TRUE" Type="string">SDCardTest</Name>
+				<Offset Editable="TRUE" Type="Integer">517</Offset>
+				<Message Editable="TRUE" Type="string">SD_CARD_TEST</Message>
+				<ErrorCode Editable="TRUE" Type="string">Detect_SD_Fail</ErrorCode>
+			</ProcessObject>
+		</checkSDCardAutomaticObjects>
+		<TouchFirmwareObjects>
+			<ProcessObject ClassName="MMIBBProc" Name="TouchFirmware">
+				<Name Editable="TRUE" Type="string">TouchFirmwareTest</Name>
+				<Offset Editable="TRUE" Type="Integer">542</Offset>
+				<Message Editable="TRUE" Type="string">TOUCH_FIRMWARE_TEST</Message>
+				<ErrorCode Editable="TRUE" Type="string">Check_Touch_FW_Fail</ErrorCode>
+			</ProcessObject>
+		</TouchFirmwareObjects>
+		<checkLCDVerificationObjects>
+			<ProcessObject ClassName="MMIBBProc" Name="CheckLCDVerification">
+				<Name Editable="TRUE" Type="string">LCDVerificationTest</Name>
+				<Offset Editable="TRUE" Type="Integer">535</Offset>
+				<Message Editable="TRUE" Type="string">LCD_VERIFICATION_TEST</Message>
+				<ErrorCode Editable="TRUE" Type="string">LCD_Display_Fail</ErrorCode>
+			</ProcessObject>
+		</checkLCDVerificationObjects>
+		<CheckAudioTopLoudspeakerObjects>
+			<ProcessObject ClassName="MMIBBProc" Name="CheckAudioTopLoudspeaker">
+				<Name Editable="TRUE" Type="string">AudioTopLoudspeakerTest</Name>
+				<Offset Editable="TRUE" Type="Integer">544</Offset>
+				<Message Editable="TRUE" Type="string">AUDIO_TOP_LOUDSPEAKER_TEST</Message>
+				<ErrorCode Editable="TRUE" Type="string">Speaker_L_Test_Fail</ErrorCode>
+			</ProcessObject>
+		</CheckAudioTopLoudspeakerObjects>
+		<CheckAudioBelowLoudspeakerObjects>
+			<ProcessObject ClassName="MMIBBProc" Name="CheckAudioBelowLoudspeaker">
+				<Name Editable="TRUE" Type="string">AudioBelowLoudspeakerTest</Name>
+				<Offset Editable="TRUE" Type="Integer">545</Offset>
+				<Message Editable="TRUE" Type="string">AUDIO_BELOW_LOUDSPEAKER_TEST</Message>
+				<ErrorCode Editable="TRUE" Type="string">Speaker_R_Test_Fail</ErrorCode>
+			</ProcessObject>
+		</CheckAudioBelowLoudspeakerObjects>
+		<checkCAPKEYTestManualObjects>
+			<ProcessObject ClassName="MMIBBProc" Name="CheckCapKey">
+				<Name Editable="TRUE" Type="string">CapKeyTest</Name>
+				<Offset Editable="TRUE" Type="Integer">530</Offset>
+				<Message Editable="TRUE" Type="string">CAPKEY_TEST</Message>
+				<ErrorCode Editable="TRUE" Type="string">ERR_CAPKEY_FAIL</ErrorCode>
+			</ProcessObject>
+		</checkCAPKEYTestManualObjects>
+		<GetBIResultObjects>
+			<ProcessObject ClassName="CBatteryImpedanceResult" Name="GetBIResult">
+				<BIResultPath Editable="TRUE" Type="string">/data/data/com.oem.internal.batteryimpedance/files/impedance_report.txt</BIResultPath>
+				<LogFolderPath Editable="TRUE" Type="string">D:\Log\BI_Result</LogFolderPath>
+			</ProcessObject>	
+		</GetBIResultObjects>
+		<checkNFCSWPTestManualObjects>
+			<ProcessObject ClassName="MMIBBProc" Name="CheckNFCSWPTest">
+				<Name Editable="TRUE" Type="string">NFCSWPTest</Name>
+				<Offset Editable="TRUE" Type="Integer">0</Offset>
+				<Message Editable="TRUE" Type="string">NFC_SWAP_TEST</Message>
+				<ErrorCode Editable="TRUE" Type="string">NFC_SWP_Selftest_Fail</ErrorCode>
+			</ProcessObject>
+		</checkNFCSWPTestManualObjects>
+		<CheckNfcFWVersionObjects>
+			<ProcessObject ClassName="CCheckNfcFwVersion" Name="CheckNfcFWVersion">
+				<FWVersion Editable="TRUE" Type="string">0105</FWVersion>
+			</ProcessObject>	
+		</CheckNfcFWVersionObjects>
+		<checkNFCTestManualObjects>
+			<ProcessObject ClassName="MMIBBProc" Name="CheckNFCTest">
+				<Name Editable="TRUE" Type="string">NFCTest</Name>
+				<Offset Editable="TRUE" Type="Integer">540</Offset>
+				<Message Editable="TRUE" Type="string">NFC_TEST</Message>
+				<ErrorCode Editable="TRUE" Type="string">NFC_Test_Fail</ErrorCode>
+			</ProcessObject>
+		</checkNFCTestManualObjects>
+		<checkNFCOfflineTestManualObjects>
+			<ProcessObject ClassName="CNFCPowerOffCardMode" Name="CheckNFCOffline0CmTestManual">
+				<Distance Editable="TRUE" Type="string">0</Distance>
+				<Message Editable="TRUE" Type="string">NFC_OFFLINE_0CM_TEST</Message>
+				<ErrorCode Editable="TRUE" Type="string">NFC_Card_Mode_0cm_PowerOff_Fail</ErrorCode>
+			</ProcessObject>
+			<ProcessObject ClassName="CNFCPowerOffCardMode" Name="CheckNFCOffline2CmTestManual">
+				<Distance Editable="TRUE" Type="string">2</Distance>
+				<Message Editable="TRUE" Type="string">NFC_OFFLINE_2CM_TEST</Message>
+				<ErrorCode Editable="TRUE" Type="string">NFC_Card_Mode_2cm_PowerOff_Fail</ErrorCode>
+			</ProcessObject>
+			<ProcessObject ClassName="CNFCPowerOffCardMode" Name="CheckNFCOffline4CmTestManual">
+				<Distance Editable="TRUE" Type="string">4</Distance>
+				<Message Editable="TRUE" Type="string">NFC_OFFLINE_4CM_TEST</Message>
+				<ErrorCode Editable="TRUE" Type="string">NFC_Card_Mode_4cm_PowerOff_Fail</ErrorCode>
+			</ProcessObject>
+			<ProcessObject ClassName="CNFCPowerOffCardMode" Name="CheckNFCOffline3_5CmTestManual">
+				<Distance Editable="TRUE" Type="string">3.5</Distance>
+				<Message Editable="TRUE" Type="string">NFC_OFFLINE_3_5CM_TEST</Message>
+				<ErrorCode Editable="TRUE" Type="string">NFC_Card_Mode_3_5cm_PowerOff_Fail</ErrorCode>
+			</ProcessObject>
+		</checkNFCOfflineTestManualObjects>
+	</ProcessObjectSet>	
+</Configuration>

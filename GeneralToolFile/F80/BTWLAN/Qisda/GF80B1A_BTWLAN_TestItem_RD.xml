@@ -1,0 +1,480 @@
+<Configuration>
+	<ToolInfo>
+		<TOOL_VERSION>V1.003</TOOL_VERSION>
+	</ToolInfo>
+	<Memo>
+		<Project>F80</Project>
+		<Station>BTWLAN</Station>
+	</Memo>
+	<TestProcessor>
+		<Name Type="String">CCommonProcessor</Name>
+		<UsingGPIB Type="Boolean">TRUE</UsingGPIB>
+		<GPIBInterfaceID Type="Integer">0</GPIBInterfaceID>
+		<GPIBCardAddress Type="Integer">20</GPIBCardAddress>
+		<ForceToPass Type="Boolean">FALSE</ForceToPass>	
+	</TestProcessor>
+	<Phone>
+		<ClassName>CAndroidPhone</ClassName>
+		<COMPort>0</COMPort>
+		<Keyword Type="String">Diagnostics</Keyword>
+		<QisdaCmdModule>QcomDiagModule.dll</QisdaCmdModule>
+		<LogUpload>TRUE</LogUpload>
+		<UploadServerIP>10.85.68.13</UploadServerIP>
+	</Phone>
+	<TesterDevice>
+		<Item ClassName="CCMU200" Name="CMU 200"/>
+		<Item ClassName="CFSP" Name="FS"/><!--FSEA/FS-->
+		<RFInputPort>1</RFInputPort>
+		<RFOutputPort>1</RFOutputPort>
+	</TesterDevice>
+	<PowerSupply>
+		<PowerSupplyCount Type="Interger">1</PowerSupplyCount>
+		<PowerSupplyList>
+			<PS1Address>5</PS1Address>
+			<PS2Address></PS2Address>
+			<PS3Address></PS3Address>
+		</PowerSupplyList>
+		<Item ClassName="CCommonPS" Name="E3631"/>
+		<Item ClassName="CCommonPS" Name="66321"/>
+		<Item ClassName="CCommonPS" Name="66311"/>
+		<Item ClassName="CCommonPS" Name="66319"/>
+		<Item ClassName="CCommonPS" Name="66332"/>
+		<Item ClassName="CCommonPS" Name="2304"/>
+		<Item ClassName="CCommonPS" Name="2306"/>
+	</PowerSupply>
+	<TestItemList>
+		<Item Name="CheckSWversion" Enabled="TRUE"/>
+		<!-- CMU200 -->
+		<Item Name="GPS_CN0" Enabled="TRUE"/>
+		<Item Name="FMR_rssiTest" Enabled="TRUE"/>
+		<!-- FSP -->
+		<Item Name="WifiModuleON" Enabled="TRUE"/>
+		<Item Name="WiFi_TxTest_11B_FSP" Enabled="TRUE"/>
+		<Item Name="WiFi_TxTest_11G_FSP" Enabled="TRUE"/>
+		<Item Name="WiFi_TxTest_11N_FSP" Enabled="TRUE"/>
+		<Item Name="WiFi_SpectrumMaskTest_5G_11AC_86M_FSP" Enabled="TRUE"/>
+		<Item Name="WiFi_FrequencyErrorTest_FSP" Enabled="TRUE"/>
+		<Item Name="WifiModuleOFF" Enabled="TRUE"/>
+		<Item Name="BT_TxPowerTest_FSP" Enabled="TRUE"/>
+		
+		<!--Disable
+		<Item Name="WiFi_SpectrumMaskTest_5G_11A_FSP" Enabled="FALSE"/>
+		<Item Name="WiFi_SpectrumMaskTest_5G_11N_FSP" Enabled="FALSE"/>
+		<Item Name="RSenseCalibration" Enabled="FALSE"/>
+		<Item Name="NFC_HCI_TypeA_Reader" Enabled="FALSE"/>
+		<Item Name="SetOnlineBootMode" Enabled="FALSE"/>
+		<Item Name="FSGEnable" Enabled="FALSE"/>
+		<Item Name="SetOnlineMode" Enabled="FALSE"/>
+		<Item Name="SetFtmMode" Enabled="FALSE"/>
+		<Item Name="StartPowerSupply" Enabled="FALSE"/>
+		<Item Name="IsPhoneConnected" Enabled="FALSE"/>
+		<Item Name="AdbShellStart" Enabled="FALSE"/>
+		<Item Name="BTWLAN_BT_4_Test" Enabled="FALSE"/>
+		-->
+	</TestItemList>
+	
+	<ProcessObjectSet>
+		<CommonTestObjects>
+			<ProcessObject ClassName="CPowerSupplyItem" Name="StartPowerSupply">
+				<Voltage Type="Double">4.0</Voltage>
+				<Current Type="Double">2.0</Current>
+				<PS_OnOff Type="Boolean">TRUE</PS_OnOff>
+			</ProcessObject>
+			<ProcessObject ClassName="CPhoneStateItem" Name="IsPhoneConnected">
+				<WaitTimeForBoot Type="Integer">0</WaitTimeForBoot>
+				<RetryConnectTimes Type="Integer">20</RetryConnectTimes>
+				<WaitTimeAfterConnect Type="Integer">5000</WaitTimeAfterConnect>
+			</ProcessObject>
+			<ProcessObject ClassName="CCheckSWVersion" Name="CheckSWversion">
+				<!-- RequiredMode: 0:Factory, 1:Ship -->
+				<RequiredType Type="Integer">0</RequiredType>
+			</ProcessObject>
+			<ProcessObject ClassName="CBostonChangeMode" Name="SetFtmMode">
+				<!-- RequiredMode: 0:Online, 1:FTM -->
+				<RequiredMode Type="Integer">1</RequiredMode>
+			</ProcessObject>
+			<ProcessObject ClassName="CBostonChangeMode" Name="SetOnlineMode">
+				<!-- RequiredMode: 0:Online, 1:FTM -->
+				<RequiredMode Type="Integer">0</RequiredMode>
+			</ProcessObject>
+			<ProcessObject ClassName="CChangeBootMode" Name="SetFtmBootMode">
+				<!-- RequiredMode: 0:Online, 1:FTM -->
+				<RequiredMode Type="Integer">1</RequiredMode>
+			</ProcessObject>
+			<ProcessObject ClassName="CChangeBootMode" Name="SetOnlineBootMode">
+				<!-- RequiredMode: 0:Online, 1:FTM -->
+				<RequiredMode Type="Integer">0</RequiredMode>
+			</ProcessObject>
+			<GpsCPKcolumn>
+				<Item Name="SN" />
+				<Item Name="Result" />
+				<Item Name="Time" />
+				<Item Name="GPS_CN0" />
+				<Item Name="GPS_FreqOffset" />
+			</GpsCPKcolumn>
+			<FmrCPKcolumn>
+				<Item Name="SN" />
+				<Item Name="Result" />
+				<Item Name="Time" />
+				<Item Name="FMR_RSSI" />
+			</FmrCPKcolumn>
+			<BTCPKcolumn>
+				<Item Name="SN" />
+				<Item Name="Result" />
+				<Item Name="Time" />
+				<Item Name="BT_TxPower" />
+			</BTCPKcolumn>
+			<WifiTxCPKcolumn>
+				<Item Name="SN" />
+				<Item Name="Result" />
+				<Item Name="Time" />
+				<Item Name="Wifi_SpectrumMask" />
+				<Item Name="Wifi_TxPower" />
+			</WifiTxCPKcolumn>
+			<Wifi5GTxCPKcolumn>
+				<Item Name="SN" />
+				<Item Name="Result" />
+				<Item Name="Time" />
+				<Item Name="Wifi_SpectrumMask" />
+				<Item Name="Wifi_TxPower" />
+			</Wifi5GTxCPKcolumn>
+			<WifiFreqErrCPKcolumn>
+				<Item Name="SN" />
+				<Item Name="Result" />
+				<Item Name="Time" />
+				<Item Name="Wifi_FrequencyError" />
+			</WifiFreqErrCPKcolumn>
+		</CommonTestObjects>
+		
+		<WirelessTestObjects>
+			<ProcessObject ClassName="CAdbShellStart" Name="AdbShellStart">
+			<WaitStart Type="Integer">3000</WaitStart>
+			</ProcessObject>
+			
+			<ProcessObject ClassName="CWireless_GPS_CN0Test" Name="GPS_CN0">
+				<PICSName Type="String">Wireless_GPS_CN0Test</PICSName>
+				<RetryTimes Type="Integer">10</RetryTimes>
+				<CommandDelay>500</CommandDelay>
+				<Frequency Type="Double">1575.52</Frequency>
+				<RFLevel>-110</RFLevel>
+				<OutputPort Type="Integer">2</OutputPort>
+				<DelayAfterCMURun>4000</DelayAfterCMURun>
+				<Range Type="DoubleList">56.5,62.5</Range>
+				<FreqRange Editable="TRUE" Type="IntegerList">96850,103150</FreqRange>
+				<WriteCPKLog>1</WriteCPKLog>
+			</ProcessObject>
+			
+			<ProcessObject ClassName="CWireless_FMR_rssiTest" Name="FMR_rssiTest">
+				<PICSName Type="String">Wireless_FMR_rssiTest</PICSName>
+				<RetryTimes Type="Integer">2</RetryTimes>
+				<CommandDelay>500</CommandDelay>
+				<Frequency Type="Double">98.1</Frequency>
+				<RFLevel>-30</RFLevel>
+				<OutputPort Type="Integer">1</OutputPort>
+				<DelayAfterCMURun>2000</DelayAfterCMURun>
+				<Range Editable="TRUE" Type="IntegerList">200,228</Range>
+				<WriteCPKLog>1</WriteCPKLog>
+			</ProcessObject>
+
+			<ProcessObject ClassName="CBTWLAN_BT_TxTest" Name="BT_TxPowerTest_FSP">
+				<PICSName Type="String">BTWLAN_BT_TxTest</PICSName>
+				<CommandDelay Type="Integer">1000</CommandDelay>
+				<StartDelay Type="Integer">5</StartDelay>
+				<Frequency Type="Double">2441</Frequency>
+				<BTInput Type="String">39,8,4,4,0</BTInput> <!--channel,power,type,pattern,hopping-->
+				<ChannelPower>CPOW</ChannelPower>
+				<!-- <AdjPower Type="Double">-2</AdjPower> -->
+				<RBW Type="Double">1</RBW>
+				<VBW Type="Double">3</VBW>
+				<Span Type="Double">25</Span>
+				<TraceMode Type="String">MAXH</TraceMode>
+				<Detector Type="String">RMS</Detector>
+				<DiagramFull Type="String">LARG</DiagramFull>
+				<SweepTime Type="Integer">10</SweepTime>
+				<ChannelBW Type="Double">10</ChannelBW>
+				<AttenuationManual Type="Integer">40</AttenuationManual>
+				<RefLevel Type="Integer">20</RefLevel>
+				<AverageTimes Type="Integer">1</AverageTimes>
+				<Range Type="DoubleList">0.0,15.0</Range>
+				<WriteCPKLog>1</WriteCPKLog>
+			</ProcessObject>
+			
+			<ProcessObject ClassName="CBTWLAN_BT_4_Test" Name="BTWLAN_BT_4_Test">
+				<PICSName Type="String">BTWLAN_BT_4_TxTest</PICSName>
+				<CommandDelay Type="Integer">1000</CommandDelay>
+				<StartDelay Type="Integer">5</StartDelay>
+				<Frequency Type="Double">2440</Frequency>
+				<BTInput Type="String">19,37,0</BTInput> <!--channel,DataLength,type-->
+				<ChannelPower>CPOW</ChannelPower>
+				<!-- <AdjPower Type="Double">-2</AdjPower> -->
+				<RBW Type="Double">1</RBW>
+				<VBW Type="Double">3</VBW>
+				<Span Type="Double">25</Span>
+				<TraceMode Type="String">MAXH</TraceMode>
+				<Detector Type="String">RMS</Detector>
+				<DiagramFull Type="String">LARG</DiagramFull>
+				<SweepTime Type="Integer">10</SweepTime>
+				<ChannelBW Type="Double">10</ChannelBW>
+				<AttenuationManual Type="Integer">40</AttenuationManual>
+				<RefLevel Type="Integer">20</RefLevel>
+				<AverageTimes Type="Integer">1</AverageTimes>
+				<Range Type="DoubleList">-8.0,10.0</Range>
+				<WriteCPKLog>1</WriteCPKLog>
+				<KLossMode>0</KLossMode>
+			</ProcessObject>
+
+			<ProcessObject ClassName="CBTWLAN_WiFi_5G_TxTest" Name="WiFi_SpectrumMaskTest_5G_11A_FSP">
+				<PICSName Type="String">WiFi_SpecMaskTest_5G_11A</PICSName>
+				<Regulatory_Fixed Type="Integer">3</Regulatory_Fixed><!--3=Regulatory, 2=fixed-->
+				<Power_control_mode Type="Integer">2</Power_control_mode><!--0=open loop, 1=SCPC, 2=close loop-->
+				<CommandDelay Type="Integer">1000</CommandDelay>
+				<Frequency Type="Double">5500</Frequency>
+				<Channel Type="Integer">100</Channel>
+				<Power Type="Integer">10</Power>
+				<DataRate Type="Integer">54</DataRate>
+				<RBW Type="Double">0.1</RBW>
+				<VBW Type="Double">0.1</VBW>
+				<Span Type="Double">100</Span>
+				<TraceMode Type="String">MAXH</TraceMode>
+				<Detector Type="String">RMS</Detector>
+				<RetryTimes Type="Integer">2</RetryTimes>
+				<DiagramFull Type="String">LARG</DiagramFull>
+				<SweepTime Type="Integer">300</SweepTime>
+				<AttenuationManual Type="Integer">30</AttenuationManual>
+				<RefLevel Type="Integer">20</RefLevel>
+				<ChannelPower Type="String">CPOW</ChannelPower>
+				<ChannelBW Type="Double">25</ChannelBW>
+				<Range Type="DoubleList">7.0,13.0</Range>
+				<WriteCPKLog>1</WriteCPKLog>
+			</ProcessObject>
+			
+			<ProcessObject ClassName="CBTWLAN_WiFi_5G_TxTest" Name="WiFi_SpectrumMaskTest_5G_11N_FSP">
+				<PICSName Type="String">WiFi_SpecMaskTest_5G_11N</PICSName>
+				<Regulatory_Fixed Type="Integer">3</Regulatory_Fixed><!--3=Regulatory, 2=fixed-->
+				<Power_control_mode Type="Integer">2</Power_control_mode><!--0=open loop, 1=SCPC, 2=close loop-->
+				<CommandDelay Type="Integer">1000</CommandDelay>
+				<Frequency Type="Double">5500</Frequency>
+				<Channel Type="Integer">100</Channel>
+				<Power Type="Integer">8</Power>
+				<DataRate Type="Integer">72</DataRate>
+				<RBW Type="Double">0.1</RBW>
+				<VBW Type="Double">0.1</VBW>
+				<Span Type="Double">100</Span>
+				<TraceMode Type="String">MAXH</TraceMode>
+				<Detector Type="String">RMS</Detector>
+				<RetryTimes Type="Integer">2</RetryTimes>
+				<DiagramFull Type="String">LARG</DiagramFull>
+				<SweepTime Type="Integer">300</SweepTime>
+				<AttenuationManual Type="Integer">30</AttenuationManual>
+				<RefLevel Type="Integer">20</RefLevel>
+				<ChannelPower Type="String">CPOW</ChannelPower>
+				<ChannelBW Type="Double">25</ChannelBW>
+				<Range Type="DoubleList">5.0,11.0</Range>
+				<WriteCPKLog>1</WriteCPKLog>
+			</ProcessObject>
+			
+			<ProcessObject ClassName="CBTWLAN_WiFi_5G_TxTest" Name="WiFi_SpectrumMaskTest_5G_11AC_86M_FSP">
+				<PICSName Type="String">WiFi_SpecMaskTest_5G_11AC</PICSName>
+				<Regulatory_Fixed Type="Integer">3</Regulatory_Fixed><!--3=Regulatory, 2=fixed-->
+				<Power_control_mode Type="Integer">2</Power_control_mode><!--0=open loop, 1=SCPC, 2=close loop-->
+				<CommandDelay Type="Integer">1000</CommandDelay>
+				<Frequency Type="Double">5500</Frequency>
+				<Channel Type="Integer">100</Channel>
+				<Power Type="Integer">7</Power>
+				<DataRate Type="Integer">86</DataRate>
+				<RBW Type="Double">0.1</RBW>
+				<VBW Type="Double">0.1</VBW>
+				<Span Type="Double">100</Span>
+				<TraceMode Type="String">MAXH</TraceMode>
+				<Detector Type="String">RMS</Detector>
+				<RetryTimes Type="Integer">2</RetryTimes>
+				<DiagramFull Type="String">LARG</DiagramFull>
+				<SweepTime Type="Integer">300</SweepTime>
+				<AttenuationManual Type="Integer">30</AttenuationManual>
+				<RefLevel Type="Integer">20</RefLevel>
+				<ChannelPower Type="String">CPOW</ChannelPower>
+				<ChannelBW Type="Double">25</ChannelBW>
+				<Range Type="DoubleList">4.0,10.0</Range>
+				<WriteCPKLog>1</WriteCPKLog>
+			</ProcessObject>
+			
+			<ProcessObject ClassName="CBTWLAN_WiFi_TxTest" Name="WiFi_TxTest_11B_FSP">
+				<PICSName Type="String">WiFi_SpecMaskTest_11B</PICSName>
+				<Regulatory_Fixed Type="Integer">3</Regulatory_Fixed><!--3=Regulatory, 2=fixed-->
+				<Power_control_mode Type="Integer">1</Power_control_mode><!--0=open loop, 1=SCPC, 2=close loop-->
+				<CommandDelay Type="Integer">1000</CommandDelay>
+				<StartDelay Type="Integer">5</StartDelay>
+				<Frequency Type="Double">2442</Frequency>
+				<Channel Type="Integer">7</Channel>
+				<Power Type="Integer">16</Power>
+				<DataRate Type="Integer">11</DataRate>
+				<RBW Type="Double">0.1</RBW>
+				<VBW Type="Double">0.1</VBW>
+				<Span Type="Double">100</Span>
+				<TraceMode Type="String">MAXH</TraceMode>
+				<Detector Type="String">RMS</Detector>
+				<DiagramFull Type="String">LARG</DiagramFull>
+				<SweepTime Type="Integer">300</SweepTime>
+				<Trace Type="Integer">1</Trace>
+				<Margin Type="Integer">0</Margin>
+				<Threshold Type="Integer">-200</Threshold>
+				<LineName Type="String">"11B"</LineName>
+				<Domain Type="String">FREQ</Domain>
+				<XscalingMode Type="String">REL</XscalingMode>
+				<YscalingMode Type="String">REL</YscalingMode>
+				<Unit Type="String">DB</Unit>
+				<Spacing Type="String">LIN</Spacing>
+				<ContData Type="String">-50MHz,-22MHz,-22MHz,-11MHz,-11MHz,0MHz,11MHz,11MHz,22MHz,22MHz,50MHz</ContData>
+				<UppData Type="String">-50,-50,-30,-30,0,0,0,-30,-30,-50,-50</UppData>
+				<AttenuationManual Type="Integer">30</AttenuationManual>
+				<RefLevel Type="Integer">20</RefLevel>
+				<ChannelPower Type="String">CPOW</ChannelPower>
+				<ChannelBW Type="Double">25</ChannelBW>
+				<!-- <AdjPower Type="Double">4.8</AdjPower> -->
+				<AverageTimes Type="Integer">1</AverageTimes>
+				<Range Type="DoubleList">13.0,19.0</Range>
+				<WriteCPKLog>1</WriteCPKLog>
+			</ProcessObject>
+			
+			<ProcessObject ClassName="CBTWLAN_WiFi_TxTest" Name="WiFi_TxTest_11G_FSP">
+				<PICSName Type="String">WiFi_SpecMaskTest_11G</PICSName>
+				<Regulatory_Fixed Type="Integer">3</Regulatory_Fixed><!--3=Regulatory, 2=fixed-->
+				<Power_control_mode Type="Integer">1</Power_control_mode><!--0=open loop, 1=SCPC, 2=close loop-->
+				<CommandDelay Type="Integer">1000</CommandDelay>
+				<StartDelay Type="Integer">5</StartDelay>
+				<Frequency Type="Double">2442</Frequency>
+				<Channel Type="Integer">7</Channel>
+				<Power Type="Integer">13</Power>
+				<DataRate Type="Integer">54</DataRate>
+				<RBW Type="Double">0.1</RBW>
+				<VBW Type="Double">0.1</VBW>
+				<Span Type="Double">100</Span>
+				<TraceMode Type="String">MAXH</TraceMode>
+				<Detector Type="String">RMS</Detector>
+				<DiagramFull Type="String">LARG</DiagramFull>
+				<SweepTime Type="Integer">300</SweepTime>
+				<Trace Type="Integer">1</Trace>
+				<Margin Type="Integer">0</Margin>
+				<Threshold Type="Integer">-200</Threshold>
+				<LineName Type="String">"11G"</LineName>
+				<Domain Type="String">FREQ</Domain>
+				<XscalingMode Type="String">REL</XscalingMode>
+				<YscalingMode Type="String">REL</YscalingMode>
+				<Unit Type="String">DB</Unit>
+				<Spacing Type="String">LIN</Spacing>
+				<ContData Type="String">-50MHz,-30MHz,-20MHz,-11MHz,-9MHz,0MHz,9MHz,11MHz,20MHz,30MHz,50MHz</ContData>
+				<UppData Type="String">-40,-40,-28,-20,0,0,0,-20,-28,-40,-40</UppData>
+				<AttenuationManual Type="Integer">30</AttenuationManual>
+				<RefLevel Type="Integer">20</RefLevel>
+				<ChannelPower Type="String">CPOW</ChannelPower>
+				<ChannelBW Type="Double">25</ChannelBW>
+				<!-- <AdjPower Type="Double">5.2</AdjPower> -->
+				<AverageTimes Type="Integer">1</AverageTimes>
+				<Range Type="DoubleList">10.0,16.0</Range>
+				<WriteCPKLog>1</WriteCPKLog>
+			</ProcessObject>
+			
+			<ProcessObject ClassName="CBTWLAN_WiFi_TxTest" Name="WiFi_TxTest_11N_FSP">
+				<PICSName Type="String">WiFi_SpecMaskTest_11N</PICSName>
+				<Regulatory_Fixed Type="Integer">3</Regulatory_Fixed><!--3=Regulatory, 2=fixed-->
+				<Power_control_mode Type="Integer">1</Power_control_mode><!--0=open loop, 1=SCPC, 2=close loop-->
+				<CommandDelay Type="Integer">1000</CommandDelay>
+				<StartDelay Type="Integer">5</StartDelay>
+				<Frequency Type="Double">2442</Frequency>
+				<Channel Type="Integer">7</Channel>
+				<Power Type="Integer">11</Power>
+				<DataRate Type="Integer">72</DataRate>
+				<RBW Type="Double">0.1</RBW>
+				<VBW Type="Double">0.1</VBW>
+				<Span Type="Double">100</Span>
+				<TraceMode Type="String">MAXH</TraceMode>
+				<Detector Type="String">RMS</Detector>
+				<DiagramFull Type="String">LARG</DiagramFull>
+				<SweepTime Type="Integer">300</SweepTime>
+				<Trace Type="Integer">1</Trace>
+				<Margin Type="Integer">0</Margin>
+				<Threshold Type="Integer">-200</Threshold>
+				<LineName Type="String">"11N"</LineName>
+				<Domain Type="String">FREQ</Domain>
+				<XscalingMode Type="String">REL</XscalingMode>
+				<YscalingMode Type="String">REL</YscalingMode>
+				<Unit Type="String">DB</Unit>
+				<Spacing Type="String">LIN</Spacing>
+				<ContData Type="String">-50MHz,-30MHz,-20MHz,-11MHz,-9MHz,0MHz,9MHz,11MHz,20MHz,30MHz,50MHz</ContData>
+				<UppData Type="String">-45,-45,-28,-20,0,0,0,-20,-28,-45,-45</UppData>
+				<AttenuationManual Type="Integer">30</AttenuationManual>
+				<RefLevel Type="Integer">20</RefLevel>
+				<ChannelPower Type="String">CPOW</ChannelPower>
+				<ChannelBW Type="Double">25</ChannelBW>
+				<!-- <AdjPower Type="Double">7.0</AdjPower> -->
+				<AverageTimes Type="Integer">1</AverageTimes>
+				<Range Type="DoubleList">8,14</Range>
+				<WriteCPKLog>1</WriteCPKLog>
+			</ProcessObject>
+			
+			<ProcessObject ClassName="CBTWLAN_WiFi_FrequencyErrorTest" Name="WiFi_FrequencyErrorTest_FSP">
+				<PICSName Type="String">WiFi_FrequencyErrorTest</PICSName>
+				<CommandDelay Type="Integer">500</CommandDelay>
+				<StartDelay Type="Integer">5</StartDelay>
+				<Frequency Type="Double">2442</Frequency>
+				<Channel Type="Integer">7</Channel>
+				<Gain Type="Integer">0</Gain>
+				<Tone Type="Long">0</Tone>
+				<Ampl Type="Unsigned Long">255</Ampl>
+				<RBW Type="Double">1</RBW>
+				<VBW Type="Double">3</VBW>
+				<Span Type="Double">10</Span>
+				<TraceMode Type="String">AVER</TraceMode>
+				<Detector Type="String">RMS</Detector>
+				<DiagramFull Type="String">LARG</DiagramFull>
+				<AttenuationManual Type="Integer">40</AttenuationManual>
+				<RefLevel Type="Integer">20</RefLevel>
+				<Trace Type="Integer">1</Trace>
+				<PeakExcursion Type="Double">1</PeakExcursion>
+				<FreqCounterRes Type="Double">1</FreqCounterRes>
+				<RetryTimes Type="Integer">10</RetryTimes>
+				<Range Type="DoubleList">2441900000,2442100000</Range>
+				<WriteCPKLog>1</WriteCPKLog>
+			</ProcessObject>
+			
+			<ProcessObject ClassName="CWifiModuleOnOFF" Name="WifiModuleON">
+				<WifiModule Type="String">ON</WifiModule>
+				<RetryTimes Type="Integer">2</RetryTimes>
+			</ProcessObject>
+			
+			<ProcessObject ClassName="CWifiModuleOnOFF" Name="WifiModuleOFF">
+				<WifiModule Type="String">OFF</WifiModule>
+				<RetryTimes Type="Integer">2</RetryTimes>
+			</ProcessObject>
+			
+			<ProcessObject ClassName="CEnableFSG" Name="FSGEnable">
+				<PICSName Type="String">PICS_EnableFSG</PICSName>
+				<RetryTimes Type="Integer">2</RetryTimes>
+				<CommandDelay>500</CommandDelay>
+				<Enable Type="String">on,305419896</Enable>
+			</ProcessObject>
+		</WirelessTestObjects>
+		
+		<NfcTestObjects>
+			<ProcessObject ClassName="CNFCReaderTest" Name="NFC_HCI_TypeA_Reader">
+				<WriteCPKLog>1</WriteCPKLog>
+				<NfcCPKcolumn>
+					<Item Name="SN" />
+					<Item Name="Result" />
+					<Item Name="Time" />
+					<Item Name="NFC_TYPEA_READER_ID" />
+				</NfcCPKcolumn>
+			</ProcessObject>
+		</NfcTestObjects>
+		
+		<RSenseCalibrationObjects>
+			<ProcessObject ClassName="CRSenseCalibration" Name="RSenseCalibration">
+				<WaitTime Editable="TRUE" Type="Integer">4000</WaitTime>
+				<Bias Editable="TRUE" Type="Integer">100</Bias>
+				<RetryCount Editable="TRUE" Type="Integer">10</RetryCount>
+				<RSenseSpec Editable="TRUE" Type="Integer">9000,15000</RSenseSpec><!--range 9000~15000 uohm-->
+				<SampleNum Editable="TRUE" Type="string">100</SampleNum>
+			</ProcessObject>
+		</RSenseCalibrationObjects>
+	</ProcessObjectSet>
+</Configuration>

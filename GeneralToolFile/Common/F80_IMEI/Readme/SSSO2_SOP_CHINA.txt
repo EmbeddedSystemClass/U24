@@ -1,0 +1,43 @@
+
+Backup:
+IMEI站或者finial check站等有用到SSS_O2.dll（主要用於操作预约表，如果IMEI, BT,WLAN 等）和PICSinterface.dll （主要用於IMEI站读写SIM lock等security 功能）来向系统query一些预约的ID或者SIM data，这些站别的 PC 需要配置一定的系统环境才可以跟系统做沟通
+
+PC环境设置SOP：
+
+1，申请10.85.58.13的访问权限，这个server在工厂对应的IP是10.85.68.13, 生产线的PC不需要申请
+
+2，在flower里向ITS申请固定电脑IP，并注册MAC地址，这个都是和访问权限有关的,生产线的 PC不需要申请
+
+3，申请开通80 端口，如果你可以登录http://10.85.68.13/picsmiddlewareserviceSqlServer/middlewareservice.asmx  说明这个端口是开通的，不然的话就请its帮忙了。或者可以在cmd下，输入Telnet 10.85.58.13 80看是否能ping得通来判断80端口有没有开。 生产线的PC不需要申请
+
+4，安装soap，\\10.85.68.13\EasyUpdate\Middleware connection\soaptoolkit30.exe。 
+
+5，运行\\10.85.68.13\EasyUpdate\CIMPortal\NewServer目录下产线使用Config.bat，用来配置DSN，注意在运行这个bat文件之前，先右键编辑打开，确认里面的配置的server地址是正确的。你也可以把它载下来修改成对你来说正确的server IP来运行。 
+
+6，copy \\10.85.68.13\EasyUpdate\Middleware connection\RegTools下的2个文件到本地，然後双击regtools.reg将其添加到注册表中 
+
+7，双击注册文件\\10.85.58.13\EasyUpdate\CIM Setup\web service for sql server\DSNSETUP.reg。 
+
+注意这个DSNSETUP.reg，你打开看看它注册的地址，因为我们外部访问产线server是58.13， 产线内部访问是68.13，如果在我们自己电脑用的话要确保这个是58.13，否则会返回-100错误。当然，你注册後也可以在注册表里查看这个值是否正确。 
+
+如果这个无法运行成功，可以先运行\\10.85.58.13\EasyUpdate\CIM Setup\Oracle Basic Line\DSNSetup.bat, 再运行\\10.85.58.13\EasyUpdate\CIM Setup\web service for sql server\DSNSETUP.reg
+
+HKEY_LOCAL_MACHINE/SOFTWARE/BMS/PICSMiddleware/CheckPaltform 如果这个值含有58.13说明你注册的是正确的 
+
+8，打开TOOL当前目录，右键选中ssso2.dll和PICSInterface.dll选择注册 
+
+以上就是基本的配置完成了，你可以在\\10.85.68.13\EasyUpdate这里找到PICSSetup.exe，copy到本地执行，来确认pics系统是否能连接的上。 
+
+我们通常遇到的问题是 
+
+1，picsinterface返回-18，这是你的PC MAC地址没有注册，可以找工厂的IE或者PE帮忙将此PC的 IP/MAC加入到IMEI station中
+
+2，picsinterface返回-100，这个有好多可能，可以从新注册下PICSInterface.dll试试看。
+
+====================================================================
+[2011/03/03 13:39:27]: ==========CHECK IMEI MAL&PN IN SSS02 START============
+[2011/03/03 13:39:27]: Object variable or With block variable not set
+[2011/03/03 13:39:27]: Object variable or With block variable not set
+[2011/03/03 13:39:27]: Error code-------> 91
+====================================================================
+以上也是没有连上database.

@@ -1,0 +1,26 @@
+<Configuration>
+	
+	<Phone>
+		<Keyword Type="String">DIAG</Keyword>
+		
+		<Slot_00></Slot_00>
+		<Slot_01></Slot_01>
+		<Slot_02></Slot_02>
+		<Slot_03></Slot_03>
+		<Slot_04></Slot_04>
+		<Slot_05></Slot_05>
+		<Slot_06></Slot_06>
+		<Slot_07></Slot_07>
+	</Phone>
+
+	<AudioPath>
+		<AP_TopMic>usb sound blaster hd</AP_TopMic>
+		<AP_BottomMic>usb sound blaster hd</AP_BottomMic>
+		<AP_HeadMic>usb sound blaster hd</AP_HeadMic>
+		<AP_Speaker>usb sound blaster hd</AP_Speaker>
+		<AP_HeadsetSpeaker>usb sound blaster hd</AP_HeadsetSpeaker>
+		<AP_Receiver>usb sound blaster hd</AP_Receiver>
+	</AudioPath>
+	
+</Configuration>
+

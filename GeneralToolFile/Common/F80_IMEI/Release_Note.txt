@@ -1,0 +1,135 @@
+[20140728][GF01B3A_IMEI_v1.002]
+* Release for GF01B3A v1.002
+
+[20140714][GF01B3A_IMEI_v1.002]
+* Release for GF01B3A v1.002
+* Enable IMEI_PushSOlibcharger
+* Enable IMEI_PushBatteryImpedanceAPK
+
+[20140624][GF01B1A_IMEI_v1.001]
+* Release for GF01B3A v1.001
+
+[20140522][GF01B1A_IMEI_v1.000]
+* Update UI_v0.93
+
+[20140516][GF01B1A_IMEI_v1.001]
+* Add (but disable) IMEI_PushSOlibcharger
+* Add (but disable) IMEI_PushBatteryImpedanceAPK
+
+[20140430][GF01B1A_IMEI_v1.001]
+* Add CheckNotOSMode
+* Add SIMData Fixed Length flow
+
+[20140428][GF01B1A_IMEI_v1.001]
+* Release for GF01B1A v1.001
+* Update UI_v0.92
+
+[20140408][GF01B1A_IMEI_v1.000]
+* RetestCount=2
+
+[20140310][GF01B1A_IMEI_v1.000]
+* Release for GF01B1A v1.000 (EVT2)
+* SQN=1
+* 增加 checkSWVersion
+* 增加 AdbFastShutdown
+* 增加 CheckBattCapacity 25%
+* Query Simlock file name from UI ( lock_filename )
+* NeptuneCtrl.dll -> QisdaAndroidCmdCtrl.dll
+
+[20140212][GF01B1A_IMEI_v1.000]
+* Simlock file name = SIML_PRJMGF01B1A_GNVRv1.000_SECU0.xml
+
+[20140122][GF01B1A_IMEI_v1.000]
+* Release for GF01B1A v1.000 (EVT1-2)
+* sqn=0
+* 移除 checkSWVersion
+* DBConfig.ini 中 ResetCount 設為 9999
+
+[20140109][GSAPB1A_IMEI_v1.004]
+* Release for GSAPB1A v1.004
+* Update IMEI status after write IMEI
+
+[20140105][GSAPB1A_IMEI_v1.003]
+* Release for GSAPB1A v1.003
+
+[20131217][GSAPB1A_IMEI_v1.002]
+* Update UI_v0.087
+
+[20131210][GSAPB1A_IMEI_v1.002]
+* Add Check SWVersion for sailfish OS
+
+[20131206][GSAPB1A_IMEI_v1.002]
+* Release for GSAPB1A v1.002
+* Update UI_v0.086
+
+[20131119][Sapporo_IMEI_V1.001_20131119]
+* Fix PICS XML
+* Release for v1.001
+
+[20131106][Sapporo_IMEI_V1.000_20131106]
+* Release for Sapporo PVT/MP
+
+[20131018][Sapporo_IMEI_V1.000_20131018]
+* Release for Sapporo V1.000
+* 更新 NeptuneCtrl.dll 乾淨版
+
+[20130925][Sapporo_IMEI_20130925]
+* Remove reboot
+* Remove adb shell start
+* 更新UI版本為 v0.77
+
+[20130918][Sapporo_IMEI_20130918]
+* Release for EVT2
+
+[20130816][Sapporo_IMEI_20130816]
+* Assign lock_name as "SIML_PRJMGSAPB1A_GNVRv1.000_SECU0.xml"
+
+[20130719][Casper_IMEI_20130719]
+* Remove reboot before wtiting SIM data
+
+[20130710][Casper_IMEI_20130710]
+* 打開 checkSWVersion
+
+[20130709][IMEI_GBOSB3A_v1.000]
+* Release for Casper
+* sqn=0
+* 移除 checkSWVersion
+
+[20130702][IMEI_GBOSB2A_v1.005]
+* 更新版號為 v1.005
+* 更新UI版本為 v0.76
+
+[20130522][IMEI_GBOSB2A_v1.004]
+* 更新版號為 v1.004
+* 更新UI版本為 v0.73
+* Push SOS ap, Install QR scanner ap
+
+[20130502][IMEI_GBOSB2A_v1.003]
+* 更新版號為 v1.003
+* 限制 PICS data "SIM_LOCK" value 長度在50以下
+
+[20130429][IMEI_GBOSB2A_v1.002]
+* Simlock file name 修正為從 Server 取得 (lock_filename)
+* 修正 Set PICS data "SIM_LOCK" value mapping
+
+[Boston_IMEI_dvt_nonNFC_20130419]
+* simlock file name更新為 SIML_PRJMGBOSB2A_GNVRv1.001_SECU1_OPEROptimus_VART02.xml
+* 加入檢測 ChechSum 資料夾中 INI,MD5 不存在的警告訊息機制
+
+[Boston_IMEI_dvt_nonNFC_20130416]
+* 更新UI為v0.69
+* 修正 GetParameterValue 的 TOOL_VERSION 取得之ini路徑
+* 修正 CheckSWVersion 問題
+
+[Boston_IMEI_dvt_nonNFC_20130409]
+* DBConfig.ini 中 ResetCount 設為 2
+* 移除 SQN=0
+* 打開 checkSWVersion
+* 在 Reboot 後縮短等待時間
+
+[Boston_IMEI_dvt_nonNFC_20130402]
+* 因應SSSO2 Server維護資料序插入MSN，修正script中Query MSN 的對應順序
+* 寫入MSN (IMEI_WriteServiceTag.script)
+
+[Boston_IMEI_dvt_nonNFC_20130327]
+* simlock file name更新為 SIML_PRJMGBOSB2A_GNVRv1.000_SECU0.xml

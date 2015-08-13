@@ -1,0 +1,2185 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Configuration>
+	<ToolInfo>
+		<TOOL_VERSION>V1.003</TOOL_VERSION>
+	</ToolInfo>
+	<Memo>
+		<Project>GF80B1A</Project>
+		<Station>2G3GTEST</Station>
+	</Memo>
+	<TestProcessor>
+		<UsingGPIB Type="Boolean">TRUE</UsingGPIB>
+		<GPIBInterfaceID Type="Integer">0</GPIBInterfaceID>
+		<GPIBCardAddress Type="Integer">0</GPIBCardAddress>
+		<ForceToPass Type="Boolean">FALSE</ForceToPass>
+		<LogUpload>TRUE</LogUpload>
+	</TestProcessor>
+	<Phone>
+		<ClassName>CPhone</ClassName>
+		<QisdaCmdModule>A9_CmdModule.dll</QisdaCmdModule>
+	</Phone>
+	<TesterDevice>
+		<Item ClassName="CCMW" Name="CMW" />
+		<Item ClassName="CCMU200" Name="CMU 200" />
+	</TesterDevice>
+	<PowerSupply>
+		<PowerSupplyCount Type="Integer">0</PowerSupplyCount>
+		<PowerSupplyList>
+			<PS1Address>5</PS1Address>
+			<PS2Address>6</PS2Address>
+			<PS3Address></PS3Address>
+		</PowerSupplyList>
+		<Item ClassName="CCommonPS" Name="E3631" />
+		<Item ClassName="CCommonPS" Name="E3632" />
+		<Item ClassName="CCommonPS" Name="66311" />
+		<Item ClassName="CCommonPS" Name="66321" />
+		<Item ClassName="CCommonPS" Name="66319" />
+		<Item ClassName="CCommonPS" Name="66332" />
+		<Item ClassName="CCommonPS" Name="2304" />
+		<Item ClassName="CCommonPS" Name="2306" />
+		<Item ClassName="CCommonPS" Name="6612" />
+	</PowerSupply>
+	<TestItemList>
+		<Item Name="PrintToolVersion" Enabled="TRUE"/>
+		<Item Name="CheckSWVersion" Enabled="TRUE" />
+		<!-- test target -->
+		<Item Name="ConnectPhone_QMSL" Enabled="TRUE" />
+		<Item Name="CheckFTM_QMSL" Enabled="TRUE" />
+		<Item Name="CheckFtdMode" Enabled="FALSE"/>
+		<Item Name="DisableUSBCharging" Enabled="TRUE" />
+
+		<Item Name="SetMutex3G4G" Enabled="TRUE"/>
+		<!-- 3G K -->
+		<Item Name="SetMutexXO" Enabled="TRUE"/>
+		<Item Name="SetTwoSubInstruments" Enabled="TRUE"/>
+		<Item Name="InitialTestBox_AC_AC" Enabled="TRUE"/>
+		<Item Name="WCDMACal_Initial" Enabled="TRUE"/>
+		<Item Name="WCDMACal_B1" Enabled="TRUE"/>
+		<Item Name="WCDMACal_B2" Enabled="TRUE"/>
+		<Item Name="WCDMACal_B5" Enabled="TRUE"/>
+		<Item Name="WCDMACal_B8" Enabled="TRUE"/>
+		<Item Name="InitialTestBox_AC_AO" Enabled="TRUE" />
+		<Item Name="WCDMACal_Initial" Enabled="TRUE"/>
+		<Item Name="WCDMACal_B1_DRx" Enabled="TRUE"/>
+		<Item Name="WCDMACal_WriteNV" Enabled="TRUE"/>
+		<Item Name="FreeMutexXO" Type="MUST" Enabled="TRUE"/>
+
+		<!-- all K done, NV reload -->
+		<Item Name="SyncNVToEFS" Enabled="TRUE" />
+		<Item Name="LoadRFNV" Enabled="TRUE"/>
+		<Item Name="DisconnectPhone_QMSL" Enabled="TRUE"/>
+		<Item Name="ModemRestart" Enabled="FALSE"/>
+		<Item Name="SleepDelay3s" Enabled="TRUE"/>
+		<Item Name="ConnectPhone_QMSL2" Enabled="TRUE"/>
+		<Item Name="CheckFTM_QMSL2" Enabled="TRUE"/>
+
+		<!-- 3G test -->
+		<Item Name="SetMutexXO" Enabled="TRUE"/>
+		<Item Name="InitialTestBox_AC_AC" Enabled="TRUE"/>
+		<Item Name="WCDMATest_StartCall" Enabled="TRUE"/>
+
+		<Item Name="WCDMATest_B1_LOW_Handover" Enabled="FALSE"/>
+		<Item Name="WCDMATest_B1_LOW_Measureloop" Enabled="FALSE"/>
+		<Item Name="WCDMATest_B1_MID_Handover" Enabled="TRUE"/>
+		<Item Name="WCDMATest_B1_MID_Measureloop" Enabled="TRUE"/>
+		<Item Name="WCDMATest_B1_HIGH_Handover" Enabled="FALSE"/>
+		<Item Name="WCDMATest_B1_HIGH_Measureloop" Enabled="FALSE"/>
+
+		<Item Name="WCDMATest_B2_LOW_Handover" Enabled="FALSE"/>
+		<Item Name="WCDMATest_B2_LOW_Measureloop" Enabled="FALSE"/>
+		<Item Name="WCDMATest_B2_MID_Handover" Enabled="TRUE"/>
+		<Item Name="WCDMATest_B2_MID_Measureloop" Enabled="TRUE"/>
+		<Item Name="WCDMATest_B2_HIGH_Handover" Enabled="FALSE"/>
+		<Item Name="WCDMATest_B2_HIGH_Measureloop" Enabled="FALSE"/>
+
+		<Item Name="WCDMATest_B5_LOW_Handover" Enabled="FALSE"/>
+		<Item Name="WCDMATest_B5_LOW_Measureloop" Enabled="FALSE"/>
+		<Item Name="WCDMATest_B5_MID_Handover" Enabled="TRUE"/>
+		<Item Name="WCDMATest_B5_MID_Measureloop" Enabled="TRUE"/>
+		<Item Name="WCDMATest_B5_HIGH_Handover" Enabled="FALSE"/>
+		<Item Name="WCDMATest_B5_HIGH_Measureloop" Enabled="FALSE"/>
+
+		<Item Name="WCDMATest_B8_LOW_Handover" Enabled="FALSE"/>
+		<Item Name="WCDMATest_B8_LOW_Measureloop" Enabled="FALSE"/>
+		<Item Name="WCDMATest_B8_MID_Handover" Enabled="TRUE"/>
+		<Item Name="WCDMATest_B8_MID_Measureloop" Enabled="TRUE"/>
+		<Item Name="WCDMATest_B8_HIGH_Handover" Enabled="FALSE"/>
+		<Item Name="WCDMATest_B8_HIGH_Measureloop" Enabled="FALSE"/>
+
+		<Item Name="WCDMATest_EndTest" Type="MUST" Enabled="TRUE"/>
+		<Item Name="FreeMutexXO" Type="MUST" Enabled="TRUE"/>
+
+		<Item Name="FreeMutex3G4G" Type="MUST" Enabled="TRUE"/>
+
+		<!-- test done -->
+		<Item Name="UnlockFSGProtect" Enabled="TRUE"/>
+		<Item Name="GoldenCopyAndCheck" Enabled="TRUE"/>
+		<Item Name="WritePASS2NVLog" Enabled="TRUE"/>
+		<Item Name="LockFSGProtect" Enabled="TRUE"/>
+		<Item Name="BackupQcnToPC" Enabled="FALSE"/>
+		<Item Name="DisconnectPhone_QMSL2" Type="MUST" Enabled="TRUE" />
+	</TestItemList>
+	<ProcessObjectSet><!-- tool search ProcessObjectSet -->
+		<CommonTest>
+			<Item ClassName="CUSBChargerControl" Name="DisableUSBCharging">
+				<ChargingStatus Type="Boolean">FALSE</ChargingStatus>
+				<PICSName Type="String">Disable_USB_Charging</PICSName>
+			</Item>
+			<Item ClassName="CUSBChargerControl" Name="DisableUSBCharging2">
+				<ChargingStatus Type="Boolean">FALSE</ChargingStatus>
+				<PICSName Type="String">Disable_USB_Charging2</PICSName>
+			</Item>
+			<Item ClassName="CUSBChargerControl" Name="EnableUSBCharging">
+				<ChargingStatus Type="Boolean">TRUE</ChargingStatus>
+				<PICSName Type="String">Enable_USB_Charging</PICSName>
+			</Item>
+			<Item ClassName="CADBCommandExec" Name="ModemRestart">
+				<ADBCommand Type="String">shell "echo 3 > /d/modem_debug/reset_modem"</ADBCommand>
+		</Item>
+		<Item ClassName="CGodenCopyCheck" Name="GodenCopyCheck">
+			<RebootDelay Type="Integer">1000</RebootDelay>
+		</Item>
+		<Item ClassName="CSleepDelay" Name="SleepDelay">
+			<WaitTime Type="Integer">5000</WaitTime>
+		</Item>
+		<Item ClassName="CSleepDelay" Name="SleepDelay3s">
+			<WaitTime Type="Integer">3000</WaitTime>
+		</Item>
+		<Item ClassName="CSleepDelay" Name="SleepDelay10s">
+			<WaitTime Type="Integer">10000</WaitTime>
+		</Item>
+		<Item ClassName="CSleepDelay" Name="SleepDelay3">
+			<WaitTime Type="Integer">5000</WaitTime>
+		</Item>
+		<Item ClassName="CPowerSupplyControl" Name="StartPowerSupply">
+			<PS_Index Type="Integer">1</PS_Index>
+			<Voltage Type="Double">3.8</Voltage>
+			<Current Type="Double">2.0</Current>
+			<PS_OnOff Type="Boolean">TRUE</PS_OnOff>
+		</Item>
+		<Item ClassName="CPowerSupplyControl" Name="StartPowerSupply2">
+			<PS_Index Type="Integer">2</PS_Index>
+			<Voltage Type="Double">5.0</Voltage>
+			<Current Type="Double">2.0</Current>
+			<PS_OnOff Type="Boolean">TRUE</PS_OnOff>
+			<PICSName Type="String">Start_USB_Power_Supply</PICSName>
+		</Item>
+		<Item ClassName="CPowerSupplyControl" Name="StopPowerSupply">
+			<PS_Index Type="Integer">1</PS_Index>
+			<Voltage Type="Double">3.8</Voltage>
+			<Current Type="Double">2.0</Current>
+			<PS_OnOff Type="Boolean">FALSE</PS_OnOff>
+		</Item>
+		<Item ClassName="CPowerSupplyControl" Name="StopPowerSupply2">
+			<PS_Index Type="Integer">2</PS_Index>
+			<Voltage Type="Double">5.0</Voltage>
+			<Current Type="Double">2.0</Current>
+			<PS_OnOff Type="Boolean">FALSE</PS_OnOff>
+		</Item>
+		<Item ClassName="CInitialTestBox" Name="InitialTestBox_AC_AC" Equip="CCMW">
+			<RFInputPort Type="String">CMW500Port1</RFInputPort>
+			<RFOutputPort Type="String">CMW500Port1</RFOutputPort>
+		</Item>
+		<Item ClassName="CInitialTestBox" Name="InitialTestBox_AC_AO" Equip="CCMW">
+			<RFInputPort Type="String">CMW500Port1</RFInputPort>
+			<RFOutputPort Type="String">CMW500Port2</RFOutputPort>
+		</Item>
+		<Item ClassName="CInitialTestBox" Name="InitialTestBox_BC_BC" Equip="CCMW">
+			<RFInputPort Type="String">CMW500Port3</RFInputPort>
+			<RFOutputPort Type="String">CMW500Port3</RFOutputPort>
+		</Item>
+		<Item ClassName="CInitialTestBox" Name="InitialTestBox_BC_AO" Equip="CCMW">
+			<RFInputPort Type="String">CMW500Port3</RFInputPort>
+			<RFOutputPort Type="String">CMW500Port2</RFOutputPort>
+		</Item>
+		<Item ClassName="CCheckTestBoxOptions" Name="CheckTextBoxOptions" Equip="CCMW">
+			<RequiredOptions Type="StringList">KW200;KM200</RequiredOptions>
+		</Item>
+		<Item ClassName="CConnectPhone_QMSL" Name="ConnectPhone_QMSL">
+			<WaitTimeForBoot Type="Integer">0</WaitTimeForBoot>
+			<RetryConnectTimes Type="Integer">60</RetryConnectTimes>
+			<WaitTimeAfterConnect Type="Integer">0</WaitTimeAfterConnect>
+		</Item>
+		<Item ClassName="CConnectPhone_QMSL" Name="ConnectPhone_QMSL2">
+			<WaitTimeForBoot Type="Integer">0</WaitTimeForBoot>
+			<RetryConnectTimes Type="Integer">60</RetryConnectTimes>
+			<WaitTimeAfterConnect Type="Integer">0</WaitTimeAfterConnect>
+		</Item>
+		<Item ClassName="CConnectPhone_QMSL" Name="ConnectPhone_QMSL3">
+			<WaitTimeForBoot Type="Integer">0</WaitTimeForBoot>
+			<RetryConnectTimes Type="Integer">60</RetryConnectTimes>
+			<WaitTimeAfterConnect Type="Integer">0</WaitTimeAfterConnect>
+		</Item>
+		<Item ClassName="CADBReboot" Name="Reboot1" />
+		<Item ClassName="CADBReboot" Name="Reboot2" />
+		<Item ClassName="CPhoneModeControl_QMSL" Name="CheckFTM_QMSL">
+			<!-- RequireMode - 1:FTM, 5:ONLINE, 6:LPM, 7:RESET -->
+			<RequiredMode Type="Integer">1</RequiredMode>
+			<PICSName Type="String">Check_FTM</PICSName>
+		</Item>
+		<Item ClassName="CPhoneModeControl_QMSL" Name="CheckFTM_QMSL2">
+			<!-- RequireMode - 1:FTM, 5:ONLINE, 6:LPM, 7:RESET -->
+			<RequiredMode Type="Integer">1</RequiredMode>
+			<PICSName Type="String">Check_FTM2</PICSName>
+		</Item>
+		<Item ClassName="CPhoneModeControl_QMSL" Name="CheckFTM_QMSL3">
+			<!-- RequireMode - 1:FTM, 5:ONLINE, 6:LPM, 7:RESET -->
+			<RequiredMode Type="Integer">1</RequiredMode>
+			<PICSName Type="String">Check_FTM3</PICSName>
+		</Item>
+		<Item ClassName="CDisconnectPhone_QMSL" Name="DisconnectPhone_QMSL">
+			<WaitTimeAfterDisconnect Type="Integer">0</WaitTimeAfterDisconnect>
+			<PICSName Type="String">Disconnect_Phone</PICSName>
+		</Item>
+		<Item ClassName="CDisconnectPhone_QMSL" Name="DisconnectPhone_QMSL2">
+			<WaitTimeAfterDisconnect Type="Integer">0</WaitTimeAfterDisconnect>
+			<PICSName Type="String">Disconnect_Phone</PICSName>
+		</Item>
+		<Item ClassName="CDisconnectPhone_QMSL" Name="DisconnectPhone_QMSL3">
+			<WaitTimeAfterDisconnect Type="Integer">0</WaitTimeAfterDisconnect>
+			<PICSName Type="String">Disconnect_Phone</PICSName>
+		</Item>
+		<Item ClassName="CSyncNVToEFS_QMSL" Name="SyncNVToEFS">
+			<RetryTimes Type="Integer">3</RetryTimes>
+			<SyncCmdTimeout Type="Integer">10000</SyncCmdTimeout>
+			<PICSName Type="String">Sync_NV_To_EFS</PICSName>
+		</Item>
+		<Item ClassName="CSyncNVToEFS_QMSL" Name="SyncNVToEFS2">
+			<RetryTimes Type="Integer">3</RetryTimes>
+			<SyncCmdTimeout Type="Integer">10000</SyncCmdTimeout>
+			<PICSName Type="String">Sync_NV_To_EFS_2</PICSName>
+		</Item>
+		<Item ClassName="CSyncNVToEFS_QMSL" Name="SyncNVToEFS3">
+			<RetryTimes Type="Integer">3</RetryTimes>
+			<SyncCmdTimeout Type="Integer">10000</SyncCmdTimeout>
+			<PICSName Type="String">Sync_NV_To_EFS_3</PICSName>
+		</Item>
+		<Item ClassName="CSyncNVToEFS_QMSL" Name="SyncNVToEFS4">
+			<RetryTimes Type="Integer">5</RetryTimes>
+			<SyncCmdTimeout Type="Integer">5000</SyncCmdTimeout>
+			<PICSName Type="String">Sync_NV_To_EFS_4</PICSName>
+		</Item>
+		<Item ClassName="CSyncNVToEFS_QMSL" Name="SyncNVToEFS5">
+			<RetryTimes Type="Integer">5</RetryTimes>
+			<SyncCmdTimeout Type="Integer">5000</SyncCmdTimeout>
+			<PICSName Type="String">Sync_NV_To_EFS_5</PICSName>
+		</Item>
+		<Item ClassName="CFSGProtect" Name="LockFSGProtect">
+			<Command Type="String">on,305419896</Command>
+		</Item>
+		<Item ClassName="CFSGProtect" Name="UnlockFSGProtect">
+			<Command Type="String">off,3989547399</Command>
+		</Item>
+		<Item ClassName="CMakeEfsGoldenCopy_QMSL" Name="MakeEfsGoldenCopy">
+			<RetryTimes Type="Integer">2</RetryTimes>
+			<PICSName Type="String">NVBACKUP</PICSName>
+		</Item>
+		<Item ClassName="CSendSync_QMSL" Name="GoldenCopyAndCheck">
+			<DIAGCommand Type="String">134</DIAGCommand>
+			<Response Type="String">134 1</Response>
+			<PICSName Type="String">NVBACKUP</PICSName>
+		</Item>
+		<Item ClassName="CSendSync_QMSL" Name="SendSync">
+			<DIAGCommand Type="String">75 19 153 0 0 0</DIAGCommand>
+			<Response Type="String">75 19 153 0 0 0 1 0</Response>
+			<PICSName Type="String">NVBACKUP</PICSName>
+		</Item>
+		<Item ClassName="CWriteNVLog" Name="WritePASS2NVLog">
+			<id Type="Integer">0</id>
+			<name Type="String">Test Result</name>
+			<message Type="String">Test Pass</message>
+			<PICSName Type="String">WriteNVLogPASS</PICSName>
+		</Item>
+		<Item ClassName="CConnectPhone" Name="ConnectPhone">
+			<WaitTimeForBoot Type="Integer">0</WaitTimeForBoot>
+			<RetryConnectTimes Type="Integer">60</RetryConnectTimes>
+			<WaitTimeAfterConnect Type="Integer">0</WaitTimeAfterConnect>
+			<PICSName Type="String"></PICSName>
+		</Item>
+		<Item ClassName="CCheckToolVersion" Name="PrintToolVersion">
+		</Item>
+		<Item ClassName="CCheckSWVersion" Name="CheckSWVersion">
+			<WaitTime Editable="TRUE" Type="Integer">0</WaitTime>
+			<!-- T-line,A-line:Factory P-line:Ship -->
+			<VersionType Editable="TRUE" Type="string">Factory</VersionType>
+		</Item>
+		<Item ClassName="CCheckHWVersion" Name="CheckHWVersion">
+			<HWVersion>0;</HWVersion>
+			<PICSName Type="String"></PICSName>
+		</Item>
+		<Item ClassName="CActiveFtdMode" Name="CheckFtdMode">
+			<WaitTimeForBoot Type="Integer">0</WaitTimeForBoot>
+			<RetryConnectTimes Type="Integer">60</RetryConnectTimes>
+			<WaitTimeAfterConnect Type="Integer">1000</WaitTimeAfterConnect>
+		</Item>
+		<Item ClassName="CSendTestBoxCommand" Name="SetTwoSubInstruments">
+			<TestBoxCommand Type="String">SYST:BASE:DEV:COUN 2; *OPC?</TestBoxCommand>
+		</Item>
+	</CommonTest>
+	<CommonCalibration>
+		<Item ClassName="CInternalDeviceCal" Name="InternalDeviceCal">
+			<PICSName Type="String">Internal_Device_Cal</PICSName>
+		</Item>
+		<Item ClassName="CWriteCalibrationNV" Name="Cal_WriteNV">
+			<PICSName Type="String">Cal_WriteNV</PICSName>
+		</Item>
+		<Item ClassName="CLoadNV" Name="LoadRFNV">
+			<PICSName Type="String">Load_RF_NV</PICSName>
+			<NeedReboot Type="String">0</NeedReboot>
+			<RebootWaitTime Type="String">15000</RebootWaitTime>
+			<ConnectRetry>30</ConnectRetry>
+			<AfterBootupWaitTime Type="String">5000</AfterBootupWaitTime>
+		</Item>
+		<Item ClassName="CBackupQcnFile" Name="BackupQcnToPC">
+			<SPC Type="String">000000</SPC>
+			<PICSName Type="String">Backup_Qcn_File</PICSName>
+		</Item>
+		<Item ClassName="CWriteNV_QMSL" Name="WriteNV_947">
+			<NVIndex Type="Integer">947</NVIndex>
+			<Radix Type="Integer">10</Radix>
+			<DataLength Type="Integer">1</DataLength>
+			<Data Type="IntegerList">0</Data>
+			<PICSName Type="String">WriteNV_947</PICSName>
+		</Item>
+		<Item ClassName="CWriteNV_QMSL" Name="WriteNV_5596">
+			<NVIndex Type="Integer">5596</NVIndex>
+			<Radix Type="Integer">10</Radix>
+			<DataLength Type="Integer">1</DataLength>
+			<Data Type="IntegerList">1</Data>
+			<PICSName Type="String">WriteNV_5596</PICSName>
+		</Item>
+		<Item ClassName="CWriteNV_QMSL" Name="ClearNV_543">
+			<NVIndex Type="Integer">543</NVIndex>
+			<!-- Radix can be 10 or 16 -->
+			<Radix Type="Integer">16</Radix>
+			<!-- DataLength counts by BYTE -->
+			<DataLength Type="Integer">1</DataLength>
+			<!-- For Data, each BYTE must be separate by ';' -->
+			<Data Type="IntegerList">00</Data>
+			<PICSName Type="String">Clear_NV_543</PICSName>
+		</Item>
+		<Item ClassName="CWriteNV_QMSL" Name="ClearNV_6861">
+			<NVIndex Type="Integer">6861</NVIndex>
+			<Radix Type="Integer">16</Radix>
+			<DataLength Type="Integer">16</DataLength>
+			<Data Type="IntegerList">00;00;00;00;00;00;00;00;00;00;00;00;00;00;00;00</Data>
+			<PICSName Type="String">Clear_NV_6861</PICSName>
+		</Item>
+		<Item ClassName="CReadNV_QMSL" Name="ReadNV_543">
+			<NVIndex Type="Integer">543</NVIndex>
+			<NVName Type="String">NV_WCDMA_HDET_OFF_I</NVName>
+			<DataLength Type="Integer">16</DataLength>
+			<PICSName Type="String">Read_NV_543</PICSName>
+		</Item>
+		<Item ClassName="CReadNV_QMSL" Name="ReadNV_6861">
+			<NVIndex Type="Integer">6861</NVIndex>
+			<NVName Type="String">NV_RC_PROCESS_ERRORS_I</NVName>
+			<DataLength Type="Integer">16</DataLength>
+			<PICSName Type="String">Read_NV_6861</PICSName>
+		</Item>
+		<Item ClassName="CReadNV_QMSL" Name="ReadNV_22982">
+			<NVIndex Type="Integer">22982</NVIndex>
+			<NVName Type="String">RFNV_MSM_SELF_CAL_I</NVName>
+			<DataLength Type="Integer">1050</DataLength>
+			<PICSName Type="String">Read_NV_22982</PICSName>
+		</Item>
+		<Item ClassName="CReadNV_QMSL" Name="ReadNV_23764">
+			<NVIndex Type="Integer">23764</NVIndex>
+			<NVName Type="String">RFNV_RFDEVICE_HDET_AUTOCAL_I</NVName>
+			<DataLength Type="Integer">128</DataLength>
+			<PICSName Type="String">Read_NV_23764</PICSName>
+		</Item>
+		<Item ClassName="CReadNV_QMSL" Name="ReadNV_4212">
+			<NVIndex Type="Integer">4212</NVIndex>
+			<NVName Type="String">NV_XO_TRIM_VALUES_I</NVName>
+			<DataLength Type="Integer">16</DataLength>
+			<PICSName Type="String">Read_NV_4212</PICSName>
+		</Item>
+		<Item ClassName="CReadNV_QMSL" Name="ReadNV_4953">
+			<NVIndex Type="Integer">4953</NVIndex>
+			<NVName Type="String">NV_XO_FIELD_CALIBRATION_I</NVName>
+			<DataLength Type="Integer">48</DataLength>
+			<PICSName Type="String">Read_NV_4953</PICSName>
+		</Item>
+		<Item ClassName="CReadNV_QMSL" Name="ReadNV_4954">
+			<NVIndex Type="Integer">4954</NVIndex>
+			<NVName Type="String">NV_XO_FACTORY_CALIBRATION_I</NVName>
+			<DataLength Type="Integer">48</DataLength>
+			<PICSName Type="String">Read_NV_4954</PICSName>
+		</Item>
+		<Item ClassName="CMutexControl" Name="SetMutex3G4G">
+			<MutexNumber Type="Integer">0</MutexNumber> <!-- MutexNumber: 0=2G3G-K, 1=2G3G-T, 2=LTE-K, 3=LTE-T, 4=XO-K -->
+			<MutexStatus Type="Integer">1</MutexStatus>	<!-- MutexStatus: 0=FreeLock, 1=SetLock -->
+			<MutexTimeout Type="Integer">300</MutexTimeout> <!-- MutexTimeout Unit: Sec -->
+			<ArduinoEnable Type="Integer">1</ArduinoEnable>	<!-- ArduinoEnable: 0=Disable, 1=Enable -->
+			<MutexCommand Type="IntegerList">0,1,2</MutexCommand>	<!-- MutexCommand: 0=RF1C, 1=RF1O, 2=RF2C -->
+		</Item>
+		<Item ClassName="CMutexControl" Name="FreeMutex3G4G">
+			<MutexNumber Type="Integer">0</MutexNumber> <!-- MutexNumber: 0=2G3G-K, 1=2G3G-T, 2=LTE-K, 3=LTE-T, 4=XO-K -->
+			<MutexStatus Type="Integer">0</MutexStatus>	<!-- MutexStatus: 0=Release, 1=SetLock -->
+			<MutexTimeout Type="Integer">300</MutexTimeout> <!-- MutexTimeout Unit: Sec -->
+			<ArduinoEnable Type="Integer">0</ArduinoEnable>	<!-- ArduinoEnable: 0=Disable, 1=Enable -->
+			<MutexCommand Type="IntegerList">0,1,2</MutexCommand>	<!-- MutexCommand: 0=RF1C, 1=RF1O, 2=RF2C -->
+		</Item>
+		<Item ClassName="CMutexControl" Name="SetMutexXO">
+			<MutexNumber Type="Integer">4</MutexNumber> <!-- MutexNumber: 0=2G3G-K, 1=2G3G-T, 2=LTE-K, 3=LTE-T, 4=XO-K -->
+			<MutexStatus Type="Integer">1</MutexStatus>	<!-- MutexStatus: 0=FreeLock, 1=SetLock -->
+			<MutexTimeout Type="Integer">300</MutexTimeout> <!-- MutexTimeout Unit: Sec -->
+			<ArduinoEnable Type="Integer">1</ArduinoEnable>	<!-- ArduinoEnable: 0=Disable, 1=Enable -->
+			<MutexCommand Type="IntegerList">0,1,2</MutexCommand>	<!-- MutexCommand: 0=RF1C, 1=RF1O, 2=RF2C -->
+		</Item>
+		<Item ClassName="CMutexControl" Name="FreeMutexXO">
+			<MutexNumber Type="Integer">4</MutexNumber> <!-- MutexNumber: 0=2G3G-K, 1=2G3G-T, 2=LTE-K, 3=LTE-T, 4=XO-K -->
+			<MutexStatus Type="Integer">0</MutexStatus>	<!-- MutexStatus: 0=Release, 1=SetLock -->
+			<MutexTimeout Type="Integer">300</MutexTimeout> <!-- MutexTimeout Unit: Sec -->
+			<ArduinoEnable Type="Integer">0</ArduinoEnable>	<!-- ArduinoEnable: 0=Disable, 1=Enable -->
+			<MutexCommand Type="IntegerList">0,1,2</MutexCommand>	<!-- MutexCommand: 0=RF1C, 1=RF1O, 2=RF2C -->
+		</Item>
+	</CommonCalibration>
+	<LTECalibration>
+		<Item ClassName="CLTECal_Initial" Name="LTECal_Initial" Equip="CCMW">
+			<PICSName Type="String">LTE_Cal_Initial</PICSName>
+		</Item>
+
+		<!-- LTE K BC3 PRX ESC-->
+		<Item ClassName="CLTETxRxCal_ESCv4" Name="LTECal_BC3_PRX" Equip="CCMW">
+			<PICSName Type="String">LTE_Cal_BC3_PRX</PICSName>
+			<Band Type="Integer">3</Band>
+			<ShowDetailLog>FALSE</ShowDetailLog>
+			<DACspec Type="StringList">73=5000,65535;66=0,65535</DACspec> <!-- DAC=min,MAX;-->
+			<ESC_Params_filename>GF80B1A_4G_ESC_Params.xml</ESC_Params_filename>
+			<ESC_Char_filename>GF80B1A_4G_Char_APT.xml</ESC_Char_filename>
+			<PA_PARAM_filename>RFCAL_PA_PARAM.xml</PA_PARAM_filename>
+		</Item><!-- LTE K BC3 -->
+		<!-- LTE K BC3 DRX ESC-->
+		<Item ClassName="CLTETxRxCal_ESC_DRX" Name="LTECal_BC3_DRX_ESC" Equip="CCMW">
+			<PICSName Type="String">LTE_Cal_BC3_DRX</PICSName>
+			<Band Type="Integer">3</Band>
+			<ShowDetailLog>FALSE</ShowDetailLog>
+			<!-- LTE Setting -->
+			<NumberRBs Type="Integer">6</NumberRBs>
+			<StartRBs Type="Integer">22</StartRBs>
+			<!-- TX/RX Bandwidth Option: 1: 3MHz, 2: 5MHz, 3: 10MHz, 4: 15MHz, 5: 20MHz -->
+			<TxBandWidth Type="Integer">3</TxBandWidth>
+			<RxBandWidth Type="Integer">3</RxBandWidth>
+			<!-- Device, Diversity not supported -->
+			<MasterDev Type="Integer">0</MasterDev>
+			<SlaveDev Type="Integer">1</SlaveDev>
+			<TxDeviceToCal Type="IntegerList">0</TxDeviceToCal>
+			<RxDeviceToCal Type="IntegerList">1</RxDeviceToCal>
+			<!-- Timing -->
+			<TxSegmentLength Type="Integer">2000</TxSegmentLength>
+			<RxSegmentLength Type="Integer">2000</RxSegmentLength>
+			<HDETSegmentLength Type="Integer">0</HDETSegmentLength>
+			<TuningLength Type="Integer">16000</TuningLength>
+			<SwitchModeLength Type="Integer">60000</SwitchModeLength>
+			<TearDownLength Type="Integer">30000</TearDownLength>
+			<!-- NV Related -->
+			<TxLinNVSize Type="IntegerList">64,64,64</TxLinNVSize>
+			<!-- TxLin -->
+			<TxLinChannel Type="Integer">19250</TxLinChannel>
+			<TxLinMaxChannel Type="Integer">19949</TxLinMaxChannel>
+			<TxLinPARange Type="IntegerList">1,0,0</TxLinPARange>
+			<TxLinSweepParam Type="StringList">80,46,-1;75,39,-1;38,1,-2</TxLinSweepParam>
+			<TxLinHDETSample Type="IntegerList">1,0,0</TxLinHDETSample>
+			<TxLinFixedBias Type="IntegerList">3500,3500,3500</TxLinFixedBias>
+			<TxLinPowerLimit Type="DoubleList">20,6,-1</TxLinPowerLimit>
+			<TxLinCoverageUp Type="DoubleList">14,0,-7</TxLinCoverageUp>
+			<TxLinCoverageDown Type="DoubleList">9,-30,-30</TxLinCoverageDown>
+			<TxLinPurpose Type="Integer">3,3,3</TxLinPurpose>
+			<TxLinSecondStageStartDACForPA_0 Type="Integer">0</TxLinSecondStageStartDACForPA_0>
+			<TxLinSecondStagePowerLimForPA_0 Type="Double">0.0</TxLinSecondStagePowerLimForPA_0>
+			<!-- APT -->
+			<WithAPT Type="Boolean">FLASE</WithAPT>
+			<APTFileName Type="String">GF80B1A_4G_Char_APT.xml</APTFileName>
+			<APTTxLinSweepParam Type="StringList">80,46,-1;75,39,-1;38,1,-2</APTTxLinSweepParam>
+			<APTTxSegmentLength Type="Integer">2000</APTTxSegmentLength>
+			<!-- TX FreqComp -->
+			<FreqCompChan Type="IntegerList">19207,19250,19322,19375,19425,19475,19525,19575,19621,19667,19713,19759,19805,19851,19897,19943</FreqCompChan>
+			<FreqCompPARange Type="IntegerList">1,1,0</FreqCompPARange>
+			<FreqCompDesirePower Type="DoubleList">22,12,4</FreqCompDesirePower>
+			<FreqCompDesirePowerMaxLimit Type="DoubleList">7,7,7</FreqCompDesirePowerMaxLimit>
+			<FreqCompDesirePowerMinLimit Type="DoubleList">-7,-7,-7</FreqCompDesirePowerMinLimit>
+			<FreqCompHDETSample Type="IntegerList">1,0,0</FreqCompHDETSample>
+			<FreqCompTxPurpose Type="Integer">4,4,4</FreqCompTxPurpose>
+			<FakeTxLiDACIdex Type="Integer">8,15,9</FakeTxLiDACIdex>
+			<!-- RX FreqComp -->
+			<FreqCompRxPowerMode Type="IntegerList">0</FreqCompRxPowerMode>
+			<FreqCompRxAction Type="IntegerList">0,1,2,3,4,5</FreqCompRxAction>
+			<FreqCompRxLevel Type="DoubleList">-61,-60,-50,-40,-40,-40</FreqCompRxLevel>
+			<FreqCompLNAMaxLimit Type="IntList">55,380,380,380,380,380</FreqCompLNAMaxLimit>
+			<FreqCompLNAMinLimit Type="IntList">5,-180,-180,-180,-180,-180</FreqCompLNAMinLimit>
+		</Item><!-- LTE K BC3 DRX-->
+
+		<!-- LTE K BC7 PRX ESC-->
+		<Item ClassName="CLTETxRxCal_ESCv4" Name="LTECal_BC7_PRX" Equip="CCMW">
+			<PICSName Type="String">LTE_Cal_BC7_PRX</PICSName>
+			<Band Type="Integer">7</Band>
+			<ShowDetailLog>FALSE</ShowDetailLog>
+			<DACspec Type="StringList">73=5000,65535;66=0,65535</DACspec> <!-- DAC=min,MAX;-->
+			<ESC_Params_filename>GF80B1A_4G_ESC_Params.xml</ESC_Params_filename>
+			<ESC_Char_filename>GF80B1A_4G_Char_APT.xml</ESC_Char_filename>
+			<PA_PARAM_filename>RFCAL_PA_PARAM.xml</PA_PARAM_filename>
+		</Item><!-- LTE K BC7 -->
+		<!-- LTE K BC7 DRX ESC-->
+		<Item ClassName="CLTETxRxCal_ESC_DRX" Name="LTECal_BC7_DRX_ESC" Equip="CCMW">
+			<PICSName Type="String">LTE_Cal_BC7_DRX</PICSName>
+			<Band Type="Integer">7</Band>
+			<ShowDetailLog>FALSE</ShowDetailLog>
+			<!-- LTE Setting -->
+			<NumberRBs Type="Integer">6</NumberRBs>
+			<StartRBs Type="Integer">22</StartRBs>
+			<!-- TX/RX Bandwidth Option: 1: 3MHz, 2: 5MHz, 3: 10MHz, 4: 15MHz, 5: 20MHz -->
+			<TxBandWidth Type="Integer">3</TxBandWidth>
+			<RxBandWidth Type="Integer">3</RxBandWidth>
+			<!-- Device, Diversity not supported -->
+			<MasterDev Type="Integer">0</MasterDev>
+			<SlaveDev Type="Integer">1</SlaveDev>
+			<TxDeviceToCal Type="IntegerList">0</TxDeviceToCal>
+			<RxDeviceToCal Type="IntegerList">1</RxDeviceToCal>
+			<!-- Timing -->
+			<TxSegmentLength Type="Integer">2000</TxSegmentLength>
+			<RxSegmentLength Type="Integer">2000</RxSegmentLength>
+			<HDETSegmentLength Type="Integer">0</HDETSegmentLength>
+			<TuningLength Type="Integer">16000</TuningLength>
+			<SwitchModeLength Type="Integer">60000</SwitchModeLength>
+			<TearDownLength Type="Integer">30000</TearDownLength>
+			<!-- NV Related -->
+			<TxLinNVSize Type="IntegerList">64,64,64</TxLinNVSize>
+			<!-- TxLin -->
+			<TxLinChannel Type="Integer">21102</TxLinChannel>
+			<TxLinMaxChannel Type="Integer">21449</TxLinMaxChannel>
+			<TxLinPARange Type="IntegerList">1,0,0</TxLinPARange>
+			<TxLinSweepParam Type="StringList">84,54,-1;75,36,-1;35,1,-2</TxLinSweepParam>
+			<TxLinHDETSample Type="IntegerList">1,0,0</TxLinHDETSample>
+			<TxLinFixedBias Type="IntegerList">3300,3300,3300</TxLinFixedBias>
+			<TxLinPowerLimit Type="DoubleList">21,7,0</TxLinPowerLimit>
+			<TxLinCoverageUp Type="DoubleList">15,1,-6</TxLinCoverageUp>
+			<TxLinCoverageDown Type="DoubleList">9,-30,-30</TxLinCoverageDown>
+			<TxLinPurpose Type="Integer">3,3,3</TxLinPurpose>
+			<TxLinSecondStageStartDACForPA_0 Type="Integer">0</TxLinSecondStageStartDACForPA_0>
+			<TxLinSecondStagePowerLimForPA_0 Type="Double">0.0</TxLinSecondStagePowerLimForPA_0>
+			<!-- APT -->
+			<WithAPT Type="Boolean">FLASE</WithAPT>
+			<APTFileName Type="String">GF80B1A_4G_Char_APT.xml</APTFileName>
+			<APTTxLinSweepParam Type="StringList">84,54,-1;75,36,-1;35,1,-2</APTTxLinSweepParam>
+			<APTTxSegmentLength Type="Integer">2000</APTTxSegmentLength>
+			<!-- TX FreqComp -->
+			<FreqCompChan Type="IntegerList">20750,20794,20838,20882,20926,20970,21014,21058,21102,21146,21190,21234,21278,21322,21366,21410</FreqCompChan>
+			<FreqCompPARange Type="IntegerList">1,1,0</FreqCompPARange>
+			<FreqCompDesirePower Type="DoubleList">22,12,4</FreqCompDesirePower>
+			<FreqCompDesirePowerMaxLimit Type="DoubleList">7,7,10</FreqCompDesirePowerMaxLimit>
+			<FreqCompDesirePowerMinLimit Type="DoubleList">-7,-7,-10</FreqCompDesirePowerMinLimit>
+			<FreqCompHDETSample Type="IntegerList">1,0,0</FreqCompHDETSample>
+			<FreqCompTxPurpose Type="Integer">4,4,4</FreqCompTxPurpose>
+			<FakeTxLiDACIdex Type="Integer">0,0,0</FakeTxLiDACIdex>
+			<!-- RX FreqComp -->
+			<FreqCompRxPowerMode Type="IntegerList">0</FreqCompRxPowerMode>
+			<FreqCompRxAction Type="IntegerList">0,1,2,3,4,5</FreqCompRxAction>
+			<FreqCompRxLevel Type="DoubleList">-61,-60,-50,-40,-40,-40</FreqCompRxLevel>
+			<FreqCompLNAMaxLimit Type="IntList">70,380,380,380,380,380</FreqCompLNAMaxLimit>
+			<FreqCompLNAMinLimit Type="IntList">-20,-180,-180,-180,-180,-180</FreqCompLNAMinLimit>
+		</Item><!-- LTE K BC7 DRX-->
+
+		<!-- LTE K BC20 PRX ESC-->
+		<Item ClassName="CLTETxRxCal_ESCv4" Name="LTECal_BC20_PRX" Equip="CCMW">
+			<PICSName Type="String">LTE_Cal_BC20_PRX</PICSName>
+			<Band Type="Integer">20</Band>
+			<ShowDetailLog>FALSE</ShowDetailLog>
+			<DACspec Type="StringList">73=5000,65535;66=0,65535</DACspec> <!-- DAC=min,MAX;-->
+			<ESC_Params_filename>GF80B1A_4G_ESC_Params.xml</ESC_Params_filename>
+			<ESC_Char_filename>GF80B1A_4G_Char_APT.xml</ESC_Char_filename>
+			<PA_PARAM_filename>RFCAL_PA_PARAM.xml</PA_PARAM_filename>
+		</Item><!-- LTE K BC20 -->
+		<!-- LTE K BC20 DRX ESC-->
+		<Item ClassName="CLTETxRxCal_ESC_DRX" Name="LTECal_BC20_DRX_ESC" Equip="CCMW">
+			<PICSName Type="String">LTE_Cal_BC20_DRX</PICSName>
+			<Band Type="Integer">20</Band>
+			<ShowDetailLog>FALSE</ShowDetailLog>
+			<!-- LTE Setting -->
+			<NumberRBs Type="Integer">6</NumberRBs>
+			<StartRBs Type="Integer">22</StartRBs>
+			<!-- TX/RX Bandwidth Option: 1: 3MHz, 2: 5MHz, 3: 10MHz, 4: 15MHz, 5: 20MHz -->
+			<TxBandWidth Type="Integer">3</TxBandWidth>
+			<RxBandWidth Type="Integer">3</RxBandWidth>
+			<!-- Device, Diversity not supported -->
+			<MasterDev Type="Integer">0</MasterDev>
+			<SlaveDev Type="Integer">1</SlaveDev>
+			<TxDeviceToCal Type="IntegerList">0</TxDeviceToCal>
+			<RxDeviceToCal Type="IntegerList">1</RxDeviceToCal>
+			<!-- Timing -->
+			<TxSegmentLength Type="Integer">2000</TxSegmentLength>
+			<RxSegmentLength Type="Integer">2000</RxSegmentLength>
+			<HDETSegmentLength Type="Integer">0</HDETSegmentLength>
+			<TuningLength Type="Integer">10000</TuningLength>
+			<SwitchModeLength Type="Integer">60000</SwitchModeLength>
+			<TearDownLength Type="Integer">30000</TearDownLength>
+			<!-- NV Related -->
+			<TxLinNVSize Type="IntegerList">64,64,64</TxLinNVSize>
+			<!-- TxLin -->
+			<TxLinChannel Type="Integer">24290</TxLinChannel>
+			<TxLinMaxChannel Type="Integer">24449</TxLinMaxChannel>
+			<TxLinPARange Type="IntegerList">1,0,0</TxLinPARange>
+			<TxLinSweepParam Type="StringList">75,30,-1;75,55,-1;54,20,-2</TxLinSweepParam>
+			<TxLinHDETSample Type="IntegerList">1,0,0</TxLinHDETSample>
+			<TxLinFixedBias Type="IntegerList">3300,3300,3300</TxLinFixedBias>
+			<TxLinPowerLimit Type="DoubleList">30,30,5</TxLinPowerLimit>
+			<TxLinCoverageUp Type="DoubleList">20,8,0</TxLinCoverageUp>
+			<TxLinCoverageDown Type="DoubleList">4,-30,-50</TxLinCoverageDown>
+			<TxLinPurpose Type="Integer">3,3,3</TxLinPurpose>
+			<TxLinSecondStageStartDACForPA_0 Type="Integer">0</TxLinSecondStageStartDACForPA_0>
+			<TxLinSecondStagePowerLimForPA_0 Type="Double">0.0</TxLinSecondStagePowerLimForPA_0>
+			<!-- APT -->
+			<WithAPT Type="Boolean">FALSE</WithAPT>
+			<APTFileName Type="String">GF80B1A_4G_Char_APT.xml</APTFileName>
+			<APTTxLinSweepParam Type="StringList">75,30,-1;75,55,-1;54,20,-2</APTTxLinSweepParam>
+			<APTTxSegmentLength Type="Integer">2000</APTTxSegmentLength>
+			<!-- TX FreqComp -->
+			<FreqCompChan Type="IntegerList">24170,24187,24204,24221,24238,24255,24272,24290,24306,24323,24340,24357,24374,24391,24408,24425</FreqCompChan>
+			<FreqCompPARange Type="IntegerList">1,1,0</FreqCompPARange>
+			<FreqCompDesirePower Type="DoubleList">22,4,0</FreqCompDesirePower>
+			<FreqCompDesirePowerMaxLimit Type="DoubleList">7,7,7</FreqCompDesirePowerMaxLimit>
+			<FreqCompDesirePowerMinLimit Type="DoubleList">-7,-7,-7</FreqCompDesirePowerMinLimit>
+			<FreqCompHDETSample Type="IntegerList">1,0,0</FreqCompHDETSample>
+			<FreqCompTxPurpose Type="Integer">4,4,4</FreqCompTxPurpose>
+			<FakeTxLiDACIdex Type="Integer">15,22,12</FakeTxLiDACIdex>
+			<!-- RX FreqComp -->
+			<FreqCompRxPowerMode Type="IntegerList">0</FreqCompRxPowerMode>
+			<FreqCompRxAction Type="IntegerList">0,1,2,3,4,5</FreqCompRxAction>
+			<FreqCompRxLevel Type="DoubleList">-61,-60,-50,-40,-33,-33</FreqCompRxLevel>
+			<FreqCompLNAMaxLimit Type="IntList">50,380,380,380,380,380</FreqCompLNAMaxLimit>
+			<FreqCompLNAMinLimit Type="IntList">-10,-180,-180,-180,-180,-180</FreqCompLNAMinLimit>
+		</Item><!-- LTE K BC20 DRX-->
+	</LTECalibration>	
+	
+	<!-- LTE NS Testing -->
+	<LTENonSignalingTest>
+		<Item ClassName="CLTE_FTM_StartCall" Name="LTE_NS_StartCall1" Equip="CCMW">
+			<PICSName Type="String">LTE_NS_StartCall</PICSName>
+			<Band Type="Integer">1</Band>
+			<Channel Type="Integer">18300</Channel>
+			<BSLevel Type="Integer">-50</BSLevel>
+			<WavefromPath Type="String">library1\LTE_ProductionTest_1_v01.wv</WavefromPath>
+			<StartRB Type="Integer">0</StartRB>
+			<NumberRB Type="Integer">50</NumberRB>
+			<MCS Type="Integer">6</MCS>
+		</Item>
+		<Item ClassName="CLTE_FTM_StartCall" Name="LTE_NS_StartCall3" Equip="CCMW">
+			<PICSName Type="String">LTE_NS_StartCall</PICSName>
+			<Band Type="Integer">3</Band>
+			<Channel Type="Integer">19575</Channel>
+			<BSLevel Type="Integer">-50</BSLevel>
+			<WavefromPath Type="String">library1\LTE_ProductionTest_1_v01.wv</WavefromPath>
+			<StartRB Type="Integer">0</StartRB>
+			<NumberRB Type="Integer">50</NumberRB>
+			<MCS Type="Integer">6</MCS>
+		</Item>
+		<Item ClassName="CLTE_FTM_StartCall" Name="LTE_NS_StartCall7" Equip="CCMW">
+			<PICSName Type="String">LTE_NS_StartCall</PICSName>
+			<Band Type="Integer">7</Band>
+			<Channel Type="Integer">21100</Channel>
+			<BSLevel Type="Integer">-50</BSLevel>
+			<WavefromPath Type="String">library1\LTE_ProductionTest_1_v01.wv</WavefromPath>
+			<StartRB Type="Integer">0</StartRB>
+			<NumberRB Type="Integer">50</NumberRB>
+			<MCS Type="Integer">6</MCS>
+		</Item>
+		<Item ClassName="CLTE_FTM_StartCall" Name="LTE_NS_StartCall20" Equip="CCMW">
+			<PICSName Type="String">LTE_NS_StartCall</PICSName>
+			<Band Type="Integer">20</Band>
+			<Channel Type="Integer">24300</Channel>
+			<BSLevel Type="Integer">-50</BSLevel>
+			<WavefromPath Type="String">library1\LTE_ProductionTest_1_v01.wv</WavefromPath>
+			<StartRB Type="Integer">0</StartRB>
+			<NumberRB Type="Integer">50</NumberRB>
+			<MCS Type="Integer">6</MCS>
+		</Item>
+		<Item ClassName="CLTE_FTM_EndCall" Name="LTE_NS_EndCall" Equip="CCMW">
+			<PICSName Type="String">LTE_NS_EndCall</PICSName>
+		</Item>
+
+		<!-- LTE NS BC3 LOW -->
+		<Item ClassName="CLTE_FTM_Handover" Name="LTE_NS_BC3_LOW_Handover" Equip="CCMW">
+			<PICSName Type="String">LTE_BC3_LOW_HANDOVER</PICSName>
+			<Band Type="Integer">3</Band>
+			<Channel Type="Integer">19250</Channel>
+			<BSLevel Type="Integer">-50</BSLevel>
+			<WavefromPath Type="String">library1\LTE_ProductionTest_1_v01.wv</WavefromPath>
+			<StartRB Type="Integer">0</StartRB>
+			<NumberRB Type="Integer">50</NumberRB>
+			<MCS Type="Integer">6</MCS>
+		</Item>
+		<!-- LTE NS BC3 LOW PRX -->
+		<Item ClassName="CLTE_FTM_MeasureLoop" Name="LTE_NS_BC3_LOW_Measure_PRX" Equip="CCMW">
+			<Band Type="Integer">3</Band>
+			<Channel Type="Integer">19250</Channel>
+			<BandWidth Type="Double" Unit="MHz">10</BandWidth>
+			<BSLevel Type="Integer">-57</BSLevel>
+			<SCOunt Type="Integer">5</SCOunt>
+			<ExpectedPower Type="Double">28</ExpectedPower>
+			<!-- TestList: 1.CPower, 2.MinPower, 3.MaxPower, 4.ESFL, 5.FreqErr, 6.EVM, 7.OBW, 8.SEM, 9.ACLR, 10 IEM_IQoffset, 11.RXSensitiviy, 12.MaxInputLevel -->
+			<TestList Type="BoolList">0,0,1,0,0,0,0,0,1,0,0,0</TestList><!-- LTE NS BC3 LOW PRX -->
+			<!-- MaxPower -->
+			<MaxPower_Range Type="DoubleList" Unit="dBm">20.7,25</MaxPower_Range><!-- LTE NS BC3 LOW PRX -->
+			<!-- configured transmitted power -->
+			<ConfPower_Range Type="DoubleList">-10.0,10.0,15.0</ConfPower_Range><!-- -10.0,10.0,15.0 -->
+			<ConfPower_Upper Type="DoubleList"> -2.3,16.7,20.7</ConfPower_Upper><!--  -2.3,16.7,20.7 -->
+			<ConfPower_Lower Type="DoubleList">-17.7, 3.3, 9.3</ConfPower_Lower><!-- -17.7, 3.3, 9.3 -->
+			<!-- IQoffset -->
+			<IQoffset_Power Type="DoubleList" Unit="dBc">3.2,-26.8,-36.8</IQoffset_Power>
+			<IQoffset_Upper Type="DoubleList" Unit="dBc">-25,-20,-10</IQoffset_Upper>
+			<IQoffset_Lower Type="DoubleList" Unit="dBc">-99,-99,-99</IQoffset_Lower>
+			<!-- FreqErr -->
+			<FreqErr_Range Type="DoubleList" Unit="MHz">-171.5,171.5</FreqErr_Range>
+			<!-- EVM -->
+			<EVM_Range Type="DoubleList" Unit="%">0,12.5</EVM_Range>
+			<!-- OBW -->
+			<OBW_Range Type="DoubleList" Unit="MHz">0,10</OBW_Range>
+			<!-- SEM: LowerOffset,UpperOffset,Limit;LowerOffset,UpperOffset,Limit;... -->
+			<SEM_Config Type="DoubleList" Unit="MHz,MHz,dBm">0.0,1.0,-16.5;1.0,5.0,-8.5;5.0,10.0,-11.5;10.0,15.0,-23.5</SEM_Config>
+			<!-- ACLR: -UTRA2,-UTRA1,-EUTRA,+EUTRA,+UTRA1,+UTRA2 -->
+			<ACLR_LowerRange Type="DoubleList" Unit="dBc">36,33,30,30,33,36</ACLR_LowerRange>
+			<!-- MinPower -->
+			<MinPower_Range Type="DoubleList" Unit="dBm">-99,-39</MinPower_Range>
+			<!-- RX Sensitivity -->
+			<RxSensitivity_UpperRange Type="Double" Unit="dBm">-70</RxSensitivity_UpperRange>
+			<RxSensitivity_ThroughputMin Type="Double" Unit="%">95</RxSensitivity_ThroughputMin>
+			<RxSensitivity_StartBSLevel Type="Double" Unit="dBm">-90</RxSensitivity_StartBSLevel>
+			<RxSensitivity_SearchStep Type="Double" Unit="dBm">0.3</RxSensitivity_SearchStep>
+			<RxSensitivity_MinBlock Type="Integer">500</RxSensitivity_MinBlock>
+			<RxSensitivity_Type Type="Integer">0</RxSensitivity_Type><!-- 0: Primary, 1: Diversity -->
+			<RxSensitivity_StartRB Type="Integer">0</RxSensitivity_StartRB>
+			<RxSensitivity_NumRB Type="Integer">50</RxSensitivity_NumRB><!-- LTE NS BC3 LOW PRX -->
+			<!-- MaxInputLevel -->
+			<MaxInputLevel_Range Type="DoubleList" Unit="%">95,100</MaxInputLevel_Range>
+			<MaxInputLevel_BSLevel Type="Double" Unit="dBm">-25.7</MaxInputLevel_BSLevel>
+			<MaxInputLevel_MinBlock Type="Integer">500</MaxInputLevel_MinBlock>
+		</Item><!-- LTE NS BC3 LOW PRX -->
+		<!-- LTE NS BC3 LOW DRX -->
+		<Item ClassName="CLTE_FTM_MeasureLoop" Name="LTE_NS_BC3_LOW_Measure_DRX" Equip="CCMW">
+			<Band Type="Integer">3</Band>
+			<Channel Type="Integer">19250</Channel>
+			<BandWidth Type="Double" Unit="MHz">10</BandWidth>
+			<BSLevel Type="Integer">-57</BSLevel>
+			<SCOunt Type="Integer">5</SCOunt>
+			<ExpectedPower Type="Double">28</ExpectedPower>
+			<!-- TestList: 1.CPower, 2.MinPower, 3.MaxPower, 4.ESFL, 5.FreqErr, 6.EVM, 7.OBW, 8.SEM, 9.ACLR, 10 IEM_IQoffset, 11.RXSensitiviy, 12.MaxInputLevel -->
+			<TestList Type="BoolList">0,0,0,0,0,0,0,0,0,0,1,1</TestList><!-- LTE NS BC3 LOW DRX -->
+			<!-- MaxPower -->
+			<MaxPower_Range Type="DoubleList" Unit="dBm">20.7,25</MaxPower_Range><!-- LTE NS BC3 LOW DRX -->
+			<!-- configured transmitted power -->
+			<ConfPower_Range Type="DoubleList">-10.0,10.0,15.0</ConfPower_Range><!-- -10.0,10.0,15.0 -->
+			<ConfPower_Upper Type="DoubleList"> -2.3,16.7,20.7</ConfPower_Upper><!--  -2.3,16.7,20.7 -->
+			<ConfPower_Lower Type="DoubleList">-17.7, 3.3, 9.3</ConfPower_Lower><!-- -17.7, 3.3, 9.3 -->
+			<!-- IQoffset -->
+			<IQoffset_Power Type="DoubleList" Unit="dBc">3.2,-26.8,-36.8</IQoffset_Power>
+			<IQoffset_Upper Type="DoubleList" Unit="dBc">-25,-20,-10</IQoffset_Upper>
+			<IQoffset_Lower Type="DoubleList" Unit="dBc">-99,-99,-99</IQoffset_Lower>
+			<!-- FreqErr -->
+			<FreqErr_Range Type="DoubleList" Unit="MHz">-171.5,171.5</FreqErr_Range>
+			<!-- EVM -->
+			<EVM_Range Type="DoubleList" Unit="%">0,12.5</EVM_Range>
+			<!-- OBW -->
+			<OBW_Range Type="DoubleList" Unit="MHz">0,10</OBW_Range>
+			<!-- SEM: LowerOffset,UpperOffset,Limit;LowerOffset,UpperOffset,Limit;... -->
+			<SEM_Config Type="DoubleList" Unit="MHz,MHz,dBm">0.0,1.0,-16.5;1.0,5.0,-8.5;5.0,10.0,-11.5;10.0,15.0,-23.5</SEM_Config>
+			<!-- ACLR: -UTRA2,-UTRA1,-EUTRA,+EUTRA,+UTRA1,+UTRA2 -->
+			<ACLR_LowerRange Type="DoubleList" Unit="dBc">36,33,30,30,33,36</ACLR_LowerRange>
+			<!-- MinPower -->
+			<MinPower_Range Type="DoubleList" Unit="dBm">-99,-39</MinPower_Range>
+			<!-- RX Sensitivity -->
+			<RxSensitivity_UpperRange Type="Double" Unit="dBm">-70</RxSensitivity_UpperRange>
+			<RxSensitivity_ThroughputMin Type="Double" Unit="%">95</RxSensitivity_ThroughputMin>
+			<RxSensitivity_StartBSLevel Type="Double" Unit="dBm">-90</RxSensitivity_StartBSLevel>
+			<RxSensitivity_SearchStep Type="Double" Unit="dBm">0.3</RxSensitivity_SearchStep>
+			<RxSensitivity_MinBlock Type="Integer">500</RxSensitivity_MinBlock>
+			<RxSensitivity_Type Type="Integer">1</RxSensitivity_Type><!-- 0: Primary, 1: Diversity -->
+			<RxSensitivity_StartRB Type="Integer">0</RxSensitivity_StartRB>
+			<RxSensitivity_NumRB Type="Integer">50</RxSensitivity_NumRB><!-- LTE NS BC3 LOW DRX -->
+			<!-- MaxInputLevel -->
+			<MaxInputLevel_Range Type="DoubleList" Unit="%">95,100</MaxInputLevel_Range>
+			<MaxInputLevel_BSLevel Type="Double" Unit="dBm">-25.7</MaxInputLevel_BSLevel>
+			<MaxInputLevel_MinBlock Type="Integer">500</MaxInputLevel_MinBlock>
+		</Item><!-- LTE NS BC3 LOW DRX -->
+		<!-- LTE NS BC3 MID -->
+		<Item ClassName="CLTE_FTM_Handover" Name="LTE_NS_BC3_MID_Handover" Equip="CCMW">
+			<PICSName Type="String">LTE_BC3_MID_HANDOVER</PICSName>
+			<Band Type="Integer">3</Band>
+			<Channel Type="Integer">19575</Channel>
+			<BSLevel Type="Integer">-50</BSLevel>
+			<WavefromPath Type="String">library1\LTE_ProductionTest_1_v01.wv</WavefromPath>
+			<StartRB Type="Integer">0</StartRB>
+			<NumberRB Type="Integer">50</NumberRB>
+			<MCS Type="Integer">6</MCS>
+		</Item>
+		<!-- LTE NS BC3 MID PRX -->
+		<Item ClassName="CLTE_FTM_MeasureLoop" Name="LTE_NS_BC3_MID_Measure_PRX" Equip="CCMW">
+			<Band Type="Integer">3</Band>
+			<Channel Type="Integer">19575</Channel>
+			<BandWidth Type="Double" Unit="MHz">10</BandWidth>
+			<BSLevel Type="Integer">-57</BSLevel>
+			<SCOunt Type="Integer">5</SCOunt>
+			<ExpectedPower Type="Double">28</ExpectedPower>
+			<!-- TestList: 1.CPower, 2.MinPower, 3.MaxPower, 4.ESFL, 5.FreqErr, 6.EVM, 7.OBW, 8.SEM, 9.ACLR, 10 IEM_IQoffset, 11.RXSensitiviy, 12.MaxInputLevel -->
+			<TestList Type="BoolList">1,1,1,1,1,1,1,1,1,1,1,1</TestList><!-- LTE NS BC3 MID PRX -->
+			<!-- MaxPower -->
+			<MaxPower_Range Type="DoubleList" Unit="dBm">20.7,25</MaxPower_Range><!-- LTE NS BC3 MID PRX -->
+			<!-- configured transmitted power -->
+			<ConfPower_Range Type="DoubleList">-10.0,10.0,15.0</ConfPower_Range><!-- -10.0,10.0,15.0 -->
+			<ConfPower_Upper Type="DoubleList"> -2.3,16.7,20.7</ConfPower_Upper><!--  -2.3,16.7,20.7 -->
+			<ConfPower_Lower Type="DoubleList">-17.7, 3.3, 9.3</ConfPower_Lower><!-- -17.7, 3.3, 9.3 -->
+			<!-- IQoffset -->
+			<IQoffset_Power Type="DoubleList" Unit="dBc">3.2,-26.8,-36.8</IQoffset_Power>
+			<IQoffset_Upper Type="DoubleList" Unit="dBc">-25,-20,-10</IQoffset_Upper>
+			<IQoffset_Lower Type="DoubleList" Unit="dBc">-99,-99,-99</IQoffset_Lower>
+			<!-- FreqErr -->
+			<FreqErr_Range Type="DoubleList" Unit="MHz">-174.75,174.75</FreqErr_Range>
+			<!-- EVM -->
+			<EVM_Range Type="DoubleList" Unit="%">0,12.5</EVM_Range>
+			<!-- OBW -->
+			<OBW_Range Type="DoubleList" Unit="MHz">0,10</OBW_Range>
+			<!-- SEM: LowerOffset,UpperOffset,Limit;LowerOffset,UpperOffset,Limit;... -->
+			<SEM_Config Type="DoubleList" Unit="MHz,MHz,dBm">0.0,1.0,-16.5;1.0,5.0,-8.5;5.0,10.0,-11.5;10.0,15.0,-23.5</SEM_Config>
+			<!-- ACLR: -UTRA2,-UTRA1,-EUTRA,+EUTRA,+UTRA1,+UTRA2 -->
+			<ACLR_LowerRange Type="DoubleList" Unit="dBc">36,33,30,30,33,36</ACLR_LowerRange>
+			<!-- MinPower -->
+			<MinPower_Range Type="DoubleList" Unit="dBm">-99,-39</MinPower_Range>
+			<!-- RX Sensitivity -->
+			<RxSensitivity_UpperRange Type="Double" Unit="dBm">-70</RxSensitivity_UpperRange>
+			<RxSensitivity_ThroughputMin Type="Double" Unit="%">95</RxSensitivity_ThroughputMin>
+			<RxSensitivity_StartBSLevel Type="Double" Unit="dBm">-90</RxSensitivity_StartBSLevel>
+			<RxSensitivity_SearchStep Type="Double" Unit="dBm">0.3</RxSensitivity_SearchStep>
+			<RxSensitivity_MinBlock Type="Integer">500</RxSensitivity_MinBlock>
+			<RxSensitivity_Type Type="Integer">0</RxSensitivity_Type><!-- 0: Primary, 1: Diversity -->
+			<RxSensitivity_StartRB Type="Integer">0</RxSensitivity_StartRB>
+			<RxSensitivity_NumRB Type="Integer">50</RxSensitivity_NumRB><!-- LTE NS BC3 MID PRX -->
+			<!-- MaxInputLevel -->
+			<MaxInputLevel_Range Type="DoubleList" Unit="%">95,100</MaxInputLevel_Range>
+			<MaxInputLevel_BSLevel Type="Double" Unit="dBm">-25.7</MaxInputLevel_BSLevel>
+			<MaxInputLevel_MinBlock Type="Integer">500</MaxInputLevel_MinBlock>
+		</Item><!-- LTE NS BC3 MID PRX -->
+		<!-- LTE NS BC3 MID DRX -->
+		<Item ClassName="CLTE_FTM_MeasureLoop" Name="LTE_NS_BC3_MID_Measure_DRX" Equip="CCMW">
+			<Band Type="Integer">3</Band>
+			<Channel Type="Integer">19575</Channel>
+			<BandWidth Type="Double" Unit="MHz">10</BandWidth>
+			<BSLevel Type="Integer">-57</BSLevel>
+			<SCOunt Type="Integer">5</SCOunt>
+			<ExpectedPower Type="Double">28</ExpectedPower>
+			<!-- TestList: 1.CPower, 2.MinPower, 3.MaxPower, 4.ESFL, 5.FreqErr, 6.EVM, 7.OBW, 8.SEM, 9.ACLR, 10 IEM_IQoffset, 11.RXSensitiviy, 12.MaxInputLevel -->
+			<TestList Type="BoolList">0,0,0,0,0,0,0,0,0,0,1,1</TestList><!-- LTE NS BC3 MID DRX -->
+			<!-- MaxPower -->
+			<MaxPower_Range Type="DoubleList" Unit="dBm">20.7,25</MaxPower_Range><!-- LTE NS BC3 MID DRX -->
+			<!-- configured transmitted power -->
+			<ConfPower_Range Type="DoubleList">-10.0,10.0,15.0</ConfPower_Range><!-- -10.0,10.0,15.0 -->
+			<ConfPower_Upper Type="DoubleList"> -2.3,16.7,20.7</ConfPower_Upper><!--  -2.3,16.7,20.7 -->
+			<ConfPower_Lower Type="DoubleList">-17.7, 3.3, 9.3</ConfPower_Lower><!-- -17.7, 3.3, 9.3 -->
+			<!-- IQoffset -->
+			<IQoffset_Power Type="DoubleList" Unit="dBc">3.2,-26.8,-36.8</IQoffset_Power>
+			<IQoffset_Upper Type="DoubleList" Unit="dBc">-25,-20,-10</IQoffset_Upper>
+			<IQoffset_Lower Type="DoubleList" Unit="dBc">-99,-99,-99</IQoffset_Lower>
+			<!-- FreqErr -->
+			<FreqErr_Range Type="DoubleList" Unit="MHz">-174.75,174.75</FreqErr_Range>
+			<!-- EVM -->
+			<EVM_Range Type="DoubleList" Unit="%">0,12.5</EVM_Range>
+			<!-- OBW -->
+			<OBW_Range Type="DoubleList" Unit="MHz">0,10</OBW_Range>
+			<!-- SEM: LowerOffset,UpperOffset,Limit;LowerOffset,UpperOffset,Limit;... -->
+			<SEM_Config Type="DoubleList" Unit="MHz,MHz,dBm">0.0,1.0,-16.5;1.0,5.0,-8.5;5.0,10.0,-11.5;10.0,15.0,-23.5</SEM_Config>
+			<!-- ACLR: -UTRA2,-UTRA1,-EUTRA,+EUTRA,+UTRA1,+UTRA2 -->
+			<ACLR_LowerRange Type="DoubleList" Unit="dBc">36,33,30,30,33,36</ACLR_LowerRange>
+			<!-- MinPower -->
+			<MinPower_Range Type="DoubleList" Unit="dBm">-99,-39</MinPower_Range>
+			<!-- RX Sensitivity -->
+			<RxSensitivity_UpperRange Type="Double" Unit="dBm">-70</RxSensitivity_UpperRange>
+			<RxSensitivity_ThroughputMin Type="Double" Unit="%">95</RxSensitivity_ThroughputMin>
+			<RxSensitivity_StartBSLevel Type="Double" Unit="dBm">-90</RxSensitivity_StartBSLevel>
+			<RxSensitivity_SearchStep Type="Double" Unit="dBm">0.3</RxSensitivity_SearchStep>
+			<RxSensitivity_MinBlock Type="Integer">500</RxSensitivity_MinBlock>
+			<RxSensitivity_Type Type="Integer">1</RxSensitivity_Type><!-- 0: Primary, 1: Diversity -->
+			<RxSensitivity_StartRB Type="Integer">0</RxSensitivity_StartRB>
+			<RxSensitivity_NumRB Type="Integer">50</RxSensitivity_NumRB><!-- LTE NS BC3 MID DRX -->
+			<!-- MaxInputLevel -->
+			<MaxInputLevel_Range Type="DoubleList" Unit="%">95,100</MaxInputLevel_Range>
+			<MaxInputLevel_BSLevel Type="Double" Unit="dBm">-25.7</MaxInputLevel_BSLevel>
+			<MaxInputLevel_MinBlock Type="Integer">500</MaxInputLevel_MinBlock>
+		</Item><!-- LTE NS BC3 MID DRX -->
+		<!-- LTE NS BC3 HIGH -->
+		<Item ClassName="CLTE_FTM_Handover" Name="LTE_NS_BC3_HIGH_Handover" Equip="CCMW">
+			<PICSName Type="String">LTE_BC3_HIGH_HANDOVER</PICSName>
+			<Band Type="Integer">3</Band>
+			<Channel Type="Integer">19900</Channel>
+			<BSLevel Type="Integer">-50</BSLevel>
+			<WavefromPath Type="String">library1\LTE_ProductionTest_1_v01.wv</WavefromPath>
+			<StartRB Type="Integer">0</StartRB>
+			<NumberRB Type="Integer">50</NumberRB>
+			<MCS Type="Integer">6</MCS>
+		</Item>
+		<!-- LTE NS BC3 HIGH PRX -->
+		<Item ClassName="CLTE_FTM_MeasureLoop" Name="LTE_NS_BC3_HIGH_Measure_PRX" Equip="CCMW">
+			<Band Type="Integer">3</Band>
+			<Channel Type="Integer">19900</Channel>
+			<BandWidth Type="Double" Unit="MHz">10</BandWidth>
+			<BSLevel Type="Integer">-57</BSLevel>
+			<SCOunt Type="Integer">5</SCOunt>
+			<ExpectedPower Type="Double">28</ExpectedPower>
+			<!-- TestList: 1.CPower, 2.MinPower, 3.MaxPower, 4.ESFL, 5.FreqErr, 6.EVM, 7.OBW, 8.SEM, 9.ACLR, 10 IEM_IQoffset, 11.RXSensitiviy, 12.MaxInputLevel -->
+			<TestList Type="BoolList">0,0,1,0,0,0,0,0,1,0,0,0</TestList><!-- LTE NS BC3 HIGH PRX -->
+			<!-- MaxPower -->
+			<MaxPower_Range Type="DoubleList" Unit="dBm">20.7,25</MaxPower_Range><!-- LTE NS BC3 HIGH PRX -->
+			<!-- configured transmitted power -->
+			<ConfPower_Range Type="DoubleList">-10.0,10.0,15.0</ConfPower_Range><!-- -10.0,10.0,15.0 -->
+			<ConfPower_Upper Type="DoubleList"> -2.3,16.7,20.7</ConfPower_Upper><!--  -2.3,16.7,20.7 -->
+			<ConfPower_Lower Type="DoubleList">-17.7, 3.3, 9.3</ConfPower_Lower><!-- -17.7, 3.3, 9.3 -->
+			<!-- IQoffset -->
+			<IQoffset_Power Type="DoubleList" Unit="dBc">3.2,-26.8,-36.8</IQoffset_Power>
+			<IQoffset_Upper Type="DoubleList" Unit="dBc">-25,-20,-10</IQoffset_Upper>
+			<IQoffset_Lower Type="DoubleList" Unit="dBc">-99,-99,-99</IQoffset_Lower>
+			<!-- FreqErr -->
+			<FreqErr_Range Type="DoubleList" Unit="MHz">-178,178</FreqErr_Range>
+			<!-- EVM -->
+			<EVM_Range Type="DoubleList" Unit="%">0,12.5</EVM_Range>
+			<!-- OBW -->
+			<OBW_Range Type="DoubleList" Unit="MHz">0,10</OBW_Range>
+			<!-- SEM: LowerOffset,UpperOffset,Limit;LowerOffset,UpperOffset,Limit;... -->
+			<SEM_Config Type="DoubleList" Unit="MHz,MHz,dBm">0.0,1.0,-16.5;1.0,5.0,-8.5;5.0,10.0,-11.5;10.0,15.0,-23.5</SEM_Config>
+			<!-- ACLR: -UTRA2,-UTRA1,-EUTRA,+EUTRA,+UTRA1,+UTRA2 -->
+			<ACLR_LowerRange Type="DoubleList" Unit="dBc">36,33,30,30,33,36</ACLR_LowerRange>
+			<!-- MinPower -->
+			<MinPower_Range Type="DoubleList" Unit="dBm">-99,-39</MinPower_Range>
+			<!-- RX Sensitivity -->
+			<RxSensitivity_UpperRange Type="Double" Unit="dBm">-70</RxSensitivity_UpperRange>
+			<RxSensitivity_ThroughputMin Type="Double" Unit="%">95</RxSensitivity_ThroughputMin>
+			<RxSensitivity_StartBSLevel Type="Double" Unit="dBm">-90</RxSensitivity_StartBSLevel>
+			<RxSensitivity_SearchStep Type="Double" Unit="dBm">0.3</RxSensitivity_SearchStep>
+			<RxSensitivity_MinBlock Type="Integer">500</RxSensitivity_MinBlock>
+			<RxSensitivity_Type Type="Integer">0</RxSensitivity_Type><!-- 0: Primary, 1: Diversity -->
+			<RxSensitivity_StartRB Type="Integer">0</RxSensitivity_StartRB>
+			<RxSensitivity_NumRB Type="Integer">50</RxSensitivity_NumRB><!-- LTE NS BC3 HIGH PRX -->
+			<!-- MaxInputLevel -->
+			<MaxInputLevel_Range Type="DoubleList" Unit="%">95,100</MaxInputLevel_Range>
+			<MaxInputLevel_BSLevel Type="Double" Unit="dBm">-25.7</MaxInputLevel_BSLevel>
+			<MaxInputLevel_MinBlock Type="Integer">500</MaxInputLevel_MinBlock>
+		</Item><!-- LTE NS BC3 HIGH PRX -->
+		<!-- LTE NS BC3 HIGH DRX -->
+		<Item ClassName="CLTE_FTM_MeasureLoop" Name="LTE_NS_BC3_HIGH_Measure_DRX" Equip="CCMW">
+			<Band Type="Integer">3</Band>
+			<Channel Type="Integer">19900</Channel>
+			<BandWidth Type="Double" Unit="MHz">10</BandWidth>
+			<BSLevel Type="Integer">-57</BSLevel>
+			<SCOunt Type="Integer">5</SCOunt>
+			<ExpectedPower Type="Double">28</ExpectedPower>
+			<!-- TestList: 1.CPower, 2.MinPower, 3.MaxPower, 4.ESFL, 5.FreqErr, 6.EVM, 7.OBW, 8.SEM, 9.ACLR, 10 IEM_IQoffset, 11.RXSensitiviy, 12.MaxInputLevel -->
+			<TestList Type="BoolList">0,0,0,0,0,0,0,0,0,0,1,1</TestList><!-- LTE NS BC3 HIGH DRX -->
+			<!-- MaxPower -->
+			<MaxPower_Range Type="DoubleList" Unit="dBm">20.7,25</MaxPower_Range><!-- LTE NS BC3 HIGH DRX -->
+			<!-- configured transmitted power -->
+			<ConfPower_Range Type="DoubleList">-10.0,10.0,15.0</ConfPower_Range><!-- -10.0,10.0,15.0 -->
+			<ConfPower_Upper Type="DoubleList"> -2.3,16.7,20.7</ConfPower_Upper><!--  -2.3,16.7,20.7 -->
+			<ConfPower_Lower Type="DoubleList">-17.7, 3.3, 9.3</ConfPower_Lower><!-- -17.7, 3.3, 9.3 -->
+			<!-- IQoffset -->
+			<IQoffset_Power Type="DoubleList" Unit="dBc">3.2,-26.8,-36.8</IQoffset_Power>
+			<IQoffset_Upper Type="DoubleList" Unit="dBc">-25,-20,-10</IQoffset_Upper>
+			<IQoffset_Lower Type="DoubleList" Unit="dBc">-99,-99,-99</IQoffset_Lower>
+			<!-- FreqErr -->
+			<FreqErr_Range Type="DoubleList" Unit="MHz">-178,178</FreqErr_Range>
+			<!-- EVM -->
+			<EVM_Range Type="DoubleList" Unit="%">0,12.5</EVM_Range>
+			<!-- OBW -->
+			<OBW_Range Type="DoubleList" Unit="MHz">0,10</OBW_Range>
+			<!-- SEM: LowerOffset,UpperOffset,Limit;LowerOffset,UpperOffset,Limit;... -->
+			<SEM_Config Type="DoubleList" Unit="MHz,MHz,dBm">0.0,1.0,-16.5;1.0,5.0,-8.5;5.0,10.0,-11.5;10.0,15.0,-23.5</SEM_Config>
+			<!-- ACLR: -UTRA2,-UTRA1,-EUTRA,+EUTRA,+UTRA1,+UTRA2 -->
+			<ACLR_LowerRange Type="DoubleList" Unit="dBc">36,33,30,30,33,36</ACLR_LowerRange>
+			<!-- MinPower -->
+			<MinPower_Range Type="DoubleList" Unit="dBm">-99,-39</MinPower_Range>
+			<!-- RX Sensitivity -->
+			<RxSensitivity_UpperRange Type="Double" Unit="dBm">-70</RxSensitivity_UpperRange>
+			<RxSensitivity_ThroughputMin Type="Double" Unit="%">95</RxSensitivity_ThroughputMin>
+			<RxSensitivity_StartBSLevel Type="Double" Unit="dBm">-90</RxSensitivity_StartBSLevel>
+			<RxSensitivity_SearchStep Type="Double" Unit="dBm">0.3</RxSensitivity_SearchStep>
+			<RxSensitivity_MinBlock Type="Integer">500</RxSensitivity_MinBlock>
+			<RxSensitivity_Type Type="Integer">1</RxSensitivity_Type><!-- 0: Primary, 1: Diversity -->
+			<RxSensitivity_StartRB Type="Integer">0</RxSensitivity_StartRB>
+			<RxSensitivity_NumRB Type="Integer">50</RxSensitivity_NumRB><!-- LTE NS BC3 HIGH DRX -->
+			<!-- MaxInputLevel -->
+			<MaxInputLevel_Range Type="DoubleList" Unit="%">95,100</MaxInputLevel_Range>
+			<MaxInputLevel_BSLevel Type="Double" Unit="dBm">-25.7</MaxInputLevel_BSLevel>
+			<MaxInputLevel_MinBlock Type="Integer">500</MaxInputLevel_MinBlock>
+		</Item><!-- LTE NS BC3 HIGH DRX -->
+
+		<!-- LTE NS BC7 LOW -->
+		<Item ClassName="CLTE_FTM_Handover" Name="LTE_NS_BC7_LOW_Handover" Equip="CCMW">
+			<PICSName Type="String">LTE_BC7_LOW_HANDOVER</PICSName>
+			<Band Type="Integer">7</Band>
+			<Channel Type="Integer">20800</Channel>
+			<BSLevel Type="Integer">-50</BSLevel>
+			<WavefromPath Type="String">library1\LTE_ProductionTest_1_v01.wv</WavefromPath>
+			<StartRB Type="Integer">0</StartRB>
+			<NumberRB Type="Integer">50</NumberRB>
+			<MCS Type="Integer">6</MCS>
+		</Item>
+		<!-- LTE NS BC7 LOW PRX -->
+		<Item ClassName="CLTE_FTM_MeasureLoop" Name="LTE_NS_BC7_LOW_Measure_PRX" Equip="CCMW">
+			<Band Type="Integer">7</Band>
+			<Channel Type="Integer">20800</Channel>
+			<BandWidth Type="Double" Unit="MHz">10</BandWidth>
+			<BSLevel Type="Integer">-57</BSLevel>
+			<SCOunt Type="Integer">5</SCOunt>
+			<ExpectedPower Type="Double">28</ExpectedPower>
+			<!-- TestList: 1.CPower, 2.MinPower, 3.MaxPower, 4.ESFL, 5.FreqErr, 6.EVM, 7.OBW, 8.SEM, 9.ACLR, 10 IEM_IQoffset, 11.RXSensitiviy, 12.MaxInputLevel -->
+			<TestList Type="BoolList">0,1,1,1,1,1,1,1,1,0,1,1</TestList><!-- LTE NS BC7 LOW PRX -->
+			<!-- MaxPower -->
+			<MaxPower_Range Type="DoubleList" Unit="dBm">20.7,25</MaxPower_Range><!-- LTE NS BC7 LOW PRX -->
+			<!-- configured transmitted power -->
+			<ConfPower_Range Type="DoubleList">-10.0,10.0,15.0</ConfPower_Range><!-- -10.0,10.0,15.0 -->
+			<ConfPower_Upper Type="DoubleList"> -2.3,16.7,20.7</ConfPower_Upper><!--  -2.3,16.7,20.7 -->
+			<ConfPower_Lower Type="DoubleList">-17.7, 3.3, 9.3</ConfPower_Lower><!-- -17.7, 3.3, 9.3 -->
+			<!-- IQoffset -->
+			<IQoffset_Power Type="DoubleList" Unit="dBc">3.2,-26.8,-36.8</IQoffset_Power>
+			<IQoffset_Upper Type="DoubleList" Unit="dBc">-25,-20,-10</IQoffset_Upper>
+			<IQoffset_Lower Type="DoubleList" Unit="dBc">-99,-99,-99</IQoffset_Lower>
+			<!-- FreqErr -->
+			<FreqErr_Range Type="DoubleList" Unit="MHz">-171.5,171.5</FreqErr_Range>
+			<!-- EVM -->
+			<EVM_Range Type="DoubleList" Unit="%">0,12.5</EVM_Range>
+			<!-- OBW -->
+			<OBW_Range Type="DoubleList" Unit="MHz">0,10</OBW_Range>
+			<!-- SEM: LowerOffset,UpperOffset,Limit;LowerOffset,UpperOffset,Limit;... -->
+			<SEM_Config Type="DoubleList" Unit="MHz,MHz,dBm">0.0,1.0,-16.5;1.0,5.0,-8.5;5.0,10.0,-11.5;10.0,15.0,-23.5</SEM_Config>
+			<!-- ACLR: -UTRA2,-UTRA1,-EUTRA,+EUTRA,+UTRA1,+UTRA2 -->
+			<ACLR_LowerRange Type="DoubleList" Unit="dBc">36,33,30,30,33,36</ACLR_LowerRange>
+			<!-- MinPower -->
+			<MinPower_Range Type="DoubleList" Unit="dBm">-99,-39</MinPower_Range>
+			<!-- RX Sensitivity -->
+			<RxSensitivity_UpperRange Type="Double" Unit="dBm">-70</RxSensitivity_UpperRange>
+			<RxSensitivity_ThroughputMin Type="Double" Unit="%">95</RxSensitivity_ThroughputMin>
+			<RxSensitivity_StartBSLevel Type="Double" Unit="dBm">-90</RxSensitivity_StartBSLevel>
+			<RxSensitivity_SearchStep Type="Double" Unit="dBm">0.3</RxSensitivity_SearchStep>
+			<RxSensitivity_MinBlock Type="Integer">500</RxSensitivity_MinBlock>
+			<RxSensitivity_Type Type="Integer">0</RxSensitivity_Type><!-- 0: Primary, 1: Diversity -->
+			<RxSensitivity_StartRB Type="Integer">0</RxSensitivity_StartRB>
+			<RxSensitivity_NumRB Type="Integer">50</RxSensitivity_NumRB><!-- LTE NS BC7 LOW PRX -->
+			<!-- MaxInputLevel -->
+			<MaxInputLevel_Range Type="DoubleList" Unit="%">95,100</MaxInputLevel_Range>
+			<MaxInputLevel_BSLevel Type="Double" Unit="dBm">-25.7</MaxInputLevel_BSLevel>
+			<MaxInputLevel_MinBlock Type="Integer">500</MaxInputLevel_MinBlock>
+		</Item><!-- LTE NS BC7 LOW PRX -->
+		<!-- LTE NS BC7 LOW DRX -->
+		<Item ClassName="CLTE_FTM_MeasureLoop" Name="LTE_NS_BC7_LOW_Measure_DRX" Equip="CCMW">
+			<Band Type="Integer">7</Band>
+			<Channel Type="Integer">20800</Channel>
+			<BandWidth Type="Double" Unit="MHz">10</BandWidth>
+			<BSLevel Type="Integer">-57</BSLevel>
+			<SCOunt Type="Integer">5</SCOunt>
+			<ExpectedPower Type="Double">28</ExpectedPower>
+			<!-- TestList: 1.CPower, 2.MinPower, 3.MaxPower, 4.ESFL, 5.FreqErr, 6.EVM, 7.OBW, 8.SEM, 9.ACLR, 10 IEM_IQoffset, 11.RXSensitiviy, 12.MaxInputLevel -->
+			<TestList Type="BoolList">0,0,0,0,0,0,0,0,0,0,1,1</TestList><!-- LTE NS BC7 LOW DRX -->
+			<!-- MaxPower -->
+			<MaxPower_Range Type="DoubleList" Unit="dBm">20.7,25</MaxPower_Range><!-- LTE NS BC7 LOW DRX -->
+			<!-- configured transmitted power -->
+			<ConfPower_Range Type="DoubleList">-10.0,10.0,15.0</ConfPower_Range><!-- -10.0,10.0,15.0 -->
+			<ConfPower_Upper Type="DoubleList"> -2.3,16.7,20.7</ConfPower_Upper><!--  -2.3,16.7,20.7 -->
+			<ConfPower_Lower Type="DoubleList">-17.7, 3.3, 9.3</ConfPower_Lower><!-- -17.7, 3.3, 9.3 -->
+			<!-- IQoffset -->
+			<IQoffset_Power Type="DoubleList" Unit="dBc">3.2,-26.8,-36.8</IQoffset_Power>
+			<IQoffset_Upper Type="DoubleList" Unit="dBc">-25,-20,-10</IQoffset_Upper>
+			<IQoffset_Lower Type="DoubleList" Unit="dBc">-99,-99,-99</IQoffset_Lower>
+			<!-- FreqErr -->
+			<FreqErr_Range Type="DoubleList" Unit="MHz">-171.5,171.5</FreqErr_Range>
+			<!-- EVM -->
+			<EVM_Range Type="DoubleList" Unit="%">0,12.5</EVM_Range>
+			<!-- OBW -->
+			<OBW_Range Type="DoubleList" Unit="MHz">0,10</OBW_Range>
+			<!-- SEM: LowerOffset,UpperOffset,Limit;LowerOffset,UpperOffset,Limit;... -->
+			<SEM_Config Type="DoubleList" Unit="MHz,MHz,dBm">0.0,1.0,-16.5;1.0,5.0,-8.5;5.0,10.0,-11.5;10.0,15.0,-23.5</SEM_Config>
+			<!-- ACLR: -UTRA2,-UTRA1,-EUTRA,+EUTRA,+UTRA1,+UTRA2 -->
+			<ACLR_LowerRange Type="DoubleList" Unit="dBc">36,33,30,30,33,36</ACLR_LowerRange>
+			<!-- MinPower -->
+			<MinPower_Range Type="DoubleList" Unit="dBm">-99,-39</MinPower_Range>
+			<!-- RX Sensitivity -->
+			<RxSensitivity_UpperRange Type="Double" Unit="dBm">-70</RxSensitivity_UpperRange>
+			<RxSensitivity_ThroughputMin Type="Double" Unit="%">95</RxSensitivity_ThroughputMin>
+			<RxSensitivity_StartBSLevel Type="Double" Unit="dBm">-90</RxSensitivity_StartBSLevel>
+			<RxSensitivity_SearchStep Type="Double" Unit="dBm">0.3</RxSensitivity_SearchStep>
+			<RxSensitivity_MinBlock Type="Integer">500</RxSensitivity_MinBlock>
+			<RxSensitivity_Type Type="Integer">1</RxSensitivity_Type><!-- 0: Primary, 1: Diversity -->
+			<RxSensitivity_StartRB Type="Integer">0</RxSensitivity_StartRB>
+			<RxSensitivity_NumRB Type="Integer">50</RxSensitivity_NumRB><!-- LTE NS BC7 LOW DRX -->
+			<!-- MaxInputLevel -->
+			<MaxInputLevel_Range Type="DoubleList" Unit="%">95,100</MaxInputLevel_Range>
+			<MaxInputLevel_BSLevel Type="Double" Unit="dBm">-25.7</MaxInputLevel_BSLevel>
+			<MaxInputLevel_MinBlock Type="Integer">500</MaxInputLevel_MinBlock>
+		</Item><!-- LTE NS BC7 LOW DRX -->
+		<!-- LTE NS BC7 MID -->
+		<Item ClassName="CLTE_FTM_Handover" Name="LTE_NS_BC7_MID_Handover" Equip="CCMW">
+			<PICSName Type="String">LTE_BC7_MID_HANDOVER</PICSName>
+			<Band Type="Integer">7</Band>
+			<Channel Type="Integer">21100</Channel>
+			<BSLevel Type="Integer">-50</BSLevel>
+			<WavefromPath Type="String">library1\LTE_ProductionTest_1_v01.wv</WavefromPath>
+			<StartRB Type="Integer">0</StartRB>
+			<NumberRB Type="Integer">50</NumberRB>
+			<MCS Type="Integer">6</MCS>
+		</Item>
+		<!-- LTE NS BC7 MID PRX -->
+		<Item ClassName="CLTE_FTM_MeasureLoop" Name="LTE_NS_BC7_MID_Measure_PRX" Equip="CCMW">
+			<Band Type="Integer">7</Band>
+			<Channel Type="Integer">21100</Channel>
+			<BandWidth Type="Double" Unit="MHz">10</BandWidth>
+			<BSLevel Type="Integer">-57</BSLevel>
+			<SCOunt Type="Integer">5</SCOunt>
+			<ExpectedPower Type="Double">28</ExpectedPower>
+			<!-- TestList: 1.CPower, 2.MinPower, 3.MaxPower, 4.ESFL, 5.FreqErr, 6.EVM, 7.OBW, 8.SEM, 9.ACLR, 10 IEM_IQoffset, 11.RXSensitiviy, 12.MaxInputLevel -->
+			<TestList Type="BoolList">1,1,1,1,1,1,1,1,1,1,1,1</TestList><!-- LTE NS BC7 MID PRX -->
+			<!-- MaxPower -->
+			<MaxPower_Range Type="DoubleList" Unit="dBm">20.7,25</MaxPower_Range><!-- LTE NS BC7 MID PRX -->
+			<!-- configured transmitted power -->
+			<ConfPower_Range Type="DoubleList">-10.0,10.0,15.0</ConfPower_Range><!-- -10.0,10.0,15.0 -->
+			<ConfPower_Upper Type="DoubleList"> -2.3,16.7,20.7</ConfPower_Upper><!--  -2.3,16.7,20.7 -->
+			<ConfPower_Lower Type="DoubleList">-17.7, 3.3, 9.3</ConfPower_Lower><!-- -17.7, 3.3, 9.3 -->
+			<!-- IQoffset -->
+			<IQoffset_Power Type="DoubleList" Unit="dBc">3.2,-26.8,-36.8</IQoffset_Power>
+			<IQoffset_Upper Type="DoubleList" Unit="dBc">-25,-20,-10</IQoffset_Upper>
+			<IQoffset_Lower Type="DoubleList" Unit="dBc">-99,-99,-99</IQoffset_Lower>
+			<!-- FreqErr -->
+			<FreqErr_Range Type="DoubleList" Unit="MHz">-174.75,174.75</FreqErr_Range>
+			<!-- EVM -->
+			<EVM_Range Type="DoubleList" Unit="%">0,12.5</EVM_Range>
+			<!-- OBW -->
+			<OBW_Range Type="DoubleList" Unit="MHz">0,10</OBW_Range>
+			<!-- SEM: LowerOffset,UpperOffset,Limit;LowerOffset,UpperOffset,Limit;... -->
+			<SEM_Config Type="DoubleList" Unit="MHz,MHz,dBm">0.0,1.0,-16.5;1.0,5.0,-8.5;5.0,10.0,-11.5;10.0,15.0,-23.5</SEM_Config>
+			<!-- ACLR: -UTRA2,-UTRA1,-EUTRA,+EUTRA,+UTRA1,+UTRA2 -->
+			<ACLR_LowerRange Type="DoubleList" Unit="dBc">36,33,30,30,33,36</ACLR_LowerRange>
+			<!-- MinPower -->
+			<MinPower_Range Type="DoubleList" Unit="dBm">-99,-39</MinPower_Range>
+			<!-- RX Sensitivity -->
+			<RxSensitivity_UpperRange Type="Double" Unit="dBm">-70</RxSensitivity_UpperRange>
+			<RxSensitivity_ThroughputMin Type="Double" Unit="%">95</RxSensitivity_ThroughputMin>
+			<RxSensitivity_StartBSLevel Type="Double" Unit="dBm">-90</RxSensitivity_StartBSLevel>
+			<RxSensitivity_SearchStep Type="Double" Unit="dBm">0.3</RxSensitivity_SearchStep>
+			<RxSensitivity_MinBlock Type="Integer">500</RxSensitivity_MinBlock>
+			<RxSensitivity_Type Type="Integer">0</RxSensitivity_Type><!-- 0: Primary, 1: Diversity -->
+			<RxSensitivity_StartRB Type="Integer">0</RxSensitivity_StartRB>
+			<RxSensitivity_NumRB Type="Integer">50</RxSensitivity_NumRB><!-- LTE NS BC7 MID PRX -->
+			<!-- MaxInputLevel -->
+			<MaxInputLevel_Range Type="DoubleList" Unit="%">95,100</MaxInputLevel_Range>
+			<MaxInputLevel_BSLevel Type="Double" Unit="dBm">-25.7</MaxInputLevel_BSLevel>
+			<MaxInputLevel_MinBlock Type="Integer">500</MaxInputLevel_MinBlock>
+		</Item><!-- LTE NS BC7 MID PRX -->
+		<!-- LTE NS BC7 MID DRX -->
+		<Item ClassName="CLTE_FTM_MeasureLoop" Name="LTE_NS_BC7_MID_Measure_DRX" Equip="CCMW">
+			<Band Type="Integer">7</Band>
+			<Channel Type="Integer">21100</Channel>
+			<BandWidth Type="Double" Unit="MHz">10</BandWidth>
+			<BSLevel Type="Integer">-57</BSLevel>
+			<SCOunt Type="Integer">5</SCOunt>
+			<ExpectedPower Type="Double">28</ExpectedPower>
+			<!-- TestList: 1.CPower, 2.MinPower, 3.MaxPower, 4.ESFL, 5.FreqErr, 6.EVM, 7.OBW, 8.SEM, 9.ACLR, 10 IEM_IQoffset, 11.RXSensitiviy, 12.MaxInputLevel -->
+			<TestList Type="BoolList">0,0,0,0,0,0,0,0,0,0,1,1</TestList><!-- LTE NS BC7 MID DRX -->
+			<!-- MaxPower -->
+			<MaxPower_Range Type="DoubleList" Unit="dBm">20.7,25</MaxPower_Range><!-- LTE NS BC7 MID DRX -->
+			<!-- configured transmitted power -->
+			<ConfPower_Range Type="DoubleList">-10.0,10.0,15.0</ConfPower_Range><!-- -10.0,10.0,15.0 -->
+			<ConfPower_Upper Type="DoubleList"> -2.3,16.7,20.7</ConfPower_Upper><!--  -2.3,16.7,20.7 -->
+			<ConfPower_Lower Type="DoubleList">-17.7, 3.3, 9.3</ConfPower_Lower><!-- -17.7, 3.3, 9.3 -->
+			<!-- IQoffset -->
+			<IQoffset_Power Type="DoubleList" Unit="dBc">3.2,-26.8,-36.8</IQoffset_Power>
+			<IQoffset_Upper Type="DoubleList" Unit="dBc">-25,-20,-10</IQoffset_Upper>
+			<IQoffset_Lower Type="DoubleList" Unit="dBc">-99,-99,-99</IQoffset_Lower>
+			<!-- FreqErr -->
+			<FreqErr_Range Type="DoubleList" Unit="MHz">-174.75,174.75</FreqErr_Range>
+			<!-- EVM -->
+			<EVM_Range Type="DoubleList" Unit="%">0,12.5</EVM_Range>
+			<!-- OBW -->
+			<OBW_Range Type="DoubleList" Unit="MHz">0,10</OBW_Range>
+			<!-- SEM: LowerOffset,UpperOffset,Limit;LowerOffset,UpperOffset,Limit;... -->
+			<SEM_Config Type="DoubleList" Unit="MHz,MHz,dBm">0.0,1.0,-16.5;1.0,5.0,-8.5;5.0,10.0,-11.5;10.0,15.0,-23.5</SEM_Config>
+			<!-- ACLR: -UTRA2,-UTRA1,-EUTRA,+EUTRA,+UTRA1,+UTRA2 -->
+			<ACLR_LowerRange Type="DoubleList" Unit="dBc">36,33,30,30,33,36</ACLR_LowerRange>
+			<!-- MinPower -->
+			<MinPower_Range Type="DoubleList" Unit="dBm">-99,-39</MinPower_Range>
+			<!-- RX Sensitivity -->
+			<RxSensitivity_UpperRange Type="Double" Unit="dBm">-70</RxSensitivity_UpperRange>
+			<RxSensitivity_ThroughputMin Type="Double" Unit="%">95</RxSensitivity_ThroughputMin>
+			<RxSensitivity_StartBSLevel Type="Double" Unit="dBm">-90</RxSensitivity_StartBSLevel>
+			<RxSensitivity_SearchStep Type="Double" Unit="dBm">0.3</RxSensitivity_SearchStep>
+			<RxSensitivity_MinBlock Type="Integer">500</RxSensitivity_MinBlock>
+			<RxSensitivity_Type Type="Integer">1</RxSensitivity_Type><!-- 0: Primary, 1: Diversity -->
+			<RxSensitivity_StartRB Type="Integer">0</RxSensitivity_StartRB>
+			<RxSensitivity_NumRB Type="Integer">50</RxSensitivity_NumRB><!-- LTE NS BC7 MID DRX -->
+			<!-- MaxInputLevel -->
+			<MaxInputLevel_Range Type="DoubleList" Unit="%">95,100</MaxInputLevel_Range>
+			<MaxInputLevel_BSLevel Type="Double" Unit="dBm">-25.7</MaxInputLevel_BSLevel>
+			<MaxInputLevel_MinBlock Type="Integer">500</MaxInputLevel_MinBlock>
+		</Item><!-- LTE NS BC7 MID DRX -->
+		<!-- LTE NS BC7 HIGH -->
+		<Item ClassName="CLTE_FTM_Handover" Name="LTE_NS_BC7_HIGH_Handover" Equip="CCMW">
+			<PICSName Type="String">LTE_BC7_HIGH_HANDOVER</PICSName>
+			<Band Type="Integer">7</Band>
+			<Channel Type="Integer">21400</Channel>
+			<BSLevel Type="Integer">-50</BSLevel>
+			<WavefromPath Type="String">library1\LTE_ProductionTest_1_v01.wv</WavefromPath>
+			<StartRB Type="Integer">0</StartRB>
+			<NumberRB Type="Integer">50</NumberRB>
+			<MCS Type="Integer">6</MCS>
+		</Item>
+		<!-- LTE NS BC7 HIGH PRX -->
+		<Item ClassName="CLTE_FTM_MeasureLoop" Name="LTE_NS_BC7_HIGH_Measure_PRX" Equip="CCMW">
+			<Band Type="Integer">7</Band>
+			<Channel Type="Integer">21400</Channel>
+			<BandWidth Type="Double" Unit="MHz">10</BandWidth>
+			<BSLevel Type="Integer">-57</BSLevel>
+			<SCOunt Type="Integer">5</SCOunt>
+			<ExpectedPower Type="Double">28</ExpectedPower>
+			<!-- TestList: 1.CPower, 2.MinPower, 3.MaxPower, 4.ESFL, 5.FreqErr, 6.EVM, 7.OBW, 8.SEM, 9.ACLR, 10 IEM_IQoffset, 11.RXSensitiviy, 12.MaxInputLevel -->
+			<TestList Type="BoolList">0,1,1,1,1,1,1,1,1,0,1,1</TestList><!-- LTE NS BC7 HIGH PRX -->
+			<!-- MaxPower -->
+			<MaxPower_Range Type="DoubleList" Unit="dBm">20.7,25</MaxPower_Range><!-- LTE NS BC7 HIGH PRX -->
+			<!-- configured transmitted power -->
+			<ConfPower_Range Type="DoubleList">-10.0,10.0,15.0</ConfPower_Range><!-- -10.0,10.0,15.0 -->
+			<ConfPower_Upper Type="DoubleList"> -2.3,16.7,20.7</ConfPower_Upper><!--  -2.3,16.7,20.7 -->
+			<ConfPower_Lower Type="DoubleList">-17.7, 3.3, 9.3</ConfPower_Lower><!-- -17.7, 3.3, 9.3 -->
+			<!-- IQoffset -->
+			<IQoffset_Power Type="DoubleList" Unit="dBc">3.2,-26.8,-36.8</IQoffset_Power>
+			<IQoffset_Upper Type="DoubleList" Unit="dBc">-25,-20,-10</IQoffset_Upper>
+			<IQoffset_Lower Type="DoubleList" Unit="dBc">-99,-99,-99</IQoffset_Lower>
+			<!-- FreqErr -->
+			<FreqErr_Range Type="DoubleList" Unit="MHz">-174.75,174.75</FreqErr_Range>
+			<!-- EVM -->
+			<EVM_Range Type="DoubleList" Unit="%">0,12.5</EVM_Range>
+			<!-- OBW -->
+			<OBW_Range Type="DoubleList" Unit="MHz">0,10</OBW_Range>
+			<!-- SEM: LowerOffset,UpperOffset,Limit;LowerOffset,UpperOffset,Limit;... -->
+			<SEM_Config Type="DoubleList" Unit="MHz,MHz,dBm">0.0,1.0,-16.5;1.0,5.0,-8.5;5.0,10.0,-11.5;10.0,15.0,-23.5</SEM_Config>
+			<!-- ACLR: -UTRA2,-UTRA1,-EUTRA,+EUTRA,+UTRA1,+UTRA2 -->
+			<ACLR_LowerRange Type="DoubleList" Unit="dBc">36,33,30,30,33,36</ACLR_LowerRange>
+			<!-- MinPower -->
+			<MinPower_Range Type="DoubleList" Unit="dBm">-99,-39</MinPower_Range>
+			<!-- RX Sensitivity -->
+			<RxSensitivity_UpperRange Type="Double" Unit="dBm">-70</RxSensitivity_UpperRange>
+			<RxSensitivity_ThroughputMin Type="Double" Unit="%">95</RxSensitivity_ThroughputMin>
+			<RxSensitivity_StartBSLevel Type="Double" Unit="dBm">-90</RxSensitivity_StartBSLevel>
+			<RxSensitivity_SearchStep Type="Double" Unit="dBm">0.3</RxSensitivity_SearchStep>
+			<RxSensitivity_MinBlock Type="Integer">500</RxSensitivity_MinBlock>
+			<RxSensitivity_Type Type="Integer">0</RxSensitivity_Type><!-- 0: Primary, 1: Diversity -->
+			<RxSensitivity_StartRB Type="Integer">0</RxSensitivity_StartRB>
+			<RxSensitivity_NumRB Type="Integer">50</RxSensitivity_NumRB><!-- LTE NS BC7 HIGH PRX -->
+			<!-- MaxInputLevel -->
+			<MaxInputLevel_Range Type="DoubleList" Unit="%">95,100</MaxInputLevel_Range>
+			<MaxInputLevel_BSLevel Type="Double" Unit="dBm">-25.7</MaxInputLevel_BSLevel>
+			<MaxInputLevel_MinBlock Type="Integer">500</MaxInputLevel_MinBlock>
+		</Item><!-- LTE NS BC7 HIGH PRX -->
+		<!-- LTE NS BC7 HIGH DRX -->
+		<Item ClassName="CLTE_FTM_MeasureLoop" Name="LTE_NS_BC7_HIGH_Measure_DRX" Equip="CCMW">
+			<Band Type="Integer">7</Band>
+			<Channel Type="Integer">21400</Channel>
+			<BandWidth Type="Double" Unit="MHz">10</BandWidth>
+			<BSLevel Type="Integer">-57</BSLevel>
+			<SCOunt Type="Integer">5</SCOunt>
+			<ExpectedPower Type="Double">28</ExpectedPower>
+			<!-- TestList: 1.CPower, 2.MinPower, 3.MaxPower, 4.ESFL, 5.FreqErr, 6.EVM, 7.OBW, 8.SEM, 9.ACLR, 10 IEM_IQoffset, 11.RXSensitiviy, 12.MaxInputLevel -->
+			<TestList Type="BoolList">0,0,0,0,0,0,0,0,0,0,1,1</TestList><!-- LTE NS BC7 HIGH DRX -->
+			<!-- MaxPower -->
+			<MaxPower_Range Type="DoubleList" Unit="dBm">20.7,25</MaxPower_Range><!-- LTE NS BC7 HIGH DRX -->
+			<!-- configured transmitted power -->
+			<ConfPower_Range Type="DoubleList">-10.0,10.0,15.0</ConfPower_Range><!-- -10.0,10.0,15.0 -->
+			<ConfPower_Upper Type="DoubleList"> -2.3,16.7,20.7</ConfPower_Upper><!--  -2.3,16.7,20.7 -->
+			<ConfPower_Lower Type="DoubleList">-17.7, 3.3, 9.3</ConfPower_Lower><!-- -17.7, 3.3, 9.3 -->
+			<!-- IQoffset -->
+			<IQoffset_Power Type="DoubleList" Unit="dBc">3.2,-26.8,-36.8</IQoffset_Power>
+			<IQoffset_Upper Type="DoubleList" Unit="dBc">-25,-20,-10</IQoffset_Upper>
+			<IQoffset_Lower Type="DoubleList" Unit="dBc">-99,-99,-99</IQoffset_Lower>
+			<!-- FreqErr -->
+			<FreqErr_Range Type="DoubleList" Unit="MHz">-178,178</FreqErr_Range>
+			<!-- EVM -->
+			<EVM_Range Type="DoubleList" Unit="%">0,12.5</EVM_Range>
+			<!-- OBW -->
+			<OBW_Range Type="DoubleList" Unit="MHz">0,10</OBW_Range>
+			<!-- SEM: LowerOffset,UpperOffset,Limit;LowerOffset,UpperOffset,Limit;... -->
+			<SEM_Config Type="DoubleList" Unit="MHz,MHz,dBm">0.0,1.0,-16.5;1.0,5.0,-8.5;5.0,10.0,-11.5;10.0,15.0,-23.5</SEM_Config>
+			<!-- ACLR: -UTRA2,-UTRA1,-EUTRA,+EUTRA,+UTRA1,+UTRA2 -->
+			<ACLR_LowerRange Type="DoubleList" Unit="dBc">36,33,30,30,33,36</ACLR_LowerRange>
+			<!-- MinPower -->
+			<MinPower_Range Type="DoubleList" Unit="dBm">-99,-39</MinPower_Range>
+			<!-- RX Sensitivity -->
+			<RxSensitivity_UpperRange Type="Double" Unit="dBm">-70</RxSensitivity_UpperRange>
+			<RxSensitivity_ThroughputMin Type="Double" Unit="%">95</RxSensitivity_ThroughputMin>
+			<RxSensitivity_StartBSLevel Type="Double" Unit="dBm">-90</RxSensitivity_StartBSLevel>
+			<RxSensitivity_SearchStep Type="Double" Unit="dBm">0.3</RxSensitivity_SearchStep>
+			<RxSensitivity_MinBlock Type="Integer">500</RxSensitivity_MinBlock>
+			<RxSensitivity_Type Type="Integer">1</RxSensitivity_Type><!-- 0: Primary, 1: Diversity -->
+			<RxSensitivity_StartRB Type="Integer">0</RxSensitivity_StartRB>
+			<RxSensitivity_NumRB Type="Integer">50</RxSensitivity_NumRB><!-- LTE NS BC7 HIGH DRX -->
+			<!-- MaxInputLevel -->
+			<MaxInputLevel_Range Type="DoubleList" Unit="%">95,100</MaxInputLevel_Range>
+			<MaxInputLevel_BSLevel Type="Double" Unit="dBm">-25.7</MaxInputLevel_BSLevel>
+			<MaxInputLevel_MinBlock Type="Integer">500</MaxInputLevel_MinBlock>
+		</Item><!-- LTE NS BC7 HIGH DRX -->
+
+		<!-- LTE NS BC20 LOW -->
+		<Item ClassName="CLTE_FTM_Handover" Name="LTE_NS_BC20_LOW_Handover" Equip="CCMW">
+			<PICSName Type="String">LTE_BC20_LOW_HANDOVER</PICSName>
+			<Band Type="Integer">20</Band>
+			<Channel Type="Integer">24200</Channel>
+			<BSLevel Type="Integer">-50</BSLevel>
+			<WavefromPath Type="String">library1\LTE_ProductionTest_1_v01.wv</WavefromPath>
+			<StartRB Type="Integer">0</StartRB>
+			<NumberRB Type="Integer">50</NumberRB>
+			<MCS Type="Integer">6</MCS>
+		</Item>
+		<!-- LTE NS BC20 LOW PRX -->
+		<Item ClassName="CLTE_FTM_MeasureLoop" Name="LTE_NS_BC20_LOW_Measure_PRX" Equip="CCMW">
+			<Band Type="Integer">20</Band>
+			<Channel Type="Integer">24200</Channel>
+			<BandWidth Type="Double" Unit="MHz">10</BandWidth>
+			<BSLevel Type="Integer">-57</BSLevel>
+			<SCOunt Type="Integer">5</SCOunt>
+			<ExpectedPower Type="Double">28</ExpectedPower>
+			<!-- TestList: 1.CPower, 2.MinPower, 3.MaxPower, 4.ESFL, 5.FreqErr, 6.EVM, 7.OBW, 8.SEM, 9.ACLR, 10 IEM_IQoffset, 11.RXSensitiviy, 12.MaxInputLevel -->
+			<TestList Type="BoolList">0,0,1,0,0,0,0,0,1,0,0,0</TestList><!-- LTE NS BC20 LOW PRX -->
+			<!-- MaxPower -->
+			<MaxPower_Range Type="DoubleList" Unit="dBm">20.7,25</MaxPower_Range><!-- LTE NS BC20 LOW PRX -->
+			<!-- configured transmitted power -->
+			<ConfPower_Range Type="DoubleList">-10.0,10.0,15.0</ConfPower_Range><!-- -10.0,10.0,15.0 -->
+			<ConfPower_Upper Type="DoubleList"> -2.3,16.7,20.7</ConfPower_Upper><!--  -2.3,16.7,20.7 -->
+			<ConfPower_Lower Type="DoubleList">-17.7, 3.3, 9.3</ConfPower_Lower><!-- -17.7, 3.3, 9.3 -->
+			<!-- IQoffset -->
+			<IQoffset_Power Type="DoubleList" Unit="dBc">3.2,-26.8,-36.8</IQoffset_Power>
+			<IQoffset_Upper Type="DoubleList" Unit="dBc">-25,-20,-10</IQoffset_Upper>
+			<IQoffset_Lower Type="DoubleList" Unit="dBc">-99,-99,-99</IQoffset_Lower>
+			<!-- FreqErr -->
+			<FreqErr_Range Type="DoubleList" Unit="MHz">-83.7,83.7</FreqErr_Range>
+			<!-- EVM -->
+			<EVM_Range Type="DoubleList" Unit="%">0,12.5</EVM_Range>
+			<!-- OBW -->
+			<OBW_Range Type="DoubleList" Unit="MHz">0,10</OBW_Range>
+			<!-- SEM: LowerOffset,UpperOffset,Limit;LowerOffset,UpperOffset,Limit;... -->
+			<SEM_Config Type="DoubleList" Unit="MHz,MHz,dBm">0.0,1.0,-16.5;1.0,5.0,-8.5;5.0,10.0,-11.5;10.0,15.0,-23.5</SEM_Config>
+			<!-- ACLR: -UTRA2,-UTRA1,-EUTRA,+EUTRA,+UTRA1,+UTRA2 -->
+			<ACLR_LowerRange Type="DoubleList" Unit="dBc">36,33,30,30,33,36</ACLR_LowerRange>
+			<!-- MinPower -->
+			<MinPower_Range Type="DoubleList" Unit="dBm">-99,-39</MinPower_Range>
+			<!-- RX Sensitivity -->
+			<RxSensitivity_UpperRange Type="Double" Unit="dBm">-70</RxSensitivity_UpperRange>
+			<RxSensitivity_ThroughputMin Type="Double" Unit="%">95</RxSensitivity_ThroughputMin>
+			<RxSensitivity_StartBSLevel Type="Double" Unit="dBm">-90</RxSensitivity_StartBSLevel>
+			<RxSensitivity_SearchStep Type="Double" Unit="dBm">0.0</RxSensitivity_SearchStep>
+			<RxSensitivity_MinBlock Type="Integer">500</RxSensitivity_MinBlock>
+			<RxSensitivity_Type Type="Integer">0</RxSensitivity_Type><!-- 0: Primary, 1: Diversity -->
+			<RxSensitivity_StartRB Type="Integer">30</RxSensitivity_StartRB>
+			<RxSensitivity_NumRB Type="Integer">20</RxSensitivity_NumRB><!-- LTE NS BC20 LOW PRX -->
+			<!-- MaxInputLevel -->
+			<MaxInputLevel_Range Type="DoubleList" Unit="%">95,100</MaxInputLevel_Range>
+			<MaxInputLevel_BSLevel Type="Double" Unit="dBm">-25.7</MaxInputLevel_BSLevel>
+			<MaxInputLevel_MinBlock Type="Integer">500</MaxInputLevel_MinBlock>
+		</Item><!-- LTE NS BC20 LOW PRX -->
+		<!-- LTE NS BC20 LOW DRX -->
+		<Item ClassName="CLTE_FTM_MeasureLoop" Name="LTE_NS_BC20_LOW_Measure_DRX" Equip="CCMW">
+			<Band Type="Integer">20</Band>
+			<Channel Type="Integer">24200</Channel>
+			<BandWidth Type="Double" Unit="MHz">10</BandWidth>
+			<BSLevel Type="Integer">-57</BSLevel>
+			<SCOunt Type="Integer">5</SCOunt>
+			<ExpectedPower Type="Double">28</ExpectedPower>
+			<!-- TestList: 1.CPower, 2.MinPower, 3.MaxPower, 4.ESFL, 5.FreqErr, 6.EVM, 7.OBW, 8.SEM, 9.ACLR, 10 IEM_IQoffset, 11.RXSensitiviy, 12.MaxInputLevel -->
+			<TestList Type="BoolList">0,0,0,0,0,0,0,0,0,0,1,1</TestList><!-- LTE NS BC20 LOW DRX -->
+			<!-- MaxPower -->
+			<MaxPower_Range Type="DoubleList" Unit="dBm">20.7,25</MaxPower_Range><!-- LTE NS BC20 LOW DRX -->
+			<!-- configured transmitted power -->
+			<ConfPower_Range Type="DoubleList">-10.0,10.0,15.0</ConfPower_Range><!-- -10.0,10.0,15.0 -->
+			<ConfPower_Upper Type="DoubleList"> -2.3,16.7,20.7</ConfPower_Upper><!--  -2.3,16.7,20.7 -->
+			<ConfPower_Lower Type="DoubleList">-17.7, 3.3, 9.3</ConfPower_Lower><!-- -17.7, 3.3, 9.3 -->
+			<!-- IQoffset -->
+			<IQoffset_Power Type="DoubleList" Unit="dBc">3.2,-26.8,-36.8</IQoffset_Power>
+			<IQoffset_Upper Type="DoubleList" Unit="dBc">-25,-20,-10</IQoffset_Upper>
+			<IQoffset_Lower Type="DoubleList" Unit="dBc">-99,-99,-99</IQoffset_Lower>
+			<!-- FreqErr -->
+			<FreqErr_Range Type="DoubleList" Unit="MHz">-83.7,83.7</FreqErr_Range>
+			<!-- EVM -->
+			<EVM_Range Type="DoubleList" Unit="%">0,12.5</EVM_Range>
+			<!-- OBW -->
+			<OBW_Range Type="DoubleList" Unit="MHz">0,10</OBW_Range>
+			<!-- SEM: LowerOffset,UpperOffset,Limit;LowerOffset,UpperOffset,Limit;... -->
+			<SEM_Config Type="DoubleList" Unit="MHz,MHz,dBm">0.0,1.0,-16.5;1.0,5.0,-8.5;5.0,10.0,-11.5;10.0,15.0,-23.5</SEM_Config>
+			<!-- ACLR: -UTRA2,-UTRA1,-EUTRA,+EUTRA,+UTRA1,+UTRA2 -->
+			<ACLR_LowerRange Type="DoubleList" Unit="dBc">36,33,30,30,33,36</ACLR_LowerRange>
+			<!-- MinPower -->
+			<MinPower_Range Type="DoubleList" Unit="dBm">-99,-39</MinPower_Range>
+			<!-- RX Sensitivity -->
+			<RxSensitivity_UpperRange Type="Double" Unit="dBm">-70</RxSensitivity_UpperRange>
+			<RxSensitivity_ThroughputMin Type="Double" Unit="%">95</RxSensitivity_ThroughputMin>
+			<RxSensitivity_StartBSLevel Type="Double" Unit="dBm">-90</RxSensitivity_StartBSLevel>
+			<RxSensitivity_SearchStep Type="Double" Unit="dBm">0.0</RxSensitivity_SearchStep>
+			<RxSensitivity_MinBlock Type="Integer">500</RxSensitivity_MinBlock>
+			<RxSensitivity_Type Type="Integer">1</RxSensitivity_Type><!-- 0: Primary, 1: Diversity -->
+			<RxSensitivity_StartRB Type="Integer">30</RxSensitivity_StartRB>
+			<RxSensitivity_NumRB Type="Integer">20</RxSensitivity_NumRB><!-- LTE NS BC20 LOW DRX -->
+			<!-- MaxInputLevel -->
+			<MaxInputLevel_Range Type="DoubleList" Unit="%">95,100</MaxInputLevel_Range>
+			<MaxInputLevel_BSLevel Type="Double" Unit="dBm">-25.7</MaxInputLevel_BSLevel>
+			<MaxInputLevel_MinBlock Type="Integer">500</MaxInputLevel_MinBlock>
+		</Item><!-- LTE NS BC20 LOW DRX -->
+		<!-- LTE NS BC20 MID -->
+		<Item ClassName="CLTE_FTM_Handover" Name="LTE_NS_BC20_MID_Handover" Equip="CCMW">
+			<PICSName Type="String">LTE_BC20_MID_HANDOVER</PICSName>
+			<Band Type="Integer">20</Band>
+			<Channel Type="Integer">24300</Channel>
+			<BSLevel Type="Integer">-50</BSLevel>
+			<WavefromPath Type="String">library1\LTE_ProductionTest_1_v01.wv</WavefromPath>
+			<StartRB Type="Integer">0</StartRB>
+			<NumberRB Type="Integer">50</NumberRB>
+			<MCS Type="Integer">6</MCS>
+		</Item>
+		<!-- LTE NS BC20 MID PRX -->
+		<Item ClassName="CLTE_FTM_MeasureLoop" Name="LTE_NS_BC20_MID_Measure_PRX" Equip="CCMW">
+			<Band Type="Integer">20</Band>
+			<Channel Type="Integer">24300</Channel>
+			<BandWidth Type="Double" Unit="MHz">10</BandWidth>
+			<BSLevel Type="Integer">-57</BSLevel>
+			<SCOunt Type="Integer">5</SCOunt>
+			<ExpectedPower Type="Double">28</ExpectedPower>
+			<!-- TestList: 1.CPower, 2.MinPower, 3.MaxPower, 4.ESFL, 5.FreqErr, 6.EVM, 7.OBW, 8.SEM, 9.ACLR, 10 IEM_IQoffset, 11.RXSensitiviy, 12.MaxInputLevel -->
+			<TestList Type="BoolList">1,1,1,1,1,1,1,1,1,1,1,1</TestList><!-- LTE NS BC20 MID PRX -->
+			<!-- MaxPower -->
+			<MaxPower_Range Type="DoubleList" Unit="dBm">20.7,25</MaxPower_Range><!-- LTE NS BC20 MID PRX -->
+			<!-- configured transmitted power -->
+			<ConfPower_Range Type="DoubleList">-10.0,10.0,15.0</ConfPower_Range><!-- -10.0,10.0,15.0 -->
+			<ConfPower_Upper Type="DoubleList"> -2.3,16.7,20.7</ConfPower_Upper><!--  -2.3,16.7,20.7 -->
+			<ConfPower_Lower Type="DoubleList">-17.7, 3.3, 9.3</ConfPower_Lower><!-- -17.7, 3.3, 9.3 -->
+			<!-- IQoffset -->
+			<IQoffset_Power Type="DoubleList" Unit="dBc">3.2,-26.8,-36.8</IQoffset_Power>
+			<IQoffset_Upper Type="DoubleList" Unit="dBc">-25,-20,-10</IQoffset_Upper>
+			<IQoffset_Lower Type="DoubleList" Unit="dBc">-99,-99,-99</IQoffset_Lower>
+			<!-- FreqErr -->
+			<FreqErr_Range Type="DoubleList" Unit="MHz">-84.7,84.7</FreqErr_Range>
+			<!-- EVM -->
+			<EVM_Range Type="DoubleList" Unit="%">0,12.5</EVM_Range>
+			<!-- OBW -->
+			<OBW_Range Type="DoubleList" Unit="MHz">0,10</OBW_Range>
+			<!-- SEM: LowerOffset,UpperOffset,Limit;LowerOffset,UpperOffset,Limit;... -->
+			<SEM_Config Type="DoubleList" Unit="MHz,MHz,dBm">0.0,1.0,-16.5;1.0,5.0,-8.5;5.0,10.0,-11.5;10.0,15.0,-23.5</SEM_Config>
+			<!-- ACLR: -UTRA2,-UTRA1,-EUTRA,+EUTRA,+UTRA1,+UTRA2 -->
+			<ACLR_LowerRange Type="DoubleList" Unit="dBc">36,33,30,30,33,36</ACLR_LowerRange>
+			<!-- MinPower -->
+			<MinPower_Range Type="DoubleList" Unit="dBm">-99,-39</MinPower_Range>
+			<!-- RX Sensitivity -->
+			<RxSensitivity_UpperRange Type="Double" Unit="dBm">-70</RxSensitivity_UpperRange>
+			<RxSensitivity_ThroughputMin Type="Double" Unit="%">95</RxSensitivity_ThroughputMin>
+			<RxSensitivity_StartBSLevel Type="Double" Unit="dBm">-90</RxSensitivity_StartBSLevel>
+			<RxSensitivity_SearchStep Type="Double" Unit="dBm">0.3</RxSensitivity_SearchStep>
+			<RxSensitivity_MinBlock Type="Integer">500</RxSensitivity_MinBlock>
+			<RxSensitivity_Type Type="Integer">0</RxSensitivity_Type><!-- 0: Primary, 1: Diversity -->
+			<RxSensitivity_StartRB Type="Integer">30</RxSensitivity_StartRB>
+			<RxSensitivity_NumRB Type="Integer">20</RxSensitivity_NumRB><!-- LTE NS BC20 MID PRX -->
+			<!-- MaxInputLevel -->
+			<MaxInputLevel_Range Type="DoubleList" Unit="%">95,100</MaxInputLevel_Range>
+			<MaxInputLevel_BSLevel Type="Double" Unit="dBm">-25.7</MaxInputLevel_BSLevel>
+			<MaxInputLevel_MinBlock Type="Integer">500</MaxInputLevel_MinBlock>
+		</Item><!-- LTE NS BC20 MID PRX -->
+		<!-- LTE NS BC20 MID DRX -->
+		<Item ClassName="CLTE_FTM_MeasureLoop" Name="LTE_NS_BC20_MID_Measure_DRX" Equip="CCMW">
+			<Band Type="Integer">20</Band>
+			<Channel Type="Integer">24300</Channel>
+			<BandWidth Type="Double" Unit="MHz">10</BandWidth>
+			<BSLevel Type="Integer">-57</BSLevel>
+			<SCOunt Type="Integer">5</SCOunt>
+			<ExpectedPower Type="Double">28</ExpectedPower>
+			<!-- TestList: 1.CPower, 2.MinPower, 3.MaxPower, 4.ESFL, 5.FreqErr, 6.EVM, 7.OBW, 8.SEM, 9.ACLR, 10 IEM_IQoffset, 11.RXSensitiviy, 12.MaxInputLevel -->
+			<TestList Type="BoolList">0,0,0,0,0,0,0,0,0,0,1,1</TestList><!-- LTE NS BC20 MID DRX -->
+			<!-- MaxPower -->
+			<MaxPower_Range Type="DoubleList" Unit="dBm">20.7,25</MaxPower_Range><!-- LTE NS BC20 MID DRX -->
+			<!-- configured transmitted power -->
+			<ConfPower_Range Type="DoubleList">-10.0,10.0,15.0</ConfPower_Range><!-- -10.0,10.0,15.0 -->
+			<ConfPower_Upper Type="DoubleList"> -2.3,16.7,20.7</ConfPower_Upper><!--  -2.3,16.7,20.7 -->
+			<ConfPower_Lower Type="DoubleList">-17.7, 3.3, 9.3</ConfPower_Lower><!-- -17.7, 3.3, 9.3 -->
+			<!-- IQoffset -->
+			<IQoffset_Power Type="DoubleList" Unit="dBc">3.2,-26.8,-36.8</IQoffset_Power>
+			<IQoffset_Upper Type="DoubleList" Unit="dBc">-25,-20,-10</IQoffset_Upper>
+			<IQoffset_Lower Type="DoubleList" Unit="dBc">-99,-99,-99</IQoffset_Lower>
+			<!-- FreqErr -->
+			<FreqErr_Range Type="DoubleList" Unit="MHz">-84.7,84.7</FreqErr_Range>
+			<!-- EVM -->
+			<EVM_Range Type="DoubleList" Unit="%">0,12.5</EVM_Range>
+			<!-- OBW -->
+			<OBW_Range Type="DoubleList" Unit="MHz">0,10</OBW_Range>
+			<!-- SEM: LowerOffset,UpperOffset,Limit;LowerOffset,UpperOffset,Limit;... -->
+			<SEM_Config Type="DoubleList" Unit="MHz,MHz,dBm">0.0,1.0,-16.5;1.0,5.0,-8.5;5.0,10.0,-11.5;10.0,15.0,-23.5</SEM_Config>
+			<!-- ACLR: -UTRA2,-UTRA1,-EUTRA,+EUTRA,+UTRA1,+UTRA2 -->
+			<ACLR_LowerRange Type="DoubleList" Unit="dBc">36,33,30,30,33,36</ACLR_LowerRange>
+			<!-- MinPower -->
+			<MinPower_Range Type="DoubleList" Unit="dBm">-99,-39</MinPower_Range>
+			<!-- RX Sensitivity -->
+			<RxSensitivity_UpperRange Type="Double" Unit="dBm">-70</RxSensitivity_UpperRange>
+			<RxSensitivity_ThroughputMin Type="Double" Unit="%">95</RxSensitivity_ThroughputMin>
+			<RxSensitivity_StartBSLevel Type="Double" Unit="dBm">-90</RxSensitivity_StartBSLevel>
+			<RxSensitivity_SearchStep Type="Double" Unit="dBm">0.3</RxSensitivity_SearchStep>
+			<RxSensitivity_MinBlock Type="Integer">500</RxSensitivity_MinBlock>
+			<RxSensitivity_Type Type="Integer">1</RxSensitivity_Type><!-- 0: Primary, 1: Diversity -->
+			<RxSensitivity_StartRB Type="Integer">30</RxSensitivity_StartRB>
+			<RxSensitivity_NumRB Type="Integer">20</RxSensitivity_NumRB><!-- LTE NS BC20 MID DRX -->
+			<!-- MaxInputLevel -->
+			<MaxInputLevel_Range Type="DoubleList" Unit="%">95,100</MaxInputLevel_Range>
+			<MaxInputLevel_BSLevel Type="Double" Unit="dBm">-25.7</MaxInputLevel_BSLevel>
+			<MaxInputLevel_MinBlock Type="Integer">500</MaxInputLevel_MinBlock>
+		</Item><!-- LTE NS BC20 MID DRX -->
+		<!-- LTE NS BC20 HIGH -->
+		<Item ClassName="CLTE_FTM_Handover" Name="LTE_NS_BC20_HIGH_Handover" Equip="CCMW">
+			<PICSName Type="String">LTE_BC20_HIGH_HANDOVER</PICSName>
+			<Band Type="Integer">20</Band>
+			<Channel Type="Integer">24400</Channel>
+			<BSLevel Type="Integer">-50</BSLevel>
+			<WavefromPath Type="String">library1\LTE_ProductionTest_1_v01.wv</WavefromPath>
+			<StartRB Type="Integer">0</StartRB>
+			<NumberRB Type="Integer">50</NumberRB>
+			<MCS Type="Integer">6</MCS>
+		</Item>
+		<!-- LTE NS BC20 HIGH PRX -->
+		<Item ClassName="CLTE_FTM_MeasureLoop" Name="LTE_NS_BC20_HIGH_Measure_PRX" Equip="CCMW">
+			<Band Type="Integer">20</Band>
+			<Channel Type="Integer">24400</Channel>
+			<BandWidth Type="Double" Unit="MHz">10</BandWidth>
+			<BSLevel Type="Integer">-57</BSLevel>
+			<SCOunt Type="Integer">5</SCOunt>
+			<ExpectedPower Type="Double">28</ExpectedPower>
+			<!-- TestList: 1.CPower, 2.MinPower, 3.MaxPower, 4.ESFL, 5.FreqErr, 6.EVM, 7.OBW, 8.SEM, 9.ACLR, 10 IEM_IQoffset, 11.RXSensitiviy, 12.MaxInputLevel -->
+			<TestList Type="BoolList">0,0,1,0,0,0,0,0,1,0,0,0</TestList><!-- LTE NS BC20 HIGH PRX -->
+			<!-- MaxPower -->
+			<MaxPower_Range Type="DoubleList" Unit="dBm">20.7,25</MaxPower_Range><!-- LTE NS BC20 HIGH PRX -->
+			<!-- configured transmitted power -->
+			<ConfPower_Range Type="DoubleList">-10.0,10.0,15.0</ConfPower_Range><!-- -10.0,10.0,15.0 -->
+			<ConfPower_Upper Type="DoubleList"> -2.3,16.7,20.7</ConfPower_Upper><!--  -2.3,16.7,20.7 -->
+			<ConfPower_Lower Type="DoubleList">-17.7, 3.3, 9.3</ConfPower_Lower><!-- -17.7, 3.3, 9.3 -->
+			<!-- IQoffset -->
+			<IQoffset_Power Type="DoubleList" Unit="dBc">3.2,-26.8,-36.8</IQoffset_Power>
+			<IQoffset_Upper Type="DoubleList" Unit="dBc">-25,-20,-10</IQoffset_Upper>
+			<IQoffset_Lower Type="DoubleList" Unit="dBc">-99,-99,-99</IQoffset_Lower>
+			<!-- FreqErr -->
+			<FreqErr_Range Type="DoubleList" Unit="MHz">-85.7,85.7</FreqErr_Range>
+			<!-- EVM -->
+			<EVM_Range Type="DoubleList" Unit="%">0,12.5</EVM_Range>
+			<!-- OBW -->
+			<OBW_Range Type="DoubleList" Unit="MHz">0,10</OBW_Range>
+			<!-- SEM: LowerOffset,UpperOffset,Limit;LowerOffset,UpperOffset,Limit;... -->
+			<SEM_Config Type="DoubleList" Unit="MHz,MHz,dBm">0.0,1.0,-16.5;1.0,5.0,-8.5;5.0,10.0,-11.5;10.0,15.0,-23.5</SEM_Config>
+			<!-- ACLR: -UTRA2,-UTRA1,-EUTRA,+EUTRA,+UTRA1,+UTRA2 -->
+			<ACLR_LowerRange Type="DoubleList" Unit="dBc">36,33,30,30,33,36</ACLR_LowerRange>
+			<!-- MinPower -->
+			<MinPower_Range Type="DoubleList" Unit="dBm">-99,-39</MinPower_Range>
+			<!-- RX Sensitivity -->
+			<RxSensitivity_UpperRange Type="Double" Unit="dBm">-70</RxSensitivity_UpperRange>
+			<RxSensitivity_ThroughputMin Type="Double" Unit="%">95</RxSensitivity_ThroughputMin>
+			<RxSensitivity_StartBSLevel Type="Double" Unit="dBm">-90</RxSensitivity_StartBSLevel>
+			<RxSensitivity_SearchStep Type="Double" Unit="dBm">0.3</RxSensitivity_SearchStep>
+			<RxSensitivity_MinBlock Type="Integer">500</RxSensitivity_MinBlock>
+			<RxSensitivity_Type Type="Integer">0</RxSensitivity_Type><!-- 0: Primary, 1: Diversity -->
+			<RxSensitivity_StartRB Type="Integer">30</RxSensitivity_StartRB>
+			<RxSensitivity_NumRB Type="Integer">20</RxSensitivity_NumRB><!-- LTE NS BC20 HIGH PRX -->
+			<!-- MaxInputLevel -->
+			<MaxInputLevel_Range Type="DoubleList" Unit="%">95,100</MaxInputLevel_Range>
+			<MaxInputLevel_BSLevel Type="Double" Unit="dBm">-25.7</MaxInputLevel_BSLevel>
+			<MaxInputLevel_MinBlock Type="Integer">500</MaxInputLevel_MinBlock>
+		</Item><!-- LTE NS BC20 HIGH PRX -->
+		<!-- LTE NS BC20 HIGH DRX -->
+		<Item ClassName="CLTE_FTM_MeasureLoop" Name="LTE_NS_BC20_HIGH_Measure_DRX" Equip="CCMW">
+			<Band Type="Integer">20</Band>
+			<Channel Type="Integer">24400</Channel>
+			<BandWidth Type="Double" Unit="MHz">10</BandWidth>
+			<BSLevel Type="Integer">-57</BSLevel>
+			<SCOunt Type="Integer">5</SCOunt>
+			<ExpectedPower Type="Double">28</ExpectedPower>
+			<!-- TestList: 1.CPower, 2.MinPower, 3.MaxPower, 4.ESFL, 5.FreqErr, 6.EVM, 7.OBW, 8.SEM, 9.ACLR, 10 IEM_IQoffset, 11.RXSensitiviy, 12.MaxInputLevel -->
+			<TestList Type="BoolList">0,0,0,0,0,0,0,0,0,0,1,1</TestList><!-- LTE NS BC20 HIGH DRX -->
+			<!-- MaxPower -->
+			<MaxPower_Range Type="DoubleList" Unit="dBm">20.7,25</MaxPower_Range><!-- LTE NS BC20 HIGH DRX -->
+			<!-- configured transmitted power -->
+			<ConfPower_Range Type="DoubleList">-10.0,10.0,15.0</ConfPower_Range><!-- -10.0,10.0,15.0 -->
+			<ConfPower_Upper Type="DoubleList"> -2.3,16.7,20.7</ConfPower_Upper><!--  -2.3,16.7,20.7 -->
+			<ConfPower_Lower Type="DoubleList">-17.7, 3.3, 9.3</ConfPower_Lower><!-- -17.7, 3.3, 9.3 -->
+			<!-- IQoffset -->
+			<IQoffset_Power Type="DoubleList" Unit="dBc">3.2,-26.8,-36.8</IQoffset_Power>
+			<IQoffset_Upper Type="DoubleList" Unit="dBc">-25,-20,-10</IQoffset_Upper>
+			<IQoffset_Lower Type="DoubleList" Unit="dBc">-99,-99,-99</IQoffset_Lower>
+			<!-- FreqErr -->
+			<FreqErr_Range Type="DoubleList" Unit="MHz">-85.7,85.7</FreqErr_Range>
+			<!-- EVM -->
+			<EVM_Range Type="DoubleList" Unit="%">0,12.5</EVM_Range>
+			<!-- OBW -->
+			<OBW_Range Type="DoubleList" Unit="MHz">0,10</OBW_Range>
+			<!-- SEM: LowerOffset,UpperOffset,Limit;LowerOffset,UpperOffset,Limit;... -->
+			<SEM_Config Type="DoubleList" Unit="MHz,MHz,dBm">0.0,1.0,-16.5;1.0,5.0,-8.5;5.0,10.0,-11.5;10.0,15.0,-23.5</SEM_Config>
+			<!-- ACLR: -UTRA2,-UTRA1,-EUTRA,+EUTRA,+UTRA1,+UTRA2 -->
+			<ACLR_LowerRange Type="DoubleList" Unit="dBc">36,33,30,30,33,36</ACLR_LowerRange>
+			<!-- MinPower -->
+			<MinPower_Range Type="DoubleList" Unit="dBm">-99,-39</MinPower_Range>
+			<!-- RX Sensitivity -->
+			<RxSensitivity_UpperRange Type="Double" Unit="dBm">-70</RxSensitivity_UpperRange>
+			<RxSensitivity_ThroughputMin Type="Double" Unit="%">95</RxSensitivity_ThroughputMin>
+			<RxSensitivity_StartBSLevel Type="Double" Unit="dBm">-90</RxSensitivity_StartBSLevel>
+			<RxSensitivity_SearchStep Type="Double" Unit="dBm">0.3</RxSensitivity_SearchStep>
+			<RxSensitivity_MinBlock Type="Integer">500</RxSensitivity_MinBlock>
+			<RxSensitivity_Type Type="Integer">1</RxSensitivity_Type><!-- 0: Primary, 1: Diversity -->
+			<RxSensitivity_StartRB Type="Integer">30</RxSensitivity_StartRB>
+			<RxSensitivity_NumRB Type="Integer">20</RxSensitivity_NumRB><!-- LTE NS BC20 HIGH DRX -->
+			<!-- MaxInputLevel -->
+			<MaxInputLevel_Range Type="DoubleList" Unit="%">95,100</MaxInputLevel_Range>
+			<MaxInputLevel_BSLevel Type="Double" Unit="dBm">-25.7</MaxInputLevel_BSLevel>
+			<MaxInputLevel_MinBlock Type="Integer">500</MaxInputLevel_MinBlock>
+		</Item><!-- LTE NS BC20 HIGH DRX -->
+	</LTENonSignalingTest>
+
+	<XOCalibration>
+		<Item ClassName="CXOCal_CoarseDC" Name="XOCal_CoarseDC" Equip="CCMW">
+			<PICSName Type="String">XO_Cal_Coarse_DC</PICSName>
+			<Technology Type="Integer" Option="0:CDMA,1:WCDMA,3:LTE">1</Technology>
+			<Band Type="Integer">1</Band>
+			<Channel Type="Integer">9750</Channel>
+			<Offset Type="Integer" Unit="kHz">200</Offset>
+			<PowerLevel Type="Double">-35</PowerLevel>
+			<LNARange Type="Integer">2</LNARange>
+			<TempSpan Type="Double">0</TempSpan>
+			<MinFTSamples Type="Integer">5</MinFTSamples>
+			<MaxFTSamples Type="Integer">100</MaxFTSamples>
+			<SubstageTime Type="Integer" Unit="ms">10</SubstageTime>
+			<TimeOut Type="Integer" Unit="ms">30000</TimeOut>
+			<CollectSampleLoop Type="Integer">0</CollectSampleLoop><!-- Heating Up Optimize Option 1 -->
+			<XTAL_Type Type="Integer">1</XTAL_Type>
+			<TempGradientTime Type="Integer">10</TempGradientTime>
+			<TxBandWidth Type="Integer">3</TxBandWidth><!-- LTE -->
+			<RxBandWidth Type="Integer">3</RxBandWidth><!-- LTE -->
+		</Item>
+		<Item ClassName="CXOCal_FineDC" Name="XOCal_FineDC" Equip="CCMW">
+			<PICSName Type="String">XO_Cal_Fine_DC</PICSName>
+			<Offset>200000</Offset>
+			<Temp_Span>1024</Temp_Span>
+			<Min_ft_samples>100</Min_ft_samples>
+			<Max_ft_samples>600</Max_ft_samples>
+			<Substage_Time>10</Substage_Time>
+			<TimeOut>60000</TimeOut>
+			<RxFreq>2140000</RxFreq>
+			<TxState Type="Boolean">ON</TxState>
+			<PDM>90</PDM>
+			<PowerLowLimit>20</PowerLowLimit>
+		</Item>
+	</XOCalibration>
+
+	<!-- WCDMA CAL -->
+	<WCDMACalibration>
+		<Item ClassName="CRSB_TXLO_CAL" Name="WCDMACal_RSB_TXLO_CAL">
+			<PICSName Type="String">WCDMACal_RSB_TXLO_CAL</PICSName>
+			<RFModeList Type="IntegerList">9,16,22,29</RFModeList><!-- WCDMA BC1:9,BC2:16,BC5:22,BC8:29 -->
+		</Item>
+		<Item ClassName="CWriteCalibrationNV" Name="WCDMACal_WriteNV">
+			<PICSName Type="String">WCDMA_Cal_Write_NV</PICSName>
+		</Item>
+		<Item ClassName="CWCDMACal_Initial" Name="WCDMACal_Initial" Equip="CCMW">
+			<PICSName Type="String">WCDMA_Cal_Initial</PICSName>
+		</Item>
+		<Item ClassName="CWCDMATxRxCal_ESCv4" Name="WCDMACal_B1" Equip="CCMW">
+			<PICSName Type="String">WCDMA_Cal_BC1</PICSName>
+			<Band Type="Integer">1</Band>
+			<ShowDetailLog>FALSE</ShowDetailLog>
+			<DACspec Type="StringList">73=5000,65535;66=0,65535</DACspec> <!-- DAC=min,MAX;-->
+			<ESC_Params_filename>GF80B1A_4G_ESC_Params.xml</ESC_Params_filename>
+			<ESC_Char_filename>GF80B1A_4G_Char_APT.xml</ESC_Char_filename>
+			<PA_PARAM_filename>RFCAL_PA_PARAM.xml</PA_PARAM_filename>
+		</Item>
+		<Item ClassName="CWCDMATxRxCal_ESCv4_DRX" Name="WCDMACal_B1_DRx" Equip="CCMW">
+			<PICSName Type="String">WCDMA_Cal_BC1_DRx</PICSName>
+			<Band Type="Integer">1</Band>
+			<Instance Type="Integer">1</Instance>
+			<ShowDetailLog>TRUE</ShowDetailLog>
+			<ESC_Params_filename>GF80B1A_4G_ESC_Params.xml</ESC_Params_filename>
+			<ESC_Char_filename>GF80B1A_4G_Char_APT.xml</ESC_Char_filename>
+			<PA_PARAM_filename>RFCAL_PA_PARAM.xml</PA_PARAM_filename>
+		</Item>
+		<Item ClassName="CWCDMATxRxCal_ESCv4" Name="WCDMACal_B2" Equip="CCMW">
+			<PICSName Type="String">WCDMA_Cal_BC2</PICSName>
+			<Band Type="Integer">2</Band>
+			<ShowDetailLog>FALSE</ShowDetailLog>
+			<DACspec Type="StringList">73=5000,65535;66=0,65535</DACspec> <!-- DAC=min,MAX;-->
+			<ESC_Params_filename>GF80B1A_4G_ESC_Params.xml</ESC_Params_filename>
+			<ESC_Char_filename>GF80B1A_4G_Char_APT.xml</ESC_Char_filename>
+			<PA_PARAM_filename>RFCAL_PA_PARAM.xml</PA_PARAM_filename>
+		</Item>
+		<Item ClassName="CWCDMATxRxCal_ESCv4" Name="WCDMACal_B5" Equip="CCMW">
+			<PICSName Type="String">WCDMA_Cal_BC5</PICSName>
+			<Band Type="Integer">5</Band>
+			<ShowDetailLog>FALSE</ShowDetailLog>
+			<DACspec Type="StringList">73=5000,65535;66=0,65535</DACspec> <!-- DAC=min,MAX;-->
+			<ESC_Params_filename>GF80B1A_4G_ESC_Params.xml</ESC_Params_filename>
+			<ESC_Char_filename>GF80B1A_4G_Char_APT.xml</ESC_Char_filename>
+			<PA_PARAM_filename>RFCAL_PA_PARAM.xml</PA_PARAM_filename>
+		</Item>
+		<Item ClassName="CWCDMATxRxCal_ESCv4" Name="WCDMACal_B8" Equip="CCMW">
+			<PICSName Type="String">WCDMA_Cal_BC8</PICSName>
+			<Band Type="Integer">8</Band>
+			<ShowDetailLog>FALSE</ShowDetailLog>
+			<DACspec Type="StringList">73=5000,65535;66=0,65535</DACspec> <!-- DAC=min,MAX;-->
+			<ESC_Params_filename>GF80B1A_4G_ESC_Params.xml</ESC_Params_filename>
+			<ESC_Char_filename>GF80B1A_4G_Char_APT.xml</ESC_Char_filename>
+			<PA_PARAM_filename>RFCAL_PA_PARAM.xml</PA_PARAM_filename>
+		</Item>
+	</WCDMACalibration>
+	<!-- WCDMA test -->
+	<WCDMANonSignalingTest>
+		<!-- 3G test -->
+		<Item ClassName="CWCDMA_FTM_StartCall" Name="WCDMATest_StartCall">
+			<PICSName Type="String">WCDMA_StartCall</PICSName>
+			<Band Editable="TRUE" Type="Integer">2100</Band>
+			<Channel Editable="TRUE" Type="Integer">9612</Channel>
+			<WaitingTimeForPhoneConnected Editable="TRUE" Type="Integer">30</WaitingTimeForPhoneConnected>
+			<BS_OutputPower Editable="TRUE" Type="Integer">-75</BS_OutputPower>
+			<UL_MaxTxPower Editable="TRUE" Type="Integer">24</UL_MaxTxPower>
+			<BERSessionTimeOut Editable="TRUE" Type="Integer">10000</BERSessionTimeOut>
+		</Item>
+		<Item ClassName="CWCDMA_FTM_EndTest" Name="WCDMATest_EndTest">
+			<PICSName Type="String">WCDMA_EndTest</PICSName>
+		</Item>
+		<!-- 3G B1 test -->
+		<Item ClassName="CWCDMA_FTM_Handover" Name="WCDMATest_B1_LOW_Handover">
+			<PICSName Type="String">WCDMA_B1_LOW_Handover</PICSName>
+			<Band Editable="TRUE" Type="Integer">2100</Band>
+			<Channel Editable="TRUE" Type="Integer">9612</Channel>
+			<BS_OutputPower Editable="TRUE" Type="Double">-60</BS_OutputPower>
+			<UL_MaxTxPower Editable="TRUE" Type="Integer">24</UL_MaxTxPower>
+		</Item>
+		<Item ClassName="CWCDMA_FTM_MeasureLoop" Name="WCDMATest_B1_LOW_Measureloop">
+			<Band Editable="TRUE" Type="Integer">2100</Band>
+			<Channel Editable="TRUE" Type="Integer">9612</Channel>
+			<!-- MaxPower, EVM, FrequencyError, ACLR, OBW, SEM, BER, RxLevel, ILPC_EF, ILPC_EF_ListMode -->
+			<TestList Editable="TRUE" Type="IntergerList">1,0,0,1,0,0,0,0,0,0</TestList>
+			<!-- WCDMA B1 LOW -->
+			<!-- MaxPower -->
+			<MaxPowerRange Editable="TRUE" Type="DoubleList">22.5,24.5</MaxPowerRange><!-- WCDMA B1 LOW -->
+			<!-- EVM -->
+			<EVMRange Editable="TRUE" Type="DoubleList">0,17.5</EVMRange>
+			<!-- FrequencyError -->
+			<FreqErrorRange Editable="TRUE" Type="DoubleList">-0.1,0.1</FreqErrorRange>
+			<!-- ACLR -->
+			<ACLRLowRange Editable="TRUE" Type="DoubleList">43.0,33.0,33.0,43.0</ACLRLowRange>
+			<!-- OBW -->
+			<OBWRange Editable="TRUE" Type="IntegerList">0,5000000</OBWRange>
+			<!-- SEM -->
+			<!-- -8.5 MHz, -7.5 MHz, -3.5 MHz, -2.5 MHz, 2.5 MHz, 3.5 MHz, 7.5 MHz, 8.5 MHz-->
+			<SEM_MaskLinePower Editable="TRUE" Type="DoubleList">-47.5,-37.5,-33.5,-33.5,-33.5,-33.5,-37.5,-47.5</SEM_MaskLinePower>
+			<SEMRange Editable="TRUE" Type="DoubleList">-60.0,0.0</SEMRange>
+			<!-- BER -->
+			<BERRange Editable="TRUE" Type="DoubleList">0,0.1</BERRange>
+			<BERPowerLevel Editable="TRUE" Type="DoubleList">-106.0</BERPowerLevel>
+			<!-- ILPC_EF -->
+			<TPCRange Editable="TRUE" Type="DoubleList">0.4,1.6</TPCRange>
+			<!-- ListMode_ILPC_EF -->
+			<ListModeILPC_Range Editable="TRUE" Type="DoubleList">0.4,1.6</ListModeILPC_Range>
+		</Item>
+
+		<Item ClassName="CWCDMA_FTM_Handover" Name="WCDMATest_B1_MID_Handover">
+			<PICSName Type="String">WCDMA_B1_MID_Handover</PICSName>
+			<Band Editable="TRUE" Type="Integer">2100</Band>
+			<Channel Editable="TRUE" Type="Integer">9750</Channel>
+			<BS_OutputPower Editable="TRUE" Type="Double">-60</BS_OutputPower>
+			<UL_MaxTxPower Editable="TRUE" Type="Integer">24</UL_MaxTxPower>
+		</Item>
+		<Item ClassName="CWCDMA_FTM_MeasureLoop" Name="WCDMATest_B1_MID_Measureloop">
+			<Band Editable="TRUE" Type="Integer">2100</Band>
+			<Channel Editable="TRUE" Type="Integer">9750</Channel>
+			<!-- MaxPower, EVM, FrequencyError, ACLR, OBW, SEM, BER, RxLevel, ILPC_EF, ILPC_EF_ListMode -->
+			<TestList Editable="TRUE" Type="IntergerList">1,1,1,1,1,1,1,1,0,0</TestList>
+			<!-- WCDMA B1 MID -->
+			<!-- MaxPower -->
+			<MaxPowerRange Editable="TRUE" Type="DoubleList">21.5,25</MaxPowerRange><!-- WCDMA B1 MID -->
+			<!-- EVM -->
+			<EVMRange Editable="TRUE" Type="DoubleList">0,17.5</EVMRange>
+			<!-- FrequencyError -->
+			<FreqErrorRange Editable="TRUE" Type="DoubleList">-0.1,0.1</FreqErrorRange>
+			<!-- ACLR -->
+			<ACLRLowRange Editable="TRUE" Type="DoubleList">43.0,33.0,33.0,43.0</ACLRLowRange>
+			<!-- OBW -->
+			<OBWRange Editable="TRUE" Type="IntegerList">0,5000000</OBWRange>
+			<!-- SEM -->
+			<!-- -8.5 MHz, -7.5 MHz, -3.5 MHz, -2.5 MHz, 2.5 MHz, 3.5 MHz, 7.5 MHz, 8.5 MHz-->
+			<SEM_MaskLinePower Editable="TRUE" Type="DoubleList">-47.5,-37.5,-33.5,-33.5,-33.5,-33.5,-37.5,-47.5</SEM_MaskLinePower>
+			<SEMRange Editable="TRUE" Type="DoubleList">-60.0,0.0</SEMRange>
+			<!-- BER -->
+			<BERRange Editable="TRUE" Type="DoubleList">0,0.1</BERRange>
+			<BERPowerLevel Editable="TRUE" Type="DoubleList">-106.0</BERPowerLevel>
+			<!-- ILPC_EF -->
+			<TPCRange Editable="TRUE" Type="DoubleList">0.4,2.2</TPCRange>
+			<ILPC_Retry Editable="TRUE" Type="Integer">5</ILPC_Retry>
+			<!-- ListMode_ILPC_EF -->
+			<ListModeILPC_Range Editable="TRUE" Type="DoubleList">0.1,2.2</ListModeILPC_Range>
+		</Item>
+
+		<Item ClassName="CWCDMA_FTM_Handover" Name="WCDMATest_B1_HIGH_Handover">
+			<PICSName Type="String">WCDMA_B1_HIGH_Handover</PICSName>
+			<Band Editable="TRUE" Type="Integer">2100</Band>
+			<Channel Editable="TRUE" Type="Integer">9888</Channel>
+			<BS_OutputPower Editable="TRUE" Type="Double">-60</BS_OutputPower>
+			<UL_MaxTxPower Editable="TRUE" Type="Integer">24</UL_MaxTxPower>
+		</Item>
+		<Item ClassName="CWCDMA_FTM_MeasureLoop" Name="WCDMATest_B1_HIGH_Measureloop">
+			<Band Editable="TRUE" Type="Integer">2100</Band>
+			<Channel Editable="TRUE" Type="Integer">9888</Channel>
+			<!-- MaxPower, EVM, FrequencyError, ACLR, OBW, SEM, BER, RxLevel, ILPC_EF, ILPC_EF_ListMode -->
+			<TestList Editable="TRUE" Type="IntergerList">1,0,0,1,0,0,0,0,0,0</TestList>
+			<!-- WCDMA B1 HIGH -->
+			<!-- MaxPower -->
+			<MaxPowerRange Editable="TRUE" Type="DoubleList">22.5,24.5</MaxPowerRange>
+			<!-- EVM -->
+			<EVMRange Editable="TRUE" Type="DoubleList">0,17.5</EVMRange>
+			<!-- FrequencyError -->
+			<FreqErrorRange Editable="TRUE" Type="DoubleList">-0.1,0.1</FreqErrorRange>
+			<!-- ACLR -->
+			<ACLRLowRange Editable="TRUE" Type="DoubleList">43.0,33.0,33.0,43.0</ACLRLowRange>
+			<!-- OBW -->
+			<OBWRange Editable="TRUE" Type="IntegerList">0,5000000</OBWRange>
+			<!-- SEM -->
+			<!-- -8.5 MHz, -7.5 MHz, -3.5 MHz, -2.5 MHz, 2.5 MHz, 3.5 MHz, 7.5 MHz, 8.5 MHz-->
+			<SEM_MaskLinePower Editable="TRUE" Type="DoubleList">-47.5,-37.5,-33.5,-33.5,-33.5,-33.5,-37.5,-47.5</SEM_MaskLinePower>
+			<SEMRange Editable="TRUE" Type="DoubleList">-60.0,0.0</SEMRange>
+			<!-- BER -->
+			<BERRange Editable="TRUE" Type="DoubleList">0,0.1</BERRange>
+			<BERPowerLevel Editable="TRUE" Type="DoubleList">-106.0</BERPowerLevel>
+			<!-- ILPC_EF -->
+			<TPCRange Editable="TRUE" Type="DoubleList">0.4,1.6</TPCRange>
+			<!-- ListMode_ILPC_EF -->
+			<ListModeILPC_Range Editable="TRUE" Type="DoubleList">0.4,1.6</ListModeILPC_Range>
+		</Item>
+		<!-- 3G B1 test -->
+
+		<!-- 3G B2 test -->
+		<Item ClassName="CWCDMA_FTM_Handover" Name="WCDMATest_B2_LOW_Handover">
+			<PICSName Type="String">WCDMA_B2_LOW_Handover</PICSName>
+			<Band Editable="TRUE" Type="Integer">1900</Band>
+			<Channel Editable="TRUE" Type="Integer">9263</Channel>
+			<BS_OutputPower Editable="TRUE" Type="Double">-60</BS_OutputPower>
+			<UL_MaxTxPower Editable="TRUE" Type="Integer">24</UL_MaxTxPower>
+		</Item>
+		<Item ClassName="CWCDMA_FTM_MeasureLoop" Name="WCDMATest_B2_LOW_Measureloop">
+			<Band Editable="TRUE" Type="Integer">1900</Band>
+			<Channel Editable="TRUE" Type="Integer">9263</Channel>
+			<!-- MaxPower, EVM, FrequencyError, ACLR, OBW, SEM, BER, RxLevel, ILPC_EF, ILPC_EF_ListMode -->
+			<TestList Editable="TRUE" Type="IntergerList">1,0,0,1,0,0,0,0,0,0</TestList>
+			<!-- WCDMA B1 LOW -->
+			<!-- MaxPower -->
+			<MaxPowerRange Editable="TRUE" Type="DoubleList">22.0,24.0</MaxPowerRange>
+			<!-- EVM -->
+			<EVMRange Editable="TRUE" Type="DoubleList">0,17.5</EVMRange>
+			<!-- FrequencyError -->
+			<FreqErrorRange Editable="TRUE" Type="DoubleList">-0.1,0.1</FreqErrorRange>
+			<!-- ACLR -->
+			<ACLRLowRange Editable="TRUE" Type="DoubleList">43.0,33.0,33.0,43.0</ACLRLowRange>
+			<!-- OBW -->
+			<OBWRange Editable="TRUE" Type="IntegerList">0,5000000</OBWRange>
+			<!-- SEM -->
+			<!-- -8.5 MHz, -7.5 MHz, -3.5 MHz, -2.5 MHz, 2.5 MHz, 3.5 MHz, 7.5 MHz, 8.5 MHz-->
+			<SEM_MaskLinePower Editable="TRUE" Type="DoubleList">-47.5,-37.5,-33.5,-33.5,-33.5,-33.5,-37.5,-47.5</SEM_MaskLinePower>
+			<SEMRange Editable="TRUE" Type="DoubleList">-60.0,0.0</SEMRange>
+			<!-- BER -->
+			<BERRange Editable="TRUE" Type="DoubleList">0,0.1</BERRange>
+			<BERPowerLevel Editable="TRUE" Type="DoubleList">-106.0</BERPowerLevel>
+			<!-- ILPC_EF -->
+			<TPCRange Editable="TRUE" Type="DoubleList">0.4,1.6</TPCRange>
+			<!-- ListMode_ILPC_EF -->
+			<ListModeILPC_Range Editable="TRUE" Type="DoubleList">0.4,1.6</ListModeILPC_Range>
+		</Item>
+
+		<Item ClassName="CWCDMA_FTM_Handover" Name="WCDMATest_B2_MID_Handover">
+			<PICSName Type="String">WCDMA_B2_MID_Handover</PICSName>
+			<Band Editable="TRUE" Type="Integer">1900</Band>
+			<Channel Editable="TRUE" Type="Integer">9400</Channel>
+			<BS_OutputPower Editable="TRUE" Type="Double">-60</BS_OutputPower>
+			<UL_MaxTxPower Editable="TRUE" Type="Integer">24</UL_MaxTxPower>
+		</Item>
+		<Item ClassName="CWCDMA_FTM_MeasureLoop" Name="WCDMATest_B2_MID_Measureloop">
+			<Band Editable="TRUE" Type="Integer">1900</Band>
+			<Channel Editable="TRUE" Type="Integer">9400</Channel>
+			<!-- MaxPower, EVM, FrequencyError, ACLR, OBW, SEM, BER, RxLevel, ILPC_EF, ILPC_EF_ListMode -->
+			<TestList Editable="TRUE" Type="IntergerList">1,1,1,1,1,1,1,1,0,0</TestList>
+			<!-- WCDMA B1 MID -->
+			<!-- MaxPower -->
+			<MaxPowerRange Editable="TRUE" Type="DoubleList">21.5,24.5</MaxPowerRange>
+			<!-- EVM -->
+			<EVMRange Editable="TRUE" Type="DoubleList">0,17.5</EVMRange>
+			<!-- FrequencyError -->
+			<FreqErrorRange Editable="TRUE" Type="DoubleList">-0.1,0.1</FreqErrorRange>
+			<!-- ACLR -->
+			<ACLRLowRange Editable="TRUE" Type="DoubleList">43.0,33.0,33.0,43.0</ACLRLowRange>
+			<!-- OBW -->
+			<OBWRange Editable="TRUE" Type="IntegerList">0,5000000</OBWRange>
+			<!-- SEM -->
+			<!-- -8.5 MHz, -7.5 MHz, -3.5 MHz, -2.5 MHz, 2.5 MHz, 3.5 MHz, 7.5 MHz, 8.5 MHz-->
+			<SEM_MaskLinePower Editable="TRUE" Type="DoubleList">-47.5,-37.5,-33.5,-33.5,-33.5,-33.5,-37.5,-47.5</SEM_MaskLinePower>
+			<SEMRange Editable="TRUE" Type="DoubleList">-60.0,0.0</SEMRange>
+			<!-- BER -->
+			<BERRange Editable="TRUE" Type="DoubleList">0,0.1</BERRange>
+			<BERPowerLevel Editable="TRUE" Type="DoubleList">-106.0</BERPowerLevel>
+			<!-- ILPC_EF -->
+			<TPCRange Editable="TRUE" Type="DoubleList">0.4,2.0</TPCRange>
+			<ILPC_Retry Editable="TRUE" Type="Integer">5</ILPC_Retry>
+			<!-- ListMode_ILPC_EF -->
+			<ListModeILPC_Range Editable="TRUE" Type="DoubleList">0.4,2.0</ListModeILPC_Range>
+		</Item>
+
+		<Item ClassName="CWCDMA_FTM_Handover" Name="WCDMATest_B2_HIGH_Handover">
+			<PICSName Type="String">WCDMA_B2_HIGH_Handover</PICSName>
+			<Band Editable="TRUE" Type="Integer">1900</Band>
+			<Channel Editable="TRUE" Type="Integer">9537</Channel>
+			<BS_OutputPower Editable="TRUE" Type="Double">-60</BS_OutputPower>
+			<UL_MaxTxPower Editable="TRUE" Type="Integer">24</UL_MaxTxPower>
+		</Item>
+		<Item ClassName="CWCDMA_FTM_MeasureLoop" Name="WCDMATest_B2_HIGH_Measureloop">
+			<Band Editable="TRUE" Type="Integer">1900</Band>
+			<Channel Editable="TRUE" Type="Integer">9537</Channel>
+			<!-- MaxPower, EVM, FrequencyError, ACLR, OBW, SEM, BER, RxLevel, ILPC_EF, ILPC_EF_ListMode -->
+			<TestList Editable="TRUE" Type="IntergerList">1,0,0,1,0,0,0,0,0,0</TestList>
+			<!-- WCDMA B1 HIGH -->
+			<!-- MaxPower -->
+			<MaxPowerRange Editable="TRUE" Type="DoubleList">22.0,24.0</MaxPowerRange>
+			<!-- EVM -->
+			<EVMRange Editable="TRUE" Type="DoubleList">0,17.5</EVMRange>
+			<!-- FrequencyError -->
+			<FreqErrorRange Editable="TRUE" Type="DoubleList">-0.1,0.1</FreqErrorRange>
+			<!-- ACLR -->
+			<ACLRLowRange Editable="TRUE" Type="DoubleList">43.0,33.0,33.0,43.0</ACLRLowRange>
+			<!-- OBW -->
+			<OBWRange Editable="TRUE" Type="IntegerList">0,5000000</OBWRange>
+			<!-- SEM -->
+			<!-- -8.5 MHz, -7.5 MHz, -3.5 MHz, -2.5 MHz, 2.5 MHz, 3.5 MHz, 7.5 MHz, 8.5 MHz-->
+			<SEM_MaskLinePower Editable="TRUE" Type="DoubleList">-47.5,-37.5,-33.5,-33.5,-33.5,-33.5,-37.5,-47.5</SEM_MaskLinePower>
+			<SEMRange Editable="TRUE" Type="DoubleList">-60.0,0.0</SEMRange>
+			<!-- BER -->
+			<BERRange Editable="TRUE" Type="DoubleList">0,0.1</BERRange>
+			<BERPowerLevel Editable="TRUE" Type="DoubleList">-106.0</BERPowerLevel>
+			<!-- ILPC_EF -->
+			<TPCRange Editable="TRUE" Type="DoubleList">0.4,1.6</TPCRange>
+			<!-- ListMode_ILPC_EF -->
+			<ListModeILPC_Range Editable="TRUE" Type="DoubleList">0.4,1.6</ListModeILPC_Range>
+		</Item>
+
+		<!-- 3G B5 test -->
+		<Item ClassName="CWCDMA_FTM_Handover" Name="WCDMATest_B5_LOW_Handover">
+			<PICSName Type="String">WCDMA_B5_LOW_Handover</PICSName>
+			<Band Editable="TRUE" Type="Integer">850</Band>
+			<Channel Editable="TRUE" Type="Integer">4133</Channel>
+			<BS_OutputPower Editable="TRUE" Type="Double">-60</BS_OutputPower>
+			<UL_MaxTxPower Editable="TRUE" Type="Integer">24</UL_MaxTxPower>
+		</Item>
+		<Item ClassName="CWCDMA_FTM_MeasureLoop" Name="WCDMATest_B5_LOW_Measureloop">
+			<Band Editable="TRUE" Type="Integer">850</Band>
+			<Channel Editable="TRUE" Type="Integer">4133</Channel>
+			<!-- MaxPower, EVM, FrequencyError, ACLR, OBW, SEM, BER, RxLevel, ILPC_EF, ILPC_EF_ListMode -->
+			<TestList Editable="TRUE" Type="IntergerList">1,0,0,1,0,0,0,0,0,0</TestList>
+			<!-- WCDMA B1 LOW -->
+			<!-- MaxPower -->
+			<MaxPowerRange Editable="TRUE" Type="DoubleList">22.0,24.0</MaxPowerRange>
+			<!-- EVM -->
+			<EVMRange Editable="TRUE" Type="DoubleList">0,17.5</EVMRange>
+			<!-- FrequencyError -->
+			<FreqErrorRange Editable="TRUE" Type="DoubleList">-0.1,0.1</FreqErrorRange>
+			<!-- ACLR -->
+			<ACLRLowRange Editable="TRUE" Type="DoubleList">43.0,33.0,33.0,43.0</ACLRLowRange>
+			<!-- OBW -->
+			<OBWRange Editable="TRUE" Type="IntegerList">0,5000000</OBWRange>
+			<!-- SEM -->
+			<!-- -8.5 MHz, -7.5 MHz, -3.5 MHz, -2.5 MHz, 2.5 MHz, 3.5 MHz, 7.5 MHz, 8.5 MHz-->
+			<SEM_MaskLinePower Editable="TRUE" Type="DoubleList">-47.5,-37.5,-33.5,-33.5,-33.5,-33.5,-37.5,-47.5</SEM_MaskLinePower>
+			<SEMRange Editable="TRUE" Type="DoubleList">-60.0,0.0</SEMRange>
+			<!-- BER -->
+			<BERRange Editable="TRUE" Type="DoubleList">0,0.1</BERRange>
+			<BERPowerLevel Editable="TRUE" Type="DoubleList">-106.0</BERPowerLevel>
+			<!-- ILPC_EF -->
+			<TPCRange Editable="TRUE" Type="DoubleList">0.4,1.6</TPCRange>
+			<!-- ListMode_ILPC_EF -->
+			<ListModeILPC_Range Editable="TRUE" Type="DoubleList">0.4,1.6</ListModeILPC_Range>
+		</Item>
+
+		<Item ClassName="CWCDMA_FTM_Handover" Name="WCDMATest_B5_MID_Handover">
+			<PICSName Type="String">WCDMA_B5_MID_Handover</PICSName>
+			<Band Editable="TRUE" Type="Integer">850</Band>
+			<Channel Editable="TRUE" Type="Integer">4175</Channel>
+			<BS_OutputPower Editable="TRUE" Type="Double">-60</BS_OutputPower>
+			<UL_MaxTxPower Editable="TRUE" Type="Integer">24</UL_MaxTxPower>
+		</Item>
+		<Item ClassName="CWCDMA_FTM_MeasureLoop" Name="WCDMATest_B5_MID_Measureloop">
+			<Band Editable="TRUE" Type="Integer">850</Band>
+			<Channel Editable="TRUE" Type="Integer">4175</Channel>
+			<!-- MaxPower, EVM, FrequencyError, ACLR, OBW, SEM, BER, RxLevel, ILPC_EF, ILPC_EF_ListMode -->
+			<TestList Editable="TRUE" Type="IntergerList">1,1,1,1,1,1,1,1,0,0</TestList>
+			<!-- WCDMA B1 MID -->
+			<!-- MaxPower -->
+			<MaxPowerRange Editable="TRUE" Type="DoubleList">21.5,24.5</MaxPowerRange>
+			<!-- EVM -->
+			<EVMRange Editable="TRUE" Type="DoubleList">0,17.5</EVMRange>
+			<!-- FrequencyError -->
+			<FreqErrorRange Editable="TRUE" Type="DoubleList">-0.1,0.1</FreqErrorRange>
+			<!-- ACLR -->
+			<ACLRLowRange Editable="TRUE" Type="DoubleList">43.0,33.0,33.0,43.0</ACLRLowRange>
+			<!-- OBW -->
+			<OBWRange Editable="TRUE" Type="IntegerList">0,5000000</OBWRange>
+			<!-- SEM -->
+			<!-- -8.5 MHz, -7.5 MHz, -3.5 MHz, -2.5 MHz, 2.5 MHz, 3.5 MHz, 7.5 MHz, 8.5 MHz-->
+			<SEM_MaskLinePower Editable="TRUE" Type="DoubleList">-47.5,-37.5,-33.5,-33.5,-33.5,-33.5,-37.5,-47.5</SEM_MaskLinePower>
+			<SEMRange Editable="TRUE" Type="DoubleList">-60.0,0.0</SEMRange>
+			<!-- BER -->
+			<BERRange Editable="TRUE" Type="DoubleList">0,0.1</BERRange>
+			<BERPowerLevel Editable="TRUE" Type="DoubleList">-106.0</BERPowerLevel>
+			<!-- ILPC_EF -->
+			<TPCRange Editable="TRUE" Type="DoubleList">0.4,2.0</TPCRange>
+			<ILPC_Retry Editable="TRUE" Type="Integer">5</ILPC_Retry>
+			<!-- ListMode_ILPC_EF -->
+			<ListModeILPC_Range Editable="TRUE" Type="DoubleList">0.4,2.0</ListModeILPC_Range>
+		</Item>
+
+		<Item ClassName="CWCDMA_FTM_Handover" Name="WCDMATest_B5_HIGH_Handover">
+			<PICSName Type="String">WCDMA_B5_HIGH_Handover</PICSName>
+			<Band Editable="TRUE" Type="Integer">850</Band>
+			<Channel Editable="TRUE" Type="Integer">4232</Channel>
+			<BS_OutputPower Editable="TRUE" Type="Double">-60</BS_OutputPower>
+			<UL_MaxTxPower Editable="TRUE" Type="Integer">24</UL_MaxTxPower>
+		</Item>
+		<Item ClassName="CWCDMA_FTM_MeasureLoop" Name="WCDMATest_B5_HIGH_Measureloop">
+			<Band Editable="TRUE" Type="Integer">850</Band>
+			<Channel Editable="TRUE" Type="Integer">4232</Channel>
+			<!-- MaxPower, EVM, FrequencyError, ACLR, OBW, SEM, BER, RxLevel, ILPC_EF, ILPC_EF_ListMode -->
+			<TestList Editable="TRUE" Type="IntergerList">1,0,0,1,0,0,0,0,0,0</TestList>
+			<!-- WCDMA B1 HIGH -->
+			<!-- MaxPower -->
+			<MaxPowerRange Editable="TRUE" Type="DoubleList">22.0,24.0</MaxPowerRange>
+			<!-- EVM -->
+			<EVMRange Editable="TRUE" Type="DoubleList">0,17.5</EVMRange>
+			<!-- FrequencyError -->
+			<FreqErrorRange Editable="TRUE" Type="DoubleList">-0.1,0.1</FreqErrorRange>
+			<!-- ACLR -->
+			<ACLRLowRange Editable="TRUE" Type="DoubleList">43.0,33.0,33.0,43.0</ACLRLowRange>
+			<!-- OBW -->
+			<OBWRange Editable="TRUE" Type="IntegerList">0,5000000</OBWRange>
+			<!-- SEM -->
+			<!-- -8.5 MHz, -7.5 MHz, -3.5 MHz, -2.5 MHz, 2.5 MHz, 3.5 MHz, 7.5 MHz, 8.5 MHz-->
+			<SEM_MaskLinePower Editable="TRUE" Type="DoubleList">-47.5,-37.5,-33.5,-33.5,-33.5,-33.5,-37.5,-47.5</SEM_MaskLinePower>
+			<SEMRange Editable="TRUE" Type="DoubleList">-60.0,0.0</SEMRange>
+			<!-- BER -->
+			<BERRange Editable="TRUE" Type="DoubleList">0,0.1</BERRange>
+			<BERPowerLevel Editable="TRUE" Type="DoubleList">-106.0</BERPowerLevel>
+			<!-- ILPC_EF -->
+			<TPCRange Editable="TRUE" Type="DoubleList">0.4,1.6</TPCRange>
+			<!-- ListMode_ILPC_EF -->
+			<ListModeILPC_Range Editable="TRUE" Type="DoubleList">0.4,1.6</ListModeILPC_Range>
+		</Item>
+
+		<!-- 3G B8 test -->
+		<Item ClassName="CWCDMA_FTM_Handover" Name="WCDMATest_B8_LOW_Handover">
+			<PICSName Type="String">WCDMA_B8_LOW_Handover</PICSName>
+			<Band Editable="TRUE" Type="Integer">900</Band>
+			<Channel Editable="TRUE" Type="Integer">2712</Channel>
+			<BS_OutputPower Editable="TRUE" Type="Double">-60</BS_OutputPower>
+			<UL_MaxTxPower Editable="TRUE" Type="Integer">24</UL_MaxTxPower>
+		</Item>
+		<Item ClassName="CWCDMA_FTM_MeasureLoop" Name="WCDMATest_B8_LOW_Measureloop">
+			<Band Editable="TRUE" Type="Integer">900</Band>
+			<Channel Editable="TRUE" Type="Integer">2712</Channel>
+			<!-- MaxPower, EVM, FrequencyError, ACLR, OBW, SEM, BER, RxLevel, ILPC_EF, ILPC_EF_ListMode -->
+			<TestList Editable="TRUE" Type="IntergerList">1,0,0,1,0,0,0,0,0,0</TestList>
+			<!-- WCDMA B8 LOW -->
+			<!-- MaxPower -->
+			<MaxPowerRange Editable="TRUE" Type="DoubleList">22.0,24.0</MaxPowerRange>
+			<!-- EVM -->
+			<EVMRange Editable="TRUE" Type="DoubleList">0,17.5</EVMRange>
+			<!-- FrequencyError -->
+			<FreqErrorRange Editable="TRUE" Type="DoubleList">-0.1,0.1</FreqErrorRange>
+			<!-- ACLR -->
+			<ACLRLowRange Editable="TRUE" Type="DoubleList">43.0,33.0,33.0,43.0</ACLRLowRange>
+			<!-- OBW -->
+			<OBWRange Editable="TRUE" Type="IntegerList">0,5000000</OBWRange>
+			<!-- SEM -->
+			<!-- -8.5 MHz, -7.5 MHz, -3.5 MHz, -2.5 MHz, 2.5 MHz, 3.5 MHz, 7.5 MHz, 8.5 MHz-->
+			<SEM_MaskLinePower Editable="TRUE" Type="DoubleList">-47.5,-37.5,-33.5,-33.5,-33.5,-33.5,-37.5,-47.5</SEM_MaskLinePower>
+			<SEMRange Editable="TRUE" Type="DoubleList">-60.0,0.0</SEMRange>
+			<!-- BER -->
+			<BERRange Editable="TRUE" Type="DoubleList">0,0.1</BERRange>
+			<BERPowerLevel Editable="TRUE" Type="DoubleList">-103.0</BERPowerLevel>
+			<!-- ILPC_EF -->
+			<TPCRange Editable="TRUE" Type="DoubleList">0.4,1.6</TPCRange>
+			<!-- ListMode_ILPC_EF -->
+			<ListModeILPC_Range Editable="TRUE" Type="DoubleList">0.4,1.6</ListModeILPC_Range>
+		</Item>
+		<Item ClassName="CWCDMA_FTM_Handover" Name="WCDMATest_B8_MID_Handover">
+			<PICSName Type="String">WCDMA_B8_MID_Handover</PICSName>
+			<Band Editable="TRUE" Type="Integer">900</Band>
+			<Channel Editable="TRUE" Type="Integer">2795</Channel>
+			<BS_OutputPower Editable="TRUE" Type="Double">-60</BS_OutputPower>
+			<UL_MaxTxPower Editable="TRUE" Type="Integer">24</UL_MaxTxPower>
+		</Item>
+		<Item ClassName="CWCDMA_FTM_MeasureLoop" Name="WCDMATest_B8_MID_Measureloop">
+			<Band Editable="TRUE" Type="Integer">900</Band>
+			<Channel Editable="TRUE" Type="Integer">2795</Channel>
+			<!-- MaxPower, EVM, FrequencyError, ACLR, OBW, SEM, BER, RxLevel, ILPC_EF, ILPC_EF_ListMode -->
+			<TestList Editable="TRUE" Type="IntergerList">1,1,1,1,1,1,1,1,0,0</TestList>
+			<!-- WCDMA B8 MID -->
+			<!-- MaxPower -->
+			<MaxPowerRange Editable="TRUE" Type="DoubleList">21.5,24.5</MaxPowerRange>
+			<!--EVM-->
+			<EVMRange Editable="TRUE" Type="DoubleList">0,17.5</EVMRange>
+			<!-- FrequencyError -->
+			<FreqErrorRange Editable="TRUE" Type="DoubleList">-0.1,0.1</FreqErrorRange>
+			<!-- ACLR -->
+			<ACLRLowRange Editable="TRUE" Type="DoubleList">43.0,33.0,33.0,43.0</ACLRLowRange>
+			<!-- OBW -->
+			<OBWRange Editable="TRUE" Type="IntegerList">0,5000000</OBWRange>
+			<!-- SEM -->
+			<!-- -8.5 MHz, -7.5 MHz, -3.5 MHz, -2.5 MHz, 2.5 MHz, 3.5 MHz, 7.5 MHz, 8.5 MHz-->
+			<SEM_MaskLinePower Editable="TRUE" Type="DoubleList">-47.5,-37.5,-33.5,-33.5,-33.5,-33.5,-37.5,-47.5</SEM_MaskLinePower>
+			<SEMRange Editable="TRUE" Type="DoubleList">-60.0,0.0</SEMRange>
+			<!-- BER -->
+			<BERRange Editable="TRUE" Type="DoubleList">0,0.1</BERRange>
+			<BERPowerLevel Editable="TRUE" Type="DoubleList">-103.0</BERPowerLevel>
+			<!-- ILPC_EF -->
+			<TPCRange Editable="TRUE" Type="DoubleList">0.4,2.0</TPCRange>
+			<ILPC_Retry Editable="TRUE" Type="Integer">5</ILPC_Retry>
+			<!-- ListMode_ILPC_EF -->
+			<ListModeILPC_Range Editable="TRUE" Type="DoubleList">0.4,2.0</ListModeILPC_Range>
+		</Item>
+
+		<Item ClassName="CWCDMA_FTM_Handover" Name="WCDMATest_B8_HIGH_Handover">
+			<PICSName Type="String">WCDMA_B8_HIGH_Handover</PICSName>
+			<Band Editable="TRUE" Type="Integer">900</Band>
+			<Channel Editable="TRUE" Type="Integer">2863</Channel>
+			<BS_OutputPower Editable="TRUE" Type="Double">-60</BS_OutputPower>
+			<UL_MaxTxPower Editable="TRUE" Type="Integer">24</UL_MaxTxPower>
+		</Item>
+		<Item ClassName="CWCDMA_FTM_MeasureLoop" Name="WCDMATest_B8_HIGH_Measureloop">
+			<Band Editable="TRUE" Type="Integer">900</Band>
+			<Channel Editable="TRUE" Type="Integer">2863</Channel>
+			<!-- MaxPower, EVM, FrequencyError, ACLR, OBW, SEM, BER, RxLevel, ILPC_EF, ILPC_EF_ListMode -->
+			<TestList Editable="TRUE" Type="IntergerList">1,0,0,1,0,0,0,0,0,0</TestList>
+			<!-- WCDMA B8 HIGH -->
+			<!-- MaxPower -->
+			<MaxPowerRange Editable="TRUE" Type="DoubleList">22.0,24.0</MaxPowerRange>
+			<!-- EVM -->
+			<EVMRange Editable="TRUE" Type="DoubleList">0,17.5</EVMRange>
+			<!-- FrequencyError -->
+			<FreqErrorRange Editable="TRUE" Type="DoubleList">-0.1,0.1</FreqErrorRange>
+			<!-- ACLR -->
+			<ACLRLowRange Editable="TRUE" Type="DoubleList">43.0,33.0,33.0,43.0</ACLRLowRange>
+			<!-- OBW -->
+			<OBWRange Editable="TRUE" Type="IntegerList">0,5000000</OBWRange>
+			<!-- SEM -->
+			<!-- -8.5 MHz, -7.5 MHz, -3.5 MHz, -2.5 MHz, 2.5 MHz, 3.5 MHz, 7.5 MHz, 8.5 MHz-->
+			<SEM_MaskLinePower Editable="TRUE" Type="DoubleList">-47.5,-37.5,-33.5,-33.5,-33.5,-33.5,-37.5,-47.5</SEM_MaskLinePower>
+			<SEMRange Editable="TRUE" Type="DoubleList">-60.0,0.0</SEMRange>
+			<!-- BER -->
+			<BERRange Editable="TRUE" Type="DoubleList">0,0.1</BERRange>
+			<BERPowerLevel Editable="TRUE" Type="DoubleList">-103.0</BERPowerLevel>
+			<!-- ILPC_EF -->
+			<TPCRange Editable="TRUE" Type="DoubleList">0.4,1.6</TPCRange>
+			<!-- ListMode_ILPC_EF -->
+			<ListModeILPC_Range Editable="TRUE" Type="DoubleList">0.4,1.6</ListModeILPC_Range>
+		</Item>
+
+		<Item ClassName="CWCDMA_FTM_EndTest" Name="WCDMATest_EndTest">
+			<PICSName Type="String">WCDMA_EndTest</PICSName>
+		</Item>
+	</WCDMANonSignalingTest>
+</ProcessObjectSet>
+</Configuration>

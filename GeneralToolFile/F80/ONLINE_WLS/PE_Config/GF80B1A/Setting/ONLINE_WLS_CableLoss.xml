@@ -1,0 +1,128 @@
+<FrameworkConfig>
+	<RfSettings>
+		<RfCable>
+			<CurrentRfLosses>SystemLoss1</CurrentRfLosses>
+			<RfLosses name="SystemLoss1">
+				<RfType name="TX">
+					<RfBand name="WirelessBT">
+						<RfChannel name="240"> <!-- 2402 MHz-->
+							<RfLoss>1</RfLoss>
+						</RfChannel>
+						<RfChannel name="241"> <!-- 2441 MHz-->
+							<RfLoss>1</RfLoss>
+						</RfChannel>
+						<RfChannel name="242"> <!-- 2480 MHz-->
+							<RfLoss>1</RfLoss>
+						</RfChannel>
+					</RfBand>
+					<RfBand name="WirelessB7">
+						<RfChannel name="240"> <!-- 2402 MHz-->
+							<RfLoss>1</RfLoss>
+						</RfChannel>
+						<RfChannel name="241"> <!-- 2441 MHz-->
+							<RfLoss>1</RfLoss>
+						</RfChannel>
+						<RfChannel name="242"> <!-- 2480 MHz-->
+							<RfLoss>1</RfLoss>
+						</RfChannel>
+					</RfBand>
+					<RfBand name="WirelessB20">
+						<RfChannel name="240"> <!-- 2402 MHz-->
+							<RfLoss>1</RfLoss>
+						</RfChannel>
+						<RfChannel name="241"> <!-- 2441 MHz-->
+							<RfLoss>1</RfLoss>
+						</RfChannel>
+						<RfChannel name="242"> <!-- 2480 MHz-->
+							<RfLoss>1</RfLoss>
+						</RfChannel>
+					</RfBand>
+					<RfBand name="WirelessGSM">
+						<RfChannel name="1">
+							<RfLoss>1</RfLoss>
+						</RfChannel>
+					</RfBand>
+					<RfBand name="BTWLAN_WIFI">
+						<RfChannel name="WifiAdjPower_5G">
+							<RfLoss>1</RfLoss>
+						</RfChannel>
+					</RfBand>					
+				</RfType>
+				<RfType name="RX">
+					<RfBand name="WirelessPCS">
+						<RfChannel name="mid">
+							<RfLoss>1</RfLoss>
+						</RfChannel>
+					</RfBand>
+					<RfBand name="WirelessGSM_1900">
+						<RfChannel name="1">
+							<RfLoss>0.7</RfLoss>
+						</RfChannel>
+					</RfBand>	
+					<RfBand name="WirelessB2">
+						<RfChannel name="P_mid">
+							<RfLoss>1</RfLoss>
+						</RfChannel>
+						<RfChannel name="D_mid">
+							<RfLoss>0.9</RfLoss>
+						</RfChannel>					
+					</RfBand>						
+					<RfBand name="WirelessB3">
+						<RfChannel name="P_mid">
+							<RfLoss>1</RfLoss>
+						</RfChannel>
+						<RfChannel name="D_mid">
+							<RfLoss>0.9</RfLoss>
+						</RfChannel>					
+					</RfBand>	
+					<RfBand name="WirelessB4">
+						<RfChannel name="P_mid">
+							<RfLoss>1</RfLoss>
+						</RfChannel>
+						<RfChannel name="D_mid">
+							<RfLoss>0.9</RfLoss>
+						</RfChannel>					
+					</RfBand>	
+					<RfBand name="WirelessB5">
+						<RfChannel name="P_mid">
+							<RfLoss>1</RfLoss>
+						</RfChannel>
+						<RfChannel name="D_mid">
+							<RfLoss>0.9</RfLoss>
+						</RfChannel>					
+					</RfBand>						
+					<RfBand name="WirelessB7">
+						<RfChannel name="P_mid">
+							<RfLoss>0.8</RfLoss>
+						</RfChannel>
+						<RfChannel name="D_mid">
+							<RfLoss>1</RfLoss>
+						</RfChannel>					
+					</RfBand>					
+					<RfBand name="WirelessB20">
+						<RfChannel name="P_mid">
+							<RfLoss>1</RfLoss>
+						</RfChannel>
+						<RfChannel name="D_mid">
+							<RfLoss>1</RfLoss>
+						</RfChannel>						
+					</RfBand>		
+					<RfBand name="WirelessB28">
+						<RfChannel name="P_mid">
+							<RfLoss>1</RfLoss>
+						</RfChannel>
+						<RfChannel name="D_mid">
+							<RfLoss>0.9</RfLoss>
+						</RfChannel>					
+					</RfBand>						
+					<RfBand name="GPS">
+						<RfChannel name="GPSFixFreq">
+							<RfLoss>1</RfLoss>
+						</RfChannel>
+					</RfBand>
+				</RfType>
+				
+			</RfLosses>
+		</RfCable>
+	</RfSettings>
+</FrameworkConfig>

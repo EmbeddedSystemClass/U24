@@ -1,0 +1,79 @@
+<Configuration>
+	<ToolInfo>
+		<StationID>2</StationID>
+		<TOOL_VERSION>V1.000</TOOL_VERSION>
+		<Project>F80</Project>
+		<Variant>US</Variant>
+	</ToolInfo>
+	<Memo>
+		<Model>GF80B2A</Model>
+		<Station>CAMERA</Station>
+	</Memo>
+	<TestProcessor>
+		<Name Editable="TRUE" Type="String">CCommonProcessor</Name>
+		<Phone>
+  			<ClassName>CPhone</ClassName> 
+			<COMPort>0</COMPort>			
+			<FtdPort>2000</FtdPort>
+			<FtdTimeOut>6000</FtdTimeOut>
+			<AutoFTDMode>FALSE</AutoFTDMode>
+			<SetFTDMode>FALSE</SetFTDMode>
+			<WaitTimeStartingUp>30000</WaitTimeStartingUp>
+			<RebootDelayTime>10000</RebootDelayTime>
+			<IsDiagCmd>1</IsDiagCmd><!--0:Diag  1:ADB-->
+			<IsNeedQXDMLog>TRUE</IsNeedQXDMLog>
+			<SWVersion>0</SWVersion>
+			<Variant>US</Variant>
+			<QPhoneMulti>4</QPhoneMulti>
+			<QPhoneOrder>1,2,3,4</QPhoneOrder>
+			<LogUpload>FALSE</LogUpload>
+			<UploadServerIP>10.85.68.13</UploadServerIP>
+		</Phone>
+	</TestProcessor>
+	<TestItemList>
+		
+		<!--Camera Multi-Thread Test Begin-->
+		<Item Name="Multi_UsbDetectStart" Enabled="TRUE"/>
+		<Item Name="Multi_CheckSWVersion" Enabled="TRUE"/>
+		<Item Name="Multi_Camera_Verification" Enabled="TRUE"/>
+		<Item Name="Multi_UsbDetectEnd" Enabled="TRUE"/>
+		<!--Camera Multi-Thread Test End-->
+		
+	</TestItemList> 
+	<ProcessObjectSet>
+		<CFtdObjects>
+			<ProcessObject ClassName="CSapporoFtdTestMulti" Name="Multi_UsbDetectStart">
+				<Name Editable="TRUE" Type="string">runUsbDetectStart</Name>
+			</ProcessObject>
+		</CFtdObjects>
+		<CFtdObjects>
+			<ProcessObject ClassName="CSapporoFtdTestMulti" Name="Multi_UsbDetectEnd">
+				<Name Editable="TRUE" Type="string">runUsbDetectEnd</Name>
+			</ProcessObject>
+		</CFtdObjects>
+		<CheckSWVersionObjects>
+			<ProcessObject ClassName="CCheckSWVerMultiple" Name="Multi_CheckSWVersion">
+				<!-- Tline,Aline:Factory Pline:Ship -->
+				<VersionType Editable="TRUE" Type="string">Factory</VersionType>
+			</ProcessObject>	
+		</CheckSWVersionObjects>			
+		<CCameraMultipleTestObjects> 
+			<ProcessObject ClassName="CCameraCheck" Name="Multi_Camera_Verification">
+				<Name Editable="TRUE" Type="string">Multi_Camera_Verification</Name>   
+				<!--AlgoList = 2: Manual(Rear MTF only); 1: Do it; 0: Don't do it-->				
+				<!--CheckList= 0:fail but not stop; =1:fail and stop;-->
+				<!--ORDER is FuseID, Blemish, Shading, Color, MTF-->
+				<RearAlgoList Editable="TRUE" Type="DoubleList">1,1,1,1,1</RearAlgoList>
+				<RearCheckList Editable="TRUE" Type="DoubleList">0,1,1,1,1</RearCheckList>
+				<FrontAlgoList Editable="TRUE" Type="DoubleList">1,1,1,0,1</FrontAlgoList>
+				<FrontCheckList Editable="TRUE" Type="DoubleList">0,1,1,0,1</FrontCheckList>				
+				<SleepForRearBlemish Editable="TRUE" Type="string">500</SleepForRearBlemish> <!--unit: ms-->
+				<SleepForRearShading  Editable="TRUE" Type="string">50</SleepForRearShading> <!--unit: ms-->
+				<SleepForRearMTF      Editable="TRUE" Type="string">500</SleepForRearMTF> <!--unit: ms-->
+				<SleepForFrontBlemish Editable="TRUE" Type="string">50</SleepForFrontBlemish> <!--unit: ms-->
+				<SleepForFrontShading Editable="TRUE" Type="string">50</SleepForFrontShading> <!--unit: ms-->
+				<SleepForFrontMTF     Editable="TRUE" Type="string">50</SleepForFrontMTF> <!--unit: ms-->
+			</ProcessObject>
+		</CCameraMultipleTestObjects>
+	</ProcessObjectSet>
+</Configuration>

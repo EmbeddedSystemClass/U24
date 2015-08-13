@@ -1,0 +1,48 @@
+<FrameworkConfig>
+	<RfSettings>
+		<RfCable>
+			<CurrentRfLosses>SystemLoss1</CurrentRfLosses>
+			<RfLosses name="SystemLoss1">
+				<RfType name="TX">
+					<RfBand name="BTWLAN_BT">
+						<RfChannel name="BTFixFreq">
+							<RfLoss>0</RfLoss>
+						</RfChannel>
+						<RfChannel name="BTAdjPower">
+							<RfLoss>9</RfLoss>
+						</RfChannel>
+					</RfBand>
+					<RfBand name="BTWLAN_WIFI">
+						<RfChannel name="WifiFixFreq">
+							<RfLoss>0</RfLoss>
+						</RfChannel>
+						<RfChannel name="WifiAdjPower_5G">
+							<RfLoss>9</RfLoss>
+						</RfChannel>
+						<RfChannel name="WifiAdjPower_11B">
+							<RfLoss>9</RfLoss>
+						</RfChannel>
+						<RfChannel name="WifiAdjPower_11G">
+							<RfLoss>9</RfLoss>
+						</RfChannel>
+						<RfChannel name="WifiAdjPower_11N">
+							<RfLoss>9</RfLoss>
+						</RfChannel>
+					</RfBand>
+				</RfType>
+				<RfType name="RX">
+					<RfBand name="GPS">
+						<RfChannel name="GPSFixFreq">
+							<RfLoss>7.5</RfLoss>
+						</RfChannel>
+					</RfBand>
+					<RfBand name="FMR">
+						<RfChannel name="FRMFixFreq">
+							<RfLoss>3</RfLoss>
+						</RfChannel>
+					</RfBand>
+				</RfType>
+			</RfLosses>
+		</RfCable>
+	</RfSettings>
+</FrameworkConfig>

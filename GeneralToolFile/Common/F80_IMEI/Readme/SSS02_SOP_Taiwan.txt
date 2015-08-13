@@ -1,0 +1,42 @@
+Backup:
+IMEI站或者finial check站等有用到SSS_O2.dll（主要用於操作預約表，如果IMEI, BT,WLAN 等）和PICSinterface.dll （主要用於IMEI站讀寫SIM lock等security 功能）來向系統query一些預約的ID或者SIM data，這些站別的 PC 需要配置一定的系統環境才可以跟系統做溝通
+
+PC環境設置SOP：
+
+1，申請10.85.58.13的訪問權限，這個server在工廠對應的IP是10.85.68.13, 生產線的PC不需要申請
+
+2，在flower裡向ITS申請固定電腦IP，並注冊MAC地址，這個都是和訪問權限有關的,生產線的 PC不需要申請
+
+3，申請開通80 端口，如果你可以登錄http://10.85.68.13/picsmiddlewareserviceSqlServer/middlewareservice.asmx  說明這個端口是開通的，不然的話就請its幫忙了。或者可以在cmd下，輸入Telnet 10.85.58.13 80看是否能ping得通來判斷80端口有沒有開。 生產線的PC不需要申請
+
+4，安裝soap，\\10.85.68.13\EasyUpdate\Middleware connection\soaptoolkit30.exe。 
+
+5，運行\\10.85.68.13\EasyUpdate\CIMPortal\NewServer目錄下產線使用Config.bat，用來配置DSN，注意在運行這個bat文件之前，先右鍵編輯打開，確認裡面的配置的server地址是正確的。你也可以把它載下來修改成對你來說正確的server IP來運行。 
+
+6，copy \\10.85.68.13\EasyUpdate\Middleware connection\RegTools下的2個文件到本地，然後雙擊regtools.reg將其添加到注冊表中 
+
+7，雙擊注冊文件\\10.85.58.13\EasyUpdate\CIM Setup\web service for sql server\DSNSETUP.reg。 
+
+注意這個DSNSETUP.reg，你打開看看它注冊的地址，因為我們外部訪問產線server是58.13， 產線內部訪問是68.13，如果在我們自己電腦用的話要確保這個是58.13，否則會返回-100錯誤。當然，你注冊後也可以在注冊表裡查看這個值是否正確。 
+
+如果這個無法運行成功，可以先運行\\10.85.58.13\EasyUpdate\CIM Setup\Oracle Basic Line\DSNSetup.bat, 再運行\\10.85.58.13\EasyUpdate\CIM Setup\web service for sql server\DSNSETUP.reg
+
+HKEY_LOCAL_MACHINE/SOFTWARE/BMS/PICSMiddleware/CheckPaltform 如果這個值含有58.13說明你注冊的是正確的 
+
+8，打開TOOL當前目錄，右鍵選中ssso2.dll和PICSInterface.dll選擇注冊 
+
+以上就是基本的配置完成了，你可以在\\10.85.68.13\EasyUpdate這裡找到PICSSetup.exe，copy到本地執行，來確認pics系統是否能連接的上。 
+
+我們通常遇到的問題是 
+
+1，picsinterface返回-18，這是你的PC MAC地址沒有注冊，可以找工廠的IE或者PE幫忙將此PC的 IP/MAC加入到IMEI station中
+
+2，picsinterface返回-100，這個有好多可能，可以從新注冊下PICSInterface.dll試試看。
+
+====================================================================
+[2011/03/03 13:39:27]: ==========CHECK IMEI MAL&PN IN SSS02 START============
+[2011/03/03 13:39:27]: Object variable or With block variable not set
+[2011/03/03 13:39:27]: Object variable or With block variable not set
+[2011/03/03 13:39:27]: Error code-------> 91
+====================================================================
+以上也是沒有連上database.

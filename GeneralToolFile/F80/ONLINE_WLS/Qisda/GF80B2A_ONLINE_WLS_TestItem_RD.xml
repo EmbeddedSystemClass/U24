@@ -1,0 +1,659 @@
+<Configuration>
+	<ToolInfo>
+		<TOOL_VERSION>V1.000</TOOL_VERSION>
+	</ToolInfo>
+	<Memo>
+		<Project>F80</Project>
+		<Station>ONLINE_WLS</Station>
+	</Memo>
+	<TestProcessor>
+		<Name Type="String">CCommonProcessor</Name>
+		<UsingGPIB Type="Boolean">TRUE</UsingGPIB>
+		<GPIBInterfaceID Type="Integer">0</GPIBInterfaceID>
+		<GPIBCardAddress Type="Integer">20</GPIBCardAddress>
+		<ForceToPass Type="Boolean">FALSE</ForceToPass>
+	</TestProcessor>
+	<Phone>
+		<ClassName>CAndroidPhone</ClassName>
+		<COMPort>0</COMPort>
+		<Keyword Type="String">Diagnostics</Keyword>
+		<QisdaCmdModule>QcomDiagModule.dll</QisdaCmdModule>
+		<LogUpload>TRUE</LogUpload>
+		<UploadServerIP>10.85.68.13</UploadServerIP>
+	</Phone>
+	<TesterDevice>
+		<Item ClassName="CCMU200" Name="CMU 200"/>
+		<Item ClassName="CFSP" Name="FS"/>
+		<RFInputPort>2</RFInputPort>
+		<RFOutputPort>2</RFOutputPort>
+	</TesterDevice>
+	<PowerSupply>
+		<PowerSupplyCount Type="Interger">2</PowerSupplyCount>
+		<PowerSupplyList>
+			<PS1Address>5</PS1Address>
+			<PS2Address>6</PS2Address>
+			<PS3Address></PS3Address>
+		</PowerSupplyList>
+		<Item ClassName="CCommonPS" Name="E3631"/>
+		<Item ClassName="CCommonPS" Name="E3648"/>
+		<Item ClassName="CCommonPS" Name="66321"/>
+		<Item ClassName="CCommonPS" Name="66311"/>
+		<Item ClassName="CCommonPS" Name="66319"/>
+		<Item ClassName="CCommonPS" Name="66332"/>
+		<Item ClassName="CCommonPS" Name="2304"/>
+		<Item ClassName="CCommonPS" Name="2306"/>
+	</PowerSupply>
+	<TestItemList>
+	<!--Wireless Test-->
+	
+		<!-- CMU200 -->	
+		<!-- USE -->
+			<Item Name="CheckSWversion" Enabled="TRUE"/>
+			<Item Name="CheckBattVoltage" Enabled="TRUE"/>												
+			<Item Name="LTE_B2_PRxRSSI" Enabled="TRUE"/>
+			<Item Name="LTE_B4_DRxRSSI" Enabled="TRUE"/>	
+			<Item Name="BT_TxPowerTest" Enabled="TRUE"/>				
+			<Item Name="Reboot" Type="MUST" Enabled="TRUE"/>
+												
+		<!-- No USE 			
+			[GPS]
+				<Item Name="GPS_CN0" Enabled="TRUE"/>
+			[LTE]
+				[DRX]
+				<Item Name="LTE_B2_DRxRSSI" Enabled="TRUE"/>
+				<Item Name="LTE_B3_DRxRSSI" Enabled="TRUE"/>
+				<Item Name="LTE_B4_DRxRSSI" Enabled="TRUE"/>
+				<Item Name="LTE_B7_DRxRSSI" Enabled="TRUE"/>
+				<Item Name="LTE_B20_DRxRSSI" Enabled="TRUE"/>			
+				[PRX]
+				<Item Name="LTE_B2_PRxRSSI" Enabled="TRUE"/>	
+				<Item Name="LTE_B3_PRxRSSI" Enabled="TRUE"/>	
+				<Item Name="LTE_B4_PRxRSSI" Enabled="TRUE"/>	
+				<Item Name="LTE_B7_PRxRSSI" Enabled="TRUE"/>	
+				<Item Name="LTE_B20_PRxRSSI" Enabled="TRUE"/>		
+				[TX]
+				<Item Name="LTE_B7_TxPower" Enabled="TRUE"/>	
+				<Item Name="LTE_B20_TxPower" Enabled="TRUE"/>				
+			[GSM]	
+				[RX]	
+				<Item Name="GSM_1900_RxLevel" Enabled="TRUE"/>	
+				[TX]
+				<Item Name="GSM_900_Power" Enabled="TRUE"/>		
+				<Item Name="GSM_1800_Power" Enabled="TRUE"/>
+			[BT]				
+				[TX]			
+				<Item Name="BT_TxPowerTest" Enabled="TRUE"/>			
+			[Other]	
+				<Item Name="WiFi_5G_TX_POWER" Enabled="TRUE"/>
+				<Item Name="CheckSWversion" Enabled="TRUE"/>
+				<Item Name="CheckBattVoltage" Enabled="TRUE"/>	
+				<Item Name="Antenna_Tuner_IC" Enabled="TRUE"/>		
+				<Item Name="LeakageCurrent" Enabled="TRUE"/>
+				<Item Name="SetOnlineBootMode" Enabled="TRUE"/>	
+				<Item Name="AdbShellStart" Enabled="TRUE"/>
+				<Item Name="SetFtmMode" Enabled="TRUE"/>
+				<Item Name="StartPowerSupply1" Enabled="TRUE"/>
+				<Item Name="StartPowerSupply2" Enabled="TRUE"/>
+				<Item Name="IsPhoneConnected" Enabled="TRUE"/>		
+				<Item Name="Reboot" Type="MUST" Enabled="TRUE"/>
+				<Item Name="WifiModuleON" Enabled="TRUE"/>
+				<Item Name="WifiModuleOFF" Enabled="TRUE"/>					
+		-->
+		
+	</TestItemList>
+	<ProcessObjectSet>
+		<CommonTestObjects>
+			<ProcessObject ClassName="CPowerSupplyItem" Name="StartPowerSupply1">
+				<PS_Index Type="Integer">1</PS_Index>
+				<Voltage Type="Double">3.8</Voltage>
+				<Current Type="Double">2.0</Current>
+				<PS_OnOff Type="Boolean">TRUE</PS_OnOff>
+			</ProcessObject>
+			<ProcessObject ClassName="CPowerSupplyItem" Name="StartPowerSupply2">
+				<PS_Index Type="Integer">2</PS_Index>
+				<Voltage Type="Double">5.0</Voltage>
+				<Current Type="Double">2.0</Current>
+				<PS_OnOff Type="Boolean">TRUE</PS_OnOff>
+			</ProcessObject>
+			<ProcessObject ClassName="CPhoneStateItem" Name="IsPhoneConnected">
+				<WaitTimeForBoot Type="Integer">2000</WaitTimeForBoot>
+				<RetryConnectTimes Type="Integer">30</RetryConnectTimes>
+				<WaitTimeAfterConnect Type="Integer">5000</WaitTimeAfterConnect>
+			</ProcessObject>
+			<ProcessObject ClassName="CCheckSWVersion" Name="CheckSWversion">
+				<!-- RequiredMode: 0:Factory, 1:Ship -->
+				<RequiredType Type="Integer">0</RequiredType>
+			</ProcessObject>
+			<ProcessObject ClassName="CCheckAndChangeMode" Name="SetFtmMode">
+				<!-- RequiredMode: 0:Online, 1:FTM -->
+				<RequiredMode Type="Integer">1</RequiredMode>
+			</ProcessObject>
+			<ProcessObject ClassName="CCheckAndChangeMode" Name="SetOnlineMode">
+				<!-- RequiredMode: 0:Online, 1:FTM -->
+				<RequiredMode Type="Integer">0</RequiredMode>
+			</ProcessObject>
+			<ProcessObject ClassName="CChangeBootMode" Name="SetFtmBootMode">
+				<!-- RequiredMode: 0:Online, 1:FTM -->
+				<RequiredMode Type="Integer">1</RequiredMode>
+			</ProcessObject>
+			<ProcessObject ClassName="CChangeBootMode" Name="SetOnlineBootMode">
+				<!-- RequiredMode: 0:Online, 1:FTM -->
+				<RequiredMode Type="Integer">0</RequiredMode>
+			</ProcessObject>
+			<ProcessObject ClassName="CCheckBattVoltage" Name="CheckBattVoltage">
+				<Range Type="Double">3.8</Range>
+			</ProcessObject>
+			<ProcessObject ClassName="CExecAdbCommand" Name="Reboot">
+				<Command Type="String">reboot</Command>
+				<CommandWait Type="String">1000</CommandWait>
+			</ProcessObject>
+		
+			<!--GPS Test-->
+			<ProcessObject ClassName="CWireless_GPS_CN0Test" Name="GPS_CN0">
+				<PICSName Type="String">Wireless_GPS_CN0Test</PICSName>
+				<RetryTimes Type="Integer">10</RetryTimes>
+				<CommandDelay>500</CommandDelay>
+				<Frequency Type="Double">1575.52</Frequency>
+				<RFLevel>-110</RFLevel>
+				<OutputPort Type="Integer">1</OutputPort>
+				<DelayAfterCMURun>4000</DelayAfterCMURun>
+				<Range Type="DoubleList">56.5,62.5</Range>
+				<FreqRange Editable="TRUE" Type="IntegerList">96850,103150</FreqRange>
+				<WriteCPKLog>1</WriteCPKLog>
+				<GpsCPKcolumn>
+					<Item Name="SN" />
+					<Item Name="Result" />
+					<Item Name="Time" />
+					<Item Name="GPS_CN0" />
+					<Item Name="GPS_FreqOffset" />
+				</GpsCPKcolumn>				
+			</ProcessObject>	
+			<ProcessObject ClassName="CBTWLAN_WiFi_5G_TxTest" Name="WiFi_5G_TX_POWER">
+				<PICSName Type="String">WiFi_SpecMaskTest_5G</PICSName>
+				<Regulatory_Fixed Type="Integer">3</Regulatory_Fixed><!--3=Regulatory, 2=fixed-->
+				<Power_control_mode Type="Integer">2</Power_control_mode><!--0=open loop, 1=SCPC, 2=close loop-->
+				<CommandDelay Type="Integer">2000</CommandDelay>
+				<Frequency Type="Double">5500</Frequency>
+				<Channel Type="Integer">100</Channel>
+				<Power Type="Integer">10</Power>
+				<DataRate Type="Integer">54</DataRate>
+				<RBW Type="Double">0.1</RBW>
+				<VBW Type="Double">0.1</VBW>
+				<Span Type="Double">100</Span>
+				<TraceMode Type="String">MAXH</TraceMode>
+				<Detector Type="String">RMS</Detector>
+				<RetryTimes Type="Integer">2</RetryTimes>
+				<DiagramFull Type="String">LARG</DiagramFull>
+				<SweepTime Type="Integer">300</SweepTime>
+				<AttenuationManual Type="Integer">30</AttenuationManual>
+				<RefLevel Type="Integer">20</RefLevel>
+				<ChannelPower Type="String">CPOW</ChannelPower>
+				<ChannelBW Type="Double">25</ChannelBW>
+				<Range Type="DoubleList">0.0,20.0</Range>
+				<WriteCPKLog>1</WriteCPKLog>
+				<Wifi5GTxCPKcolumn>
+					<Item Name="SN" />
+					<Item Name="Result" />
+					<Item Name="Time" />
+					<Item Name="Wifi_SpectrumMask" />
+					<Item Name="Wifi_TxPower" />
+				</Wifi5GTxCPKcolumn>
+			</ProcessObject>			
+		</CommonTestObjects>
+				
+		<WirelessTestObjects>
+			<ProcessObject ClassName="CAdbShellStart" Name="AdbShellStart">
+			<WaitStart Type="Integer">3000</WaitStart>
+			</ProcessObject>
+			<ProcessObject ClassName="CLeakageCurrent" Name="LeakageCurrent">
+				<WaitTimeForShutdown Editable="TRUE" Type="Integer">3000</WaitTimeForShutdown>
+				<WaitTimeForFetch Editable="TRUE" Type="Integer">2000</WaitTimeForFetch>
+				<Range Editable="TRUE" Type="DoubleList">-0.1,3.0</Range>
+			</ProcessObject>
+			<ProcessObject ClassName="CWireless_QmiRfTxTest" Name="QmiRfTxTest">
+				<PICSName Type="String">Wireless_QmiRfTxTest</PICSName>
+				<CommandDelay Type="Integer">200</CommandDelay>
+				<PowerDegree Type="Integer">1</PowerDegree> <!-- Default: 1 -->
+				<Frequency Type="Double">1747.8</Frequency>
+				<RetryTimes Type="Integer">20</RetryTimes>
+				<InputPort Type="Integer">2</InputPort>
+				<Range Type="DoubleList">27,33</Range>
+				<WriteCPKLog>1</WriteCPKLog>
+				<QmiCPKcolumn>
+					<Item Name="SN" />
+					<Item Name="Result" />
+					<Item Name="Time" />
+					<Item Name="QmiRfTx_VALUE" />
+				</QmiCPKcolumn>
+			</ProcessObject>
+			<!-- GSM TX -->
+			<ProcessObject ClassName="CWireless_GSM_Power" Name="GSM_900_Power">
+				<PICSName Type="String">Wireless_GSM_900_Power</PICSName>
+				<GSMMode Type="String">900</GSMMode>				
+				<CommandDelay Type="Integer">2000</CommandDelay>
+				<PowerDegree Type="Integer">1</PowerDegree> <!-- Default: 1 -->
+				<PowerLevel Type="Integer">3300</PowerLevel>
+				<Frequency Type="Double">897.4</Frequency>
+				<Channel Type="Integer">37</Channel>
+				<RetryTimes Type="Integer">20</RetryTimes>
+				<InputPort Type="Integer">2</InputPort>
+				<Range Type="DoubleList">28,38</Range>			
+				<WriteCPKLog>1</WriteCPKLog>
+				<GSM_900_Power_CPKcolumn>
+					<Item Name="SN" />
+					<Item Name="Result" />
+					<Item Name="Time" />
+					<Item Name="GSM_900_Power_VALUE" />
+				</GSM_900_Power_CPKcolumn>
+			</ProcessObject>	
+			<!-- GSM TX -->			
+			<ProcessObject ClassName="CWireless_GSM_Power" Name="GSM_1800_Power">
+				<PICSName Type="String">Wireless_GSM_1800_Power</PICSName>
+				<GSMMode Type="String">1800</GSMMode>				
+				<CommandDelay Type="Integer">2000</CommandDelay>
+				<PowerDegree Type="Integer">1</PowerDegree> <!-- Default: 1 -->
+				<PowerLevel Type="Integer">3000</PowerLevel>
+				<Frequency Type="Double">1747.8</Frequency>
+				<Channel Type="Integer">700</Channel>
+				<RetryTimes Type="Integer">20</RetryTimes>
+				<InputPort Type="Integer">2</InputPort>
+				<Range Type="DoubleList">25,35</Range>
+				<WriteCPKLog>1</WriteCPKLog>
+				<GSM_1800_Power_CPKcolumn>
+					<Item Name="SN" />
+					<Item Name="Result" />
+					<Item Name="Time" />
+					<Item Name="GSM_1800_Power_VALUE" />
+				</GSM_1800_Power_CPKcolumn>
+			</ProcessObject>
+			<!-- GSM RX -->			
+			<ProcessObject ClassName="CWireless_GSM_RxLevel" Name="GSM_1900_RxLevel">
+				<PICSName Type="String">Wireless_GSM_1900_Rx_Level</PICSName>
+				<GSMMode Type="String">1900</GSMMode>				
+				<DelayAfterCMURun Type="Integer">1000</DelayAfterCMURun>
+				<Expected_RX_Power_dbm16 Type="Integer">960</Expected_RX_Power_dbm16>
+				<Number_of_Averages Type="Integer">5</Number_of_Averages>
+				<Channel Type="Integer">661</Channel>
+				<Rx_Level Type="String">-60,-40</Rx_Level>
+				<Frequency Type="Double">1960.07</Frequency>
+				<AFFrequency Type="Integer">5000</AFFrequency>
+				<ModIndex>100</ModIndex>
+				<OutputPort Type="Integer">2</OutputPort>
+				<RFLevel>-50</RFLevel>
+				<WriteCPKLog>1</WriteCPKLog>
+				<GSM_1900_Rx_CPKcolumn>
+					<Item Name="SN" />
+					<Item Name="Result" />
+					<Item Name="Time" />
+					<Item Name="GSM_Rx_VALUE" />
+				</GSM_1900_Rx_CPKcolumn>				
+			</ProcessObject>
+			<!-- LTE PRX -->
+			<ProcessObject ClassName="CWireless_LTE_Band_RxRSSI" Name="LTE_B2_PRxRSSI">
+				<PICSName Type="String">Wireless_LTE_B2_PRxRSSI</PICSName>
+				<Band Type="Integer">2</Band>
+				<RXMode Type="String">P</RXMode>					
+				<ReadMode Type="String">AGC</ReadMode>	
+				<LNAValue Type="Integer">2</LNAValue>	
+				<CalibrationState Type="Integer">1</CalibrationState>				
+				<TxBandwidth Type="Integer">1</TxBandwidth>
+				<RxBandwidth Type="Integer">1</RxBandwidth>
+				<Channel Type="Integer">18900</Channel>
+				<RFLevel>-50</RFLevel>
+				<OutputPort Type="Integer">2</OutputPort>
+				<DelayAfterCMURun>1000</DelayAfterCMURun>
+				<RetryTimes Type="Integer">10</RetryTimes>
+				<CommandDelay>200</CommandDelay>				
+				<Range Type="DoubleList">-60.0,-40.0</Range>
+				<WriteCPKLog>1</WriteCPKLog>
+				<Wireless_LTE_Band_PRxRSSI_CPKcolumn>
+					<Item Name="SN" />
+					<Item Name="Result" />
+					<Item Name="Time" />
+					<Item Name="LTE_Band_PRxRSSI_VALUE" />
+				</Wireless_LTE_Band_PRxRSSI_CPKcolumn>
+			</ProcessObject>			
+			<ProcessObject ClassName="CWireless_LTE_Band_RxRSSI" Name="LTE_B3_PRxRSSI">
+				<PICSName Type="String">Wireless_LTE_B3_PRxRSSI</PICSName>
+				<Band Type="Integer">3</Band>
+				<RXMode Type="String">P</RXMode>					
+				<ReadMode Type="String">AGC</ReadMode>	
+				<LNAValue Type="Integer">2</LNAValue>	
+				<CalibrationState Type="Integer">1</CalibrationState>				
+				<TxBandwidth Type="Integer">1</TxBandwidth>
+				<RxBandwidth Type="Integer">1</RxBandwidth>
+				<Channel Type="Integer">19575</Channel>
+				<RFLevel>-50</RFLevel>
+				<OutputPort Type="Integer">2</OutputPort>
+				<DelayAfterCMURun>1000</DelayAfterCMURun>
+				<RetryTimes Type="Integer">10</RetryTimes>
+				<CommandDelay>200</CommandDelay>				
+				<Range Type="DoubleList">-60.0,-40.0</Range>
+				<WriteCPKLog>1</WriteCPKLog>
+				<Wireless_LTE_Band_PRxRSSI_CPKcolumn>
+					<Item Name="SN" />
+					<Item Name="Result" />
+					<Item Name="Time" />
+					<Item Name="LTE_Band_PRxRSSI_VALUE" />
+				</Wireless_LTE_Band_PRxRSSI_CPKcolumn>
+			</ProcessObject>	
+			<ProcessObject ClassName="CWireless_LTE_Band_RxRSSI" Name="LTE_B4_PRxRSSI">
+				<PICSName Type="String">Wireless_LTE_B4_PRxRSSI</PICSName>
+				<Band Type="Integer">4</Band>
+				<RXMode Type="String">P</RXMode>					
+				<ReadMode Type="String">AGC</ReadMode>	
+				<LNAValue Type="Integer">2</LNAValue>	
+				<CalibrationState Type="Integer">1</CalibrationState>				
+				<TxBandwidth Type="Integer">1</TxBandwidth>
+				<RxBandwidth Type="Integer">1</RxBandwidth>
+				<Channel Type="Integer">20175</Channel>
+				<RFLevel>-50</RFLevel>
+				<OutputPort Type="Integer">1</OutputPort>
+				<DelayAfterCMURun>1000</DelayAfterCMURun>
+				<RetryTimes Type="Integer">10</RetryTimes>
+				<CommandDelay>200</CommandDelay>				
+				<Range Type="DoubleList">-60.0,-40.0</Range>
+				<WriteCPKLog>1</WriteCPKLog>
+				<Wireless_LTE_Band_PRxRSSI_CPKcolumn>
+					<Item Name="SN" />
+					<Item Name="Result" />
+					<Item Name="Time" />
+					<Item Name="LTE_Band_PRxRSSI_VALUE" />
+				</Wireless_LTE_Band_PRxRSSI_CPKcolumn>
+			</ProcessObject>				
+			<!-- LTE PRX -->			
+			<ProcessObject ClassName="CWireless_LTE_Band_RxRSSI" Name="LTE_B7_PRxRSSI">
+				<PICSName Type="String">Wireless_LTE_B7_PRxRSSI</PICSName>
+				<Band Type="Integer">7</Band>
+				<RXMode Type="String">P</RXMode>	
+				<ReadMode Type="String">AGC</ReadMode>	
+				<LNAValue Type="Integer">2</LNAValue>	
+				<CalibrationState Type="Integer">1</CalibrationState>
+				<TxBandwidth Type="Integer">1</TxBandwidth>
+				<RxBandwidth Type="Integer">1</RxBandwidth>
+				<Channel Type="Integer">21100</Channel>
+				<RFLevel>-50</RFLevel>
+				<OutputPort Type="Integer">2</OutputPort>
+				<DelayAfterCMURun>1000</DelayAfterCMURun>
+				<RetryTimes Type="Integer">10</RetryTimes>
+				<CommandDelay>200</CommandDelay>				
+				<Range Type="DoubleList">-60.0,-40.0</Range>
+				<WriteCPKLog>1</WriteCPKLog>
+				<Wireless_LTE_Band_PRxRSSI_CPKcolumn>
+					<Item Name="SN" />
+					<Item Name="Result" />
+					<Item Name="Time" />
+					<Item Name="LTE_Band_PRxRSSI_VALUE" />
+				</Wireless_LTE_Band_PRxRSSI_CPKcolumn>
+			</ProcessObject>
+			<!-- LTE PRX -->
+			<ProcessObject ClassName="CWireless_LTE_Band_RxRSSI" Name="LTE_B20_PRxRSSI">
+				<PICSName Type="String">Wireless_LTE_B20_PRxRSSI</PICSName>
+				<Band Type="Integer">20</Band>
+				<RXMode Type="String">P</RXMode>
+				<ReadMode Type="String">AGC</ReadMode>	
+				<LNAValue Type="Integer">2</LNAValue>		
+				<CalibrationState Type="Integer">1</CalibrationState>					
+				<TxBandwidth Type="Integer">3</TxBandwidth>
+				<RxBandwidth Type="Integer">3</RxBandwidth>
+				<Channel Type="Integer">24300</Channel>
+				<RFLevel>-50</RFLevel>
+				<OutputPort Type="Integer">2</OutputPort>
+				<DelayAfterCMURun>1000</DelayAfterCMURun>
+				<RetryTimes Type="Integer">10</RetryTimes>
+				<CommandDelay>200</CommandDelay>				
+				<Range Type="DoubleList">-60.0,-40.0</Range>
+				<WriteCPKLog>1</WriteCPKLog>
+				<Wireless_LTE_Band_PRxRSSI_CPKcolumn>
+					<Item Name="SN" />
+					<Item Name="Result" />
+					<Item Name="Time" />
+					<Item Name="LTE_Band_PRxRSSI_VALUE" />
+				</Wireless_LTE_Band_PRxRSSI_CPKcolumn>
+			</ProcessObject>			
+			<!-- LTE DRX -->
+			<ProcessObject ClassName="CWireless_LTE_Band_RxRSSI" Name="LTE_B2_DRxRSSI">
+				<PICSName Type="String">Wireless_LTE_B2_DRxRSSI</PICSName>
+				<Band Type="Integer">2</Band>
+				<RXMode Type="String">D</RXMode>	
+				<ReadMode Type="String">AGC</ReadMode>	
+				<LNAValue Type="Integer">2</LNAValue>		
+				<CalibrationState Type="Integer">1</CalibrationState>					
+				<TxBandwidth Type="Integer">1</TxBandwidth>
+				<RxBandwidth Type="Integer">1</RxBandwidth>
+				<Channel Type="Integer">18900</Channel>
+				<RFLevel>-50</RFLevel>
+				<OutputPort Type="Integer">1</OutputPort>
+				<DelayAfterCMURun>1000</DelayAfterCMURun>
+				<RetryTimes Type="Integer">10</RetryTimes>
+				<CommandDelay>200</CommandDelay>				
+				<Range Type="DoubleList">-60.0,-40.0</Range>
+				<WriteCPKLog>1</WriteCPKLog>
+				<Wireless_LTE_Band_DRxRSSI_CPKcolumn>
+					<Item Name="SN" />
+					<Item Name="Result" />
+					<Item Name="Time" />
+					<Item Name="LTE_Band_DRxRSSI_VALUE" />
+				</Wireless_LTE_Band_DRxRSSI_CPKcolumn>
+			</ProcessObject>			
+			<ProcessObject ClassName="CWireless_LTE_Band_RxRSSI" Name="LTE_B3_DRxRSSI">
+				<PICSName Type="String">Wireless_LTE_B3_DRxRSSI</PICSName>
+				<Band Type="Integer">3</Band>
+				<RXMode Type="String">D</RXMode>	
+				<ReadMode Type="String">AGC</ReadMode>	
+				<LNAValue Type="Integer">2</LNAValue>		
+				<CalibrationState Type="Integer">1</CalibrationState>					
+				<TxBandwidth Type="Integer">1</TxBandwidth>
+				<RxBandwidth Type="Integer">1</RxBandwidth>
+				<Channel Type="Integer">19575</Channel>
+				<RFLevel>-50</RFLevel>
+				<OutputPort Type="Integer">1</OutputPort>
+				<DelayAfterCMURun>1000</DelayAfterCMURun>
+				<RetryTimes Type="Integer">10</RetryTimes>
+				<CommandDelay>200</CommandDelay>				
+				<Range Type="DoubleList">-60.0,-40.0</Range>
+				<WriteCPKLog>1</WriteCPKLog>
+				<Wireless_LTE_Band_DRxRSSI_CPKcolumn>
+					<Item Name="SN" />
+					<Item Name="Result" />
+					<Item Name="Time" />
+					<Item Name="LTE_Band_DRxRSSI_VALUE" />
+				</Wireless_LTE_Band_DRxRSSI_CPKcolumn>
+			</ProcessObject>
+			<ProcessObject ClassName="CWireless_LTE_Band_RxRSSI" Name="LTE_B4_DRxRSSI">
+				<PICSName Type="String">Wireless_LTE_B4_DRxRSSI</PICSName>
+				<Band Type="Integer">4</Band>
+				<RXMode Type="String">D</RXMode>	
+				<ReadMode Type="String">AGC</ReadMode>	
+				<LNAValue Type="Integer">2</LNAValue>		
+				<CalibrationState Type="Integer">1</CalibrationState>					
+				<TxBandwidth Type="Integer">1</TxBandwidth>
+				<RxBandwidth Type="Integer">1</RxBandwidth>
+				<Channel Type="Integer">20175</Channel>
+				<RFLevel>-50</RFLevel>
+				<OutputPort Type="Integer">1</OutputPort>
+				<DelayAfterCMURun>1000</DelayAfterCMURun>
+				<RetryTimes Type="Integer">10</RetryTimes>
+				<CommandDelay>200</CommandDelay>				
+				<Range Type="DoubleList">-60.0,-40.0</Range>
+				<WriteCPKLog>1</WriteCPKLog>
+				<Wireless_LTE_Band_DRxRSSI_CPKcolumn>
+					<Item Name="SN" />
+					<Item Name="Result" />
+					<Item Name="Time" />
+					<Item Name="LTE_Band_DRxRSSI_VALUE" />
+				</Wireless_LTE_Band_DRxRSSI_CPKcolumn>
+			</ProcessObject>					
+			<!-- LTE DRX -->			
+			<ProcessObject ClassName="CWireless_LTE_Band_RxRSSI" Name="LTE_B7_DRxRSSI">
+				<PICSName Type="String">Wireless_LTE_B7_DRxRSSI</PICSName>
+				<Band Type="Integer">7</Band>
+				<RXMode Type="String">D</RXMode>			
+				<ReadMode Type="String">AGC</ReadMode>	
+				<LNAValue Type="Integer">2</LNAValue>		
+				<CalibrationState Type="Integer">1</CalibrationState>					
+				<TxBandwidth Type="Integer">1</TxBandwidth>
+				<RxBandwidth Type="Integer">1</RxBandwidth>
+				<Channel Type="Integer">21100</Channel>
+				<RFLevel>-50</RFLevel>
+				<OutputPort Type="Integer">1</OutputPort> 
+				<DelayAfterCMURun>1000</DelayAfterCMURun>
+				<RetryTimes Type="Integer">10</RetryTimes>
+				<CommandDelay>200</CommandDelay>				
+				<Range Type="DoubleList">-99.0,-40.0</Range>
+				<WriteCPKLog>1</WriteCPKLog>
+				<Wireless_LTE_Band_DRxRSSI_CPKcolumn>
+					<Item Name="SN" />
+					<Item Name="Result" />
+					<Item Name="Time" />
+					<Item Name="LTE_Band_DRxRSSI_VALUE" />
+				</Wireless_LTE_Band_DRxRSSI_CPKcolumn>
+			</ProcessObject>			
+			<!-- LTE DRX -->
+			<ProcessObject ClassName="CWireless_LTE_Band_RxRSSI" Name="LTE_B20_DRxRSSI">
+				<PICSName Type="String">Wireless_LTE_B20_DRxRSSI</PICSName>
+				<Band Type="Integer">20</Band>
+				<RXMode Type="String">D</RXMode>	
+				<ReadMode Type="String">AGC</ReadMode>	
+				<LNAValue Type="Integer">2</LNAValue>		
+				<CalibrationState Type="Integer">1</CalibrationState>					
+				<TxBandwidth Type="Integer">3</TxBandwidth>
+				<RxBandwidth Type="Integer">3</RxBandwidth>
+				<Channel Type="Integer">24300</Channel>
+				<RFLevel>-50</RFLevel>
+				<OutputPort Type="Integer">3</OutputPort>
+				<DelayAfterCMURun>1000</DelayAfterCMURun>
+				<RetryTimes Type="Integer">10</RetryTimes>
+				<CommandDelay>200</CommandDelay>				
+				<Range Type="DoubleList">-60.0,-40.0</Range>
+				<WriteCPKLog>1</WriteCPKLog>
+				<Wireless_LTE_Band_DRxRSSI_CPKcolumn>
+					<Item Name="SN" />
+					<Item Name="Result" />
+					<Item Name="Time" />
+					<Item Name="LTE_Band_DRxRSSI_VALUE" />
+				</Wireless_LTE_Band_DRxRSSI_CPKcolumn>
+			</ProcessObject>			
+			
+			<!-- LTE TX -->
+			<ProcessObject ClassName="CWireless_LTE_Band_TxPower" Name="LTE_B3_TxPower">
+				<PICSName Type="String">Wireless_LTE_B3_TxPower</PICSName>
+				<Band Type="Integer">3</Band>
+				<CommandDelay Type="Integer">200</CommandDelay>
+				<StartDelay Type="Integer">5</StartDelay>
+				<Frequency Type="Double">1747.5</Frequency>
+				<TxBandwidth Type="Integer">2</TxBandwidth>
+				<RxBandwidth Type="Integer">2</RxBandwidth>
+				<Channel Type="Integer">19575</Channel>
+				<TxGainIndex Type="Integer">85</TxGainIndex>
+				<PowerDegree Type="Integer">1</PowerDegree>
+				<PowerLevel Type="Integer">230</PowerLevel>
+				<RetryTimes Type="Integer">10</RetryTimes>
+				<InputPort Type="Integer">2</InputPort>
+				<Range Type="DoubleList">20.0,26.0</Range>
+				<TestMethod Type="Integer">1</TestMethod>
+				<!-- TestMethod: 0:GAIN_INDEX, 1:POWER_DBM -->
+				<LevelMode Type="String">MANual</LevelMode>
+				<!-- LevelMode: AUTomatic, MANual -->
+				<LevelMax Type="Integer">35</LevelMax>
+				<WriteCPKLog>1</WriteCPKLog>
+				<Wireless_LTE_Band_TxPower_CPKcolumn>
+					<Item Name="SN" />
+					<Item Name="Result" />
+					<Item Name="Time" />
+					<Item Name="LTE_Band_TxPower_VALUE" />
+				</Wireless_LTE_Band_TxPower_CPKcolumn>
+			</ProcessObject>	
+			<!-- LTE TX -->			
+			<ProcessObject ClassName="CWireless_LTE_Band_TxPower" Name="LTE_B7_TxPower">
+				<PICSName Type="String">Wireless_LTE_B7_TxPower</PICSName>
+				<Band Type="Integer">7</Band>
+				<CommandDelay Type="Integer">200</CommandDelay>
+				<StartDelay Type="Integer">5</StartDelay>
+				<Frequency Type="Double">2535.2</Frequency>
+				<TxBandwidth Type="Integer">2</TxBandwidth>
+				<RxBandwidth Type="Integer">2</RxBandwidth>
+				<Channel Type="Integer">21100</Channel>
+				<TxGainIndex Type="Integer">85</TxGainIndex>
+				<PowerDegree Type="Integer">1</PowerDegree>
+				<PowerLevel Type="Integer">235</PowerLevel>
+				<RetryTimes Type="Integer">10</RetryTimes>
+				<InputPort Type="Integer">2</InputPort>
+				<Range Type="DoubleList">20.0,26.0</Range>
+				<TestMethod Type="Integer">1</TestMethod>
+				<!-- TestMethod: 0:GAIN_INDEX, 1:POWER_DBM -->
+				<LevelMode Type="String">MANual</LevelMode>
+				<!-- LevelMode: AUTomatic, MANual -->
+				<LevelMax Type="Integer">35</LevelMax>
+				<WriteCPKLog>1</WriteCPKLog>
+				<Wireless_LTE_Band_TxPower_CPKcolumn>
+					<Item Name="SN" />
+					<Item Name="Result" />
+					<Item Name="Time" />
+					<Item Name="LTE_Band_TxPower_VALUE" />
+				</Wireless_LTE_Band_TxPower_CPKcolumn>
+			</ProcessObject>		
+			<ProcessObject ClassName="CWireless_LTE_Band_TxPower" Name="LTE_B20_TxPower">
+				<PICSName Type="String">Wireless_LTE_B20_TxPower</PICSName>
+				<Band Type="Integer">20</Band>
+				<CommandDelay Type="Integer">200</CommandDelay>
+				<StartDelay Type="Integer">5</StartDelay>
+				<Frequency Type="Double">847</Frequency>
+				<TxBandwidth Type="Integer">2</TxBandwidth>
+				<RxBandwidth Type="Integer">2</RxBandwidth>
+				<Channel Type="Integer">24300</Channel>
+				<TxGainIndex Type="Integer">85</TxGainIndex>
+				<PowerDegree Type="Integer">1</PowerDegree>
+				<PowerLevel Type="Integer">230</PowerLevel>
+				<RetryTimes Type="Integer">10</RetryTimes>
+				<InputPort Type="Integer">2</InputPort>
+				<Range Type="DoubleList">20.0,26.0</Range>
+				<TestMethod Type="Integer">1</TestMethod>
+				<!-- TestMethod: 0:GAIN_INDEX, 1:POWER_DBM -->
+				<LevelMode Type="String">AUTomatic</LevelMode>
+				<LevelMax Type="Integer">0</LevelMax>
+				<WriteCPKLog>1</WriteCPKLog>
+				<Wireless_LTE_Band_TxPower_CPKcolumn>
+					<Item Name="SN" />
+					<Item Name="Result" />
+					<Item Name="Time" />
+					<Item Name="LTE_Band_TxPower_VALUE" />
+				</Wireless_LTE_Band_TxPower_CPKcolumn>
+			</ProcessObject>		
+			<!-- BT TX -->
+			<ProcessObject ClassName="CWireless_BT_TxTest" Name="BT_TxPowerTest">
+				<PICSName Type="String">Wireless_BT_TxTest</PICSName>
+				<BTInput Type="String">39,9,4,4,0</BTInput> <!--channel,power,type,pattern,hopping-->
+				<CommandDelay Type="Integer">200</CommandDelay>
+				<BTStartDelay Type="Integer">5</BTStartDelay>
+				<PowerDegree Type="Integer">1</PowerDegree>
+				<Frequency Type="Double">2441.0</Frequency>
+				<RetryTimes Type="Integer">10</RetryTimes>
+				<InputPort Type="Integer">1</InputPort>
+				<Range Type="DoubleList">0.0,15.0</Range>
+				<WriteCPKLog>1</WriteCPKLog>
+				<BtCPKcolumn>
+					<Item Name="SN" />
+					<Item Name="Result" />
+					<Item Name="Time" />
+					<Item Name="BT_TxPower_VALUE" />
+				</BtCPKcolumn>
+			</ProcessObject>
+												
+			<ProcessObject ClassName="CNFC_Antenna_Tuner_IC" Name="Antenna_Tuner_IC">
+				<PICSName Type="String">Wireless_Antenna_Tuner_IC</PICSName>
+				<Tuner_IC Type="String">2</Tuner_IC>
+			</ProcessObject>
+			<ProcessObject ClassName="CWifiModuleOnOFF" Name="WifiModuleON">
+				<WifiModule Type="String">ON</WifiModule>
+				<RetryTimes Type="Integer">2</RetryTimes>
+			</ProcessObject>
+			<ProcessObject ClassName="CWifiModuleOnOFF" Name="WifiModuleOFF">
+				<WifiModule Type="String">OFF</WifiModule>
+				<RetryTimes Type="Integer">2</RetryTimes>
+			</ProcessObject>			
+
+			
+		</WirelessTestObjects>
+	</ProcessObjectSet>
+</Configuration>

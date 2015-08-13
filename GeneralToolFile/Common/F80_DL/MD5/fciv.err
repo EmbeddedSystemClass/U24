@@ -1,0 +1,264 @@
+********************************************************************************
+Command Line: fciv -r ..\INI\GT05B1ADLL.ini -xml GT05B1ADLL_MD5.xml 
+
+********************************************************************************
+Command Line: fciv -r ..\INI\GT05B2ADLL.ini -xml GT05B2ADLL_MD5.xml 
+
+********************************************************************************
+Command Line: fciv -r ..\INI\GT05B3ADLL.ini -xml GT05B3ADLL_MD5.xml 
+
+********************************************************************************
+Command Line: fciv -r ..\INI\GT47B1ADLL.ini -xml GT47B1ADLL_MD5.xml 
+
+********************************************************************************
+Command Line: fciv -r ..\INI\GT47B2ADLL.ini -xml GT47B2ADLL_MD5.xml 
+
+********************************************************************************
+Command Line: fciv -r ..\INI\GT47B3ADLL.ini -xml GT47B3ADLL_MD5.xml 
+
+********************************************************************************
+Command Line: fciv -r ErrorCodeDef -xml Errorcode_MD5.xml 
+
+********************************************************************************
+Command Line: fciv -r ..\UnifyUI_FacTestTool.exe -xml ..\MD5.xml 
+
+********************************************************************************
+Command Line: fciv -r ..\INI\GT05B1ADLL.ini -xml DL_MD5.xml 
+
+********************************************************************************
+Command Line: fciv -r ..\INI\GT05B2ADLL.ini -xml DL_MD5.xml 
+
+********************************************************************************
+Command Line: fciv -r ..\INI\GT05B1A_OS_DL_TestItem.xml -xml GT05B1A_OS_DL_TestItem_MD5.xml 
+
+********************************************************************************
+Command Line: fciv -r ..\INI\GT05B1A_Trigger_TestItem.xml -xml GT05B1A_Trigger_TestItem_MD5.xml 
+
+********************************************************************************
+Command Line: fciv -r ..\INI\GT05B2A_OS_DL_TestItem.xml -xml GT05B2A_OS_DL_TestItem_MD5.xml 
+
+********************************************************************************
+Command Line: fciv -r ..\INI\GT05B2A_Trigger_TestItem.xml -xml GT05B2A_Trigger_TestItem_MD5.xml 
+
+********************************************************************************
+Command Line: fciv -r ..\INI\GT05B3A_OS_DL_TestItem.xml -xml GT05B3A_OS_DL_TestItem_MD5.xml 
+
+********************************************************************************
+Command Line: fciv -r ..\INI\GT05B3A_Trigger_TestItem.xml -xml GT05B3A_Trigger_TestItem_MD5.xml 
+
+********************************************************************************
+Command Line: fciv -r ..\INI\GT47B1A_OS_DL_TestItem.xml -xml GT47B1A_OS_DL_TestItem_MD5.xml 
+
+********************************************************************************
+Command Line: fciv -r ..\INI\GT47B1A_Trigger_TestItem.xml -xml GT47B1A_Trigger_TestItem_MD5.xml 
+
+********************************************************************************
+Command Line: fciv -r ..\INI\GT47B2A_OS_DL_TestItem.xml -xml GT47B2A_OS_DL_TestItem_MD5.xml 
+
+********************************************************************************
+Command Line: fciv -r ..\INI\GT05B1A_OS_DL_TestItem.xml -xml GT05B1A_OS_DL_TestItem_MD5.xml 
+
+********************************************************************************
+Command Line: fciv -r ..\INI\GT05B1A_Trigger_TestItem.xml -xml GT05B1A_Trigger_TestItem_MD5.xml 
+
+********************************************************************************
+Command Line: fciv -r ..\INI\GT05B2A_OS_DL_TestItem.xml -xml GT05B2A_OS_DL_TestItem_MD5.xml 
+
+********************************************************************************
+Command Line: fciv -r ..\INI\GT05B2A_Trigger_TestItem.xml -xml GT05B2A_Trigger_TestItem_MD5.xml 
+
+********************************************************************************
+Command Line: fciv -r ..\INI\GT05B3A_OS_DL_TestItem.xml -xml GT05B3A_OS_DL_TestItem_MD5.xml 
+
+********************************************************************************
+Command Line: fciv -r ..\INI\GT05B3A_Trigger_TestItem.xml -xml GT05B3A_Trigger_TestItem_MD5.xml 
+
+********************************************************************************
+Command Line: fciv -r ..\INI\GT47B1A_OS_DL_TestItem.xml -xml GT47B1A_OS_DL_TestItem_MD5.xml 
+
+********************************************************************************
+Command Line: fciv -r ..\INI\GT47B1A_Trigger_TestItem.xml -xml GT47B1A_Trigger_TestItem_MD5.xml 
+
+********************************************************************************
+Command Line: fciv -r ..\INI\GT47B2A_OS_DL_TestItem.xml -xml GT47B2A_OS_DL_TestItem_MD5.xml 
+
+********************************************************************************
+Command Line: fciv -r ..\INI\GT47B2A_Trigger_TestItem.xml -xml GT47B2A_Trigger_TestItem_MD5.xml 
+
+********************************************************************************
+Command Line: fciv -r ErrorCodeDef -xml Errorcode_MD5.xml 
+
+********************************************************************************
+Command Line: fciv -r ..\UnifyUI_FacTestTool.exe -xml ..\MD5.xml 
+
+********************************************************************************
+Command Line: fciv -r ..\INI\GT05B1A_OS_DL_TestItem.xml -xml GT05B1A_OS_DL_TestItem_MD5.xml 
+
+********************************************************************************
+Command Line: fciv -r ..\INI\GT05B1A_Trigger_TestItem.xml -xml GT05B1A_Trigger_TestItem_MD5.xml 
+
+********************************************************************************
+Command Line: fciv -r ..\INI\GT05B2A_OS_DL_TestItem.xml -xml GT05B2A_OS_DL_TestItem_MD5.xml 
+
+********************************************************************************
+Command Line: fciv -r ..\INI\GT05B2A_Trigger_TestItem.xml -xml GT05B2A_Trigger_TestItem_MD5.xml 
+
+********************************************************************************
+Command Line: fciv -r ..\INI\GT05B3A_OS_DL_TestItem.xml -xml GT05B3A_OS_DL_TestItem_MD5.xml 
+
+********************************************************************************
+Command Line: fciv -r ..\INI\GT05B3A_Trigger_TestItem.xml -xml GT05B3A_Trigger_TestItem_MD5.xml 
+
+********************************************************************************
+Command Line: fciv -r ..\INI\GT47B1A_OS_DL_TestItem.xml -xml GT47B1A_OS_DL_TestItem_MD5.xml 
+
+********************************************************************************
+Command Line: fciv -r ..\INI\GT47B1A_Trigger_TestItem.xml -xml GT47B1A_Trigger_TestItem_MD5.xml 
+
+********************************************************************************
+Command Line: fciv -r ..\INI\GT47B2A_OS_DL_TestItem.xml -xml GT47B2A_OS_DL_TestItem_MD5.xml 
+
+********************************************************************************
+Command Line: fciv -r ..\INI\GT47B2A_Trigger_TestItem.xml -xml GT47B2A_Trigger_TestItem_MD5.xml 
+
+********************************************************************************
+Command Line: fciv -r ErrorCodeDef -xml Errorcode_MD5.xml 
+
+********************************************************************************
+Command Line: fciv -r ..\UnifyUI_FacTestTool.exe -xml ..\MD5.xml 
+
+********************************************************************************
+Command Line: fciv -r ..\INI\GT05B1A_OS_DL_TestItem.xml -xml GT05B1A_OS_DL_TestItem_MD5.xml 
+
+********************************************************************************
+Command Line: fciv -r ..\INI\GT05B1A_Trigger_TestItem.xml -xml GT05B1A_Trigger_TestItem_MD5.xml 
+
+********************************************************************************
+Command Line: fciv -r ..\INI\GT05B2A_OS_DL_TestItem.xml -xml GT05B2A_OS_DL_TestItem_MD5.xml 
+
+********************************************************************************
+Command Line: fciv -r ..\INI\GT05B2A_Trigger_TestItem.xml -xml GT05B2A_Trigger_TestItem_MD5.xml 
+
+********************************************************************************
+Command Line: fciv -r ..\INI\GT05B3A_OS_DL_TestItem.xml -xml GT05B3A_OS_DL_TestItem_MD5.xml 
+
+********************************************************************************
+Command Line: fciv -r ..\INI\GT05B3A_Trigger_TestItem.xml -xml GT05B3A_Trigger_TestItem_MD5.xml 
+
+********************************************************************************
+Command Line: fciv -r ..\INI\GT47B1A_OS_DL_TestItem.xml -xml GT47B1A_OS_DL_TestItem_MD5.xml 
+
+********************************************************************************
+Command Line: fciv -r ..\INI\GT47B1A_Trigger_TestItem.xml -xml GT47B1A_Trigger_TestItem_MD5.xml 
+
+********************************************************************************
+Command Line: fciv -r ..\INI\GT47B2A_OS_DL_TestItem.xml -xml GT47B2A_OS_DL_TestItem_MD5.xml 
+
+********************************************************************************
+Command Line: fciv -r ..\INI\GT47B2A_Trigger_TestItem.xml -xml GT47B2A_Trigger_TestItem_MD5.xml 
+
+********************************************************************************
+Command Line: fciv -r ErrorCodeDef -xml Errorcode_MD5.xml 
+
+********************************************************************************
+Command Line: fciv -r ..\UnifyUI_FacTestTool.exe -xml ..\MD5.xml 
+
+********************************************************************************
+Command Line: fciv -r ..\INI\GT05B1A_OS_DL_TestItem.xml -xml GT05B1A_OS_DL_TestItem_MD5.xml 
+
+********************************************************************************
+Command Line: fciv -r ..\INI\GT05B1A_Trigger_TestItem.xml -xml GT05B1A_Trigger_TestItem_MD5.xml 
+
+********************************************************************************
+Command Line: fciv -r ..\INI\GT05B2A_OS_DL_TestItem.xml -xml GT05B2A_OS_DL_TestItem_MD5.xml 
+
+********************************************************************************
+Command Line: fciv -r ..\INI\GT05B2A_Trigger_TestItem.xml -xml GT05B2A_Trigger_TestItem_MD5.xml 
+
+********************************************************************************
+Command Line: fciv -r ..\INI\GT05B3A_OS_DL_TestItem.xml -xml GT05B3A_OS_DL_TestItem_MD5.xml 
+
+********************************************************************************
+Command Line: fciv -r ..\INI\GT05B1A_OS_DL_TestItem.xml -xml GT05B1A_OS_DL_TestItem_MD5.xml 
+
+********************************************************************************
+Command Line: fciv -r ..\INI\GT05B1A_Trigger_TestItem.xml -xml GT05B1A_Trigger_TestItem_MD5.xml 
+
+********************************************************************************
+Command Line: fciv -r ..\INI\GT05B2A_OS_DL_TestItem.xml -xml GT05B2A_OS_DL_TestItem_MD5.xml 
+
+********************************************************************************
+Command Line: fciv -r ..\INI\GT05B2A_Trigger_TestItem.xml -xml GT05B2A_Trigger_TestItem_MD5.xml 
+
+********************************************************************************
+Command Line: fciv -r ..\INI\GT05B3A_OS_DL_TestItem.xml -xml GT05B3A_OS_DL_TestItem_MD5.xml 
+
+********************************************************************************
+Command Line: fciv -r ..\INI\GT05B3A_Trigger_TestItem.xml -xml GT05B3A_Trigger_TestItem_MD5.xml 
+
+********************************************************************************
+Command Line: fciv -r ..\INI\GT47B1A_OS_DL_TestItem.xml -xml GT47B1A_OS_DL_TestItem_MD5.xml 
+
+********************************************************************************
+Command Line: fciv -r ..\INI\GT47B1A_Trigger_TestItem.xml -xml GT47B1A_Trigger_TestItem_MD5.xml 
+
+********************************************************************************
+Command Line: fciv -r ..\INI\GT47B2A_OS_DL_TestItem.xml -xml GT47B2A_OS_DL_TestItem_MD5.xml 
+
+********************************************************************************
+Command Line: fciv -r ..\INI\GT47B2A_Trigger_TestItem.xml -xml GT47B2A_Trigger_TestItem_MD5.xml 
+
+********************************************************************************
+Command Line: fciv -r ErrorCodeDef -xml Errorcode_MD5.xml 
+
+********************************************************************************
+Command Line: fciv -r ..\UnifyUI_FacTestTool.exe -xml ..\MD5.xml 
+
+********************************************************************************
+Command Line: fciv -r ..\INI\GT05B1A_OS_DL_TestItem.xml -xml GT05B1A_OS_DL_TestItem_MD5.xml 
+
+********************************************************************************
+Command Line: fciv -r ..\INI\GT05B1A_Trigger_TestItem.xml -xml GT05B1A_Trigger_TestItem_MD5.xml 
+
+********************************************************************************
+Command Line: fciv -r ..\INI\GT05B2A_OS_DL_TestItem.xml -xml GT05B2A_OS_DL_TestItem_MD5.xml 
+
+********************************************************************************
+Command Line: fciv -r ..\INI\GT05B2A_Trigger_TestItem.xml -xml GT05B2A_Trigger_TestItem_MD5.xml 
+
+********************************************************************************
+Command Line: fciv -r ..\INI\GT05B3A_OS_DL_TestItem.xml -xml GT05B3A_OS_DL_TestItem_MD5.xml 
+
+********************************************************************************
+Command Line: fciv -r ..\INI\GT05B3A_Trigger_TestItem.xml -xml GT05B3A_Trigger_TestItem_MD5.xml 
+
+********************************************************************************
+Command Line: fciv -r ..\INI\GT47B1A_OS_DL_TestItem.xml -xml GT47B1A_OS_DL_TestItem_MD5.xml 
+
+********************************************************************************
+Command Line: fciv -r ..\INI\GT47B1A_Trigger_TestItem.xml -xml GT47B1A_Trigger_TestItem_MD5.xml 
+
+********************************************************************************
+Command Line: fciv -r ..\INI\GT47B2A_OS_DL_TestItem.xml -xml GT47B2A_OS_DL_TestItem_MD5.xml 
+
+********************************************************************************
+Command Line: fciv -r ..\INI\GT47B2A_Trigger_TestItem.xml -xml GT47B2A_Trigger_TestItem_MD5.xml 
+
+********************************************************************************
+Command Line: fciv -r ErrorCodeDef -xml Errorcode_MD5.xml 
+
+********************************************************************************
+Command Line: fciv -r ..\UnifyUI_FacTestTool.exe -xml ..\MD5.xml 
+
+********************************************************************************
+Command Line: fciv -r ..\INI\GF80B1A_OS_DL_TestItem.xml -xml GF80B1A_OS_DL_TestItem_MD5.xml 
+
+********************************************************************************
+Command Line: fciv -r ..\INI\GF80B1A_Trigger_TestItem.xml -xml GF80B1A_Trigger_TestItem_MD5.xml 
+
+********************************************************************************
+Command Line: fciv -r ErrorCodeDef -xml Errorcode_MD5.xml 
+
+********************************************************************************
+Command Line: fciv -r ..\UnifyUI_FacTestTool.exe -xml ..\MD5.xml 
+

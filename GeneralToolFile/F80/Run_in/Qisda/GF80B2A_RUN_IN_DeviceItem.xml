@@ -1,0 +1,49 @@
+<Configuration>
+	<Memo>
+		<Model>GDETB1A</Model>
+		<Station>MMI_BB</Station>
+	</Memo>
+	<TestProcessor>
+		<GPIBInterfaceID Editable="TRUE" Type="Integer">0</GPIBInterfaceID>
+		<GPIBCardAddress Editable="TRUE" Type="Integer">0</GPIBCardAddress>
+		<TesterDevice>
+			<Item ClassName="CCMU200" Name="CMU 200"/>
+			<Item ClassName="CAngilent8960" Name="8960"/>
+			<RFInputPort>2</RFInputPort>
+			<RFOutputPort>2</RFOutputPort>
+		</TesterDevice>
+		<PowerSupply>
+			<PowerSupplyCount Editable="TRUE" Type="Interger">2</PowerSupplyCount>
+			<PowerSupplyList>
+				<PS1Address>5</PS1Address>
+				<PS2Address>10</PS2Address>
+				<PS3Address></PS3Address>
+			</PowerSupplyList>
+			<Item ClassName="CCommonPS" Name="E3631"/>
+			<Item ClassName="CCommonPS" Name="66311"/>
+			<Item ClassName="CCommonPS" Name="66319"/>
+			<Item ClassName="CCommonPS" Name="66332"/>
+			<Item ClassName="CKeithley2304" Name="2304"/>
+			<Item ClassName="CKeithley2306" Name="2306"/>
+			<PS1_OnOff Editable="TRUE" Type="Boolean">FALSE</PS1_OnOff>
+			<PS2_OnOff Editable="TRUE" Type="Boolean">FALSE</PS2_OnOff>
+			<Voltage Editable="TRUE" Type="Double">3.8</Voltage> 
+ 			<Current Editable="TRUE" Type="Double">1.2</Current>
+		</PowerSupply>
+        <PowerOnCheck>
+            <IsUsed Editable="TRUE" Type="Boolean">FALSE</IsUsed>
+            <PowerCheckOnTime Editable="TRUE" Type="Integer">20</PowerCheckOnTime>           
+            <PS1Value Editable="TRUE" Type="DoubleList">0,0.2</PS1Value>               
+            <PS2Value Editable="TRUE" Type="DoubleList">-1.0,1.0</PS2Value>  
+        </PowerOnCheck>          
+		
+		<RelayBoard>
+  				<IsUsed Editable="TRUE" Type="Boolean">FALSE</IsUsed>
+				<!--Parameter: board,slot,OnOff-->
+  				<RelayBoard_Control Editable="TRUE" Type="IntegerList">0,0,0,0,0</RelayBoard_Control>
+		</RelayBoard>
+		<USB4702>
+				<IsUsed Editable="TRUE" Type="Boolean">FALSE</IsUsed>
+        </USB4702>
+	</TestProcessor>
+</Configuration>

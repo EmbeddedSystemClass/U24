@@ -1,0 +1,11 @@
+<FrameworkConfig>
+	<RfSettings>
+		<RfCable>
+			<ThroughLoss>0.83</ThroughLoss>
+		</RfCable>
+	</RfSettings>
+	<TestSample>
+		<Counter>0</Counter>
+		<UpLimitPerCycle>200</UpLimitPerCycle>
+	</TestSample>
+</FrameworkConfig>

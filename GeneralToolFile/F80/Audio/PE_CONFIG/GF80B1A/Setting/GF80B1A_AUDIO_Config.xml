@@ -1,0 +1,17 @@
+<Configuration>
+	
+	<Phone>
+		<Keyword Type="String">DIAG</Keyword>
+	</Phone>
+
+	<AudioPath>
+		<AP_TopMic>C-Media</AP_TopMic>
+		<AP_BottomMic>C-Media</AP_BottomMic>
+		<AP_HeadsetMic>C-Media</AP_HeadsetMic>
+		<AP_Speaker>C-Media</AP_Speaker>
+		<AP_HeadsetReceiver>C-Media</AP_HeadsetReceiver>
+		<AP_Receiver>C-Media</AP_Receiver>
+	</AudioPath>
+	
+</Configuration>
+
