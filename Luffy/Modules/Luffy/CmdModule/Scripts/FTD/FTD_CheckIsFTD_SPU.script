@@ -1,0 +1,15 @@
+{Header
+}
+{Description
+Check is in FTD Mode?
+}
+{Code
+0000 waitinput %var0 COMPort
+
+0001 Run CmdModuleExport.dll FTDCmd_CheckIsFTD_SPU %var0 1 0 %var1
+0002 comparetrue 0006
+0003 print %var1 "[ErrorMsg] "
+0004 print "Run FTDCmd_CheckIsFTD_SPU Fail"
+0005 comparefalse 9999
+0006 print "Run FTDCmd_CheckIsFTD_SPU Succsee"
+}

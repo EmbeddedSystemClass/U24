@@ -1,0 +1,124 @@
+<Configuration>
+	<ToolInfo>
+		<TOOL_VERSION>QTT_TOOL_VERSION</TOOL_VERSION>
+	</ToolInfo>
+	<TestProcessor>
+		<Name Editable="TRUE" Type="String">CGPProcessor</Name>
+		<ForceToPass Type="Boolean">FALSE</ForceToPass>
+	</TestProcessor>
+	<GPIB>
+		<UsingGPIB Type="Boolean">TRUE</UsingGPIB>
+		<GPIBInterfaceID Type="Integer">0</GPIBInterfaceID>
+		<GPIBCardAddress Type="Integer">0</GPIBCardAddress>
+	</GPIB>
+	<Phone>
+		<ClassName>CAndroidPhone</ClassName>
+		<QisdaCmdModule>CmdModuleExport</QisdaCmdModule>
+	</Phone>
+	<PowerSupply>
+		<PowerSupplyCount Type="Interger">2</PowerSupplyCount>
+		<PowerSupplyList>
+			<PS1Address>5</PS1Address>
+			<PS2Address>6</PS2Address>
+		</PowerSupplyList>
+		<Item ClassName="CCommonPS" Name="E3631"/>
+		<Item ClassName="CCommonPS" Name="66311"/>
+		<Item ClassName="CCommonPS" Name="66321"/>
+		<Item ClassName="CCommonPS" Name="66319"/>
+		<Item ClassName="CCommonPS" Name="66332"/>
+		<Item ClassName="CCommonPS" Name="2304"/>
+		<Item ClassName="CCommonPS" Name="2306"/>
+	</PowerSupply>
+	
+	<TestItemList>
+		<Item Name="StartPS_Battery" Enabled="TRUE"/>	
+		<Item Name="StartPS_USB" Enabled="TRUE"/>
+		<Item Name="SleepDelay" Enabled="TRUE"/>
+		<Item Name="LeakageCurrent" Enabled="TRUE"/>
+		<Item Name="GetCurrent" Enabled="TRUE"/>
+		<Item Name="IsPhoneConnected" Enabled="TRUE"/>
+		<Item Name="ReadIMEI" Enabled="TRUE"/>
+		<Item Name="RebootDevice" Enabled="TRUE"/>
+		<Item Name="StopPS_USB" Enabled="TRUE"/>
+		<Item Name="StopPS_Battery" Enabled="TRUE"/>
+	</TestItemList>
+	
+	<Param>
+
+		<SleepDelay ClassName="CSleepDelay">
+			<WaitTime Type="Integer">3000</WaitTime>
+		</SleepDelay>
+	
+		<ReadIMEI ClassName="CReadIMEI">
+		</ReadIMEI>
+		
+		<StartPS_Battery ClassName="CPowerSupplyControl">
+			<PS_Index Type="Integer">1</PS_Index>
+			<Voltage_Step Type="Double">2.0</Voltage_Step>
+			<Voltage_Target Type="Double">3.8</Voltage_Target>
+			<Current Type="Double">2.0</Current>
+			<PS_OnOff Type="Boolean">TRUE</PS_OnOff>
+			<WaitAfterOnOff Type="Int">5000</WaitAfterOnOff>
+			<PICSName Type="String">Start_BATT_Power_Supply</PICSName>
+		</StartPS_Battery>
+		
+		<StartPS_USB ClassName="CPowerSupplyControl">
+			<PS_Index Type="Integer">2</PS_Index>
+			<Voltage_Step Type="Double">2.0</Voltage_Step>
+			<Voltage_Target Type="Double">5.0</Voltage_Target>
+			<Current Type="Double">2.0</Current>
+			<PS_OnOff Type="Boolean">TRUE</PS_OnOff>
+			<WaitAfterOnOff Type="Int">1000</WaitAfterOnOff>
+			<PICSName Type="String">Start_USB_Power_Supply</PICSName>
+		</StartPS_USB>
+		
+		<GetCurrent ClassName="CGetCurrent">
+			<PS_Index Type="Integer">1</PS_Index>
+			<WaitTimeForFetch Type="Integer">1000</WaitTimeForFetch>
+			<Unit Type="String">A</Unit>
+			<NoNegative Type="Integer">30</NoNegative>
+			<AverageTimes Type="Integer">1000</AverageTimes>
+			<Range Type="DoubleList">0,5</Range>
+			<PICSName Type="String">GetCurrent</PICSName>
+		</GetCurrent>
+		
+		<LeakageCurrent ClassName="CLeakageCurrent">
+			<FetchCount Type="Integer">30</FetchCount>
+			<WaitTimeForShutdown Type="Integer">1000</WaitTimeForShutdown>
+			<WaitTimeForFetch Type="Integer">1000</WaitTimeForFetch>
+			<Range Type="DoubleList">150,210</Range>
+		</LeakageCurrent>
+		
+		<IsPhoneConnected ClassName="CConnectPhone">
+			<WaitTimeForBoot Type="Integer">0</WaitTimeForBoot>
+			<RetryConnectTimes Type="Integer">30</RetryConnectTimes>
+			<WaitTimeAfterConnect Type="Integer">0</WaitTimeAfterConnect>
+		</IsPhoneConnected>
+		
+		<RebootDevice ClassName="CADBReboot" >
+			<WaitTimeForBoot Type="Integer">2000</WaitTimeForBoot>
+		</RebootDevice>
+		
+		<StopPS_USB ClassName="CPowerSupplyControl">
+			<PS_Index Type="Integer">2</PS_Index>
+			<Voltage_Step Type="Double">2.0</Voltage_Step>
+			<Voltage_Target Type="Double">0.0</Voltage_Target>
+			<Current Type="Double">0.0</Current>
+			<PS_OnOff Type="Boolean">FALSE</PS_OnOff>
+			<WaitAfterOnOff Type="Int">1000</WaitAfterOnOff>
+			<PICSName Type="String">Stop_USB_Power_Supply</PICSName>
+		</StopPS_USB>
+		
+		<StopPS_Battery ClassName="CPowerSupplyControl">
+			<PS_Index Type="Integer">1</PS_Index>
+			<Voltage_Step Type="Double">2.0</Voltage_Step>
+			<Voltage_Target Type="Double">0.0</Voltage_Target>
+			<Current Type="Double">0.0</Current>
+			<PS_OnOff Type="Boolean">FALSE</PS_OnOff>
+			<WaitAfterOnOff Type="Int">1000</WaitAfterOnOff>
+			<PICSName Type="String">Stop_BATT_Power_Supply</PICSName>
+		</StopPS_Battery>
+	
+	</Param>
+	
+</Configuration>

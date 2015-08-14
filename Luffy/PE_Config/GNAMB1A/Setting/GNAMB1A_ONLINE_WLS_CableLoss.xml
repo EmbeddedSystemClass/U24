@@ -1,0 +1,65 @@
+<FrameworkConfig>
+	<RfSettings>
+		<RfCable>
+			<CurrentRfLosses>SystemLoss1</CurrentRfLosses>
+			<RfLosses name="SystemLoss1">
+				<RfType name="TX">
+					<RfBand name="BTWLAN_BT"><!--FSP-->
+						<RfChannel name="0">
+							<RfLoss>5</RfLoss>
+						</RfChannel>
+						<RfChannel name="39">
+							<RfLoss>5</RfLoss>
+						</RfChannel>
+						<RfChannel name="78">
+							<RfLoss>5</RfLoss>
+						</RfChannel>
+					</RfBand>
+
+					<RfBand name="WLAN_AT1"> <!--Antenna1-->
+						<RfChannel name="1"> <!--2412-->
+							<RfLoss>5</RfLoss>
+						</RfChannel>
+						<RfChannel name="7"> <!--2442-->
+							<RfLoss>5</RfLoss>
+						</RfChannel>					
+						<RfChannel name="13"> <!--2472-->
+							<RfLoss>5</RfLoss>
+						</RfChannel>
+						<RfChannel name="36"> <!--5180-->
+							<RfLoss>7</RfLoss>
+						</RfChannel>	
+						<RfChannel name="100"> <!--5500-->
+							<RfLoss>7</RfLoss>
+						</RfChannel>	
+						<RfChannel name="161"> <!--5805-->
+							<RfLoss>7</RfLoss>
+						</RfChannel>						
+					</RfBand>
+					<RfBand name="WLAN_AT2"> <!--Antenna2-->
+						<RfChannel name="1"> <!--2412-->
+							<RfLoss>5.5</RfLoss>
+						</RfChannel>
+						<RfChannel name="7"> <!--2442-->
+							<RfLoss>5.5</RfLoss>
+						</RfChannel>					
+						<RfChannel name="13"> <!--2472-->
+							<RfLoss>5.5</RfLoss>
+						</RfChannel>
+						<RfChannel name="36"> <!--5180-->
+							<RfLoss>7.5</RfLoss>
+						</RfChannel>	
+						<RfChannel name="100"> <!--5500-->
+							<RfLoss>7.5</RfLoss>
+						</RfChannel>	
+						<RfChannel name="161"> <!--5805-->
+							<RfLoss>7.5</RfLoss>
+						</RfChannel>							
+					</RfBand>					
+				</RfType>
+				<RfType name="RX">
+				</RfType>
+			</RfLosses>
+		</RfCable>
+	</RfSettings>
+</FrameworkConfig>

@@ -1,0 +1,8 @@
+<FrameworkConfig>
+	<RfSettings>
+		<RfCable>
+			<CurrentRfLosses>SystemLoss1</CurrentRfLosses>
+	
+		</RfCable>
+	</RfSettings>
+</FrameworkConfig>

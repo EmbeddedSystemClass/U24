@@ -1,0 +1,22 @@
+{Header
+}
+{Description
+Execute ADB CMD.
+ex. adb reboot, just type "reboot".
+}
+{Parameter
+Enter the ADB command.
+}
+{Code
+0000 compare 1 1
+0001 waitinput %var0 Para
+
+0002 Run CmdModuleExport.dll ADBCmd_Common_NoResponse_SPU 1 0 %var0 %var2
+0005 comparetrue 0007
+
+0006 print %var2 "[ErrorMsg] "
+0007 print "FAIL to execute  ADBCmd_Common_SPU"
+0008 comparefalse 9999
+
+0009 print "SUCCESS to execute ADBCmd_Common_SPU"
+}

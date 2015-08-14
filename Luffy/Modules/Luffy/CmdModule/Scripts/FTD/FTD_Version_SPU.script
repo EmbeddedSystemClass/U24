@@ -1,0 +1,19 @@
+{Header
+}
+{Description
+Check FTD Version.
+}
+{Code
+0000 waitinput %var0 COMPort
+0001 assign %var1 91;1
+
+0002 Run CmdModuleExport.dll FTDCmd_Common_SPU %var0 1 0 %var1 %var2 %var3
+0003 comparetrue 0007
+
+0004 print %var3 "[ErrorMsg] "
+0005 print "Run Check FTD version Fail"
+0006 comparefalse 9999
+
+0007 print %var2 "[FTD Version] "
+0008 print "Run Check FTD version Succsee"
+}

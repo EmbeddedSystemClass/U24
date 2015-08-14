@@ -1,0 +1,18 @@
+{Header
+}
+{Description
+Execute ADB CMD Sample script
+LINE2
+LINE3
+}
+{Code
+0000 Run CmdModuleExport.dll ADBCmd_SAMPLE_HasReturn_SPU 1 0 %var0 %var1
+0001 print %var0 "[Response] "
+0002 comparetrue 0006
+
+0003 print %var1 "[ErrorMsg] "
+0004 print "FAIL to execute ADBCmd_SAMPLE_HasReturn_SPU"
+0005 comparefalse 9999
+
+0006 print "SUCCESS to execute ADBCmd_SAMPLE_HasReturn_SPU"
+}

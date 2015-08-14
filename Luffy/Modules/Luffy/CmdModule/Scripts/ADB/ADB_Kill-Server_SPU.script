@@ -1,0 +1,12 @@
+{Header
+}
+{Description
+ADB.exe kill-server
+}
+{Code
+0000 Run CmdModuleExport.dll ADBCmd_KillServer_SPU 1 0
+0001 comparetrue 0004
+0002 print "FAIL to execute ADBCmd_KillServer_SPU"
+0003 comparefalse 9999
+0004 print "SUCCESS to execute ADBCmd_KillServer_SPU"
+}

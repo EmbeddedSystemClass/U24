@@ -1,0 +1,8 @@
+<CableLoss>
+	<RX>
+		<FMRssi name="FMRssi">
+			<FreqMHz_H name="9810">0.7</FreqMHz_H>
+		</FMRssi>
+	</RX>
+
+</CableLoss>

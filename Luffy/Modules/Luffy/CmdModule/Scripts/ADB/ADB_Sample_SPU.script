@@ -1,0 +1,16 @@
+{Header
+}
+{Description
+Execute ADB CMD Sample script
+LINE2
+LINE3
+}
+{Code
+0000 Run CmdModuleExport.dll ADBCmd_SAMPLE_SPU 1 0 %var0
+0001 comparetrue 0005
+0002 print %var0 "[ErrorMsg] "
+0003 print "FAIL to execute ADBCmd_SAMPLE_SPU"
+0004 comparefalse 9999
+
+0005 print "SUCCESS to execute ADBCmd_SAMPLE_SPU"
+}

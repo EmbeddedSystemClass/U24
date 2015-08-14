@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Unify_GP", "..\Modules\Luffy\Unify_GP.vcproj", "{8EC13AA9-EB67-4302-9A4E-25A05E8A8E85}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CmdModuleExport", "..\Modules\Luffy\CmdModuleExport.vcproj", "{F9E11286-C8D6-4B2F-8D2F-421F00CCF878}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		TEST_Debug|Win32 = TEST_Debug|Win32
+		TEST_Release|Win32 = TEST_Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8EC13AA9-EB67-4302-9A4E-25A05E8A8E85}.TEST_Debug|Win32.ActiveCfg = TEST_Debug|Win32
+		{8EC13AA9-EB67-4302-9A4E-25A05E8A8E85}.TEST_Debug|Win32.Build.0 = TEST_Debug|Win32
+		{8EC13AA9-EB67-4302-9A4E-25A05E8A8E85}.TEST_Release|Win32.ActiveCfg = TEST_Release|Win32
+		{8EC13AA9-EB67-4302-9A4E-25A05E8A8E85}.TEST_Release|Win32.Build.0 = TEST_Release|Win32
+		{F9E11286-C8D6-4B2F-8D2F-421F00CCF878}.TEST_Debug|Win32.ActiveCfg = TEST_Debug|Win32
+		{F9E11286-C8D6-4B2F-8D2F-421F00CCF878}.TEST_Debug|Win32.Build.0 = TEST_Debug|Win32
+		{F9E11286-C8D6-4B2F-8D2F-421F00CCF878}.TEST_Release|Win32.ActiveCfg = TEST_Release|Win32
+		{F9E11286-C8D6-4B2F-8D2F-421F00CCF878}.TEST_Release|Win32.Build.0 = TEST_Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

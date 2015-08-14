@@ -1,0 +1,26 @@
+<Configuration>
+	
+	<Phone>
+		<COMPort Type="Integer">0</COMPort>
+		<Keyword Type="String">Actions</Keyword>
+		<Slot_00>HS</Slot_00>
+	</Phone>
+
+	<AudioPath>
+		<AP_HeadsetMic>USB</AP_HeadsetMic>
+	</AudioPath>
+	
+	<ProcessObjectSet>
+		<WIFITestObjects>
+			<CPKcolumn>
+			</CPKcolumn>
+		</WIFITestObjects>
+		
+		<BTTestObjects>
+			<CPKcolumn>
+			</CPKcolumn>
+		</BTTestObjects>
+	</ProcessObjectSet>
+	
+</Configuration>
+

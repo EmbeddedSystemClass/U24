@@ -1,0 +1,17 @@
+{Header
+}
+{Description
+Switch phone to Offline Mode via QMSL.
+NOTICE: Probably can't switch to any other mode, beside restart.
+}
+{Parameter
+}
+{Code
+0000 waitinput %var0 COMPort
+0001 waitinput %var1 UseQPST 
+0002 Run CmdModuleExport.dll PhoneMode_QMSL_SetMode_SPU %var0 %var1 1 0 0
+0003 comparetrue 0006
+0004 print "FAIL to Set Offline Mode via QMSL"
+0005 comparefalse 9999
+0006 print "Set Offline Mode via QMSL SUCCESS"
+}

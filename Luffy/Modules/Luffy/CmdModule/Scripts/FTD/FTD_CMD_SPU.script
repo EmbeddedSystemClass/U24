@@ -1,0 +1,23 @@
+{Header
+}
+{Description
+FTD Command test script.
+}
+{Parameter
+Enter the FTD CMD number, with ';'.
+ex,: 91;1 or 91;1;0;0 for FTD version (91->1).
+}
+{Code
+0000 waitinput %var0 COMPort
+0001 waitinput %var1 Para
+
+0002 Run CmdModuleExport.dll FTDCmd_Common_SPU %var0 1 0 %var1 %var2 %var3
+0003 comparetrue 0007
+
+0004 print %var3 "[ErrorMsg] "
+0005 print "Run FTDCmd_Common_SPU Fail"
+0006 comparefalse 9999
+
+0007 print %var2
+0008 print "Run FTDCmd_Common_SPU Succsee"
+}

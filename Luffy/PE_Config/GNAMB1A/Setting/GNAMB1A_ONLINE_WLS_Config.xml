@@ -1,0 +1,9 @@
+<Configuration>
+	<Phone>
+		<COMPort Type="Integer">0</COMPort>
+		<Keyword Type="String">Diagnostics</Keyword>
+	</Phone>
+	
+	<ProcessObjectSet>
+	</ProcessObjectSet>
+</Configuration>

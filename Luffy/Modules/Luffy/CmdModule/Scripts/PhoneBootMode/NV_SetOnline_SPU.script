@@ -1,0 +1,16 @@
+{Header
+}
+{Description
+Set BootMode to Online Mode via Write NV453 directly.
+}
+{Parameter
+}
+{Code
+0000 waitinput %var0 COMPort
+0001 waitinput %var1 UseQPST
+0002 Run CmdModuleExport.dll NV_WriteNV453_SPU %var0 0 1 0 0
+0003 comparetrue 0006
+0004 print "Set BootMode Online via NV453 FAILURE"
+0005 comparefalse 9999
+0004 print "Set BootMode Online via NV453 SUCCESS"
+}

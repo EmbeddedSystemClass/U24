@@ -1,0 +1,24 @@
+{Header
+}
+{Description
+Get BootMode via access NV453.
+}
+{Parameter
+}
+{Code
+0000 waitinput %var0 COMPort
+0001 waitinput %var1 UseQPST
+
+0002 Run CmdModuleExport.dll NV_ReadNV453_SPU %var0 %var1 1 0 %var2
+0003 comparetrue 0006
+0004 print "Fail aNV_ReadNV453_SPU API"
+0005 comparefalse 9999
+
+0006 compare %var2 0
+0007 comparetrue 0010
+0008 print "FTM mode"
+0009 comparefalse 0011
+0010 print "Online mode"
+
+0011 compare 1 1
+}

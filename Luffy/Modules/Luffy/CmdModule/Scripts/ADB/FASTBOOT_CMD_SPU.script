@@ -1,0 +1,23 @@
+{Header
+}
+{Description
+Execute FASTBOOT CMD.
+ex. "fastboot reboot", just type "reboot".
+}
+{Parameter
+Enter the FASTBOOT command.
+}
+{Code
+0000 compare 1 1
+0001 waitinput %var0 Para
+
+0002 Run CmdModuleExport.dll ADBCmd_Fastboot_Common_SPU 1 0 %var0 %var1 %var2
+0003 print %var1
+0004 comparetrue 0008
+
+0005 print %var2 "[ErrorMsg] "
+0006 print "FAIL to execute  ADBCmd_Fastboot_Common_SPU"
+0007 comparefalse 9999
+
+0008 print "SUCCESS to execute ADBCmd_Fastboot_Common_SPU"
+}

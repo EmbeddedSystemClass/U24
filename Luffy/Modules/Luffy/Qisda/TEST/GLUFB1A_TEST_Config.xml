@@ -1,0 +1,12 @@
+<Configuration>
+
+	<Phone>
+		<Keyword Type="String">DIAG</Keyword>
+
+		<Slot_00></Slot_00>
+		<Slot_01></Slot_01>
+		<Slot_02></Slot_02>
+		<Slot_03></Slot_03>
+	</Phone>
+	
+</Configuration>

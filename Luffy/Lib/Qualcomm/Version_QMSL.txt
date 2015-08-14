@@ -1,0 +1,5 @@
+- 2013/07/22  Naomi
+  Update to QLib 6.0.11.0 / QDART 4.8.13
+
+- 2013/06/18  AJ
+  Rollback to QLib 6.0.3.0 / QDART 4.8.10

@@ -1,0 +1,10 @@
+<Configuration>
+
+	<Phone>
+		<Keyword Type="String">Actions</Keyword>
+
+		<Slot_00>HS</Slot_00>
+		<Slot_01>HS</Slot_01>
+	</Phone>
+	
+</Configuration>
