@@ -1,0 +1,29 @@
+[DLL Interface]
+
+ERRCODE_GEN_API bool MapCSV(char* sz_errMessage)
+sz_errMessage： 输出出错信息。
+会在UI初始化前调用，用来Map \MD5\ErrorCodeDef\ 下所有.csv文件，
+生成两个map，一个用来存储前两列内容的对应关系；另一个会存储errorcode和中文解释的对应关系。
+在Map之前会先检查ErrorCodeDef整个文件夹的MD5。
+
+ERRCODE_GEN_API bool QueryErrorCode(char* sz_errInput, char* sz_genErrcode, char* sz_genErrMsg, char* sz_errMessage,bool &b_inCIM)
+
+sz_errInput：输入UI从dll 拿到的errormessage。
+sz_genErrcode：根据输入的sz_errInput从Map里查找对应的error code输出。
+sz_genErrMsg：根据输入的sz_errInput从Map里查找对应的中文解释输出。
+sz_errMessage：输出出错信息。
+b_inCIM: true表示此error需要记录到CIM中，false表示不需要记录到CIM
+
+[CSV]
+.csv文件存放error code的定义信息，第A列和第C列内容与.h对应。
+dll上传给UI的error code需和csv里第A列一致，这样才能找到于A列MAP的B列内容作为新的errorcode显示在UI上。
+
+
+[ErrorDefine]
+此文件夹请放在。.\PlatformTool\Code\Modules\Common\下
+DLL需要include ErrorDefine文件夹里的ErrorDefine.h
+
+
+[备注]
+csv的特殊性，添加内容应勿在中英文解释中出现逗号“，”。
+有些.h的定义未必和csv里A列内容一致，需要dll根据不同情况结合.h拼凑成csv里A列内容一致fire给UI。
