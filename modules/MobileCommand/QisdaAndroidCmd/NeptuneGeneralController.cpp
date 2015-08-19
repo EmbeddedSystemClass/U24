@@ -31,7 +31,7 @@
 //      1. remove OutputArray
  
 #include "stdafx.h"
-#include "QisdaAndroidCmdCtrl.h"
+#include "QisdaAndroidCmdCtrlV2.h"
 #include "NeptuneGeneralController.h"
 
 #ifdef _DEBUG

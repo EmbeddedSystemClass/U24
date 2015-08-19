@@ -501,6 +501,7 @@
 #define FunErr_USB_Detect_End_Fail               "USB_Detect_End_Fail"
 #define FunErr_USB30_Test_Fail                   "USB30_Test_Fail"
 #define FunErr_UsbOTG_Test_Fail                  "UsbOTG_Test_Fail"
+#define	FunErr_USB_Test_Fail					"USB_Test_Fail" //ytt
 //**SmartCover
 #define	FunErr_SmartCover_Detect_Fail            "SmartCover_Detect_Fail"
 #define	FunErr_SmartCover_Interrupt_Fail         "SmartCover_Interrupt_Fail"
@@ -583,5 +584,13 @@
 //**Buck
 #define FunErr_Buck_Check_ID_Fail						"Buck_Check_ID_Fail"
 #define FunErr_Buck_Check_FeatureID_Fail				"Buck_Check_FeatureID_Fail"
+
+
+//?? need to check function group again
+#define FunErr_Check_PCBVerMPP3_Fail					"FunErr_Check_PCBVerMPP2_Fail"
+#define FunErr_Check_PCBVerMPP2_Fail					"FunErr_Check_PCBVerMPP2_Fail"
+#define FunErr_Check_PMid_Fail					"FunErr_Check_PMid__Fail"
+#define FunErr_Check_PMIid_Fail					"FunErr_Check_PMIid_Fail"
+
 
 #endif //_FUNCTION_ERRORDEFINE_H

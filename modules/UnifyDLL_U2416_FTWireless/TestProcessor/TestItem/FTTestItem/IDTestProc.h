@@ -89,6 +89,8 @@ private:
 	bool DFIcheckVersion();
 	bool SmartCoverCheckI2CID();
 	bool CheckAntennaICID();
+	//ytt
+	bool CheckUSBTest();
 
 };
 

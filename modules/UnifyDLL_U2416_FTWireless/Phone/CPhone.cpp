@@ -991,6 +991,12 @@ CPHONE_FTD_CMD_IN_OUT_CREATE(FTD_CAM_Read_Bridge_ID, "FTD_CAM_Read_Bridge_ID")
 CPHONE_FTD_CMD_IN_OUT_CREATE(FTD_KeyTest, "FTD_KeyTest")
 
 //08-SIM
+bool CPhone::FTD_USBTest(int nPort, int nTimeout, char* pszOutput)
+{
+	char in_buf[FTD_BUF_SIZE] = {0};
+	return FTDCmdCtrl(nPort, nTimeout, "FTD_USBtest", in_buf, pszOutput);
+}
+
 bool CPhone::FTD_SIMtest(int nPort, int nTimeout, char* pszOutput)
 {
 	char in_buf[FTD_BUF_SIZE] = {0};
@@ -1003,8 +1009,12 @@ bool CPhone::FTD_SIMdetect(int nPort, int nTimeout, char* pszOutput)
 	return FTDCmdCtrl(nPort, nTimeout, "FTD_SIMdetect", in_buf, pszOutput);
 }
 
+
+
 //10-Vibrator
 CPHONE_FTD_CMD_IN_OUT_CREATE(FTD_VibRun, "FTD_VibRun")
+//11 usb
+//CPHONE_FTD_CMD_IN_OUT_CREATE(FTD_USBTest, "FTD_USBTest")
 
 //13-BT
 CPHONE_FTD_CMD_IN_OUT_CREATE(FTD_BTid, "FTD_BTid")
@@ -1086,15 +1096,18 @@ CPHONE_FTD_CMD_IN_OUT_CREATE(FTD_BoardADC, "FTD_BoardADC")
 CPHONE_FTD_CMD_IN_OUT_CREATE(FTD_AntennaIC, "FTD_AntennaIC")
 
 
-CPHONE_FTD_CMD_IN_OUT_CREATE(FTD_Audioid	, "FTD_Audioid")	//6
-CPHONE_FTD_CMD_IN_OUT_CREATE(FTD_PMICid		, "FTD_PMICid")	//7
+CPHONE_FTD_CMD_IN_OUT_CREATE(FTD_PMid	, "FTD_PMid")	//6
+CPHONE_FTD_CMD_IN_OUT_CREATE(FTD_SOCversion		, "FTD_SOCversion")	//7
 
-CPHONE_FTD_CMD_IN_OUT_CREATE(FTD_RFPAQFEid	, "FTD_RFPAQFEid")	//11
+CPHONE_FTD_CMD_IN_OUT_CREATE(FTD_PCBVerMPP3		, "FTD_PCBVerMPP3")	//9
+CPHONE_FTD_CMD_IN_OUT_CREATE(FTD_PCBVerMPP2		, "FTD_PCBVerMPP2")	//10
+
+CPHONE_FTD_CMD_IN_OUT_CREATE(FTD_PMIid	, "FTD_PMIid")	//11
 CPHONE_FTD_CMD_IN_OUT_CREATE(FTD_RFASMid	, "FTD_RFASMid")	//12
 
 CPHONE_FTD_CMD_IN_OUT_CREATE(FTD_Boardid	, "FTD_Boardid")	//14
 CPHONE_FTD_CMD_IN_OUT_CREATE(FTD_SKUid		, "FTD_SKUid")		//15
-CPHONE_FTD_CMD_IN_OUT_CREATE(FTD_SOCversion	, "FTD_SOCversion") //16
+//CPHONE_FTD_CMD_IN_OUT_CREATE(FTD_SOCversion	, "FTD_SOCversion") //16
 CPHONE_FTD_CMD_IN_OUT_CREATE(FTD_SOCfeature	, "FTD_SOCfeature") //17
 
 

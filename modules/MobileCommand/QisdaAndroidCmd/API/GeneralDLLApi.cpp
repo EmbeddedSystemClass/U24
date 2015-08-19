@@ -5,7 +5,7 @@
 #include "GeneralDLLApi.h" // GeneralCmd
 #include "io.h"
 #include "../Utility.h"
-#include "../QisdaAndroidCmdCtrl.h"
+#include "../QisdaAndroidCmdCtrlV2.h"
 
 using namespace std;
 

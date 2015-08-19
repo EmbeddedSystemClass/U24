@@ -4,7 +4,7 @@
 #include <string>
 #include <cstring>
 #include "io.h"
-#include "../QisdaAndroidCmdCtrl.h"
+#include "../QisdaAndroidCmdCtrlV2.h"
 #include "GeneralDLLApi.h" // GeneralCmd
 #include "FunctionBoardDLLApi.h"
 #include "FunctionBoardType.h"

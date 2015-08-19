@@ -64,6 +64,8 @@
 #define GyroID					_T("GyroID")			
 #define ChargerID				_T("ChargerID")	 // 2 , 5 
 
+#define PMid					_T("PMid")
+#define PMIid					_T("PMIid")
 
 
 class CStringCheckProc : public ITestItem
@@ -144,6 +146,11 @@ private:
 	bool Read_BacklightDriver();
 	bool Read_GyroID();
 	bool Read_ChargerID();
+
+	bool ReadPMid();
+	bool ReadPMIid();
+
+
 };
 
 

@@ -373,6 +373,11 @@ Channel Definition:
 #define SOCversion_BaseItemCode							     			100375
 #define SOCfeature_ID_BaseItemCode							     		100376
 
+//YTT
+#define PMid_BaseItemCode							     		100388
+#define PCBVerMPP3_BaseItemCode							     		100389
+#define PCBVerMPP2_BaseItemCode							     		100390
+#define PMIid_BaseItemCode							     		100391
 
 
 //RF

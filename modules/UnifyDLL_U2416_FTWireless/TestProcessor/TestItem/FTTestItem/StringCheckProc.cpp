@@ -261,7 +261,20 @@ bool CStringCheckProc::Run()
 		m_strItemCode = CStr::IntToStr(CHARGERICTest_BaseItemCode);
 		m_strErrorCode = FunErr_Charge_ID_Fail;
 		return Read_ChargerID();
-	}	
+	}
+	else if (m_str_Name == PMid)
+	{
+		m_strItemCode = CStr::IntToStr(PMid_BaseItemCode);
+		m_strErrorCode = FunErr_Check_PMid_Fail;
+		return ReadPMid();
+	}
+	
+	else if (m_str_Name == PMIid)
+	{
+		m_strItemCode = CStr::IntToStr(PMIid_BaseItemCode);
+		m_strErrorCode = FunErr_Check_PMIid_Fail;
+		return ReadPMIid();
+	}
 	else
 	{
 		m_strMessage = "The Type of ID is not defined";
@@ -1276,85 +1289,85 @@ bool CStringCheckProc::ReadAudioID()
 {
 
 	bool b_res = false;
-	std::string str_msg;
+	//std::string str_msg;
 
-	/* read  AudioID from mobile */
-	char szInput[FTD_BUF_SIZE] = {0};
-	char szOutput[FTD_BUF_SIZE] = {0};
-	if (!(b_res = m_pIPhone->FTD_Audioid(m_nFtdPort, m_nFtdTimeOut, szInput, szOutput)))
-	{
-		str_msg = "Read AudioIDfrom mobile fail";
-		TraceLog(MSG_INFO, str_msg);
-	}
+	///* read  AudioID from mobile */
+	//char szInput[FTD_BUF_SIZE] = {0};
+	//char szOutput[FTD_BUF_SIZE] = {0};
+	//if (!(b_res = m_pIPhone->FTD_Audioid(m_nFtdPort, m_nFtdTimeOut, szInput, szOutput)))
+	//{
+	//	str_msg = "Read AudioIDfrom mobile fail";
+	//	TraceLog(MSG_INFO, str_msg);
+	//}
 
-	/* Compare  AudioID with config file */
-	if (b_res)
-	{
-		m_strMeasured = szOutput;
-		if (m_b_CheckMatch == false)
-		{
-			str_msg = "Read AudioID = " + m_strMeasured;
-			TraceLog(MSG_INFO, str_msg);
-		}
-		else
-		{
-			//Eason Check from Server S-----------------------------------------------
-			if (m_b_CheckFromServer)
-			{
-				str_msg = "Get Pass criteria from server = " + m_str_Value;
-				TraceLog(MSG_INFO, str_msg);
-			}
-			//Eason Check from Server E-----------------------------------------------
-			//if (m_strMeasured == m_str_Value)
-			//{ 
-			//	str_msg = "Check AudioID pass! Value = " + m_strMeasured;
-			//	TraceLog(MSG_INFO, str_msg);
-			//}
-			//else
-			//{
-			//	str_msg = "AudioID is not matched. Moble:" + m_strMeasured + "-- Config File:" + m_str_Value;
-			//	TraceLog(MSG_INFO, str_msg);
-			//	b_res = false;
-			//}
-			StrVtr vToken;
-			CStr::ParseString(m_str_Value.c_str(), _T(";"), vToken);
-			bool b_match = false;
-			for (size_t i = 0; i < vToken.size(); i++)
-			{
-				if ((strcmp(m_strMeasured.c_str(), vToken[i].c_str()) == 0))
-				{
-					str_msg = "Check AudioID pass! Value = " + m_strMeasured;
-					TraceLog(MSG_INFO, str_msg);
-					b_match = true;
-					break;
-				}
-			}
-			if (!b_match)
-			{
-				str_msg = "AudioID value is not matched. Moble:" + m_strMeasured + ",Config:" + m_str_Value;
-				TraceLog(MSG_INFO, str_msg);
-				b_res = false;
-			}
-		}
-	}
-	Sleep(m_i_sleep);
+	///* Compare  AudioID with config file */
+	//if (b_res)
+	//{
+	//	m_strMeasured = szOutput;
+	//	if (m_b_CheckMatch == false)
+	//	{
+	//		str_msg = "Read AudioID = " + m_strMeasured;
+	//		TraceLog(MSG_INFO, str_msg);
+	//	}
+	//	else
+	//	{
+	//		//Eason Check from Server S-----------------------------------------------
+	//		if (m_b_CheckFromServer)
+	//		{
+	//			str_msg = "Get Pass criteria from server = " + m_str_Value;
+	//			TraceLog(MSG_INFO, str_msg);
+	//		}
+	//		//Eason Check from Server E-----------------------------------------------
+	//		//if (m_strMeasured == m_str_Value)
+	//		//{ 
+	//		//	str_msg = "Check AudioID pass! Value = " + m_strMeasured;
+	//		//	TraceLog(MSG_INFO, str_msg);
+	//		//}
+	//		//else
+	//		//{
+	//		//	str_msg = "AudioID is not matched. Moble:" + m_strMeasured + "-- Config File:" + m_str_Value;
+	//		//	TraceLog(MSG_INFO, str_msg);
+	//		//	b_res = false;
+	//		//}
+	//		StrVtr vToken;
+	//		CStr::ParseString(m_str_Value.c_str(), _T(";"), vToken);
+	//		bool b_match = false;
+	//		for (size_t i = 0; i < vToken.size(); i++)
+	//		{
+	//			if ((strcmp(m_strMeasured.c_str(), vToken[i].c_str()) == 0))
+	//			{
+	//				str_msg = "Check AudioID pass! Value = " + m_strMeasured;
+	//				TraceLog(MSG_INFO, str_msg);
+	//				b_match = true;
+	//				break;
+	//			}
+	//		}
+	//		if (!b_match)
+	//		{
+	//			str_msg = "AudioID value is not matched. Moble:" + m_strMeasured + ",Config:" + m_str_Value;
+	//			TraceLog(MSG_INFO, str_msg);
+	//			b_res = false;
+	//		}
+	//	}
+	//}
+	//Sleep(m_i_sleep);
 
-	/* test result */
-	if (b_res)
-	{
-		m_strResult = "PASS";
-		m_strErrorCode = "-";
-		m_strMessage = str_msg;
-		TraceLog(MSG_INFO, "Read AudioID PASS!");
-	}
-	else
-	{
-		m_strResult = "FAIL";
-		m_strMessage = str_msg;
-		TraceLog(MSG_INFO, "Read AudioID FAIL!");
-	}
-	SetPICSData("AudioID", m_strMeasured);
-	FactoryLog();
+	///* test result */
+	//if (b_res)
+	//{
+	//	m_strResult = "PASS";
+	//	m_strErrorCode = "-";
+	//	m_strMessage = str_msg;
+	//	TraceLog(MSG_INFO, "Read AudioID PASS!");
+	//}
+	//else
+	//{
+	//	m_strResult = "FAIL";
+	//	m_strMessage = str_msg;
+	//	TraceLog(MSG_INFO, "Read AudioID FAIL!");
+	//}
+	//SetPICSData("AudioID", m_strMeasured);
+	//FactoryLog();
 	return b_res;
 
 }
@@ -1364,85 +1377,85 @@ bool CStringCheckProc::ReadRF_PA_QFE_ID()
 {
 
 	bool b_res = false;
-	std::string str_msg;
+	//std::string str_msg;
 
-	/* read  RF PAQFE ID from mobile */
-	char szInput[FTD_BUF_SIZE] = {0};
-	char szOutput[FTD_BUF_SIZE] = {0};
-	if (!(b_res = m_pIPhone->FTD_RFPAQFEid(m_nFtdPort, m_nFtdTimeOut, szInput, szOutput)))
-	{
-		str_msg = "Read RF PAQFE ID mobile fail";
-		TraceLog(MSG_INFO, str_msg);
-	}
+	///* read  RF PAQFE ID from mobile */
+	//char szInput[FTD_BUF_SIZE] = {0};
+	//char szOutput[FTD_BUF_SIZE] = {0};
+	//if (!(b_res = m_pIPhone->FTD_RFPAQFEid(m_nFtdPort, m_nFtdTimeOut, szInput, szOutput)))
+	//{
+	//	str_msg = "Read RF PAQFE ID mobile fail";
+	//	TraceLog(MSG_INFO, str_msg);
+	//}
 
-	/* Compare  RF PAQFE ID with config file */
-	if (b_res)
-	{
-		m_strMeasured = szOutput;
-		if (m_b_CheckMatch == false)
-		{
-			str_msg = "Read RF PAQFE ID = " + m_strMeasured;
-			TraceLog(MSG_INFO, str_msg);
-		}
-		else
-		{
-			//Eason Check from Server S-----------------------------------------------
-			if (m_b_CheckFromServer)
-			{
-				str_msg = "Get Pass criteria from server = " + m_str_Value;
-				TraceLog(MSG_INFO, str_msg);
-			}
-			//Eason Check from Server E-----------------------------------------------
-			//if (m_strMeasured == m_str_Value)
-			//{ 
-			//	str_msg = "Check RF PAQFE ID pass! Value = " + m_strMeasured;
-			//	TraceLog(MSG_INFO, str_msg);
-			//}
-			//else
-			//{
-			//	str_msg = "RF PAQFE ID is not matched. Moble:" + m_strMeasured + "-- Config File:" + m_str_Value;
-			//	TraceLog(MSG_INFO, str_msg);
-			//	b_res = false;
-			//}
-			StrVtr vToken;
-			CStr::ParseString(m_str_Value.c_str(), _T(";"), vToken);
-			bool b_match = false;
-			for (size_t i = 0; i < vToken.size(); i++)
-			{
-				if ((strcmp(m_strMeasured.c_str(), vToken[i].c_str()) == 0))
-				{
-					str_msg = "Check RF PAQFE pass! Value = " + m_strMeasured;
-					TraceLog(MSG_INFO, str_msg);
-					b_match = true;
-					break;
-				}
-			}
-			if (!b_match)
-			{
-				str_msg = "RF PAQFE value is not matched. Moble:" + m_strMeasured + ",Config:" + m_str_Value;
-				TraceLog(MSG_INFO, str_msg);
-				b_res = false;
-			}
-		}
-	}
-	Sleep(m_i_sleep);
+	///* Compare  RF PAQFE ID with config file */
+	//if (b_res)
+	//{
+	//	m_strMeasured = szOutput;
+	//	if (m_b_CheckMatch == false)
+	//	{
+	//		str_msg = "Read RF PAQFE ID = " + m_strMeasured;
+	//		TraceLog(MSG_INFO, str_msg);
+	//	}
+	//	else
+	//	{
+	//		//Eason Check from Server S-----------------------------------------------
+	//		if (m_b_CheckFromServer)
+	//		{
+	//			str_msg = "Get Pass criteria from server = " + m_str_Value;
+	//			TraceLog(MSG_INFO, str_msg);
+	//		}
+	//		//Eason Check from Server E-----------------------------------------------
+	//		//if (m_strMeasured == m_str_Value)
+	//		//{ 
+	//		//	str_msg = "Check RF PAQFE ID pass! Value = " + m_strMeasured;
+	//		//	TraceLog(MSG_INFO, str_msg);
+	//		//}
+	//		//else
+	//		//{
+	//		//	str_msg = "RF PAQFE ID is not matched. Moble:" + m_strMeasured + "-- Config File:" + m_str_Value;
+	//		//	TraceLog(MSG_INFO, str_msg);
+	//		//	b_res = false;
+	//		//}
+	//		StrVtr vToken;
+	//		CStr::ParseString(m_str_Value.c_str(), _T(";"), vToken);
+	//		bool b_match = false;
+	//		for (size_t i = 0; i < vToken.size(); i++)
+	//		{
+	//			if ((strcmp(m_strMeasured.c_str(), vToken[i].c_str()) == 0))
+	//			{
+	//				str_msg = "Check RF PAQFE pass! Value = " + m_strMeasured;
+	//				TraceLog(MSG_INFO, str_msg);
+	//				b_match = true;
+	//				break;
+	//			}
+	//		}
+	//		if (!b_match)
+	//		{
+	//			str_msg = "RF PAQFE value is not matched. Moble:" + m_strMeasured + ",Config:" + m_str_Value;
+	//			TraceLog(MSG_INFO, str_msg);
+	//			b_res = false;
+	//		}
+	//	}
+	//}
+	//Sleep(m_i_sleep);
 
-	/* test result */
-	if (b_res)
-	{
-		m_strResult = "PASS";
-		m_strErrorCode = "-";
-		m_strMessage = str_msg;
-		TraceLog(MSG_INFO, "Read RF PAQFE ID PASS!");
-	}
-	else
-	{
-		m_strResult = "FAIL";
-		m_strMessage = str_msg;
-		TraceLog(MSG_INFO, "Read PAQFE FAIL!");
-	}
-	SetPICSData("PAQFE", m_strMeasured);
-	FactoryLog();
+	///* test result */
+	//if (b_res)
+	//{
+	//	m_strResult = "PASS";
+	//	m_strErrorCode = "-";
+	//	m_strMessage = str_msg;
+	//	TraceLog(MSG_INFO, "Read RF PAQFE ID PASS!");
+	//}
+	//else
+	//{
+	//	m_strResult = "FAIL";
+	//	m_strMessage = str_msg;
+	//	TraceLog(MSG_INFO, "Read PAQFE FAIL!");
+	//}
+	//SetPICSData("PAQFE", m_strMeasured);
+	//FactoryLog();
 	return b_res;
 }
 bool CStringCheckProc::ReadRF_ASM_ID()
@@ -1616,6 +1629,167 @@ bool CStringCheckProc::ReadSKU_ID()
 	return b_res;
 
 }
+
+bool CStringCheckProc::ReadPMid()
+{
+
+	bool b_res = false;
+	std::string str_msg;
+
+	/* read  SOCversion from mobile */
+	char szInput[FTD_BUF_SIZE] = {0};
+	char szOutput[FTD_BUF_SIZE] = {0};
+	if (!(b_res = m_pIPhone->FTD_PMid(m_nFtdPort, m_nFtdTimeOut, szInput, szOutput)))
+	{
+		str_msg = "Read PMid from mobile fail";
+		TraceLog(MSG_INFO, str_msg);
+	}
+
+	/* Compare  SOCversion with config file */
+	if (b_res)
+	{
+		m_strMeasured = szOutput;
+		if (m_b_CheckMatch == false)
+		{
+			str_msg = "Read PMid = " + m_strMeasured;
+			TraceLog(MSG_INFO, str_msg);
+		}
+		else
+		{
+		
+			//Eason Check from Server S-----------------------------------------------
+			if (m_b_CheckFromServer)
+			{
+				str_msg = "Get Pass criteria from server = " + m_str_Value;
+				TraceLog(MSG_INFO, str_msg);
+			}
+			//Eason Check from Server E-----------------------------------------------
+			StrVtr vToken;
+			CStr::ParseString(m_str_Value.c_str(), _T(";"), vToken);
+			bool b_match = false;
+			for (size_t i = 0; i < vToken.size(); i++)
+			{
+				if ((strcmp(m_strMeasured.c_str(), vToken[i].c_str()) == 0))
+				{
+					str_msg = "Check PMid pass! Value = " + m_strMeasured;
+					TraceLog(MSG_INFO, str_msg);
+					b_match = true;
+					break;
+				}
+			}
+			if (!b_match)
+			{
+				str_msg = "PMid value is not matched. Moble:" + m_strMeasured + ",Config:" + m_str_Value;
+				TraceLog(MSG_INFO, str_msg);
+				b_res = false;
+			}
+
+		}
+	}
+	Sleep(m_i_sleep);
+
+	/* test result */
+	if (b_res)
+	{
+		m_strResult = "PASS";
+		m_strErrorCode = "-";
+		m_strMessage = str_msg;
+		TraceLog(MSG_INFO, "Read PMid PASS!");
+	}
+	else
+	{
+		m_strResult = "FAIL";
+		m_strMessage = str_msg;
+		TraceLog(MSG_INFO, "Read PMid FAIL!");
+	}
+	SetPICSData("PMid", m_strMeasured);
+	FactoryLog();
+	return b_res;
+
+}
+
+bool CStringCheckProc::ReadPMIid()
+{
+
+	bool b_res = false;
+	std::string str_msg;
+
+	/* read  PMIid from mobile */
+	char szInput[FTD_BUF_SIZE] = {0};
+	char szOutput[FTD_BUF_SIZE] = {0};
+	if (!(b_res = m_pIPhone->FTD_PMIid(m_nFtdPort, m_nFtdTimeOut, szInput, szOutput)))
+	{
+		str_msg = "Read PMIid from mobile fail";
+		TraceLog(MSG_INFO, str_msg);
+	}
+
+	/* Compare  PMIid with config file */
+	if (b_res)
+	{
+		m_strMeasured = szOutput;
+		if (m_b_CheckMatch == false)
+		{
+			str_msg = "Read PMid = " + m_strMeasured;
+			TraceLog(MSG_INFO, str_msg);
+		}
+		else
+		{
+		
+			//Eason Check from Server S-----------------------------------------------
+			if (m_b_CheckFromServer)
+			{
+				str_msg = "Get Pass criteria from server = " + m_str_Value;
+				TraceLog(MSG_INFO, str_msg);
+			}
+			//Eason Check from Server E-----------------------------------------------
+			StrVtr vToken;
+			CStr::ParseString(m_str_Value.c_str(), _T(";"), vToken);
+			bool b_match = false;
+			for (size_t i = 0; i < vToken.size(); i++)
+			{
+				if ((strcmp(m_strMeasured.c_str(), vToken[i].c_str()) == 0))
+				{
+					str_msg = "Check PMIid pass! Value = " + m_strMeasured;
+					TraceLog(MSG_INFO, str_msg);
+					b_match = true;
+					break;
+				}
+			}
+			if (!b_match)
+			{
+				str_msg = "PMIid value is not matched. Moble:" + m_strMeasured + ",Config:" + m_str_Value;
+				TraceLog(MSG_INFO, str_msg);
+				b_res = false;
+			}
+
+		}
+	}
+	Sleep(m_i_sleep);
+
+	/* test result */
+	if (b_res)
+	{
+		m_strResult = "PASS";
+		m_strErrorCode = "-";
+		m_strMessage = str_msg;
+		TraceLog(MSG_INFO, "Read PMIid PASS!");
+	}
+	else
+	{
+		m_strResult = "FAIL";
+		m_strMessage = str_msg;
+		TraceLog(MSG_INFO, "Read PMIid FAIL!");
+	}
+	SetPICSData("PMIid", m_strMeasured);
+	FactoryLog();
+	return b_res;
+
+}
+
+
+
+
+
 bool CStringCheckProc::ReadSOCversion()
 {
 
@@ -2500,74 +2674,74 @@ bool CStringCheckProc::Read_NFC_ID()
 bool CStringCheckProc::ReadPMICID()
 {
 	bool b_res = false;
-	std::string str_msg;
-
-	/* read Read PMIC ID  from mobile */
-	char szInput[FTD_BUF_SIZE] = {0};
-	char szOutput[FTD_BUF_SIZE] = {0};
-	if (!(b_res = m_pIPhone->FTD_PMICid(m_nFtdPort, m_nFtdTimeOut, szInput, szOutput)))
-	{
-		str_msg = "Read PMIC ID from mobile fail";
-		TraceLog(MSG_INFO, str_msg);
-	}
-
-	/* Compare Read PMIC ID  with config file */
-	if (b_res)
-	{
-		m_strMeasured = szOutput;
-		if (m_b_CheckMatch == false)
-		{
-			str_msg = "Read Read PMIC ID  = " + m_strMeasured;
-			TraceLog(MSG_INFO, str_msg);
-		}
-		else
-		{
-			//Eason Check from Server S-----------------------------------------------
-			if (m_b_CheckFromServer)
-			{
-				str_msg = "Get Pass criteria from server = " + m_str_Value;
-				TraceLog(MSG_INFO, str_msg);
-			}
-			//Eason Check from Server E-----------------------------------------------
-			StrVtr vToken;
-			CStr::ParseString(m_str_Value.c_str(), _T(";"), vToken);
-			bool b_match = false;
-			for (size_t i = 0; i < vToken.size(); i++)
-			{
-				if ((strcmp(m_strMeasured.c_str(), vToken[i].c_str()) == 0))
-				{
-					str_msg = "Read PMIC ID pass! Value = " + m_strMeasured;
-					TraceLog(MSG_INFO, str_msg);
-					b_match = true;
-					break;
-				}
-			}
-			if (!b_match)
-			{
-				str_msg = "Read PMIC ID  value is not matched. Moble:" + m_strMeasured + ",Config:" + m_str_Value;
-				TraceLog(MSG_INFO, str_msg);
-				b_res = false;
-			}
-		}
-	}
-	Sleep(m_i_sleep);
-
-	/* test result */
-	if (b_res)
-	{
-		m_strResult = "PASS";
-		m_strErrorCode = "-";
-		m_strMessage = str_msg;
-		TraceLog(MSG_INFO, "Read PMIC ID  PASS!");
-	}
-	else
-	{
-		m_strResult = "FAIL";
-		m_strMessage = str_msg;
-		TraceLog(MSG_INFO, "Read PMIC ID FAIL!");
-	}
-	SetPICSData("PMIC_ID", m_strMeasured);
-	FactoryLog();
+//	std::string str_msg;
+//
+//	/* read Read PMIC ID  from mobile */
+//	char szInput[FTD_BUF_SIZE] = {0};
+//	char szOutput[FTD_BUF_SIZE] = {0};
+//	if (!(b_res = m_pIPhone->FTD_PMICid(m_nFtdPort, m_nFtdTimeOut, szInput, szOutput)))
+//	{
+//		str_msg = "Read PMIC ID from mobile fail";
+//		TraceLog(MSG_INFO, str_msg);
+//	}
+//
+//	/* Compare Read PMIC ID  with config file */
+//	if (b_res)
+//	{
+//		m_strMeasured = szOutput;
+//		if (m_b_CheckMatch == false)
+//		{
+//			str_msg = "Read Read PMIC ID  = " + m_strMeasured;
+//			TraceLog(MSG_INFO, str_msg);
+//		}
+//		else
+//		{
+//			//Eason Check from Server S-----------------------------------------------
+//			if (m_b_CheckFromServer)
+//			{
+//				str_msg = "Get Pass criteria from server = " + m_str_Value;
+//				TraceLog(MSG_INFO, str_msg);
+//			}
+//			//Eason Check from Server E-----------------------------------------------
+//			StrVtr vToken;
+//			CStr::ParseString(m_str_Value.c_str(), _T(";"), vToken);
+//			bool b_match = false;
+//			for (size_t i = 0; i < vToken.size(); i++)
+//			{
+//				if ((strcmp(m_strMeasured.c_str(), vToken[i].c_str()) == 0))
+//				{
+//					str_msg = "Read PMIC ID pass! Value = " + m_strMeasured;
+//					TraceLog(MSG_INFO, str_msg);
+//					b_match = true;
+//					break;
+//				}
+//			}
+//			if (!b_match)
+//			{
+//				str_msg = "Read PMIC ID  value is not matched. Moble:" + m_strMeasured + ",Config:" + m_str_Value;
+//				TraceLog(MSG_INFO, str_msg);
+//				b_res = false;
+//			}
+//		}
+//	}
+//	Sleep(m_i_sleep);
+//
+//	/* test result */
+//	if (b_res)
+//	{
+//		m_strResult = "PASS";
+//		m_strErrorCode = "-";
+//		m_strMessage = str_msg;
+//		TraceLog(MSG_INFO, "Read PMIC ID  PASS!");
+//	}
+//	else
+//	{
+//		m_strResult = "FAIL";
+//		m_strMessage = str_msg;
+//		TraceLog(MSG_INFO, "Read PMIC ID FAIL!");
+//	}
+//	SetPICSData("PMIC_ID", m_strMeasured);
+//	FactoryLog();
 	return b_res;
 }
 
@@ -3015,4 +3189,3 @@ bool CStringCheckProc::Read_ChargerID()
 	FactoryLog();
 	return b_res;
 }
-

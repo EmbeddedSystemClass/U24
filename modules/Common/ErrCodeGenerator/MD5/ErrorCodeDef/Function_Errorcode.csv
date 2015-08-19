@@ -496,6 +496,7 @@ USB_Detect_Start_Fail,USB00002,FunErr_USB_Detect_Start_Fail,USBø™∆Ù’Ï≤‚ ß∞‹,USB 
 USB_Detect_End_Fail,USB00003,FunErr_USB_Detect_End_Fail,USBπÿ±’’Ï≤‚ ß∞‹,USB detect end fail,Y
 USB30_Test_Fail,USB00004,FunErr_USB30_Test_Fail,USB3.0 úy‘á ßî°,USB 3.0 Test fail,Y
 UsbOTG_Test_Fail,USB00005,FunErr_UsbOTG_Test_Fail,Usb OTG úy‘á ß∞‹,USB OTG Test Fail,Y
+UsbO_Test_Fail,USB00006,FunErr_USB_Test_Fail,USB ≤‚ ‘ ß∞‹,USB Test Fail,Y
 //**SmartCover,,,,,
 SmartCover_Detect_Fail,SCVR0001,FunErr_SmartCover_Detect_Fail,ºÏ≤‚÷«ƒ‹±≥∏« ß∞‹,SmartCover Detect_Fail,Y
 SmartCover_Interrupt_Fail,SCVR0002,FunErr_SmartCover_Interrupt_Fail,÷«ƒ‹±≥∏«÷–∂œ ß∞‹,SmartCover Interrupt Fail,Y
@@ -565,3 +566,10 @@ Gesture_Test_Fail,GEST0001,FunErr_Gesture_Test_Fail, ÷Ñ›úy‘á ßî°,Gesture Test Fa
 2G4_Power_Test_Fail,2G400001,FunErr_2G4_Power_Test_Fail,2G4 power≤‚ ‘ ß∞‹,2G4 power test fail,Y
 //**FPGA,,,,,
 FPGA_ID_Fail,FPGA0001,FunErr_FPGA_ID_Fail,FPGA ID ¥ÌŒÛ,Check FPGA ID fail,Y
+//**PCB,,,,,
+PCB_CHECK_MPP3_FAIL,PCB00001,FunErr_PCB1_CHECK_FAIL,PCB1 MPP3≤‚ ‘ ß∞‹,Check PCB1 Fail,Y
+PCB_CHECK_MPP2_FAIL,PCB00002,FunErr_PCB2_CHECK_FAIL,PCB2 MPP2≤‚ ‘ ß∞‹,Check PCB2 Fail,Y
+//**PM,,,,,
+PM_ID_Fail,PM0001,FunErr_PM_ID_Fail,PM ID ¥ÌŒÛ,Check PM ID fail,Y
+PMI_ID_Fail,PM0002,FunErr_PMI_ID_Fail,PMI ID ¥ÌŒÛ,Check PMI ID fail,Y
+

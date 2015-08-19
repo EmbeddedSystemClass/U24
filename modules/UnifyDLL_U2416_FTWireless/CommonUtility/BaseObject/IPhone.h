@@ -208,6 +208,9 @@ public:
 	//08-SIM
 	virtual bool FTD_SIMtest(int nPort, int nTimeout, char* pszOutput) = 0;
 	virtual bool FTD_SIMdetect(int nPort, int nTimeout, char* pszOutput) = 0;
+
+    virtual bool FTD_USBTest(int nPort, int nTimeout, char* pszOutput) = 0;
+
 	//10-Vibrator
 	virtual bool FTD_VibRun(int nPort, int nTimeout, char* pszInput, char* pszOutput) = 0;
 	// 13-BT
@@ -275,15 +278,18 @@ public:
 	virtual bool FTD_BoardADC(int nPort, int nTimeout, char* pszInput, char* pszOutput) = 0;
 	virtual bool FTD_AntennaIC(int nPort, int nTimeout, char* pszInput, char* pszOutput) = 0;//13
 
-	virtual bool FTD_Audioid(int nPort, int nTimeout, char* p_sz_Input, char* p_sz_Output)= 0;		// 6 FTD_Audioid
+	virtual bool FTD_PMid(int nPort, int nTimeout, char* p_sz_Input, char* p_sz_Output)= 0;		// 6 FTD_Audioid
 
-	virtual bool FTD_PMICid(int nPort, int nTimeout, char* p_sz_Input, char* p_sz_Output)= 0;		// 7 FTD_PMICid
+	virtual bool FTD_SOCversion(int nPort, int nTimeout, char* p_sz_Input, char* p_sz_Output)= 0;		// 7 FTD_PMICid
+
+	virtual bool FTD_PCBVerMPP3(int nPort, int nTimeout, char* p_sz_Input, char* p_sz_Output)= 0;		// 9 FTD_PCBVerMPP3 ytt
+	virtual bool FTD_PCBVerMPP2(int nPort, int nTimeout, char* p_sz_Input, char* p_sz_Output)= 0;		// 10 FTD_PCBVerMPP2 ytt
 	
-	virtual bool FTD_RFPAQFEid(int nPort, int nTimeout, char* p_sz_Input, char* p_sz_Output)= 0;	//11 FTD_RFPAQFEid
+	virtual bool FTD_PMIid(int nPort, int nTimeout, char* p_sz_Input, char* p_sz_Output)= 0;	//11 FTD_PMIid ytt
 	virtual bool FTD_RFASMid(int nPort, int nTimeout, char* p_sz_Input, char* p_sz_Output)= 0;		//12 FTD_RFASMid
 	virtual bool FTD_Boardid(int nPort, int nTimeout, char* p_sz_Input, char* p_sz_Output)= 0;		//14 FTD_Boardid
 	virtual bool FTD_SKUid(int nPort, int nTimeout, char* p_sz_Input, char* p_sz_Output)= 0;		//15 FTD_SKUid
-	virtual bool FTD_SOCversion(int nPort, int nTimeout, char* p_sz_Input, char* p_sz_Output)= 0;	//16 FTD_SOCversion
+	//virtual bool FTD_SOCversion(int nPort, int nTimeout, char* p_sz_Input, char* p_sz_Output)= 0;	//16 FTD_SOCversion
 	virtual bool FTD_SOCfeature(int nPort, int nTimeout, char* p_sz_Input, char* p_sz_Output)= 0;	//17 FTD_SOCfeature
 
 	//22-SmartCover

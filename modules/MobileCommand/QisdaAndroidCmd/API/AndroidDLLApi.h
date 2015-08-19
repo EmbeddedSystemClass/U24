@@ -101,6 +101,9 @@ NEPDLLAPI int __stdcall FTD_KeyTest(int port, int timeout_ms, char* in_buf, char
 NEPDLLAPI int __stdcall FTD_SIMtest(int port, int timeout_ms, char* in_buf, char* out_buf);//cmd:1
 NEPDLLAPI int __stdcall FTD_SIMdetect(int port, int timeout_ms, char* in_buf, char* out_buf);//cmd:2
 
+//09: USB
+NEPDLLAPI int __stdcall FTD_USBtest(int port, int timeout_ms, char* in_buf, char* out_buf);//cmd:1
+
 //10:Vibrator
 NEPDLLAPI int __stdcall FTD_VibRun(int port, int timeout_ms, char* in_buf, char* out_buf);//cmd:1
 
@@ -188,10 +191,12 @@ NEPDLLAPI int __stdcall FTD_BoardADC(int port, int timeout_ms, char* in_buf, cha
 NEPDLLAPI int __stdcall FTD_BoardRev(int port, int timeout_ms, char* in_buf, char* out_buf);//cmd:3
 NEPDLLAPI int __stdcall FTD_RFid(int port, int timeout_ms, char* in_buf, char* out_buf);//cmd:4
 NEPDLLAPI int __stdcall FTD_MHLid(int port, int timeout_ms, char* in_buf, char* out_buf);//cmd:5
-NEPDLLAPI int __stdcall FTD_Audioid(int port, int timeout_ms, char* in_buf, char* out_buf);		//cmd:6 //Eason
-NEPDLLAPI int __stdcall FTD_PMICid(int port, int timeout_ms, char* in_buf, char* out_buf);		//cmd:7 //Eason
+NEPDLLAPI int __stdcall FTD_PMid(int port, int timeout_ms, char* in_buf, char* out_buf);		//cmd:6 //YTT
+NEPDLLAPI int __stdcall FTD_SOCversion(int port, int timeout_ms, char* in_buf, char* out_buf);	//cmd:7 //YTT
 NEPDLLAPI int __stdcall FTD_RFICid(int port, int timeout_ms, char* in_buf, char* out_buf);//cmd:8
-NEPDLLAPI int __stdcall FTD_RFPAQFEid(int port, int timeout_ms, char* in_buf, char* out_buf);	//cmd:11 //Eason
+NEPDLLAPI int __stdcall FTD_PCBVerMPP3(int port, int timeout_ms, char* in_buf, char* out_buf);//cmd:9 //YTT U2417
+NEPDLLAPI int __stdcall FTD_PCBVerMPP2(int port, int timeout_ms, char* in_buf, char* out_buf);//cmd:10 //YTT U2417
+NEPDLLAPI int __stdcall FTD_PMIid(int port, int timeout_ms, char* in_buf, char* out_buf);	//cmd:11 //YTT
 NEPDLLAPI int __stdcall FTD_RFASMid(int port, int timeout_ms, char* in_buf, char* out_buf);		//cmd:12 //Eason
 
 NEPDLLAPI int __stdcall FTD_AntennaIC(int port, int timeout_ms, char* in_buf, char* out_buf);//cmd:13
@@ -199,7 +204,7 @@ NEPDLLAPI int __stdcall FTD_AntennaIC(int port, int timeout_ms, char* in_buf, ch
 
 NEPDLLAPI int __stdcall FTD_Boardid(int port, int timeout_ms, char* in_buf, char* out_buf);		//cmd:14 //Eason
 NEPDLLAPI int __stdcall FTD_SKUid(int port, int timeout_ms, char* in_buf, char* out_buf);		//cmd:15 //Eason
-NEPDLLAPI int __stdcall FTD_SOCversion(int port, int timeout_ms, char* in_buf, char* out_buf);	//cmd:16 //Eason
+
 NEPDLLAPI int __stdcall FTD_SOCfeature(int port, int timeout_ms, char* in_buf, char* out_buf);	//cmd:17 //Eason
 //90:OS
 NEPDLLAPI int __stdcall FTD_OSgetprop(int port, int timeout_ms, char* in_buf, char* out_buf);//cmd:1

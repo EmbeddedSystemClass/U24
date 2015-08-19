@@ -145,6 +145,13 @@ bool CIDTestProc::Run()
 
 		return CheckAntennaICID();
 	}
+	else if (m_str_IDType == "USBTest")//YTT TEMP PUT HERER
+	{
+		//m_strItemCode = CStr::IntToStr(WLAN_Test_BaseItemCode);
+		m_strErrorCode = FunErr_USB_Test_Fail;
+
+		return CheckUSBTest();
+	}
 	else
 	{
 		m_strMessage = "The Type of ID is not defined";
@@ -1135,6 +1142,41 @@ bool CIDTestProc::CheckAntennaICID()
 		TraceLog(MSG_INFO, "Check AntennaICID  FAIL!");
 	}
 	SetPICSData("AntennaIC_ID", m_strMeasured);
+	FactoryLog();
+	return b_res;
+}
+
+//ytt usb put here is dirty , eed to change code after
+bool CIDTestProc::CheckUSBTest()
+{
+	bool b_res = false;
+	std::string str_msg;
+
+	/* Read Version from mobile */
+	char szVersion[FTD_BUF_SIZE] = {0};
+	char sz_InBuffer[FTD_BUF_SIZE] = {0};
+	if (!(b_res = m_pIPhone->FTD_USBTest(m_nFtdPort, m_nFtdTimeOut, sz_InBuffer)))
+	{
+		str_msg = "usb test Fail";
+		TraceLog(MSG_INFO, str_msg);
+	}
+
+
+	/* test result */
+	if(b_res)
+	{
+		m_strResult = "PASS";
+		m_strErrorCode = "-";
+		m_strMessage = str_msg;
+		TraceLog(MSG_INFO, "Check USBTest  PASS!");
+	}
+	else
+	{
+		m_strResult = "FAIL";
+		m_strMessage = str_msg;
+		TraceLog(MSG_INFO, "Check USBTest  FAIL!");
+	}
+	//SetPICSData("AntennaIC_ID", m_strMeasured);
 	FactoryLog();
 	return b_res;
 }

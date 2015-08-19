@@ -30,7 +30,8 @@
 #define RFBandIDTemperature			_T("RFBandIDTemperature")		
 #define Board_ID					_T("Board_ID")
 #define PowerMaxCurrent				_T("PowerMaxCurrent")
-
+#define PCBVerMPP3				_T("PCBVerMPP3")
+#define PCBVerMPP2				_T("PCBVerMPP2")
 
 
 class CRangeCheckProc : public ITestItem
@@ -76,7 +77,8 @@ private:
 	bool ReadRFBandIDTemperature();
 	bool ReadBoard_ID(); 
 	bool ReadPowerMaxCurrent(); 
-	
+	bool ReadPCBVerMPP3();
+	bool ReadPCBVerMPP2();
 };
 
 

@@ -74,7 +74,7 @@
 				AdditionalDependencies="$(OutDir)\comdriver.lib"
 				LinkIncremental="1"
 				IgnoreDefaultLibraryNames=""
-				ModuleDefinitionFile=".\QisdaAndroidCmdCtrl.def"
+				ModuleDefinitionFile=".\QisdaAndroidCmdCtrlV2.def"
 				GenerateDebugInformation="true"
 				SubSystem="2"
 				RandomizedBaseAddress="1"
@@ -161,7 +161,7 @@
 				AdditionalDependencies="$(OutDir)\comdriver.lib"
 				LinkIncremental="2"
 				IgnoreDefaultLibraryNames=""
-				ModuleDefinitionFile=".\QisdaAndroidCmdCtrl.def"
+				ModuleDefinitionFile=".\QisdaAndroidCmdCtrlV2.def"
 				GenerateDebugInformation="true"
 				SubSystem="2"
 				RandomizedBaseAddress="1"
@@ -225,32 +225,6 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="QisdaAndroidCmdCtrl.cpp"
-				>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="QisdaAndroidCmdCtrl.def"
-				>
-			</File>
-			<File
 				RelativePath="QisdaAndroidCmdCtrl.rc"
 				>
 				<FileConfiguration
@@ -269,6 +243,14 @@
 						PreprocessorDefinitions=""
 					/>
 				</FileConfiguration>
+			</File>
+			<File
+				RelativePath=".\QisdaAndroidCmdCtrlV2.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\QisdaAndroidCmdCtrlV2.def"
+				>
 			</File>
 			<File
 				RelativePath="StdAfx.cpp"
@@ -386,7 +368,7 @@
 				>
 			</File>
 			<File
-				RelativePath="QisdaAndroidCmdCtrl.h"
+				RelativePath=".\QisdaAndroidCmdCtrlV2.h"
 				>
 			</File>
 			<File

@@ -5,7 +5,7 @@
 
 #include "CmdCtrl.h"
 #include "Utility.h"
-#include "QisdaAndroidCmdCtrl.h"
+#include "QisdaAndroidCmdCtrlV2.h"
 #include "CmdType.h"
 
 using namespace std;

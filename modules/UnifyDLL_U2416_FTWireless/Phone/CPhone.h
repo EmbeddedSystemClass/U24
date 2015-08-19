@@ -236,7 +236,8 @@ public:
 	// 08-SIM
 	bool FTD_SIMtest(int nPort, int nTimeout, char* pszOutput);
 	bool FTD_SIMdetect(int nPort, int nTimeout, char* pszOutput);
-
+    //10-usb YTT
+	bool FTD_USBTest(int nPort, int nTimeout, char* pszOutput);
 	//10-Vibrator
 	bool FTD_VibRun(int nPort, int nTimeout, char* pszInput, char* pszOutput);
 	//13-BT
@@ -321,6 +322,10 @@ public:
 	bool FTD_SOCversion(int nPort, int nTimeout, char* p_sz_Input, char* p_sz_Output);	//16 FTD_SOCversion
 	bool FTD_SOCfeature(int nPort, int nTimeout, char* p_sz_Input, char* p_sz_Output);	//17 FTD_SOCfeature
 
+	bool FTD_PMid(int nPort, int nTimeout, char* p_sz_Input, char* p_sz_Output);		// 6 FTD_Audioid
+	bool FTD_PCBVerMPP3(int nPort, int nTimeout, char* p_sz_Input, char* p_sz_Output);		// 9 FTD_PCBVerMPP3 ytt
+	bool FTD_PCBVerMPP2(int nPort, int nTimeout, char* p_sz_Input, char* p_sz_Output);		// 10 FTD_PCBVerMPP2 ytt
+	bool FTD_PMIid(int nPort, int nTimeout, char* p_sz_Input, char* p_sz_Output);	//11 FTD_PMIid ytt
 
 
 	// 22-ID

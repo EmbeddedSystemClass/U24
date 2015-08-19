@@ -471,6 +471,14 @@ NEPDLLAPI int __stdcall FTD_SIMtest(int port, int timeout_ms, char* in_buf, char
 	return MobileCmd(port, timeout_ms, Andriod_FT_SIM, 1, in_buf, out_buf, __FUNCTION__);
 }
 
+
+//09:USB
+NEPDLLAPI int __stdcall FTD_USBtest(int port, int timeout_ms, char* in_buf, char* out_buf)
+{
+	TRACER_FUNCTION_IN();
+	return MobileCmd(port, timeout_ms, Andriod_FT_USB, 1, in_buf, out_buf, __FUNCTION__);
+}
+
 NEPDLLAPI int __stdcall FTD_SIMdetect(int port, int timeout_ms, char* in_buf, char* out_buf)
 {
 	TRACER_FUNCTION_IN();
@@ -840,13 +848,13 @@ NEPDLLAPI int __stdcall FTD_MHLid(int port, int timeout_ms, char* in_buf, char* 
 	TRACER_FUNCTION_IN();
 	return MobileCmd(port, timeout_ms, Andriod_FT_ID, 5, in_buf, out_buf, __FUNCTION__);
 }
-NEPDLLAPI int __stdcall FTD_Audioid(int port, int timeout_ms, char* in_buf, char* out_buf)
+NEPDLLAPI int __stdcall FTD_PMid(int port, int timeout_ms, char* in_buf, char* out_buf)
 {
 	TRACER_FUNCTION_IN();
 	return MobileCmd(port, timeout_ms, Andriod_FT_ID, 6, in_buf, out_buf, __FUNCTION__);
 }
 
-NEPDLLAPI int __stdcall FTD_PMICid(int port, int timeout_ms, char* in_buf, char* out_buf)
+NEPDLLAPI int __stdcall FTD_SOCversion(int port, int timeout_ms, char* in_buf, char* out_buf)
 {
 	TRACER_FUNCTION_IN();
 	return MobileCmd(port, timeout_ms, Andriod_FT_ID, 7, in_buf, out_buf, __FUNCTION__);
@@ -858,7 +866,20 @@ NEPDLLAPI int __stdcall FTD_RFICid(int port, int timeout_ms, char* in_buf, char*
 	TRACER_FUNCTION_IN();
 	return MobileCmd(port, timeout_ms, Andriod_FT_ID, 8, in_buf, out_buf, __FUNCTION__);
 }
-NEPDLLAPI int __stdcall FTD_RFPAQFEid(int port, int timeout_ms, char* in_buf, char* out_buf)
+
+NEPDLLAPI int __stdcall FTD_PCBVerMPP3(int port, int timeout_ms, char* in_buf, char* out_buf)
+{
+	TRACER_FUNCTION_IN();
+	return MobileCmd(port, timeout_ms, Andriod_FT_ID, 9, in_buf, out_buf, __FUNCTION__);
+}
+
+NEPDLLAPI int __stdcall FTD_PCBVerMPP2(int port, int timeout_ms, char* in_buf, char* out_buf)
+{
+	TRACER_FUNCTION_IN();
+	return MobileCmd(port, timeout_ms, Andriod_FT_ID, 10, in_buf, out_buf, __FUNCTION__);
+}
+
+NEPDLLAPI int __stdcall FTD_PMIid(int port, int timeout_ms, char* in_buf, char* out_buf)
 {
 	TRACER_FUNCTION_IN();
 	return MobileCmd(port, timeout_ms, Andriod_FT_ID, 11, in_buf, out_buf, __FUNCTION__);
@@ -883,11 +904,7 @@ NEPDLLAPI int __stdcall FTD_SKUid(int port, int timeout_ms, char* in_buf, char* 
 	TRACER_FUNCTION_IN();
 	return MobileCmd(port, timeout_ms, Andriod_FT_ID, 15, in_buf, out_buf, __FUNCTION__);
 }
-NEPDLLAPI int __stdcall FTD_SOCversion(int port, int timeout_ms, char* in_buf, char* out_buf)
-{
-	TRACER_FUNCTION_IN();
-	return MobileCmd(port, timeout_ms, Andriod_FT_ID, 16, in_buf, out_buf, __FUNCTION__);
-}
+
 NEPDLLAPI int __stdcall FTD_SOCfeature(int port, int timeout_ms, char* in_buf, char* out_buf)
 {
 	TRACER_FUNCTION_IN();

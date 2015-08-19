@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include <fstream>
 #include <cstring>
-#include "../QisdaAndroidCmdCtrl.h"
+#include "../QisdaAndroidCmdCtrlV2.h"
 #include "GeneralDLLApi.h"
 #include "NeptuneDLLApi.h"
 #include "P21Type.h"
