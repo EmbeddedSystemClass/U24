@@ -68,9 +68,9 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="GPIB-32.OBJ QMSL_MSVC9R.lib SetupAPI.lib"
-				OutputFile="$(OutDir)\FT.dll"
+				OutputFile="$(OutDir)\FactoryTool.dll"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories="&quot;$(ProjectDir)..\..\lib\Qualcomm\QDART4820\lib&quot;;&quot;$(ProjectDir)..\..\lib\NI488\lib&quot;"
+				AdditionalLibraryDirectories="&quot;$(ProjectDir)..\..\lib\Qualcomm\QDART4823\lib&quot;;&quot;$(ProjectDir)..\..\lib\NI488\lib&quot;"
 				IgnoreDefaultLibraryNames=""
 				ModuleDefinitionFile=".\UnifyDLL_RF_U2416_WLS.def"
 				GenerateDebugInformation="true"
@@ -1242,22 +1242,6 @@
 					</File>
 					<File
 						RelativePath=".\TestProcessor\TestItem\BTWLAN\WifiModuleOnOFF.h"
-						>
-					</File>
-					<File
-						RelativePath=".\TestProcessor\TestItem\BTWLAN\Wireless_FMR_rssiTest.cpp"
-						>
-					</File>
-					<File
-						RelativePath=".\TestProcessor\TestItem\BTWLAN\Wireless_FMR_rssiTest.h"
-						>
-					</File>
-					<File
-						RelativePath=".\TestProcessor\TestItem\BTWLAN\Wireless_GPS_CN0Test.cpp"
-						>
-					</File>
-					<File
-						RelativePath=".\TestProcessor\TestItem\BTWLAN\Wireless_GPS_CN0Test.h"
 						>
 					</File>
 				</Filter>

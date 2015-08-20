@@ -26,7 +26,6 @@ private:
 	std::string m_strChannel;
 	std::string m_strTraceMode;
 	std::string m_strDetector;
-	std::string m_strDiagramFull;
 	std::string m_strMsg;
 	std::string m_strMeasured;
 	std::string m_strBTInput;

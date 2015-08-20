@@ -87,12 +87,6 @@ bool CBTWLAN_2G4_Test::InitData(std::map<std::string, std::string>& paramMap)
 	}
 	m_strDetector = paramMap["Detector"];
 
-	if (paramMap.find("DiagramFull") == paramMap.end())
-	{
-		TraceLog(MSG_ERROR, "Fail to find parameter DiagramFull for CBTWLAN_2G4_Test");
-		return false;
-	}
-	m_strDiagramFull = paramMap["DiagramFull"];
 
 	if (paramMap.find("AverageTimes") == paramMap.end())
 	{

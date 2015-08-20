@@ -4,8 +4,8 @@
 //#include "../../../lib/Qualcomm/QDART4820/inc/QLib.h"
 //#include "../../../lib/Qualcomm/QDART4820/inc/QLib_Defines.h"
 
-#include "../../../lib/Qualcomm/QDART4824/inc/QLib.h"
-#include "../../../lib/Qualcomm/QDART4824/inc/QLib_Defines.h"
+#include "../../../lib/Qualcomm/QDART4823/inc/QLib.h"
+#include "../../../lib/Qualcomm/QDART4823/inc/QLib_Defines.h"
 #include <string>
 // RTR6285A
 // {

@@ -30,6 +30,27 @@ bool CBTWLAN_WiFi_5G_TxTest::InitData(std::map<std::string, std::string>& paramM
 	m_strPICSName = paramMap["PICSName"];
 	m_strPICSName_Value = m_strPICSName + "_Value";
 
+	if (paramMap.find("WlanMode") == paramMap.end())
+	{
+		TraceLog(MSG_ERROR, "Fail to find parameter WlanMode for CBTWLAN_WiFi_5G_TxTest");
+		return false;
+	}
+	m_iWlanMode = atoi(paramMap["WlanMode"].c_str());
+
+	if (paramMap.find("TxChain") == paramMap.end())
+	{
+		TraceLog(MSG_ERROR, "Fail to find parameter TxChain for CBTWLAN_WiFi_5G_TxTest");
+		return false;
+	}
+	m_iTxChain = atoi(paramMap["TxChain"].c_str());
+
+	if (paramMap.find("LoadBin") == paramMap.end())
+	{
+		TraceLog(MSG_ERROR, "Fail to find parameter LoadBin for CBTWLAN_WiFi_TxTest");
+		return false;
+	}
+	m_iLoadBin = atoi(paramMap["LoadBin"].c_str());
+
 	if (paramMap.find("CommandDelay") == paramMap.end())
 	{
 		TraceLog(MSG_ERROR, "Fail to find parameter CommandDelay for CBTWLAN_WiFi_5G_TxTest");
@@ -59,12 +80,12 @@ bool CBTWLAN_WiFi_5G_TxTest::InitData(std::map<std::string, std::string>& paramM
 	}
 	m_iPower = atoi(paramMap["Power"].c_str());
 
-	if (paramMap.find("DataRate") == paramMap.end())
+	if (paramMap.find("RateBitIndex") == paramMap.end())
 	{
-		TraceLog(MSG_ERROR, "Fail to find parameter DataRate for CBTWLAN_WiFi_5G_TxTest");
+		TraceLog(MSG_ERROR, "Fail to find parameter RateBitIndex for CBTWLAN_WiFi_5G_TxTest");
 		return false;
 	}
-	m_iDataRate = atoi(paramMap["DataRate"].c_str());
+	m_iRateBitIndex = atoi(paramMap["RateBitIndex"].c_str());
 
 
 	if (paramMap.find("RBW") == paramMap.end())
@@ -102,12 +123,6 @@ bool CBTWLAN_WiFi_5G_TxTest::InitData(std::map<std::string, std::string>& paramM
 	}
 	m_strDetector = paramMap["Detector"];
 
-	if (paramMap.find("DiagramFull") == paramMap.end())
-	{
-		TraceLog(MSG_ERROR, "Fail to find parameter DiagramFull for CBTWLAN_WiFi_5G_TxTest");
-		return false;
-	}
-	m_strDiagramFull = paramMap["DiagramFull"];
 
 	if (paramMap.find("RetryTimes") == paramMap.end())
 	{
@@ -146,7 +161,7 @@ bool CBTWLAN_WiFi_5G_TxTest::InitData(std::map<std::string, std::string>& paramM
 
 	if (paramMap.find("ChannelPower") == paramMap.end())
 	{
-		TraceLog(MSG_ERROR, "Fail to find parameter ChannelPower for CBTWLAN_BT_TxTest");
+		TraceLog(MSG_ERROR, "Fail to find parameter ChannelPower for CBTWLAN_WiFi_5G_TxTest");
 		return false;
 	}
 	m_strChannelPower = paramMap["ChannelPower"];
@@ -165,17 +180,13 @@ bool CBTWLAN_WiFi_5G_TxTest::InitData(std::map<std::string, std::string>& paramM
 	m_dLower = atof(vTmp[0].c_str());
 	m_dUpper = atof(vTmp[1].c_str());
 
-	if (paramMap.find ("Regulatory_Fixed") == paramMap.end()){
-		TraceLog(MSG_ERROR, "Fail to find parameter Regulatory_Fixed for CBTWLAN_WiFi_5G_TxTest");
+	if (paramMap.find("LineName") == paramMap.end())
+	{
+		TraceLog(MSG_ERROR, "Fail to find parameter LineName for CBTWLAN_WiFi_5G_TxTest");
 		return false;
 	}
-	m_Regulatory_Fixed = atoi(paramMap["Regulatory_Fixed"].c_str());
+	m_strLineName = paramMap["LineName"];
 
-	if (paramMap.find ("Power_control_mode") == paramMap.end()){
-		TraceLog(MSG_ERROR, "Fail to find parameter Power_control_mode for CBTWLAN_WiFi_5G_TxTest");
-		return false;
-	}
-	m_Power_control_mode = atoi(paramMap["Power_control_mode"].c_str());
 
 	if (paramMap.find ("WriteCPKLog") != paramMap.end())
 		m_WriteCPKLog = paramMap["WriteCPKLog"] != "0";
@@ -204,10 +215,48 @@ bool CBTWLAN_WiFi_5G_TxTest::Run(void)
 	memset(szBand, 0, 256);
 	strcpy(szBand, "WiFi");
 
+
 	// Prepare CPK log
-	std::string cpkfile = string(DEFAULT_CPKLOG_PATH) + "BT_WiFi_5G_TxTest_CPK";
+	//std::string cpkfile = string(DEFAULT_CPKLOG_PATH) + "BT_WiFi_5G_TxTest_CPK";
+	//cpkfile = string(DEFAULT_CPKLOG_PATH) + cpkfile;
+	//gCpkRecord.setFileName (cpkfile.c_str());
+	//gCpkRecord.ResetAll();
+	//
+	std::string cpkfile;
+	if (0 == strcmp(m_strLineName.c_str(), "\"11N_5G_Chain_0\""))
+	{
+		cpkfile = string(DEFAULT_CPKLOG_PATH) + "WifiTxCPK_11N_5G_Chain_0";
+		m_dAdjPower = GetCableLoss("TX", "BTWLAN_WIFI", "WifiAdjPower_11N_5G_Chain_0");
+	}
+	else if (0 == strcmp(m_strLineName.c_str(), "\"11N_5G_Chain_1\""))
+	{
+		cpkfile = string(DEFAULT_CPKLOG_PATH) + "WifiTxCPK_11N_5G_Chain_1";
+		m_dAdjPower = GetCableLoss("TX", "BTWLAN_WIFI", "WifiAdjPower_11N_5G_Chain_1");
+	}
+	else if (0 == strcmp(m_strLineName.c_str(), "\"11A_5G_Chain_0\""))
+	{
+		cpkfile = string(DEFAULT_CPKLOG_PATH) + "WifiTxCPK_11A_5G_Chain_0";
+		m_dAdjPower = GetCableLoss("TX", "BTWLAN_WIFI", "WifiAdjPower_11A_5G_Chain_0");
+	}
+	else if (0 == strcmp(m_strLineName.c_str(), "\"11A_5G_Chain_1\""))
+	{
+		cpkfile = string(DEFAULT_CPKLOG_PATH) + "WifiTxCPK_11A_5G_Chain_1";
+		m_dAdjPower = GetCableLoss("TX", "BTWLAN_WIFI", "WifiAdjPower_11A_5G_Chain_1");
+	}
+	else if (0 == strcmp(m_strLineName.c_str(), "\"11AC_5G_Chain_0\""))
+	{
+		cpkfile = string(DEFAULT_CPKLOG_PATH) + "WifiTxCPK_11AC_5G_Chain_0";
+		m_dAdjPower = GetCableLoss("TX", "BTWLAN_WIFI", "WifiAdjPower_11AC_5G_Chain_0");
+	}
+	else if (0 == strcmp(m_strLineName.c_str(), "\"11AC_5G_Chain_1\""))
+	{
+		cpkfile = string(DEFAULT_CPKLOG_PATH) + "WifiTxCPK_11AC_5G_Chain_1";
+		m_dAdjPower = GetCableLoss("TX", "BTWLAN_WIFI", "WifiAdjPower_11AC_5G_Chain_1");
+	}
+
 	gCpkRecord.setFileName (cpkfile.c_str());
 	gCpkRecord.ResetAll();
+	
 
 	int count = m_CPKHeaderList.size();
 	for (int i=0; i < count; ++i)
@@ -257,12 +306,14 @@ bool CBTWLAN_WiFi_5G_TxTest::MainFunction(void)
 {
 	char szTmp[256];
 
-	if (! m_pIPhone->Wifi5GPowerOnTx(m_iDataRate, m_iChannel, m_iPower, m_Regulatory_Fixed, m_Power_control_mode))
+	if (! m_pIPhone->WifiPowerOnTx(m_iRateBitIndex, m_iChannel, m_iPower, m_iWlanMode, m_iTxChain, m_iLoadBin))	
+		//(m_iRateBitIndex, m_iChannel, m_iPower, m_iPreamble, m_iPayloadSize, m_iSpacing, m_iChain)))
 	{
-		m_strMsg = "Fail to execute WifiPowerOnTx";
+		m_strMsg = "Fail to execute WifiPowerOnTx in CBTWLAN_WiFi_5G_TxTest";
 		TraceLog(MSG_ERROR, m_strMsg);
 		return false;
 	}
+
 	
 	if (! m_pITesterDeviceFSP->ResetFSP())
 	{
@@ -306,12 +357,20 @@ bool CBTWLAN_WiFi_5G_TxTest::MainFunction(void)
 		return false;
 	}
 
-	if (! m_pITesterDeviceFSP->SetInputLoss(GetCableLoss("TX", "BTWLAN_WIFI", "WifiAdjPower_5G")))
+	//if (! m_pITesterDeviceFSP->SetInputLoss(GetCableLoss("TX", "BTWLAN_WIFI", "WifiAdjPower_5G")))
+	//{
+	//	m_strMsg = "Fail to set input loss to tester device";
+	//	TraceLog(MSG_ERROR, m_strMsg);
+	//	return false;
+	//}
+
+	if (! m_pITesterDeviceFSP->SetInputLoss( m_dAdjPower ))
 	{
 		m_strMsg = "Fail to set input loss to tester device";
 		TraceLog(MSG_ERROR, m_strMsg);
 		return false;
 	}
+
 	if (! m_pITesterDeviceFSP->SwitchTraceMode(m_strTraceMode))
 	{
 		m_strMsg = "Fail to switch trace mode to tester device";
@@ -371,7 +430,7 @@ bool CBTWLAN_WiFi_5G_TxTest::MainFunction(void)
 			TraceLog(MSG_ERROR, m_strMsg);
 			return false;
 		}
-
+		//AfxMessageBox("stop");
 		if (strstr(strResponse.c_str(), "NAN") != NULL)
 		{
 			sprintf_s(szTmp, 255, "%0d - WiFi power : NAN", i + 1);
@@ -379,6 +438,8 @@ bool CBTWLAN_WiFi_5G_TxTest::MainFunction(void)
 			TraceLog(MSG_ERROR, m_strMsg);
 			continue;
 		}
+
+		//dPower = (atof(strResponse.c_str()) + m_dAdjPower);
 
 		dPower = atof(strResponse.c_str());
 
@@ -429,14 +490,13 @@ bool CBTWLAN_WiFi_5G_TxTest::MainFunction(void)
 	sprintf_s(szTmp, 255, "%.3f", dMax);
 	m_strMeasured = szTmp;
 
-	// Stop WiFi power
-	if (! m_pIPhone->WifiPowerOnTx(0, 0, 0))
+	//// Stop WiFi power
+	if (!m_pIPhone->WifiPowerOffTx(m_iChannel))
 	{
-		m_strMsg = "Fail to stop WifiPowerOnTx";
+		m_strMsg = "Fail to stop WifiPowerOnTx in CBTWLAN_WiFi_5G_TxTest";
 		TraceLog(MSG_ERROR, m_strMsg);
 		return false;
 	}
-
 	return bRes;
 }
 

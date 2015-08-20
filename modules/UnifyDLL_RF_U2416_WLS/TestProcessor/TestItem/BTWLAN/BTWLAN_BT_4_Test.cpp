@@ -87,12 +87,6 @@ bool CBTWLAN_BT_4_Test::InitData(std::map<std::string, std::string>& paramMap)
 	}
 	m_strDetector = paramMap["Detector"];
 
-	if (paramMap.find("DiagramFull") == paramMap.end())
-	{
-		TraceLog(MSG_ERROR, "Fail to find parameter DiagramFull for CBTWLAN_BT_4_Test");
-		return false;
-	}
-	m_strDiagramFull = paramMap["DiagramFull"];
 
 	if (paramMap.find("AverageTimes") == paramMap.end())
 	{
@@ -178,7 +172,7 @@ bool CBTWLAN_BT_4_Test::Run(void)
 	strcpy(szBand, "BT");
 
 	// Prepare CPK log
-	std::string cpkfile = string(DEFAULT_CPKLOG_PATH) + "BT_CPK";
+	std::string cpkfile = string(DEFAULT_CPKLOG_PATH) + "BT4_CPK";
 	gCpkRecord.setFileName (cpkfile.c_str());
 	gCpkRecord.ResetAll();
 
@@ -192,19 +186,19 @@ bool CBTWLAN_BT_4_Test::Run(void)
 
 	if (bRes)
 	{
-		FactoryLog(true, "BT_TxTest_FSP", "Pass", szBand, m_strChannel, szLower, szUpper, m_strMeasured, "dBm", "BT_TxTest_FSP PASS");
+		FactoryLog(true, "BT4_TxTest", "Pass", szBand, m_strChannel, szLower, szUpper, m_strMeasured, "dBm", "BT_TxTest_FSP PASS");
 		SetPICSData(m_strPICSName, "PASS");
 	}
 	else
 	{
-		FactoryLog(false, "BT_TxTest_FSP", FunErr_BT_Test_OutPower_OutRange, szBand, m_strChannel, szLower, szUpper, m_strMeasured, "dBm", m_strMsg);
+		FactoryLog(false, "BT4_TxTest", FunErr_BT_Test_OutPower_OutRange, szBand, m_strChannel, szLower, szUpper, m_strMeasured, "dBm", m_strMsg);
 		SetPICSData(m_strPICSName, "FAIL");
 	}
 	SetPICSData(m_strPICSName_Value, m_strMeasured);
 
 	// write result to log file
-	TraceLog (MSG_INFO, "BT_CPK_HEADER: " + gCpkRecord.GetLogHeader());
-	TraceLog (MSG_INFO, "BT_CPK_RESULT: " + gCpkRecord.GetLogString());
+	TraceLog (MSG_INFO, "BT4_CPK_HEADER: " + gCpkRecord.GetLogHeader());
+	TraceLog (MSG_INFO, "BT4_CPK_RESULT: " + gCpkRecord.GetLogString());
 
 	// write result to CPK log
 	if (m_WriteCPKLog)
@@ -231,28 +225,28 @@ bool CBTWLAN_BT_4_Test::MainFunction(void)
 	strcpy(szBTInput, m_strBTInput.c_str());
 	if (! m_pIPhone->BTStartTxLtePower(szBTInput))
 	{
-		m_strMsg = "Fail to start BT TX power";
+		m_strMsg = "Fail to start BT TX power in CBTWLAN_BT_4_Test";
 		TraceLog(MSG_ERROR, m_strMsg);
 		return false;
 	}
 
 	if (! m_pITesterDeviceFSP->SetResolutionBandwidth(m_dRBW))
 	{
-		m_strMsg = "Fail to set resolution bandwidth to tester device";
+		m_strMsg = "Fail to set resolution bandwidth to tester device in CBTWLAN_BT_4_Test";
 		TraceLog(MSG_ERROR, m_strMsg);
 		return false;
 	}
 
 	if (! m_pITesterDeviceFSP->SetVideoBandwidth(m_dVBW))
 	{
-		m_strMsg = "Fail to set video bandwidth to tester device";
+		m_strMsg = "Fail to set video bandwidth to tester device in CBTWLAN_BT_4_Test";
 		TraceLog(MSG_ERROR, m_strMsg);
 		return false;
 	}
 
 	if (! m_pITesterDeviceFSP->RF_SetAnalyzerFreq(m_dFrequency))
 	{
-		m_strMsg = "Fail to set RF analyzer frequency to tester device";
+		m_strMsg = "Fail to set RF analyzer frequency to tester device in CBTWLAN_BT_4_Test";
 		TraceLog(MSG_ERROR, m_strMsg);
 		return false;
 	}
@@ -261,14 +255,14 @@ bool CBTWLAN_BT_4_Test::MainFunction(void)
 
 	if (! m_pITesterDeviceFSP->SetSweepTime(m_iSweepTime))
 	{
-		m_strMsg = "Fail to set sweep time to tester device";
+		m_strMsg = "Fail to set sweep time to tester device in CBTWLAN_BT_4_Test";
 		TraceLog(MSG_ERROR, m_strMsg);
 		return false;
 	}
 
 	if (! m_pITesterDeviceFSP->SetFrequencySpan(m_dSpan))
 	{
-		m_strMsg = "Fail to set frequency span to tester device";
+		m_strMsg = "Fail to set frequency span to tester device in CBTWLAN_BT_4_Test";
 		TraceLog(MSG_ERROR, m_strMsg);
 		return false;
 	}
@@ -282,14 +276,14 @@ bool CBTWLAN_BT_4_Test::MainFunction(void)
 
 	if (! m_pITesterDeviceFSP->SwitchTraceMode(m_strTraceMode))
 	{
-		m_strMsg = "Fail to switch trace mode to tester device";
+		m_strMsg = "Fail to switch trace mode to tester device in CBTWLAN_BT_4_Test";
 		TraceLog(MSG_ERROR, m_strMsg);
 		return false;
 	}
 
 	if (! m_pITesterDeviceFSP->SetDetector(m_strDetector))
 	{
-		m_strMsg = "Fail to set detector to tester device";
+		m_strMsg = "Fail to set detector to tester device in CBTWLAN_BT_4_Test";
 		TraceLog(MSG_ERROR, m_strMsg);
 		return false;
 	}
@@ -297,7 +291,7 @@ bool CBTWLAN_BT_4_Test::MainFunction(void)
 
 	if (! m_pITesterDeviceFSP->SetAttRefLevel(m_iAttenuationManual, m_iRefLevel))
 	{
-		m_strMsg = "Fail to set reference level to tester device";
+		m_strMsg = "Fail to set reference level to tester device in CBTWLAN_BT_4_Test";
 		TraceLog(MSG_ERROR, m_strMsg);
 		return false;
 	}
@@ -306,21 +300,21 @@ bool CBTWLAN_BT_4_Test::MainFunction(void)
 
 	if (! m_pITesterDeviceFSP->SetMaxLevel())
 	{
-		m_strMsg = "Fail to set max level to tester device";
+		m_strMsg = "Fail to set max level to tester device in CBTWLAN_BT_4_Test";
 		TraceLog(MSG_ERROR, m_strMsg);
 		return false;
 	}
 
 	if (! m_pITesterDeviceFSP->SwitchChannelPower(m_strChannelPower))
 	{
-		m_strMsg = "Fail to switch channel power to tester device";
+		m_strMsg = "Fail to switch channel power to tester device in CBTWLAN_BT_4_Test";
 		TraceLog(MSG_ERROR, m_strMsg);
 		return false;
 	}
 
 	if (! m_pITesterDeviceFSP->SetChannelBandwidth(m_dChannelBWMHz))
 	{
-		m_strMsg = "Fail to set channel bandwidth to tester device";
+		m_strMsg = "Fail to set channel bandwidth to tester device in CBTWLAN_BT_4_Test";
 		TraceLog(MSG_ERROR, m_strMsg);
 		return false;
 	}

@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "AndroidPhone.h"
 #include "Shlwapi.h"
-
+#include <io.h>
 
 // Disable string warning
 #define _CRT_SECURE_NO_DEPRECATE
@@ -13,6 +13,35 @@
 
 RF_IMPLEMENT_DYNCREATE(CAndroidPhone)
 
+
+// Dut related APIs - Function protocol
+enum WLAN_TLV_OPCODE
+{
+   _OP_TX = 1,
+   _OP_RX = 2,
+   _OP_CAL = 3,
+   _OP_CAL_DONE = 4,
+   _OP_TX_STATUS = 10,
+   _OP_RX_STATUS = 11,
+   _OP_RESET = 15,
+   _OP_OTP = 16,
+   _OP_CAL_INIT = 23,
+};
+
+// Data storage
+enum NVMEM_OPTION
+{
+   DataNone = 0,
+   DataFlash,
+   DataEeprom,
+   DataOtp,
+   DataDontLoad,
+   DataFile,
+   DataDram
+};
+
+#define QLIB_LIB_MODE_QPHONEMS  0
+#define QLIB_TARGET_TYPE_APQ    1
 
 CAndroidPhone::CAndroidPhone()
 	: m_hQcomDiagModule(NULL)
@@ -37,6 +66,7 @@ CAndroidPhone::~CAndroidPhone()
 
 	if (m_hQMSLPhone != NULL)
 	{
+		QLIB_FTM_WLAN_Atheros_UNLoadDUT(m_hQMSLPhone);
 		QLIB_DisconnectServer(m_hQMSLPhone);
 		m_hQMSLPhone = NULL;
 	}
@@ -577,9 +607,15 @@ bool CAndroidPhone::Send_ATCommand(char* szPort, char* szCommand, char* szRespon
 
 bool CAndroidPhone::Initial_FTD()
 {
+	
 	if (m_hNeptuneCtrl == NULL)
 	{
-		m_hNeptuneCtrl = LoadLibrary("QisdaAndroidCmdCtrl.dll");
+		//m_hNeptuneCtrl = LoadLibrary("QisdaAndroidCmdCtrl.dll");
+		m_hNeptuneCtrl = LoadLibraryA(_T("QisdaAndroidCmdCtrl.dll"));
+	//	m_hNeptuneCtrl = LoadLibrary("QisdaAndroidCmdCtrl.dll");
+		//m_hNeptuneCtrl = LoadLibrary("FactoryTool.dll");
+		
+	//	m_hNeptuneCtrl = LoadLibraryA(_T("QisdaAndroidCmdCtrl.dll"));
 		if (! m_hNeptuneCtrl)
 			return false;
 
@@ -949,43 +985,6 @@ bool CAndroidPhone::WiFiStartTxPower(int iRate, int iChannel, int iPower)
 
 bool CAndroidPhone::WifiModuleOn (bool bEnable, int nBin)
 {
-#ifdef _NOT_USE_FTD_
-
-	if (bEnable)
-	{
-		bool ret = false;
-		char **pbuffer = NULL;
-
-		//MyExecAdbCmd(pbuffer, "shell", "rmmod wlan");
-		/*
-		MyExecAdbCmdEx (pbuffer, "pull", "/etc/wifi/wpa_supplicant.conf");
-		::Sleep(500);
-		MyExecAdbCmdEx (pbuffer, "pull", "/persist/WCNSS_qcom_cfg.ini");
-		::Sleep(500);
-		MyExecAdbCmdEx (pbuffer, "push", "wpa_supplicant.conf /data/misc/wifi/");
-		::Sleep(500);
-		MyExecAdbCmdEx (pbuffer, "push", "WCNSS_qcom_cfg.ini /data/misc/wifi/");
-		::Sleep(500);*/
-		MyExecAdbCmdEx (pbuffer, "shell", "insmod /system/lib/modules/wlan.ko con_mode=5");
-		::Sleep(500);
-		MyExecAdbCmdEx (pbuffer, "shell", "ptt_socket_app");
-		/*::Sleep(500);
-		MyExecAdbCmdEx (pbuffer, "shell", "ftmdaemon");
-		::Sleep(500);
-*/
-		//FTM start
-		//ret = QLIB_FTM_WLAN_GEN6_START(m_hQMSLPhone, 3660);
-
-		//return ret;
-		return true;
-	}
-	else
-	{
-		//FTM stop
-		return QLIB_FTM_WLAN_GEN6_STOP(m_hQMSLPhone);
-	}
-
-#else
 	pDetroit_WLAN_Mode Detroit_WLAN_Mode = (pDetroit_WLAN_Mode) GetProcAddress (m_hNeptuneCtrl, "Detroit_WLAN_Mode");
 	if (! Detroit_WLAN_Mode)
 		return false;
@@ -995,31 +994,30 @@ bool CAndroidPhone::WifiModuleOn (bool bEnable, int nBin)
 	char szInput[FTD_BUF_SIZE] = {0};
 	char szError[FTD_BUF_SIZE] = {0};
 
-	if( nBin>=0 ){
-		sprintf(szInput, "2,bin%d", nBin);
-	}else{
-		sprintf(szInput, "2,NULL");
-	}
-	if (bEnable)
+	//if( nBin>=0 ){
+	//	sprintf(szInput, "2,bin%d", nBin);
+	//}else{
+	//	sprintf(szInput, "2,NULL");
+	//}
+	sprintf(szInput, "2");
+
+	if (bEnable)//turn on 
 	{
 		ret = Detroit_WLAN_Mode (FTD_PORT, FTD_TIMEOUT, szInput, szError); //2 -> test mode on
-		if( ret==FTD_OK ){
-			QLIB_SetLibraryMode(true);
-			isOk = (0 != QLIB_FTM_WLAN_GEN6_START(m_hQMSLPhone, 3680));
-		}
-		return isOk;
+		//if( ret==FTD_OK ){
+			//QLIB_SetLibraryMode(true);
+			//isOk = (0 != QLIB_FTM_WLAN_GEN6_START(m_hQMSLPhone, 3680));
+		//}
+		return ( ret==FTD_OK );
 	}
-	else
+	else // turn off
 	{
-		isOk = (0 != QLIB_FTM_WLAN_GEN6_STOP(m_hQMSLPhone));
-		if( isOk ){
-			ret = Detroit_WLAN_Mode (FTD_PORT, FTD_TIMEOUT, "0", szError); //0 -> off
-		}
-		
+
+		ret = Detroit_WLAN_Mode (FTD_PORT, FTD_TIMEOUT, "0", szError); //0 -> off
+		QLIB_FTM_WLAN_Atheros_UNLoadDUT(m_hQMSLPhone);
+		QLIB_DisconnectServer(m_hQMSLPhone);//lion
 		return FTD_OK == ret;
 	}
-#endif
-
 	return true;
 }
 
@@ -1218,165 +1216,378 @@ bool CAndroidPhone::WifiPowerOnTx (int iRate, int iChannel, int iPower)
 	return false;
 }
 
-bool CAndroidPhone::WifiPowerOnTx (int iRate, int iChannel, int iPower,int iRegulatorFixed, int iPower_control_mode)
+double asyncPMCB(unsigned int iGain, unsigned int iFreq, double dPowerLevel,
+   unsigned int iNumAvg, unsigned int iTriggerType, int iTriggerLevel)
 {
-//#ifdef _NOT_USE_FTD_
+   double power[100], pwr;
+   double measuredAvgPower = 0;
+   unsigned int it = 0;
+   while (it < iNumAvg)
+   {
+      printf("Please enter a power to simulate the measured power\n");
+      scanf("%lf",&pwr);
+      // get measured power from your instrument for your calibration program
+      power[it ++] = pwr;
+      measuredAvgPower += power[it-1];
+   }
+   if (iNumAvg>0)
+      measuredAvgPower = measuredAvgPower/iNumAvg; // average the measured iNumAvg powers;
+   else
+      measuredAvgPower = -999.00;
+   return measuredAvgPower;
+}
 
-	if (0 == iRate && 0 == iChannel && 0 == iPower) // Turn off Tx Power
-	{
-		bool ret = true;
+//bool CAndroidPhone::WifiPowerOnTx (int iRate, int iChannel, int iPower,int iRegulatorFixed, int iPower_control_mode)
+//bool CAndroidPhone::WifiPowerOnTx(int iRate, int iChannel, int iPower, int iPreamble, int iPayloadSize, int iSpacing, int iChain)
+bool CAndroidPhone::WifiPowerOffTx ( int m_iChannel ){
 
-		//Stop TX
-		return ret && QLIB_FTM_WLAN_GEN6_TX_PKT_START_STOP(m_hQMSLPhone, 0);
+	bool isOk = false;
+	char buf[32];
+
+	isOk = QLIB_FTM_WLAN_TLV_Create(m_hQMSLPhone, _OP_TX);
+	if (!isOk) {
+		return isOk;
 	}
 
-	else
+	isOk = QLIB_FTM_WLAN_TLV_AddParam(m_hQMSLPhone, _T("txMode"), _itoa(0,buf,10)); //0 = off,  int txMode = 3; // Tx99 a = b = g = ac = n
+	if (!isOk) {
+			return isOk;
+	}
+
+	isOk = QLIB_FTM_WLAN_TLV_AddParam(m_hQMSLPhone, _T("channel"), _itoa( m_iChannel,buf,10));//iChannel
+	if (!isOk) {
+		return isOk;
+	}
+
+	isOk = QLIB_FTM_WLAN_TLV_Complete(m_hQMSLPhone);
+
+	//QLIB_DisconnectServer(m_hQMSLPhone);
+	return true;
+}
+
+bool CAndroidPhone::WifiPowerOnTx(int m_iRateBitIndex, int m_iChannel,int m_iPower,int m_iWlanMode,int m_iTxChain, int m_iLoadBin)
+{
+	
+	char buf[32];
+
+	if ( m_iLoadBin == 1){
+
+		TCHAR szNowPath[MAX_PATH] = {0};
+		GetCurrentDirectory(MAX_PATH, szNowPath);
+		CString path = szNowPath;
+		CString csBinPath;
+		csBinPath.Format("%s\\u2416\\bdwlan30.bin", path);
+
+		char sLibraryVersion[50];
+		QLIB_GetLibraryVersion(sLibraryVersion );
+		printf("QLibrary Demo\n\n");
+		printf("QLIB DLL Version: %s\n\n", sLibraryVersion );
+
+		// ROME Chip ID
+		#define ROME_CHIPID   0x3e
+		// Loopback IP for local system or any remote system IP with DUT
+		char UDT_IP[20] = "127.0.0.1";
+		// Chip specific DLL
+		#define ROME_DLLID    "qc6174"
+		// Board data file where depends on chip variation
+		char BIN_FILE[200] =  _T("C:\\u2416\\bdwlan30.bin");
+
+		//CString csBIN_FILE = BIN_FILE;
+		if (_taccess(csBinPath, 0) != 0) 
+		{
+			CString csMsg = csBinPath + _T("not exist");
+			AfxMessageBox(csMsg);
+			return false;
+		}
+
+		QLIB_FTM_WLAN_Atheros_UNLoadDUT(m_hQMSLPhone); //unload first;
+
+		//unsigned char bRet = QLIB_FTM_WLAN_Atheros_LoadDUT(m_hQMSLPhone,(unsigned char  *)ROME_DLLID,(unsigned char *)BIN_FILE, DataFile, ROME_CHIPID);
+		unsigned char bRet = QLIB_FTM_WLAN_Atheros_LoadDUT(m_hQMSLPhone,(unsigned char  *)ROME_DLLID,(unsigned char *)csBinPath.GetBuffer(), DataFile, ROME_CHIPID);
+		csBinPath.ReleaseBuffer();
+		if ( !bRet ){
+			return false;
+		}
+	}
+
+	for(int i = 0;i < 1;i++)
 	{
-		unsigned int cmdRateMap = 0;
+		Sleep(500);
 
-		switch(iRate)
-		{
-		case 11:
-			cmdRateMap = 3;
-			break;
+		bool isOk = true;
 
-		case 54:
-			cmdRateMap = 14;
-			break;
-
-		case 72:
-			cmdRateMap = 38;
-			break;
-
-		default:
-			return false;
+		isOk = QLIB_FTM_WLAN_TLV_Create(m_hQMSLPhone, _OP_TX);
+		if (!isOk) {
+				continue;
 		}
 
-		unsigned int cmdPreamble = 0;
-
-		switch(cmdRateMap)
-		{
-		/*	0: HAL_PHY_RATE_11B_LONG_1_MBPS
-			1: HAL_PHY_RATE_11B_LONG_2_MBPS
-			2: HAL_PHY_RATE_11B_LONG_5_5_MBPS
-			3: HAL_PHY_RATE_11B_LONG_11_MBPS	*/
-		case 0: case 1: case 2: case 3:
-			cmdPreamble = 4;
-			break;
-
-		/*	4: HAL_PHY_RATE_11B_SHORT_2_MBPS
-			5: HAL_PHY_RATE_11B_SHORT_5_5_MBPS
-			6: HAL_PHY_RATE_11B_SHORT_11_MBPS	*/
-		case 4: case 5: case 6:
-			cmdPreamble = 3;
-			break;
-
-		/*	7:  HAL_PHY_RATE_11A_6_MBPS
-			8:  HAL_PHY_RATE_11A_9_MBPS
-			9:  HAL_PHY_RATE_11A_12_MBPS
-			10: HAL_PHY_RATE_11A_18_MBPS
-			11: HAL_PHY_RATE_11A_24_MBPS
-			12: HAL_PHY_RATE_11A_36_MBPS
-			13: HAL_PHY_RATE_11A_48_MBPS
-			14: HAL_PHY_RATE_11A_54_MBPS	*/
-		case 7: case 8: case 9: case 10: case 11: case 12: case 13: case 14:
-			cmdPreamble = 0;
-			break;
-
-		/*	38: HAL_PHY_RATE_MCS_1NSS_MM_SG_72_2_MBPS	*/
-		case 38:
-			cmdPreamble = 2;
-			break;
-
-		default:
-			return false;
+		isOk = QLIB_FTM_WLAN_TLV_AddParam(m_hQMSLPhone, _T("txMode"), _itoa(3,buf,10)); // int txMode = 3; // Tx99 a = b = g = ac = n
+		if (!isOk) {
+				continue;
 		}
 
-		for(int i = 0;i < 1;i++)
-		{
-			Sleep(500);
-			/*
-			if(iChannel >= 36)
-			{
-				if(!QLIB_FTM_WLAN_GEN6_SET_CHANNEL(m_hQMSLPhone, 40) ||
-					!QLIB_FTM_WLAN_GEN6_ENABLE_CHAINS(m_hQMSLPhone, 6) ||
-					!QLIB_FTM_WLAN_GEN6_SET_TX_FRAME (m_hQMSLPhone, 0, 1000, 200, true, iRate, cmdPreamble) ||
-					!QLIB_FTM_WLAN_GEN6_CLOSE_TPC_LOOP(m_hQMSLPhone, 0) ||
-					!QLIB_FTM_WLAN_GEN6_SET_TX_WAVEFORM_GAIN_V2(m_hQMSLPhone, iPower) ||
-					!QLIB_FTM_WLAN_GEN6_TX_PKT_START_STOP(m_hQMSLPhone, 1))
-					continue;
-			}
-
-			if(!QLIB_FTM_WLAN_GEN6_SET_CHANNEL(m_hQMSLPhone, iChannel) ||
-				!QLIB_FTM_WLAN_GEN6_ENABLE_CHAINS(m_hQMSLPhone, 6) ||
-				!QLIB_FTM_WLAN_GEN6_SET_TX_FRAME (m_hQMSLPhone, 0, 1000, 200, true, iRate, cmdPreamble) ||
-				!QLIB_FTM_WLAN_GEN6_CLOSE_TPC_LOOP(m_hQMSLPhone, 0) ||
-				!QLIB_FTM_WLAN_GEN6_SET_TX_WAVEFORM_GAIN_V2(m_hQMSLPhone, iPower) ||
-				!QLIB_FTM_WLAN_GEN6_TX_PKT_START_STOP(m_hQMSLPhone, 1))
+		isOk = QLIB_FTM_WLAN_TLV_AddParam(m_hQMSLPhone, _T("channel"), _itoa( m_iChannel,buf,10));//iChannel
+		if (!isOk) {
 				continue;
-			*/
-			bool isOk = true;
+		}
 
-			//Set TX
-			isOk = !!QLIB_FTM_WLAN_GEN6_ENABLE_CHAINS(m_hQMSLPhone, 6);
-			if (!isOk) { 
+		isOk = QLIB_FTM_WLAN_TLV_AddParam(m_hQMSLPhone, _T("tpcm"), _itoa(0,buf,10));
+		if (!isOk) {
 				continue;
-			}
+		}
 
-			isOk = !!QLIB_FTM_WLAN_GEN6_CLOSE_TPC_LOOP_V2(m_hQMSLPhone, iPower_control_mode);
-			if (!isOk) { 
+		isOk = QLIB_FTM_WLAN_TLV_AddParam(m_hQMSLPhone, _T("txPower0"), _itoa(m_iPower, buf ,10)); //iPower
+		if (!isOk) {
 				continue;
-			}
-			
-			/*3=regulatory=1=enable , 2=fixed=0=disable ,Liontest, xml*/
-			isOk = !!QLIB_FTM_WLAN_GEN6_SET_PWR_INDEX_SOURCE(m_hQMSLPhone, iRegulatorFixed);
+		}
+
+		isOk = QLIB_FTM_WLAN_TLV_AddParam(m_hQMSLPhone, _T("antenna"), _itoa(0,buf,10));
+		if (!isOk) {
+				continue;
+		}
+
+		isOk = QLIB_FTM_WLAN_TLV_AddParam(m_hQMSLPhone, _T("bandwidth"), _itoa(0,buf,10));
+		if (!isOk) {
+				continue;
+		}
+
+		isOk = QLIB_FTM_WLAN_TLV_AddParam(m_hQMSLPhone, _T("rateBitIndex0"), _itoa(m_iRateBitIndex,buf,10));
+		if (!isOk) {
+				continue;
+		}
+
+		isOk = QLIB_FTM_WLAN_TLV_AddParam(m_hQMSLPhone, _T("wlanMode"), _itoa(m_iWlanMode,buf,10));//b = 4, a/g = 0,  n = 1, ac = 8
+		if (!isOk) {
+				continue;
+		}
+
+		//isOk = QLIB_FTM_WLAN_TLV_AddParam(m_hQMSLPhone, _T("txChain0"), _itoa(m_iTxChain,buf,10)); //chain0, chain 1
+		isOk = QLIB_FTM_WLAN_TLV_AddParam(m_hQMSLPhone, _T("txChain0"), _itoa(m_iTxChain,buf,10)); //chain0, chain 1
+		if (!isOk) {
+				continue;
+		}
+
+		isOk = QLIB_FTM_WLAN_TLV_AddParam(m_hQMSLPhone, _T("pktLen0"), _itoa( 1500, buf, 10));//packet size , iPayloadSize = 1500
+		if (!isOk) {
+				continue;
+		}
+
+		isOk = QLIB_FTM_WLAN_TLV_AddParam(m_hQMSLPhone, _T("shortGuard"), _itoa(0,buf,10));
+		if (!isOk) {
+				continue;
+		}
+
+		isOk = QLIB_FTM_WLAN_TLV_AddParam(m_hQMSLPhone, _T("numPackets"), _itoa(0,buf,10)); //o for count tx 
+		if (!isOk) {
+				continue;
+		}
+
+
+		isOk = QLIB_FTM_WLAN_TLV_AddParam(m_hQMSLPhone, _T("scramblerOff"),_itoa(0,buf,10));
+		if (!isOk) {
+				continue;
+		}
+
+		isOk = QLIB_FTM_WLAN_TLV_AddParam(m_hQMSLPhone, _T("agg"),_itoa(1,buf,10));//aggregate 
+		if (!isOk) {
+				continue;
+		}
+
+		isOk = QLIB_FTM_WLAN_TLV_AddParam(m_hQMSLPhone, _T("aifsn"),_itoa(1,buf,10));
+		if (!isOk) {
+				continue;
+		}
+
+		isOk = QLIB_FTM_WLAN_TLV_AddParam(m_hQMSLPhone, _T("broadcast"), _itoa(0,buf,10));//broadcast, 
+		if (!isOk) {
+				continue;
+		}
+
+		isOk = QLIB_FTM_WLAN_TLV_AddParam(m_hQMSLPhone, _T("flags"), _itoa(24,buf,10));
+		if (!isOk) {
+				continue;
+		}
+
+		isOk = QLIB_FTM_WLAN_TLV_Complete(m_hQMSLPhone);
+		
+		if (!isOk) {
+			continue;
+		}
+
+		return isOk;
+			// Start to run OLPC calibration iterations by power measurement call back
+		   //asyncPMMessageCB pPMfunc = &asyncPMCB;
+		   //int numMeasAvg = 1;
+		   //isOk = QLIB_FTM_WLAN_Atheros_Tx_CAL(m_hQMSLPhone, pPMfunc, (unsigned int)numMeasAvg);
+		   //return true;
+
+
+		   Sleep(10000);
 			if (!isOk) {
 				continue;
 			}
-
-			//Set channel
-			isOk = !!QLIB_FTM_WLAN_GEN6_SET_CHANNEL(m_hQMSLPhone, iChannel);
-			if (!isOk) { 
-				continue;
-			}
-			//Set rate
-			isOk = !!QLIB_FTM_WLAN_GEN6_SET_TX_FRAME_V2(m_hQMSLPhone, 0, 2400, 2, 165, 10, true, cmdRateMap, cmdPreamble);
-			if (!isOk) { 
-				continue;
-			}
-
-			if(iPower_control_mode == 0) // open loop
-			{
-				//Set Packet Gain
-				isOk = !!QLIB_FTM_WLAN_GEN6_SET_TX_WAVEFORM_GAIN_V2(m_hQMSLPhone, 65536*iPower);
-				if (!isOk) { 
-					continue;
-				}
-			}
-			else if(iPower_control_mode == 1 || iPower_control_mode == 2) // 2 = close loop, 1 = SCPC
-			{
-				//Set closed loop power
-				isOk = !!QLIB_FTM_WLAN_GEN6_SET_CLOSED_LOOP_POWER(m_hQMSLPhone, iPower);
-				if (!isOk) { 
-					continue;
-				}
-			}
-			
-			//TX start
-			isOk = !!QLIB_FTM_WLAN_GEN6_TX_PKT_START_STOP(m_hQMSLPhone, 1);
-			if (!isOk) { 
-				continue;
-			}
-
-			return true;
 		}
-
-		return false;
-	}
 
 	return false;
 }
 
+
+bool CAndroidPhone::WifiPowerOnCW(int m_iRateBitIndex, int m_iChannel,int m_iPower,int m_iWlanMode,int m_iTxChain, int m_iLoadBin)
+{
+
+	bool isOk = false;
+	char buf[32];
+
+	if ( m_iLoadBin == 1){
+
+		TCHAR szNowPath[MAX_PATH] = {0};
+		GetCurrentDirectory(MAX_PATH, szNowPath);
+		CString path = szNowPath;
+		CString csBinPath;
+		csBinPath.Format("%s\\u2416\\bdwlan30.bin", path);
+
+		char sLibraryVersion[50];
+		QLIB_GetLibraryVersion(sLibraryVersion );
+		printf("QLibrary Demo\n\n");
+		printf("QLIB DLL Version: %s\n\n", sLibraryVersion );
+
+		// ROME Chip ID
+		#define ROME_CHIPID   0x3e
+		// Loopback IP for local system or any remote system IP with DUT
+		char UDT_IP[20] = "127.0.0.1";
+		// Chip specific DLL
+		#define ROME_DLLID    "qc6174"
+		// Board data file where depends on chip variation
+		char BIN_FILE[200] =  _T("C:\\u2416\\bdwlan30.bin");
+
+		//CString csBIN_FILE = BIN_FILE;
+		if (_taccess(csBinPath, 0) != 0) 
+		{
+			CString csMsg = csBinPath + _T("not exist");
+			AfxMessageBox(csMsg);
+			return false;
+		}
+
+		QLIB_FTM_WLAN_Atheros_UNLoadDUT(m_hQMSLPhone); //unload first;
+
+		//unsigned char bRet = QLIB_FTM_WLAN_Atheros_LoadDUT(m_hQMSLPhone,(unsigned char  *)ROME_DLLID,(unsigned char *)BIN_FILE, DataFile, ROME_CHIPID);
+		unsigned char bRet = QLIB_FTM_WLAN_Atheros_LoadDUT(m_hQMSLPhone,(unsigned char  *)ROME_DLLID,(unsigned char *)csBinPath.GetBuffer(), DataFile, ROME_CHIPID);
+		csBinPath.ReleaseBuffer();
+		if ( !bRet ){
+			return false;
+		}
+	}
+
+
+	for(int i = 0;i < 1;i++)
+	{
+		Sleep(500);
+
+		isOk = QLIB_FTM_WLAN_TLV_Create(m_hQMSLPhone, _OP_TX);
+		if (!isOk) {
+				continue;
+		}
+
+		
+		isOk = QLIB_FTM_WLAN_TLV_AddParam(m_hQMSLPhone, _T("txMode"), _itoa(1,buf,10)); // int txMode = 3; // Tx99 a = b = g = ac = n
+		if (!isOk) {
+				continue;
+		}
+
+		isOk = QLIB_FTM_WLAN_TLV_AddParam(m_hQMSLPhone, _T("channel"), _itoa( m_iChannel,buf,10));//iChannel
+		if (!isOk) {
+				continue;
+		}
+
+		isOk = QLIB_FTM_WLAN_TLV_AddParam(m_hQMSLPhone, _T("tpcm"), _itoa(0,buf,10));
+		if (!isOk) {
+				continue;
+		}
+
+		isOk = QLIB_FTM_WLAN_TLV_AddParam(m_hQMSLPhone, _T("txPower0"), _itoa(m_iPower, buf ,10)); //iPower
+		if (!isOk) {
+				continue;
+		}
+
+		isOk = QLIB_FTM_WLAN_TLV_AddParam(m_hQMSLPhone, _T("antenna"), _itoa(0,buf,10));
+		if (!isOk) {
+				continue;
+		}
+
+		isOk = QLIB_FTM_WLAN_TLV_AddParam(m_hQMSLPhone, _T("bandwidth"), _itoa(0,buf,10));
+		if (!isOk) {
+				continue;
+		}
+
+		isOk = QLIB_FTM_WLAN_TLV_AddParam(m_hQMSLPhone, _T("rateBitIndex0"), _itoa(m_iRateBitIndex,buf,10));
+		if (!isOk) {
+				continue;
+		}
+
+		isOk = QLIB_FTM_WLAN_TLV_AddParam(m_hQMSLPhone, _T("wlanMode"), _itoa(m_iWlanMode,buf,10));//b = 4, a/g = 0,  n = 1, ac = 8
+		if (!isOk) {
+				continue;
+		}
+
+		isOk = QLIB_FTM_WLAN_TLV_AddParam(m_hQMSLPhone, _T("txChain0"), _itoa(m_iTxChain,buf,10)); //chain0, chain 1
+		if (!isOk) {
+				continue;
+		}
+
+		isOk = QLIB_FTM_WLAN_TLV_AddParam(m_hQMSLPhone, _T("pktLen0"), _itoa( 1500, buf, 10));//packet size , iPayloadSize = 1500
+		if (!isOk) {
+				continue;
+		}
+
+		isOk = QLIB_FTM_WLAN_TLV_AddParam(m_hQMSLPhone, _T("shortGuard"), _itoa(0,buf,10));
+		if (!isOk) {
+				continue;
+		}
+
+		isOk = QLIB_FTM_WLAN_TLV_AddParam(m_hQMSLPhone, _T("numPackets"), _itoa(0,buf,10)); //o for count tx 
+		if (!isOk) {
+				continue;
+		}
+
+		isOk = QLIB_FTM_WLAN_TLV_AddParam(m_hQMSLPhone, _T("txPattern"), _itoa(0,buf,10));
+		if (!isOk) {
+				continue;
+		}
+
+		isOk = QLIB_FTM_WLAN_TLV_AddParam(m_hQMSLPhone, _T("scramblerOff"),_itoa(0,buf,10));
+		if (!isOk) {
+				continue;
+		}
+
+		isOk = QLIB_FTM_WLAN_TLV_AddParam(m_hQMSLPhone, _T("agg"),_itoa(1,buf,10));//aggregate 
+		if (!isOk) {
+				continue;
+		}
+
+		isOk = QLIB_FTM_WLAN_TLV_AddParam(m_hQMSLPhone, _T("aifsn"),_itoa(1,buf,10));
+		if (!isOk) {
+				continue;
+		}
+
+		isOk = QLIB_FTM_WLAN_TLV_AddParam(m_hQMSLPhone, _T("broadcast"), _itoa(0,buf,10));//broadcast, 
+		if (!isOk) {
+				continue;
+		}
+
+		isOk = QLIB_FTM_WLAN_TLV_AddParam(m_hQMSLPhone, _T("flags"), _itoa(24,buf,10));
+		if (!isOk) {
+				continue;
+		}
+
+		isOk = QLIB_FTM_WLAN_TLV_Complete(m_hQMSLPhone);
+		if (!isOk) {
+			continue;
+		}
+
+	}
+
+	return isOk;
+}
 bool CAndroidPhone::Wifi5GPowerOnTx (int iRate, int iChannel, int iPower,int iRegulatorFixed, int iPower_control_mode)
 {
 //#ifdef _NOT_USE_FTD_
@@ -1491,7 +1702,7 @@ bool CAndroidPhone::Wifi5GPowerOnTx (int iRate, int iChannel, int iPower,int iRe
 				continue;
 			}
 			
-			/*3=regulatory=1=enable , 2=fixed=0=disable ,Liontest, xml*/
+			/*3=regulatory=1=enable , 2=fixed=0=disable xml*/
 			isOk = !!QLIB_FTM_WLAN_GEN6_SET_PWR_INDEX_SOURCE(m_hQMSLPhone, iRegulatorFixed);
 			if (!isOk) {
 				continue;
@@ -1740,16 +1951,24 @@ bool CAndroidPhone::Initial_QMSL()
 	}
 	else
 	{
-		QLIB_SetLibraryMode(false);
+		QLIB_DisconnectAllServers();
+		unsigned short iTargetType = QLIB_TARGET_TYPE_APQ;
 
-		m_hQMSLPhone = QLIB_ConnectServerWithWait((unsigned)atoi(m_strCOMport.c_str()), 2000);
-          
+		//QLIB_SetTargetType(APQ)
+		//QLIB_SetLibraryMode(QPST)
+	//	unsigned char QLIB_LIB_MODE_QPHONEMS = '0';
+
+		QLIB_SetLibraryMode(true); // true set to QPST , false to QPHONE
+		  //Set TargetType
+		QLIB_SetTargetType((unsigned char)iTargetType);
+
+		m_hQMSLPhone = QLIB_ConnectServerWithWait( (unsigned)atoi(m_strCOMport.c_str()) ,5000);
+
 		if (m_hQMSLPhone != NULL)
 		{
 			if (QLIB_IsPhoneConnected(m_hQMSLPhone))
 			{
-				//QLIB_DIAG_READ_ESN_F(m_hQMSLPhone, unsigned long* piESN );
-				//QLIB_DIAG_EXT_BUILD_ID_F(m_hQMSLPhone, unsigned long* piMSM_HW_Version, unsigned long* piMobModel, char* sMobSwRev, char* sModelStr );
+				//QLIB_FlushRxBuffer(m_hQMSLPhone);
 				return true;
 			}
 		}

@@ -5,7 +5,7 @@
 #include "../CommonDefine.h"
 #include "CToolBaseObject.h"
 //#include "../../../Lib/Qualcomm/QDART4820/inc/QLib_Defines.h"
-#include "../../../Lib/Qualcomm/QDART4824/inc/QLib_Defines.h"
+#include "../../../Lib/Qualcomm/QDART4823/inc/QLib_Defines.h"
 
 interface IPhone : public CToolBaseObject
 {
@@ -141,7 +141,11 @@ public:
 	// Detroit WiFi
 	virtual bool WifiModuleOn (bool Enable, int nBin=-1) = 0;
 	virtual bool WifiPowerOnTx (int iRate, int iChannel, int iPower) = 0;
-	virtual bool WifiPowerOnTx (int iRate, int iChannel, int iPower, int iRegulatorFixed, int iPower_control_mode) = 0;
+	virtual bool WifiPowerOffTx ( int m_iChanne ) = 0;
+	//virtual bool WifiPowerOnTx (int iRate, int iChannel, int iPower, int iRegulatorFixed, int iPower_control_mode) = 0;
+	virtual bool WifiPowerOnTx(int m_iRateBitIndex, int m_iChannel,int m_iPower,int m_iWlanMode,int m_iTxChain, int m_iLoadBin) = 0;
+	virtual bool WifiPowerOnCW(int m_iRateBitIndex, int m_iChannel,int m_iPower,int m_iWlanMode,int m_iTxChain, int m_iLoadBin) = 0;
+	//virtual bool WifiPowerOnTx(int iRate, int iChannel, int iPower, int iPreamble, int iPayloadSize, int iSpacing, int iChain) = 0;
 	virtual bool Wifi5GPowerOnTx (int iRate, int iChannel, int iPower, int iRegulatorFixed, int iPower_control_mode) = 0;
 	virtual bool WifiPowerOnCw (int iChannel, int iGain, long iTone, unsigned long iAmpl) = 0;
 

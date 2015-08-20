@@ -6,8 +6,8 @@
 //#include "../../../lib/Qualcomm/QDART4820/inc/QLib.h"
 //#include "../../../lib/Qualcomm/QDART4820/inc/QLib_Defines.h"
 
-#include "../../../lib/Qualcomm/QDART4824/inc/QLib.h"
-#include "../../../lib/Qualcomm/QDART4824/inc/QLib_Defines.h"
+#include "../../../lib/Qualcomm/QDART4823/inc/QLib.h"
+#include "../../../lib/Qualcomm/QDART4823/inc/QLib_Defines.h"
 #include "Qisda_API.h"
 #include "QualComm_RFNVItems.h"
 
@@ -30,6 +30,7 @@ protected:
 private:
 	HMODULE m_hQcomDiagModule;
 	HMODULE m_hNeptuneCtrl;
+
 	std::string m_strCOMport;
 	std::string m_strKeyword;
 	HANDLE m_hQMSLPhone;
@@ -146,7 +147,6 @@ public:
 	
 	virtual bool BTReset();
 
-
 	// Detroit QMI
 	virtual bool Detroit_QmiRfTxTest();
 	virtual bool Detroit_QmiRfTxOff();
@@ -154,7 +154,9 @@ public:
 	// Detroit WiFi
 	virtual bool WifiModuleOn (bool Enable, int nBin=-1);
 	virtual bool WifiPowerOnTx (int iRate, int iChannel, int iPower);
-	virtual bool WifiPowerOnTx (int iRate, int iChannel, int iPower, int iRegulatorFixed, int iPower_control_mode);
+	virtual bool WifiPowerOffTx ( int m_iChanne );
+	virtual bool WifiPowerOnTx(int m_iRateBitIndex, int m_iChannel,int m_iPower,int m_iWlanMode,int m_iTxChain, int m_iLoadBin);
+	virtual bool WifiPowerOnCW(int m_iRateBitIndex, int m_iChannel,int m_iPower,int m_iWlanMode,int m_iTxChain, int m_iLoadBin);
 	virtual bool Wifi5GPowerOnTx (int iRate, int iChannel, int iPower, int iRegulatorFixed, int iPower_control_mode);
 	virtual bool WifiPowerOnCw (int iChannel, int iGain, long iTone, unsigned long iAmpl);
 

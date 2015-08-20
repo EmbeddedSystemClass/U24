@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "CommonFunction.h"
 //#include "../../../Lib/Qualcomm/QDART4820/inc/QLib_Defines.h"
-#include "../../../Lib/Qualcomm/QDART4824/inc/QLib_Defines.h"
+#include "../../../Lib/Qualcomm/QDART4823/inc/QLib_Defines.h"
 #include <SetupAPI.h>
 
 

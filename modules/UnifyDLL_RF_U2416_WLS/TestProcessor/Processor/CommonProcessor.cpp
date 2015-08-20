@@ -56,6 +56,7 @@ bool CCommonProcessor::Begin()
 		}
 
 		// 4. Detect GPIB instruments
+
 		if (! DetectGPIBDevice())
 		{
 			g_strErrCode = CommErr_Detect_RF_Tester_Fail;
@@ -397,13 +398,10 @@ bool CCommonProcessor::Stop()
 	return true;
 }
 
-// bool CCommonProcessor::Disconnect()
-// {
-// 	return true;
-// }
 
 bool CCommonProcessor::End()
 {	
+
 	// 2. Delete all test item objects
 	for (int i = 0; i < (signed)m_vpiTestItem.size(); ++i)
 	{
@@ -428,9 +426,7 @@ bool CCommonProcessor::End()
 	// 4. Disconnect phone
 	if (m_pIPhone != NULL)
 	{
-		//m_pIPhone->Disconnect();
 		m_pIPhone->Disconnect_FTD();
-		m_pIPhone->Disconnect_QMSL();
 	}
 
 	return true;
@@ -474,10 +470,9 @@ bool CCommonProcessor::PostRun()
 	//2. disconnect with phone/adb server/QMSL
 	if (m_pIPhone)
 	{
-		//m_pIPhone->Disconnect();
 		m_pIPhone->Disconnect_FTD();
-		m_pIPhone->Disconnect_QMSL();
-		//Sleep(3000);
+		m_pIPhone->Release();
+		m_pIPhone = NULL;
 	}
 
 	TraceLog(MSG_INFO, "PostRun success!");
@@ -488,114 +483,13 @@ bool CCommonProcessor::PostRun()
 
 bool CCommonProcessor::SetFAData(int i_slot, char* sz_value)
 {
-	if (! m_pIPhone)
-	{
-		if (! CreatePhoneObject())
-		{
-			TraceLog(MSG_ERROR, "Fail to create phone object for SetFAData()");
-			FactoryLog(false, "SetFAData", "--", "--", "--", "--", "--", "Fail", "--", "Fail to create phone object for SetFAData()");
-			return false;
-		}
-	}
 
-	if (! m_pIPhone->Initial())
-	{
-		TraceLog(MSG_ERROR, "Fail to initial Qisda module for SetFAData()");
-		FactoryLog(false, "SetFAData", "--", "--", "--", "--", "--","Fail", "--", "Fail to initial Qisda module for SetFAData()");
-		return false;
-	}
-
-	bool bIsConnected = false;
-	int iCounter = 0;
-	int iRetry = 16;
-	do
-	{
-		if (m_pIPhone->IsConnected())
-		{
-			bIsConnected = true;
-			break;
-		}
-
-		++iCounter;
-		Sleep(500);
-	} while (iCounter < iRetry);
-
-	if (bIsConnected)
-	{
-		if (! m_pIPhone->SetFAData(sz_value))
-		{
-			TraceLog(MSG_ERROR, "Fail to set FA with Qisda module");
-			FactoryLog(false, "SetFAData", "--", "--", "--", "--", "--", "Fail", "--", "Fail to set FA with Qisda module");
-		}
-		else
-		{
-			m_pIPhone->EFS_Sync_Combo(10);
-			return true;
-		}
-	}
-	else
-	{
-		TraceLog(MSG_ERROR, "Fail to initial phone connection with Qisda module for SetFAData()");
-		FactoryLog(false, "SetFAData", "--", "--", "--", "--", "--","Fail", "--", "Fail to initial phone connection with Qisda module for SetFAData()");
-	}
-
-	return false;
+	return true;
 }
 
 bool CCommonProcessor::GetFAData(int i_slot, char* sz_value, int i_size)
 {
-	if (! m_pIPhone)
-	{
-		if (! CreatePhoneObject())
-		{
-			TraceLog(MSG_ERROR, "Fail to create phone object for GetFAData()");
-			FactoryLog(false, "GetFAData", "--", "--", "--", "--", "--", "Fail", "--", "Fail to create phone object for GetFAData()");
-			return false;
-		}
-	}
-
-	if (! m_pIPhone->Initial())
-	{
-		TraceLog(MSG_ERROR, "Fail to initial Qisda module for GetFAData()");
-		FactoryLog(false, "GetFAData", "--", "--", "--", "--", "--","Fail", "--", "Fail to initial Qisda module for GetFAData()");
-		return false;
-	}
-
-	bool bIsConnected = false;
-	int iCounter = 0;
-	int iRetry = 16;
-	do
-	{
-		if (m_pIPhone->IsConnected())
-		{
-			bIsConnected = true;
-			break;
-		}
-
-		++iCounter;
-		Sleep(500);
-	} while (iCounter < iRetry);
-
-	if (bIsConnected)
-	{
-		if (! m_pIPhone->GetFAData(sz_value,i_size))
-		{
-			TraceLog(MSG_ERROR, "Fail to get FA with Qisda module");
-			FactoryLog(false, "GetFAData", "--", "--", "--", "--", "--", "Fail", "--", "Fail to get FA with Qisda module");
-		}
-		else
-		{
-			m_pIPhone->EFS_Sync_Combo(10);
-			return true;
-		}
-	}
-	else
-	{
-		TraceLog(MSG_ERROR, "Fail to initial phone connection with Qisda module for GetFAData()");
-		FactoryLog(false, "GetFAData", "--", "--", "--", "--", "--","Fail", "--", "Fail to initial phone connection with Qisda module for GetFAData()");
-	}
-
-	return false;
+	return true;
 }
 
 bool CCommonProcessor::GetFASector( int i_slot, int i_sectorNum, char *sz_sectorData, int i_sectorSize )
@@ -658,7 +552,7 @@ bool CCommonProcessor::GetFASector( int i_slot, int i_sectorNum, char *sz_sector
 		FactoryLog(false, "Initial_Phone", "--", "--", "--", "--", "--","Fail", "--", "Fail to initial phone for GetFASector()");
 		return false;
 	}
-	FactoryLog(true, "Initial_Phone", "--", "--", "--", "--", "--", "", "--", "Initial QMSL/FTD PASS");
+	FactoryLog(true, "Initial_Phone", "--", "--", "--", "--", "--", "", "--", "Initial FTD PASS");
 
 	// 4. Connect FTD
 	bool bIsConnected = false;
@@ -693,8 +587,8 @@ bool CCommonProcessor::GetFASector( int i_slot, int i_sectorNum, char *sz_sector
 	}
 	else
 	{
-		TraceLog(MSG_ERROR, "Fail to initial phone connection with Qisda module for GetFASector()");
-		FactoryLog(false, "GetFASector", "--", "--", "--", "--", "--","Fail", "--", "Fail to initial phone connection with Qisda module for GetFASector()");
+		TraceLog(MSG_ERROR, " IsConnected_FTD() fail in CCommonProcessor");
+		FactoryLog(false, "IsConnected_FTD", "--", "--", "--", "--", "--","Fail", "--", "IsConnected_FTD() fail in CCommonProcessor");
 	}
 
 	return false;
@@ -702,56 +596,5 @@ bool CCommonProcessor::GetFASector( int i_slot, int i_sectorNum, char *sz_sector
 
 bool CCommonProcessor::SetFASector( int i_slot, int i_sectorNum, char *sz_sectorData, int i_sectorSize )
 {
-	if (! m_pIPhone)
-	{
-		if (! CreatePhoneObject())
-		{
-			TraceLog(MSG_ERROR, "Fail to create phone object for SetFASector()");
-			FactoryLog(false, "SetFASector", "--", "--", "--", "--", "--", "Fail", "--", "Fail to create phone object for SetFASector()");
-			return false;
-		}
-	}
-
-	if (! m_pIPhone->Initial())
-	{
-		TraceLog(MSG_ERROR, "Fail to initial Qisda module for SetFASector()");
-		FactoryLog(false, "SetFASector", "--", "--", "--", "--", "--","Fail", "--", "Fail to initial Qisda module for SetFASector()");
-		return false;
-	}
-
-	bool bIsConnected = false;
-	int iCounter = 0;
-	int iRetry = 16;
-	do
-	{
-		if (m_pIPhone->IsConnected())
-		{
-			bIsConnected = true;
-			break;
-		}
-
-		++iCounter;
-		Sleep(500);
-	} while (iCounter < iRetry);
-
-	if (bIsConnected)
-	{
-		if (! m_pIPhone->SetFASector(i_sectorNum,sz_sectorData,i_sectorSize))
-		{
-			TraceLog(MSG_ERROR, "Fail to set FA with Qisda module");
-			FactoryLog(false, "SetFASector", "--", "--", "--", "--", "--", "Fail", "--", "Fail to set FA with Qisda module for SetFASector()");
-		}
-		else
-		{
-			m_pIPhone->EFS_Sync_Combo(10);
-			return true;
-		}
-	}
-	else
-	{
-		TraceLog(MSG_ERROR, "Fail to initial phone connection with Qisda module for SetFASector()");
-		FactoryLog(false, "SetFASector", "--", "--", "--", "--", "--","Fail", "--", "Fail to initial phone connection with Qisda module for SetFASector()");
-	}
-
-	return false;
+	return true;
 }

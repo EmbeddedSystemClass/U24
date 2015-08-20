@@ -22,6 +22,15 @@ bool CBTWLAN_WiFi_SpectrumMaskTest::InitData(std::map<std::string, std::string>&
 {
 	std::vector<std::string> vTmp;
 
+
+	if (paramMap.find("LoadBin") == paramMap.end())
+	{
+		TraceLog(MSG_ERROR, "Fail to find parameter LoadBin for CBTWLAN_WiFi_TxTest");
+		return false;
+	}
+	m_iLoadBin = atoi(paramMap["LoadBin"].c_str());
+
+
 	if (paramMap.find("PICSName") == paramMap.end())
 	{
 		TraceLog(MSG_ERROR, "Fail to find parameter PICSName for CBTWLAN_WiFi_SpectrumMaskTest");
@@ -60,12 +69,12 @@ bool CBTWLAN_WiFi_SpectrumMaskTest::InitData(std::map<std::string, std::string>&
 	}
 	m_iPower = atoi(paramMap["Power"].c_str());
 
-	if (paramMap.find("DataRate") == paramMap.end())
+	if (paramMap.find("RateBitIndex") == paramMap.end())
 	{
-		TraceLog(MSG_ERROR, "Fail to find parameter DataRate for CBTWLAN_WiFi_SpectrumMaskTest");
+		TraceLog(MSG_ERROR, "Fail to find parameter RateBitIndex for CBTWLAN_WiFi_SpectrumMaskTest");
 		return false;
 	}
-	m_iDataRate = atoi(paramMap["DataRate"].c_str());
+	m_iRateBitIndex = atoi(paramMap["RateBitIndex"].c_str());
 
 	if (paramMap.find("RBW") == paramMap.end())
 	{
@@ -97,17 +106,10 @@ bool CBTWLAN_WiFi_SpectrumMaskTest::InitData(std::map<std::string, std::string>&
 
 	if (paramMap.find("TraceMode") == paramMap.end())
 	{
-		TraceLog(MSG_ERROR, "Fail to find parameter TraceMode for CBTWLAN_WiFi_TxTest");
+		TraceLog(MSG_ERROR, "Fail to find parameter TraceMode for CBTWLAN_WiFi_SpectrumMaskTest");
 		return false;
 	}
 	m_strTraceMode = paramMap["TraceMode"];
-
-	if (paramMap.find("DiagramFull") == paramMap.end())
-	{
-		TraceLog(MSG_ERROR, "Fail to find parameter DiagramFull for CBTWLAN_WiFi_SpectrumMaskTest");
-		return false;
-	}
-	m_strDiagramFull = paramMap["DiagramFull"];
 
 	if (paramMap.find("SweepTime") == paramMap.end())
 	{
@@ -333,7 +335,10 @@ bool CBTWLAN_WiFi_SpectrumMaskTest::MainFunction(void)
 {
 	char szTmp[256];
 
-	if (! m_pIPhone->WifiPowerOnTx(m_iDataRate, m_iChannel, m_iPower, m_Regulatory_Fixed, m_Power_control_mode))	
+	//if (! m_pIPhone->WifiPowerOnTx(m_iRateBitIndex, m_iChannel, m_iPower, m_Regulatory_Fixed, m_Power_control_mode))	
+	//if (! m_pIPhone->WifiPowerOnTx(m_iRateBitIndex, m_iChannel, m_iPower, m_iPreamble, m_iPayloadSize, m_iSpacing, m_iChain))	
+	if (! m_pIPhone->WifiPowerOnTx( m_iRateBitIndex,  m_iChannel, m_iPower, m_iWlanMode, m_iTxChain, m_iLoadBin))
+	//(m_iRateBitIndex, m_iChannel, m_iPower, m_iPreamble, m_iPayloadSize, m_iSpacing, m_iChain)))
 	{
 		m_strMsg = "Fail to execute WifiPowerOnTx";
 		TraceLog(MSG_ERROR, m_strMsg);

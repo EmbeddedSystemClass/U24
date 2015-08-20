@@ -87,13 +87,6 @@ bool CBTWLAN_BT_TxTest::InitData(std::map<std::string, std::string>& paramMap)
 	}
 	m_strDetector = paramMap["Detector"];
 
-	if (paramMap.find("DiagramFull") == paramMap.end())
-	{
-		TraceLog(MSG_ERROR, "Fail to find parameter DiagramFull for CBTWLAN_BT_TxTest");
-		return false;
-	}
-	m_strDiagramFull = paramMap["DiagramFull"];
-
 	if (paramMap.find("AverageTimes") == paramMap.end())
 	{
 		TraceLog(MSG_ERROR, "Fail to find parameter AverageTimes for CBTWLAN_BT_TxTest");
@@ -192,12 +185,12 @@ bool CBTWLAN_BT_TxTest::Run(void)
 
 	if (bRes)
 	{
-		FactoryLog(true, "BT_TxTest_FSP", "Pass", szBand, m_strChannel, szLower, szUpper, m_strMeasured, "dBm", "BT_TxTest_FSP PASS");
+		FactoryLog(true, "BT_TxTest", "Pass", szBand, m_strChannel, szLower, szUpper, m_strMeasured, "dBm", "PASS");
 		SetPICSData(m_strPICSName, "PASS");
 	}
 	else
 	{
-		FactoryLog(false, "BT_TxTest_FSP", FunErr_BT_Test_OutPower_OutRange, szBand, m_strChannel, szLower, szUpper, m_strMeasured, "dBm", m_strMsg);
+		FactoryLog(false, "BT_TxTest", FunErr_BT_Test_OutPower_OutRange, szBand, m_strChannel, szLower, szUpper, m_strMeasured, "dBm", m_strMsg);
 		SetPICSData(m_strPICSName, "FAIL");
 	}
 	SetPICSData(m_strPICSName_Value, m_strMeasured);
@@ -243,14 +236,6 @@ bool CBTWLAN_BT_TxTest::MainFunction(void)
 		TraceLog(MSG_ERROR, m_strMsg);
 		return false;
 	}
-/*
- 	if (! m_pIPhone->BTEnterTestMode())
- 	{
- 		m_strMsg = "Fail to enter BT test mode";
- 		TraceLog(MSG_ERROR, m_strMsg);
- 		return false;
- 	}
-*/
 	char szBTInput[128] = {0};
 	strcpy(szBTInput, m_strBTInput.c_str());
 	if (! m_pIPhone->BTStartTxPower(szBTInput))
@@ -259,17 +244,7 @@ bool CBTWLAN_BT_TxTest::MainFunction(void)
 		TraceLog(MSG_ERROR, m_strMsg);
 		return false;
 	}
-/*
-	// Initial tester device
-	if (! m_pITesterDeviceFSP->Initial())
-	{
-		m_strMsg = "Fail to initial tester device";
-		TraceLog(MSG_ERROR, m_strMsg);
-		return false;
-	}
 
-	
-*/	
 	if (! m_pITesterDeviceFSP->SetResolutionBandwidth(m_dRBW))
 	{
 		m_strMsg = "Fail to set resolution bandwidth to tester device";
@@ -290,8 +265,6 @@ bool CBTWLAN_BT_TxTest::MainFunction(void)
 		TraceLog(MSG_ERROR, m_strMsg);
 		return false;
 	}
-
-	
 
 	if (! m_pITesterDeviceFSP->SetSweepTime(m_iSweepTime))
 	{
@@ -361,14 +334,6 @@ bool CBTWLAN_BT_TxTest::MainFunction(void)
 		TraceLog(MSG_ERROR, m_strMsg);
 		return false;
 	}
-/*
-	if (! m_pITesterDeviceFSP->SwitcheMeasurementWindow(m_strDiagramFull))
-	{
-		m_strMsg = "Fail to switch measurement window to tester device";
-		TraceLog(MSG_ERROR, m_strMsg);
-		return false;
-	}
-*/
 
 	Sleep(m_iCommandDelay);
 

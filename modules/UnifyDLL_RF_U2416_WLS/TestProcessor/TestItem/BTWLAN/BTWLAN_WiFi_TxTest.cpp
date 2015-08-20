@@ -24,7 +24,7 @@ bool CBTWLAN_WiFi_TxTest::InitData(std::map<std::string, std::string>& paramMap)
 
 	if (paramMap.find("PICSName") == paramMap.end())
 	{
-		TraceLog(MSG_ERROR, "Fail to find parameter PICSName for CBTWLAN_WiFi_SpectrumMaskTest");
+		TraceLog(MSG_ERROR, "Fail to find parameter PICSName for CBTWLAN_WiFi_TxTest");
 		return false;
 	}
 	m_strPICSName = paramMap["PICSName"];
@@ -33,64 +33,88 @@ bool CBTWLAN_WiFi_TxTest::InitData(std::map<std::string, std::string>& paramMap)
 
 	if (paramMap.find("CommandDelay") == paramMap.end())
 	{
-		TraceLog(MSG_ERROR, "Fail to find parameter CommandDelay for CBTWLAN_WiFi_SpectrumMaskTest");
+		TraceLog(MSG_ERROR, "Fail to find parameter CommandDelay for CBTWLAN_WiFi_TxTest");
 		return false;
 	}
 	m_iCommandDelay = atoi(paramMap["CommandDelay"].c_str());
 
 	if (paramMap.find("Frequency") == paramMap.end())
 	{
-		TraceLog(MSG_ERROR, "Fail to find parameter Frequency for CBTWLAN_WiFi_SpectrumMaskTest");
+		TraceLog(MSG_ERROR, "Fail to find parameter Frequency for CBTWLAN_WiFi_TxTest");
 		return false;
 	}
 	m_dFrequency = atof(paramMap["Frequency"].c_str());
 	m_strChannel = paramMap["Frequency"].c_str();
 
+
+	if (paramMap.find("WlanMode") == paramMap.end())
+	{
+		TraceLog(MSG_ERROR, "Fail to find parameter WlanMode for CBTWLAN_WiFi_TxTest");
+		return false;
+	}
+	m_iWlanMode = atoi(paramMap["WlanMode"].c_str());
+
+	if (paramMap.find("TxChain") == paramMap.end())
+	{
+		TraceLog(MSG_ERROR, "Fail to find parameter TxChain for CBTWLAN_WiFi_TxTest");
+		return false;
+	}
+	m_iTxChain = atoi(paramMap["TxChain"].c_str());
+
+
+	if (paramMap.find("LoadBin") == paramMap.end())
+	{
+		TraceLog(MSG_ERROR, "Fail to find parameter LoadBin for CBTWLAN_WiFi_TxTest");
+		return false;
+	}
+	m_iLoadBin = atoi(paramMap["LoadBin"].c_str());
+
+	
 	if (paramMap.find("Channel") == paramMap.end())
 	{
-		TraceLog(MSG_ERROR, "Fail to find parameter Channel for CBTWLAN_WiFi_SpectrumMaskTest");
+		TraceLog(MSG_ERROR, "Fail to find parameter Channel for CBTWLAN_WiFi_TxTest");
 		return false;
 	}
 	m_iChannel = atoi(paramMap["Channel"].c_str());
 
 	if (paramMap.find("Power") == paramMap.end())
 	{
-		TraceLog(MSG_ERROR, "Fail to find parameter Power for CBTWLAN_WiFi_SpectrumMaskTest");
+		TraceLog(MSG_ERROR, "Fail to find parameter Power for CBTWLAN_WiFi_TxTest");
 		return false;
 	}
 	m_iPower = atoi(paramMap["Power"].c_str());
 
-	if (paramMap.find("DataRate") == paramMap.end())
+	if (paramMap.find("RateBitIndex") == paramMap.end())
 	{
-		TraceLog(MSG_ERROR, "Fail to find parameter DataRate for CBTWLAN_WiFi_SpectrumMaskTest");
+		TraceLog(MSG_ERROR, "Fail to find parameter RateBitIndex for CBTWLAN_WiFi_TxTest");
 		return false;
 	}
-	m_iDataRate = atoi(paramMap["DataRate"].c_str());
+	m_iRateBitIndex = atoi(paramMap["RateBitIndex"].c_str());
 
 	if (paramMap.find("RBW") == paramMap.end())
 	{
-		TraceLog(MSG_ERROR, "Fail to find parameter RBW for CBTWLAN_WiFi_SpectrumMaskTest");
+		TraceLog(MSG_ERROR, "Fail to find parameter RBW for CBTWLAN_WiFi_TxTest");
 		return false;
 	}
 	m_dRBW = atof(paramMap["RBW"].c_str());
 
 	if (paramMap.find("VBW") == paramMap.end())
 	{
-		TraceLog(MSG_ERROR, "Fail to find parameter VBW for CBTWLAN_WiFi_SpectrumMaskTest");
+		TraceLog(MSG_ERROR, "Fail to find parameter VBW for CBTWLAN_WiFi_TxTest");
 		return false;
 	}
 	m_dVBW = atof(paramMap["VBW"].c_str());
 
 	if (paramMap.find("Span") == paramMap.end())
 	{
-		TraceLog(MSG_ERROR, "Fail to find parameter Span for CBTWLAN_WiFi_SpectrumMaskTest");
+		TraceLog(MSG_ERROR, "Fail to find parameter Span for CBTWLAN_WiFi_TxTest");
 		return false;
 	}
 	m_dSpan = atof(paramMap["Span"].c_str());
 
 	if (paramMap.find("Detector") == paramMap.end())
 	{
-		TraceLog(MSG_ERROR, "Fail to find parameter Detector for CBTWLAN_WiFi_SpectrumMaskTest");
+		TraceLog(MSG_ERROR, "Fail to find parameter Detector for CBTWLAN_WiFi_TxTest");
 		return false;
 	}
 	m_strDetector = paramMap["Detector"];
@@ -102,154 +126,102 @@ bool CBTWLAN_WiFi_TxTest::InitData(std::map<std::string, std::string>& paramMap)
 	}
 	m_strTraceMode = paramMap["TraceMode"];
 
-	if (paramMap.find("DiagramFull") == paramMap.end())
-	{
-		TraceLog(MSG_ERROR, "Fail to find parameter DiagramFull for CBTWLAN_WiFi_SpectrumMaskTest");
-		return false;
-	}
-	m_strDiagramFull = paramMap["DiagramFull"];
 
 	if (paramMap.find("SweepTime") == paramMap.end())
 	{
-		TraceLog(MSG_ERROR, "Fail to find parameter SweepTime for CBTWLAN_WiFi_SpectrumMaskTest");
+		TraceLog(MSG_ERROR, "Fail to find parameter SweepTime for CBTWLAN_WiFi_TxTest");
 		return false;
 	}
 	m_iSweepTime = atoi(paramMap["SweepTime"].c_str());
-
-	if (paramMap.find("Trace") == paramMap.end())
-	{
-		TraceLog(MSG_ERROR, "Fail to find parameter Trace for CBTWLAN_WiFi_SpectrumMaskTest");
-		return false;
-	}
-	m_iTrace = atoi(paramMap["Trace"].c_str());
-
-	if (paramMap.find("Margin") == paramMap.end())
-	{
-		TraceLog(MSG_ERROR, "Fail to find parameter Margin for CBTWLAN_WiFi_SpectrumMaskTest");
-		return false;
-	}
-	m_iMargin = atoi(paramMap["Margin"].c_str());
-
-	if (paramMap.find("Threshold") == paramMap.end())
-	{
-		TraceLog(MSG_ERROR, "Fail to find parameter Threshold for CBTWLAN_WiFi_SpectrumMaskTest");
-		return false;
-	}
-	m_iThreshold = atoi(paramMap["Threshold"].c_str());
 	
 	if (paramMap.find("LineName") == paramMap.end())
 	{
-		TraceLog(MSG_ERROR, "Fail to find parameter LineName for CBTWLAN_WiFi_SpectrumMaskTest");
+		TraceLog(MSG_ERROR, "Fail to find parameter LineName for CBTWLAN_WiFi_TxTest");
 		return false;
 	}
 	m_strLineName = paramMap["LineName"];
 
 	if (paramMap.find("Domain") == paramMap.end())
 	{
-		TraceLog(MSG_ERROR, "Fail to find parameter Domain for CBTWLAN_WiFi_SpectrumMaskTest");
+		TraceLog(MSG_ERROR, "Fail to find parameter Domain for CBTWLAN_WiFi_TxTest");
 		return false;
 	}
 	m_strDomain = paramMap["Domain"];
 
 	if (paramMap.find("XscalingMode") == paramMap.end())
 	{
-		TraceLog(MSG_ERROR, "Fail to find parameter XscalingMode for CBTWLAN_WiFi_SpectrumMaskTest");
+		TraceLog(MSG_ERROR, "Fail to find parameter XscalingMode for CBTWLAN_WiFi_TxTest");
 		return false;
 	}
 	m_strXscalingMode = paramMap["XscalingMode"];
 
 	if (paramMap.find("YscalingMode") == paramMap.end())
 	{
-		TraceLog(MSG_ERROR, "Fail to find parameter YscalingMode for CBTWLAN_WiFi_SpectrumMaskTest");
+		TraceLog(MSG_ERROR, "Fail to find parameter YscalingMode for CBTWLAN_WiFi_TxTest");
 		return false;
 	}
 	m_strYscalingMode = paramMap["YscalingMode"];
 
 	if (paramMap.find("Unit") == paramMap.end())
 	{
-		TraceLog(MSG_ERROR, "Fail to find parameter Unit for CBTWLAN_WiFi_SpectrumMaskTest");
+		TraceLog(MSG_ERROR, "Fail to find parameter Unit for CBTWLAN_WiFi_TxTest");
 		return false;
 	}
 	m_strUnit = paramMap["Unit"];
 
 	if (paramMap.find("Spacing") == paramMap.end())
 	{
-		TraceLog(MSG_ERROR, "Fail to find parameter Spacing for CBTWLAN_WiFi_SpectrumMaskTest");
+		TraceLog(MSG_ERROR, "Fail to find parameter Spacing for CBTWLAN_WiFi_TxTest");
 		return false;
 	}
 	m_strSpacing = paramMap["Spacing"];
 
-	if (paramMap.find("ContData") == paramMap.end())
-	{
-		TraceLog(MSG_ERROR, "Fail to find parameter ContData for CBTWLAN_WiFi_SpectrumMaskTest");
-		return false;
-	}
-	m_strContData = paramMap["ContData"];
-
-	if (paramMap.find("UppData") == paramMap.end())
-	{
-		TraceLog(MSG_ERROR, "Fail to find parameter UppData for CBTWLAN_WiFi_SpectrumMaskTest");
-		return false;
-	}
-	m_strUppData = paramMap["UppData"];
 
 	if (paramMap.find("AttenuationManual") == paramMap.end())
 	{
-		TraceLog(MSG_ERROR, "Fail to find parameter AttenuationManual for CBTWLAN_WiFi_SpectrumMaskTest");
+		TraceLog(MSG_ERROR, "Fail to find parameter AttenuationManual for CBTWLAN_WiFi_TxTest");
 		return false;
 	}
 	m_iAttenuationManual = atoi(paramMap["AttenuationManual"].c_str());
 
 	if (paramMap.find("RefLevel") == paramMap.end())
 	{
-		TraceLog(MSG_ERROR, "Fail to find parameter RefLevel for CBTWLAN_WiFi_SpectrumMaskTest");
+		TraceLog(MSG_ERROR, "Fail to find parameter RefLevel for CBTWLAN_WiFi_TxTest");
 		return false;
 	}
 	m_iRefLevel = atoi(paramMap["RefLevel"].c_str());
 
 	if (paramMap.find("ChannelPower") == paramMap.end())
 	{
-		TraceLog(MSG_ERROR, "Fail to find parameter ChannelPower for CBTWLAN_WiFi_SpectrumMaskTest");
+		TraceLog(MSG_ERROR, "Fail to find parameter ChannelPower for CBTWLAN_WiFi_TxTest");
 		return false;
 	}
 	m_strChannelPower = paramMap["ChannelPower"];
 
 	if (paramMap.find("ChannelBW") == paramMap.end())
 	{
-		TraceLog(MSG_ERROR, "Fail to find parameter ChannelBW for CBTWLAN_WiFi_SpectrumMaskTest");
+		TraceLog(MSG_ERROR, "Fail to find parameter ChannelBW for CBTWLAN_WiFi_TxTest");
 		return false;
 	}
 	m_dChannelBWMHz = atof(paramMap["ChannelBW"].c_str());
 
 	if (paramMap.find("AverageTimes") == paramMap.end())
 	{
-		TraceLog(MSG_ERROR, "Fail to find parameter AverageTimes for CBTWLAN_WiFi_SpectrumMaskTest");
+		TraceLog(MSG_ERROR, "Fail to find parameter AverageTimes for CBTWLAN_WiFi_TxTest");
 		return false;
 	}
 	m_iAverageTimes = atoi(paramMap["AverageTimes"].c_str());
 
 
-	if (paramMap.find ("Regulatory_Fixed") == paramMap.end()){
-		TraceLog(MSG_ERROR, "Fail to find parameter Regulatory_Fixed for CBTWLAN_WiFi_SpectrumMaskTest");
-		return false;
-	}
-	m_Regulatory_Fixed = atoi(paramMap["Regulatory_Fixed"].c_str());
-
-	if (paramMap.find ("Power_control_mode") == paramMap.end()){
-		TraceLog(MSG_ERROR, "Fail to find parameter Power_control_mode for CBTWLAN_WiFi_SpectrumMaskTest");
-		return false;
-	}
-	m_Power_control_mode = atoi(paramMap["Power_control_mode"].c_str());
-
 	if (paramMap.find("Range") == paramMap.end())
 	{
-		TraceLog(MSG_ERROR, "Fail to find parameter Range for CBTWLAN_WiFi_SpectrumMaskTest");
+		TraceLog(MSG_ERROR, "Fail to find parameter Range for CBTWLAN_WiFi_TxTest");
 		return false;
 	}
 	STDStringTokenizer(paramMap["Range"], ",", vTmp);
 	if ((signed)vTmp.size() < 2)
 	{
-		TraceLog(MSG_ERROR, "Fail to find parameter Range for CBTWLAN_WiFi_SpectrumMaskTest");
+		TraceLog(MSG_ERROR, "Fail to find parameter Range for CBTWLAN_WiFi_TxTest");
 		return false;
 	}
 	m_dLower = atof(vTmp[0].c_str());
@@ -272,20 +244,41 @@ bool CBTWLAN_WiFi_TxTest::Run(void)
 
 	// Prepare CPK log
 	std::string cpkfile;
-	if (0 == strcmp(m_strLineName.c_str(), "\"11B\""))
+	if (0 == strcmp(m_strLineName.c_str(), "\"11B_Chain_0\""))
 	{
-		cpkfile = string(DEFAULT_CPKLOG_PATH) + "WifiTxCPK_11B";
-		m_dAdjPower = GetCableLoss("TX", "BTWLAN_WIFI", "WifiAdjPower_11B");
+		cpkfile = string(DEFAULT_CPKLOG_PATH) + "WifiTxCPK_11B_Chain_0";
+		m_dAdjPower = GetCableLoss("TX", "BTWLAN_WIFI", "WifiAdjPower_11B_Chain_0");
+		csTestItem = _T("WiFi_Tx_11B_Chain_0");
 	}
-	else if (0 == strcmp(m_strLineName.c_str(), "\"11G\""))
+	else if (0 == strcmp(m_strLineName.c_str(), "\"11B_Chain_1\""))
 	{
-		cpkfile = string(DEFAULT_CPKLOG_PATH) + "WifiTxCPK_11G";
-		m_dAdjPower = GetCableLoss("TX", "BTWLAN_WIFI", "WifiAdjPower_11G");
+		cpkfile = string(DEFAULT_CPKLOG_PATH) + "WifiTxCPK_11B_Chain_1";
+		m_dAdjPower = GetCableLoss("TX", "BTWLAN_WIFI", "WifiAdjPower_11B_Chain_1");
+		csTestItem = _T("WiFi_Tx_11B_Chain_1");
 	}
-	else if (0 == strcmp(m_strLineName.c_str(), "\"11N\""))
+	else if (0 == strcmp(m_strLineName.c_str(), "\"11G_Chain_0\""))
 	{
-		cpkfile = string(DEFAULT_CPKLOG_PATH) + "WifiTxCPK_11N";
-		m_dAdjPower = GetCableLoss("TX", "BTWLAN_WIFI", "WifiAdjPower_11N");
+		cpkfile = string(DEFAULT_CPKLOG_PATH) + "WifiTxCPK_11G_Chain_0";
+		m_dAdjPower = GetCableLoss("TX", "BTWLAN_WIFI", "WifiAdjPower_11G_Chain_0");
+		csTestItem = _T("WiFi_Tx_11G_Chain_0");
+	}
+	else if (0 == strcmp(m_strLineName.c_str(), "\"11G_Chain_1\""))
+	{
+		cpkfile = string(DEFAULT_CPKLOG_PATH) + "WifiTxCPK_11G_Chain_1";
+		m_dAdjPower = GetCableLoss("TX", "BTWLAN_WIFI", "WifiAdjPower_11G_Chain_1");
+		csTestItem = _T("WiFi_Tx_11G_Chain_1");
+	}
+	else if (0 == strcmp(m_strLineName.c_str(), "\"11N_Chain_0\""))
+	{
+		cpkfile = string(DEFAULT_CPKLOG_PATH) + "WifiTxCPK_11N_Chain_0";
+		m_dAdjPower = GetCableLoss("TX", "BTWLAN_WIFI", "WifiAdjPower_11N_Chain_0");
+		csTestItem = _T("WiFi_Tx_11N_Chain_0");
+	}
+	else if (0 == strcmp(m_strLineName.c_str(), "\"11N_Chain_1\""))
+	{
+		cpkfile = string(DEFAULT_CPKLOG_PATH) + "WifiTxCPK_11N_Chain_1";
+		m_dAdjPower = GetCableLoss("TX", "BTWLAN_WIFI", "WifiAdjPower_11N_Chain_1");
+		csTestItem = _T("WiFi_Tx_11N_Chain_1");
 	}
 
 	gCpkRecord.setFileName (cpkfile.c_str());
@@ -333,7 +326,9 @@ bool CBTWLAN_WiFi_TxTest::MainFunction(void)
 {
 	char szTmp[256];
 
-	if (! m_pIPhone->WifiPowerOnTx(m_iDataRate, m_iChannel, m_iPower, m_Regulatory_Fixed, m_Power_control_mode))	
+
+	if (! m_pIPhone->WifiPowerOnTx(m_iRateBitIndex, m_iChannel, m_iPower, m_iWlanMode, m_iTxChain, m_iLoadBin))	
+		//(m_iRateBitIndex, m_iChannel, m_iPower, m_iPreamble, m_iPayloadSize, m_iSpacing, m_iChain)))
 	{
 		m_strMsg = "Fail to execute WifiPowerOnTx";
 		TraceLog(MSG_ERROR, m_strMsg);
@@ -459,7 +454,7 @@ bool CBTWLAN_WiFi_TxTest::MainFunction(void)
 			TraceLog(MSG_ERROR, m_strMsg);
 			return false;
 		}
-
+		//AfxMessageBox("stopTX");
 		if (strstr(strResponse.c_str(), "NAN") != NULL)
 		{
 			sprintf_s(szTmp, 255, "%0d - WiFi power : NAN", i + 1);
@@ -520,10 +515,14 @@ bool CBTWLAN_WiFi_TxTest::MainFunction(void)
 	SetPICSData(m_strPICS_TxPower, strResponse);
 
 	if (bPowerRes)
-		FactoryLog(true, "WifiPowerTxTest_FSP", "Pass", szBand, m_strChannel, szLower, szUpper, m_strMeasured, "dBm", "WifiPowerTxTest_FSP PASS");
+	//	FactoryLog(true, "WifiPowerTxTest_FSP", "Pass", szBand, m_strChannel, szLower, szUpper, m_strMeasured, "dBm", "WifiPowerTxTest_FSP PASS");
+		FactoryLog(true, csTestItem, "Pass", szBand, m_strChannel, szLower, szUpper, m_strMeasured, "dBm", "PASS");
 	
+	
+
 	if (!bPowerRes)
-		FactoryLog(false, "WiFi_PowerTxTest_FSP", FunErr_WLAN_Test_OutPower_OutRange, szBand, m_strChannel, szLower, szUpper, m_strMeasured, "dBm", m_strMsg);
+		//FactoryLog(false, "WiFi_PowerTxTest_FSP", FunErr_WLAN_Test_OutPower_OutRange, szBand, m_strChannel, szLower, szUpper, m_strMeasured, "dBm", m_strMsg);
+		FactoryLog(false, csTestItem, FunErr_WLAN_Test_OutPower_OutRange, szBand, m_strChannel, szLower, szUpper, m_strMeasured, "dBm", "FAIL");
 
 	memset(szTmp, 0, 256);
 	sprintf_s(szTmp, 255, "%.3f", dPower);
@@ -531,7 +530,7 @@ bool CBTWLAN_WiFi_TxTest::MainFunction(void)
 	gCpkRecord.assign ("Wifi_TxPower", m_strMeasured);//write Tx Power to CPK
 
 	// Stop WiFi power
-	if (! m_pIPhone->WifiPowerOnTx(0, 0, 0))
+	if (!m_pIPhone->WifiPowerOffTx(m_iChannel))
 	{
 		m_strMsg = "Fail to stop WifiPowerOnTx";
 		TraceLog(MSG_ERROR, m_strMsg);

@@ -25,18 +25,26 @@ private:
 	int m_iAverageTimes;
 	int m_iChannel;
 	int m_iPower;
-	int m_iDataRate;
+	int m_iRateBitIndex;
 	int m_iSweepTime;
 	int m_iTrace;
 	int m_iMargin;
 	int m_iThreshold;
 	int m_iAttenuationManual;
 	int m_iRefLevel;
+	int m_iWlanMode;
+	int m_iTxChain;
+	int m_iLoadBin;
+
+	int m_iPreamble;
+	int m_iPayloadSize;
+	int m_iSpacing;
+	int m_iChain;
+
 
 	std::string m_strChannel;
 	std::string m_strTraceMode;
 	std::string m_strDetector;
-	std::string m_strDiagramFull;
 	std::string m_strLineName, m_strDomain;
 	std::string m_strXscalingMode, m_strYscalingMode;
 	std::string m_strUnit, m_strSpacing;

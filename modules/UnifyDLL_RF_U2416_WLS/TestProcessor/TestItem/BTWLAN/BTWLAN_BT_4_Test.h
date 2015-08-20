@@ -17,7 +17,6 @@ private:
 	double m_dLower, m_dUpper;
 	double m_dChannelBWMHz;
 	int m_iCommandDelay;
-	//int m_iStartDelay;
 	int m_iAverageTimes;
 	int m_iSweepTime;
 	int m_iAttenuationManual;
@@ -26,7 +25,6 @@ private:
 	std::string m_strChannel;
 	std::string m_strTraceMode;
 	std::string m_strDetector;
-	std::string m_strDiagramFull;
 	std::string m_strMsg;
 	std::string m_strMeasured;
 	std::string m_strBTInput;
