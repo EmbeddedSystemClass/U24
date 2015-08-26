@@ -260,11 +260,11 @@ size_t CTestItemHdrStd::SetTestItemXMLValueForRFCertification()
 	if (NOERROR == ret)
 	{
 		//Write test item parameter
-		XMLNode PayloadNode = m_TestItemXML.SearchNode(_T("//Configuration//ProcessObjectSet//WirelessTestObjects//ProcessObject//Payload"));
+	/*	XMLNode PayloadNode = m_TestItemXML.SearchNode(_T("//Configuration//ProcessObjectSet//WirelessTestObjects//ProcessObject//Payload"));
 		if (PayloadNode != NULL)
 		{
 			m_TestItemXML.SetNodeText(PayloadNode, this->m_Parametermap[_T("PAYLOAD")]);
-		}
+		}*/
 
 		XMLNode ChannelNode = m_TestItemXML.SearchNode(_T("//Configuration//ProcessObjectSet//WirelessTestObjects//ProcessObject//Channel"));
 		if (ChannelNode != NULL)
@@ -272,17 +272,17 @@ size_t CTestItemHdrStd::SetTestItemXMLValueForRFCertification()
 			m_TestItemXML.SetNodeText(ChannelNode, this->m_Parametermap[_T("CHANNEL")]);
 		}
 
-		XMLNode RateNode = m_TestItemXML.SearchNode(_T("//Configuration//ProcessObjectSet//WirelessTestObjects//ProcessObject//Rate"));
-		if (RateNode != NULL)
-		{
-			m_TestItemXML.SetNodeText(RateNode, this->m_Parametermap[_T("RATE")]);
-		}
+		//XMLNode RateNode = m_TestItemXML.SearchNode(_T("//Configuration//ProcessObjectSet//WirelessTestObjects//ProcessObject//Rate"));
+		//if (RateNode != NULL)
+		//{
+		//	m_TestItemXML.SetNodeText(RateNode, this->m_Parametermap[_T("RATE")]);
+		//}
 
-		XMLNode SpacingNode = m_TestItemXML.SearchNode(_T("//Configuration//ProcessObjectSet//WirelessTestObjects//ProcessObject//Spacing"));
-		if (SpacingNode != NULL)
-		{
-			m_TestItemXML.SetNodeText(SpacingNode, this->m_Parametermap[_T("SPACING")]);
-		}
+		//XMLNode SpacingNode = m_TestItemXML.SearchNode(_T("//Configuration//ProcessObjectSet//WirelessTestObjects//ProcessObject//Spacing"));
+		//if (SpacingNode != NULL)
+		//{
+		//	m_TestItemXML.SetNodeText(SpacingNode, this->m_Parametermap[_T("SPACING")]);
+		//}
 
 		XMLNode PowerNode = m_TestItemXML.SearchNode(_T("//Configuration//ProcessObjectSet//WirelessTestObjects//ProcessObject//Power"));
 		if (PowerNode != NULL)
@@ -290,10 +290,10 @@ size_t CTestItemHdrStd::SetTestItemXMLValueForRFCertification()
 			m_TestItemXML.SetNodeText(PowerNode, this->m_Parametermap[_T("POWER")]);
 		}
 
-		XMLNode PreambleNode = m_TestItemXML.SearchNode(_T("//Configuration//ProcessObjectSet//WirelessTestObjects//ProcessObject//Preamble"));
-		if (PreambleNode != NULL)
+		XMLNode WlanModeNode = m_TestItemXML.SearchNode(_T("//Configuration//ProcessObjectSet//WirelessTestObjects//ProcessObject//WLANMODE"));
+		if (WlanModeNode != NULL)
 		{
-			m_TestItemXML.SetNodeText(PreambleNode, this->m_Parametermap[_T("PREAMBLE")]);
+			m_TestItemXML.SetNodeText(WlanModeNode, this->m_Parametermap[_T("WLANMODE")]);
 		}
 
 		XMLNode ComNode = m_TestItemXML.SearchNode(_T("//Configuration//Phone//COMPort"));
@@ -314,16 +314,28 @@ size_t CTestItemHdrStd::SetTestItemXMLValueForRFCertification()
 			m_TestItemXML.SetNodeText(Rf2G4Node, this->m_Parametermap[_T("RF2G4INPUT")]);
 		}
 
-		XMLNode ChannelBondNode = m_TestItemXML.SearchNode(_T("//Configuration//ProcessObjectSet//WirelessTestObjects//ProcessObject//Bond"));
-		if (ChannelBondNode != NULL)
-		{
-			m_TestItemXML.SetNodeText(ChannelBondNode, this->m_Parametermap[_T("BOND")]);
-		}
+		//XMLNode ChannelBondNode = m_TestItemXML.SearchNode(_T("//Configuration//ProcessObjectSet//WirelessTestObjects//ProcessObject//Bond"));
+		//if (ChannelBondNode != NULL)
+		//{
+		//	m_TestItemXML.SetNodeText(ChannelBondNode, this->m_Parametermap[_T("BOND")]);
+		//}
 
 		XMLNode ChannelChainNode = m_TestItemXML.SearchNode(_T("//Configuration//ProcessObjectSet//WirelessTestObjects//ProcessObject//Chain"));
 		if (ChannelChainNode != NULL)
 		{
 			m_TestItemXML.SetNodeText(ChannelChainNode, this->m_Parametermap[_T("CHAIN")]);
+		}
+
+		XMLNode ChannelRateBitIndexNode = m_TestItemXML.SearchNode(_T("//Configuration//ProcessObjectSet//WirelessTestObjects//ProcessObject//RateBitIndex"));
+		if (ChannelChainNode != NULL)
+		{
+			m_TestItemXML.SetNodeText(ChannelRateBitIndexNode, this->m_Parametermap[_T("RATEBITINDEX")]);
+		}
+
+		XMLNode RateMaskNode = m_TestItemXML.SearchNode(_T("//Configuration//ProcessObjectSet//WirelessTestObjects//ProcessObject//RateMask"));
+		if (ChannelChainNode != NULL)
+		{
+			m_TestItemXML.SetNodeText(RateMaskNode, this->m_Parametermap[_T("RATEMASK")]);
 		}
 
 		m_TestItemXML.Save();

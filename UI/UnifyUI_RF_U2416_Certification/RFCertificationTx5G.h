@@ -41,10 +41,10 @@ public:
 	void SetResult(int nIndex, char* szUnit, char* szLower, char* szUpper, char* szMeasured, char* szResult, char* szErrCode, char* szMsg);
 private:
 	CComboBox m_combComport;
-	CComboBox m_combChannelBonding;
+	//CComboBox m_combChannelBonding;
 	CComboBox m_combChannel;
 	CComboBox m_combMode;
-	CComboBox m_combRate;
+	//CComboBox m_combRate;
 	CComboBox m_combChain;
 
 	void UIInit();
@@ -84,7 +84,7 @@ protected:
 public:
 	afx_msg void OnBnClickedButtonStop();
 	afx_msg void OnCbnDropdownComboPort();
-	afx_msg void OnCbnSelchangeComboMode();
+	//afx_msg void OnCbnSelchangeComboMode();
 	afx_msg void OnBnClickedButtonRun();
-	afx_msg void OnCbnSelchangeComboChannelBounding();
+	//afx_msg void OnCbnSelchangeComboChannelBounding();
 };

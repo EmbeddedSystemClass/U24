@@ -17,7 +17,7 @@ private:
 	//int m_iStartDelay;
 	int m_iChannel;
 	int m_iChain;
-	int m_iPreamble;
+	int m_iWlandMode;
 //	ifiPowerOnRxGetPacket (int iChannel,int iPreamble, unsigned long* rxFrameCounter,int iChain);
 
 	std::string m_strMsg;

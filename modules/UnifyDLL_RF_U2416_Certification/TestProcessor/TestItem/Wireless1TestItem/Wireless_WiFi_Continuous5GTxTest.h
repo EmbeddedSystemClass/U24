@@ -18,7 +18,7 @@ private:
 	int m_iChannel;
 	int m_iPower;
 	int m_iDataRate;
-	int m_iPreamble;
+	int m_iWlandMode;
 	int m_iPayloadSize;
 	int m_iSpacing;
 	int m_iBond;

@@ -129,10 +129,11 @@ public:
 	virtual bool Detroit_QmiRfTxOff() = 0;
 
 	// Detroit WiFi
-	virtual bool WifiModuleOn (bool Enable, int nBin=-1) = 0;
-	virtual bool WifiModuleOnCertification(bool Enable, int nBin=-1) = 0;
+	virtual bool WifiModuleOn (bool Enable) = 0;
+	virtual bool WifiModuleOnCertification(bool Enable) = 0;
 	virtual bool WifiPowerOnTx (int iRate, int iChannel, int iPower) = 0;
-	virtual bool WifiPowerOnTxCertification (int iRate, int iChannel, int iPower, int iPreamble, int iPayloadSize, int iSpacing,int iChain) = 0;
+	//virtual bool WifiPowerOnTxCertification (int iRate, int iChannel, int iPower, int iPreamble, int iPayloadSize, int iSpacing,int iChain) = 0;
+	virtual bool WifiPowerOnTxCertification (int iChannel, int iPower, int iRateBitIndex, int iWlandMode, int iChain) = 0 ;
 	virtual bool WifiPowerOn5GTxCertification (int iRate, int iChannel, int iPower, int iPreamble, int iPayloadSize, int iSpacing, int iBond,int iChain) = 0;
 	virtual bool WifiPowerStopTx() = 0;
 	virtual bool WifiPowerStopTxCw() = 0;

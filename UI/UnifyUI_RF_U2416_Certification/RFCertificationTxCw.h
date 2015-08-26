@@ -26,9 +26,10 @@ protected:
 	virtual BOOL OnInitDialog();
 	virtual BOOL DestroyWindow();
 
-	CComboBox m_combChannel;
+	CComboBox m_combComport;
+	//CComboBox m_combChannel;
 	CComboBox m_combChain;
-
+	CComboBox m_combWlanMode;
 	DECLARE_MESSAGE_MAP()
 
 	dlltoolinfo_t m_data;
@@ -47,11 +48,15 @@ public:
 	void SetRxResult(char* szMeasured);
 
 private:
-	CComboBox m_combComport;
+
+
 	CString m_sRfGain;
 
+	CString m_sRateBitIndex;
+	CString m_sPower;
+	CString m_sChannel;
+
 	void UIInit();
-	void UIWarning(CString message);
 	void UIControl(bool isEnable);
 	void UITotalTime(double secTime);
 

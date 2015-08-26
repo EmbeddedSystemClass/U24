@@ -17,7 +17,7 @@ private:
 	int m_iChannel;
 	int m_iRfGain;
 	int m_iChain;
-	int m_iPreamble;
+	int m_iWlandMode;
 
 	std::string m_strMsg;
 	std::string m_strMeasured;

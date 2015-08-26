@@ -7,12 +7,12 @@
 #define IDD_SERVICE_MAINUI              129
 #define IDD_SERVICE_MAINUI_MODULE       130
 #define IDD_SERVICE_SUBUI_INFO          132
-#define IDD_SERVICE_SUBUI_INFOLIST      132
-#define IDD_SERVICE_SUBUI_FACTORY_INFOLIST 134
 #define IDD_SERVICE_SUBUI_RF_CERTIFICATION 135
+#define IDD_SERVICE_SUBUI_TX_24G        135
 #define IDD_SERVICE_SUBUI_WIFI_RX       136
 #define IDD_SERVICE_SUBUI_TX_CW         137
 #define IDD_SERVICE_SUBUI_RF_2G4_TX     138
+#define IDD_SERVICE_SUBUI_TX_24G_NoUSE  138
 #define IDD_SERVICE_SUBUI_5G_TX         139
 #define IDD_SERVICE_SUBUI_WIFI_5G_RX    140
 #define IDD_SERVICE_SUBUI_5G_TX_CW      141
@@ -27,10 +27,7 @@
 #define IDC_MODULE_BUTTON7              1008
 #define IDC_COMBO_PORT                  1009
 #define IDC_BUTTON_RUN                  1010
-#define IDC_EDIT_PATH                   1011
-#define IDC_BUTTON_FOLDER               1012
-#define IDC_EDIT_PROCESS                1013
-#define IDC_RICHEDIT_WARNING            1014
+#define IDC_BUTTON_RUN2                 1011
 #define IDC_RICHEDIT_MESSAGE            1015
 #define IDC_STATIC_TIME                 1016
 #define IDC_LIST_INFO                   1017
@@ -45,6 +42,7 @@
 #define IDC_EDIT_NW                     1029
 #define IDC_STATIC_V5                   1030
 #define IDC_COMBO_RF_CHANNEL            1031
+#define IDC_COMBO_RF_CHANNEL2           1032
 #define IDC_STATIC_RF_CHANNEL           1033
 #define IDC_STATIC_MODE                 1034
 #define IDC_COMBO_MODE                  1035
@@ -60,6 +58,7 @@
 #define IDC_EDIT_TX_POWER               1044
 #define IDC_STATIC_TX_POWER             1045
 #define IDC_STATIC_RF_CHANNEL2          1046
+#define IDC_STATIC_RF_CHANNEL3          1047
 #define IDC_COMBO1                      1048
 #define IDC_COMBO_COMPORT               1048
 #define IDC_COMBO_CHANNEL_BOUNDING      1048
@@ -68,20 +67,37 @@
 #define IDC_EDIT_PACKET                 1049
 #define IDC_EDIT_RF_GAIN                1049
 #define IDC_EDIT_CHANNEL                1049
+#define IDC_EDIT_TX_CHANNEL             1049
 #define IDC_EDIT_DATA_RATE              1050
+#define IDC_EDIT_RF_POWER               1050
+#define IDC_EDIT_RX_CHANNEL             1050
 #define IDC_EDIT3                       1051
 #define IDC_EDIT_POWER                  1051
+#define IDC_EDIT_RF_RateBitIndex        1051
 #define IDC_CHANNEL_BOUNDING            1052
+#define IDC_EDIT_RF_POWER2              1052
 #define IDC_COMBO_CHAIN                 1053
 #define IDC_COMBO_CHAIN2                1054
+#define IDC_EDIT_RF_WlanMode2           1054
+#define IDC_EDIT_TX_RateBitIndex        1054
+#define IDC_COMBO_CW_CHAIN              1054
+#define IDC_EDIT_TX_WlanMode            1055
+#define IDC_EDIT_RX_RateMask            1055
+#define IDC_EDIT_TX_POWER2              1056
+#define IDC_COMBO_TX_WlanMode           1057
+#define IDC_EDIT_CW_POWER               1058
+#define IDC_COMBO_RX_WlanMode           1058
+#define IDC_EDIT_CW_RateBitIndex        1059
+#define IDC_EDIT_CW_CHANNEL             1060
+#define IDC_COMBO_CW_WlanMode           1061
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        142
+#define _APS_NEXT_RESOURCE_VALUE        143
 #define _APS_NEXT_COMMAND_VALUE         32771
-#define _APS_NEXT_CONTROL_VALUE         1054
+#define _APS_NEXT_CONTROL_VALUE         1062
 #define _APS_NEXT_SYMED_VALUE           104
 #endif
 #endif

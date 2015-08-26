@@ -18,6 +18,7 @@ IMPLEMENT_DYNAMIC(CRFCertificationRx, CDialog)
 
 CRFCertificationRx::CRFCertificationRx(CWnd* pParent /*=NULL*/)
 	: CDialog(CRFCertificationRx::IDD, pParent)
+	, bRxTestStop(false)
 {
 
 }
@@ -29,15 +30,21 @@ CRFCertificationRx::~CRFCertificationRx()
 void CRFCertificationRx::DoDataExchange(CDataExchange* pDX)
 {
 	CDialog::DoDataExchange(pDX);
-	DDX_Control(pDX, IDC_COMBO_RF_CHANNEL, m_combChannel);
+
 	DDX_Control(pDX, IDC_COMBO_PORT, m_combComport);
+	DDX_Text(pDX, IDC_EDIT_RX_CHANNEL, m_sChannel);
+	DDX_Text(pDX, IDC_EDIT_RX_RateMask, m_sRateMask);
+	
 	DDX_Control(pDX, IDC_COMBO_CHAIN, m_combChain);
+	DDX_Control(pDX, IDC_COMBO_RX_WlanMode, m_combWlanMode);
+	
 }
 
 
 BEGIN_MESSAGE_MAP(CRFCertificationRx, CDialog)
 	ON_BN_CLICKED(IDC_BUTTON_RUN, &CRFCertificationRx::OnBnClickedButtonRun)
 	ON_CBN_DROPDOWN(IDC_COMBO_PORT, &CRFCertificationRx::OnCbnDropdownComboPort)
+	ON_BN_CLICKED(IDC_BUTTON_RUN2, &CRFCertificationRx::OnBnClickedButtonRun2)
 END_MESSAGE_MAP()
 
 
@@ -263,23 +270,6 @@ void CRFCertificationRx::UIInit()
 	title = m_data.title;
 	SetWindowText(title);
 
-	m_combChannel.AddString(_T("NOT SET"));
-	m_combChannel.SetItemData(0, 0);
-
-	char sz_text[50] = {0};
-	CString strTxt;
-	for (int i = 0; i <= 12; i++ )
-	{
-		sprintf(sz_text, "RF_CHAN_%d(%d)", i+1, 2412+i*5);
-		strTxt = sz_text;
-		m_combChannel.AddString(strTxt);
-		//m_combChannel.SetItemData(i+1, i+1);
-		m_combChannel.SetItemData(i+1, 2412+i*5);
-	}
-	m_combChannel.AddString(_T("RF_CHAN_14(2484)"));
-	m_combChannel.SetItemData(14, 2484);
-	m_combChannel.SetCurSel(0);
-
 	
 	m_combChain.AddString(_T("0"));
 	m_combChain.AddString(_T("1"));
@@ -288,28 +278,21 @@ void CRFCertificationRx::UIInit()
 	   m_combChain.SetItemData(i, i);
 	}
 	m_combChain.SetCurSel(0);
+
+	m_combWlanMode.AddString(_T("0"));
+	m_combWlanMode.AddString(_T("1"));
+	m_combWlanMode.AddString(_T("4"));
+	m_combWlanMode.AddString(_T("5"));
+	m_combWlanMode.AddString(_T("8"));
+	m_combWlanMode.SetItemData(0, 0);
+	m_combWlanMode.SetItemData(1, 1);
+	m_combWlanMode.SetItemData(2, 4);
+	m_combWlanMode.SetItemData(3, 5);
+	m_combWlanMode.SetItemData(4, 8);
+	m_combWlanMode.SetCurSel(0);
 }
 
-void CRFCertificationRx::UIWarning(CString message)
-{
-	CHARFORMAT cf;
-	memset(&cf, 0, sizeof(CHARFORMAT));
-	cf.cbSize = sizeof(CHARFORMAT);
-	cf.dwMask = CFM_COLOR | CFM_BOLD | CFM_SIZE;
-	cf.crTextColor = RGB(0xf0, 0, 0);
-	cf.dwEffects = CFE_BOLD;
-	cf.yHeight = 360;
-	CRichEditCtrl* eWarn = (CRichEditCtrl*)GetDlgItem(IDC_RICHEDIT_WARNING);
-	eWarn->SetSelectionCharFormat(cf);
-	if (message.IsEmpty()) {
-		message =
-			_T("PLEASE DO NOT REMOVE USB CABLE FROM DEVICE OR PC before download finishes");
-	}
-	int nStart, nEnd;
-	nStart = nEnd = 0;
-	eWarn->SetSel(nStart, nEnd);
-	eWarn->ReplaceSel(message);
-}
+
 
 void CRFCertificationRx::UIControl(bool isEnable)
 {
@@ -375,6 +358,11 @@ void CRFCertificationRx::OnBnClickedButtonRun()
 		return;
 	}
 
+	if (m_combWlanMode.GetCurSel() == CB_ERR)
+	{
+		PrintMsg(_T("Please select WlanMode.\n"), _T("WARN"));
+		return;
+	}	
 	m_thrdMainProgress = ::AfxBeginThread(WorkerThreadFuncProc, this, THREAD_PRIORITY_ABOVE_NORMAL);
 }
 
@@ -392,25 +380,30 @@ void CRFCertificationRx::WorkerThreadFuncRun()
 {
 	Timer(true);
 	UIControl(false);
+	bRxTestStop = false;
 
 	char *sz_ComValue = new char[10];
 	sprintf(sz_ComValue, "%d", m_combComport.GetItemData(m_combComport.GetCurSel()));
 	m_dllCtrl.SetParameter("COM", sz_ComValue);
 
-	char *sz_ChannelValue = new char[10];
-	sprintf(sz_ChannelValue, "%d", m_combChannel.GetItemData(m_combChannel.GetCurSel()));
-	m_dllCtrl.SetParameter("CHANNEL", sz_ChannelValue);
-	
+	CString csRxCHANNEL;
+	GetDlgItem(IDC_EDIT_RX_CHANNEL)->GetWindowText(csRxCHANNEL);
+	m_dllCtrl.SetParameter("CHANNEL", CT2A(csRxCHANNEL.GetBuffer()));
+
+	CString csRateMask;
+	GetDlgItem(IDC_EDIT_RX_RateMask)->GetWindowText(csRateMask);
+	m_dllCtrl.SetParameter("RATEMASK", CT2A(csRateMask.GetBuffer()));
+
+
+	char *sz_WlanMode = new char[10];
+	sprintf(sz_WlanMode, "%d", m_combWlanMode.GetItemData(m_combWlanMode.GetCurSel()));
+	m_dllCtrl.SetParameter("WLANMODE", sz_WlanMode);
+
 	char *sz_Chain = new char[10];
 	sprintf(sz_Chain, "%d", m_combChain.GetItemData(m_combChain.GetCurSel()));
 	m_dllCtrl.SetParameter("CHAIN", sz_Chain);
 
-	/*char *sz_Chain = new char[10];
-	sprintf(sz_Chain, "%d", m_combChain.GetItemData(m_combChain.GetCurSel()));
-	m_dllCtrl.SetParameter("CHAIN", sz_Chain);*/
 
-
-	delete sz_ChannelValue;
 
 	int nRetCode = m_dllCtrl.Begin();
 
@@ -558,4 +551,10 @@ bool CRFCertificationRx::GetAdbDevice()
 	return
 		//(m_com.desc.Find(_T("diag")) != -1);
 		(m_com.desc.Find(_T("Disgnostics")) != -1);
+}
+
+void CRFCertificationRx::OnBnClickedButtonRun2()
+{
+	bRxTestStop = true;
+	// TODO: Add your control notification handler code here
 }

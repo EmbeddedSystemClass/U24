@@ -35,22 +35,22 @@ void CRFCertification5GTx::DoDataExchange(CDataExchange* pDX)
 {
 	CDialog::DoDataExchange(pDX);
 	DDX_Control(pDX, IDC_COMBO_PORT, m_combComport);
-	DDX_Control(pDX, IDC_COMBO_CHANNEL_BONDING, m_combChannelBonding);
-	DDX_Control(pDX, IDC_COMBO_RF_CHANNEL, m_combChannel);
-	DDX_Control(pDX, IDC_COMBO_MODE, m_combMode);
-	DDX_Control(pDX, IDC_COMBO_RATE, m_combRate);
-	DDX_Text(pDX, IDC_EDIT_PAYLOAD, m_sPayload);
-	DDX_Text(pDX, IDC_EDIT_SPACING, m_sSpacing);
+	//DDX_Control(pDX, IDC_COMBO_CHANNEL_BONDING, m_combChannelBonding);
+	//DDX_Control(pDX, IDC_COMBO_RF_CHANNEL, m_combChannel);
+	//DDX_Control(pDX, IDC_COMBO_MODE, m_combMode);
+	//DDX_Control(pDX, IDC_COMBO_RATE, m_combRate);
+	//DDX_Text(pDX, IDC_EDIT_PAYLOAD, m_sPayload);
+	//DDX_Text(pDX, IDC_EDIT_SPACING, m_sSpacing);
 	DDX_Text(pDX, IDC_EDIT_TX_POWER, m_sPower);
 	DDX_Control(pDX, IDC_COMBO_CHAIN, m_combChain);
 }
 
 
 BEGIN_MESSAGE_MAP(CRFCertification5GTx, CDialog)
-	ON_CBN_SELCHANGE(IDC_COMBO_MODE, &CRFCertification5GTx::OnCbnSelchangeComboMode)
+//	ON_CBN_SELCHANGE(IDC_COMBO_MODE, &CRFCertification5GTx::OnCbnSelchangeComboMode)
 	ON_BN_CLICKED(IDC_BUTTON_RUN, &CRFCertification5GTx::OnBnClickedButtonRun)
 	ON_CBN_DROPDOWN(IDC_COMBO_PORT, &CRFCertification5GTx::OnCbnDropdownComboPort)
-	ON_CBN_SELCHANGE(IDC_COMBO_CHANNEL_BOUNDING, &CRFCertification5GTx::OnCbnSelchangeComboChannelBounding)
+//	ON_CBN_SELCHANGE(IDC_COMBO_CHANNEL_BOUNDING, &CRFCertification5GTx::OnCbnSelchangeComboChannelBounding)
 END_MESSAGE_MAP()
 
 
@@ -256,68 +256,68 @@ void CRFCertification5GTx::UIInit()
 	title = m_data.title;
 	SetWindowText(title);
 
-	m_combMode.AddString(_T("11a/g"));
-	m_combMode.AddString(_T("11b"));
-	m_combMode.AddString(_T("11n"));
-	m_combMode.AddString(_T("11ac"));
-	m_combMode.SetCurSel(0);
+	//m_combMode.AddString(_T("11a/g"));
+	//m_combMode.AddString(_T("11b"));
+	//m_combMode.AddString(_T("11n"));
+	//m_combMode.AddString(_T("11ac"));
+	//m_combMode.SetCurSel(0);
 
-	m_combChain.AddString(_T("0"));
-	m_combChain.AddString(_T("1"));
-	for (int i = 0; i < m_combChain.GetCount(); i++)
-	{
-	   m_combChain.SetItemData(i, i);
-	}
-	m_combChain.SetCurSel(0);
+	//m_combChain.AddString(_T("0"));
+	//m_combChain.AddString(_T("1"));
+	//for (int i = 0; i < m_combChain.GetCount(); i++)
+	//{
+	//   m_combChain.SetItemData(i, i);
+	//}
+	//m_combChain.SetCurSel(0);
 
-	m_combChannelBonding.AddString(_T("20MHz"));
-	m_combChannelBonding.SetItemData(0, 0);
-	m_combChannelBonding.SetCurSel(0);
+	//m_combChannelBonding.AddString(_T("20MHz"));
+	//m_combChannelBonding.SetItemData(0, 0);
+	//m_combChannelBonding.SetCurSel(0);
 
-	m_combChannel.AddString(_T("NOT SET"));
-	m_combChannel.SetItemData(0, 0);
+	//m_combChannel.AddString(_T("NOT SET"));
+	//m_combChannel.SetItemData(0, 0);
 
-	char sz_text[50] = {0};
-	CString strTxt;
-	for (int i = 0; i < 8; i++ )
-	{
-		sprintf(sz_text, "RF_CHAN_%d(%d)", i*4+36, 5180+i*20);
-		strTxt = sz_text;
-		m_combChannel.AddString(strTxt);
-		//m_combChannel.SetItemData(i+1, i*4+36);
-		m_combChannel.SetItemData(i+1, 5180+i*20);
-	}
-	for (int i = 0; i < 12; i++ )
-	{
-		sprintf(sz_text, "RF_CHAN_%d(%d)", i*4+100, 5500+i*20);
-		strTxt = sz_text;
-		m_combChannel.AddString(strTxt);
-		//m_combChannel.SetItemData(i+1+8, i*4+100);
-		m_combChannel.SetItemData(i+1+8,  5500+i*20);
-	}
-	for (int i = 0; i < 5; i++ )
-	{
-		sprintf(sz_text, "RF_CHAN_%d(%d)", i*4+149, 5745+i*20);
-		strTxt = sz_text;
-		m_combChannel.AddString(strTxt);
-		//m_combChannel.SetItemData(i+1+8+12, i*4+149);
-		m_combChannel.SetItemData(i+1+8+12, 5745+i*20);
-	}
-	m_combChannel.SetCurSel(0);
+	//char sz_text[50] = {0};
+	//CString strTxt;
+	//for (int i = 0; i < 8; i++ )
+	//{
+	//	sprintf(sz_text, "RF_CHAN_%d(%d)", i*4+36, 5180+i*20);
+	//	strTxt = sz_text;
+	//	m_combChannel.AddString(strTxt);
+	//	//m_combChannel.SetItemData(i+1, i*4+36);
+	//	m_combChannel.SetItemData(i+1, 5180+i*20);
+	//}
+	//for (int i = 0; i < 12; i++ )
+	//{
+	//	sprintf(sz_text, "RF_CHAN_%d(%d)", i*4+100, 5500+i*20);
+	//	strTxt = sz_text;
+	//	m_combChannel.AddString(strTxt);
+	//	//m_combChannel.SetItemData(i+1+8, i*4+100);
+	//	m_combChannel.SetItemData(i+1+8,  5500+i*20);
+	//}
+	//for (int i = 0; i < 5; i++ )
+	//{
+	//	sprintf(sz_text, "RF_CHAN_%d(%d)", i*4+149, 5745+i*20);
+	//	strTxt = sz_text;
+	//	m_combChannel.AddString(strTxt);
+	//	//m_combChannel.SetItemData(i+1+8+12, i*4+149);
+	//	m_combChannel.SetItemData(i+1+8+12, 5745+i*20);
+	//}
+	//m_combChannel.SetCurSel(0);
 
-	m_combRate.AddString(_T("11g 6 Mbps - 7")); // rate 7
-	m_combRate.AddString(_T("11g 9 Mbps - 8"));
-	m_combRate.AddString(_T("11g 12 Mbps - 9"));
-	m_combRate.AddString(_T("11g 18 Mbps - 10"));
-	m_combRate.AddString(_T("11g 24 Mbps - 11"));
-	m_combRate.AddString(_T("11g 36 Mbps - 12"));
-	m_combRate.AddString(_T("11g 48 Mbps - 13"));
-	m_combRate.AddString(_T("11g 54 Mbps - 14"));
-	m_combRate.SetCurSel(0);
-	for (int i = 0; i <= 7; i++)
-	{
-		m_combRate.SetItemData(i, i+7);
-	}
+	//m_combRate.AddString(_T("11g 6 Mbps - 7")); // rate 7
+	//m_combRate.AddString(_T("11g 9 Mbps - 8"));
+	//m_combRate.AddString(_T("11g 12 Mbps - 9"));
+	//m_combRate.AddString(_T("11g 18 Mbps - 10"));
+	//m_combRate.AddString(_T("11g 24 Mbps - 11"));
+	//m_combRate.AddString(_T("11g 36 Mbps - 12"));
+	//m_combRate.AddString(_T("11g 48 Mbps - 13"));
+	//m_combRate.AddString(_T("11g 54 Mbps - 14"));
+	//m_combRate.SetCurSel(0);
+	//for (int i = 0; i <= 7; i++)
+	//{
+	//	m_combRate.SetItemData(i, i+7);
+	//}
 }
 
 void CRFCertification5GTx::UIWarning(CString message)
@@ -425,13 +425,13 @@ void CRFCertification5GTx::WorkerThreadFuncRun()
 	sprintf(sz_ChannelValue, "%d", m_combChannel.GetItemData(m_combChannel.GetCurSel()));
 	m_dllCtrl.SetParameter("CHANNEL", sz_ChannelValue);
 
-	char *sz_Rate = new char[10];
-	sprintf(sz_Rate, "%d", m_combRate.GetItemData(m_combRate.GetCurSel()));
-	m_dllCtrl.SetParameter("RATE", sz_Rate);
+	//char *sz_Rate = new char[10];
+	//sprintf(sz_Rate, "%d", m_combRate.GetItemData(m_combRate.GetCurSel()));
+	//m_dllCtrl.SetParameter("RATE", sz_Rate);
 
-	char *sz_Bond = new char[10];
-	sprintf(sz_Bond, "%d", m_combChannelBonding.GetItemData(m_combChannelBonding.GetCurSel()));
-	m_dllCtrl.SetParameter("BOND", sz_Bond);
+	//char *sz_Bond = new char[10];
+	//sprintf(sz_Bond, "%d", m_combChannelBonding.GetItemData(m_combChannelBonding.GetCurSel()));
+	//m_dllCtrl.SetParameter("BOND", sz_Bond);
 
 	char *sz_Chain = new char[10];
 	sprintf(sz_Chain, "%d", m_combChain.GetItemData(m_combChain.GetCurSel()));
@@ -441,39 +441,39 @@ void CRFCertification5GTx::WorkerThreadFuncRun()
 	GetDlgItem(IDC_COMBO_MODE)->GetWindowText(mode);
 	if (mode.Find(_T("11a/g")) != -1)
 	{
-		m_dllCtrl.SetParameter("PREAMBLE", "0");
+		m_dllCtrl.SetParameter("WlandMode", "0");
 	}
 	else if (mode.Find(_T("11b")) != -1)
 	{
-		m_dllCtrl.SetParameter("PREAMBLE", "4");
+		m_dllCtrl.SetParameter("WlandMode", "4");
 	}
 	else if (mode.Find(_T("11n")) != -1)
 	{
-		m_dllCtrl.SetParameter("PREAMBLE", "1");
+		m_dllCtrl.SetParameter("WlandMode", "1");
 	}
 	else if (mode.Find(_T("11ac")) != -1)
 	{
-		m_dllCtrl.SetParameter("PREAMBLE", "8");
+		m_dllCtrl.SetParameter("WlandMode", "8");
 	}
 	//if (mode.Find(_T("11a/g")) != -1)
 	//{
-	//	m_dllCtrl.SetParameter("PREAMBLE", "0");
+	//	m_dllCtrl.SetParameter("WlandMode", "0");
 	//}
 	//else if (mode.Find(_T("11n")) != -1)
 	//{
-	//	m_dllCtrl.SetParameter("PREAMBLE", "2");
+	//	m_dllCtrl.SetParameter("WlandMode", "2");
 	//}
 	//else if (mode.Find(_T("11ac")) != -1)
 	//{
-	//	m_dllCtrl.SetParameter("PREAMBLE", "2");
+	//	m_dllCtrl.SetParameter("WlandMode", "2");
 	//}
 
 	payload.ReleaseBuffer();
 	spacing.ReleaseBuffer();
 	power.ReleaseBuffer();
 	delete sz_ChannelValue;
-	delete sz_Rate;
-	delete sz_Bond;
+	//delete sz_Rate;
+	//delete sz_Bond;
 
 	int nRetCode = m_dllCtrl.Begin();
 
@@ -500,494 +500,494 @@ void CRFCertification5GTx::WorkerThreadFuncRun()
 	PrintMsg(csTime, _T(""));
 }
 
-void CRFCertification5GTx::OnCbnSelchangeComboMode()
-{
-	// reset channel
-	m_combChannel.ResetContent();
-	m_combChannel.AddString(_T("NOT SET"));
-	m_combChannel.SetItemData(0, 0);
-
-	char sz_text[50] = {0};
-	CString strTxt;
-	for (int i = 0; i < 8; i++ )
-	{
-		sprintf(sz_text, "RF_CHAN_%d(%d)", i*4+36, 5180+i*20);
-		strTxt = sz_text;
-		m_combChannel.AddString(strTxt);
-		//m_combChannel.SetItemData(i+1, i*4+36);
-		m_combChannel.SetItemData(i+1, 5180+i*20);
-	}
-	for (int i = 0; i < 12; i++ )
-	{
-		sprintf(sz_text, "RF_CHAN_%d(%d)", i*4+100, 5500+i*20);
-		strTxt = sz_text;
-		m_combChannel.AddString(strTxt);
-		//m_combChannel.SetItemData(i+1+8, i*4+100);
-		m_combChannel.SetItemData(i+1+8,  5500+i*20);
-	}
-	for (int i = 0; i < 5; i++ )
-	{
-		sprintf(sz_text, "RF_CHAN_%d(%d)", i*4+149, 5745+i*20);
-		strTxt = sz_text;
-		m_combChannel.AddString(strTxt);
-		//m_combChannel.SetItemData(i+1+8+12, i*4+149);
-		m_combChannel.SetItemData(i+1+8+12, 5745+i*20);
-	}
-	m_combChannel.SetCurSel(0);
-
-	if (m_combMode.GetCurSel() == 0)
-	{
-		// reset text
-		GetDlgItem(IDC_STATIC_PS1)->SetWindowText(_T("(Range: 1 to 4091)"));
-
-		m_combChannelBonding.ResetContent();
-		m_combChannelBonding.AddString(_T("20MHz"));
-		m_combChannelBonding.SetItemData(0, 0);
-		m_combChannelBonding.SetCurSel(0);
-	}
-	else if(m_combMode.GetCurSel() == 1)
-	{
-		// reset text
-		GetDlgItem(IDC_STATIC_PS1)->SetWindowText(_T("(Range: 1 to 4091)"));
-
-		m_combChannelBonding.ResetContent();
-		m_combChannelBonding.AddString(_T("20MHz"));
-		m_combChannelBonding.SetItemData(0, 0);
-		m_combChannelBonding.AddString(_T("40MHz"));
-		m_combChannelBonding.SetItemData(1, 3);
-		m_combChannelBonding.SetCurSel(0);
-	}
-	else if(m_combMode.GetCurSel() == 2)
-	{
-		// reset text
-		GetDlgItem(IDC_STATIC_PS1)->SetWindowText(_T("(Range: 1 to 756)"));
-
-		m_combChannelBonding.ResetContent();
-		m_combChannelBonding.AddString(_T("20MHz"));
-		m_combChannelBonding.SetItemData(0, 0);
-		m_combChannelBonding.AddString(_T("40MHz"));
-		m_combChannelBonding.SetItemData(1, 3);
-		m_combChannelBonding.AddString(_T("80MHz"));
-		m_combChannelBonding.SetItemData(2, 6);
-		m_combChannelBonding.SetCurSel(0);
-	}
-
-	if (m_combMode.GetCurSel() == 0 && m_combChannelBonding.GetCurSel() == 0) // 11 a/g -> 20MHz
-	{
-		m_combRate.ResetContent();
-		m_combRate.AddString(_T("11g 6 Mbps - 7")); // rate 7
-		m_combRate.AddString(_T("11g 9 Mbps - 8"));
-		m_combRate.AddString(_T("11g 12 Mbps - 9"));
-		m_combRate.AddString(_T("11g 18 Mbps - 10"));
-		m_combRate.AddString(_T("11g 24 Mbps - 11"));
-		m_combRate.AddString(_T("11g 36 Mbps - 12"));
-		m_combRate.AddString(_T("11g 48 Mbps - 13"));
-		m_combRate.AddString(_T("11g 54 Mbps - 14"));
-		m_combRate.SetCurSel(0);
-		for (int i = 0; i <= 7; i++)
-		{
-			m_combRate.SetItemData(i, i+7);
-		}
-	}
-	else if(m_combMode.GetCurSel() == 1 && m_combChannelBonding.GetCurSel() == 0) // 11 n -> 20MHz
-	{
-		m_combRate.ResetContent();
-		m_combRate.AddString(_T("MCS0 6.5 Mbps"));
-		m_combRate.AddString(_T("MCS1 13 Mbps"));
-		m_combRate.AddString(_T("MCS2 19.5 Mbps"));
-		m_combRate.AddString(_T("MCS3 26 Mbps"));
-		m_combRate.AddString(_T("MCS4 39 Mbps"));
-		m_combRate.AddString(_T("MCS5 52 Mbps"));
-		m_combRate.AddString(_T("MCS6 58.5 Mbps"));
-		m_combRate.AddString(_T("MCS7 65 Mbps"));
-		m_combRate.AddString(_T("MCS0 MM SG 7.2 Mbps"));
-		m_combRate.AddString(_T("MCS1 MM SG 14.4 Mbps"));
-		m_combRate.AddString(_T("MCS2 MM SG 21.7 Mbps"));
-		m_combRate.AddString(_T("MCS3 MM SG 28.9 Mbps"));
-		m_combRate.AddString(_T("MCS4 MM SG 43.3 Mbps"));
-		m_combRate.AddString(_T("MCS5 MM SG 57.8 Mbps"));
-		m_combRate.AddString(_T("MCS6 MM SG 65 Mbps"));
-		m_combRate.AddString(_T("MCS7 MM SG 72.2 Mbps"));
-		m_combRate.SetCurSel(0);
-		for (int i = 0; i <= 15; i++)
-		{
-			m_combRate.SetItemData(i, i+23);
-		}
-	}
-	else if(m_combMode.GetCurSel() == 1 && m_combChannelBonding.GetCurSel() == 1) // 11 n -> 40MHz
-	{
-		m_combRate.ResetContent();
-		m_combRate.AddString(_T("MCS0 13.5 Mbps (40MHz) - 39")); // rate 39
-		m_combRate.AddString(_T("MCS1 27 Mbps (40MHz) - 40")); // rate 40
-		m_combRate.AddString(_T("MCS2 40.5 Mbps (40MHz) - 41"));
-		m_combRate.AddString(_T("MCS3 54 Mbps (40MHz) - 42"));
-		m_combRate.AddString(_T("MCS4 81 Mbps (40MHz) - 43"));
-		m_combRate.AddString(_T("MCS5 108 Mbps (40MHz) - 44"));
-		m_combRate.AddString(_T("MCS6 121.5 Mbps (40MHz) - 45"));
-		m_combRate.AddString(_T("MCS7 135 Mbps (40MHz) - 46"));
-		m_combRate.AddString(_T("MCS0 MM SG 15 Mbps (40MHz) - 47"));
-		m_combRate.AddString(_T("MCS1 MM SG 30 Mbps (40MHz) - 48"));
-		m_combRate.AddString(_T("MCS2 MM SG 45 Mbps (40MHz) - 49"));
-		m_combRate.AddString(_T("MCS3 MM SG 60 Mbps (40MHz) - 50"));
-		m_combRate.AddString(_T("MCS4 MM SG 90 Mbps (40MHz) - 51"));
-		m_combRate.AddString(_T("MCS5 MM SG 120 Mbps (40MHz) - 52"));
-		m_combRate.AddString(_T("MCS6 MM SG 135 Mbps (40MHz) - 53"));
-		m_combRate.AddString(_T("MCS7 MM SG 150 Mbps (40MHz) - 54"));
-		m_combRate.SetCurSel(0);
-		for (int i = 0; i <= 15; i++)
-		{
-			m_combRate.SetItemData(i, i+39);
-		}
-	}
-	else if(m_combMode.GetCurSel() == 2 && m_combChannelBonding.GetCurSel() == 0) // 11 ac -> 20MHz
-	{
-		m_combRate.ResetContent();
-		m_combRate.AddString(_T("11ac MCS0 NGI 6.5 Mbps (20MHz)"));  // rate 63
-		m_combRate.AddString(_T("11ac MCS1 NGI 13 Mbps (20MHz)"));  // rate 64
-		m_combRate.AddString(_T("11ac MCS2 NGI 19.5 Mbps (20MHz)"));  // rate 65
-		m_combRate.AddString(_T("11ac MCS3 NGI 26 Mbps (20MHz)"));
-		m_combRate.AddString(_T("11ac MCS4 NGI 39 Mbps (20MHz)"));
-		m_combRate.AddString(_T("11ac MCS5 NGI 52 Mbps (20MHz)"));
-		m_combRate.AddString(_T("11ac MCS6 NGI 58.5 Mbps (20MHz)"));
-		m_combRate.AddString(_T("11ac MCS7 NGI 65 Mbps (20MHz)"));
-		m_combRate.AddString(_T("11ac MCS8 NGI 78 Mbps (20MHz)"));
-		m_combRate.AddString(_T("11ac MCS0 SGI 7.2 Mbps (20MHz)"));
-		m_combRate.AddString(_T("11ac MCS1 SGI 14.4 Mbps (20MHz)"));
-		m_combRate.AddString(_T("11ac MCS2 SGI 21.6 Mbps (20MHz)"));
-		m_combRate.AddString(_T("11ac MCS3 SGI 28.8 Mbps (20MHz)"));
-		m_combRate.AddString(_T("11ac MCS4 SGI 43.3 Mbps (20MHz)"));
-		m_combRate.AddString(_T("11ac MCS5 SGI 57.7 Mbps (20MHz)"));
-		m_combRate.AddString(_T("11ac MCS6 SGI 65 Mbps (20MHz)"));
-		m_combRate.AddString(_T("11ac MCS7 SGI 72.2 Mbps (20MHz)"));
-		m_combRate.AddString(_T("11ac MCS8 SGI 86.6 Mbps (20MHz)"));
-		m_combRate.SetCurSel(0);
-		for (int i = 0; i <= 17; i++)
-		{
-			m_combRate.SetItemData(i, i+63);
-		}
-	}
-	else if(m_combMode.GetCurSel() == 2 && m_combChannelBonding.GetCurSel() == 1) // 11 ac -> 40MHz
-	{
-		m_combRate.ResetContent();
-		m_combRate.AddString(_T("11ac MCS0 NGI 13.5 Mbps (40MHz)"));  // rate 81
-		m_combRate.AddString(_T("11ac MCS1 NGI 27 Mbps (40MHz)"));  // rate 82
-		m_combRate.AddString(_T("11ac MCS2 NGI 40 Mbps (40MHz)"));
-		m_combRate.AddString(_T("11ac MCS3 NGI 54 Mbps (40MHz)"));
-		m_combRate.AddString(_T("11ac MCS4 NGI 81 Mbps (40MHz)"));
-		m_combRate.AddString(_T("11ac MCS5 NGI 108 Mbps (40MHz)"));
-		m_combRate.AddString(_T("11ac MCS6 NGI 121.5 Mbps (40MHz)"));
-		m_combRate.AddString(_T("11ac MCS7 NGI 135 Mbps (40MHz)"));
-		m_combRate.AddString(_T("11ac MCS8 NGI 162 Mbps (40MHz)"));
-		m_combRate.AddString(_T("11ac MCS9 NGI 180 Mbps (40MHz)"));
-		m_combRate.AddString(_T("11ac MCS0 SGI 15 Mbps (40MHz)"));
-		m_combRate.AddString(_T("11ac MCS1 SGI 30 Mbps (40MHz)"));
-		m_combRate.AddString(_T("11ac MCS2 SGI 45 Mbps (40MHz)"));
-		m_combRate.AddString(_T("11ac MCS3 SGI 60 Mbps (40MHz)"));
-		m_combRate.AddString(_T("11ac MCS4 SGI 90 Mbps (40MHz)"));
-		m_combRate.AddString(_T("11ac MCS5 SGI 120 Mbps (40MHz)"));
-		m_combRate.AddString(_T("11ac MCS6 SGI 135 Mbps (40MHz)"));
-		m_combRate.AddString(_T("11ac MCS7 SGI 150 Mbps (40MHz)"));
-		m_combRate.AddString(_T("11ac MCS8 SGI 180 Mbps (40MHz)"));
-		m_combRate.AddString(_T("11ac MCS9 SGI 200 Mbps (40MHz)"));
-		m_combRate.SetCurSel(0);
-		for (int i = 0; i <= 19; i++)
-		{
-			m_combRate.SetItemData(i, i+81);
-		}
-
-	}
-	else if(m_combMode.GetCurSel() == 2 && m_combChannelBonding.GetCurSel() == 2) // 11 ac -> 80MHz
-	{
-		m_combRate.ResetContent();
-		m_combRate.AddString(_T("11ac MCS0 NGI 29.3 Mbps (80MHz)"));  // rate 101
-		m_combRate.AddString(_T("11ac MCS1 NGI 58.5 Mbps (80MHz)"));
-		m_combRate.AddString(_T("11ac MCS2 NGI 87.8 Mbps (80MHz)"));
-		m_combRate.AddString(_T("11ac MCS3 NGI 117 Mbps (80MHz)"));
-		m_combRate.AddString(_T("11ac MCS4 NGI 175.5 Mbps (80MHz)"));
-		m_combRate.AddString(_T("11ac MCS5 NGI 234 Mbps (80MHz)"));
-		m_combRate.AddString(_T("11ac MCS6 NGI 263.3 Mbps (80MHz)"));
-		m_combRate.AddString(_T("11ac MCS7 NGI 292.5 Mbps (80MHz)"));
-		m_combRate.AddString(_T("11ac MCS8 NGI 351 Mbps (80MHz)"));
-		m_combRate.AddString(_T("11ac MCS9 NGI 390 Mbps (80MHz)"));
-		m_combRate.AddString(_T("11ac MCS0 SGI 32.5 Mbps (80MHz)"));
-		m_combRate.AddString(_T("11ac MCS1 SGI 65 Mbps (80MHz)"));
-		m_combRate.AddString(_T("11ac MCS2 SGI 97.5 Mbps (80MHz)"));
-		m_combRate.AddString(_T("11ac MCS3 SGI 130 Mbps (80MHz)"));
-		m_combRate.AddString(_T("11ac MCS4 SGI 195 Mbps (80MHz)"));
-		m_combRate.AddString(_T("11ac MCS5 SGI 260 Mbps (80MHz)"));
-		m_combRate.AddString(_T("11ac MCS6 SGI 292.5 Mbps (80MHz)"));
-		m_combRate.AddString(_T("11ac MCS7 SGI 325 Mbps (80MHz)"));
-		m_combRate.AddString(_T("11ac MCS8 SGI 390 Mbps (80MHz)"));
-		m_combRate.AddString(_T("11ac MCS9 SGI 433.3 Mbps (80MHz)"));
-		m_combRate.SetCurSel(0);
-		for (int i = 0; i <= 19; i++)
-		{
-			m_combRate.SetItemData(i, i+101);
-		}
-	}
-}
-
-void CRFCertification5GTx::OnCbnSelchangeComboChannelBounding()
-{
-	if(m_combChannelBonding.GetCurSel() == 0) // 20MHz
-	{
-		m_combChannel.ResetContent();
-		m_combChannel.AddString(_T("NOT SET"));
-		m_combChannel.SetItemData(0, 0);
-
-		char sz_text[50] = {0};
-		CString strTxt;
-		for (int i = 0; i < 8; i++ )
-		{
-			sprintf(sz_text, "RF_CHAN_%d(%d)", i*4+36, 5180+i*20);
-			strTxt = sz_text;
-			m_combChannel.AddString(strTxt);
-			//m_combChannel.SetItemData(i+1, i*4+36);
-			m_combChannel.SetItemData(i+1,  5180+i*20);
-		}
-		for (int i = 0; i < 12; i++ )
-		{
-			sprintf(sz_text, "RF_CHAN_%d(%d)", i*4+100, 5500+i*20);
-			strTxt = sz_text;
-			m_combChannel.AddString(strTxt);
-			//m_combChannel.SetItemData(i+1+8, i*4+100);
-			m_combChannel.SetItemData(i+1+8, 5500+i*20);
-		}
-		for (int i = 0; i < 5; i++ )
-		{
-			sprintf(sz_text, "RF_CHAN_%d(%d)", i*4+149, 5745+i*20);
-			strTxt = sz_text;
-			m_combChannel.AddString(strTxt);
-			//m_combChannel.SetItemData(i+1+8+12, i*4+149);
-			m_combChannel.SetItemData(i+1+8+12, 5745+i*20);
-		}
-		m_combChannel.SetCurSel(0);
-	}
-	else if(m_combChannelBonding.GetCurSel() == 1)  // 40MHz
-	{
-		m_combChannel.ResetContent();
-		m_combChannel.AddString(_T("NOT SET"));
-		m_combChannel.SetItemData(0, 0);
-
-		char sz_text[50] = {0};
-		CString strTxt;
-		for (int i = 0; i < 7; i++ )
-		{
-			sprintf(sz_text, "RF_CHAN_%d(%d)", i*4+38, 5190+i*20);
-			strTxt = sz_text;
-			m_combChannel.AddString(strTxt);
-			//m_combChannel.SetItemData(i+1, i*4+38+2);
-			m_combChannel.SetItemData(i+1, 5190+i*20);
-		}
-		for (int i = 0; i < 11; i++ )
-		{
-			sprintf(sz_text, "RF_CHAN_%d(%d)", i*4+102, 5510+i*20);
-			strTxt = sz_text;
-			m_combChannel.AddString(strTxt);
-			//m_combChannel.SetItemData(i+1+7, i*4+102+2);
-			m_combChannel.SetItemData(i+1+7, 5510+i*20);
-		}
-		for (int i = 0; i < 4; i++ )
-		{
-			sprintf(sz_text, "RF_CHAN_%d(%d)", i*4+151, 5755+i*20);
-			strTxt = sz_text;
-			m_combChannel.AddString(strTxt);
-			//m_combChannel.SetItemData(i+1+7+11, i*4+151+2);
-			m_combChannel.SetItemData(i+1+7+11, 5755+i*20);
-		}
-
-		m_combChannel.SetCurSel(0);
-	}
-	else if(m_combChannelBonding.GetCurSel() == 2)  // 80MHz
-	{
-		m_combChannel.ResetContent();
-		m_combChannel.AddString(_T("NOT SET"));
-		m_combChannel.SetItemData(0, 0);
-
-		char sz_text[50] = {0};
-		CString strTxt;
-		for (int i = 0; i < 5; i++ )
-		{
-			sprintf(sz_text, "RF_CHAN_%d(%d)", i*4+42, 5210+i*20);
-			strTxt = sz_text;
-			m_combChannel.AddString(strTxt);
-			//m_combChannel.SetItemData(i+1, i*4+42+2);
-			m_combChannel.SetItemData(i+1, 5210+i*20);
-		}
-		for (int i = 0; i < 9; i++ )
-		{
-			sprintf(sz_text, "RF_CHAN_%d(%d)", i*4+106, 5530+i*20);
-			strTxt = sz_text;
-			m_combChannel.AddString(strTxt);
-			//m_combChannel.SetItemData(i+1+5, i*4+106+2);
-			m_combChannel.SetItemData(i+1+5,  5530+i*20);
-		}
-		for (int i = 0; i < 2; i++ )
-		{
-			sprintf(sz_text, "RF_CHAN_%d(%d)", i*4+155, 5775+i*20);
-			strTxt = sz_text;
-			m_combChannel.AddString(strTxt);
-			//m_combChannel.SetItemData(i+1+5+9, i*4+155+2);
-			m_combChannel.SetItemData(i+1+5+9,  5775+i*20);
-		}
-
-		m_combChannel.SetCurSel(0);
-	}
-
-	if (m_combMode.GetCurSel() == 0 && m_combChannelBonding.GetCurSel() == 0) // 11 a/g -> 20MHz
-	{
-		m_combRate.ResetContent();
-		m_combRate.AddString(_T("11g 6 Mbps - 7")); // rate 7
-		m_combRate.AddString(_T("11g 9 Mbps - 8"));
-		m_combRate.AddString(_T("11g 12 Mbps - 9"));
-		m_combRate.AddString(_T("11g 18 Mbps - 10"));
-		m_combRate.AddString(_T("11g 24 Mbps - 11"));
-		m_combRate.AddString(_T("11g 36 Mbps - 12"));
-		m_combRate.AddString(_T("11g 48 Mbps - 13"));
-		m_combRate.AddString(_T("11g 54 Mbps - 14"));
-		m_combRate.SetCurSel(0);
-		for (int i = 0; i <= 7; i++)
-		{
-			m_combRate.SetItemData(i, i+7);
-		}
-	}
-	else if(m_combMode.GetCurSel() == 1 && m_combChannelBonding.GetCurSel() == 0) // 11 n -> 20MHz
-	{
-		m_combRate.ResetContent();
-		m_combRate.AddString(_T("MCS0 6.5 Mbps"));
-		m_combRate.AddString(_T("MCS1 13 Mbps"));
-		m_combRate.AddString(_T("MCS2 19.5 Mbps"));
-		m_combRate.AddString(_T("MCS3 26 Mbps"));
-		m_combRate.AddString(_T("MCS4 39 Mbps"));
-		m_combRate.AddString(_T("MCS5 52 Mbps"));
-		m_combRate.AddString(_T("MCS6 58.5 Mbps"));
-		m_combRate.AddString(_T("MCS7 65 Mbps"));
-		m_combRate.AddString(_T("MCS0 MM SG 7.2 Mbps"));
-		m_combRate.AddString(_T("MCS1 MM SG 14.4 Mbps"));
-		m_combRate.AddString(_T("MCS2 MM SG 21.7 Mbps"));
-		m_combRate.AddString(_T("MCS3 MM SG 28.9 Mbps"));
-		m_combRate.AddString(_T("MCS4 MM SG 43.3 Mbps"));
-		m_combRate.AddString(_T("MCS5 MM SG 57.8 Mbps"));
-		m_combRate.AddString(_T("MCS6 MM SG 65 Mbps"));
-		m_combRate.AddString(_T("MCS7 MM SG 72.2 Mbps"));
-		m_combRate.SetCurSel(0);
-		for (int i = 0; i <= 15; i++)
-		{
-			m_combRate.SetItemData(i, i+23);
-		}
-	}
-	else if(m_combMode.GetCurSel() == 1 && m_combChannelBonding.GetCurSel() == 1) // 11 n -> 40MHz
-	{
-		m_combRate.ResetContent();
-		m_combRate.AddString(_T("MCS0 13.5 Mbps (40MHz) - 39")); // rate 39
-		m_combRate.AddString(_T("MCS1 27 Mbps (40MHz) - 40")); // rate 40
-		m_combRate.AddString(_T("MCS2 40.5 Mbps (40MHz) - 41"));
-		m_combRate.AddString(_T("MCS3 54 Mbps (40MHz) - 42"));
-		m_combRate.AddString(_T("MCS4 81 Mbps (40MHz) - 43"));
-		m_combRate.AddString(_T("MCS5 108 Mbps (40MHz) - 44"));
-		m_combRate.AddString(_T("MCS6 121.5 Mbps (40MHz) - 45"));
-		m_combRate.AddString(_T("MCS7 135 Mbps (40MHz) - 46"));
-		m_combRate.AddString(_T("MCS0 MM SG 15 Mbps (40MHz) - 47"));
-		m_combRate.AddString(_T("MCS1 MM SG 30 Mbps (40MHz) - 48"));
-		m_combRate.AddString(_T("MCS2 MM SG 45 Mbps (40MHz) - 49"));
-		m_combRate.AddString(_T("MCS3 MM SG 60 Mbps (40MHz) - 50"));
-		m_combRate.AddString(_T("MCS4 MM SG 90 Mbps (40MHz) - 51"));
-		m_combRate.AddString(_T("MCS5 MM SG 120 Mbps (40MHz) - 52"));
-		m_combRate.AddString(_T("MCS6 MM SG 135 Mbps (40MHz) - 53"));
-		m_combRate.AddString(_T("MCS7 MM SG 150 Mbps (40MHz) - 54"));
-		m_combRate.SetCurSel(0);
-		for (int i = 0; i <= 15; i++)
-		{
-			m_combRate.SetItemData(i, i+39);
-		}
-	}
-	else if(m_combMode.GetCurSel() == 2 && m_combChannelBonding.GetCurSel() == 0) // 11 ac -> 20MHz
-	{
-		m_combRate.ResetContent();
-		m_combRate.AddString(_T("11ac MCS0 NGI 6.5 Mbps (20MHz)"));  // rate 63
-		m_combRate.AddString(_T("11ac MCS1 NGI 13 Mbps (20MHz)"));  // rate 64
-		m_combRate.AddString(_T("11ac MCS2 NGI 19.5 Mbps (20MHz)"));  // rate 65
-		m_combRate.AddString(_T("11ac MCS3 NGI 26 Mbps (20MHz)"));
-		m_combRate.AddString(_T("11ac MCS4 NGI 39 Mbps (20MHz)"));
-		m_combRate.AddString(_T("11ac MCS5 NGI 52 Mbps (20MHz)"));
-		m_combRate.AddString(_T("11ac MCS6 NGI 58.5 Mbps (20MHz)"));
-		m_combRate.AddString(_T("11ac MCS7 NGI 65 Mbps (20MHz)"));
-		m_combRate.AddString(_T("11ac MCS8 NGI 78 Mbps (20MHz)"));
-		m_combRate.AddString(_T("11ac MCS0 SGI 7.2 Mbps (20MHz)"));
-		m_combRate.AddString(_T("11ac MCS1 SGI 14.4 Mbps (20MHz)"));
-		m_combRate.AddString(_T("11ac MCS2 SGI 21.6 Mbps (20MHz)"));
-		m_combRate.AddString(_T("11ac MCS3 SGI 28.8 Mbps (20MHz)"));
-		m_combRate.AddString(_T("11ac MCS4 SGI 43.3 Mbps (20MHz)"));
-		m_combRate.AddString(_T("11ac MCS5 SGI 57.7 Mbps (20MHz)"));
-		m_combRate.AddString(_T("11ac MCS6 SGI 65 Mbps (20MHz)"));
-		m_combRate.AddString(_T("11ac MCS7 SGI 72.2 Mbps (20MHz)"));
-		m_combRate.AddString(_T("11ac MCS8 SGI 86.6 Mbps (20MHz)"));
-		m_combRate.SetCurSel(0);
-		for (int i = 0; i <= 17; i++)
-		{
-			m_combRate.SetItemData(i, i+63);
-		}
-	}
-	else if(m_combMode.GetCurSel() == 2 && m_combChannelBonding.GetCurSel() == 1) // 11 ac -> 40MHz
-	{
-		m_combRate.ResetContent();
-		m_combRate.AddString(_T("11ac MCS0 NGI 13.5 Mbps (40MHz)"));  // rate 81
-		m_combRate.AddString(_T("11ac MCS1 NGI 27 Mbps (40MHz)"));  // rate 82
-		m_combRate.AddString(_T("11ac MCS2 NGI 40 Mbps (40MHz)"));
-		m_combRate.AddString(_T("11ac MCS3 NGI 54 Mbps (40MHz)"));
-		m_combRate.AddString(_T("11ac MCS4 NGI 81 Mbps (40MHz)"));
-		m_combRate.AddString(_T("11ac MCS5 NGI 108 Mbps (40MHz)"));
-		m_combRate.AddString(_T("11ac MCS6 NGI 121.5 Mbps (40MHz)"));
-		m_combRate.AddString(_T("11ac MCS7 NGI 135 Mbps (40MHz)"));
-		m_combRate.AddString(_T("11ac MCS8 NGI 162 Mbps (40MHz)"));
-		m_combRate.AddString(_T("11ac MCS9 NGI 180 Mbps (40MHz)"));
-		m_combRate.AddString(_T("11ac MCS0 SGI 15 Mbps (40MHz)"));
-		m_combRate.AddString(_T("11ac MCS1 SGI 30 Mbps (40MHz)"));
-		m_combRate.AddString(_T("11ac MCS2 SGI 45 Mbps (40MHz)"));
-		m_combRate.AddString(_T("11ac MCS3 SGI 60 Mbps (40MHz)"));
-		m_combRate.AddString(_T("11ac MCS4 SGI 90 Mbps (40MHz)"));
-		m_combRate.AddString(_T("11ac MCS5 SGI 120 Mbps (40MHz)"));
-		m_combRate.AddString(_T("11ac MCS6 SGI 135 Mbps (40MHz)"));
-		m_combRate.AddString(_T("11ac MCS7 SGI 150 Mbps (40MHz)"));
-		m_combRate.AddString(_T("11ac MCS8 SGI 180 Mbps (40MHz)"));
-		m_combRate.AddString(_T("11ac MCS9 SGI 200 Mbps (40MHz)"));
-		m_combRate.SetCurSel(0);
-		for (int i = 0; i <= 19; i++)
-		{
-			m_combRate.SetItemData(i, i+81);
-		}
-
-	}
-	else if(m_combMode.GetCurSel() == 2 && m_combChannelBonding.GetCurSel() == 2) // 11 ac -> 80MHz
-	{
-		m_combRate.ResetContent();
-		m_combRate.AddString(_T("11ac MCS0 NGI 29.3 Mbps (80MHz)"));  // rate 101
-		m_combRate.AddString(_T("11ac MCS1 NGI 58.5 Mbps (80MHz)"));
-		m_combRate.AddString(_T("11ac MCS2 NGI 87.8 Mbps (80MHz)"));
-		m_combRate.AddString(_T("11ac MCS3 NGI 117 Mbps (80MHz)"));
-		m_combRate.AddString(_T("11ac MCS4 NGI 175.5 Mbps (80MHz)"));
-		m_combRate.AddString(_T("11ac MCS5 NGI 234 Mbps (80MHz)"));
-		m_combRate.AddString(_T("11ac MCS6 NGI 263.3 Mbps (80MHz)"));
-		m_combRate.AddString(_T("11ac MCS7 NGI 292.5 Mbps (80MHz)"));
-		m_combRate.AddString(_T("11ac MCS8 NGI 351 Mbps (80MHz)"));
-		m_combRate.AddString(_T("11ac MCS9 NGI 390 Mbps (80MHz)"));
-		m_combRate.AddString(_T("11ac MCS0 SGI 32.5 Mbps (80MHz)"));
-		m_combRate.AddString(_T("11ac MCS1 SGI 65 Mbps (80MHz)"));
-		m_combRate.AddString(_T("11ac MCS2 SGI 97.5 Mbps (80MHz)"));
-		m_combRate.AddString(_T("11ac MCS3 SGI 130 Mbps (80MHz)"));
-		m_combRate.AddString(_T("11ac MCS4 SGI 195 Mbps (80MHz)"));
-		m_combRate.AddString(_T("11ac MCS5 SGI 260 Mbps (80MHz)"));
-		m_combRate.AddString(_T("11ac MCS6 SGI 292.5 Mbps (80MHz)"));
-		m_combRate.AddString(_T("11ac MCS7 SGI 325 Mbps (80MHz)"));
-		m_combRate.AddString(_T("11ac MCS8 SGI 390 Mbps (80MHz)"));
-		m_combRate.AddString(_T("11ac MCS9 SGI 433.3 Mbps (80MHz)"));
-		m_combRate.SetCurSel(0);
-		for (int i = 0; i <= 19; i++)
-		{
-			m_combRate.SetItemData(i, i+101);
-		}
-	}
-}
+//void CRFCertification5GTx::OnCbnSelchangeComboMode()
+//{
+//	// reset channel
+//	m_combChannel.ResetContent();
+//	m_combChannel.AddString(_T("NOT SET"));
+//	m_combChannel.SetItemData(0, 0);
+//
+//	char sz_text[50] = {0};
+//	CString strTxt;
+//	for (int i = 0; i < 8; i++ )
+//	{
+//		sprintf(sz_text, "RF_CHAN_%d(%d)", i*4+36, 5180+i*20);
+//		strTxt = sz_text;
+//		m_combChannel.AddString(strTxt);
+//		//m_combChannel.SetItemData(i+1, i*4+36);
+//		m_combChannel.SetItemData(i+1, 5180+i*20);
+//	}
+//	for (int i = 0; i < 12; i++ )
+//	{
+//		sprintf(sz_text, "RF_CHAN_%d(%d)", i*4+100, 5500+i*20);
+//		strTxt = sz_text;
+//		m_combChannel.AddString(strTxt);
+//		//m_combChannel.SetItemData(i+1+8, i*4+100);
+//		m_combChannel.SetItemData(i+1+8,  5500+i*20);
+//	}
+//	for (int i = 0; i < 5; i++ )
+//	{
+//		sprintf(sz_text, "RF_CHAN_%d(%d)", i*4+149, 5745+i*20);
+//		strTxt = sz_text;
+//		m_combChannel.AddString(strTxt);
+//		//m_combChannel.SetItemData(i+1+8+12, i*4+149);
+//		m_combChannel.SetItemData(i+1+8+12, 5745+i*20);
+//	}
+//	m_combChannel.SetCurSel(0);
+//
+//	if (m_combMode.GetCurSel() == 0)
+//	{
+//		// reset text
+//		GetDlgItem(IDC_STATIC_PS1)->SetWindowText(_T("(Range: 1 to 4091)"));
+//
+//		m_combChannelBonding.ResetContent();
+//		m_combChannelBonding.AddString(_T("20MHz"));
+//		m_combChannelBonding.SetItemData(0, 0);
+//		m_combChannelBonding.SetCurSel(0);
+//	}
+//	else if(m_combMode.GetCurSel() == 1)
+//	{
+//		// reset text
+//		GetDlgItem(IDC_STATIC_PS1)->SetWindowText(_T("(Range: 1 to 4091)"));
+//
+//		m_combChannelBonding.ResetContent();
+//		m_combChannelBonding.AddString(_T("20MHz"));
+//		m_combChannelBonding.SetItemData(0, 0);
+//		m_combChannelBonding.AddString(_T("40MHz"));
+//		m_combChannelBonding.SetItemData(1, 3);
+//		m_combChannelBonding.SetCurSel(0);
+//	}
+//	else if(m_combMode.GetCurSel() == 2)
+//	{
+//		// reset text
+//		GetDlgItem(IDC_STATIC_PS1)->SetWindowText(_T("(Range: 1 to 756)"));
+//
+//		m_combChannelBonding.ResetContent();
+//		m_combChannelBonding.AddString(_T("20MHz"));
+//		m_combChannelBonding.SetItemData(0, 0);
+//		m_combChannelBonding.AddString(_T("40MHz"));
+//		m_combChannelBonding.SetItemData(1, 3);
+//		m_combChannelBonding.AddString(_T("80MHz"));
+//		m_combChannelBonding.SetItemData(2, 6);
+//		m_combChannelBonding.SetCurSel(0);
+//	}
+//
+//	if (m_combMode.GetCurSel() == 0 && m_combChannelBonding.GetCurSel() == 0) // 11 a/g -> 20MHz
+//	{
+//		m_combRate.ResetContent();
+//		m_combRate.AddString(_T("11g 6 Mbps - 7")); // rate 7
+//		m_combRate.AddString(_T("11g 9 Mbps - 8"));
+//		m_combRate.AddString(_T("11g 12 Mbps - 9"));
+//		m_combRate.AddString(_T("11g 18 Mbps - 10"));
+//		m_combRate.AddString(_T("11g 24 Mbps - 11"));
+//		m_combRate.AddString(_T("11g 36 Mbps - 12"));
+//		m_combRate.AddString(_T("11g 48 Mbps - 13"));
+//		m_combRate.AddString(_T("11g 54 Mbps - 14"));
+//		m_combRate.SetCurSel(0);
+//		for (int i = 0; i <= 7; i++)
+//		{
+//			m_combRate.SetItemData(i, i+7);
+//		}
+//	}
+//	else if(m_combMode.GetCurSel() == 1 && m_combChannelBonding.GetCurSel() == 0) // 11 n -> 20MHz
+//	{
+//		m_combRate.ResetContent();
+//		m_combRate.AddString(_T("MCS0 6.5 Mbps"));
+//		m_combRate.AddString(_T("MCS1 13 Mbps"));
+//		m_combRate.AddString(_T("MCS2 19.5 Mbps"));
+//		m_combRate.AddString(_T("MCS3 26 Mbps"));
+//		m_combRate.AddString(_T("MCS4 39 Mbps"));
+//		m_combRate.AddString(_T("MCS5 52 Mbps"));
+//		m_combRate.AddString(_T("MCS6 58.5 Mbps"));
+//		m_combRate.AddString(_T("MCS7 65 Mbps"));
+//		m_combRate.AddString(_T("MCS0 MM SG 7.2 Mbps"));
+//		m_combRate.AddString(_T("MCS1 MM SG 14.4 Mbps"));
+//		m_combRate.AddString(_T("MCS2 MM SG 21.7 Mbps"));
+//		m_combRate.AddString(_T("MCS3 MM SG 28.9 Mbps"));
+//		m_combRate.AddString(_T("MCS4 MM SG 43.3 Mbps"));
+//		m_combRate.AddString(_T("MCS5 MM SG 57.8 Mbps"));
+//		m_combRate.AddString(_T("MCS6 MM SG 65 Mbps"));
+//		m_combRate.AddString(_T("MCS7 MM SG 72.2 Mbps"));
+//		m_combRate.SetCurSel(0);
+//		for (int i = 0; i <= 15; i++)
+//		{
+//			m_combRate.SetItemData(i, i+23);
+//		}
+//	}
+//	else if(m_combMode.GetCurSel() == 1 && m_combChannelBonding.GetCurSel() == 1) // 11 n -> 40MHz
+//	{
+//		m_combRate.ResetContent();
+//		m_combRate.AddString(_T("MCS0 13.5 Mbps (40MHz) - 39")); // rate 39
+//		m_combRate.AddString(_T("MCS1 27 Mbps (40MHz) - 40")); // rate 40
+//		m_combRate.AddString(_T("MCS2 40.5 Mbps (40MHz) - 41"));
+//		m_combRate.AddString(_T("MCS3 54 Mbps (40MHz) - 42"));
+//		m_combRate.AddString(_T("MCS4 81 Mbps (40MHz) - 43"));
+//		m_combRate.AddString(_T("MCS5 108 Mbps (40MHz) - 44"));
+//		m_combRate.AddString(_T("MCS6 121.5 Mbps (40MHz) - 45"));
+//		m_combRate.AddString(_T("MCS7 135 Mbps (40MHz) - 46"));
+//		m_combRate.AddString(_T("MCS0 MM SG 15 Mbps (40MHz) - 47"));
+//		m_combRate.AddString(_T("MCS1 MM SG 30 Mbps (40MHz) - 48"));
+//		m_combRate.AddString(_T("MCS2 MM SG 45 Mbps (40MHz) - 49"));
+//		m_combRate.AddString(_T("MCS3 MM SG 60 Mbps (40MHz) - 50"));
+//		m_combRate.AddString(_T("MCS4 MM SG 90 Mbps (40MHz) - 51"));
+//		m_combRate.AddString(_T("MCS5 MM SG 120 Mbps (40MHz) - 52"));
+//		m_combRate.AddString(_T("MCS6 MM SG 135 Mbps (40MHz) - 53"));
+//		m_combRate.AddString(_T("MCS7 MM SG 150 Mbps (40MHz) - 54"));
+//		m_combRate.SetCurSel(0);
+//		for (int i = 0; i <= 15; i++)
+//		{
+//			m_combRate.SetItemData(i, i+39);
+//		}
+//	}
+//	else if(m_combMode.GetCurSel() == 2 && m_combChannelBonding.GetCurSel() == 0) // 11 ac -> 20MHz
+//	{
+//		m_combRate.ResetContent();
+//		m_combRate.AddString(_T("11ac MCS0 NGI 6.5 Mbps (20MHz)"));  // rate 63
+//		m_combRate.AddString(_T("11ac MCS1 NGI 13 Mbps (20MHz)"));  // rate 64
+//		m_combRate.AddString(_T("11ac MCS2 NGI 19.5 Mbps (20MHz)"));  // rate 65
+//		m_combRate.AddString(_T("11ac MCS3 NGI 26 Mbps (20MHz)"));
+//		m_combRate.AddString(_T("11ac MCS4 NGI 39 Mbps (20MHz)"));
+//		m_combRate.AddString(_T("11ac MCS5 NGI 52 Mbps (20MHz)"));
+//		m_combRate.AddString(_T("11ac MCS6 NGI 58.5 Mbps (20MHz)"));
+//		m_combRate.AddString(_T("11ac MCS7 NGI 65 Mbps (20MHz)"));
+//		m_combRate.AddString(_T("11ac MCS8 NGI 78 Mbps (20MHz)"));
+//		m_combRate.AddString(_T("11ac MCS0 SGI 7.2 Mbps (20MHz)"));
+//		m_combRate.AddString(_T("11ac MCS1 SGI 14.4 Mbps (20MHz)"));
+//		m_combRate.AddString(_T("11ac MCS2 SGI 21.6 Mbps (20MHz)"));
+//		m_combRate.AddString(_T("11ac MCS3 SGI 28.8 Mbps (20MHz)"));
+//		m_combRate.AddString(_T("11ac MCS4 SGI 43.3 Mbps (20MHz)"));
+//		m_combRate.AddString(_T("11ac MCS5 SGI 57.7 Mbps (20MHz)"));
+//		m_combRate.AddString(_T("11ac MCS6 SGI 65 Mbps (20MHz)"));
+//		m_combRate.AddString(_T("11ac MCS7 SGI 72.2 Mbps (20MHz)"));
+//		m_combRate.AddString(_T("11ac MCS8 SGI 86.6 Mbps (20MHz)"));
+//		m_combRate.SetCurSel(0);
+//		for (int i = 0; i <= 17; i++)
+//		{
+//			m_combRate.SetItemData(i, i+63);
+//		}
+//	}
+//	else if(m_combMode.GetCurSel() == 2 && m_combChannelBonding.GetCurSel() == 1) // 11 ac -> 40MHz
+//	{
+//		m_combRate.ResetContent();
+//		m_combRate.AddString(_T("11ac MCS0 NGI 13.5 Mbps (40MHz)"));  // rate 81
+//		m_combRate.AddString(_T("11ac MCS1 NGI 27 Mbps (40MHz)"));  // rate 82
+//		m_combRate.AddString(_T("11ac MCS2 NGI 40 Mbps (40MHz)"));
+//		m_combRate.AddString(_T("11ac MCS3 NGI 54 Mbps (40MHz)"));
+//		m_combRate.AddString(_T("11ac MCS4 NGI 81 Mbps (40MHz)"));
+//		m_combRate.AddString(_T("11ac MCS5 NGI 108 Mbps (40MHz)"));
+//		m_combRate.AddString(_T("11ac MCS6 NGI 121.5 Mbps (40MHz)"));
+//		m_combRate.AddString(_T("11ac MCS7 NGI 135 Mbps (40MHz)"));
+//		m_combRate.AddString(_T("11ac MCS8 NGI 162 Mbps (40MHz)"));
+//		m_combRate.AddString(_T("11ac MCS9 NGI 180 Mbps (40MHz)"));
+//		m_combRate.AddString(_T("11ac MCS0 SGI 15 Mbps (40MHz)"));
+//		m_combRate.AddString(_T("11ac MCS1 SGI 30 Mbps (40MHz)"));
+//		m_combRate.AddString(_T("11ac MCS2 SGI 45 Mbps (40MHz)"));
+//		m_combRate.AddString(_T("11ac MCS3 SGI 60 Mbps (40MHz)"));
+//		m_combRate.AddString(_T("11ac MCS4 SGI 90 Mbps (40MHz)"));
+//		m_combRate.AddString(_T("11ac MCS5 SGI 120 Mbps (40MHz)"));
+//		m_combRate.AddString(_T("11ac MCS6 SGI 135 Mbps (40MHz)"));
+//		m_combRate.AddString(_T("11ac MCS7 SGI 150 Mbps (40MHz)"));
+//		m_combRate.AddString(_T("11ac MCS8 SGI 180 Mbps (40MHz)"));
+//		m_combRate.AddString(_T("11ac MCS9 SGI 200 Mbps (40MHz)"));
+//		m_combRate.SetCurSel(0);
+//		for (int i = 0; i <= 19; i++)
+//		{
+//			m_combRate.SetItemData(i, i+81);
+//		}
+//
+//	}
+//	else if(m_combMode.GetCurSel() == 2 && m_combChannelBonding.GetCurSel() == 2) // 11 ac -> 80MHz
+//	{
+//		m_combRate.ResetContent();
+//		m_combRate.AddString(_T("11ac MCS0 NGI 29.3 Mbps (80MHz)"));  // rate 101
+//		m_combRate.AddString(_T("11ac MCS1 NGI 58.5 Mbps (80MHz)"));
+//		m_combRate.AddString(_T("11ac MCS2 NGI 87.8 Mbps (80MHz)"));
+//		m_combRate.AddString(_T("11ac MCS3 NGI 117 Mbps (80MHz)"));
+//		m_combRate.AddString(_T("11ac MCS4 NGI 175.5 Mbps (80MHz)"));
+//		m_combRate.AddString(_T("11ac MCS5 NGI 234 Mbps (80MHz)"));
+//		m_combRate.AddString(_T("11ac MCS6 NGI 263.3 Mbps (80MHz)"));
+//		m_combRate.AddString(_T("11ac MCS7 NGI 292.5 Mbps (80MHz)"));
+//		m_combRate.AddString(_T("11ac MCS8 NGI 351 Mbps (80MHz)"));
+//		m_combRate.AddString(_T("11ac MCS9 NGI 390 Mbps (80MHz)"));
+//		m_combRate.AddString(_T("11ac MCS0 SGI 32.5 Mbps (80MHz)"));
+//		m_combRate.AddString(_T("11ac MCS1 SGI 65 Mbps (80MHz)"));
+//		m_combRate.AddString(_T("11ac MCS2 SGI 97.5 Mbps (80MHz)"));
+//		m_combRate.AddString(_T("11ac MCS3 SGI 130 Mbps (80MHz)"));
+//		m_combRate.AddString(_T("11ac MCS4 SGI 195 Mbps (80MHz)"));
+//		m_combRate.AddString(_T("11ac MCS5 SGI 260 Mbps (80MHz)"));
+//		m_combRate.AddString(_T("11ac MCS6 SGI 292.5 Mbps (80MHz)"));
+//		m_combRate.AddString(_T("11ac MCS7 SGI 325 Mbps (80MHz)"));
+//		m_combRate.AddString(_T("11ac MCS8 SGI 390 Mbps (80MHz)"));
+//		m_combRate.AddString(_T("11ac MCS9 SGI 433.3 Mbps (80MHz)"));
+//		m_combRate.SetCurSel(0);
+//		for (int i = 0; i <= 19; i++)
+//		{
+//			m_combRate.SetItemData(i, i+101);
+//		}
+//	}
+//}
+//
+//void CRFCertification5GTx::OnCbnSelchangeComboChannelBounding()
+//{
+//	if(m_combChannelBonding.GetCurSel() == 0) // 20MHz
+//	{
+//		m_combChannel.ResetContent();
+//		m_combChannel.AddString(_T("NOT SET"));
+//		m_combChannel.SetItemData(0, 0);
+//
+//		char sz_text[50] = {0};
+//		CString strTxt;
+//		for (int i = 0; i < 8; i++ )
+//		{
+//			sprintf(sz_text, "RF_CHAN_%d(%d)", i*4+36, 5180+i*20);
+//			strTxt = sz_text;
+//			m_combChannel.AddString(strTxt);
+//			//m_combChannel.SetItemData(i+1, i*4+36);
+//			m_combChannel.SetItemData(i+1,  5180+i*20);
+//		}
+//		for (int i = 0; i < 12; i++ )
+//		{
+//			sprintf(sz_text, "RF_CHAN_%d(%d)", i*4+100, 5500+i*20);
+//			strTxt = sz_text;
+//			m_combChannel.AddString(strTxt);
+//			//m_combChannel.SetItemData(i+1+8, i*4+100);
+//			m_combChannel.SetItemData(i+1+8, 5500+i*20);
+//		}
+//		for (int i = 0; i < 5; i++ )
+//		{
+//			sprintf(sz_text, "RF_CHAN_%d(%d)", i*4+149, 5745+i*20);
+//			strTxt = sz_text;
+//			m_combChannel.AddString(strTxt);
+//			//m_combChannel.SetItemData(i+1+8+12, i*4+149);
+//			m_combChannel.SetItemData(i+1+8+12, 5745+i*20);
+//		}
+//		m_combChannel.SetCurSel(0);
+//	}
+//	else if(m_combChannelBonding.GetCurSel() == 1)  // 40MHz
+//	{
+//		m_combChannel.ResetContent();
+//		m_combChannel.AddString(_T("NOT SET"));
+//		m_combChannel.SetItemData(0, 0);
+//
+//		char sz_text[50] = {0};
+//		CString strTxt;
+//		for (int i = 0; i < 7; i++ )
+//		{
+//			sprintf(sz_text, "RF_CHAN_%d(%d)", i*4+38, 5190+i*20);
+//			strTxt = sz_text;
+//			m_combChannel.AddString(strTxt);
+//			//m_combChannel.SetItemData(i+1, i*4+38+2);
+//			m_combChannel.SetItemData(i+1, 5190+i*20);
+//		}
+//		for (int i = 0; i < 11; i++ )
+//		{
+//			sprintf(sz_text, "RF_CHAN_%d(%d)", i*4+102, 5510+i*20);
+//			strTxt = sz_text;
+//			m_combChannel.AddString(strTxt);
+//			//m_combChannel.SetItemData(i+1+7, i*4+102+2);
+//			m_combChannel.SetItemData(i+1+7, 5510+i*20);
+//		}
+//		for (int i = 0; i < 4; i++ )
+//		{
+//			sprintf(sz_text, "RF_CHAN_%d(%d)", i*4+151, 5755+i*20);
+//			strTxt = sz_text;
+//			m_combChannel.AddString(strTxt);
+//			//m_combChannel.SetItemData(i+1+7+11, i*4+151+2);
+//			m_combChannel.SetItemData(i+1+7+11, 5755+i*20);
+//		}
+//
+//		m_combChannel.SetCurSel(0);
+//	}
+//	else if(m_combChannelBonding.GetCurSel() == 2)  // 80MHz
+//	{
+//		m_combChannel.ResetContent();
+//		m_combChannel.AddString(_T("NOT SET"));
+//		m_combChannel.SetItemData(0, 0);
+//
+//		char sz_text[50] = {0};
+//		CString strTxt;
+//		for (int i = 0; i < 5; i++ )
+//		{
+//			sprintf(sz_text, "RF_CHAN_%d(%d)", i*4+42, 5210+i*20);
+//			strTxt = sz_text;
+//			m_combChannel.AddString(strTxt);
+//			//m_combChannel.SetItemData(i+1, i*4+42+2);
+//			m_combChannel.SetItemData(i+1, 5210+i*20);
+//		}
+//		for (int i = 0; i < 9; i++ )
+//		{
+//			sprintf(sz_text, "RF_CHAN_%d(%d)", i*4+106, 5530+i*20);
+//			strTxt = sz_text;
+//			m_combChannel.AddString(strTxt);
+//			//m_combChannel.SetItemData(i+1+5, i*4+106+2);
+//			m_combChannel.SetItemData(i+1+5,  5530+i*20);
+//		}
+//		for (int i = 0; i < 2; i++ )
+//		{
+//			sprintf(sz_text, "RF_CHAN_%d(%d)", i*4+155, 5775+i*20);
+//			strTxt = sz_text;
+//			m_combChannel.AddString(strTxt);
+//			//m_combChannel.SetItemData(i+1+5+9, i*4+155+2);
+//			m_combChannel.SetItemData(i+1+5+9,  5775+i*20);
+//		}
+//
+//		m_combChannel.SetCurSel(0);
+//	}
+//
+//	if (m_combMode.GetCurSel() == 0 && m_combChannelBonding.GetCurSel() == 0) // 11 a/g -> 20MHz
+//	{
+//		m_combRate.ResetContent();
+//		m_combRate.AddString(_T("11g 6 Mbps - 7")); // rate 7
+//		m_combRate.AddString(_T("11g 9 Mbps - 8"));
+//		m_combRate.AddString(_T("11g 12 Mbps - 9"));
+//		m_combRate.AddString(_T("11g 18 Mbps - 10"));
+//		m_combRate.AddString(_T("11g 24 Mbps - 11"));
+//		m_combRate.AddString(_T("11g 36 Mbps - 12"));
+//		m_combRate.AddString(_T("11g 48 Mbps - 13"));
+//		m_combRate.AddString(_T("11g 54 Mbps - 14"));
+//		m_combRate.SetCurSel(0);
+//		for (int i = 0; i <= 7; i++)
+//		{
+//			m_combRate.SetItemData(i, i+7);
+//		}
+//	}
+//	else if(m_combMode.GetCurSel() == 1 && m_combChannelBonding.GetCurSel() == 0) // 11 n -> 20MHz
+//	{
+//		m_combRate.ResetContent();
+//		m_combRate.AddString(_T("MCS0 6.5 Mbps"));
+//		m_combRate.AddString(_T("MCS1 13 Mbps"));
+//		m_combRate.AddString(_T("MCS2 19.5 Mbps"));
+//		m_combRate.AddString(_T("MCS3 26 Mbps"));
+//		m_combRate.AddString(_T("MCS4 39 Mbps"));
+//		m_combRate.AddString(_T("MCS5 52 Mbps"));
+//		m_combRate.AddString(_T("MCS6 58.5 Mbps"));
+//		m_combRate.AddString(_T("MCS7 65 Mbps"));
+//		m_combRate.AddString(_T("MCS0 MM SG 7.2 Mbps"));
+//		m_combRate.AddString(_T("MCS1 MM SG 14.4 Mbps"));
+//		m_combRate.AddString(_T("MCS2 MM SG 21.7 Mbps"));
+//		m_combRate.AddString(_T("MCS3 MM SG 28.9 Mbps"));
+//		m_combRate.AddString(_T("MCS4 MM SG 43.3 Mbps"));
+//		m_combRate.AddString(_T("MCS5 MM SG 57.8 Mbps"));
+//		m_combRate.AddString(_T("MCS6 MM SG 65 Mbps"));
+//		m_combRate.AddString(_T("MCS7 MM SG 72.2 Mbps"));
+//		m_combRate.SetCurSel(0);
+//		for (int i = 0; i <= 15; i++)
+//		{
+//			m_combRate.SetItemData(i, i+23);
+//		}
+//	}
+//	else if(m_combMode.GetCurSel() == 1 && m_combChannelBonding.GetCurSel() == 1) // 11 n -> 40MHz
+//	{
+//		m_combRate.ResetContent();
+//		m_combRate.AddString(_T("MCS0 13.5 Mbps (40MHz) - 39")); // rate 39
+//		m_combRate.AddString(_T("MCS1 27 Mbps (40MHz) - 40")); // rate 40
+//		m_combRate.AddString(_T("MCS2 40.5 Mbps (40MHz) - 41"));
+//		m_combRate.AddString(_T("MCS3 54 Mbps (40MHz) - 42"));
+//		m_combRate.AddString(_T("MCS4 81 Mbps (40MHz) - 43"));
+//		m_combRate.AddString(_T("MCS5 108 Mbps (40MHz) - 44"));
+//		m_combRate.AddString(_T("MCS6 121.5 Mbps (40MHz) - 45"));
+//		m_combRate.AddString(_T("MCS7 135 Mbps (40MHz) - 46"));
+//		m_combRate.AddString(_T("MCS0 MM SG 15 Mbps (40MHz) - 47"));
+//		m_combRate.AddString(_T("MCS1 MM SG 30 Mbps (40MHz) - 48"));
+//		m_combRate.AddString(_T("MCS2 MM SG 45 Mbps (40MHz) - 49"));
+//		m_combRate.AddString(_T("MCS3 MM SG 60 Mbps (40MHz) - 50"));
+//		m_combRate.AddString(_T("MCS4 MM SG 90 Mbps (40MHz) - 51"));
+//		m_combRate.AddString(_T("MCS5 MM SG 120 Mbps (40MHz) - 52"));
+//		m_combRate.AddString(_T("MCS6 MM SG 135 Mbps (40MHz) - 53"));
+//		m_combRate.AddString(_T("MCS7 MM SG 150 Mbps (40MHz) - 54"));
+//		m_combRate.SetCurSel(0);
+//		for (int i = 0; i <= 15; i++)
+//		{
+//			m_combRate.SetItemData(i, i+39);
+//		}
+//	}
+//	else if(m_combMode.GetCurSel() == 2 && m_combChannelBonding.GetCurSel() == 0) // 11 ac -> 20MHz
+//	{
+//		m_combRate.ResetContent();
+//		m_combRate.AddString(_T("11ac MCS0 NGI 6.5 Mbps (20MHz)"));  // rate 63
+//		m_combRate.AddString(_T("11ac MCS1 NGI 13 Mbps (20MHz)"));  // rate 64
+//		m_combRate.AddString(_T("11ac MCS2 NGI 19.5 Mbps (20MHz)"));  // rate 65
+//		m_combRate.AddString(_T("11ac MCS3 NGI 26 Mbps (20MHz)"));
+//		m_combRate.AddString(_T("11ac MCS4 NGI 39 Mbps (20MHz)"));
+//		m_combRate.AddString(_T("11ac MCS5 NGI 52 Mbps (20MHz)"));
+//		m_combRate.AddString(_T("11ac MCS6 NGI 58.5 Mbps (20MHz)"));
+//		m_combRate.AddString(_T("11ac MCS7 NGI 65 Mbps (20MHz)"));
+//		m_combRate.AddString(_T("11ac MCS8 NGI 78 Mbps (20MHz)"));
+//		m_combRate.AddString(_T("11ac MCS0 SGI 7.2 Mbps (20MHz)"));
+//		m_combRate.AddString(_T("11ac MCS1 SGI 14.4 Mbps (20MHz)"));
+//		m_combRate.AddString(_T("11ac MCS2 SGI 21.6 Mbps (20MHz)"));
+//		m_combRate.AddString(_T("11ac MCS3 SGI 28.8 Mbps (20MHz)"));
+//		m_combRate.AddString(_T("11ac MCS4 SGI 43.3 Mbps (20MHz)"));
+//		m_combRate.AddString(_T("11ac MCS5 SGI 57.7 Mbps (20MHz)"));
+//		m_combRate.AddString(_T("11ac MCS6 SGI 65 Mbps (20MHz)"));
+//		m_combRate.AddString(_T("11ac MCS7 SGI 72.2 Mbps (20MHz)"));
+//		m_combRate.AddString(_T("11ac MCS8 SGI 86.6 Mbps (20MHz)"));
+//		m_combRate.SetCurSel(0);
+//		for (int i = 0; i <= 17; i++)
+//		{
+//			m_combRate.SetItemData(i, i+63);
+//		}
+//	}
+//	else if(m_combMode.GetCurSel() == 2 && m_combChannelBonding.GetCurSel() == 1) // 11 ac -> 40MHz
+//	{
+//		m_combRate.ResetContent();
+//		m_combRate.AddString(_T("11ac MCS0 NGI 13.5 Mbps (40MHz)"));  // rate 81
+//		m_combRate.AddString(_T("11ac MCS1 NGI 27 Mbps (40MHz)"));  // rate 82
+//		m_combRate.AddString(_T("11ac MCS2 NGI 40 Mbps (40MHz)"));
+//		m_combRate.AddString(_T("11ac MCS3 NGI 54 Mbps (40MHz)"));
+//		m_combRate.AddString(_T("11ac MCS4 NGI 81 Mbps (40MHz)"));
+//		m_combRate.AddString(_T("11ac MCS5 NGI 108 Mbps (40MHz)"));
+//		m_combRate.AddString(_T("11ac MCS6 NGI 121.5 Mbps (40MHz)"));
+//		m_combRate.AddString(_T("11ac MCS7 NGI 135 Mbps (40MHz)"));
+//		m_combRate.AddString(_T("11ac MCS8 NGI 162 Mbps (40MHz)"));
+//		m_combRate.AddString(_T("11ac MCS9 NGI 180 Mbps (40MHz)"));
+//		m_combRate.AddString(_T("11ac MCS0 SGI 15 Mbps (40MHz)"));
+//		m_combRate.AddString(_T("11ac MCS1 SGI 30 Mbps (40MHz)"));
+//		m_combRate.AddString(_T("11ac MCS2 SGI 45 Mbps (40MHz)"));
+//		m_combRate.AddString(_T("11ac MCS3 SGI 60 Mbps (40MHz)"));
+//		m_combRate.AddString(_T("11ac MCS4 SGI 90 Mbps (40MHz)"));
+//		m_combRate.AddString(_T("11ac MCS5 SGI 120 Mbps (40MHz)"));
+//		m_combRate.AddString(_T("11ac MCS6 SGI 135 Mbps (40MHz)"));
+//		m_combRate.AddString(_T("11ac MCS7 SGI 150 Mbps (40MHz)"));
+//		m_combRate.AddString(_T("11ac MCS8 SGI 180 Mbps (40MHz)"));
+//		m_combRate.AddString(_T("11ac MCS9 SGI 200 Mbps (40MHz)"));
+//		m_combRate.SetCurSel(0);
+//		for (int i = 0; i <= 19; i++)
+//		{
+//			m_combRate.SetItemData(i, i+81);
+//		}
+//
+//	}
+//	else if(m_combMode.GetCurSel() == 2 && m_combChannelBonding.GetCurSel() == 2) // 11 ac -> 80MHz
+//	{
+//		m_combRate.ResetContent();
+//		m_combRate.AddString(_T("11ac MCS0 NGI 29.3 Mbps (80MHz)"));  // rate 101
+//		m_combRate.AddString(_T("11ac MCS1 NGI 58.5 Mbps (80MHz)"));
+//		m_combRate.AddString(_T("11ac MCS2 NGI 87.8 Mbps (80MHz)"));
+//		m_combRate.AddString(_T("11ac MCS3 NGI 117 Mbps (80MHz)"));
+//		m_combRate.AddString(_T("11ac MCS4 NGI 175.5 Mbps (80MHz)"));
+//		m_combRate.AddString(_T("11ac MCS5 NGI 234 Mbps (80MHz)"));
+//		m_combRate.AddString(_T("11ac MCS6 NGI 263.3 Mbps (80MHz)"));
+//		m_combRate.AddString(_T("11ac MCS7 NGI 292.5 Mbps (80MHz)"));
+//		m_combRate.AddString(_T("11ac MCS8 NGI 351 Mbps (80MHz)"));
+//		m_combRate.AddString(_T("11ac MCS9 NGI 390 Mbps (80MHz)"));
+//		m_combRate.AddString(_T("11ac MCS0 SGI 32.5 Mbps (80MHz)"));
+//		m_combRate.AddString(_T("11ac MCS1 SGI 65 Mbps (80MHz)"));
+//		m_combRate.AddString(_T("11ac MCS2 SGI 97.5 Mbps (80MHz)"));
+//		m_combRate.AddString(_T("11ac MCS3 SGI 130 Mbps (80MHz)"));
+//		m_combRate.AddString(_T("11ac MCS4 SGI 195 Mbps (80MHz)"));
+//		m_combRate.AddString(_T("11ac MCS5 SGI 260 Mbps (80MHz)"));
+//		m_combRate.AddString(_T("11ac MCS6 SGI 292.5 Mbps (80MHz)"));
+//		m_combRate.AddString(_T("11ac MCS7 SGI 325 Mbps (80MHz)"));
+//		m_combRate.AddString(_T("11ac MCS8 SGI 390 Mbps (80MHz)"));
+//		m_combRate.AddString(_T("11ac MCS9 SGI 433.3 Mbps (80MHz)"));
+//		m_combRate.SetCurSel(0);
+//		for (int i = 0; i <= 19; i++)
+//		{
+//			m_combRate.SetItemData(i, i+101);
+//		}
+//	}
+//}
 
 
 void CRFCertification5GTx::OnBnClickedButtonRun()

@@ -392,6 +392,18 @@ size_t CServiceToolController::SetParameterValue(char* sz_keyword, char* sz_valu
 	{
 		this->m_Parametermap[_T("CHAIN")] = CA2CT(sz_value);
 	}
+	else if (key == "RATEBITINDEX")
+	{
+		this->m_Parametermap[_T("RATEBITINDEX")] = CA2CT(sz_value);
+	}
+	else if (key == "WLANMODE")
+	{
+		this->m_Parametermap[_T("WLANMODE")] = CA2CT(sz_value);
+	}
+	else if (key == "RATEMASK")
+	{
+		this->m_Parametermap[_T("RATEMASK")] = CA2CT(sz_value);
+	}
 	return NO_ERROR;
 }
 

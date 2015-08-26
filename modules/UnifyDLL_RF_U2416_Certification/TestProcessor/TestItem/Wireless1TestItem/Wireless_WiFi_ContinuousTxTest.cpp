@@ -47,9 +47,11 @@ bool CWireless_WiFi_ContinuousTxTest::MainFunction()
 			TraceLog(MSG_ERROR, m_strMsg);
 		}
 
+		//virtual bool WifiPowerOnTxCertification (int iChannel, int iPower, int iRateBitIndex, int iWlandMode, int iChain) = 0 ;
 		if (isOk)
 		{
-			if (!(isOk = m_pIPhone->WifiPowerOnTxCertification(m_iDataRate, m_iChannel, m_iPower, m_iPreamble, m_iPayloadSize, m_iSpacing, m_iChain)))
+			//if (!(isOk = m_pIPhone->WifiPowerOnTxCertification(m_iRateBitIndex, m_iChannel, m_iPower, m_iWlandMode, m_iPayloadSize, m_iSpacing, m_iChain)))
+			if (!(isOk = m_pIPhone->WifiPowerOnTxCertification(m_iChannel, m_iPower, m_iRateBitIndex, m_iWlandMode, m_iChain)))
 			{
 				m_strMsg = "Fail to execute WifiPowerOnTx";
 				TraceLog(MSG_ERROR, m_strMsg);
@@ -97,33 +99,7 @@ bool CWireless_WiFi_ContinuousTxTest::InitData(std::map<std::string, std::string
 	}
 	m_iChannel = atoi(paramMap["Channel"].c_str());
 
-	if (paramMap.find("Rate") == paramMap.end())
-	{
-		TraceLog(MSG_ERROR, "Fail to find parameter Rate for CWireless_WiFi_ContinuousTxTest");
-		return false;
-	}
-	m_iDataRate = atoi(paramMap["Rate"].c_str());
 
-	if (paramMap.find("Preamble") == paramMap.end())
-	{
-		TraceLog(MSG_ERROR, "Fail to find parameter Preamble for CWireless_WiFi_ContinuousTxTest");
-		return false;
-	}
-	m_iPreamble = atoi(paramMap["Preamble"].c_str());
-
-	if (paramMap.find("Payload") == paramMap.end())
-	{
-		TraceLog(MSG_ERROR, "Fail to find parameter Payload for CWireless_WiFi_ContinuousTxTest");
-		return false;
-	}
-	m_iPayloadSize = atoi(paramMap["Payload"].c_str());
-
-	if (paramMap.find("Spacing") == paramMap.end())
-	{
-		TraceLog(MSG_ERROR, "Fail to find parameter Spacing for CWireless_WiFi_ContinuousTxTest");
-		return false;
-	}
-	m_iSpacing = atoi(paramMap["Spacing"].c_str());
 
 	if (paramMap.find("Power") == paramMap.end())
 	{
@@ -132,6 +108,21 @@ bool CWireless_WiFi_ContinuousTxTest::InitData(std::map<std::string, std::string
 	}
 	m_iPower = atoi(paramMap["Power"].c_str());
 
+
+	if (paramMap.find("RateBitIndex") == paramMap.end())
+	{
+		TraceLog(MSG_ERROR, "Fail to find parameter RateBitIndex for CWireless_WiFi_ContinuousTxTest");
+		return false;
+	}
+	m_iRateBitIndex = atoi(paramMap["RateBitIndex"].c_str());
+
+
+	if (paramMap.find("WLANMODE") == paramMap.end())
+	{
+		TraceLog(MSG_ERROR, "Fail to find parameter WLANMODE for CWireless_WiFi_ContinuousTxTest");
+		return false;
+	}
+	m_iWlandMode = atoi(paramMap["WLANMODE"].c_str());
 
 	if (paramMap.find("Chain") == paramMap.end())
 	{

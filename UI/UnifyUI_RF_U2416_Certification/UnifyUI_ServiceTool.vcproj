@@ -198,27 +198,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\FuncFactoryInfoList.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\FuncInfoList.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\KeyPro.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\RFCertification.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\RFCertification2G4Tx.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\RFCertification5GTxCw.cpp"
 				>
 			</File>
 			<File
@@ -226,11 +206,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\RFCertificationRx5G.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\RFCertificationTx5G.cpp"
+				RelativePath=".\RFCertificationTx.cpp"
 				>
 			</File>
 			<File
@@ -320,14 +296,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\FuncFactoryInfoList.h"
-				>
-			</File>
-			<File
-				RelativePath=".\FuncInfoList.h"
-				>
-			</File>
-			<File
 				RelativePath=".\KeyPro.h"
 				>
 			</File>
@@ -336,27 +304,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\RFCertification.h"
-				>
-			</File>
-			<File
-				RelativePath=".\RFCertification2G4Tx.h"
-				>
-			</File>
-			<File
-				RelativePath=".\RFCertification5GTxCw.h"
-				>
-			</File>
-			<File
 				RelativePath=".\RFCertificationRx.h"
 				>
 			</File>
 			<File
-				RelativePath=".\RFCertificationRx5G.h"
-				>
-			</File>
-			<File
-				RelativePath=".\RFCertificationTx5G.h"
+				RelativePath=".\RFCertificationTx.h"
 				>
 			</File>
 			<File

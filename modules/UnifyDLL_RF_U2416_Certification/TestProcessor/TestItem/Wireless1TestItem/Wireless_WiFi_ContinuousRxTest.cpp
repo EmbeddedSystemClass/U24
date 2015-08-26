@@ -63,7 +63,7 @@ bool CWireless_WiFi_ContinuousRxTest::MainFunction()
 			{
 				if (ret == 6)
 				{
-					if (!(isOk = m_pIPhone->WifiPowerOnRxGetPacket(m_iChannel, m_iPreamble, &rxFrameCounter, m_iChain)))
+					if (!(isOk = m_pIPhone->WifiPowerOnRxGetPacket(m_iChannel, m_iWlandMode, &rxFrameCounter, m_iChain)))
 					{
 						m_strMsg = "Fail to execute WifiPowerOnRxGetPacket";
 						TraceLog(MSG_ERROR, m_strMsg);
@@ -135,12 +135,12 @@ bool CWireless_WiFi_ContinuousRxTest::InitData(std::map<std::string, std::string
 	m_iChain = atoi(paramMap["Chain"].c_str());
 
 
-	//if (paramMap.find("Preamble") == paramMap.end())
+	//if (paramMap.find("WLANMODE") == paramMap.end())
 	//{
-	//	TraceLog(MSG_ERROR, "Fail to find parameter Preamble for CWireless_WiFi_ContinuousRxTest");
+	//	TraceLog(MSG_ERROR, "Fail to find parameter WLANMODE for CWireless_WiFi_ContinuousRxTest");
 	//	return false;
 	//}
-	//m_iPreamble = atoi(paramMap["Preamble"].c_str());
+	//m_iWlandMode = atoi(paramMap["WLANMODE"].c_str());
 
 	return true;
 }

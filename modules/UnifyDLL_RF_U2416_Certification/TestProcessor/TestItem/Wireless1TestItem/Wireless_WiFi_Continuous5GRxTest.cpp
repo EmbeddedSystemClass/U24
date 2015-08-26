@@ -146,12 +146,12 @@ bool CWireless_WiFi_Continuous5GRxTest::InitData(std::map<std::string, std::stri
 	m_iChain = atoi(paramMap["Chain"].c_str());
 	
 
-	if (paramMap.find("Preamble") == paramMap.end())
+	if (paramMap.find("WLANMODE") == paramMap.end())
 	{
-		TraceLog(MSG_ERROR, "Fail to find parameter Preamble for CWireless_WiFi_Continuous5GRxTest");
+		TraceLog(MSG_ERROR, "Fail to find parameter WLANMODE for CWireless_WiFi_Continuous5GRxTest");
 		return false;
 	}
-	m_iPreamble = atoi(paramMap["Preamble"].c_str());
+	m_iWlandMode = atoi(paramMap["WLANMODE"].c_str());
 
 	return true;
 }

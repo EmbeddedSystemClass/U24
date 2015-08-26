@@ -26,7 +26,6 @@ protected:
 	virtual BOOL OnInitDialog();
 	virtual BOOL DestroyWindow();
 
-	CComboBox m_combChannel;
 
 	DECLARE_MESSAGE_MAP()
 
@@ -48,9 +47,12 @@ public:
 private:
 	CComboBox m_combComport;
 	CComboBox m_combChain;
+	CComboBox m_combWlanMode;
+	CString m_sChannel;
+	CString m_sRateMask;
 
+	bool bRxTestStop;
 	void UIInit();
-	void UIWarning(CString message);
 	void UIControl(bool isEnable);
 	void UITotalTime(double secTime);
 
@@ -81,4 +83,5 @@ private:
 	bool GetComPort();
 public:
 	afx_msg void OnBnClickedButtonStop();
+	afx_msg void OnBnClickedButtonRun2();
 };

@@ -94,12 +94,12 @@ bool CWireless_WiFi_ContinuousTxCwWave::InitData(std::map<std::string, std::stri
 	}
 	m_iChannel = atoi(paramMap["Channel"].c_str());
 
-	if (paramMap.find("RFGain") == paramMap.end())
-	{
-		TraceLog(MSG_ERROR, "Fail to find parameter RFGain for CWireless_WiFi_ContinuousTxCwWave");
-		return false;
-	}
-	m_iRfGain = atoi(paramMap["RFGain"].c_str());
+	//if (paramMap.find("RFGain") == paramMap.end())
+	//{
+	//	TraceLog(MSG_ERROR, "Fail to find parameter RFGain for CWireless_WiFi_ContinuousTxCwWave");
+	//	return false;
+	//}
+	//m_iRfGain = atoi(paramMap["RFGain"].c_str());
 
 	if (paramMap.find("Chain") == paramMap.end())
 	{

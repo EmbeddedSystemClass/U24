@@ -805,7 +805,7 @@ bool CAndroidPhone::WiFiStartTxPower(int iRate, int iChannel, int iPower)
 	return true;
 }
 
-bool CAndroidPhone::WifiModuleOn (bool bEnable, int nBin)
+bool CAndroidPhone::WifiModuleOn (bool bEnable)
 {
 #ifdef _NOT_USE_FTD_
 
@@ -853,11 +853,11 @@ bool CAndroidPhone::WifiModuleOn (bool bEnable, int nBin)
 	char szInput[4096] = {0};
 	char szError[FTD_BUFSIZE];
 
-	if( nBin>=0 ){
-		sprintf(szInput, "2,bin%d", nBin);
-	}else{
-		sprintf(szInput, "2,NULL");
-	}
+	//if( nBin>=0 ){
+		sprintf(szInput, "2");
+	//}else{
+	//	sprintf(szInput, "2,NULL");
+	//}
 	if (bEnable)
 	{
 		ret = Detroit_WLAN_Mode (FTD_PORT, FTD_TIMEOUT, szInput, szError); //2 -> test mode on
@@ -882,7 +882,7 @@ bool CAndroidPhone::WifiModuleOn (bool bEnable, int nBin)
 	return true;
 }
 
-bool CAndroidPhone::WifiModuleOnCertification(bool bEnable, int nBin)
+bool CAndroidPhone::WifiModuleOnCertification(bool bEnable)
 {
 	char szErr[FTD_BUFSIZE] = {0};
 	char szOut[FTD_BUFSIZE] = {0};
@@ -1153,9 +1153,8 @@ double asyncPMCB(unsigned int iGain, unsigned int iFreq, double dPowerLevel,
    return measuredAvgPower;
 }
 
-bool CAndroidPhone::WifiPowerOnTxCertification(int iRate, int iChannel, int iPower, int iPreamble, int iPayloadSize, int iSpacing, int iChain)
+bool CAndroidPhone::WifiPowerOnTxCertification (int iChannel, int iPower, int iRateBitIndex, int iWlandMode, int iChain)
 {
-
 	char sLibraryVersion[50];
 
 	QLIB_GetLibraryVersion(sLibraryVersion );
@@ -1184,45 +1183,12 @@ bool CAndroidPhone::WifiPowerOnTxCertification(int iRate, int iChannel, int iPow
 	if ( !bRet ){
 		return false;
 	}
-
-
-//	return (bRet ? true : false);
-
-
-	/*******/
-	
-	//if (0 == iRate && 0 == iChannel && 0 == iPower) // Turn off Tx Power
-	//{
-	//	bool ret = true;
-	
-	//	//Stop TX
-	//	//return ret && QLIB_FTM_WLAN_GEN6_TX_PKT_START_STOP(m_hQMSLPhone, 0);
-	//	return ret ;
-	//}
-	//else
-	//{
 		for(int i = 0;i < 1;i++)
 		{
 			Sleep(500);
 
 			bool isOk = true;
 
-
-			unsigned long mode = 0;
-			unsigned long freq = 0; // Enter Freq in MHz =");
-			unsigned long dataRate = 0;
-			double txPower = 0.0; // Tx Power in 0.5 dB steps =");
-			unsigned long scrambler = 0;// Enter 1 for scrambler off, 0 for scramber on =");
-			unsigned long tpcm = 0;
-			unsigned long txChain = 0;
-			unsigned long numPackets = 0;
-
-			unsigned long antenna = 1;
-			unsigned long enANI = 0;
-			unsigned long scramblerOff = scrambler;
-			unsigned long aifsn = 0;
-			unsigned long pktSz = 1500;
-			unsigned long pattern = 3;
 
 
 			isOk = QLIB_FTM_WLAN_TLV_Create(m_hQMSLPhone, _OP_CAL);
@@ -1261,12 +1227,12 @@ bool CAndroidPhone::WifiPowerOnTxCertification(int iRate, int iChannel, int iPow
 					continue;
 			}
 
-			isOk = QLIB_FTM_WLAN_TLV_AddParam(m_hQMSLPhone, _T("rateBitIndex0"), _itoa(6,buf,10));
+			isOk = QLIB_FTM_WLAN_TLV_AddParam(m_hQMSLPhone, _T("rateBitIndex0"), _itoa(iRateBitIndex,buf,10));
 			if (!isOk) {
 					continue;
 			}
 
-			isOk = QLIB_FTM_WLAN_TLV_AddParam(m_hQMSLPhone, _T("wlanMode"), _itoa(iPreamble,buf,10));//b = 4, a/g = 0,  n = 1, ac = 8
+			isOk = QLIB_FTM_WLAN_TLV_AddParam(m_hQMSLPhone, _T("wlanMode"), _itoa(iWlandMode,buf,10));//b = 4, a/g = 0,  n = 1, ac = 8
 			if (!isOk) {
 					continue;
 			}
@@ -1276,7 +1242,7 @@ bool CAndroidPhone::WifiPowerOnTxCertification(int iRate, int iChannel, int iPow
 					continue;
 			}
 
-			isOk = QLIB_FTM_WLAN_TLV_AddParam(m_hQMSLPhone, _T("pktLen0"), _itoa( iPayloadSize, buf, 10));//packet size , iPayloadSize
+			isOk = QLIB_FTM_WLAN_TLV_AddParam(m_hQMSLPhone, _T("pktLen0"), _itoa( 1500, buf, 10));//packet size , iPayloadSize
 			if (!isOk) {
 					continue;
 			}
@@ -1326,14 +1292,6 @@ bool CAndroidPhone::WifiPowerOnTxCertification(int iRate, int iChannel, int iPow
 				continue;
 			}
 
-			// Start to run OLPC calibration iterations by power measurement call back
-		   asyncPMMessageCB pPMfunc = &asyncPMCB;
-		   int numMeasAvg = 1;
-		   isOk = QLIB_FTM_WLAN_Atheros_Tx_CAL(m_hQMSLPhone, pPMfunc, (unsigned int)numMeasAvg);
-		   Sleep(10000);
-			if (!isOk) {
-				continue;
-			}
 		}
 
 	return false;
@@ -2169,7 +2127,6 @@ bool CAndroidPhone::Initial_QMSL()
 		{
 			if (QLIB_IsPhoneConnected(m_hQMSLPhone))
 			{
-				//QLIB_FlushRxBuffer(m_hQMSLPhone);
 				return true;
 			}
 		}

@@ -40,8 +40,8 @@ void CRFCertificationRx5G::DoDataExchange(CDataExchange* pDX)
 BEGIN_MESSAGE_MAP(CRFCertificationRx5G, CDialog)
 	ON_BN_CLICKED(IDC_BUTTON_RUN, &CRFCertificationRx5G::OnBnClickedButtonRun)
 	ON_CBN_DROPDOWN(IDC_COMBO_PORT, &CRFCertificationRx5G::OnCbnDropdownComboPort)
-	ON_CBN_SELCHANGE(IDC_COMBO_MODE, &CRFCertificationRx5G::OnCbnSelchangeComboMode)
-	ON_CBN_SELCHANGE(IDC_COMBO_CHANNEL_BOUNDING, &CRFCertificationRx5G::OnCbnSelchangeComboChannelBounding)
+//	ON_CBN_SELCHANGE(IDC_COMBO_MODE, &CRFCertificationRx5G::OnCbnSelchangeComboMode)
+//	ON_CBN_SELCHANGE(IDC_COMBO_CHANNEL_BOUNDING, &CRFCertificationRx5G::OnCbnSelchangeComboChannelBounding)
 END_MESSAGE_MAP()
 
 
@@ -588,168 +588,168 @@ bool CRFCertificationRx5G::GetAdbDevice()
 		(m_com.desc.Find(_T("Disgnostics")) != -1);
 }
 
-void CRFCertificationRx5G::OnCbnSelchangeComboMode()
-{
-	// reset channel
-	m_combChannel.ResetContent();
-	m_combChannel.AddString(_T("NOT SET"));
-	m_combChannel.SetItemData(0, 0);
+//void CRFCertificationRx5G::OnCbnSelchangeComboMode()
+//{
+//	// reset channel
+//	m_combChannel.ResetContent();
+//	m_combChannel.AddString(_T("NOT SET"));
+//	m_combChannel.SetItemData(0, 0);
+//
+//	char sz_text[50] = {0};
+//	CString strTxt;
+//	for (int i = 0; i < 8; i++ )
+//	{
+//		sprintf(sz_text, "RF_CHAN_%d(%d)", i*4+36, 5180+i*20);
+//		strTxt = sz_text;
+//		m_combChannel.AddString(strTxt);
+//		//m_combChannel.SetItemData(i+1, i*4+36);
+//		m_combChannel.SetItemData(i+1, 5180+i*20);
+//	}
+//	for (int i = 0; i < 12; i++ )
+//	{
+//		sprintf(sz_text, "RF_CHAN_%d(%d)", i*4+100, 5500+i*20);
+//		strTxt = sz_text;
+//		m_combChannel.AddString(strTxt);
+//		//m_combChannel.SetItemData(i+1+8, i*4+100);
+//		m_combChannel.SetItemData(i+1+8,  5500+i*20);
+//	}
+//	for (int i = 0; i < 5; i++ )
+//	{
+//		sprintf(sz_text, "RF_CHAN_%d(%d)", i*4+149, 5745+i*20);
+//		strTxt = sz_text;
+//		m_combChannel.AddString(strTxt);
+//		//m_combChannel.SetItemData(i+1+8+12, i*4+149);
+//		m_combChannel.SetItemData(i+1+8+12, 5745+i*20);
+//	}
+//	m_combChannel.SetCurSel(0);
+//
+//	if (m_combMode.GetCurSel() == 0)
+//	{
+//		m_combChannelBonding.ResetContent();
+//		m_combChannelBonding.AddString(_T("20MHz"));
+//		m_combChannelBonding.SetItemData(0, 0);
+//		m_combChannelBonding.SetCurSel(0);
+//	}
+//	else if(m_combMode.GetCurSel() == 1)
+//	{
+//		m_combChannelBonding.ResetContent();
+//		m_combChannelBonding.AddString(_T("20MHz"));
+//		m_combChannelBonding.SetItemData(0, 0);
+//		m_combChannelBonding.AddString(_T("40MHz"));
+//		m_combChannelBonding.SetItemData(1, 3);
+//		m_combChannelBonding.SetCurSel(0);
+//	}
+//	else if(m_combMode.GetCurSel() == 2)
+//	{
+//		m_combChannelBonding.ResetContent();
+//		m_combChannelBonding.AddString(_T("20MHz"));
+//		m_combChannelBonding.SetItemData(0, 0);
+//		m_combChannelBonding.AddString(_T("40MHz"));
+//		m_combChannelBonding.SetItemData(1, 3);
+//		m_combChannelBonding.AddString(_T("80MHz"));
+//		m_combChannelBonding.SetItemData(2, 6);
+//		m_combChannelBonding.SetCurSel(0);
+//	}
+//}
 
-	char sz_text[50] = {0};
-	CString strTxt;
-	for (int i = 0; i < 8; i++ )
-	{
-		sprintf(sz_text, "RF_CHAN_%d(%d)", i*4+36, 5180+i*20);
-		strTxt = sz_text;
-		m_combChannel.AddString(strTxt);
-		//m_combChannel.SetItemData(i+1, i*4+36);
-		m_combChannel.SetItemData(i+1, 5180+i*20);
-	}
-	for (int i = 0; i < 12; i++ )
-	{
-		sprintf(sz_text, "RF_CHAN_%d(%d)", i*4+100, 5500+i*20);
-		strTxt = sz_text;
-		m_combChannel.AddString(strTxt);
-		//m_combChannel.SetItemData(i+1+8, i*4+100);
-		m_combChannel.SetItemData(i+1+8,  5500+i*20);
-	}
-	for (int i = 0; i < 5; i++ )
-	{
-		sprintf(sz_text, "RF_CHAN_%d(%d)", i*4+149, 5745+i*20);
-		strTxt = sz_text;
-		m_combChannel.AddString(strTxt);
-		//m_combChannel.SetItemData(i+1+8+12, i*4+149);
-		m_combChannel.SetItemData(i+1+8+12, 5745+i*20);
-	}
-	m_combChannel.SetCurSel(0);
-
-	if (m_combMode.GetCurSel() == 0)
-	{
-		m_combChannelBonding.ResetContent();
-		m_combChannelBonding.AddString(_T("20MHz"));
-		m_combChannelBonding.SetItemData(0, 0);
-		m_combChannelBonding.SetCurSel(0);
-	}
-	else if(m_combMode.GetCurSel() == 1)
-	{
-		m_combChannelBonding.ResetContent();
-		m_combChannelBonding.AddString(_T("20MHz"));
-		m_combChannelBonding.SetItemData(0, 0);
-		m_combChannelBonding.AddString(_T("40MHz"));
-		m_combChannelBonding.SetItemData(1, 3);
-		m_combChannelBonding.SetCurSel(0);
-	}
-	else if(m_combMode.GetCurSel() == 2)
-	{
-		m_combChannelBonding.ResetContent();
-		m_combChannelBonding.AddString(_T("20MHz"));
-		m_combChannelBonding.SetItemData(0, 0);
-		m_combChannelBonding.AddString(_T("40MHz"));
-		m_combChannelBonding.SetItemData(1, 3);
-		m_combChannelBonding.AddString(_T("80MHz"));
-		m_combChannelBonding.SetItemData(2, 6);
-		m_combChannelBonding.SetCurSel(0);
-	}
-}
-
-void CRFCertificationRx5G::OnCbnSelchangeComboChannelBounding()
-{
-	if(m_combChannelBonding.GetCurSel() == 0) // 20MHz
-	{
-		m_combChannel.ResetContent();
-		m_combChannel.AddString(_T("NOT SET"));
-		m_combChannel.SetItemData(0, 0);
-
-		char sz_text[50] = {0};
-		CString strTxt;
-		for (int i = 0; i < 8; i++ )
-		{
-			sprintf(sz_text, "RF_CHAN_%d(%d)", i*4+36, 5180+i*20);
-			strTxt = sz_text;
-			m_combChannel.AddString(strTxt);
-			m_combChannel.SetItemData(i+1, i*4+36);
-		}
-		for (int i = 0; i < 12; i++ )
-		{
-			sprintf(sz_text, "RF_CHAN_%d(%d)", i*4+100, 5500+i*20);
-			strTxt = sz_text;
-			m_combChannel.AddString(strTxt);
-			m_combChannel.SetItemData(i+1+8, i*4+100);
-		}
-		for (int i = 0; i < 5; i++ )
-		{
-			sprintf(sz_text, "RF_CHAN_%d(%d)", i*4+149, 5745+i*20);
-			strTxt = sz_text;
-			m_combChannel.AddString(strTxt);
-			m_combChannel.SetItemData(i+1+8+12, i*4+149);
-		}
-		m_combChannel.SetCurSel(0);
-	}
-	else if(m_combChannelBonding.GetCurSel() == 1)  // 40MHz
-	{
-		m_combChannel.ResetContent();
-		m_combChannel.AddString(_T("NOT SET"));
-		m_combChannel.SetItemData(0, 0);
-
-		char sz_text[50] = {0};
-		CString strTxt;
-		for (int i = 0; i < 7; i++ )
-		{
-			sprintf(sz_text, "RF_CHAN_%d(%d)", i*4+38, 5190+i*20);
-			strTxt = sz_text;
-			m_combChannel.AddString(strTxt);
-			m_combChannel.SetItemData(i+1, i*4+38+2);
-		}
-		for (int i = 0; i < 11; i++ )
-		{
-			sprintf(sz_text, "RF_CHAN_%d(%d)", i*4+102, 5510+i*20);
-			strTxt = sz_text;
-			m_combChannel.AddString(strTxt);
-			m_combChannel.SetItemData(i+1+7, i*4+102+2);
-		}
-		for (int i = 0; i < 4; i++ )
-		{
-			sprintf(sz_text, "RF_CHAN_%d(%d)", i*4+151, 5755+i*20);
-			strTxt = sz_text;
-			m_combChannel.AddString(strTxt);
-			m_combChannel.SetItemData(i+1+7+11, i*4+151+2);
-		}
-
-		m_combChannel.SetCurSel(0);
-	}
-	else if(m_combChannelBonding.GetCurSel() == 2)  // 80MHz
-	{
-		m_combChannel.ResetContent();
-		m_combChannel.AddString(_T("NOT SET"));
-		m_combChannel.SetItemData(0, 0);
-
-		char sz_text[50] = {0};
-		CString strTxt;
-		for (int i = 0; i < 5; i++ )
-		{
-			sprintf(sz_text, "RF_CHAN_%d(%d)", i*4+42, 5210+i*20);
-			strTxt = sz_text;
-			m_combChannel.AddString(strTxt);
-			//m_combChannel.SetItemData(i+1, i*4+42+2);
-			m_combChannel.SetItemData(i+1, 5210+i*20);
-		}
-		for (int i = 0; i < 9; i++ )
-		{
-			sprintf(sz_text, "RF_CHAN_%d(%d)", i*4+106, 5530+i*20);
-			strTxt = sz_text;
-			m_combChannel.AddString(strTxt);
-			//m_combChannel.SetItemData(i+1+5, i*4+106+2);
-			m_combChannel.SetItemData(i+1+5, 5530+i*20);
-		}
-		for (int i = 0; i < 2; i++ )
-		{
-			sprintf(sz_text, "RF_CHAN_%d(%d)", i*4+155, 5775+i*20);
-			strTxt = sz_text;
-			m_combChannel.AddString(strTxt);
-			//m_combChannel.SetItemData(i+1+5+9, i*4+155+2);
-			m_combChannel.SetItemData(i+1+5+9,  5775+i*20);
-		}
-
-		m_combChannel.SetCurSel(0);
-	}
-}
+//void CRFCertificationRx5G::OnCbnSelchangeComboChannelBounding()
+//{
+//	if(m_combChannelBonding.GetCurSel() == 0) // 20MHz
+//	{
+//		m_combChannel.ResetContent();
+//		m_combChannel.AddString(_T("NOT SET"));
+//		m_combChannel.SetItemData(0, 0);
+//
+//		char sz_text[50] = {0};
+//		CString strTxt;
+//		for (int i = 0; i < 8; i++ )
+//		{
+//			sprintf(sz_text, "RF_CHAN_%d(%d)", i*4+36, 5180+i*20);
+//			strTxt = sz_text;
+//			m_combChannel.AddString(strTxt);
+//			m_combChannel.SetItemData(i+1, i*4+36);
+//		}
+//		for (int i = 0; i < 12; i++ )
+//		{
+//			sprintf(sz_text, "RF_CHAN_%d(%d)", i*4+100, 5500+i*20);
+//			strTxt = sz_text;
+//			m_combChannel.AddString(strTxt);
+//			m_combChannel.SetItemData(i+1+8, i*4+100);
+//		}
+//		for (int i = 0; i < 5; i++ )
+//		{
+//			sprintf(sz_text, "RF_CHAN_%d(%d)", i*4+149, 5745+i*20);
+//			strTxt = sz_text;
+//			m_combChannel.AddString(strTxt);
+//			m_combChannel.SetItemData(i+1+8+12, i*4+149);
+//		}
+//		m_combChannel.SetCurSel(0);
+//	}
+//	else if(m_combChannelBonding.GetCurSel() == 1)  // 40MHz
+//	{
+//		m_combChannel.ResetContent();
+//		m_combChannel.AddString(_T("NOT SET"));
+//		m_combChannel.SetItemData(0, 0);
+//
+//		char sz_text[50] = {0};
+//		CString strTxt;
+//		for (int i = 0; i < 7; i++ )
+//		{
+//			sprintf(sz_text, "RF_CHAN_%d(%d)", i*4+38, 5190+i*20);
+//			strTxt = sz_text;
+//			m_combChannel.AddString(strTxt);
+//			m_combChannel.SetItemData(i+1, i*4+38+2);
+//		}
+//		for (int i = 0; i < 11; i++ )
+//		{
+//			sprintf(sz_text, "RF_CHAN_%d(%d)", i*4+102, 5510+i*20);
+//			strTxt = sz_text;
+//			m_combChannel.AddString(strTxt);
+//			m_combChannel.SetItemData(i+1+7, i*4+102+2);
+//		}
+//		for (int i = 0; i < 4; i++ )
+//		{
+//			sprintf(sz_text, "RF_CHAN_%d(%d)", i*4+151, 5755+i*20);
+//			strTxt = sz_text;
+//			m_combChannel.AddString(strTxt);
+//			m_combChannel.SetItemData(i+1+7+11, i*4+151+2);
+//		}
+//
+//		m_combChannel.SetCurSel(0);
+//	}
+//	else if(m_combChannelBonding.GetCurSel() == 2)  // 80MHz
+//	{
+//		m_combChannel.ResetContent();
+//		m_combChannel.AddString(_T("NOT SET"));
+//		m_combChannel.SetItemData(0, 0);
+//
+//		char sz_text[50] = {0};
+//		CString strTxt;
+//		for (int i = 0; i < 5; i++ )
+//		{
+//			sprintf(sz_text, "RF_CHAN_%d(%d)", i*4+42, 5210+i*20);
+//			strTxt = sz_text;
+//			m_combChannel.AddString(strTxt);
+//			//m_combChannel.SetItemData(i+1, i*4+42+2);
+//			m_combChannel.SetItemData(i+1, 5210+i*20);
+//		}
+//		for (int i = 0; i < 9; i++ )
+//		{
+//			sprintf(sz_text, "RF_CHAN_%d(%d)", i*4+106, 5530+i*20);
+//			strTxt = sz_text;
+//			m_combChannel.AddString(strTxt);
+//			//m_combChannel.SetItemData(i+1+5, i*4+106+2);
+//			m_combChannel.SetItemData(i+1+5, 5530+i*20);
+//		}
+//		for (int i = 0; i < 2; i++ )
+//		{
+//			sprintf(sz_text, "RF_CHAN_%d(%d)", i*4+155, 5775+i*20);
+//			strTxt = sz_text;
+//			m_combChannel.AddString(strTxt);
+//			//m_combChannel.SetItemData(i+1+5+9, i*4+155+2);
+//			m_combChannel.SetItemData(i+1+5+9,  5775+i*20);
+//		}
+//
+//		m_combChannel.SetCurSel(0);
+//	}
+//}

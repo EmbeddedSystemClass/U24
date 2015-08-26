@@ -323,7 +323,7 @@ bool CWifiModuleOnOFF::Run(void)
 		{
 			bool bRes = false;
 			int iBin = 0;
-			if (!(bRes = m_pIPhone->WifiModuleOn(true, iBin)))
+			if (!(bRes = m_pIPhone->WifiModuleOn(true)))
 			{
 				m_strMsg = "SwitchWifiModule ON FAIL";
 				TraceLog(MSG_ERROR, m_strMsg);
@@ -353,7 +353,7 @@ bool CWifiModuleOnOFF::Run(void)
 					return false;
 				}
 
-				if (!(bRes = m_pIPhone->WifiModuleOn(true, iBin)))
+				if (!(bRes = m_pIPhone->WifiModuleOn(true)))
 				{
 					m_strMsg = "SwitchWifiModule ON FAIL";
 					TraceLog(MSG_ERROR, m_strMsg);

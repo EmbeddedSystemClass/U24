@@ -20,8 +20,8 @@ public:
 
 	afx_msg void OnBnClickedButtonRun();
 	afx_msg void OnCbnDropdownComboPort();
-	afx_msg void OnCbnSelchangeComboMode();
-	afx_msg void OnCbnSelchangeComboChannelBounding();
+	//afx_msg void OnCbnSelchangeComboMode();
+	//afx_msg void OnCbnSelchangeComboChannelBounding();
 	afx_msg void OnBnClickedButtonStop();
 
 protected:

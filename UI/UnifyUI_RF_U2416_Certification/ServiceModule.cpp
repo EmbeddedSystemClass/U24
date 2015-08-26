@@ -5,16 +5,16 @@
 #include "UnifyUI_ServiceTool.h"
 #include "ServiceModule.h"
 //#include "FuncDownload.h"
-#include "FuncInfoList.h"
+//#include "FuncInfoList.h"
 //#include "FuncInfoWriter.h"
-#include "FuncFactoryInfoList.h"
-#include "RFCertification.h"
+//#include "FuncFactoryInfoList.h"
+#include "RFCertificationTx.h"
 #include "RFCertificationRx.h"
 #include "RFCertificationTxCw.h"
-#include "RFCertification2G4Tx.h"
-#include "RFCertificationTx5G.h"
-#include "RFCertificationRx5G.h"
-#include "RFCertification5GTxCw.h"
+//#include "RFCertification2G4Tx.h"
+//#include "RFCertificationTx5G.h"
+//#include "RFCertificationRx5G.h"
+//#include "RFCertification5GTxCw.h"
 #include "KeyPro.h"
 
 
@@ -112,28 +112,9 @@ void CServiceModule::OnBnClickedButtonTool(int nIndex)
 		CString exe_param = m_info[nIndex].info;
 		Exec(exe_path, exe_param);
 	}
-	//else if (m_info[nIndex].type == _T("DOWNLOAD")) {
-	//	CFuncDownload dlg(this);
-	//	dlg.SetInit(m_info[nIndex]);
-	//	dlg.DoModal();
-	//}
-	else if (m_info[nIndex].type == _T("INFOLIST")) {
-		CFuncInfoList dlg(this);
-		dlg.SetInit(m_info[nIndex]);
-		dlg.DoModal();
-	}
-	//else if (m_info[nIndex].type == _T("INFOWRITER")) {
-	//	CFuncInfoWriter dlg(this);
-	//	dlg.SetInit(m_info[nIndex]);
-	//	dlg.DoModal();
-	//}
-	else if (m_info[nIndex].type == _T("FACTORYINFOLIST")) {
-		CFuncFactoryInfoList dlg(this);
-		dlg.SetInit(m_info[nIndex]);
-		dlg.DoModal();
-	}
-	else if (m_info[nIndex].type == _T("RFCERTIFICATION")) {
-		CRFCertification dlg(this);
+
+	else if (m_info[nIndex].type == _T("RFCERTIFICATIONTX")) {
+		CRFCertificationTx dlg(this);
 		dlg.SetInit(m_info[nIndex]);
 		dlg.DoModal();
 	}
@@ -144,26 +125,6 @@ void CServiceModule::OnBnClickedButtonTool(int nIndex)
 	}
 	else if (m_info[nIndex].type == _T("RFCERTIFICATIONTXCWWAVE")) {
 		CRFCertificationTxCw dlg(this);
-		dlg.SetInit(m_info[nIndex]);
-		dlg.DoModal();
-	}
-	else if (m_info[nIndex].type == _T("RFCERTIFICATION2G4TX")) {
-		CRFCertification2G4Tx dlg(this);
-		dlg.SetInit(m_info[nIndex]);
-		dlg.DoModal();
-	}
-	else if (m_info[nIndex].type == _T("RFCERTIFICATION5GTX")) {
-		CRFCertification5GTx dlg(this);
-		dlg.SetInit(m_info[nIndex]);
-		dlg.DoModal();
-	}
-	else if (m_info[nIndex].type == _T("RFCERTIFICATION5GRX")) {
-		CRFCertificationRx5G dlg(this);
-		dlg.SetInit(m_info[nIndex]);
-		dlg.DoModal();
-	}
-	else if (m_info[nIndex].type == _T("RFCERTIFICATION5GTXCWWAVE")) {
-		CRFCertification5GTxCw dlg(this);
 		dlg.SetInit(m_info[nIndex]);
 		dlg.DoModal();
 	}

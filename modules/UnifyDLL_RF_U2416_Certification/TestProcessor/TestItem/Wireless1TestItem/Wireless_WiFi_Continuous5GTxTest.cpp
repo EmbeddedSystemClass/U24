@@ -49,7 +49,7 @@ bool CWireless_WiFi_Continuous5GTxTest::MainFunction()
 
 		if (isOk)
 		{
-			if (!(isOk = m_pIPhone->WifiPowerOn5GTxCertification(m_iDataRate, m_iChannel, m_iPower, m_iPreamble, m_iPayloadSize, m_iSpacing, m_iBond, m_iChain)))
+			if (!(isOk = m_pIPhone->WifiPowerOn5GTxCertification(m_iDataRate, m_iChannel, m_iPower, m_iWlandMode, m_iPayloadSize, m_iSpacing, m_iBond, m_iChain)))
 			{
 				m_strMsg = "Fail to execute WifiPowerOnTx";
 				TraceLog(MSG_ERROR, m_strMsg);
@@ -101,12 +101,12 @@ bool CWireless_WiFi_Continuous5GTxTest::InitData(std::map<std::string, std::stri
 	}
 	m_iDataRate = atoi(paramMap["Rate"].c_str());
 
-	if (paramMap.find("Preamble") == paramMap.end())
+	if (paramMap.find("WLANMODE") == paramMap.end())
 	{
-		TraceLog(MSG_ERROR, "Fail to find parameter Preamble for CWireless_WiFi_Continuous5GTxTest");
+		TraceLog(MSG_ERROR, "Fail to find parameter WLANMODE for CWireless_WiFi_Continuous5GTxTest");
 		return false;
 	}
-	m_iPreamble = atoi(paramMap["Preamble"].c_str());
+	m_iWlandMode = atoi(paramMap["WLANMODE"].c_str());
 
 	if (paramMap.find("Payload") == paramMap.end())
 	{

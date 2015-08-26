@@ -31,44 +31,14 @@
 #define ISRV_CLASS_API __declspec(dllimport)
 #endif
 
-#define _WIFI_TX_CW_WAVE
+#define _WIFI_TX
 #define UNIFYMODELNAME			      _T("RF")
 
-#ifdef _BBTEST_NFC
-	#define QISDA_MODULE_NAME "BBTEST_NFC"
-	#define QISDA_MODULE_TITLE "BBTEST_NFC"
-	#define QISDA_MODULE_INFO "reserved"
-	#define QISDA_MODULE_TYPE "FACTORYINFOLIST"
-	static const bool QISDA_MODULE_CHECK_DONGLE = true;
-#elif defined _BBTEST_nonNFC
-	#define QISDA_MODULE_NAME "BBTEST_nonNFC"
-	#define QISDA_MODULE_TITLE "BBTEST_nonNFC"
-	#define QISDA_MODULE_INFO "reserved"
-	#define QISDA_MODULE_TYPE "FACTORYINFOLIST"
-	static const bool QISDA_MODULE_CHECK_DONGLE = true;
-#elif defined _2G3GTEST
-	#define QISDA_MODULE_NAME "2G3GTEST"
-	#define QISDA_MODULE_TITLE "2G3GTEST"
-	#define QISDA_MODULE_INFO "reserved"
-	#define QISDA_MODULE_TYPE "FACTORYINFOLIST"
-	static const bool QISDA_MODULE_CHECK_DONGLE = true;
-#elif defined _LTE
-	#define QISDA_MODULE_NAME "LTE"
-	#define QISDA_MODULE_TITLE "LTE"
-	#define QISDA_MODULE_INFO "reserved"
-	#define QISDA_MODULE_TYPE "FACTORYINFOLIST"
-	static const bool QISDA_MODULE_CHECK_DONGLE = true;
-#elif defined _BTWLAN
-	#define QISDA_MODULE_NAME "BTWLAN"
-	#define QISDA_MODULE_TITLE "BTWLAN"
-	#define QISDA_MODULE_INFO "reserved"
-	#define QISDA_MODULE_TYPE "FACTORYINFOLIST"
-	static const bool QISDA_MODULE_CHECK_DONGLE = true;
-#elif defined _WIFI_TX
+#if defined _WIFI_TX_CW_WAVE
 	#define QISDA_MODULE_NAME "WIFI TX"
 	#define QISDA_MODULE_TITLE "WIFI TX"
 	#define QISDA_MODULE_INFO "reserved"
-	#define QISDA_MODULE_TYPE "RFCERTIFICATION"
+	#define QISDA_MODULE_TYPE "RFCERTIFICATIONTX"
 	static const bool QISDA_MODULE_CHECK_DONGLE = false;
 #elif defined _WIFI_RX
 	#define QISDA_MODULE_NAME "WIFI RX"
