@@ -1156,11 +1156,18 @@ double asyncPMCB(unsigned int iGain, unsigned int iFreq, double dPowerLevel,
 bool CAndroidPhone::WifiPowerOnTxCertification (int iChannel, int iPower, int iRateBitIndex, int iWlandMode, int iChain)
 {
 	char sLibraryVersion[50];
-
+	bool isOk = true;
 	QLIB_GetLibraryVersion(sLibraryVersion );
 	printf("QLibrary Demo\n\n");
 	printf("QLIB DLL Version: %s\n\n", sLibraryVersion );
 
+	TCHAR szNowPath[MAX_PATH] = {0};
+	GetCurrentDirectory(MAX_PATH, szNowPath);
+	CString path = szNowPath;
+	CString csBinPath;
+	csBinPath.Format("%s\\u2416\\bdwlan30.bin", path);
+	csBinPath.Format("%s\\u2416\\bdwlan30.bin", "C:\\");
+	//C:\u2416
 
 	// ROME Chip ID
 	#define ROME_CHIPID   0x3e
@@ -1168,17 +1175,24 @@ bool CAndroidPhone::WifiPowerOnTxCertification (int iChannel, int iPower, int iR
 	char UDT_IP[20] = "127.0.0.1";
 	// Chip specific DLL
 	#define ROME_DLLID    "qc6174"
-	// Board data file where depends on chip variation
-	char BIN_FILE[200] =  _T("C:\\u2416\\bdwlan30.bin");
 
-	CString csBIN_FILE = BIN_FILE;
-	if (_taccess(csBIN_FILE, 0) != 0) 
+
+	//CString csBIN_FILE = BIN_FILE;
+	if (_taccess(csBinPath, 0) != 0) 
 	{
-		AfxMessageBox(_T("C:\\u2416\\bdwlan30.bin not exist"));
+		CString csMsg = csBinPath + _T("not exist");
+		AfxMessageBox(csMsg);
 		return false;
 	}
 
-	unsigned char bRet = QLIB_FTM_WLAN_Atheros_LoadDUT(m_hQMSLPhone,(unsigned char  *)ROME_DLLID,(unsigned char *)BIN_FILE, DataFile, ROME_CHIPID);
+	QLIB_FTM_WLAN_Atheros_UNLoadDUT(m_hQMSLPhone); //unload first;
+
+	unsigned char bRet = QLIB_FTM_WLAN_Atheros_LoadDUT(m_hQMSLPhone,(unsigned char  *)ROME_DLLID,(unsigned char *)csBinPath.GetBuffer(), DataFile, ROME_CHIPID);
+	csBinPath.ReleaseBuffer();
+	if ( !bRet ){
+		return false;
+	}
+
 
 	if ( !bRet ){
 		return false;
@@ -1189,15 +1203,13 @@ bool CAndroidPhone::WifiPowerOnTxCertification (int iChannel, int iPower, int iR
 
 			bool isOk = true;
 
-
-
 			isOk = QLIB_FTM_WLAN_TLV_Create(m_hQMSLPhone, _OP_CAL);
 			if (!isOk) {
 					continue;
 			}
 
 			char buf[32], key[10];
-			isOk = QLIB_FTM_WLAN_TLV_AddParam(m_hQMSLPhone, _T("txMode"), _itoa(3,buf,10)); // int txMode = 3; // Tx99 a = b = g = ac = n
+			isOk = QLIB_FTM_WLAN_TLV_AddParam(m_hQMSLPhone, _T("txMode"), _itoa(1,buf,10)); // int txMode = 3; // Tx99 a = b = g = ac = n
 			if (!isOk) {
 					continue;
 			}
@@ -1237,7 +1249,7 @@ bool CAndroidPhone::WifiPowerOnTxCertification (int iChannel, int iPower, int iR
 					continue;
 			}
 
-			isOk = QLIB_FTM_WLAN_TLV_AddParam(m_hQMSLPhone, _T("txChain0"), _itoa(1,buf,10)); //chain0, chain 1
+			isOk = QLIB_FTM_WLAN_TLV_AddParam(m_hQMSLPhone, _T("txChain0"), _itoa(iChain,buf,10)); //chain0, chain 1
 			if (!isOk) {
 					continue;
 			}
@@ -1288,13 +1300,15 @@ bool CAndroidPhone::WifiPowerOnTxCertification (int iChannel, int iPower, int iR
 			}
 
 			isOk = QLIB_FTM_WLAN_TLV_Complete(m_hQMSLPhone);
+
+		   
 			if (!isOk) {
+				Sleep(10000);
 				continue;
 			}
-
 		}
 
-	return false;
+	return isOk;
 }
 
 bool CAndroidPhone::WifiPowerOn5GTxCertification(int iRate, int iChannel, int iPower, int iPreamble, int iPayloadSize, int iSpacing, int iBond,int iChain)
@@ -1372,10 +1386,32 @@ bool CAndroidPhone::WifiPowerOn5GTxCertification(int iRate, int iChannel, int iP
 	return false;
 }
 
-bool CAndroidPhone::WifiPowerStopTx()
+bool CAndroidPhone::WifiPowerStopTx( int m_iChannel)
 {
 	//Stop TX
-	return QLIB_FTM_WLAN_GEN6_TX_PKT_START_STOP(m_hQMSLPhone, 0);
+	bool isOk = false;
+	char buf[32];
+
+	isOk = QLIB_FTM_WLAN_TLV_Create(m_hQMSLPhone, _OP_TX);
+	if (!isOk) {
+		return isOk;
+	}
+
+	isOk = QLIB_FTM_WLAN_TLV_AddParam(m_hQMSLPhone, _T("txMode"), _itoa(0,buf,10)); //0 = off,  int txMode = 3; // Tx99 a = b = g = ac = n
+	if (!isOk) {
+			return isOk;
+	}
+
+	isOk = QLIB_FTM_WLAN_TLV_AddParam(m_hQMSLPhone, _T("channel"), _itoa( m_iChannel,buf,10));//iChannel
+	if (!isOk) {
+		return isOk;
+	}
+
+	isOk = QLIB_FTM_WLAN_TLV_Complete(m_hQMSLPhone);
+
+	return isOk;
+
+//	return QLIB_FTM_WLAN_GEN6_TX_PKT_START_STOP(m_hQMSLPhone, 0);
 }
 
 bool CAndroidPhone::WifiPowerStopTxCw()
@@ -1384,45 +1420,164 @@ bool CAndroidPhone::WifiPowerStopTxCw()
 	return QLIB_FTM_WLAN_GEN6_STOP_WAVEFORM(m_hQMSLPhone);
 }
 
-bool CAndroidPhone::WifiPowerOnTxCwCertification(int iChannel, int iRfGain)
+//bool CAndroidPhone::WifiPowerOnTxCwCertification(int iChannel, int iRfGain)
+//virtual bool WifiPowerOnTxCwCertification (int iChannel, int iPower, int iRateBitIndex, int iWlandMode, int iChain) = 0 ;
+bool CAndroidPhone::WifiPowerOnTxCwCertification (int iChannel, int iPower, int iRateBitIndex, int iWlandMode, int iChain)
 {
-	for(int i = 0;i < 1;i++)
+	
+	bool isOk = true;
+	char sLibraryVersion[50];
+
+	QLIB_GetLibraryVersion(sLibraryVersion );
+	printf("QLibrary Demo\n\n");
+	printf("QLIB DLL Version: %s\n\n", sLibraryVersion );
+
+	TCHAR szNowPath[MAX_PATH] = {0};
+	GetCurrentDirectory(MAX_PATH, szNowPath);
+	CString path = szNowPath;
+	CString csBinPath;
+	csBinPath.Format("%s\\u2416\\bdwlan30.bin", path);
+	csBinPath.Format("%s\\u2416\\bdwlan30.bin", "C:\\");
+	//C:\u2416
+
+	// ROME Chip ID
+	#define ROME_CHIPID   0x3e
+	// Loopback IP for local system or any remote system IP with DUT
+	char UDT_IP[20] = "127.0.0.1";
+	// Chip specific DLL
+	#define ROME_DLLID    "qc6174"
+
+
+	//CString csBIN_FILE = BIN_FILE;
+	if (_taccess(csBinPath, 0) != 0) 
 	{
-		Sleep(500);
+		CString csMsg = csBinPath + _T("not exist");
+		AfxMessageBox(csMsg);
+		return false;
+	}
 
-		bool isOk = true;
+	QLIB_FTM_WLAN_Atheros_UNLoadDUT(m_hQMSLPhone); //unload first;
 
-		//Set TX
-		isOk = QLIB_FTM_WLAN_GEN6_ENABLE_CHAINS(m_hQMSLPhone, 6);
-		if (!isOk) { 
-			continue;
-		}
-		isOk = QLIB_FTM_WLAN_GEN6_TX_PKT_START_STOP(m_hQMSLPhone, 0);
-		if (!isOk) {
-			continue;
-		}
-		//Set channel
-		if (iChannel != 0)
+	unsigned char bRet = QLIB_FTM_WLAN_Atheros_LoadDUT(m_hQMSLPhone,(unsigned char  *)ROME_DLLID,(unsigned char *)csBinPath.GetBuffer(), DataFile, ROME_CHIPID);
+	csBinPath.ReleaseBuffer();
+	if ( !bRet ){
+		return false;
+	}
+
+
+	if ( !bRet ){
+		return false;
+	}
+		for(int i = 0;i < 1;i++)
 		{
-			isOk = QLIB_FTM_WLAN_GEN6_SET_CHANNEL(m_hQMSLPhone, iChannel);
-			if (!isOk) { 
+			Sleep(500);
+
+			bool isOk = true;
+
+			isOk = QLIB_FTM_WLAN_TLV_Create(m_hQMSLPhone, _OP_CAL);
+			if (!isOk) {
+					continue;
+			}
+
+			char buf[32], key[10];
+			isOk = QLIB_FTM_WLAN_TLV_AddParam(m_hQMSLPhone, _T("txMode"), _itoa(1,buf,10)); // int txMode = 3; // Tx99 a = b = g = ac = n
+			if (!isOk) {
+					continue;
+			}
+
+			isOk = QLIB_FTM_WLAN_TLV_AddParam(m_hQMSLPhone, _T("channel"), _itoa( iChannel,buf,10));//iChannel
+			if (!isOk) {
+					continue;
+			}
+
+			isOk = QLIB_FTM_WLAN_TLV_AddParam(m_hQMSLPhone, _T("tpcm"), _itoa(0,buf,10));
+			if (!isOk) {
+					continue;
+			}
+
+			isOk = QLIB_FTM_WLAN_TLV_AddParam(m_hQMSLPhone, _T("txPower0"), _itoa(iPower, buf ,10)); //iPower
+			if (!isOk) {
+					continue;
+			}
+
+			isOk = QLIB_FTM_WLAN_TLV_AddParam(m_hQMSLPhone, _T("antenna"), _itoa(0,buf,10));
+			if (!isOk) {
+					continue;
+			}
+
+			isOk = QLIB_FTM_WLAN_TLV_AddParam(m_hQMSLPhone, _T("bandwidth"), _itoa(0,buf,10));
+			if (!isOk) {
+					continue;
+			}
+
+			isOk = QLIB_FTM_WLAN_TLV_AddParam(m_hQMSLPhone, _T("rateBitIndex0"), _itoa(iRateBitIndex,buf,10));
+			if (!isOk) {
+					continue;
+			}
+
+			isOk = QLIB_FTM_WLAN_TLV_AddParam(m_hQMSLPhone, _T("wlanMode"), _itoa(iWlandMode,buf,10));//b = 4, a/g = 0,  n = 1, ac = 8
+			if (!isOk) {
+					continue;
+			}
+
+			isOk = QLIB_FTM_WLAN_TLV_AddParam(m_hQMSLPhone, _T("txChain0"), _itoa(iChain,buf,10)); //chain0, chain 1
+			if (!isOk) {
+					continue;
+			}
+
+			isOk = QLIB_FTM_WLAN_TLV_AddParam(m_hQMSLPhone, _T("pktLen0"), _itoa( 1500, buf, 10));//packet size , iPayloadSize
+			if (!isOk) {
+					continue;
+			}
+
+			isOk = QLIB_FTM_WLAN_TLV_AddParam(m_hQMSLPhone, _T("shortGuard"), _itoa(0,buf,10));
+			if (!isOk) {
+					continue;
+			}
+
+			isOk = QLIB_FTM_WLAN_TLV_AddParam(m_hQMSLPhone, _T("numPackets"), _itoa(0,buf,10)); //o for count tx 
+			if (!isOk) {
+					continue;
+			}
+
+			isOk = QLIB_FTM_WLAN_TLV_AddParam(m_hQMSLPhone, _T("txPattern"), _itoa(0,buf,10));
+			if (!isOk) {
+					continue;
+			}
+
+			isOk = QLIB_FTM_WLAN_TLV_AddParam(m_hQMSLPhone, _T("scramblerOff"),_itoa(0,buf,10));
+			if (!isOk) {
+					continue;
+			}
+
+			isOk = QLIB_FTM_WLAN_TLV_AddParam(m_hQMSLPhone, _T("agg"),_itoa(1,buf,10));//aggregate 
+			if (!isOk) {
+					continue;
+			}
+
+			isOk = QLIB_FTM_WLAN_TLV_AddParam(m_hQMSLPhone, _T("aifsn"),_itoa(1,buf,10));
+			if (!isOk) {
+					continue;
+			}
+
+			isOk = QLIB_FTM_WLAN_TLV_AddParam(m_hQMSLPhone, _T("broadcast"), _itoa(0,buf,10));//broadcast, 
+			if (!isOk) {
+					continue;
+			}
+
+			isOk = QLIB_FTM_WLAN_TLV_AddParam(m_hQMSLPhone, _T("flags"), _itoa(24,buf,10));
+			if (!isOk) {
+					continue;
+			}
+
+			isOk = QLIB_FTM_WLAN_TLV_Complete(m_hQMSLPhone);
+
+		   
+			if (!isOk) {
+				Sleep(10000);
 				continue;
 			}
 		}
-		iRfGain *=65536;
-		isOk = QLIB_FTM_WLAN_GEN6_SET_TX_WAVEFORM_GAIN_V2(m_hQMSLPhone, iRfGain);
-		if (!isOk) {
-			continue;
-		}
-		isOk = QLIB_FTM_WLAN_GEN6_GEN_CW(m_hQMSLPhone, 0, 255);
-		if (!isOk) {
-			continue;
-		}
-
-		return true;
-	}
-
-	return false;
 }
 
 bool CAndroidPhone::WifiPowerOn5GTxCwCertification(int iChannel, int iRfGain, int iBond)
@@ -1466,147 +1621,129 @@ bool CAndroidPhone::WifiPowerOn5GTxCwCertification(int iChannel, int iRfGain, in
 	return false;
 }
 
-//bool CAndroidPhone::WifiPowerOnRxGetPacket(unsigned long* rxFrameCounter,int iChain)
-bool CAndroidPhone::WifiPowerOnRxGetPacket(int iChannel,int iPreamble, unsigned long* rxFrameCounter,int iChain)
+bool CAndroidPhone::WifiPowerOnRxGetPacket (char* rxFrameCounter)
 {
-	for(int i = 0;i < 1;i++)
+		   //QLIB_FTM_WLAN_TLV_Create(m_hQMSLPhone, _OP_RX_STATUS);
+		   //QLIB_FTM_WLAN_TLV_Complete(m_hQMSLPhone);
+
+		   //Get Rx status report
+		   printf ("==============================\n");
+		   QLIB_FTM_WLAN_TLV_GetRspParam(m_hQMSLPhone,"totalPkt",rxFrameCounter);
+		   printf("Rx Report : totalPkt    = %4s\n",rxFrameCounter);
+		   QLIB_FTM_WLAN_TLV_GetRspParam(m_hQMSLPhone,"goodPackets",rxFrameCounter);
+		   printf("Rx Report : goodPackets = %4s\n",rxFrameCounter);
+		   QLIB_FTM_WLAN_TLV_GetRspParam(m_hQMSLPhone,"crcErrPkt",rxFrameCounter);
+		   printf("Rx Report : crcErrPkt   = %4s\n",rxFrameCounter);
+		   QLIB_FTM_WLAN_TLV_GetRspParam(m_hQMSLPhone,"secErrPkt",rxFrameCounter);
+		   printf("Rx Report : secErrPkt   = %4s\n",rxFrameCounter);
+		   QLIB_FTM_WLAN_TLV_GetRspParam(m_hQMSLPhone,"rssi",rxFrameCounter);
+		   printf("Rx Report : rssi        = %4s\n",rxFrameCounter);
+
+	return true;
+}
+
+
+//virtual bool WifiPowerOnRxCertification (int iChannel, int iWlandMode,int rateMask, int iChain);
+bool CAndroidPhone::WifiPowerOnRxCertification(int iChannel, int iWlandMode,int iRateMask, int iChain)
+{
+	char sLibraryVersion[50];
+	bool isOk = true;
+	QLIB_GetLibraryVersion(sLibraryVersion );
+	printf("QLibrary Demo\n\n");
+	printf("QLIB DLL Version: %s\n\n", sLibraryVersion );
+
+	TCHAR szNowPath[MAX_PATH] = {0};
+	GetCurrentDirectory(MAX_PATH, szNowPath);
+	CString path = szNowPath;
+	CString csBinPath;
+	csBinPath.Format("%s\\u2416\\bdwlan30.bin", "c:\\");
+
+	// ROME Chip ID
+	#define ROME_CHIPID   0x3e
+	// Loopback IP for local system or any remote system IP with DUT
+	char UDT_IP[20] = "127.0.0.1";
+	// Chip specific DLL
+	#define ROME_DLLID    "qc6174"
+
+
+	//CString csBIN_FILE = BIN_FILE;
+	if (_taccess(csBinPath, 0) != 0) 
 	{
-		Sleep(500);
+		CString csMsg = csBinPath + _T("not exist");
+		AfxMessageBox(csMsg);
+		return false;
+	}
 
-		bool isOk = true;
+	QLIB_FTM_WLAN_Atheros_UNLoadDUT(m_hQMSLPhone); //unload first;
 
-		unsigned long totalMacRxPackets = 0;
-		unsigned long totalMacFcsErrPackets = 0;
-		//isOk = QLIB_FTM_WLAN_GEN6_GET_RX_PACKET_COUNTS(m_hQMSLPhone, rxFrameCounter, &totalMacRxPackets, &totalMacFcsErrPackets);
-		//if (!isOk) { 
-		//	continue;
-		//}
-         // printf("\n(=Read ESN");
+	unsigned char bRet = QLIB_FTM_WLAN_Atheros_LoadDUT(m_hQMSLPhone,(unsigned char  *)ROME_DLLID,(unsigned char *)csBinPath.GetBuffer(), DataFile, ROME_CHIPID);
+	csBinPath.ReleaseBuffer();
+	if ( !bRet ){
+		return false;
+	}
 
-			 unsigned long _iESN = 0;
 
-			 // Read the ESN, size, status
-			 //ESN = 0XDEADBEEF
-			 if (QLIB_DIAG_READ_ESN_F(  m_hQMSLPhone, &_iESN ) )
-			 {
-				printf("\nQLIB_DIAG_READ_ESN_F: PASS, ESN = 0x%X", _iESN );
-			 }
-			 else
-				printf("\nQLIB_DIAG_READ_ESN_F: FAIL");
+	if ( !bRet ){
+		return false;
+	}
+		for(int i = 0;i < 1;i++)
+		{
+			Sleep(500);
 
-            // Get extended version info
-            unsigned long _iMSM_HW_Version = 0;
-            unsigned long _iMobModel = 0;
-            char _sMobSwRev[512];
-            char _sModelStr[512];
-
-			//Hw/Sw Version = 0  4097   
-            isOk = QLIB_DIAG_EXT_BUILD_ID_F( m_hQMSLPhone, &_iMSM_HW_Version, &_iMobModel, _sMobSwRev, _sModelStr );
-
-            // Print the results
-            if (isOk)
-            {
-               printf("\n");
-               printf("      Ext MSM HW Version: 0x%X\n", _iMSM_HW_Version  );
-               printf("       Ext Mobile Model#: 0x%X\n", _iMobModel        );
-               printf("Ext Mobile Mobile SW Rev: %s\n", _sMobSwRev      );
-               printf("            Ext Model ID: %s\n", _sModelStr      );
-
-               // Report the phone status
-              // ReportPhoneState();
-            }
-            else
-               printf("\nQLIB_DIAG_EXT_BUILD_ID_F = FAIL");
-
-			// ROME Chip ID
-			#define ROME_CHIPID   0x3e
-			// Loopback IP for local system or any remote system IP with DUT
-			char UDT_IP[20] = "127.0.0.1";
-			// Chip specific DLL
-			#define ROME_DLLID    "qc6174"
-			// Board data file where depends on chip variation
-			char BIN_FILE[200] =  _T("C:\\u2416\\bdwlan30.bin");
-
-			CString csBIN_FILE = BIN_FILE;
-			if (_taccess(csBIN_FILE, 0) != 0) 
-			{
-				AfxMessageBox(_T("C:\\u2416\\bdwlan30.bin not exist"));
-				return false;
-			}
-
-			unsigned char bRet = QLIB_FTM_WLAN_Atheros_LoadDUT(m_hQMSLPhone,(unsigned char  *)ROME_DLLID,(unsigned char *)BIN_FILE, DataFile, ROME_CHIPID);
-
-			if ( !bRet ){
-				return false;
-			}
-
+			bool isOk = true;
 
 			isOk = QLIB_FTM_WLAN_TLV_Create(m_hQMSLPhone, _OP_RX);
 			if (!isOk) {
-					continue;
+				continue;
 			}
 
 			char buf[32], key[10];
-			//isOk = QLIB_FTM_WLAN_TLV_AddParam(m_hQMSLPhone, _T("txMode"), _itoa(3,buf,10)); // int txMode = 3; // Tx99 a = b = g = ac = n
-			//if (!isOk) {
-			//		continue;
-			//}
+			isOk = QLIB_FTM_WLAN_TLV_AddParam(m_hQMSLPhone, _T("channel"), _itoa(iChannel,buf,10)); // int txMode = 3; // Tx99 a = b = g = ac = n
+			if (!isOk) {
+				continue;
+			}
 
-			isOk = QLIB_FTM_WLAN_TLV_AddParam(m_hQMSLPhone, _T("channel"), _itoa( iChannel,buf,10));//iChannel
+			isOk = QLIB_FTM_WLAN_TLV_AddParam(m_hQMSLPhone, _T("wlanMode"), _itoa(iWlandMode,buf,10));//b = 4, a/g = 0,  n = 1, ac = 8
+			if (!isOk) {
+				continue;
+			}
+
+			isOk = QLIB_FTM_WLAN_TLV_AddParam(m_hQMSLPhone, _T("rxMode"), _itoa( 0, buf, 10));//packet size , iPayloadSize
+			if (!isOk) {
+				continue;
+			}
+
+			isOk = QLIB_FTM_WLAN_TLV_AddParam(m_hQMSLPhone, _T("rateMask"), _itoa( iRateMask, buf, 10));//packet size , iPayloadSize
+			if (!isOk) {
+				continue;
+			}
+
+			isOk = QLIB_FTM_WLAN_TLV_AddParam(m_hQMSLPhone, _T("rxChain"), _itoa(iChain,buf,10)); //chain0, chain 1
+			if (!isOk) {
+				continue;
+			}
+
+
+			isOk = QLIB_FTM_WLAN_TLV_AddParam(m_hQMSLPhone, _T("enANI"), _itoa(0,buf,10));//broadcast, 
 			if (!isOk) {
 					continue;
 			}
 
-			//isOk = QLIB_FTM_WLAN_TLV_AddParam(m_hQMSLPhone, _T("wlanMode"), _itoa(iPreamble,buf,10));//b = 4, a/g = 0,  n = 1, ac = 8
-			//if (!isOk) {
-			//		continue;
-			//}
-			isOk = QLIB_FTM_WLAN_TLV_AddParam(m_hQMSLPhone, _T("wlanMode"), _itoa(0, buf,10));//b = 4, a/g = 0,  n = 1, ac = 8
-			if (!isOk) {
-					continue;
-			}
-			//isOk = QLIB_FTM_WLAN_TLV_AddParam(m_hQMSLPhone, _T("wlanMode"), _itoa(4, buf,10));//b = 4, a/g = 0,  n = 1, ac = 8
-			//if (!isOk) {
-			//		continue;
-			//}
-			//isOk = QLIB_FTM_WLAN_TLV_AddParam(m_hQMSLPhone, _T("wlanMode"), _itoa(1, buf,10));//b = 4, a/g = 0,  n = 1, ac = 8
-			//if (!isOk) {
-			//		continue;
-			//}
-			//isOk = QLIB_FTM_WLAN_TLV_AddParam(m_hQMSLPhone, _T("wlanMode"), _itoa(8, buf,10));//b = 4, a/g = 0,  n = 1, ac = 8
-			//if (!isOk) {
-			//		continue;
-			//}
-
-			isOk = QLIB_FTM_WLAN_TLV_AddParam(m_hQMSLPhone, _T("rxMode"), _itoa(0,buf,10));//rxMode = 0
-			if (!isOk) {
-					continue;
-			}
-
-			isOk = QLIB_FTM_WLAN_TLV_AddParam(m_hQMSLPhone, _T("rateMask"), _itoa(59,buf,10));//rxMode = 0
-			if (!isOk) {
-					continue;
-			}
-
-			isOk = QLIB_FTM_WLAN_TLV_AddParam(m_hQMSLPhone, _T("rxChain"), _itoa(iChain, buf,10)); //chain0, chain 1
-			if (!isOk) {
-					continue;
-			}
-
-			isOk = QLIB_FTM_WLAN_TLV_AddParam(m_hQMSLPhone, _T("enANI"), _itoa(0, buf,10)); //chain0, chain 1
-			if (!isOk) {
-					continue;
-			}
-
-			isOk = QLIB_FTM_WLAN_TLV_AddParam(m_hQMSLPhone, _T("antenna"), _itoa(0, buf,10)); //chain0, chain 1
+			isOk = QLIB_FTM_WLAN_TLV_AddParam(m_hQMSLPhone, _T("antenna"), _itoa(0,buf,10));
 			if (!isOk) {
 					continue;
 			}
 
 			isOk = QLIB_FTM_WLAN_TLV_Complete(m_hQMSLPhone);
+
+		   
 			if (!isOk) {
+				Sleep(10000);
 				continue;
 			}
+		}
+
+	return isOk;
 
 
 		//void StopRxWithReport()
@@ -1632,11 +1769,181 @@ bool CAndroidPhone::WifiPowerOnRxGetPacket(int iChannel,int iPreamble, unsigned 
 		   QLIB_FTM_WLAN_TLV_GetRspParam(m_hQMSLPhone,"rssi",strData);
 		   printf("Rx Report : rssi        = %4s\n",strData);
 
-		return true;
-	}
-
 	return false;
 }
+//bool CAndroidPhone::WifiPowerOnRxGetPacket(unsigned long* rxFrameCounter,int iChain)
+
+
+//bool CAndroidPhone::WifiPowerOnRxGetPacket(int iChannel,int iPreamble, unsigned long* rxFrameCounter,int iChain)
+//{
+//	for(int i = 0;i < 1;i++)
+//	{
+//		Sleep(500);
+//
+//		bool isOk = true;
+//
+//		unsigned long totalMacRxPackets = 0;
+//		unsigned long totalMacFcsErrPackets = 0;
+//		//isOk = QLIB_FTM_WLAN_GEN6_GET_RX_PACKET_COUNTS(m_hQMSLPhone, rxFrameCounter, &totalMacRxPackets, &totalMacFcsErrPackets);
+//		//if (!isOk) { 
+//		//	continue;
+//		//}
+//         // printf("\n(=Read ESN");
+//
+//			 unsigned long _iESN = 0;
+//
+//			 // Read the ESN, size, status
+//			 //ESN = 0XDEADBEEF
+//			 if (QLIB_DIAG_READ_ESN_F(  m_hQMSLPhone, &_iESN ) )
+//			 {
+//				printf("\nQLIB_DIAG_READ_ESN_F: PASS, ESN = 0x%X", _iESN );
+//			 }
+//			 else
+//				printf("\nQLIB_DIAG_READ_ESN_F: FAIL");
+//
+//            // Get extended version info
+//            unsigned long _iMSM_HW_Version = 0;
+//            unsigned long _iMobModel = 0;
+//            char _sMobSwRev[512];
+//            char _sModelStr[512];
+//
+//			//Hw/Sw Version = 0  4097   
+//            isOk = QLIB_DIAG_EXT_BUILD_ID_F( m_hQMSLPhone, &_iMSM_HW_Version, &_iMobModel, _sMobSwRev, _sModelStr );
+//
+//            // Print the results
+//            if (isOk)
+//            {
+//               printf("\n");
+//               printf("      Ext MSM HW Version: 0x%X\n", _iMSM_HW_Version  );
+//               printf("       Ext Mobile Model#: 0x%X\n", _iMobModel        );
+//               printf("Ext Mobile Mobile SW Rev: %s\n", _sMobSwRev      );
+//               printf("            Ext Model ID: %s\n", _sModelStr      );
+//
+//               // Report the phone status
+//              // ReportPhoneState();
+//            }
+//            else
+//               printf("\nQLIB_DIAG_EXT_BUILD_ID_F = FAIL");
+//
+//			// ROME Chip ID
+//			#define ROME_CHIPID   0x3e
+//			// Loopback IP for local system or any remote system IP with DUT
+//			char UDT_IP[20] = "127.0.0.1";
+//			// Chip specific DLL
+//			#define ROME_DLLID    "qc6174"
+//			// Board data file where depends on chip variation
+//			char BIN_FILE[200] =  _T("C:\\u2416\\bdwlan30.bin");
+//
+//			CString csBIN_FILE = BIN_FILE;
+//			if (_taccess(csBIN_FILE, 0) != 0) 
+//			{
+//				AfxMessageBox(_T("C:\\u2416\\bdwlan30.bin not exist"));
+//				return false;
+//			}
+//
+//			unsigned char bRet = QLIB_FTM_WLAN_Atheros_LoadDUT(m_hQMSLPhone,(unsigned char  *)ROME_DLLID,(unsigned char *)BIN_FILE, DataFile, ROME_CHIPID);
+//
+//			if ( !bRet ){
+//				return false;
+//			}
+//
+//
+//			isOk = QLIB_FTM_WLAN_TLV_Create(m_hQMSLPhone, _OP_RX);
+//			if (!isOk) {
+//					continue;
+//			}
+//
+//			char buf[32], key[10];
+//			//isOk = QLIB_FTM_WLAN_TLV_AddParam(m_hQMSLPhone, _T("txMode"), _itoa(3,buf,10)); // int txMode = 3; // Tx99 a = b = g = ac = n
+//			//if (!isOk) {
+//			//		continue;
+//			//}
+//
+//			isOk = QLIB_FTM_WLAN_TLV_AddParam(m_hQMSLPhone, _T("channel"), _itoa( iChannel,buf,10));//iChannel
+//			if (!isOk) {
+//					continue;
+//			}
+//
+//			//isOk = QLIB_FTM_WLAN_TLV_AddParam(m_hQMSLPhone, _T("wlanMode"), _itoa(iPreamble,buf,10));//b = 4, a/g = 0,  n = 1, ac = 8
+//			//if (!isOk) {
+//			//		continue;
+//			//}
+//			isOk = QLIB_FTM_WLAN_TLV_AddParam(m_hQMSLPhone, _T("wlanMode"), _itoa(0, buf,10));//b = 4, a/g = 0,  n = 1, ac = 8
+//			if (!isOk) {
+//					continue;
+//			}
+//			//isOk = QLIB_FTM_WLAN_TLV_AddParam(m_hQMSLPhone, _T("wlanMode"), _itoa(4, buf,10));//b = 4, a/g = 0,  n = 1, ac = 8
+//			//if (!isOk) {
+//			//		continue;
+//			//}
+//			//isOk = QLIB_FTM_WLAN_TLV_AddParam(m_hQMSLPhone, _T("wlanMode"), _itoa(1, buf,10));//b = 4, a/g = 0,  n = 1, ac = 8
+//			//if (!isOk) {
+//			//		continue;
+//			//}
+//			//isOk = QLIB_FTM_WLAN_TLV_AddParam(m_hQMSLPhone, _T("wlanMode"), _itoa(8, buf,10));//b = 4, a/g = 0,  n = 1, ac = 8
+//			//if (!isOk) {
+//			//		continue;
+//			//}
+//
+//			isOk = QLIB_FTM_WLAN_TLV_AddParam(m_hQMSLPhone, _T("rxMode"), _itoa(0,buf,10));//rxMode = 0
+//			if (!isOk) {
+//					continue;
+//			}
+//
+//			isOk = QLIB_FTM_WLAN_TLV_AddParam(m_hQMSLPhone, _T("rateMask"), _itoa(59,buf,10));//rxMode = 0
+//			if (!isOk) {
+//					continue;
+//			}
+//
+//			isOk = QLIB_FTM_WLAN_TLV_AddParam(m_hQMSLPhone, _T("rxChain"), _itoa(iChain, buf,10)); //chain0, chain 1
+//			if (!isOk) {
+//					continue;
+//			}
+//
+//			isOk = QLIB_FTM_WLAN_TLV_AddParam(m_hQMSLPhone, _T("enANI"), _itoa(0, buf,10)); //chain0, chain 1
+//			if (!isOk) {
+//					continue;
+//			}
+//
+//			isOk = QLIB_FTM_WLAN_TLV_AddParam(m_hQMSLPhone, _T("antenna"), _itoa(0, buf,10)); //chain0, chain 1
+//			if (!isOk) {
+//					continue;
+//			}
+//
+//			isOk = QLIB_FTM_WLAN_TLV_Complete(m_hQMSLPhone);
+//			if (!isOk) {
+//				continue;
+//			}
+//
+//
+//		//void StopRxWithReport()
+//		//{
+//		   char strData[128];
+//
+//		   //80-WL400-11 Refer Section "Steps to do WLAN RF receive tests"
+//		   //             Refer Table "QRCT steps to perform WLAN receive test"
+//		   // Execute _OP_RX_STATUS will stop current RX
+//		   QLIB_FTM_WLAN_TLV_Create(m_hQMSLPhone, _OP_RX_STATUS);
+//		   QLIB_FTM_WLAN_TLV_Complete(m_hQMSLPhone);
+//
+//		   //Get Rx status report
+//		   printf ("==============================\n");
+//		   QLIB_FTM_WLAN_TLV_GetRspParam(m_hQMSLPhone,"totalPkt",strData);
+//		   printf("Rx Report : totalPkt    = %4s\n",strData);
+//		   QLIB_FTM_WLAN_TLV_GetRspParam(m_hQMSLPhone,"goodPackets",strData);
+//		   printf("Rx Report : goodPackets = %4s\n",strData);
+//		   QLIB_FTM_WLAN_TLV_GetRspParam(m_hQMSLPhone,"crcErrPkt",strData);
+//		   printf("Rx Report : crcErrPkt   = %4s\n",strData);
+//		   QLIB_FTM_WLAN_TLV_GetRspParam(m_hQMSLPhone,"secErrPkt",strData);
+//		   printf("Rx Report : secErrPkt   = %4s\n",strData);
+//		   QLIB_FTM_WLAN_TLV_GetRspParam(m_hQMSLPhone,"rssi",strData);
+//		   printf("Rx Report : rssi        = %4s\n",strData);
+//
+//		return true;
+//	}
+//
+//	return false;
+//}
 
 bool CAndroidPhone::WifiPowerOnRxSetChannel(int iChannel)
 {

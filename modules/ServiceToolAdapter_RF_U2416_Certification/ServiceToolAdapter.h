@@ -13,13 +13,13 @@
 #include "..\..\Modules\UnifyInterface\FacTestToolInterface.h"
 #include "..\..\Modules\FactoryToolController_Boston\EnhanceController\EnhanceController.h"
 #include "..\..\Modules\FactoryToolController_Boston\EnhanceController\CableLossHandler_Standard.h"
-#include "..\..\Modules\FactoryToolController_Boston\EnhanceController\GPIBHandler_Standard.h"
+//#include "..\..\Modules\FactoryToolController_Boston\EnhanceController\GPIBHandler_Standard.h"
 #include "..\..\Modules\FactoryToolController_Boston\EnhanceController\PhoneHandler_Standard.h"
-#include "..\..\Modules\FactoryToolController_Boston\EnhanceController\PowerSupplyHandler_Standard.h"
-#include "..\..\Modules\FactoryToolController_Boston\EnhanceController\TestBoxHandler_Standard.h"
+//#include "..\..\Modules\FactoryToolController_Boston\EnhanceController\PowerSupplyHandler_Standard.h"
+//#include "..\..\Modules\FactoryToolController_Boston\EnhanceController\TestBoxHandler_Standard.h"
 #include "..\..\Modules\FactoryToolController_Boston\EnhanceController\TestItemHandler_Standard.h"
 #include "..\..\Modules\FactoryToolController_Boston\EnhanceController\ToolLoader.h"
-#include "..\..\Modules\FactoryToolController_Boston\EnhanceController\DownLoadHandler_Standard.h"
+//#include "..\..\Modules\FactoryToolController_Boston\EnhanceController\DownLoadHandler_Standard.h"
 
 #define ISRV_EXPORT_EXPORTS
 
@@ -31,10 +31,10 @@
 #define ISRV_CLASS_API __declspec(dllimport)
 #endif
 
-#define _WIFI_TX
+#define _WIFI_TX_CW_WAVE
 #define UNIFYMODELNAME			      _T("RF")
 
-#if defined _WIFI_TX_CW_WAVE
+#if defined _WIFI_TX
 	#define QISDA_MODULE_NAME "WIFI TX"
 	#define QISDA_MODULE_TITLE "WIFI TX"
 	#define QISDA_MODULE_INFO "reserved"

@@ -229,39 +229,8 @@ CServiceToolController::CServiceToolController()
 	this->m_Parametermap[ParameterKeyWord::CONFIGDIR] = _T("C:\\PE_Config\\") + this->m_Parametermap[ParameterKeyWord::MODELNAME] + _T("\\Setting\\");
 	this->m_Parametermap[ParameterKeyWord::LOGDIR] = _T("D:\\Log\\ServiceTool\\");
 
-	if(QISDA_MODULE_NAME == "BBTEST_NFC")
-	{
-		this->m_Parametermap[ParameterKeyWord::STATIONNAME] = this->m_strCurrentStation = STATION_BBTEST;
-		GetModuleFileName(NULL, this->m_Parametermap[ParameterKeyWord::WORKINGDIR].GetBufferSetLength(MAX_PATH+1), MAX_PATH);
-		this->m_Parametermap[ParameterKeyWord::WORKINGDIR].ReleaseBuffer();
-		this->m_Parametermap[ParameterKeyWord::WORKINGDIR] = this->m_Parametermap[ParameterKeyWord::WORKINGDIR].Left(this->m_Parametermap[ParameterKeyWord::WORKINGDIR].ReverseFind('\\'));
-		this->m_Parametermap[ParameterKeyWord::WORKINGDIR].Append(_T("\\Module\\Boston\\L3L4\\BBTEST_NFC\\"));
-	}
-	else if(QISDA_MODULE_NAME == "BBTEST_nonNFC")
-	{
-		this->m_Parametermap[ParameterKeyWord::STATIONNAME] = this->m_strCurrentStation = STATION_BBTEST;
-		GetModuleFileName(NULL, this->m_Parametermap[ParameterKeyWord::WORKINGDIR].GetBufferSetLength(MAX_PATH+1), MAX_PATH);
-		this->m_Parametermap[ParameterKeyWord::WORKINGDIR].ReleaseBuffer();
-		this->m_Parametermap[ParameterKeyWord::WORKINGDIR] = this->m_Parametermap[ParameterKeyWord::WORKINGDIR].Left(this->m_Parametermap[ParameterKeyWord::WORKINGDIR].ReverseFind('\\'));
-		this->m_Parametermap[ParameterKeyWord::WORKINGDIR].Append(_T("\\Module\\Boston\\L3L4\\BBTEST_nonNFC\\"));
-	}
-	else if(QISDA_MODULE_NAME == "2G3GTEST")
-	{
-		this->m_Parametermap[ParameterKeyWord::STATIONNAME] = this->m_strCurrentStation = STATION_2G3GTEST;
-		GetModuleFileName(NULL, this->m_Parametermap[ParameterKeyWord::WORKINGDIR].GetBufferSetLength(MAX_PATH+1), MAX_PATH);
-		this->m_Parametermap[ParameterKeyWord::WORKINGDIR].ReleaseBuffer();
-		this->m_Parametermap[ParameterKeyWord::WORKINGDIR] = this->m_Parametermap[ParameterKeyWord::WORKINGDIR].Left(this->m_Parametermap[ParameterKeyWord::WORKINGDIR].ReverseFind('\\'));
-		this->m_Parametermap[ParameterKeyWord::WORKINGDIR].Append(_T("\\Module\\Boston\\L3L4\\2G3GTEST\\"));
-	}
-	else if(QISDA_MODULE_NAME == "LTE")
-	{
-		this->m_Parametermap[ParameterKeyWord::STATIONNAME] = this->m_strCurrentStation = _T("LTE");
-		GetModuleFileName(NULL, this->m_Parametermap[ParameterKeyWord::WORKINGDIR].GetBufferSetLength(MAX_PATH+1), MAX_PATH);
-		this->m_Parametermap[ParameterKeyWord::WORKINGDIR].ReleaseBuffer();
-		this->m_Parametermap[ParameterKeyWord::WORKINGDIR] = this->m_Parametermap[ParameterKeyWord::WORKINGDIR].Left(this->m_Parametermap[ParameterKeyWord::WORKINGDIR].ReverseFind('\\'));
-		this->m_Parametermap[ParameterKeyWord::WORKINGDIR].Append(_T("\\Module\\Boston\\L3L4\\LTE\\"));
-	}
-	else if(QISDA_MODULE_NAME == "BTWLAN")
+
+	if(QISDA_MODULE_NAME == "BTWLAN")
 	{
 		this->m_Parametermap[ParameterKeyWord::STATIONNAME] = this->m_strCurrentStation = STATION_BTWLAN;
 		GetModuleFileName(NULL, this->m_Parametermap[ParameterKeyWord::WORKINGDIR].GetBufferSetLength(MAX_PATH+1), MAX_PATH);
@@ -324,16 +293,7 @@ CServiceToolController::CServiceToolController()
 		this->m_Parametermap[ParameterKeyWord::WORKINGDIR].ReleaseBuffer();
 		this->m_Parametermap[ParameterKeyWord::WORKINGDIR] = this->m_Parametermap[ParameterKeyWord::WORKINGDIR].Left(this->m_Parametermap[ParameterKeyWord::WORKINGDIR].ReverseFind('\\'));
 		this->m_Parametermap[ParameterKeyWord::WORKINGDIR].Append(_T("\\Module\\RF_Certification\\RF\\5G_CW\\"));
-	}/*
-	else if(QISDA_MODULE_NAME == "OS_DL")
-	{		
-		this->m_Parametermap[ParameterKeyWord::STATIONNAME] = this->m_strCurrentStation = STATION_OS_DL;
-		GetModuleFileName(NULL, this->m_Parametermap[ParameterKeyWord::WORKINGDIR].GetBufferSetLength(MAX_PATH+1), MAX_PATH);
-		this->m_Parametermap[ParameterKeyWord::WORKINGDIR].ReleaseBuffer();
-		this->m_Parametermap[ParameterKeyWord::WORKINGDIR] = this->m_Parametermap[ParameterKeyWord::WORKINGDIR].Left(this->m_Parametermap[ParameterKeyWord::WORKINGDIR].ReverseFind('\\'));
-		this->m_Parametermap[ParameterKeyWord::WORKINGDIR].Append(_T("\\Module\\Boston\\L3L4\\OS_DL\\"));
-		this->m_Parametermap[_T("DLMODE")] = _T("ReDL");
-	}*/
+	}
 }
 
 CServiceToolController::~CServiceToolController()
@@ -343,50 +303,19 @@ CServiceToolController::~CServiceToolController()
 size_t CServiceToolController::SetParameterValue(char* sz_keyword, char* sz_value)
 {
 	std::string key = sz_keyword;
-	//CString strVlaue = CA2CT(sz_value);
-	if (key == "image_path") {
-		//this->m_Parametermap[_T("IMAGEPATH")] = strVlaue.Right(strVlaue.GetLength() - strVlaue.ReverseFind('\\') - 1);
-		this->m_Parametermap[_T("IMAGEPATH")] = CA2CT(sz_value);
-	}
-	else if (key == "PAYLOAD")
-	{
-		this->m_Parametermap[_T("PAYLOAD")] = CA2CT(sz_value);
-	}
-	else if (key == "CHANNEL")
+
+	if (key == "CHANNEL")
 	{
 		this->m_Parametermap[_T("CHANNEL")] = CA2CT(sz_value);
-	}
-	else if (key == "RATE")
-	{
-		this->m_Parametermap[_T("RATE")] = CA2CT(sz_value);
-	}
-	else if (key == "SPACING")
-	{
-		this->m_Parametermap[_T("SPACING")] = CA2CT(sz_value);
 	}
 	else if (key == "POWER")
 	{
 		this->m_Parametermap[_T("POWER")] = CA2CT(sz_value);
 	}
-	else if (key == "PREAMBLE")
-	{
-		this->m_Parametermap[_T("PREAMBLE")] = CA2CT(sz_value);
-	}
+
 	else if (key == "COM")
 	{
 		this->m_Parametermap[_T("COM")] = CA2CT(sz_value);
-	}
-	else if (key == "RFGAIN")
-	{
-		this->m_Parametermap[_T("RFGAIN")] = CA2CT(sz_value);
-	}
-	else if (key == "RF2G4INPUT")
-	{
-		this->m_Parametermap[_T("RF2G4INPUT")] = CA2CT(sz_value);
-	}
-	else if (key == "BOND")
-	{
-		this->m_Parametermap[_T("BOND")] = CA2CT(sz_value);
 	}
 	else if (key == "CHAIN")
 	{
@@ -411,64 +340,7 @@ size_t CServiceToolController::SetParameterValue(char* sz_keyword, char* sz_valu
 size_t CServiceToolController::GetParameterValue(char* sz_keyword, char* sz_value)
 {
 	std::string key = sz_keyword;
-	if(QISDA_MODULE_NAME == "BBTEST_NFC" || QISDA_MODULE_NAME == "BBTEST_nonNFC")
-	{
-		if (key == "msg_process") {
-			char* msg = "BBTEST \r\n"
-						"\r\n"
-						"1. Please make sure the image in the PCBA is Factory image. \r\n"
-						"    If necessary, using \"Download\" function in L1L2 to download Factory image first please. \r\n"
-						"2. Please make sure the equipment setting is correct. \r\n"
-						"3. Put the PCBA on the RIGHT site (BB) of the fixture and close it. \r\n"
-						"4. Click \"RUN\" to start BBTEST process and wait for process finish. \r\n"
-						"5. Please open the fixture and close it before executing the same function or others. \r\n"
-						"6. Please turn off the power supply manually if test FAIL. \r\n";
-			strncpy(sz_value, msg, strlen(msg));
-		}
-		else if (key == "msg_warning") {
-			char* msg = "";
-			strncpy(sz_value, msg, strlen(msg));
-		}
-	}
-	else if(QISDA_MODULE_NAME == "2G3GTEST")
-	{
-		if (key == "msg_process") {
-			char* msg = "2G3GTEST \r\n"
-						"\r\n"
-						"1. Please make sure the image in the PCBA is Factory image. \r\n"
-						"    If necessary, using \"Download\" function in L1L2 to download Factory image first please. \r\n"
-						"2. Please make sure the equipment setting is correct. \r\n"
-						"2. Put the PCBA on the LEFT site (RF) of the fixture and close it. \r\n"
-						"4. Click \"RUN\" to start 2G3GTEST process and wait for process finish. \r\n"
-						"5. Please open the fixture and close it before executing the same function or others. \r\n"
-						"6. Please turn off the power supply manually if test FAIL. \r\n";
-			strncpy(sz_value, msg, strlen(msg));
-		}
-		else if (key == "msg_warning") {
-			char* msg = "";
-			strncpy(sz_value, msg, strlen(msg));
-		}
-	}
-	else if(QISDA_MODULE_NAME == "LTE")
-	{
-		if (key == "msg_process") {
-			char* msg = "LTE \r\n"
-						"\r\n"
-						"1. Please make sure the image in the PCBA is Factory image. \r\n"
-						"    If necessary, using \"Download\" function in L1L2 to download Factory image first please. \r\n"
-						"2. Please make sure the equipment setting is correct. \r\n"
-						"2. Put the PCBA on the LEFT site (RF) of the fixture and close it. \r\n"
-						"4. Click \"RUN\" to start LTE process and wait for process finish. \r\n"
-						"5. Please open the fixture and close it before executing the same function or others. \r\n"
-						"6. Please turn off the power supply manually if test FAIL. \r\n";
-			strncpy(sz_value, msg, strlen(msg));
-		}
-		else if (key == "msg_warning") {
-			char* msg = "";
-			strncpy(sz_value, msg, strlen(msg));
-		}
-	}
-	else if(QISDA_MODULE_NAME == "BTWLAN")
+	if(QISDA_MODULE_NAME == "BTWLAN")
 	{
 		if (key == "msg_process") {
 			char* msg = "BTWLAN \r\n"
@@ -487,28 +359,6 @@ size_t CServiceToolController::GetParameterValue(char* sz_keyword, char* sz_valu
 			strncpy(sz_value, msg, strlen(msg));
 		}
 	}
-/*
-	else if(QISDA_MODULE_NAME == "OS_DL")
-	{
-		if (key == "msg_process") {
-			char* msg = "Service Download \r\n"
-						"\r\n"
-						"1. Power off the device. \r\n"
-						"2. Press volume UP key and plug in the USB cable to connect with PC. \r\n"
-						"3. Release the volume key and make sure the device is under Qualcomm download mode. \r\n"
-						"4. Click \"Folder\" to select Image location. \r\n"
-						"5. Click \"RUN\" to start download process. \r\n"
-						"6. It will erase all user data. Back up your data if needed before process. \r\n"
-						"7. Please wait for process finish and device reboot. \r\n"
-						"Must process the ¡§ Close Authorization¡¨ function after the repair process. \r\n";
-			strncpy(sz_value, msg, strlen(msg));
-		}
-		else if (key == "msg_warning") {
-			char* msg = "";
-			strncpy(sz_value, msg, strlen(msg));
-		}
-	}
-*/
 	return NO_ERROR;
 }
 
@@ -824,14 +674,14 @@ size_t CServiceToolController::MakeEnhanceController()
 	if(	this->m_strCurrentStation == STATION_BBTEST ||
 		//this->m_strCurrentStation == STATION_2GPTEST ||
 		//this->m_strCurrentStation == STATION_3GPTEST ||
-		this->m_strCurrentStation == STATION_2G3GTEST ||
-		this->m_strCurrentStation == STATION_4GPTEST ||
-		this->m_strCurrentStation == STATION_BTWLAN ||
+		//this->m_strCurrentStation == STATION_2G3GTEST ||
+		//this->m_strCurrentStation == STATION_4GPTEST ||
+		this->m_strCurrentStation == STATION_BTWLAN)
 		//this->m_strCurrentStation == STATION_CURRENT ||
 		//this->m_strCurrentStation == STATION_ONLINE_WLS ||
 		//this->m_strCurrentStation == STATION_ONLINE_WLS2 ||
 		//this->m_strCurrentStation == "SPRD" ||
-		this->m_strCurrentStation == "LTE")
+		//this->m_strCurrentStation == "LTE")
 	{
 		//CEnhanceController *pTestBoxHdrStd = new CTestBoxHdrStd(pPhoneHdrStd);
 		//CEnhanceController *pPowerSupplyHdrStd = new CPowerSupplyHdrStd(pTestBoxHdrStd);

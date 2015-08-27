@@ -426,7 +426,7 @@ bool CCommonProcessor::PostRun()
 	{
 		TraceLog(MSG_ERROR, "Fail to find PICASSO in parameters map");
 		//FactoryLog(false, "", "", "", "", "", "", "", "", "Fail to find PICASSO in parameters map");
-		return false;
+		//return false;//LIONTEST
 	}
 	else
 	{

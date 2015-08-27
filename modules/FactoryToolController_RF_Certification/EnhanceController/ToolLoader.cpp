@@ -110,21 +110,22 @@ size_t CToolLoader::LoadToolDLL()
 		}
 	}
 
-	else if( this->m_Parametermap[ParameterKeyWord::STATIONNAME] == STATION_2GPTEST || 
+	else if( /*this->m_Parametermap[ParameterKeyWord::STATIONNAME] == STATION_2GPTEST || 
 			 this->m_Parametermap[ParameterKeyWord::STATIONNAME] == STATION_3GPTEST ||
 			 this->m_Parametermap[ParameterKeyWord::STATIONNAME] == STATION_2G3GTEST ||
-			 this->m_Parametermap[ParameterKeyWord::STATIONNAME] == STATION_4GPTEST ||
-			 this->m_Parametermap[ParameterKeyWord::STATIONNAME] == STATION_BTWLAN ||
-			 this->m_Parametermap[ParameterKeyWord::STATIONNAME] == STATION_CURRENT ||
-			 this->m_Parametermap[ParameterKeyWord::STATIONNAME] == STATION_ONLINE_WLS ||
-			 this->m_Parametermap[ParameterKeyWord::STATIONNAME] == STATION_ONLINE_WLS2 ||
-			 this->m_Parametermap[ParameterKeyWord::STATIONNAME] == "SPRD" ||
-			 this->m_Parametermap[ParameterKeyWord::STATIONNAME] == "LTE")
+			 this->m_Parametermap[ParameterKeyWord::STATIONNAME] == STATION_4GPTEST ||*/
+			 this->m_Parametermap[ParameterKeyWord::STATIONNAME] == STATION_BTWLAN)
+			 //this->m_Parametermap[ParameterKeyWord::STATIONNAME] == STATION_CURRENT ||
+			 //this->m_Parametermap[ParameterKeyWord::STATIONNAME] == STATION_ONLINE_WLS ||
+			 //this->m_Parametermap[ParameterKeyWord::STATIONNAME] == STATION_ONLINE_WLS2 ||
+			 //this->m_Parametermap[ParameterKeyWord::STATIONNAME] == "SPRD" ||
+			 //this->m_Parametermap[ParameterKeyWord::STATIONNAME] == "LTE")
 	{
 		CString strDll =  this->m_Parametermap[ParameterKeyWord::WORKINGDIR] + _T("RFTool.dll");
-
+		CStringA strA(strDll);
+		LPCSTR ptrstrDll = strA;
 		SetCurrentDirectory(this->m_Parametermap[ParameterKeyWord::WORKINGDIR]);
-		m_hDLL = ::LoadLibrary(strDll);
+		m_hDLL = ::LoadLibraryA(ptrstrDll);
 
 		if (NULL == m_hDLL)
 		{
@@ -133,51 +134,17 @@ size_t CToolLoader::LoadToolDLL()
 		}
 	}
 
-	else if( this->m_Parametermap[ParameterKeyWord::STATIONNAME] == STATION_CAMERA || 
-		     this->m_Parametermap[ParameterKeyWord::STATIONNAME] == STATION_ALS_AUDIO || 
-			 this->m_Parametermap[ParameterKeyWord::STATIONNAME] == STATION_AUDIO || 
-			 this->m_Parametermap[ParameterKeyWord::STATIONNAME] == STATION_ALS|| 
-			 this->m_Parametermap[ParameterKeyWord::STATIONNAME] == STATION_IMEI || 
-			 this->m_Parametermap[ParameterKeyWord::STATIONNAME] == STATION_FCHECK|| 
-			 this->m_Parametermap[ParameterKeyWord::STATIONNAME] == STATION_MMI_BB ) 
-	{
-		CString strDll =  this->m_Parametermap[ParameterKeyWord::WORKINGDIR] + _T("MMIBBTool.dll");
-
-		m_hDLL = ::LoadLibrary(strDll);
-
-		if (NULL == m_hDLL)
-		{
-			nError = GetLastError();
-			return LOAD_DLL_FAIL;
-		}
-	}
-/*
-	else if(this->m_Parametermap[ParameterKeyWord::STATIONNAME] == STATION_OS_DL || 
-		    this->m_Parametermap[ParameterKeyWord::STATIONNAME] == STATION_REDL ||
-			this->m_Parametermap[_T("DLMODE")] == _T("ReDL"))
-	{
-		CString strDll =  this->m_Parametermap[ParameterKeyWord::WORKINGDIR] + _T("DLTool.dll");
-
-		m_hDLL = ::LoadLibrary(strDll);
-
-		if (NULL == m_hDLL)
-		{
-			nError = GetLastError();
-			return LOAD_DLL_FAIL;
-		}
-	}
-*/
 	p_fn_newToolInterfaceNotify NewToolInterface = (p_fn_newToolInterfaceNotify) GetProcAddress (m_hDLL, DLL_NEW_TOOLINTERFACE_NOTIFY);
 	p_fn_deleteToolInterfaceNotify DelToolInterface = (p_fn_deleteToolInterfaceNotify) GetProcAddress (m_hDLL, DLL_DEL_TOOLINTERFACE_NOTIFY);
 
-	if ( !(NewToolInterface &&  DelToolInterface ))
+	if ( !(NewToolInterface &&  DelToolInterface )) 
 	{
 		return LOAD_DLL_FAIL;
 	}
 
 	if (  !NewToolInterface (&m_pITI) )
 	{
-		return LOAD_DLL_FAIL;		
+		return LOAD_DLL_FAIL;		  
 	}
 
 	//Set log dir to tool dll here

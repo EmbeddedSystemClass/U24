@@ -161,12 +161,16 @@ public:
 	//virtual bool WifiPowerOnTxCertification (int iRate, int iChannel, int iPower, int iPreamble, int iPayloadSize, int iSpacing,int iChain);
 	
 	virtual bool WifiPowerOnTxCertification (int iChannel, int iPower, int iRateBitIndex, int iWlandMode, int iChain);
+	virtual bool WifiPowerOnTxCwCertification (int iChannel, int iPower, int iRateBitIndex, int iWlandMode, int iChain) ;
 	virtual bool WifiPowerOn5GTxCertification (int iRate, int iChannel, int iPower, int iPreamble, int iPayloadSize, int iSpacing, int iBond, int iChain);
-	virtual bool WifiPowerStopTx();
+	virtual bool WifiPowerStopTx( int iChannel);
 	virtual bool WifiPowerStopTxCw();
-	virtual bool WifiPowerOnTxCwCertification (int iChannel, int iRfGain);
+	
+	//virtual bool WifiPowerOnTxCwCertification (int iChannel, int iRfGain);
 	virtual bool WifiPowerOn5GTxCwCertification (int iChannel, int iRfGain, int iBond);
-	virtual bool WifiPowerOnRxGetPacket (int iChannel,int iPreamble, unsigned long* rxFrameCounter,int iChain);
+	virtual bool WifiPowerOnRxCertification (int iChannel, int iWlandMode,int iRateMask, int iChain);
+	virtual bool WifiPowerOnRxGetPacket (char* rxFrameCounter);
+	//virtual bool WifiPowerOnRxGetPacket (int iChannel,int iPreamble, unsigned long* rxFrameCounter,int iChain);
 	virtual bool WifiPowerOnRxSetChannel(int iChannel);
 	virtual bool WifiPowerOn5GRxGetPacket(unsigned long* rxFrameCounter);
 	virtual bool WifiPowerOn5GRxSetChannel(int iChannel, int iBond);

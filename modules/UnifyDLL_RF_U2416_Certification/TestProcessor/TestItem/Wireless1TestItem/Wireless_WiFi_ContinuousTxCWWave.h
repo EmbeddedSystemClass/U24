@@ -14,10 +14,19 @@ public:
 protected:
 private:
 	int m_iCommandDelay;
+	//int m_iChannel;
+	//int m_iRfGain;
+	//int m_iChain;
+	//int m_iWlandMode;
+
 	int m_iChannel;
-	int m_iRfGain;
-	int m_iChain;
+	int m_iPower;
+	int m_iRateBitIndex;
 	int m_iWlandMode;
+	//int m_iPayloadSize;
+	//int m_iSpacing;
+	int m_iChain;
+
 
 	std::string m_strMsg;
 	std::string m_strMeasured;

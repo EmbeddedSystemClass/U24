@@ -18,6 +18,7 @@ private:
 	int m_iChannel;
 	int m_iChain;
 	int m_iWlandMode;
+	int m_iRateMask;
 //	ifiPowerOnRxGetPacket (int iChannel,int iPreamble, unsigned long* rxFrameCounter,int iChain);
 
 	std::string m_strMsg;

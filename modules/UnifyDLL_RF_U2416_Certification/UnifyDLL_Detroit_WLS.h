@@ -29,6 +29,7 @@
 #define UnifyDLL_Detroit_WLS_API extern "C" __declspec(dllimport)
 #endif
 
+#define _ToolInterface //LIONTEST
 #ifdef _ToolInterface
 IDL_API bool NewToolInterfaceNotify(IToolInterface_Notify** ppIToolInterface);
 IDL_API bool DeleteToolInterfaceNotify(IToolInterface_Notify* pIToolInterface);

@@ -60,7 +60,7 @@ bool CWireless_WiFi_Continuous5GTxTest::MainFunction()
 
 			if (ret == 1)
 			{
-				isOk = m_pIPhone->WifiPowerStopTx();
+				isOk = m_pIPhone->WifiPowerStopTx(m_iChannel);
 				if (isOk)
 				{
 					if (!m_pIPhone->WifiModuleOnCertification(false))

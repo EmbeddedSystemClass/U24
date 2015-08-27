@@ -271,19 +271,11 @@
 				Name="EnhanceController"
 				>
 				<File
-					RelativePath="..\..\Modules\FactoryToolController_RF_Certification\EnhanceController\CableLossHandler_Standard.cpp"
+					RelativePath="..\FactoryToolController_Boston\EnhanceController\CableLossHandler_Standard.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\..\Modules\FactoryToolController_RF_Certification\EnhanceController\CableLossHandler_Standard.h"
-					>
-				</File>
-				<File
-					RelativePath="..\FactoryToolController_RF_Certification\EnhanceController\DownLoadHandler_Standard.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\FactoryToolController_RF_Certification\EnhanceController\DownLoadHandler_Standard.h"
+					RelativePath="..\FactoryToolController_Boston\EnhanceController\CableLossHandler_Standard.h"
 					>
 				</File>
 				<File
@@ -295,35 +287,11 @@
 					>
 				</File>
 				<File
-					RelativePath="..\..\Modules\FactoryToolController_RF_Certification\EnhanceController\GPIBHandler_Standard.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\..\Modules\FactoryToolController_RF_Certification\EnhanceController\GPIBHandler_Standard.h"
-					>
-				</File>
-				<File
 					RelativePath="..\..\Modules\FactoryToolController_RF_Certification\EnhanceController\PhoneHandler_Standard.cpp"
 					>
 				</File>
 				<File
 					RelativePath="..\..\Modules\FactoryToolController_RF_Certification\EnhanceController\PhoneHandler_Standard.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\Modules\FactoryToolController_RF_Certification\EnhanceController\PowerSupplyHandler_Standard.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\..\Modules\FactoryToolController_RF_Certification\EnhanceController\PowerSupplyHandler_Standard.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\Modules\FactoryToolController_RF_Certification\EnhanceController\TestBoxHandler_Standard.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\..\Modules\FactoryToolController_RF_Certification\EnhanceController\TestBoxHandler_Standard.h"
 					>
 				</File>
 				<File

@@ -31,8 +31,9 @@ bool CWireless_WiFi_ContinuousTxCwWave::MainFunction()
 
 	if (!(isOk = m_pIPhone->Initial()))
 	{
-		m_strMsg = "Fail to connect phone with Qisda module";
+		m_strMsg = "Fail to connect phone with Qisda module in CWireless_WiFi_ContinuousTxCwWave";
 		TraceLog(MSG_ERROR, m_strMsg);
+		return false;
 	}
 
 
@@ -49,7 +50,8 @@ bool CWireless_WiFi_ContinuousTxCwWave::MainFunction()
 
 		if (isOk)
 		{
-			if (!(isOk = m_pIPhone->WifiPowerOnTxCwCertification(m_iChannel, m_iRfGain)))
+			//if (!(isOk = m_pIPhone->WifiPowerOnTxCwCertification(m_iChannel, m_iRfGain)))
+			if (!(isOk = m_pIPhone->WifiPowerOnTxCertification(m_iChannel, m_iPower, m_iRateBitIndex, m_iWlandMode, m_iChain)))
 			{
 				m_strMsg = "Fail to execute WifiPowerOnTxCw";
 				TraceLog(MSG_ERROR, m_strMsg);
@@ -60,7 +62,9 @@ bool CWireless_WiFi_ContinuousTxCwWave::MainFunction()
 
 			if (ret == 1)
 			{
-				isOk = m_pIPhone->WifiPowerStopTxCw();
+				//isOk = m_pIPhone->WifiPowerStopTxCw();
+				isOk = m_pIPhone->WifiPowerStopTx(m_iChannel);
+				
 				if (isOk)
 				{
 					if (!m_pIPhone->WifiModuleOnCertification(false))
@@ -87,26 +91,44 @@ bool CWireless_WiFi_ContinuousTxCwWave::InitData(std::map<std::string, std::stri
 	}
 	m_iCommandDelay = atoi(paramMap["CommandDelay"].c_str());
 
-	if (paramMap.find("Channel") == paramMap.end())
+	if (paramMap.find("CHANNEL") == paramMap.end())
 	{
 		TraceLog(MSG_ERROR, "Fail to find parameter Channel for CWireless_WiFi_ContinuousTxCwWave");
 		return false;
 	}
-	m_iChannel = atoi(paramMap["Channel"].c_str());
+	m_iChannel = atoi(paramMap["CHANNEL"].c_str()); 
 
-	//if (paramMap.find("RFGain") == paramMap.end())
-	//{
-	//	TraceLog(MSG_ERROR, "Fail to find parameter RFGain for CWireless_WiFi_ContinuousTxCwWave");
-	//	return false;
-	//}
-	//m_iRfGain = atoi(paramMap["RFGain"].c_str());
 
-	if (paramMap.find("Chain") == paramMap.end())
+
+	if (paramMap.find("POWER") == paramMap.end())
+	{
+		TraceLog(MSG_ERROR, "Fail to find parameter Power for CWireless_WiFi_ContinuousTxCwWave");
+		return false;
+	}
+	m_iPower = atoi(paramMap["POWER"].c_str());
+
+
+	if (paramMap.find("RATEBITINDEX") == paramMap.end())
+	{
+		TraceLog(MSG_ERROR, "Fail to find parameter RateBitIndex for CWireless_WiFi_ContinuousTxCwWave");
+		return false;
+	}
+	m_iRateBitIndex = atoi(paramMap["RATEBITINDEX"].c_str());
+
+
+	if (paramMap.find("WLANMODE") == paramMap.end())
+	{
+		TraceLog(MSG_ERROR, "Fail to find parameter WLANMODE for CWireless_WiFi_ContinuousTxCwWave");
+		return false;
+	}
+	m_iWlandMode = atoi(paramMap["WLANMODE"].c_str());
+
+	if (paramMap.find("CHAIN") == paramMap.end())
 	{
 		TraceLog(MSG_ERROR, "Fail to find parameter Chain for CWireless_WiFi_ContinuousTxCwWave");
-		//return false;
+		return false;
 	}
-	m_iChain = atoi(paramMap["Chain"].c_str());
+	m_iChain = atoi(paramMap["CHAIN"].c_str());
 	
 	return true;
 }
