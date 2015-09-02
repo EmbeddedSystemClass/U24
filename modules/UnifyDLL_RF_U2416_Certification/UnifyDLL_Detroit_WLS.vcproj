@@ -153,7 +153,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="GPIB-32.OBJ QMSL_MSVC9R.lib"
-				OutputFile="$(OutDir)\FT.dll"
+				OutputFile="$(OutDir)\RFTool.dll"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="&quot;$(ProjectDir)..\..\lib\Qualcomm\QDART4823\lib&quot;;&quot;$(ProjectDir)..\..\lib\NI488\lib&quot;"
 				ModuleDefinitionFile=".\UnifyDLL_Detroit_WLS.def"

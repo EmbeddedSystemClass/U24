@@ -84,12 +84,18 @@
 #define IDC_EDIT_TX_WlanMode            1055
 #define IDC_EDIT_RX_RateMask            1055
 #define IDC_EDIT_TX_POWER2              1056
+#define IDC_EDIT_RX_WlanMode            1056
 #define IDC_COMBO_TX_WlanMode           1057
+#define IDC_EDIT_TX_CHAIN               1057
+#define IDC_EDIT_RX_WlanMode2           1057
+#define IDC_EDIT_RX_CHAIN               1057
 #define IDC_EDIT_CW_POWER               1058
 #define IDC_COMBO_RX_WlanMode           1058
 #define IDC_EDIT_CW_RateBitIndex        1059
 #define IDC_EDIT_CW_CHANNEL             1060
 #define IDC_COMBO_CW_WlanMode           1061
+#define IDC_EDIT_CW_WlanMode            1062
+#define IDC_EDIT_CW_CHAIN               1063
 
 // Next default values for new objects
 // 
