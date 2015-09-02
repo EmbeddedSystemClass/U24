@@ -97,6 +97,18 @@ bool CRangeCheckProc::Run()
 		m_strErrorCode = FunErr_Max_Current_Test_Fail; 
 		return ReadPowerMaxCurrent();
 	}
+	else if (m_str_Name == PCBVerMPP3)
+	{
+		m_strItemCode = CStr::IntToStr(PCBVerMPP3_BaseItemCode);
+		m_strErrorCode = FunErr_Check_PCBVerMPP3_Fail;
+		return ReadPCBVerMPP3();
+	}
+	else if (m_str_Name == PCBVerMPP2)
+	{
+		m_strItemCode = CStr::IntToStr(PCBVerMPP2_BaseItemCode);
+		m_strErrorCode = FunErr_Check_PCBVerMPP2_Fail;
+		return ReadPCBVerMPP2();
+	}
 	else
 	{
 		m_strMessage = "The Type of ID is not defined";
@@ -301,6 +313,142 @@ bool CRangeCheckProc::ReadBoardADC()
 	FactoryLog();
 	return b_res;
 }
+
+bool CRangeCheckProc::ReadPCBVerMPP3()
+{
+	bool b_res = false;
+	std::string str_msg;
+
+	/* read PCBVerMPP3 from mobile */
+	char szInput[FTD_BUF_SIZE] = {0};
+	char szOutput[FTD_BUF_SIZE] = {0};
+	if (!(b_res = m_pIPhone->FTD_PCBVerMPP3(m_nFtdPort, m_nFtdTimeOut, szInput, szOutput)))
+	{
+		str_msg = "Read PCBVerMPP3 from mobile fail";
+		TraceLog(MSG_INFO, str_msg);
+	}
+
+	/* ComparePCBVerMPP3 with config file */
+	if (b_res)
+	{
+		m_strMeasured = szOutput;
+		if (m_b_CheckMatch == false)
+		{
+			str_msg = "Read PCBVerMPP3 = " + m_strMeasured;
+			TraceLog(MSG_INFO, str_msg);
+		}
+		else
+		{
+			//Eason Check from Server S-----------------------------------------------
+			if (m_b_CheckFromServer)
+			{
+				str_msg = "Get Pass criteria from server = " + m_str_Value;
+				TraceLog(MSG_INFO, str_msg);
+			}
+			//Eason Check from Server E-----------------------------------------------
+			double f_Value;
+			f_Value = CStr::StrToDouble(m_strMeasured);
+			if (m_rp_Value.InRange(f_Value))
+			{
+				str_msg = "Check PCBVerMPP3 pass! Value = " + m_strMeasured;
+				TraceLog(MSG_INFO, str_msg);
+			}
+			else
+			{
+				str_msg = "PCBVerMPP3 is not matched. Moble:" + m_strMeasured + "-- Config File:" + m_str_Value;
+				TraceLog(MSG_INFO, str_msg);
+				b_res = false;
+			}
+		}
+	}
+	Sleep(m_i_sleep);
+
+	/* test result */
+	m_strMessage = str_msg;
+	if (b_res)
+	{
+		m_strResult = "PASS";
+		m_strErrorCode = "-";
+		TraceLog(MSG_INFO, "Read PCBVerMPP3 PASS!");
+	}
+	else
+	{
+		m_strResult = "FAIL";
+		TraceLog(MSG_INFO, "Read PCBVerMPP3 FAIL!");
+	}
+	SetPICSData("PCBVerMPP3", m_strMeasured);
+	FactoryLog();
+	return b_res;
+}
+
+bool CRangeCheckProc::ReadPCBVerMPP2()
+{
+	bool b_res = false;
+	std::string str_msg;
+
+	/* read PCBVerMPP3 from mobile */
+	char szInput[FTD_BUF_SIZE] = {0};
+	char szOutput[FTD_BUF_SIZE] = {0};
+	if (!(b_res = m_pIPhone->FTD_PCBVerMPP2(m_nFtdPort, m_nFtdTimeOut, szInput, szOutput)))
+	{
+		str_msg = "Read BoardADC from mobile fail";
+		TraceLog(MSG_INFO, str_msg);
+	}
+
+	/* ComparePCBVerMPP3 with config file */
+	if (b_res)
+	{
+		m_strMeasured = szOutput;
+		if (m_b_CheckMatch == false)
+		{
+			str_msg = "Read PCBVerMPP2 = " + m_strMeasured;
+			TraceLog(MSG_INFO, str_msg);
+		}
+		else
+		{
+			//Eason Check from Server S-----------------------------------------------
+			if (m_b_CheckFromServer)
+			{
+				str_msg = "Get Pass criteria from server = " + m_str_Value;
+				TraceLog(MSG_INFO, str_msg);
+			}
+			//Eason Check from Server E-----------------------------------------------
+			double f_Value;
+			f_Value = CStr::StrToDouble(m_strMeasured);
+			if (m_rp_Value.InRange(f_Value))
+			{
+				str_msg = "Check PCBVerMPP2 pass! Value = " + m_strMeasured;
+				TraceLog(MSG_INFO, str_msg);
+			}
+			else
+			{
+				str_msg = "PCBVerMPP2 is not matched. Moble:" + m_strMeasured + "-- Config File:" + m_str_Value;
+				TraceLog(MSG_INFO, str_msg);
+				b_res = false;
+			}
+		}
+	}
+	Sleep(m_i_sleep);
+
+	/* test result */
+	m_strMessage = str_msg;
+	if (b_res)
+	{
+		m_strResult = "PASS";
+		m_strErrorCode = "-";
+		TraceLog(MSG_INFO, "Read PCBVerMPP2 PASS!");
+	}
+	else
+	{
+		m_strResult = "FAIL";
+		TraceLog(MSG_INFO, "Read PCBVerMPP2 FAIL!");
+	}
+	SetPICSData("PCBVerMPP2", m_strMeasured);
+	FactoryLog();
+	return b_res;
+}
+
+
 
 bool CRangeCheckProc::ReadPWRgaugeVoltage()
 {
