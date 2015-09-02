@@ -35,8 +35,8 @@ void CRFCertificationTxCw::DoDataExchange(CDataExchange* pDX)
 	DDX_Text(pDX, IDC_EDIT_CW_POWER, m_sPower);
 	DDX_Text(pDX, IDC_EDIT_CW_RateBitIndex, m_sRateBitIndex);
 
-	DDX_Control(pDX, IDC_COMBO_CW_WlanMode, m_combWlanMode);
-	DDX_Control(pDX, IDC_COMBO_CW_CHAIN, m_combChain);
+	DDX_Control(pDX, IDC_EDIT_CW_WlanMode, m_combWlanMode);
+	DDX_Control(pDX, IDC_EDIT_CW_CHAIN, m_combChain);
 
 }
 
@@ -268,25 +268,25 @@ void CRFCertificationTxCw::UIInit()
 	title = m_data.title;
 	SetWindowText(title);
 
-	m_combChain.AddString(_T("0"));
-	m_combChain.AddString(_T("1"));
-	for (int i = 0; i < m_combChain.GetCount(); i++)
-	{
-	   m_combChain.SetItemData(i, i);
-	}
-	m_combChain.SetCurSel(0);
+	//m_combChain.AddString(_T("0"));
+	//m_combChain.AddString(_T("1"));
+	//for (int i = 0; i < m_combChain.GetCount(); i++)
+	//{
+	//   m_combChain.SetItemData(i, i);
+	//}
+	//m_combChain.SetCurSel(0);
 
-	m_combWlanMode.AddString(_T("0"));
-	m_combWlanMode.AddString(_T("1"));
-	m_combWlanMode.AddString(_T("4"));
-	m_combWlanMode.AddString(_T("5"));
-	m_combWlanMode.AddString(_T("8"));
-	m_combWlanMode.SetItemData(0, 0);
-	m_combWlanMode.SetItemData(1, 1);
-	m_combWlanMode.SetItemData(2, 4);
-	m_combWlanMode.SetItemData(3, 5);
-	m_combWlanMode.SetItemData(4, 8);
-	m_combWlanMode.SetCurSel(0);
+	//m_combWlanMode.AddString(_T("0"));
+	//m_combWlanMode.AddString(_T("1"));
+	//m_combWlanMode.AddString(_T("4"));
+	//m_combWlanMode.AddString(_T("5"));
+	//m_combWlanMode.AddString(_T("8"));
+	//m_combWlanMode.SetItemData(0, 0);
+	//m_combWlanMode.SetItemData(1, 1);
+	//m_combWlanMode.SetItemData(2, 4);
+	//m_combWlanMode.SetItemData(3, 5);
+	//m_combWlanMode.SetItemData(4, 8);
+	//m_combWlanMode.SetCurSel(0);
 }
 
 
@@ -348,16 +348,35 @@ void CRFCertificationTxCw::OnBnClickedButtonRun()
 		PrintMsg(_T("Please select comport.\n"), _T("WARN"));
 		return;
 	}
-	if (m_combChain.GetCurSel() == CB_ERR)
-	{
-		PrintMsg(_T("Please select Chain.\n"), _T("WARN"));
-		return;
+
+	GetDlgItem(IDC_EDIT_CW_CHANNEL)->GetWindowText(csTxCHANNEL);
+	GetDlgItem(IDC_EDIT_CW_POWER)->GetWindowText(csPower);
+	GetDlgItem(IDC_EDIT_CW_RateBitIndex)->GetWindowText(csRateBitIndex);
+	GetDlgItem(IDC_EDIT_CW_WlanMode)->GetWindowText(csWlanMode);
+	GetDlgItem(IDC_EDIT_CW_WlanMode)->GetWindowText(csWlanMode);	
+	GetDlgItem(IDC_EDIT_CW_CHAIN)->GetWindowText(csChain);
+
+	if ( csTxCHANNEL == "") { 
+		PrintMsg(_T("Please fill in csTxCHANNEL.\n"), _T("WARN"));
+		return ;
 	}
-	if (m_combWlanMode.GetCurSel() == CB_ERR)
-	{
-		PrintMsg(_T("Please select WLANMODE.\n"), _T("WARN"));
-		return;
-	}		
+	if ( csPower == "") { 
+		PrintMsg(_T("Please fill in csPower.\n"), _T("WARN"));
+		return ;
+	}
+	if ( csRateBitIndex == "") { 
+		PrintMsg(_T("Please fill in csRateBitIndex.\n"), _T("WARN"));
+		return ;
+	}
+	if ( csWlanMode == "") { 
+		PrintMsg(_T("Please fill in csWlanMode.\n"), _T("WARN"));
+		return ;
+	}
+	if ( csChain == "") { 
+		PrintMsg(_T("Please fill in csChain.\n"), _T("WARN"));
+		return ;
+	}
+
 	m_thrdMainProgress = ::AfxBeginThread(WorkerThreadFuncProc, this, THREAD_PRIORITY_ABOVE_NORMAL);
 }
 
@@ -380,27 +399,18 @@ void CRFCertificationTxCw::WorkerThreadFuncRun()
 	sprintf(sz_ComValue, "%d", m_combComport.GetItemData(m_combComport.GetCurSel()));
 	m_dllCtrl.SetParameter("COM", sz_ComValue);
 
-	CString csTxCHANNEL;
-	GetDlgItem(IDC_EDIT_CW_CHANNEL)->GetWindowText(csTxCHANNEL);
 	m_dllCtrl.SetParameter("CHANNEL", CT2A(csTxCHANNEL.GetBuffer()));
-
-	CString csPower;
-	GetDlgItem(IDC_EDIT_CW_POWER)->GetWindowText(csPower);
 	m_dllCtrl.SetParameter("POWER", CT2A(csPower.GetBuffer()));
-
-	CString csRateBitIndex;
-	GetDlgItem(IDC_EDIT_CW_RateBitIndex)->GetWindowText(csRateBitIndex);
 	m_dllCtrl.SetParameter("RATEBITINDEX", CT2A(csRateBitIndex.GetBuffer()));
-
-	char *sz_WlanMode = new char[10];
-	sprintf(sz_WlanMode, "%d", m_combWlanMode.GetItemData(m_combWlanMode.GetCurSel()));
-	m_dllCtrl.SetParameter("WLANMODE", sz_WlanMode);
-
-	char *sz_Chain = new char[10];
-	sprintf(sz_Chain, "%d", m_combChain.GetItemData(m_combChain.GetCurSel()));
-	m_dllCtrl.SetParameter("CHAIN", sz_Chain);
+	m_dllCtrl.SetParameter("WLANMODE", CT2A(csWlanMode.GetBuffer()));
+	m_dllCtrl.SetParameter("CHAIN", CT2A(csChain.GetBuffer()));
 
 
+	csTxCHANNEL.ReleaseBuffer();
+	csPower.ReleaseBuffer();
+	csRateBitIndex.ReleaseBuffer();
+	csWlanMode.ReleaseBuffer();
+	csChain.ReleaseBuffer();
 
 	delete sz_ComValue;
 //	RfGain.ReleaseBuffer();

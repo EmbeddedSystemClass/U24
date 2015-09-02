@@ -51,6 +51,11 @@ private:
 	CString m_sChannel;
 	CString m_sRateMask;
 
+	CString csRxCHANNEL;
+	CString csRateMask;
+	CString csWlanMode;
+	CString csChain;
+
 	bool bRxTestStop;
 	void UIInit();
 	void UIControl(bool isEnable);
@@ -83,5 +88,4 @@ private:
 	bool GetComPort();
 public:
 	afx_msg void OnBnClickedButtonStop();
-	afx_msg void OnBnClickedButtonRun2();
 };

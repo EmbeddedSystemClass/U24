@@ -50,11 +50,16 @@ public:
 private:
 
 
-	CString m_sRfGain;
-
+	//CString m_sRfGain;
 	CString m_sRateBitIndex;
 	CString m_sPower;
 	CString m_sChannel;
+
+	CString csTxCHANNEL;
+	CString csPower;
+	CString csRateBitIndex;
+	CString csWlanMode;
+	CString csChain;
 
 	void UIInit();
 	void UIControl(bool isEnable);
