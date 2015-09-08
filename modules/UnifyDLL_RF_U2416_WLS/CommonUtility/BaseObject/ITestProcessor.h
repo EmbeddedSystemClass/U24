@@ -102,14 +102,6 @@ protected:
 	static bool m_b_LogUpload;
 	static std::string m_str_UploadServerIP;
 
-// public:
-// 	static CString m_strPicassoNum;
-// 	static CString m_strSWVersion;
-// 	static CString m_strToolMode;
-// 	static CString m_strModeName;
-// 	static CString m_stationName;
-// 	static CString m_strToolVersion;
-
 
 // Member functions
 public:
@@ -194,6 +186,16 @@ public:
 		std::string strItemCode,
 		std::string strErrCode,
 		std::string strBand,
+		std::string strChannel,
+		std::string strLower,
+		std::string strUpper,
+		std::string strMeasured,
+		std::string strUnit,
+		std::string strMsg
+		);
+	virtual void FactoryLog(bool bPass,
+		std::string strItemCode,
+		std::string strErrCode,
 		std::string strChannel,
 		std::string strLower,
 		std::string strUpper,
