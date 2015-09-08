@@ -335,6 +335,15 @@ bool CBTWLAN_WiFi_TxTest::MainFunction(void)
 		return false;
 	}
 
+	//liontest
+	if (!m_pITesterDeviceFSP->Initial())
+	{
+		m_strMsg = "Fail to initial tester device";
+		TraceLog(MSG_ERROR, m_strMsg);
+		FactoryLog(false, "WifiModuleOnOFF", FunErr_WLAN_Test_Init_Device_Fail, "", "", "", "", "", "", m_strMsg);
+		return false;
+	}
+
 	if (!m_pITesterDeviceFSP->ResetFSP())
 	{
 		m_strMsg = "Fail to ResetFSP";

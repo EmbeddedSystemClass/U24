@@ -60,14 +60,14 @@ bool CWifiModuleOnOFF::Run(void)
 			return false;
 		}
 
-		//liontest
-		if (!(bRes = m_pITesterDeviceFSP->Initial()))
-		{
-			m_strMsg = "Fail to initial tester device";
-			TraceLog(MSG_ERROR, m_strMsg);
-			FactoryLog(false, "WifiModuleOnOFF", FunErr_WLAN_Test_Init_Device_Fail, "", "", "", "", "", "", m_strMsg);
-			return false;
-		}
+		////liontest
+		//if (!(bRes = m_pITesterDeviceFSP->Initial()))
+		//{
+		//	m_strMsg = "Fail to initial tester device";
+		//	TraceLog(MSG_ERROR, m_strMsg);
+		//	FactoryLog(false, "WifiModuleOnOFF", FunErr_WLAN_Test_Init_Device_Fail, "", "", "", "", "", "", m_strMsg);
+		//	return false;
+		//}
 
 		if (bRes)
 			FactoryLog(true, "WifiModuleOnOFF", "Pass", "", "", "", "", "", "", "WifiModuleOnOFF PASS");
