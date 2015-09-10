@@ -28,7 +28,7 @@ bool CWireless_WiFi_ContinuousTxTest::Run()
 bool CWireless_WiFi_ContinuousTxTest::MainFunction()
 {
 	bool isOk = true;
-
+	
 	if (!(isOk = m_pIPhone->Initial()))
 	{
 		m_strMsg = "Fail to connect phone with Qisda module in CWireless_WiFi_ContinuousTxTest";
@@ -57,17 +57,16 @@ bool CWireless_WiFi_ContinuousTxTest::MainFunction()
 				m_strMsg = "Fail to execute WifiPowerOnTx";
 				TraceLog(MSG_ERROR, m_strMsg);
 			}
-
-			int ret = MessageBox(NULL, _T("Do you want to stop Tx?"), _T("Info."), 
-				MB_ICONQUESTION | MB_OK);
-
+ 
+			int ret = MessageBox(NULL, _T("Do you want to stop Tx?"), _T("Info."), MB_ICONQUESTION | MB_OK);
+	
 			if (ret == 1)// TURN OFF
 			{
 				isOk = m_pIPhone->WifiPowerStopTx(m_iChannel);
 				if (isOk)
 				{
 
-					if (!m_pIPhone->WifiModuleOnCertification(false))
+					if (!m_pIPhone->WifiModuleOnCertification(false)) 
 					{
 						m_strMsg = "Fail to Switch WIFI module off";
 						TraceLog(MSG_ERROR, m_strMsg);

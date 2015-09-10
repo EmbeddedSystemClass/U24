@@ -57,9 +57,12 @@ bool CWireless_WiFi_ContinuousTxCwWave::MainFunction()
 				TraceLog(MSG_ERROR, m_strMsg);
 			}
 
-			int ret = MessageBox(NULL, _T("Do you want to stop Waveform?"), _T("Info."), 
+			//int ret = MessageBox(NULL, _T("Do you want to stop Waveform?"), _T("Info."), 
+			//	MB_ICONQUESTION | MB_OK);
+			
+			int ret = ::MessageBox(NULL, _T("Do you want to stop Waveform?"), _T("Info."), 
 				MB_ICONQUESTION | MB_OK);
-
+			
 			if (ret == 1)
 			{
 				//isOk = m_pIPhone->WifiPowerStopTxCw();
