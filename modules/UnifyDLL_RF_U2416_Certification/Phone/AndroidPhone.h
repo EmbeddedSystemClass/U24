@@ -37,7 +37,7 @@ class CAndroidPhone : public IPhone
 
 	// Data members
 public:
-	CQualComm_RFNVItems m_RFNVItems;
+	//CQualComm_RFNVItems m_RFNVItems;
 
 protected:
 private:

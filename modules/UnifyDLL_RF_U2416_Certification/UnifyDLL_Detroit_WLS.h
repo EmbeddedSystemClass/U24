@@ -17,7 +17,7 @@
 //#include "../UnifyInterface/UnifyAdapter.h"
 #include "./CommonUtility/BaseObject/ITestProcessor.h"
 #include "./CommonUtility/XML/MyMSXML.h"
-#include "./CommonUtility/MD5/MD5Checksum.h"
+//#include "./CommonUtility/MD5/MD5Checksum.h"
 #include "./GLog.h"
 
 
@@ -57,10 +57,12 @@ protected:
 private:
 	ITestProcessor* m_pITool;
 
-	CString m_cstrCableLossFile, m_cstrTestItemFile;
+	//CString m_cstrCableLossFile, m_cstrTestItemFile;
+	CString m_cstrTestItemFile;
 	CString m_cstrLogName,m_str_picasso;
 
-	CMyMSXML m_CableLossXML, m_TestItemXML;
+	//CMyMSXML m_CableLossXML, m_TestItemXML;
+	CMyMSXML m_TestItemXML;
 
 	CString m_cstr_StationName,m_cstr_ModelName;//,m_cstr_Picasso,m_cstr_SWVersion,ToolMode,m_cstr_ToolVersion;
 	CString m_cstr_buildmode;
@@ -89,9 +91,9 @@ public:
 	void DefineUINotify();
 
 	// Setting files related functions
-	bool CheckMD5(CString& strOutMsg);
+//	bool CheckMD5(CString& strOutMsg);
 	bool LoadSettingFile();
-	bool CheckCableLossXMLExist();
+//	bool CheckCableLossXMLExist();
 	bool CheckTestItemXMLExist();
 	bool CreateTestProcessor();
 	bool LoadToolInfo();
@@ -99,9 +101,9 @@ public:
 	void FireResult(CString str_errorcode, CString str_errrormsg);
 
 	/* MD5 verify functions */
-	bool CheckTestItemXMLMD5(CString& strOutMsg);
+	//bool CheckTestItemXMLMD5(CString& strOutMsg);
 	bool ConvertXML(CString str_XMLFilePathName, CString str_newName);
-	bool MD5Verify(CString str_dirPath, CString str_XMLFilePathName, CString str_logFile);
+	//bool MD5Verify(CString str_dirPath, CString str_XMLFilePathName, CString str_logFile);
 	bool CheckVerifyResult(CString str_logFile);
 
 	///////////////////////////////////////////////////////////////////////

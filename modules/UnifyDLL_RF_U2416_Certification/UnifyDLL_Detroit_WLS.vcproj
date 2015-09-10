@@ -473,14 +473,6 @@
 					>
 				</File>
 				<File
-					RelativePath=".\CommonUtility\BaseObject\IGPIBDevice.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\CommonUtility\BaseObject\IGPIBDevice.h"
-					>
-				</File>
-				<File
 					RelativePath=".\CommonUtility\BaseObject\IPhone.cpp"
 					>
 				</File>
@@ -489,19 +481,11 @@
 					>
 				</File>
 				<File
-					RelativePath=".\CommonUtility\BaseObject\IPowerSupply.cpp"
+					RelativePath=".\CommonUtility\BaseObject\ITestItem.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\CommonUtility\BaseObject\IPowerSupply.h"
-					>
-				</File>
-				<File
-					RelativePath=".\CommonUtility\BaseObject\ITesterDevice.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\CommonUtility\BaseObject\ITesterDevice.h"
+					RelativePath=".\CommonUtility\BaseObject\ITestItem.h"
 					>
 				</File>
 				<File
@@ -526,34 +510,6 @@
 				</File>
 			</Filter>
 			<Filter
-				Name="RF"
-				>
-				<File
-					RelativePath=".\CommonUtility\RF\CBandInfo.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\CommonUtility\RF\CBandInfo.h"
-					>
-				</File>
-			</Filter>
-			<Filter
-				Name="MD5"
-				>
-				<File
-					RelativePath=".\CommonUtility\MD5\MD5Checksum.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\CommonUtility\MD5\MD5Checksum.h"
-					>
-				</File>
-				<File
-					RelativePath=".\CommonUtility\MD5\MD5ChecksumDefines.h"
-					>
-				</File>
-			</Filter>
-			<Filter
 				Name="CPKLog"
 				>
 				<File
@@ -562,42 +518,6 @@
 				</File>
 				<File
 					RelativePath=".\CommonUtility\CPKLog\CPKLogItem.h"
-					>
-				</File>
-			</Filter>
-		</Filter>
-		<Filter
-			Name="GPIBDevice"
-			>
-			<Filter
-				Name="PowerSupply"
-				>
-				<File
-					RelativePath=".\GPIBDevice\PowerSupply\CCommonPS.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\GPIBDevice\PowerSupply\CCommonPS.h"
-					>
-				</File>
-			</Filter>
-			<Filter
-				Name="TesterDevice"
-				>
-				<File
-					RelativePath=".\GPIBDevice\TesterDevice\CCMU200.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\GPIBDevice\TesterDevice\CCMU200.h"
-					>
-				</File>
-				<File
-					RelativePath=".\GPIBDevice\TesterDevice\CFSP.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\GPIBDevice\TesterDevice\CFSP.h"
 					>
 				</File>
 			</Filter>
@@ -617,26 +537,10 @@
 				RelativePath=".\Phone\Qisda_API.h"
 				>
 			</File>
-			<File
-				RelativePath=".\Phone\QualComm_RFNVItems.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Phone\QualComm_RFNVItems.h"
-				>
-			</File>
 		</Filter>
 		<Filter
 			Name="TestProcessor"
 			>
-			<File
-				RelativePath=".\TestProcessor\WCDMA_QualComm_Def.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\TestProcessor\WCDMA_QualComm_Def.h"
-				>
-			</File>
 			<Filter
 				Name="Processor"
 				>
@@ -664,30 +568,6 @@
 						>
 					</File>
 					<File
-						RelativePath=".\TestProcessor\TestItem\CommonTestItem\BostonChangeMode.cpp"
-						>
-					</File>
-					<File
-						RelativePath=".\TestProcessor\TestItem\CommonTestItem\BostonChangeMode.h"
-						>
-					</File>
-					<File
-						RelativePath=".\TestProcessor\TestItem\CommonTestItem\ChangeBootMode.cpp"
-						>
-					</File>
-					<File
-						RelativePath=".\TestProcessor\TestItem\CommonTestItem\ChangeBootMode.h"
-						>
-					</File>
-					<File
-						RelativePath=".\TestProcessor\TestItem\CommonTestItem\CheckAndChangeMode.cpp"
-						>
-					</File>
-					<File
-						RelativePath=".\TestProcessor\TestItem\CommonTestItem\CheckAndChangeMode.h"
-						>
-					</File>
-					<File
 						RelativePath=".\TestProcessor\TestItem\CommonTestItem\CheckSWVersion.cpp"
 						>
 					</File>
@@ -704,14 +584,6 @@
 						>
 					</File>
 					<File
-						RelativePath=".\TestProcessor\TestItem\CommonTestItem\EnableFSG.cpp"
-						>
-					</File>
-					<File
-						RelativePath=".\TestProcessor\TestItem\CommonTestItem\EnableFSG.h"
-						>
-					</File>
-					<File
 						RelativePath=".\TestProcessor\TestItem\CommonTestItem\PhoneStateItem.cpp"
 						>
 					</File>
@@ -719,82 +591,10 @@
 						RelativePath=".\TestProcessor\TestItem\CommonTestItem\PhoneStateItem.h"
 						>
 					</File>
-					<File
-						RelativePath=".\TestProcessor\TestItem\CommonTestItem\PowerSupply.cpp"
-						>
-					</File>
-					<File
-						RelativePath=".\TestProcessor\TestItem\CommonTestItem\PowerSupply.h"
-						>
-					</File>
 				</Filter>
 				<Filter
 					Name="Wireless1TestItem"
 					>
-					<File
-						RelativePath=".\TestProcessor\TestItem\Wireless1TestItem\Wireless_BT_TxTest.cpp"
-						>
-					</File>
-					<File
-						RelativePath=".\TestProcessor\TestItem\Wireless1TestItem\Wireless_BT_TxTest.h"
-						>
-					</File>
-					<File
-						RelativePath=".\TestProcessor\TestItem\Wireless1TestItem\Wireless_GSM_DACTest.cpp"
-						>
-					</File>
-					<File
-						RelativePath=".\TestProcessor\TestItem\Wireless1TestItem\Wireless_GSM_DACTest.h"
-						>
-					</File>
-					<File
-						RelativePath=".\TestProcessor\TestItem\Wireless1TestItem\Wireless_QmiRfTx.cpp"
-						>
-					</File>
-					<File
-						RelativePath=".\TestProcessor\TestItem\Wireless1TestItem\Wireless_QmiRfTx.h"
-						>
-					</File>
-					<File
-						RelativePath=".\TestProcessor\TestItem\Wireless1TestItem\Wireless_WCDMA_DACTest.cpp"
-						>
-					</File>
-					<File
-						RelativePath=".\TestProcessor\TestItem\Wireless1TestItem\Wireless_WCDMA_DACTest.h"
-						>
-					</File>
-					<File
-						RelativePath=".\TestProcessor\TestItem\Wireless1TestItem\Wireless_WCDMA_Rssi.cpp"
-						>
-					</File>
-					<File
-						RelativePath=".\TestProcessor\TestItem\Wireless1TestItem\Wireless_WCDMA_Rssi.h"
-						>
-					</File>
-					<File
-						RelativePath=".\TestProcessor\TestItem\Wireless1TestItem\Wireless_WiFi_Continuous5GRxTest.cpp"
-						>
-					</File>
-					<File
-						RelativePath=".\TestProcessor\TestItem\Wireless1TestItem\Wireless_WiFi_Continuous5GRxTest.h"
-						>
-					</File>
-					<File
-						RelativePath=".\TestProcessor\TestItem\Wireless1TestItem\Wireless_WiFi_Continuous5GTxCWWave.cpp"
-						>
-					</File>
-					<File
-						RelativePath=".\TestProcessor\TestItem\Wireless1TestItem\Wireless_WiFi_Continuous5GTxCWWave.h"
-						>
-					</File>
-					<File
-						RelativePath=".\TestProcessor\TestItem\Wireless1TestItem\Wireless_WiFi_Continuous5GTxTest.cpp"
-						>
-					</File>
-					<File
-						RelativePath=".\TestProcessor\TestItem\Wireless1TestItem\Wireless_WiFi_Continuous5GTxTest.h"
-						>
-					</File>
 					<File
 						RelativePath=".\TestProcessor\TestItem\Wireless1TestItem\Wireless_WiFi_ContinuousRxTest.cpp"
 						>
@@ -817,166 +617,6 @@
 					</File>
 					<File
 						RelativePath=".\TestProcessor\TestItem\Wireless1TestItem\Wireless_WiFi_ContinuousTxTest.h"
-						>
-					</File>
-					<File
-						RelativePath=".\TestProcessor\TestItem\Wireless1TestItem\Wireless_WiFi_TxTest.cpp"
-						>
-					</File>
-					<File
-						RelativePath=".\TestProcessor\TestItem\Wireless1TestItem\Wireless_WiFi_TxTest.h"
-						>
-					</File>
-				</Filter>
-				<Filter
-					Name="Wireless2TestItem"
-					>
-					<File
-						RelativePath=".\TestProcessor\TestItem\Wireless2TestItem\GSM_Online_EndCall.cpp"
-						>
-					</File>
-					<File
-						RelativePath=".\TestProcessor\TestItem\Wireless2TestItem\GSM_Online_EndCall.h"
-						>
-					</File>
-					<File
-						RelativePath=".\TestProcessor\TestItem\Wireless2TestItem\GSM_Online_Handover.cpp"
-						>
-					</File>
-					<File
-						RelativePath=".\TestProcessor\TestItem\Wireless2TestItem\GSM_Online_Handover.h"
-						>
-					</File>
-					<File
-						RelativePath=".\TestProcessor\TestItem\Wireless2TestItem\GSM_Online_Handover_WCDMA.cpp"
-						>
-					</File>
-					<File
-						RelativePath=".\TestProcessor\TestItem\Wireless2TestItem\GSM_Online_Handover_WCDMA.h"
-						>
-					</File>
-					<File
-						RelativePath=".\TestProcessor\TestItem\Wireless2TestItem\GSM_Online_MeasureLoop.cpp"
-						>
-					</File>
-					<File
-						RelativePath=".\TestProcessor\TestItem\Wireless2TestItem\GSM_Online_MeasureLoop.h"
-						>
-					</File>
-					<File
-						RelativePath=".\TestProcessor\TestItem\Wireless2TestItem\GSM_Online_StartCall.cpp"
-						>
-					</File>
-					<File
-						RelativePath=".\TestProcessor\TestItem\Wireless2TestItem\GSM_Online_StartCall.h"
-						>
-					</File>
-					<File
-						RelativePath=".\TestProcessor\TestItem\Wireless2TestItem\WCDMA_Online_EndCall_II.cpp"
-						>
-					</File>
-					<File
-						RelativePath=".\TestProcessor\TestItem\Wireless2TestItem\WCDMA_Online_EndCall_II.h"
-						>
-					</File>
-					<File
-						RelativePath=".\TestProcessor\TestItem\Wireless2TestItem\WCDMA_Online_Handover_II.cpp"
-						>
-					</File>
-					<File
-						RelativePath=".\TestProcessor\TestItem\Wireless2TestItem\WCDMA_Online_Handover_II.h"
-						>
-					</File>
-					<File
-						RelativePath=".\TestProcessor\TestItem\Wireless2TestItem\WCDMA_Online_MeasureLoop_II.cpp"
-						>
-					</File>
-					<File
-						RelativePath=".\TestProcessor\TestItem\Wireless2TestItem\WCDMA_Online_MeasureLoop_II.h"
-						>
-					</File>
-					<File
-						RelativePath=".\TestProcessor\TestItem\Wireless2TestItem\WCDMA_Online_StartCall_II.cpp"
-						>
-					</File>
-					<File
-						RelativePath=".\TestProcessor\TestItem\Wireless2TestItem\WCDMA_Online_StartCall_II.h"
-						>
-					</File>
-				</Filter>
-				<Filter
-					Name="BTWLAN"
-					>
-					<File
-						RelativePath=".\TestProcessor\TestItem\BTWLAN\BTWLAN_2G4_TxTest.cpp"
-						>
-					</File>
-					<File
-						RelativePath=".\TestProcessor\TestItem\BTWLAN\BTWLAN_2G4_TxTest.h"
-						>
-					</File>
-					<File
-						RelativePath=".\TestProcessor\TestItem\BTWLAN\BTWLAN_BT_4_Test.cpp"
-						>
-					</File>
-					<File
-						RelativePath=".\TestProcessor\TestItem\BTWLAN\BTWLAN_BT_4_Test.h"
-						>
-					</File>
-					<File
-						RelativePath=".\TestProcessor\TestItem\BTWLAN\BTWLAN_BT_TxTest.cpp"
-						>
-					</File>
-					<File
-						RelativePath=".\TestProcessor\TestItem\BTWLAN\BTWLAN_BT_TxTest.h"
-						>
-					</File>
-					<File
-						RelativePath=".\TestProcessor\TestItem\BTWLAN\BTWLAN_WiFi_FrequencyErrorTest.cpp"
-						>
-					</File>
-					<File
-						RelativePath=".\TestProcessor\TestItem\BTWLAN\BTWLAN_WiFi_FrequencyErrorTest.h"
-						>
-					</File>
-					<File
-						RelativePath=".\TestProcessor\TestItem\BTWLAN\BTWLAN_WiFi_SpectrumMaskTest.cpp"
-						>
-					</File>
-					<File
-						RelativePath=".\TestProcessor\TestItem\BTWLAN\BTWLAN_WiFi_SpectrumMaskTest.h"
-						>
-					</File>
-					<File
-						RelativePath=".\TestProcessor\TestItem\BTWLAN\BTWLAN_WiFi_TxTest.cpp"
-						>
-					</File>
-					<File
-						RelativePath=".\TestProcessor\TestItem\BTWLAN\BTWLAN_WiFi_TxTest.h"
-						>
-					</File>
-					<File
-						RelativePath=".\TestProcessor\TestItem\BTWLAN\WifiModuleOnOFF.cpp"
-						>
-					</File>
-					<File
-						RelativePath=".\TestProcessor\TestItem\BTWLAN\WifiModuleOnOFF.h"
-						>
-					</File>
-					<File
-						RelativePath=".\TestProcessor\TestItem\BTWLAN\Wireless_FMR_rssiTest.cpp"
-						>
-					</File>
-					<File
-						RelativePath=".\TestProcessor\TestItem\BTWLAN\Wireless_FMR_rssiTest.h"
-						>
-					</File>
-					<File
-						RelativePath=".\TestProcessor\TestItem\BTWLAN\Wireless_GPS_CN0Test.cpp"
-						>
-					</File>
-					<File
-						RelativePath=".\TestProcessor\TestItem\BTWLAN\Wireless_GPS_CN0Test.h"
 						>
 					</File>
 				</Filter>

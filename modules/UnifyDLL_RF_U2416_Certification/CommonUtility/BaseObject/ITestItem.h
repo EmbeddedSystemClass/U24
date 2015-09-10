@@ -44,8 +44,8 @@ public:
 	virtual bool Run() = 0;
 
 protected:
-	double GetCableLoss(const std::string strRfType, const std::string strRfBand, std::string strRfRange);
-	bool UpdateCableLoss(const std::string strRfType, const std::string strRfBand, std::string strRfRange, std::string strNewLoss);
+	//double GetCableLoss(const std::string strRfType, const std::string strRfBand, std::string strRfRange);
+	//bool UpdateCableLoss(const std::string strRfType, const std::string strRfBand, std::string strRfRange, std::string strNewLoss);
 	bool InRange(int iLowerBound, int iUpperBound, int iMeasured);
 	bool InRange(double dLowerBound, double dUpperBound, double dMeasured);
 

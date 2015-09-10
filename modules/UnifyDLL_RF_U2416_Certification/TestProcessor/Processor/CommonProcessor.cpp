@@ -267,26 +267,26 @@ bool CCommonProcessor::Run()
 {
 	// 0. Move to here from Begin() in order to get g_strPicasso
 	std::string strTmp = "";
-	if (m_bCalibrationMode)
-	{
-		if (! LoadRefResult())
-		{	
-			strTmp = "Fail to load golden sample values from XML file";
-			TraceLog(MSG_ERROR, strTmp);
-			FactoryLog(false, "Load golden sample values from XML", CommErr_XML_GoldenSample_Load_Fail, "--", "--", "--", "--", "Fail", "--", strTmp);
-			return false;
-		}
+	//if (m_bCalibrationMode)
+	//{
+	//	//if (! LoadRefResult())
+	//	//{	
+	//	//	strTmp = "Fail to load golden sample values from XML file";
+	//	//	TraceLog(MSG_ERROR, strTmp);
+	//	//	FactoryLog(false, "Load golden sample values from XML", CommErr_XML_GoldenSample_Load_Fail, "--", "--", "--", "--", "Fail", "--", strTmp);
+	//	//	return false;
+	//	//}
 
-		if (g_mapTxRefResultData.empty() && g_mapRxRefResultData.empty())
-		{
-			strTmp = "This is not GOLDEN sample";
-			TraceLog(MSG_ERROR, strTmp);
-			FactoryLog(false, "Load golden sample values from XML", CommErr_Is_Not_Golden_Sample, "--", "--", "--", "--", "Fail", "--", strTmp);
-			return false;
-		}
-	}
-	else
-	{
+	//	if (g_mapTxRefResultData.empty() && g_mapRxRefResultData.empty())
+	//	{
+	//		strTmp = "This is not GOLDEN sample";
+	//		TraceLog(MSG_ERROR, strTmp);
+	//		FactoryLog(false, "Load golden sample values from XML", CommErr_Is_Not_Golden_Sample, "--", "--", "--", "--", "Fail", "--", strTmp);
+	//		return false;
+	//	}
+	//}
+	//else
+	//{
 		if (string::npos != g_strPicasso.find(_T("RFGOLDEN")))
 		{
 			strTmp = "This is GOLDEN sample !!";
@@ -294,7 +294,7 @@ bool CCommonProcessor::Run()
 			FactoryLog(false, "WifiModuleOnOFF", CommErr_Is_Golden_Sample, "", "", "", "", "", "", strTmp);
 			return false;
 		}
-	}
+	//}
 
 	// 1. Run all test items
 	bool bRes = true;
@@ -396,8 +396,8 @@ bool CCommonProcessor::End()
 	// 3. Clear all data
 	m_vpiTestItem.clear();
 	m_mapTestItemParams.clear();
-	g_mapTxCableLossData.clear();
-	g_mapRxCableLossData.clear();
+//	g_mapTxCableLossData.clear();
+//	g_mapRxCableLossData.clear();
 	g_strPicasso.clear();
 
 	// 4. Disconnect phone
@@ -450,7 +450,7 @@ bool CCommonProcessor::PostRun()
 	{
 		m_pIPhone->Disconnect();
 		m_pIPhone->Disconnect_QMSL();
-		//Sleep(3000);
+		Sleep(500);
 	}
 
 	TraceLog(MSG_INFO, "PostRun success!");
@@ -698,3 +698,4 @@ bool CCommonProcessor::SetFASector( int i_slot, int i_sectorNum, char *sz_sector
 
 	return false;
 }
+  
