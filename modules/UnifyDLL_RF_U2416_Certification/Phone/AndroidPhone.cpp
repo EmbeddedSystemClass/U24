@@ -1197,7 +1197,7 @@ bool CAndroidPhone::WifiPowerOnTxCertification (int iChannel, int iPower, int iR
 	if ( !bRet ){
 		return false;
 	}
-		for(int i = 0;i < 1;i++)
+		for(int i = 0;i < 1;i++) 
 		{
 			Sleep(500);
 
@@ -1209,7 +1209,7 @@ bool CAndroidPhone::WifiPowerOnTxCertification (int iChannel, int iPower, int iR
 			}
 
 			char buf[32], key[10];
-			isOk = QLIB_FTM_WLAN_TLV_AddParam(m_hQMSLPhone, _T("txMode"), _itoa(1,buf,10)); // int txMode = 3; // Tx99 a = b = g = ac = n
+			isOk = QLIB_FTM_WLAN_TLV_AddParam(m_hQMSLPhone, _T("txMode"), _itoa(3,buf,10)); // int txMode = 3; // Tx99 a = b = g = ac = n
 			if (!isOk) {
 					continue;
 			}
@@ -1249,6 +1249,7 @@ bool CAndroidPhone::WifiPowerOnTxCertification (int iChannel, int iPower, int iR
 					continue;
 			}
 
+			iChain += 1;
 			isOk = QLIB_FTM_WLAN_TLV_AddParam(m_hQMSLPhone, _T("txChain0"), _itoa(iChain,buf,10)); //chain0, chain 1
 			if (!isOk) {
 					continue;
@@ -1302,6 +1303,11 @@ bool CAndroidPhone::WifiPowerOnTxCertification (int iChannel, int iPower, int iR
 			isOk = QLIB_FTM_WLAN_TLV_Complete(m_hQMSLPhone);
 
 		   
+		   // Start to run CLPC calibration iterations by power measurement call back
+			int numMeasAvg = 1;
+		   asyncPMMessageCB pPMfunc = &asyncPMCB;
+		   QLIB_FTM_WLAN_Atheros_Tx_CAL(m_hQMSLPhone, pPMfunc, (unsigned int)numMeasAvg);
+
 			if (!isOk) {
 				Sleep(10000);
 				continue;
@@ -1520,6 +1526,7 @@ bool CAndroidPhone::WifiPowerOnTxCwCertification (int iChannel, int iPower, int 
 					continue;
 			}
 
+			iChain += 1;
 			isOk = QLIB_FTM_WLAN_TLV_AddParam(m_hQMSLPhone, _T("txChain0"), _itoa(iChain,buf,10)); //chain0, chain 1
 			if (!isOk) {
 					continue;
@@ -1572,6 +1579,11 @@ bool CAndroidPhone::WifiPowerOnTxCwCertification (int iChannel, int iPower, int 
 
 			isOk = QLIB_FTM_WLAN_TLV_Complete(m_hQMSLPhone);
 
+		   // Start to run CLPC calibration iterations by power measurement call back
+			int numMeasAvg = 1;
+		   asyncPMMessageCB pPMfunc = &asyncPMCB;
+		   QLIB_FTM_WLAN_Atheros_Tx_CAL(m_hQMSLPhone, pPMfunc, (unsigned int)numMeasAvg);
+
 		   
 			if (!isOk) {
 				Sleep(10000);
@@ -1623,21 +1635,41 @@ bool CAndroidPhone::WifiPowerOn5GTxCwCertification(int iChannel, int iRfGain, in
 
 bool CAndroidPhone::WifiPowerOnRxGetPacket (char* rxFrameCounter)
 {
-		   //QLIB_FTM_WLAN_TLV_Create(m_hQMSLPhone, _OP_RX_STATUS);
-		   //QLIB_FTM_WLAN_TLV_Complete(m_hQMSLPhone);
+   //Get Rx status report
+	bool isOk = true;
 
-		   //Get Rx status report
-		   printf ("==============================\n");
-		   QLIB_FTM_WLAN_TLV_GetRspParam(m_hQMSLPhone,"totalPkt",rxFrameCounter);
-		   printf("Rx Report : totalPkt    = %4s\n",rxFrameCounter);
-		   QLIB_FTM_WLAN_TLV_GetRspParam(m_hQMSLPhone,"goodPackets",rxFrameCounter);
-		   printf("Rx Report : goodPackets = %4s\n",rxFrameCounter);
-		   QLIB_FTM_WLAN_TLV_GetRspParam(m_hQMSLPhone,"crcErrPkt",rxFrameCounter);
-		   printf("Rx Report : crcErrPkt   = %4s\n",rxFrameCounter);
-		   QLIB_FTM_WLAN_TLV_GetRspParam(m_hQMSLPhone,"secErrPkt",rxFrameCounter);
-		   printf("Rx Report : secErrPkt   = %4s\n",rxFrameCounter);
-		   QLIB_FTM_WLAN_TLV_GetRspParam(m_hQMSLPhone,"rssi",rxFrameCounter);
-		   printf("Rx Report : rssi        = %4s\n",rxFrameCounter);
+	isOk = QLIB_FTM_WLAN_TLV_Create(m_hQMSLPhone, _OP_RX_STATUS);
+	if (!isOk) {
+		return false;
+	}
+
+
+	isOk = QLIB_FTM_WLAN_TLV_Complete(m_hQMSLPhone);
+
+   
+	if (!isOk) {
+	//	Sleep(10000);
+	//	continue; 
+		return false;
+	}
+
+	//int Ntest;
+   printf ("==============================\n");
+   QLIB_FTM_WLAN_TLV_GetRspParam(m_hQMSLPhone,"totalPkt",rxFrameCounter);
+  // QLIB_FTM_WLAN_TLV_GetRspParam(m_hQMSLPhone,"totalPkt",&Ntest);
+   printf("Rx Report : totalPkt    = %4s\n",rxFrameCounter);
+
+   //QLIB_FTM_WLAN_TLV_GetRspParam(m_hQMSLPhone,"goodPackets",rxFrameCounter);
+   //printf("Rx Report : goodPackets = %4s\n",rxFrameCounter);
+   //QLIB_FTM_WLAN_TLV_GetRspParam(m_hQMSLPhone,"crcErrPkt",rxFrameCounter);
+   //printf("Rx Report : crcErrPkt   = %4s\n",rxFrameCounter);
+   //QLIB_FTM_WLAN_TLV_GetRspParam(m_hQMSLPhone,"secErrPkt",rxFrameCounter);
+   //printf("Rx Report : secErrPkt   = %4s\n",rxFrameCounter);
+   //QLIB_FTM_WLAN_TLV_GetRspParam(m_hQMSLPhone,"rssi",rxFrameCounter);
+   //printf("Rx Report : rssi        = %4s\n",rxFrameCounter);
+
+
+
 
 	return true;
 }
@@ -1667,7 +1699,7 @@ bool CAndroidPhone::WifiPowerOnRxCertification(int iChannel, int iWlandMode,int 
 
 
 	//CString csBIN_FILE = BIN_FILE;
-	if (_taccess(csBinPath, 0) != 0) 
+	if (_taccess(csBinPath, 0) != 0)  
 	{
 		CString csMsg = csBinPath + _T("not exist");
 		AfxMessageBox(csMsg);
@@ -1718,21 +1750,22 @@ bool CAndroidPhone::WifiPowerOnRxCertification(int iChannel, int iWlandMode,int 
 				continue;
 			}
 
+			iChain += 1;
 			isOk = QLIB_FTM_WLAN_TLV_AddParam(m_hQMSLPhone, _T("rxChain"), _itoa(iChain,buf,10)); //chain0, chain 1
 			if (!isOk) {
 				continue;
 			}
 
 
-			isOk = QLIB_FTM_WLAN_TLV_AddParam(m_hQMSLPhone, _T("enANI"), _itoa(0,buf,10));//broadcast, 
-			if (!isOk) {
-					continue;
-			}
+			//isOk = QLIB_FTM_WLAN_TLV_AddParam(m_hQMSLPhone, _T("enANI"), _itoa(0,buf,10));//broadcast, 
+			//if (!isOk) {
+			//		continue;
+			//}
 
-			isOk = QLIB_FTM_WLAN_TLV_AddParam(m_hQMSLPhone, _T("antenna"), _itoa(0,buf,10));
-			if (!isOk) {
-					continue;
-			}
+			//isOk = QLIB_FTM_WLAN_TLV_AddParam(m_hQMSLPhone, _T("antenna"), _itoa(0,buf,10));
+			//if (!isOk) {
+			//		continue;
+			//}
 
 			isOk = QLIB_FTM_WLAN_TLV_Complete(m_hQMSLPhone);
 
@@ -1742,6 +1775,8 @@ bool CAndroidPhone::WifiPowerOnRxCertification(int iChannel, int iWlandMode,int 
 				continue;
 			}
 		}
+		
+		//AfxMessageBox("reciver ");
 
 	return isOk;
 
@@ -1753,14 +1788,14 @@ bool CAndroidPhone::WifiPowerOnRxCertification(int iChannel, int iWlandMode,int 
 		   //80-WL400-11 Refer Section "Steps to do WLAN RF receive tests"
 		   //             Refer Table "QRCT steps to perform WLAN receive test"
 		   // Execute _OP_RX_STATUS will stop current RX
-		   QLIB_FTM_WLAN_TLV_Create(m_hQMSLPhone, _OP_RX_STATUS);
-		   QLIB_FTM_WLAN_TLV_Complete(m_hQMSLPhone);
+		   isOk = QLIB_FTM_WLAN_TLV_Create(m_hQMSLPhone, _OP_RX_STATUS);
+		   isOk = QLIB_FTM_WLAN_TLV_Complete(m_hQMSLPhone);
 
 		   //Get Rx status report
 		   printf ("==============================\n");
-		   QLIB_FTM_WLAN_TLV_GetRspParam(m_hQMSLPhone,"totalPkt",strData);
+		   isOk = QLIB_FTM_WLAN_TLV_GetRspParam(m_hQMSLPhone,"totalPkt",strData);
 		   printf("Rx Report : totalPkt    = %4s\n",strData);
-		   QLIB_FTM_WLAN_TLV_GetRspParam(m_hQMSLPhone,"goodPackets",strData);
+		   isOk = QLIB_FTM_WLAN_TLV_GetRspParam(m_hQMSLPhone,"goodPackets",strData);
 		   printf("Rx Report : goodPackets = %4s\n",strData);
 		   QLIB_FTM_WLAN_TLV_GetRspParam(m_hQMSLPhone,"crcErrPkt",strData);
 		   printf("Rx Report : crcErrPkt   = %4s\n",strData);
