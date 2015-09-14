@@ -6,12 +6,12 @@
 #include "../../../UnifyInterface/NotifyBase.h"
 #include "../XML/MyMSXML.h"
 #include "IPhone.h"
-#include "ITesterDevice.h"
-#include "IPowerSupply.h"
+//#include "ITesterDevice.h"
+//#include "IPowerSupply.h"
 #include "../CommonDefine.h"
 #include "../../../Common/ErrorDefine/ErrorDefine.h"
 //#include "../ErrorCode/ErrorDefine.h"
-#include "../../../Super4Relay/Super4Relay.h"
+//#include "../../../Super4Relay/Super4Relay.h"
 #include "../CPKLog/CPKLogItem.h"
 
 
@@ -41,18 +41,18 @@ protected:
 	std::string     m_strBand ;
 	std::string     m_strChannel ;
 
-	static IPowerSupply* m_pIPS;
-	static IPowerSupply* m_pIPS2;
-	static IPowerSupply* m_pIPS3;
-	static ITesterDevice* m_pITesterDevice;
-	static ITesterDevice* m_pITesterDeviceFSP;
+	//static IPowerSupply* m_pIPS;
+	//static IPowerSupply* m_pIPS2;
+	//static IPowerSupply* m_pIPS3;
+	//static ITesterDevice* m_pITesterDevice;
+	//static ITesterDevice* m_pITesterDeviceFSP;
 	static IPhone* m_pIPhone;
 
-	static std::map<std::string, std::map<std::string, std::string>> g_mapTxCableLossData;
-	static std::map<std::string, std::map<std::string, std::string>> g_mapRxCableLossData;
+	//static std::map<std::string, std::map<std::string, std::string>> g_mapTxCableLossData;
+	//static std::map<std::string, std::map<std::string, std::string>> g_mapRxCableLossData;
 
-	static std::map<std::string, std::map<std::string, std::string>> g_mapTxRefResultData;
-	static std::map<std::string, std::map<std::string, std::string>> g_mapRxRefResultData;
+	//static std::map<std::string, std::map<std::string, std::string>> g_mapTxRefResultData;
+	//static std::map<std::string, std::map<std::string, std::string>> g_mapRxRefResultData;
 
 	//static std::map<std::string, std::string> g_mapCableLossMatix;
 
@@ -63,7 +63,7 @@ protected:
 	//static std::string g_strErrMsg;
 	std::string g_strFactoryVersion, g_strSWVersion;
 
-	static CString m_cstrCableLossPath;
+	//static CString m_cstrCableLossPath;
 
 	static std::string m_strItemCode;
 	static std::string m_strErrorCode;
@@ -77,17 +77,19 @@ protected:
 	static std::string m_strResult;
 
 
-	CString m_cstrCableLossFile;
+//	CString m_cstrCableLossFile;
 	static CString m_cstrTestItemFile;
-	CMyMSXML m_CableLossXML, m_TestItemXML;
+	//CMyMSXML m_CableLossXML, m_TestItemXML;
+	CMyMSXML m_TestItemXML;
 	CString m_cstrPhone;
 	bool m_bForceToPass;
-	bool m_bUsingGPIB;
-	int m_iGPIBInterfaceID;
-	int m_iGPIBCardAddress;
-	int m_iPSCount;
-	std::vector<int> m_vPowerSupplyAddr;
-	std::map<std::string, std::string> m_mapTesterDeviceParams, m_mapPowerSupplyParams, m_mapPhoneParams;
+	//bool m_bUsingGPIB;
+	//int m_iGPIBInterfaceID;
+	//int m_iGPIBCardAddress;
+	//int m_iPSCount;
+	//std::vector<int> m_vPowerSupplyAddr;
+	//std::map<std::string, std::string> m_mapTesterDeviceParams, m_mapPowerSupplyParams, m_mapPhoneParams;
+	std::map<std::string, std::string> m_mapPhoneParams;
 	std::vector<std::string> m_vTestItemList;
 	std::vector<std::string> m_vTestItemTypeList;
 	std::vector<ITestProcessor*> m_vpiTestItem;
@@ -96,12 +98,12 @@ protected:
 	static std::string g_strPicasso;
 
 	INotify_ANSI* m_piToolNotify;
-	static CCPKLogItem gCpkRecord;
+	//static CCPKLogItem gCpkRecord;
 
 	CString m_cstrStationName, m_cstrModelName;
-	CString m_cstrKCableLossFile, m_cstrGSRefResultFile;
-	CMyMSXML m_KCableLossXML, m_GSRefResultXML;
-	bool m_bCalibrationMode;
+//	CString m_cstrKCableLossFile, m_cstrGSRefResultFile;
+	//CMyMSXML m_KCableLossXML, m_GSRefResultXML;
+//	bool m_bCalibrationMode;
 
 
 	/*for log*/
@@ -117,7 +119,7 @@ public:
 	virtual bool InitData(std::map<std::string, std::string>& paramMap) = 0;
 
 	// Set cable loss & test item XML
-	void SetCableLossXML(CString cstrCableLossXML) { m_cstrCableLossFile = cstrCableLossXML; m_cstrCableLossPath = m_cstrCableLossFile;}
+	//void SetCableLossXML(CString cstrCableLossXML) { m_cstrCableLossFile = cstrCableLossXML; m_cstrCableLossPath = m_cstrCableLossFile;}
 	void SetTestItemXML(CString cstrTestItemXML) { m_cstrTestItemFile = cstrTestItemXML; }
 	void SetStationModelName(CString m_cstr_StationName, CString m_cstr_ModelName) {m_cstrStationName = m_cstr_StationName; m_cstrModelName = m_cstr_ModelName;}
 
@@ -201,7 +203,7 @@ public:
 		std::string strItemName,
 		std::string strBand,
 		std::string strChannel,
-		std::string strIdentify1,
+		std::string strIdentify1, 
 		std::string strIdentify2,
 		std::string strIdentify3,
 		std::string strValue,
@@ -229,12 +231,12 @@ public:
 
 protected:
 	// Setup functions
-	bool CheckCalibrationMode();
-	bool LoadRefResult();
-	bool LoadCableLoss();
+	//bool CheckCalibrationMode();
+	//bool LoadRefResult();
+	//bool LoadCableLoss();
 	bool LoadTestProcessorParams();
-	bool LoadGPIBDeviceParams();
-	bool DetectGPIBDevice();
+	//bool LoadGPIBDeviceParams();
+	//bool DetectGPIBDevice();
 	bool LoadPhoneParams();
 	bool LoadTestItemParameters();
 
@@ -242,9 +244,9 @@ protected:
 	void SetTestResult(bool bPass);
 
 	//move functions from itestitem to itestprocessor
-	double GetRefResult(const std::string strRfType, const std::string strRfBand, std::string strRfRange);
-	double GetCableLoss(const std::string strRfType, const std::string strRfBand, std::string strRfRange);
-	bool UpdateCableLoss(const std::string strRfType, const std::string strRfBand, std::string strRfRange, std::string strNewLoss);
+	//double GetRefResult(const std::string strRfType, const std::string strRfBand, std::string strRfRange);
+//	double GetCableLoss(const std::string strRfType, const std::string strRfBand, std::string strRfRange);
+	//bool UpdateCableLoss(const std::string strRfType, const std::string strRfBand, std::string strRfRange, std::string strNewLoss);
 	bool InRange(int iLowerBound, int iUpperBound, int iMeasured);
 	bool InRange(double dLowerBound, double dUpperBound, double dMeasured);
 

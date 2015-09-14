@@ -864,7 +864,7 @@ bool CAndroidPhone::WifiModuleOn (bool bEnable)
 		if( ret==FTD_OK ){
 			QLIB_SetLibraryMode(true);
 			//isOk = QLIB_FTM_WLAN_GEN6_START(m_hQMSLPhone, 3660);
-			isOk = QLIB_FTM_WLAN_GEN6_START(m_hQMSLPhone, 3680);
+			//isOk = QLIB_FTM_WLAN_GEN6_START(m_hQMSLPhone, 3680);
 		}
 		return isOk;
 	}
@@ -893,7 +893,7 @@ bool CAndroidPhone::WifiModuleOnCertification(bool bEnable)
 	if( !ExecAdbCommand(csCommandShell, szOut, szErr) )
 		return false;
 	
-	Sleep(10000);
+	Sleep(500);
 
 	pDetroit_WLAN_Mode Detroit_WLAN_Mode = (pDetroit_WLAN_Mode)GetProcAddress(m_hNeptuneCtrl, "Detroit_WLAN_Mode");
 	if (!Detroit_WLAN_Mode)
@@ -902,13 +902,13 @@ bool CAndroidPhone::WifiModuleOnCertification(bool bEnable)
 	}
 
 	int ret = 0;
-	bool isOk = false;
+	//bool isOk = false;
 	char szInput[4096] = {0};
 	char szError[FTD_BUFSIZE];
 
 
 	char buf[32];
-	sprintf(szInput, "2");
+	sprintf(szInput, _T("2"));
 
 	if (bEnable)
 	{
@@ -918,11 +918,11 @@ bool CAndroidPhone::WifiModuleOnCertification(bool bEnable)
 	else
 	{
 
-		ret = Detroit_WLAN_Mode(FTD_PORT, FTD_TIMEOUT, "0", szError); //0 -> off
+		ret = Detroit_WLAN_Mode(FTD_PORT, FTD_TIMEOUT, _T("0"), szError); //0 -> off
 		return FTD_OK == ret;
 	}
 
-	return isOk;
+	return false;
 }
 
 bool CAndroidPhone::WifiPowerOnTx (int iRate, int iChannel, int iPower)
@@ -1135,6 +1135,7 @@ enum NVMEM_OPTION
 double asyncPMCB(unsigned int iGain, unsigned int iFreq, double dPowerLevel,
    unsigned int iNumAvg, unsigned int iTriggerType, int iTriggerLevel)
 {
+	
    double power[100], pwr;
    double measuredAvgPower = 0;
    unsigned int it = 0;
@@ -1166,7 +1167,7 @@ bool CAndroidPhone::WifiPowerOnTxCertification (int iChannel, int iPower, int iR
 	CString path = szNowPath;
 	CString csBinPath;
 	csBinPath.Format("%s\\u2416\\bdwlan30.bin", path);
-	csBinPath.Format("%s\\u2416\\bdwlan30.bin", "C:\\");
+	//csBinPath.Format("%s\\u2416\\bdwlan30.bin", "C:\\");
 	//C:\u2416
 
 	// ROME Chip ID
@@ -1186,13 +1187,12 @@ bool CAndroidPhone::WifiPowerOnTxCertification (int iChannel, int iPower, int iR
 	}
 
 	QLIB_FTM_WLAN_Atheros_UNLoadDUT(m_hQMSLPhone); //unload first;
-
+	
 	unsigned char bRet = QLIB_FTM_WLAN_Atheros_LoadDUT(m_hQMSLPhone,(unsigned char  *)ROME_DLLID,(unsigned char *)csBinPath.GetBuffer(), DataFile, ROME_CHIPID);
 	csBinPath.ReleaseBuffer();
 	if ( !bRet ){
 		return false;
 	}
-
 
 	if ( !bRet ){
 		return false;
@@ -1208,7 +1208,7 @@ bool CAndroidPhone::WifiPowerOnTxCertification (int iChannel, int iPower, int iR
 					continue;
 			}
 
-			char buf[32], key[10];
+			char buf[32];
 			isOk = QLIB_FTM_WLAN_TLV_AddParam(m_hQMSLPhone, _T("txMode"), _itoa(3,buf,10)); // int txMode = 3; // Tx99 a = b = g = ac = n
 			if (!isOk) {
 					continue;
@@ -1301,12 +1301,13 @@ bool CAndroidPhone::WifiPowerOnTxCertification (int iChannel, int iPower, int iR
 			}
 
 			isOk = QLIB_FTM_WLAN_TLV_Complete(m_hQMSLPhone);
-
 		   
+			//Sleep(5000);
 		   // Start to run CLPC calibration iterations by power measurement call back
 			int numMeasAvg = 1;
 		   asyncPMMessageCB pPMfunc = &asyncPMCB;
 		   QLIB_FTM_WLAN_Atheros_Tx_CAL(m_hQMSLPhone, pPMfunc, (unsigned int)numMeasAvg);
+		//   QLIB_FTM_WLAN_Atheros_Tx_CAL(m_hQMSLPhone, NULL, (unsigned int)numMeasAvg);
 
 			if (!isOk) {
 				Sleep(10000);
@@ -1443,7 +1444,7 @@ bool CAndroidPhone::WifiPowerOnTxCwCertification (int iChannel, int iPower, int 
 	CString path = szNowPath;
 	CString csBinPath;
 	csBinPath.Format("%s\\u2416\\bdwlan30.bin", path);
-	csBinPath.Format("%s\\u2416\\bdwlan30.bin", "C:\\");
+	//csBinPath.Format("%s\\u2416\\bdwlan30.bin", "C:\\");
 	//C:\u2416
 
 	// ROME Chip ID
@@ -1485,7 +1486,7 @@ bool CAndroidPhone::WifiPowerOnTxCwCertification (int iChannel, int iPower, int 
 					continue;
 			}
 
-			char buf[32], key[10];
+			char buf[32];
 			isOk = QLIB_FTM_WLAN_TLV_AddParam(m_hQMSLPhone, _T("txMode"), _itoa(1,buf,10)); // int txMode = 3; // Tx99 a = b = g = ac = n
 			if (!isOk) {
 					continue;

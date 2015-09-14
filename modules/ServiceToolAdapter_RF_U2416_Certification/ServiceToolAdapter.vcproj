@@ -271,14 +271,6 @@
 				Name="EnhanceController"
 				>
 				<File
-					RelativePath="..\FactoryToolController_Boston\EnhanceController\CableLossHandler_Standard.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\FactoryToolController_Boston\EnhanceController\CableLossHandler_Standard.h"
-					>
-				</File>
-				<File
 					RelativePath="..\..\Modules\FactoryToolController_RF_Certification\EnhanceController\EnhanceController.cpp"
 					>
 				</File>

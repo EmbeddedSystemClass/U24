@@ -12,7 +12,7 @@
 #include "..\..\Modules\UnifyInterface\SerTestToolInterface.h"
 #include "..\..\Modules\UnifyInterface\FacTestToolInterface.h"
 #include "..\..\Modules\FactoryToolController_Boston\EnhanceController\EnhanceController.h"
-#include "..\..\Modules\FactoryToolController_Boston\EnhanceController\CableLossHandler_Standard.h"
+//#include "..\..\Modules\FactoryToolController_Boston\EnhanceController\CableLossHandler_Standard.h"
 //#include "..\..\Modules\FactoryToolController_Boston\EnhanceController\GPIBHandler_Standard.h"
 #include "..\..\Modules\FactoryToolController_Boston\EnhanceController\PhoneHandler_Standard.h"
 //#include "..\..\Modules\FactoryToolController_Boston\EnhanceController\PowerSupplyHandler_Standard.h"
@@ -31,7 +31,7 @@
 #define ISRV_CLASS_API __declspec(dllimport)
 #endif
 
-#define _WIFI_TX_CW_WAVE
+#define _WIFI_TX
 #define UNIFYMODELNAME			      _T("RF")
 
 #if defined _WIFI_TX

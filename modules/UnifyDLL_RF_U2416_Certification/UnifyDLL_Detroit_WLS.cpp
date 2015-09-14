@@ -92,27 +92,27 @@ bool CUnifyDLL_Detroit_WLS::LoadSettingFile()
 	return true;
 }
 
-bool CUnifyDLL_Detroit_WLS::CheckCableLossXMLExist()
-{
-	bool bRes = false;
-	char szModulePath[MAX_PATH] = {0};
-	CString cstrConfigXML = _T("");
-
-// 	GetModuleFileName(NULL, szModulePath, MAX_PATH);
-// 	PathRemoveFileSpec(szModulePath);
-	cstrConfigXML.Format(_T("%s\\%s\\Setting\\%s"), COMMONPATH,m_cstr_ModelName, m_cstrCableLossFile);
-	if (::_taccess(cstrConfigXML, 0) == 0)
-	{
-		m_cstrCableLossFile = cstrConfigXML;
-
-		if (m_CableLossXML.Load(m_cstrCableLossFile) == ERROR_SUCCESS)
-		{
-			return true;
-		}
-	}
-	
-	return false;
-}
+//bool CUnifyDLL_Detroit_WLS::CheckCableLossXMLExist()
+//{
+//	bool bRes = false;
+//	char szModulePath[MAX_PATH] = {0};
+//	CString cstrConfigXML = _T("");
+//
+//// 	GetModuleFileName(NULL, szModulePath, MAX_PATH);
+//// 	PathRemoveFileSpec(szModulePath);
+//	cstrConfigXML.Format(_T("%s\\%s\\Setting\\%s"), COMMONPATH,m_cstr_ModelName, m_cstrCableLossFile);
+//	if (::_taccess(cstrConfigXML, 0) == 0)
+//	{
+//		m_cstrCableLossFile = cstrConfigXML;
+//
+//		if (m_CableLossXML.Load(m_cstrCableLossFile) == ERROR_SUCCESS)
+//		{
+//			return true;
+//		}
+//	}
+//	
+//	return false;
+//}
 
 bool CUnifyDLL_Detroit_WLS::CheckTestItemXMLExist()
 {
@@ -253,15 +253,15 @@ bool CUnifyDLL_Detroit_WLS::Begin(int i_slot)
 	}
 
 	// 4.Check MD5 for Test XML
-	if (m_cstr_buildmode == _T("FACTORY"))
-	{
-		CString strOutMsg = _T("");
-		if (!CheckTestItemXMLMD5(strOutMsg))
-		{
-			FireResult(_T(""),strOutMsg);
-			return false;
-		}
-	}
+	//if (m_cstr_buildmode == _T("FACTORY"))
+	//{
+	//	CString strOutMsg = _T("");
+	//	if (!CheckTestItemXMLMD5(strOutMsg))
+	//	{
+	//		FireResult(_T(""),strOutMsg);
+	//		return false;
+	//	}
+	//}
 
 	// 5. Create tool processor
 	if (!CreateTestProcessor())
@@ -754,29 +754,29 @@ void CUnifyDLL_Detroit_WLS::DefineUINotify()
 	this->DefineNotify(UI_POWERSUPPLY);
 }
 
-bool CUnifyDLL_Detroit_WLS::CheckMD5(CString& strOutMsg)
-{
-	char sz_currentPath[MAX_PATH] = {0};
-	::GetModuleFileName(NULL, sz_currentPath, MAX_PATH);
-	::PathRemoveFileSpec(sz_currentPath);
-
-	CString str_MD5LocalPath,strDir;
-	strDir.Format(_T("%s"),sz_currentPath);
-
-	str_MD5LocalPath.Format("%s\\MD5\\%s_%s_TestItem_MD5.xml", sz_currentPath, m_cstr_ModelName, m_cstr_StationName);
-
-	if (_taccess(str_MD5LocalPath, 0) != 0) 
-	{
-		strOutMsg = _T("MD5 xml file of test item is not exist!");
-		return false;
-	}
-
-	CMD5Checksum md5check;
-
-	bool bRet = md5check.CheckDirMD5(str_MD5LocalPath,strDir,strOutMsg);
-
-	return bRet;
-}
+//bool CUnifyDLL_Detroit_WLS::CheckMD5(CString& strOutMsg)
+//{
+//	char sz_currentPath[MAX_PATH] = {0};
+//	::GetModuleFileName(NULL, sz_currentPath, MAX_PATH);
+//	::PathRemoveFileSpec(sz_currentPath);
+//
+//	CString str_MD5LocalPath,strDir;
+//	strDir.Format(_T("%s"),sz_currentPath);
+//
+//	str_MD5LocalPath.Format("%s\\MD5\\%s_%s_TestItem_MD5.xml", sz_currentPath, m_cstr_ModelName, m_cstr_StationName);
+//
+//	if (_taccess(str_MD5LocalPath, 0) != 0) 
+//	{
+//		strOutMsg = _T("MD5 xml file of test item is not exist!");
+//		return false;
+//	}
+//
+//	CMD5Checksum md5check;
+//
+//	bool bRet = md5check.CheckDirMD5(str_MD5LocalPath,strDir,strOutMsg);
+//
+//	return bRet;
+//}
 
 
 void CUnifyDLL_Detroit_WLS::WriteLog(CString str_log, const int i_severity)
@@ -823,43 +823,43 @@ void CUnifyDLL_Detroit_WLS::SetLogFilePath()
 
 // ------------ MD5 verify functions ------------
 
-bool CUnifyDLL_Detroit_WLS::CheckTestItemXMLMD5(CString& strOutMsg)
-{
-	char sz_currentPath[MAX_PATH] = {0};
-	::GetModuleFileName(NULL, sz_currentPath, MAX_PATH);
-	::PathRemoveFileSpec(sz_currentPath);
-
-	CString str_MD5LocalPath;
-	str_MD5LocalPath.Format("%s\\MD5\\%s_%s_TestItem_MD5.xml", sz_currentPath, m_cstr_ModelName, m_cstr_StationName);
-	if (_taccess(str_MD5LocalPath, 0) != 0)
-	{
-		strOutMsg = _T("MD5 xml file of test item is not exist!");
-		return false;
-	}
-
-	/* Replace tool path of MD5 xml */
-	if (ConvertXML(str_MD5LocalPath, m_cstrTestItemFile) != true)
-	{
-		strOutMsg = _T("Replace tool path of MD5 xml fail!");
-		return false;
-	}
-
-	CString str_logName;
-	str_logName = "D:\\LOG\\MD5.log";
-	if (MD5Verify(m_cstrTestItemFile, str_MD5LocalPath, str_logName) != true)
-	{
-		strOutMsg = _T("Verify MD5 fail!");
-		return false;
-	}
-
-	if (CheckVerifyResult(str_logName) != true)
-	{
-		strOutMsg = _T("Check test item xml MD5 fail.\nTest item xml may be changed, Please check it!");
-		return false;
-	}
-
-	return true;
-}
+//bool CUnifyDLL_Detroit_WLS::CheckTestItemXMLMD5(CString& strOutMsg)
+//{
+//	char sz_currentPath[MAX_PATH] = {0};
+//	::GetModuleFileName(NULL, sz_currentPath, MAX_PATH);
+//	::PathRemoveFileSpec(sz_currentPath);
+//
+//	CString str_MD5LocalPath;
+//	str_MD5LocalPath.Format("%s\\MD5\\%s_%s_TestItem_MD5.xml", sz_currentPath, m_cstr_ModelName, m_cstr_StationName);
+//	if (_taccess(str_MD5LocalPath, 0) != 0)
+//	{
+//		strOutMsg = _T("MD5 xml file of test item is not exist!");
+//		return false;
+//	}
+//
+//	/* Replace tool path of MD5 xml */
+//	//if (ConvertXML(str_MD5LocalPath, m_cstrTestItemFile) != true)
+//	//{
+//	//	strOutMsg = _T("Replace tool path of MD5 xml fail!");
+//	//	return false;
+//	//}
+//
+//	//CString str_logName;
+//	//str_logName = "D:\\LOG\\MD5.log";
+//	//if (MD5Verify(m_cstrTestItemFile, str_MD5LocalPath, str_logName) != true)
+//	//{
+//	//	strOutMsg = _T("Verify MD5 fail!");
+//	//	return false;
+//	//}
+//
+//	//if (CheckVerifyResult(str_logName) != true)
+//	//{
+//	//	strOutMsg = _T("Check test item xml MD5 fail.\nTest item xml may be changed, Please check it!");
+//	//	return false;
+//	//}
+//
+//	return true;
+//}
 
 bool CUnifyDLL_Detroit_WLS::ConvertXML(CString str_XMLFilePathName, CString str_newName)
 {
@@ -915,79 +915,79 @@ bool CUnifyDLL_Detroit_WLS::ConvertXML(CString str_XMLFilePathName, CString str_
 	return true;
 }
 
-bool CUnifyDLL_Detroit_WLS::MD5Verify(CString str_dirPath, CString str_XMLFilePathName, CString str_logFile)
-{
-	/* Check Input */
-	if(str_dirPath == _T("") || str_XMLFilePathName == _T("")  || str_logFile == _T(""))
-	{
-		return false;
-	}
-
-	/* Check fciv.exe exist */
-	char sz_currentPath[MAX_PATH] = { 0 };
-	::GetModuleFileName(NULL, sz_currentPath, MAX_PATH);
-	::PathRemoveFileSpec(sz_currentPath);
-	CString str_fcivPathName;
-	str_fcivPathName.Format(_T("%s\\MD5\\fciv.exe"), sz_currentPath);
-	if (_taccess(str_fcivPathName, 0) != 0)
-	{
-		return false;
-	}
-
-	/* Command */
-	CString str_command;
-	CString str_commandOne;
-	CString str_commandTwo;
-	CString str_commandThree;
-	str_commandOne = _T("cmd.exe /c ");
-	str_commandTwo = str_fcivPathName + _T(" -r -v ") + str_dirPath + _T(" -xml ") + str_XMLFilePathName;
-	str_commandThree = str_commandThree + _T(" > ") + str_logFile;
-	str_command = str_commandOne + str_commandTwo + str_commandThree;
-
-	/* Run */
-	TCHAR sz_commandLine[1024];
-	memset(sz_commandLine, 0, sizeof(sz_commandLine));
-	for (int i = 0; i < str_command.GetLength(); i ++)
-	{
-		sz_commandLine[i] = str_command[i];
-	}
-	PROCESS_INFORMATION pi;
-	STARTUPINFO si;
-	memset(&si, 0, sizeof(si));
-	si.cb          = sizeof(si);
-	si.wShowWindow = SW_HIDE;
-	si.dwFlags     = STARTF_USESHOWWINDOW;
-
-	BOOL b_createRes = FALSE;
-	b_createRes = CreateProcess(NULL, sz_commandLine, NULL, NULL, NULL, NULL, NULL, NULL, &si, &pi);
-	if(b_createRes == FALSE)
-	{
-		return false;
-	}
-	DWORD dw_waitResult = 0;
-	DWORD dw_timeout;
-	dw_timeout = 10000;
-	dw_waitResult = ::WaitForSingleObject(pi.hProcess, dw_timeout);
-	switch(dw_waitResult)
-	{
-	case WAIT_FAILED:
-		::CloseHandle(pi.hProcess);
-		pi.hProcess = NULL;
-		return false;
-
-	case WAIT_TIMEOUT:
-		::CloseHandle(pi.hProcess);
-		pi.hProcess = NULL;
-		return false;
-
-	case WAIT_OBJECT_0:
-		break;
-	}
-	::CloseHandle(pi.hProcess);
-	pi.hProcess = NULL;
-
-	return true;
-}
+//bool CUnifyDLL_Detroit_WLS::MD5Verify(CString str_dirPath, CString str_XMLFilePathName, CString str_logFile)
+//{
+//	/* Check Input */
+//	if(str_dirPath == _T("") || str_XMLFilePathName == _T("")  || str_logFile == _T(""))
+//	{
+//		return false;
+//	}
+//
+//	/* Check fciv.exe exist */
+//	char sz_currentPath[MAX_PATH] = { 0 };
+//	::GetModuleFileName(NULL, sz_currentPath, MAX_PATH);
+//	::PathRemoveFileSpec(sz_currentPath);
+//	CString str_fcivPathName;
+//	str_fcivPathName.Format(_T("%s\\MD5\\fciv.exe"), sz_currentPath);
+//	if (_taccess(str_fcivPathName, 0) != 0)
+//	{
+//		return false;
+//	}
+//
+//	/* Command */
+//	CString str_command;
+//	CString str_commandOne;
+//	CString str_commandTwo;
+//	CString str_commandThree;
+//	str_commandOne = _T("cmd.exe /c ");
+//	str_commandTwo = str_fcivPathName + _T(" -r -v ") + str_dirPath + _T(" -xml ") + str_XMLFilePathName;
+//	str_commandThree = str_commandThree + _T(" > ") + str_logFile;
+//	str_command = str_commandOne + str_commandTwo + str_commandThree;
+//
+//	/* Run */
+//	TCHAR sz_commandLine[1024];
+//	memset(sz_commandLine, 0, sizeof(sz_commandLine));
+//	for (int i = 0; i < str_command.GetLength(); i ++)
+//	{
+//		sz_commandLine[i] = str_command[i];
+//	}
+//	PROCESS_INFORMATION pi;
+//	STARTUPINFO si;
+//	memset(&si, 0, sizeof(si));
+//	si.cb          = sizeof(si);
+//	si.wShowWindow = SW_HIDE;
+//	si.dwFlags     = STARTF_USESHOWWINDOW;
+//
+//	BOOL b_createRes = FALSE;
+//	b_createRes = CreateProcess(NULL, sz_commandLine, NULL, NULL, NULL, NULL, NULL, NULL, &si, &pi);
+//	if(b_createRes == FALSE)
+//	{
+//		return false;
+//	}
+//	DWORD dw_waitResult = 0;
+//	DWORD dw_timeout;
+//	dw_timeout = 10000;
+//	dw_waitResult = ::WaitForSingleObject(pi.hProcess, dw_timeout);
+//	switch(dw_waitResult)
+//	{
+//	case WAIT_FAILED:
+//		::CloseHandle(pi.hProcess);
+//		pi.hProcess = NULL;
+//		return false;
+//
+//	case WAIT_TIMEOUT:
+//		::CloseHandle(pi.hProcess);
+//		pi.hProcess = NULL;
+//		return false;
+//
+//	case WAIT_OBJECT_0:
+//		break;
+//	}
+//	::CloseHandle(pi.hProcess);
+//	pi.hProcess = NULL;
+//
+//	return true;
+//}
 
 bool CUnifyDLL_Detroit_WLS::CheckVerifyResult(CString str_logFile)
 {
