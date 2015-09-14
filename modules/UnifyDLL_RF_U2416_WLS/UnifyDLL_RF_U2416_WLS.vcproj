@@ -1129,6 +1129,22 @@
 						>
 					</File>
 					<File
+						RelativePath=".\TestProcessor\TestItem\WirelessTestItem\Wireless_CMU_BT_TxTest.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\TestProcessor\TestItem\WirelessTestItem\Wireless_CMU_BT_TxTest.h"
+						>
+					</File>
+					<File
+						RelativePath=".\TestProcessor\TestItem\WirelessTestItem\Wireless_CMU_TxPower.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\TestProcessor\TestItem\WirelessTestItem\Wireless_CMU_TxPower.h"
+						>
+					</File>
+					<File
 						RelativePath=".\TestProcessor\TestItem\WirelessTestItem\Wireless_GSM_Power.cpp"
 						>
 					</File>

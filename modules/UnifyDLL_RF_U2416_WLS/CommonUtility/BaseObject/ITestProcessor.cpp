@@ -1144,6 +1144,56 @@ void ITestProcessor::FactoryLog(bool bPass,
 	Fire(DLL_TEST_RESULT, (long)&firedData);
 }
 
+void ITestProcessor::FactoryLog(bool bPass,
+								  std::string strItemCode,
+								  std::string strErrCode,
+								  std::string strChannel,
+								  std::string strLower,
+								  std::string strUpper,
+								  std::string strMeasured,
+								  std::string strUnit,
+								  std::string strMsg
+								  )
+{
+	sTestResult firedData;
+	SYSTEMTIME currTime;
+	char szCurrTime[256];
+
+	::GetLocalTime(&currTime);
+	memset(szCurrTime, 0, 256);
+	sprintf_s(szCurrTime, 255, "%02d:%02d:%02d.%03d",
+		currTime.wHour, currTime.wMinute, currTime.wSecond, currTime.wMilliseconds);
+
+	firedData.strTime = szCurrTime;
+
+	firedData.strItemCode = strItemCode;
+	firedData.strErrCode = strErrCode;
+	firedData.strChannel = strChannel;
+	firedData.strLower = strLower;
+	firedData.strUpper = strUpper;
+	firedData.strMeasured = strMeasured;
+	firedData.strUnit = strUnit;
+
+	firedData.strElapse = GetTestDuration();
+
+	firedData.strMsg = strMsg;
+
+	if (bPass)
+	{
+		firedData.strResult = "PASS";
+		firedData.strErrCode = "";
+	}
+	else
+	{
+		firedData.strResult = "FAIL";
+
+		g_strErrCode = strErrCode;
+		g_strErrMsg = strMsg;
+	}
+
+	Fire(DLL_TEST_RESULT, (long)&firedData);
+}
+
 void ITestProcessor::CPKLog(int iSeverity, 
 							std::string strTech,
 							std::string strItemName,
