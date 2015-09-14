@@ -59,31 +59,21 @@ bool CWireless_WiFi_ContinuousRxTest::MainFunction()
 				m_strMsg = "Fail to execute WifiPowerOnRxGetPacket";
 				TraceLog(MSG_ERROR, m_strMsg);
 			}
-			Sleep(m_iCommandDelay);
+			//Sleep(m_iCommandDelay);
 
-			int ret = MessageBox(NULL, _T("Get Packet Counter?\nYes ->Get Packet Counter\nNo->Stop"), _T("Info."), 
-				MB_ICONQUESTION | MB_YESNOCANCEL); 
+			//int ret = MessageBox(NULL, _T("Get Packet Counter?"), _T("Info."), 
+			//	MB_ICONQUESTION ); 
 
+			int ret = ::MessageBox(NULL, _T("Get Packet Counter?"), _T("Info."), 
+				MB_ICONQUESTION );
 
-			while(1)
-			{
-				if (ret == 6)
-				{
-					m_pIPhone->WifiPowerOnRxGetPacket(szRxFrameCounter);
-	
-					sprintf(szTmp, "Total Packets Received: %c\nYes ->Get Packet Counter\nNo->Reset Packet Counter\nCancel->Stop", szRxFrameCounter);
-					ret = MessageBox(NULL, szTmp, _T("Info."), 
-						MB_ICONQUESTION | MB_YESNOCANCEL);
-					sprintf(szMeasuredTmp, "%c", szRxFrameCounter);
-				}
-				else
-				{
-					break;
-				}
-				if (!isOk)
-				{
-					break;
-				}
+			if (!(isOk = m_pIPhone->WifiPowerOnRxGetPacket(szRxFrameCounter))){
+				m_strMsg = "Fail to execute WifiPowerOnRxGetPacket";
+				TraceLog(MSG_ERROR, m_strMsg);
+				isOk = false;
+				
+			}else{
+				sprintf(szMeasuredTmp, "%s", szRxFrameCounter);
 			}
 
 			if (!m_pIPhone->WifiModuleOnCertification(false))
@@ -135,7 +125,7 @@ bool CWireless_WiFi_ContinuousRxTest::InitData(std::map<std::string, std::string
 
 	if (paramMap.find("CHAIN") == paramMap.end())
 	{
-		TraceLog(MSG_ERROR, "Fail to find parameter Chain for CWireless_WiFi_ContinuousRxTest");
+		TraceLog(MSG_ERROR, "Fail to find parameter CHAIN for CWireless_WiFi_ContinuousRxTest");
 		return false;
 	}
 	m_iChain = atoi(paramMap["CHAIN"].c_str());
