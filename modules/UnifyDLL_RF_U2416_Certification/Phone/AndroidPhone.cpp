@@ -1590,6 +1590,7 @@ bool CAndroidPhone::WifiPowerOnTxCwCertification (int iChannel, int iPower, int 
 				continue;
 			}
 		}
+		return isOk;
 }
 
 bool CAndroidPhone::WifiPowerOn5GTxCwCertification(int iChannel, int iRfGain, int iBond)
