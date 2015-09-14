@@ -40,6 +40,7 @@ CString GetDirectoryPath()
 
 bool MMIBBProc::InitData(std::map<std::string, std::string>& paramMap)
 {
+
 	/* Offset */
 	std::string str_offset;
 	if (paramMap.find(std::string("Offset")) != paramMap.end())
@@ -91,16 +92,7 @@ bool MMIBBProc::InitData(std::map<std::string, std::string>& paramMap)
 
 bool MMIBBProc::PreRun()
 {
-	m_strResult = "-";
-	m_strItemCode = "-";
-	m_strErrorCode = "-";
-	m_strBand = "-";
-	m_strChannel = "-";
-	m_strUpper = "-";
-	m_strLower = "-";
-	m_strMeasured = "";
-	m_strUnit = "-";
-	m_strMessage = "";
+
 
 	char* szAddress = "504,50";// 504~511 = errCode, 512~540 = test item
 	memset(m_szFAData, 0, sizeof(m_szFAData));
@@ -158,7 +150,8 @@ bool MMIBBProc::MMI_PASS_FAIL_CRITERIA()
 	{
 		m_strResult = "FAIL";
 		m_strMessage = m_str_Message + "_FAIL";
-		m_strErrorCode = m_szErrCode;
+		//m_strErrorCode = m_szErrCode;
+		m_strErrorCode = m_str_ErrorCode;
 		SetPICSData("MMIEM_ErrCode", m_strErrorCode);
 		b_res = false;
 	}
@@ -166,12 +159,15 @@ bool MMIBBProc::MMI_PASS_FAIL_CRITERIA()
 	{
 		m_strResult = "Don't_Care";
 		m_strMessage = m_str_Message + "_Don't_Care";
+		m_strErrorCode = m_str_ErrorCode;
 		SetPICSData("MMIEM_RESULT", m_str_Message + "_DONT_CARE");
 	}
 	else
 	{
 		m_strResult = "Non_test";
 		m_strMessage = m_str_Message + "_Non_Test";
+		m_strErrorCode = m_str_ErrorCode;
+		//m_strErrorCode = m_szErrCode;
 		SetPICSData("MMIEM_RESULT", m_str_Message + "_NON_TEST");
 		b_res = false;
 	}

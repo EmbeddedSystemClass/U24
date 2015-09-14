@@ -82,7 +82,18 @@ private:
 
 // Member functions
 public:
-	MMIBBProc() {}
+	MMIBBProc() {
+		m_strResult = "-";
+		m_strItemCode = "-";
+		m_strErrorCode = "-";
+		m_strBand = "-";
+		m_strChannel = "-";
+		m_strUpper = "-";
+		m_strLower = "-";
+		m_strMeasured = "";
+		m_strUnit = "-";
+		m_strMessage = "";
+	}
 	~MMIBBProc() {}
 
 	virtual bool InitData(std::map<std::string, std::string>& paramMap);
