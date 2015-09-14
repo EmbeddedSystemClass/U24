@@ -223,34 +223,42 @@ bool CBTWLAN_WiFi_5G_TxTest::Run(void)
 	//gCpkRecord.ResetAll();
 	//
 	std::string cpkfile;
+	std::string stdTestItem;
+
 	if (0 == strcmp(m_strLineName.c_str(), "\"11N_5G_Chain_0\""))
 	{
 		cpkfile = string(DEFAULT_CPKLOG_PATH) + "WifiTxCPK_11N_5G_Chain_0";
+		stdTestItem =  "WifiTx_11N_5G_Chain_0";
 		m_dAdjPower = GetCableLoss("TX", "BTWLAN_WIFI", "WifiAdjPower_11N_5G_Chain_0");
 	}
 	else if (0 == strcmp(m_strLineName.c_str(), "\"11N_5G_Chain_1\""))
 	{
 		cpkfile = string(DEFAULT_CPKLOG_PATH) + "WifiTxCPK_11N_5G_Chain_1";
+		stdTestItem =  "WifiTx_11N_5G_Chain_1";
 		m_dAdjPower = GetCableLoss("TX", "BTWLAN_WIFI", "WifiAdjPower_11N_5G_Chain_1");
 	}
 	else if (0 == strcmp(m_strLineName.c_str(), "\"11A_5G_Chain_0\""))
 	{
 		cpkfile = string(DEFAULT_CPKLOG_PATH) + "WifiTxCPK_11A_5G_Chain_0";
+		stdTestItem =  "WifiTx_11A_5G_Chain_0";
 		m_dAdjPower = GetCableLoss("TX", "BTWLAN_WIFI", "WifiAdjPower_11A_5G_Chain_0");
 	}
 	else if (0 == strcmp(m_strLineName.c_str(), "\"11A_5G_Chain_1\""))
 	{
 		cpkfile = string(DEFAULT_CPKLOG_PATH) + "WifiTxCPK_11A_5G_Chain_1";
+		stdTestItem =  "WifiTx_11A_5G_Chain_1";
 		m_dAdjPower = GetCableLoss("TX", "BTWLAN_WIFI", "WifiAdjPower_11A_5G_Chain_1");
 	}
 	else if (0 == strcmp(m_strLineName.c_str(), "\"11AC_5G_Chain_0\""))
 	{
 		cpkfile = string(DEFAULT_CPKLOG_PATH) + "WifiTxCPK_11AC_5G_Chain_0";
+		stdTestItem =  "WifiTx_11AC_5G_Chain_0";
 		m_dAdjPower = GetCableLoss("TX", "BTWLAN_WIFI", "WifiAdjPower_11AC_5G_Chain_0");
 	}
 	else if (0 == strcmp(m_strLineName.c_str(), "\"11AC_5G_Chain_1\""))
 	{
 		cpkfile = string(DEFAULT_CPKLOG_PATH) + "WifiTxCPK_11AC_5G_Chain_1";
+		stdTestItem =  "WifiTx_11AC_5G_Chain_1";
 		m_dAdjPower = GetCableLoss("TX", "BTWLAN_WIFI", "WifiAdjPower_11AC_5G_Chain_1");
 	}
 
