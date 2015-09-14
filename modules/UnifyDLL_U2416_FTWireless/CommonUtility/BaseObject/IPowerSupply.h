@@ -31,7 +31,7 @@ public:
 	virtual bool SetCurrRangeMax();
 	virtual bool SetCurrRangeMin();
 	virtual bool GetCurrent(double &dCurrent);
-
+	virtual bool SetCapacitance(int nFlag);//0 = low, 1 = high
 protected:
 	virtual bool SetupDevice(int iCalDevicePad, int iPort, int &deviceID);
 

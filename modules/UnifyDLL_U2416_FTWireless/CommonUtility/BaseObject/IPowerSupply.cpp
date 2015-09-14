@@ -71,6 +71,19 @@ bool IPowerSupply::SetCurrRangeMax()
 	return GPIB_PS_Write(std::string("SENSe:CURRent:RANGe MAX"));
 }
 
+//virtual bool SetCapacitance(int nFlag);//0 = low, 1 = high
+bool  IPowerSupply::SetCapacitance(int nFlag)//lion
+{
+	if (nFlag == 0 ){
+		return GPIB_PS_Write(std::string("OUTP:TYPE LOW"));
+	}
+	else if(nFlag == 1 ){
+		return GPIB_PS_Write(std::string("OUTP:TYPE HIGH"));
+	}
+	
+}
+
+
 bool IPowerSupply::SetCurrRangeMin()
 {
 	return GPIB_PS_Write(std::string("SENSe:CURRent:RANGe MIN"));

@@ -650,6 +650,16 @@ bool ITestProcessor::InitialPowerSupply()
 					return false;
 				}
 
+				//virtual bool SetCapacitance(int nFlag);//0 = low, 1 = high
+				/* set SetCapacitance */
+				if (!m_pIPS->SetCapacitance(1))
+				{
+					m_strErrorCode = CommErr_PowerSupply_Control_Fail;
+					m_strMessage = "Fail to SetCapacitance 1";
+					TraceLog(MSG_ERROR, m_strMessage);
+					return false;
+				}
+
 				/* Set power supply 1 on */
 				if (!m_pIPS->SetPSOnOff(true))
 				{
@@ -727,6 +737,17 @@ bool ITestProcessor::InitialPowerSupply()
 					TraceLog(MSG_ERROR, m_strMessage);
 					return false;
 				}
+
+				//virtual bool SetCapacitance(int nFlag);//0 = low, 1 = high
+				/* set SetCapacitance */
+				if (!m_pIPS2->SetCapacitance(1))
+				{
+					m_strErrorCode = CommErr_PowerSupply_Control_Fail;
+					m_strMessage = "Fail to SetCapacitance 2";
+					TraceLog(MSG_ERROR, m_strMessage);
+					return false;
+				}
+
 				/* Set power supply 2 on */
 				if (!m_pIPS2->SetPSOnOff(true))
 				{
