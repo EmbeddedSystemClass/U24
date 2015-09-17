@@ -28,10 +28,10 @@ bool CWireless_WiFi_ContinuousTxCwWave::Run()
 bool CWireless_WiFi_ContinuousTxCwWave::MainFunction()
 {
 	bool isOk = true;
-
+	
 	if (!(isOk = m_pIPhone->Initial()))
 	{
-		m_strMsg = "Fail to connect phone with Qisda module in CWireless_WiFi_ContinuousTxCwWave";
+		m_strMsg = "Fail to connect phone with Qisda module in CWireless_WiFi_ContinuousTxTest";
 		TraceLog(MSG_ERROR, m_strMsg);
 		return false;
 	}
@@ -51,7 +51,7 @@ bool CWireless_WiFi_ContinuousTxCwWave::MainFunction()
 		if (isOk)
 		{
 			//if (!(isOk = m_pIPhone->WifiPowerOnTxCwCertification(m_iChannel, m_iRfGain)))
-			if (!(isOk = m_pIPhone->WifiPowerOnTxCertification(m_iChannel, m_iPower, m_iRateBitIndex, m_iWlandMode, m_iChain)))
+			if (!(isOk = m_pIPhone->WifiPowerOnTxCwCertification(m_iChannel, m_iPower, m_iRateBitIndex, m_iWlandMode, m_iChain)))
 			{
 				m_strMsg = "Fail to execute WifiPowerOnTxCw";
 				TraceLog(MSG_ERROR, m_strMsg);

@@ -1204,7 +1204,7 @@ bool CAndroidPhone::WifiPowerOnTxCertification (int iChannel, int iPower, int iR
 
 			bool isOk = true;
 
-			isOk = QLIB_FTM_WLAN_TLV_Create(m_hQMSLPhone, _OP_CAL);
+			isOk = QLIB_FTM_WLAN_TLV_Create(m_hQMSLPhone, _OP_TX);
 			if (!isOk) {
 					continue;
 			}
@@ -1305,9 +1305,9 @@ bool CAndroidPhone::WifiPowerOnTxCertification (int iChannel, int iPower, int iR
 		   
 			//Sleep(5000);
 		   // Start to run CLPC calibration iterations by power measurement call back
-			int numMeasAvg = 1;
-		   asyncPMMessageCB pPMfunc = &asyncPMCB;
-		   QLIB_FTM_WLAN_Atheros_Tx_CAL(m_hQMSLPhone, pPMfunc, (unsigned int)numMeasAvg);
+			//int numMeasAvg = 1;
+		 //  asyncPMMessageCB pPMfunc = &asyncPMCB;
+		 //  QLIB_FTM_WLAN_Atheros_Tx_CAL(m_hQMSLPhone, pPMfunc, (unsigned int)numMeasAvg);
 		//   QLIB_FTM_WLAN_Atheros_Tx_CAL(m_hQMSLPhone, NULL, (unsigned int)numMeasAvg);
 
 			if (!isOk) {
@@ -1482,7 +1482,7 @@ bool CAndroidPhone::WifiPowerOnTxCwCertification (int iChannel, int iPower, int 
 
 			bool isOk = true;
 
-			isOk = QLIB_FTM_WLAN_TLV_Create(m_hQMSLPhone, _OP_CAL);
+			isOk = QLIB_FTM_WLAN_TLV_Create(m_hQMSLPhone, _OP_TX);
 			if (!isOk) {
 					continue;
 			}
@@ -1582,9 +1582,9 @@ bool CAndroidPhone::WifiPowerOnTxCwCertification (int iChannel, int iPower, int 
 			isOk = QLIB_FTM_WLAN_TLV_Complete(m_hQMSLPhone);
 
 		   // Start to run CLPC calibration iterations by power measurement call back
-			int numMeasAvg = 1;
-		   asyncPMMessageCB pPMfunc = &asyncPMCB;
-		   QLIB_FTM_WLAN_Atheros_Tx_CAL(m_hQMSLPhone, pPMfunc, (unsigned int)numMeasAvg);
+			//int numMeasAvg = 1;
+		 //  asyncPMMessageCB pPMfunc = &asyncPMCB;
+		 //  QLIB_FTM_WLAN_Atheros_Tx_CAL(m_hQMSLPhone, pPMfunc, (unsigned int)numMeasAvg);
 
 		   
 			if (!isOk) {
