@@ -1166,8 +1166,8 @@ bool CAndroidPhone::WifiPowerOnTxCertification (int iChannel, int iPower, int iR
 	GetCurrentDirectory(MAX_PATH, szNowPath);
 	CString path = szNowPath;
 	CString csBinPath;
-	csBinPath.Format("%s\\u2416\\bdwlan30.bin", path);
-	//csBinPath.Format("%s\\u2416\\bdwlan30.bin", "C:\\");
+	//csBinPath.Format("%s\\u2416\\bdwlan30.bin", path);
+	csBinPath.Format("%s\\u2416\\bdwlan30.bin", "C:\\");
 	//C:\u2416
 
 	// ROME Chip ID
@@ -1188,7 +1188,8 @@ bool CAndroidPhone::WifiPowerOnTxCertification (int iChannel, int iPower, int iR
 
 	QLIB_FTM_WLAN_Atheros_UNLoadDUT(m_hQMSLPhone); //unload first;
 	
-	unsigned char bRet = QLIB_FTM_WLAN_Atheros_LoadDUT(m_hQMSLPhone,(unsigned char  *)ROME_DLLID,(unsigned char *)csBinPath.GetBuffer(), DataFile, ROME_CHIPID);
+	unsigned char bRet;
+	bRet = 	QLIB_FTM_WLAN_Atheros_LoadDUT(m_hQMSLPhone,(unsigned char  *)ROME_DLLID,(unsigned char *)csBinPath.GetBuffer(), DataFile, ROME_CHIPID);
 	csBinPath.ReleaseBuffer();
 	if ( !bRet ){
 		return false;
@@ -1443,8 +1444,8 @@ bool CAndroidPhone::WifiPowerOnTxCwCertification (int iChannel, int iPower, int 
 	GetCurrentDirectory(MAX_PATH, szNowPath);
 	CString path = szNowPath;
 	CString csBinPath;
-	csBinPath.Format("%s\\u2416\\bdwlan30.bin", path);
-	//csBinPath.Format("%s\\u2416\\bdwlan30.bin", "C:\\");
+	//csBinPath.Format("%s\\u2416\\bdwlan30.bin", path);
+	csBinPath.Format("%s\\u2416\\bdwlan30.bin", "C:\\");
 	//C:\u2416
 
 	// ROME Chip ID
@@ -2461,10 +2462,16 @@ bool CAndroidPhone::Initial_QMSL()
 
 		//QLIB_SetTargetType(APQ)
 		//QLIB_SetLibraryMode(QPST)
-		QLIB_SetLibraryMode(true);
+
+		QLIB_SetLibraryMode(false);
+		//QLIB_SetLibraryMode(true);
 		  //Set TargetType
+
 		QLIB_SetTargetType((unsigned char)iTargetType);
 
+		//AfxMessageBox(m_strCOMport.c_str());
+		
+		//m_hQMSLPhone = QLIB_ConnectServer( (unsigned)atoi(m_strCOMport.c_str()));
 		m_hQMSLPhone = QLIB_ConnectServerWithWait( (unsigned)atoi(m_strCOMport.c_str()) ,5000);
 
 		if (m_hQMSLPhone != NULL)

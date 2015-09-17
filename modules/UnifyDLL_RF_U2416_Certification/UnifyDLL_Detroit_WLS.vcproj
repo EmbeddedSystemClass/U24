@@ -44,7 +44,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;$(ProjectDir)..\..\lib\Qualcomm\inc&quot;;&quot;$(ProjectDir)..\..\lib\NI488\inc&quot;;&quot;$(SolutionDir)..\Modules\UnifyInterface&quot;;&quot;$(SolutionDir)..\Modules\Common\CommonUtil&quot;"
+				AdditionalIncludeDirectories="&quot;$(ProjectDir)..\..\lib\Qualcomm\inc&quot;"
 				PreprocessorDefinitions="WIN32;_WINDOWS;_DEBUG;_USRDLL;UnifyDLL_Detroit_WLS_EXPORTS;QLIB_STATIC"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -67,10 +67,10 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="GPIB-32.OBJ QMSL_MSVC9R.lib"
+				AdditionalDependencies="QMSL_MSVC9R.lib"
 				OutputFile="$(OutDir)\RFTool.dll"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="&quot;$(ProjectDir)..\..\lib\Qualcomm\QDART4823\lib&quot;;&quot;$(ProjectDir)..\..\lib\NI488\lib&quot;"
+				AdditionalLibraryDirectories="&quot;$(ProjectDir)..\..\lib\Qualcomm\QDART4823\lib&quot;"
 				IgnoreDefaultLibraryNames=""
 				ModuleDefinitionFile=".\UnifyDLL_Detroit_WLS.def"
 				GenerateDebugInformation="true"
