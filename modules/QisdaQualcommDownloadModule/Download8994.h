@@ -12,10 +12,11 @@
 #pragma once
 
 #include "Download.h"
-#include "ADBDevice.h"
+//#include "ADBDevice.h"
 #include "../Common/ErrorDefine/ErrorDefine.h"
 #include "../../Lib/Qualcomm/QDART4823/inc/inc/QMSL_Core.h"
 #include "../../Lib/Qualcomm/QDART4823/inc/inc/QMSL_SWDownload/QMSL_QPHONEMS_SWDL.h"
+#include <ATLSTR.H>
 
 #pragma warning(disable:4996)
 #pragma warning(disable:4251)
@@ -121,24 +122,20 @@ typedef enum IMAGE_TYPE_8916
 
 /* Emmc download partition type */
 #pragma pack (1)
-typedef enum HEX_COMMAND_TYPE_8K
-{
-	Q8K_OPEN_MULTI_MODE_EMMC_USER = 0x21
-} HEX_COMMAND_TYPE_8960;
+//typedef enum HEX_COMMAND_TYPE_8K
+//{
+//	Q8K_OPEN_MULTI_MODE_EMMC_USER = 0x21
+//} HEX_COMMAND_TYPE_8960;
 #pragma pack()
-
-
 
 
 #define USB_BUF_SIZE 512
 
-#define round_down(a, b)    ((a) - ((a) % (b)))
-
-class QISDA_DOWNLOAD_CLASS_API CDownload8994 : public CDLFormatCommand, public CRefObject
+class QISDA_DOWNLOAD_CLASS_API CDownload8994 :public CDLCommand
 {
 public:
-	CDownload8994(const TSTRING& str_deviceName, const std::string& str_platform = "Qualcomm8916");
-	CDownload8994(int i_COMPort, CString str_multiDLFlag, const std::string& str_platform = "Qualcomm8916");
+	CDownload8994();
+	CDownload8994(int i_COMPort, CString str_multiDLFlag);
 	virtual ~CDownload8994(void);
 
 public:
@@ -148,20 +145,14 @@ public:
 	CString GetErrorCode(void);
 	void SetDLMode(CString str_DLMode) {m_str_DLMode = str_DLMode;};
 	void SetFactoryVersion(CString str_FactoryVersion) {m_str_FactoryVersion = str_FactoryVersion;};
-	void SetReworkFlag(int i_rework)   {m_i_rework = i_rework;};
 	void SetRebootFlag(int i_reboot)   {m_i_reboot = i_reboot;};
-	void SetDDRCheckFlag(int i_DDRCheck)   {m_i_DDRCheck = i_DDRCheck;};
-	void SetDumpEmmcLogFlag(int i_DumpEmmcLog)   {m_i_DumpEmmcLog = i_DumpEmmcLog;};
 	void SetCheckSumFlag(int i_checkSum)   {m_i_checkSum = i_checkSum;};
-	void SetBackupNVFlag(int i_backupNV)   {m_i_backupNV = i_backupNV;};
-	void SetSupportQDownloadFlag(int i_SupportQDownload)   {m_i_SupportQDownload = i_SupportQDownload;};
-	void SetEraseUserFatFlag(int i_EraseUserFatFlag)   {m_i_eraseUserFat = i_EraseUserFatFlag;};
 	void SetImagePath(CString str_filePath) {m_str_imagePath = str_filePath;};
 	void SetCOMPicasso(int i_COMPort, CString str_picasso) {m_map_COMPicasso[i_COMPort] = str_picasso;};
-	ADBDevice*        m_p_adbDevice;                     // Get ADB device
+	//ADBDevice*        m_p_adbDevice;                     // Get ADB device
 	void RecordQMSLCallBack(char *szMsg);
 
-	int FindADBdevice(int nADBPort);
+	bool FindADBdevice(int nADBPort);
 	bool FindQualcomDevice(int nComport);
 private:
 	CString  m_str_multiDLFlag;		   // Multi-download flag	
@@ -169,15 +160,10 @@ private:
 	CString  m_str_DLMode;             // DL Mode
 	CString  m_str_FactoryVersion;
 	CString  m_str_imageFilePath;
-	int      m_i_rework;               // Rework flag
 	int      m_i_reboot;               // Reboot flag
-	int      m_i_DDRCheck;             // DDR check flag
-	int      m_i_DumpEmmcLog;
 	int      m_i_RebootMode;
 	int      m_i_checkSum;             // CheckSum flag
-	int      m_i_backupNV;             // Backup NV flag
 	int      m_i_SupportQDownload;     // Support QDownload
-	int      m_i_eraseUserFat;         // Erase User Fat
 	int      m_i_COMPort;			   // COM port
 	CString  m_str_imagePath;          // Image file path
 	std::map<int, CString> m_map_COMPicasso;
@@ -189,12 +175,13 @@ private:
 private:
 	bool Download(bool b_speedUp = false, bool b_reOpenAfterReset = false, DownloadProtocol nDLPROTOCOL = QTT_FASTDOWNLOAD);
 	bool FastbootEXE_Download(void);
-	int  GetComport(void);
-	void SetIsOveridePartition(bool b_overridePartition);
-	void SetResetMode(bool b_reset);
+	bool FastbootEXE_OS_DL(void);
+	//int  GetComport(void);
+	//void SetIsOveridePartition(bool b_overridePartition);
+	//void SetResetMode(bool b_reset);
 
 private:
-	bool DMSSDL(void);
+	//bool DMSSDL(void);
 	bool SAHARADL(void);
 	bool FireHose(void);
 	bool FlashProgrammer(void);
@@ -203,12 +190,6 @@ private:
 	int m_iFileCount;
 	int m_iFirehoseDLMode;
 
-	bool StreamingDL(bool b_speedUp = false, DownloadProtocol nDLPROTOCOL = QTT_FASTDOWNLOAD);
-	bool SetFastBootFlag(void);
-	bool DDRTest(void);
-	bool ReadDDRTestReslult(void);
-	bool StreamingDLIRAMLog(void);
-	bool StreamingDLeMMCLog(int nSector);
 	bool DetectDiagPort(void);
 	bool GetCOMPortDevByWDK(std::map<std::string, std::string>& map_strstrCOMDevice);	
 
@@ -233,13 +214,10 @@ public:
 	bool WriteFASector(int i_sectorNum, char *sz_sectorData, int i_sectorSize);
 	bool runWriteFASector(char *sz_sectorData);
 	bool Reboot(void);
-	bool EraseSBL1(void);
-	bool ExecuteFastboot(char* sz_command);
-	bool ExecuteFastbootOut(char* sz_command, CString& out);
-	bool GetOemMainVersion(CString& str_parameter);
-	bool GetADB(void);
+
 	int GetQualcommport(){return m_i_COMPort;};
 	bool bFastbootDL(CString folderPath);
+	bool Exec(CString& path, CString& param, DWORD msTimeout = INFINITE, bool hasResponse = true);
 	bool bFastbootDL_4(CString folderPath);
 	bool bFastbootDL_New(CString Command, char* output, char* ErrorCode);
 	bool bFastbootDL_New2(char* szReturn, const char* szCmd1, const char* szCmd2);
@@ -259,23 +237,14 @@ public:
 	std::map < int, CString> mapERASE_ALL_IMGS_TYPE;
 private:
 	bool FastbootDownload(void);
-	bool FastbootFlashCmd(const std::string& str_parameter);
-	bool FastbootFormatCmd(const std::string& str_parameter);
+	//bool FastbootFlashCmd(const std::string& str_parameter);
+//	bool FastbootFormatCmd(const std::string& str_parameter);
 	bool ADBFlash(const char* sz_parmeter, const void* p_data, unsigned long long l_fileLen);
-	void* LoadFile(const char* sz_fileName, unsigned long long* i_fileSize);
-	ADBDevice* GetADBDevice(const char* sz_comPort);
+	//void* LoadFile(const char* sz_fileName, unsigned long long* i_fileSize);
+	//ADBDevice* GetADBDevice(const char* sz_comPort);
 
-	bool WriteCheckSum(CString str_imageFilePathName);
-	bool SetFTDMode(void);
-	bool ReadCheckSumFile(void);
-	bool BackupNVPartition(void);
 	bool SpiltString(CString str_sourceString, CString str_delimiter, CStringArray& stra_strArg);
-	bool ADBFlashAll(const char* sz_parmeter, const char* sz_fileName);
-	bool ADBFlashAllLargeSize(const char* sz_parmeter, const char* sz_fileName);
-	int CDownload8994::fb_download_data_sparse_flush( ADBDevice*  m_p_adbDevice );
-	bool EraseUserFat(void);
 	bool IsPathExist(const CString& path);
-	bool LoadSparseLibDLL();
 
 private:
 	std::string m_str_partitionBin;
@@ -312,19 +281,9 @@ private:
 	std::map<CString, CString> m_map_imageNameCheckSum;
 	static CCriticalSection  m_obj_loadcheckSumCritSection;      // Thread sync
 
-	HMODULE		m_hSparselibModule;
 	HMODULE     m_hQMSL_MSVC10R; 
 	HANDLE g_hResourceContext;
 
-	typedef struct sparse_file** ( * PF_load_sparse_files)(const char *fname, int max_size);
-	PF_load_sparse_files CF_load_sparse_files;
-
-	typedef int ( * PF_sparse_file_callback)(struct sparse_file *s, bool sparse, bool crc,
-	int (*write)(void *priv, const void *data, int len), void *priv);
-	PF_sparse_file_callback CF_sparse_file_callback;
-
-	typedef int ( *PF_sparse_file_len_dll)(struct sparse_file *s, bool sparse, bool crc);
-	PF_sparse_file_len_dll CF_sparse_file_len_dll;
 
 
 	typedef  void (*pQLIB_SetLibraryMode)(unsigned char bUseQPST);

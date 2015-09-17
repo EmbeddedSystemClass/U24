@@ -13,11 +13,11 @@
 #include "../IniAccess.h"
 #include "../DLError.h"
 
-#include "../../../Modules/QisdaNVModule/NVItem.h"
+//#include "../../../Modules/QisdaNVModule/NVItem.h"
 #include "../../../Modules/QisdaQualcommDownloadModule/Download.h"
-#include "../../../modules/QcnToCnvDll/QcnToCnvDll.h"
+//#include "../../../modules/QcnToCnvDll/QcnToCnvDll.h"
 #include "../../SPU/SPU/ISPU_CALLBACK.h"
-#include "../../SPU/SPU_Loader/LoaderExport.h"
+//#include "../../SPU/SPU_Loader/LoaderExport.h"
 
 
 /*================================= Structure ==============================*/

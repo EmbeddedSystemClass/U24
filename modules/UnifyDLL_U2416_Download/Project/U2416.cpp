@@ -217,7 +217,7 @@ bool CU2416::PostRun(int i_slot)
 	//	int i_COMPort = m_i_COMPort;
 	//	/* CDownload8994 */
 	//	CDownload8994 obj_download8994(i_COMPort, m_str_multiDLFlag);	
-	//	obj_download8994.Register(this, EVENT_DL_PROGRESS);
+	//	//obj_download8994.Register(this, EVENT_DL_PROGRESS);
 	//	if (b_res) 
 	//	{
 	//		if ( m_i_RebootMode == 0)
@@ -251,12 +251,12 @@ bool CU2416::PostRun(int i_slot)
 		//	Sleep(1000);
 		//}
 		//if( n_timeOut == 10 ){
-		//	obj_download8994.Unregister(this, EVENT_DL_PROGRESS);
+		//	//obj_download8994.Unregister(this, EVENT_DL_PROGRESS);
 		//	return false;
 		//}
 		//
 		//Sleep(2000);
-		//obj_download8994.Unregister(this, EVENT_DL_PROGRESS);
+		////obj_download8994.Unregister(this, EVENT_DL_PROGRESS);
 
 	//}
 	return true;
@@ -339,37 +339,37 @@ bool CU2416::ReDLRun(void)
 * Version       Author          Date                Abstract                 
 * 1.0           Alex.Chen       2011/07/18          First version             
 *****************************************************************************/
-bool CU2416::CheckConnection(CCFCDiagCommandPtr pDiag)
-{
-	/* Check Input */
-	if (pDiag == NULL)
-	{
-		SendMessageToUI("Check DIAG Connection Fail.");
-		return false;
-	}
-
-	/* Check Connected */
-	bool b_res = false;
-	int i_retryCount = 5;
-	while (i_retryCount)
-	{
-		b_res = pDiag->IsConnected();
-		if (b_res) 
-		{
-			SendMessageToUI("Check handset connection Succeed.");
-			break;
-		} 
-		--i_retryCount;
-		Sleep(1000);
-	}
-	if (!b_res) 
-	{
-		SendMessageToUI("Check handset connection Fail(Not connected or Get mode Fail).");
-		SetError(DLERR_TARGET_ERROR);
-	}
-
-	return b_res;
-}
+//bool CU2416::CheckConnection(CCFCDiagCommandPtr pDiag)
+//{
+//	/* Check Input */
+//	if (pDiag == NULL)
+//	{
+//		SendMessageToUI("Check DIAG Connection Fail.");
+//		return false;
+//	}
+//
+//	/* Check Connected */
+//	bool b_res = false;
+//	int i_retryCount = 5;
+//	while (i_retryCount)
+//	{
+//		b_res = pDiag->IsConnected();
+//		if (b_res) 
+//		{
+//			SendMessageToUI("Check handset connection Succeed.");
+//			break;
+//		} 
+//		--i_retryCount;
+//		Sleep(1000);
+//	}
+//	if (!b_res) 
+//	{
+//		SendMessageToUI("Check handset connection Fail(Not connected or Get mode Fail).");
+//		SetError(DLERR_TARGET_ERROR);
+//	}
+//
+//	return b_res;
+//}
 
 
 /*****************************************************************************
@@ -382,26 +382,26 @@ bool CU2416::CheckConnection(CCFCDiagCommandPtr pDiag)
 * Version       Author          Date                Abstract                 
 * 1.0           Alex.Chen       2011/07/18          First version             
 *****************************************************************************/
-bool CU2416::IsDLMode(CCFCDiagCommandPtr pDiag)
-{
-	/* Check Input */
-	if (pDiag == NULL) 
-	{
-		SendMessageToUI("Check DIAG Connection Fail.");
-		return false;
-	}
-
-	bool b_isDLMode = pDiag->IsDLMode();
-	SendMessageToUI(b_isDLMode ? "DL mode" : "DIAG mode");
-
-	if (b_isDLMode == false)
-	{
-		SetError(DLERR_PHONE_IN_DL_MODE);
-	}
-
-	return b_isDLMode;
-}
-
+//bool CU2416::IsDLMode(CCFCDiagCommandPtr pDiag)
+//{
+//	/* Check Input */
+//	if (pDiag == NULL) 
+//	{
+//		SendMessageToUI("Check DIAG Connection Fail.");
+//		return false;
+//	}
+//
+//	bool b_isDLMode = pDiag->IsDLMode();
+//	SendMessageToUI(b_isDLMode ? "DL mode" : "DIAG mode");
+//
+//	if (b_isDLMode == false)
+//	{
+//		SetError(DLERR_PHONE_IN_DL_MODE);
+//	}
+//
+//	return b_isDLMode;
+//}
+//
 
 /*****************************************************************************
 * Function name: Download      
@@ -450,27 +450,27 @@ bool CU2416::DLchipset(void)
 
 	/* CDownload8994 */
 	CDownload8994 obj_download8994(i_COMPort, m_str_multiDLFlag);
-	obj_download8994.Register(this, EVENT_DL_PROGRESS);
+	//obj_download8994.Register(this, EVENT_DL_PROGRESS);
 
 	/* Set DL Parameter */
 	if (b_res) 
 	{
 		obj_download8994.SetDLMode(m_str_DLMode);
-		obj_download8994.SetReworkFlag(m_i_rework);
-		obj_download8994.SetRebootFlag(m_i_reboot);
-		obj_download8994.SetDDRCheckFlag(m_i_DDRCheck);
-		obj_download8994.SetDumpEmmcLogFlag(m_i_DumpEmmcLog);
-		obj_download8994.SetCheckSumFlag(m_i_checkSum);
-		obj_download8994.SetBackupNVFlag(m_i_BackupNVPartition);
-		obj_download8994.SetSupportQDownloadFlag(m_i_SupportQDownload);
-		obj_download8994.SetEraseUserFatFlag(m_i_eraseUserFat);
-		obj_download8994.SetCOMPicasso(m_i_COMPort, m_map_COMPicasso[m_i_COMPort]);
+		//obj_download8994.SetReworkFlag(m_i_rework);
+		//obj_download8994.SetRebootFlag(m_i_reboot);
+		//obj_download8994.SetDDRCheckFlag(m_i_DDRCheck);
+		//obj_download8994.SetDumpEmmcLogFlag(m_i_DumpEmmcLog);
+		//obj_download8994.SetCheckSumFlag(m_i_checkSum);
+		//obj_download8994.SetBackupNVFlag(m_i_BackupNVPartition);
+		//obj_download8994.SetSupportQDownloadFlag(m_i_SupportQDownload);
+		//obj_download8994.SetEraseUserFatFlag(m_i_eraseUserFat);
+		//obj_download8994.SetCOMPicasso(m_i_COMPort, m_map_COMPicasso[m_i_COMPort]);
 
 		CString str_imagePath;
 		str_imagePath.Format("%s", m_vImage[0].str_imagePath.c_str());
 		obj_download8994.SetImagePath(str_imagePath);
 		obj_download8994.SetFactoryVersion(m_str_fatoryVersion);
-		obj_download8994.GetOemMainVersion(m_str_fatoryVersionDevice);
+		//obj_download8994.GetOemMainVersion(m_str_fatoryVersionDevice);
 		
 	}
 
@@ -494,7 +494,7 @@ bool CU2416::DLchipset(void)
 	/* Get Error code */
 	m_str_errorCode = obj_download8994.GetErrorCode();
 
-	obj_download8994.Unregister(this, EVENT_DL_PROGRESS);
+	//obj_download8994.Unregister(this, EVENT_DL_PROGRESS);
 
 
 	return b_res;
@@ -609,22 +609,22 @@ bool CU2416::DLchipset(void)
 	/* Set DL Parameter */
 	if (b_res) 
 	{
-		obj_download8994.SetDLMode(m_str_DLMode);
-		obj_download8994.SetReworkFlag(m_i_rework);
-		obj_download8994.SetRebootFlag(m_i_reboot);
-		obj_download8994.SetDDRCheckFlag(m_i_DDRCheck);
-		obj_download8994.SetDumpEmmcLogFlag(m_i_DumpEmmcLog);
-		obj_download8994.SetCheckSumFlag(m_i_checkSum);
-		obj_download8994.SetBackupNVFlag(m_i_BackupNVPartition);
-		obj_download8994.SetSupportQDownloadFlag(m_i_SupportQDownload);
-		obj_download8994.SetEraseUserFatFlag(m_i_eraseUserFat);
-		obj_download8994.SetCOMPicasso(m_i_COMPort, m_map_COMPicasso[m_i_COMPort]);
+		//obj_download8994.SetDLMode(m_str_DLMode);
+		//obj_download8994.SetReworkFlag(m_i_rework);
+		//obj_download8994.SetRebootFlag(m_i_reboot);
+		//obj_download8994.SetDDRCheckFlag(m_i_DDRCheck);
+		//obj_download8994.SetDumpEmmcLogFlag(m_i_DumpEmmcLog);
+		//obj_download8994.SetCheckSumFlag(m_i_checkSum);
+		//obj_download8994.SetBackupNVFlag(m_i_BackupNVPartition);
+		//obj_download8994.SetSupportQDownloadFlag(m_i_SupportQDownload);
+		//obj_download8994.SetEraseUserFatFlag(m_i_eraseUserFat);
+		//obj_download8994.SetCOMPicasso(m_i_COMPort, m_map_COMPicasso[m_i_COMPort]);
 
 		CString str_imagePath;
 		str_imagePath.Format("%s", m_vImage[0].str_imagePath.c_str());
 		obj_download8994.SetImagePath(str_imagePath);
 		obj_download8994.SetFactoryVersion(m_str_fatoryVersion);
-		obj_download8994.GetOemMainVersion(m_str_fatoryVersionDevice);
+	//	obj_download8994.GetOemMainVersion(m_str_fatoryVersionDevice);
 		
 	}
 
@@ -637,7 +637,7 @@ bool CU2416::DLchipset(void)
 	/* Get Error code */
 	m_str_errorCode = obj_download8994.GetErrorCode();
 
-	obj_download8994.Unregister(this, EVENT_DL_PROGRESS);
+	//obj_download8994.Unregister(this, EVENT_DL_PROGRESS);
 
 	return b_res;
 }
@@ -1000,17 +1000,7 @@ bool CU2416::ReadIniFile(void)
 		{
 			SendMessageToUI("TestItem.xml file is not exist.");
 			SetError(DLERR_UNKNOWN);
-
-			//old math
-			str_iniFile.Format(_T("%s\\QISDA\\%sDLL.ini"), sz_currentPath, csCDLInstance.GetProjectName()); 
-			if (_taccess(str_iniFile, 0) != 0) 
-			{
-				SendMessageToUI("DLL ini file is not exist.");
-				SetError(DLERR_UNKNOWN);
-				return false;
-			}
-
-		
+			return false;
 		}
 
 		m_str_dllIniFile = str_iniFile;
@@ -1323,13 +1313,13 @@ bool CU2416::ForceToEnterDLMode(void)
 	bool b_res = false;
 	int i_COMPort = m_i_COMPort;
 	CDownload8994 obj_download8994(i_COMPort, m_str_multiDLFlag);
-	obj_download8994.Register(this, EVENT_DL_PROGRESS);
+	//obj_download8994.Register(this, EVENT_DL_PROGRESS);
 
-	obj_download8994.SetDLMode(m_str_DLMode);
-	obj_download8994.SetSupportQDownloadFlag(m_i_SupportQDownload);
+	//obj_download8994.SetDLMode(m_str_DLMode);
+	//obj_download8994.SetSupportQDownloadFlag(m_i_SupportQDownload);
 
 	/* Erase sbl1 to enter emergence DL mode */
-	b_res = obj_download8994.EraseSBL1();
+//	b_res = obj_download8994.EraseSBL1();
 	if (b_res)
 	{
 		b_res = obj_download8994.Reboot();
@@ -1339,7 +1329,7 @@ bool CU2416::ForceToEnterDLMode(void)
 		}
 	}
 
-	obj_download8994.Unregister(this, EVENT_DL_PROGRESS);
+	//obj_download8994.Unregister(this, EVENT_DL_PROGRESS);
 
 	return b_res;
 }
@@ -1355,17 +1345,17 @@ bool CU2416::ReadFA(char* sz_FAData)
 	bool b_res = false;
 	int i_COMPort = m_i_COMPort;
 	CDownload8994 obj_download8994(i_COMPort, m_str_multiDLFlag);
-	obj_download8994.Register(this, EVENT_DL_PROGRESS);
+	//obj_download8994.Register(this, EVENT_DL_PROGRESS);
 
-	obj_download8994.SetDLMode(m_str_DLMode);
-	obj_download8994.SetSupportQDownloadFlag(m_i_SupportQDownload);
+//	obj_download8994.SetDLMode(m_str_DLMode);
+	//obj_download8994.SetSupportQDownloadFlag(m_i_SupportQDownload);
 
 	/* Read FA */
 	char sz_data[512] = {0};
 	b_res = obj_download8994.ReadFA(sz_data);
 	memcpy(sz_FAData, sz_data, 512);
 
-	obj_download8994.Unregister(this, EVENT_DL_PROGRESS);
+	//obj_download8994.Unregister(this, EVENT_DL_PROGRESS);
 
 	return b_res;
 }
@@ -1381,15 +1371,15 @@ bool CU2416::WriteFA(char* sz_FAData)
 	bool b_res = false;
 	int i_COMPort = m_i_COMPort;
 	CDownload8994 obj_download8994(i_COMPort, m_str_multiDLFlag);
-	obj_download8994.Register(this, EVENT_DL_PROGRESS);
+	//obj_download8994.Register(this, EVENT_DL_PROGRESS);
 
-	obj_download8994.SetDLMode(m_str_DLMode);
-	obj_download8994.SetSupportQDownloadFlag(m_i_SupportQDownload);
+	//obj_download8994.SetDLMode(m_str_DLMode);
+	//obj_download8994.SetSupportQDownloadFlag(m_i_SupportQDownload);
 
 	/* Write FA */
 	b_res = obj_download8994.WriteFA(sz_FAData);
 
-	obj_download8994.Unregister(this, EVENT_DL_PROGRESS);
+	//obj_download8994.Unregister(this, EVENT_DL_PROGRESS);
 
 	return b_res;
 }
@@ -1405,15 +1395,15 @@ bool CU2416::ReadFASector(int i_sectorNum, char *sz_sectorData, int i_sectorSize
 	bool b_res = false;
 	int i_COMPort = m_i_COMPort;
 	CDownload8994 obj_download8994(i_COMPort, m_str_multiDLFlag);
-	obj_download8994.Register(this, EVENT_DL_PROGRESS);
+	//obj_download8994.Register(this, EVENT_DL_PROGRESS);
 
-	obj_download8994.SetDLMode(m_str_DLMode);
-	obj_download8994.SetSupportQDownloadFlag(m_i_SupportQDownload);
+	//obj_download8994.SetDLMode(m_str_DLMode);
+	//obj_download8994.SetSupportQDownloadFlag(m_i_SupportQDownload);
 
 	/* Read FA */
 	b_res = obj_download8994.ReadFASector(i_sectorNum, sz_sectorData, i_sectorSize);
 
-	obj_download8994.Unregister(this, EVENT_DL_PROGRESS);
+	//obj_download8994.Unregister(this, EVENT_DL_PROGRESS);
 
 	return b_res;
 }
@@ -1429,15 +1419,15 @@ bool CU2416::WriteFASector(int i_sectorNum, char *sz_sectorData, int i_sectorSiz
 	bool b_res = false;
 	int i_COMPort = m_i_COMPort;
 	CDownload8994 obj_download8994(i_COMPort, m_str_multiDLFlag);
-	obj_download8994.Register(this, EVENT_DL_PROGRESS);
+	//obj_download8994.Register(this, EVENT_DL_PROGRESS);
 
-	obj_download8994.SetDLMode(m_str_DLMode);
-	obj_download8994.SetSupportQDownloadFlag(m_i_SupportQDownload);
+	//obj_download8994.SetDLMode(m_str_DLMode);
+	//obj_download8994.SetSupportQDownloadFlag(m_i_SupportQDownload);
 
 	/* Write FA */
 	b_res = obj_download8994.WriteFASector(i_sectorNum, sz_sectorData, i_sectorSize);
 
-	obj_download8994.Unregister(this, EVENT_DL_PROGRESS);
+	////obj_download8994.Unregister(this, EVENT_DL_PROGRESS);
 
 	return b_res;
 }
@@ -1653,7 +1643,7 @@ bool CU2416::DFSDeleteFile(char *str_LocalPath, char *str_TracePath)
 		sprintf(TodayKeepLog, _T("UILog_%04d%02d%02d"), systemTime.wYear, systemTime.wMonth, systemTime.wDay);
 		if (strstr(szDir, TodayKeepLog) != NULL) b_DelFile = false;
 
-		//統計csv今日檔不刪
+		//統?csv今日檔不刪
 		sprintf(TodayKeepLog, "%04d%02d%02d.csv", systemTime.wYear, systemTime.wMonth, systemTime.wDay);
 		if (strstr(szDir, TodayKeepLog) != NULL)	b_DelFile = false;
 

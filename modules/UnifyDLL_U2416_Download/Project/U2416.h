@@ -50,8 +50,8 @@ public:
 private:
 	bool PreDLRun(void);          // COM download + Fastboot download
 	bool ReDLRun(void);           // Fastboot download
-	bool CheckConnection(CCFCDiagCommandPtr pDiag);
-	bool IsDLMode(CCFCDiagCommandPtr pDiag);
+//	bool CheckConnection(CCFCDiagCommandPtr pDiag);
+//	bool IsDLMode(CCFCDiagCommandPtr pDiag);
 	bool Download(void);
 	bool DLchipset(void);
 	bool SetImageFile(CDownload8994& obj_download, const int i_imageType, const char* sz_type);

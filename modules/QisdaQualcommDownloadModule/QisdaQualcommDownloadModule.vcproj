@@ -2705,59 +2705,11 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath=".\ADBDevice.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\Download.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\Download7227A.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Download8260.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Download8930.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Download8930_autoDL.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Download8930_Sailfish.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Download8960.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\Download8994.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Download8X25.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Download8x55.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\DownloadA9.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\DownloadDLL\HexFile.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Common\CommonUtil\PIMStringUtility.cpp"
 				>
 			</File>
 			<File
@@ -3043,35 +2995,7 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
-				RelativePath=".\ADBDevice.h"
-				>
-			</File>
-			<File
 				RelativePath=".\Download.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Download7227A.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Download8260.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Download8930.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Download8930_autoDL.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Download8930_Sailfish.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Download8960.h"
 				>
 			</File>
 			<File
@@ -3079,27 +3003,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\Download8X25.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Download8x55.h"
-				>
-			</File>
-			<File
-				RelativePath=".\DownloadA9.h"
-				>
-			</File>
-			<File
 				RelativePath=".\DownloadInterface.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\odmtma_api\DownloadDLL\HexFile.h"
-				>
-			</File>
-			<File
-				RelativePath="..\Common\CommonUtil\PIMStringUtility.h"
 				>
 			</File>
 			<File
