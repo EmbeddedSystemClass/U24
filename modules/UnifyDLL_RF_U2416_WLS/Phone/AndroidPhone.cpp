@@ -1960,7 +1960,7 @@ bool CAndroidPhone::Initial_QMSL()
 		//QLIB_SetLibraryMode(QPST)
 	//	unsigned char QLIB_LIB_MODE_QPHONEMS = '0';
 
-		QLIB_SetLibraryMode(true); // true set to QPST , false to QPHONE
+		QLIB_SetLibraryMode(false); // true set to QPST , false to QPHONE
 		  //Set TargetType
 		QLIB_SetTargetType((unsigned char)iTargetType);
 
