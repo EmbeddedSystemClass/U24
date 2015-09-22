@@ -56,7 +56,7 @@ bool CReadPicassoNum::InitData(std::map<std::string, std::string>& paramMap)
 	}
 	else
 	{
-		TraceLog(MSG_INFO, "Failed to Get filed 'CheckMatch' for class 'CStringCheckProc'");
+		TraceLog(MSG_INFO, "Failed to Get filed 'CheckMatch' for class 'CReadPicassoNum'");
 		return false;
 	}
 
@@ -69,7 +69,7 @@ bool CReadPicassoNum::InitData(std::map<std::string, std::string>& paramMap)
 	}
 	else
 	{
-		TraceLog(MSG_INFO, "Failed to Get filed 'Sleep' for class 'CStringCheckProc'");
+		TraceLog(MSG_INFO, "Failed to Get filed 'Sleep' for class 'CReadPicassoNum'");
 		return false;
 	}
 

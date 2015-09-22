@@ -554,7 +554,7 @@ NEPDLLAPI int __stdcall FTD_BTLteRx(int port, int timeout_ms, char* in_buf, char
 	return MobileCmd(port, timeout_ms, Andriod_FT_BT, 7, in_buf, out_buf, __FUNCTION__);
 }
 
-NEPDLLAPI int __stdcall FTD_2_4GTxPower(int port, int timeout_ms, char* in_buf, char* out_buf)
+NEPDLLAPI int __stdcall FTD_BT_INQUIRY(int port, int timeout_ms, char* in_buf, char* out_buf)
 {
 	TRACER_FUNCTION_IN();
 	return MobileCmd(port, timeout_ms, Andriod_FT_BT, 10, in_buf, out_buf, __FUNCTION__);
@@ -614,6 +614,12 @@ NEPDLLAPI int __stdcall FTD_WLAN_selfTest(int port, int timeout_ms, char* in_buf
 	return MobileCmd(port, timeout_ms, Andriod_FT_WLAN, 8, in_buf, out_buf, __FUNCTION__);
 }
 
+
+NEPDLLAPI int __stdcall FTD_WLAN_MODULE_Test(int port, int timeout_ms, char* in_buf, char* out_buf)
+{
+	TRACER_FUNCTION_IN();
+	return MobileCmd(port, timeout_ms, Andriod_FT_WLAN, 10, in_buf, out_buf, __FUNCTION__);
+}
 
 // 16-FMR
 NEPDLLAPI int __stdcall FTD_FMRrssi(int port, int timeout_ms, char* in_buf, char* out_buf)
@@ -1072,6 +1078,12 @@ NEPDLLAPI int __stdcall FTD_Get_GPIO_Value(int port, int timeout_ms, char* in_bu
 {
 	TRACER_FUNCTION_IN();
 	return MobileCmd(port, timeout_ms, Andriod_FT_MISC, 3, in_buf, out_buf, __FUNCTION__);
+}
+
+NEPDLLAPI int __stdcall FTD_Check_APQ_UART(int port, int timeout_ms, char* in_buf, char* out_buf) //cmd:3
+{
+	TRACER_FUNCTION_IN();
+	return MobileCmd(port, timeout_ms, Andriod_FT_MISC, 5, in_buf, out_buf, __FUNCTION__);
 }
 
 

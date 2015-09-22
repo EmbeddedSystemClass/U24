@@ -669,36 +669,59 @@ bool ITestProcessor::InitialPowerSupply()
 					return false;
 				}
 				//-------------------------
-				UTimer PS1CheckTimer;
-				PS1CheckTimer.SetTaskTimeCounter(1000);
-				CRangePair checkValue; 
-				checkValue.SetRange( m_str_PS1Value );
-				do 
-				{
-					PS1CheckTimer.SetTaskTimeON();
-					//double f_PowerOnShort;
-					//m_pIPS->GetCurrent(f_PowerOnShort);
-					//if( !checkValue.InRange(f_PowerOnShort) )
-					//{
-					//	if (!m_pIPS->SetPSOnOff(false))
-					//	{
-					//		m_strErrorCode = CommErr_PowerSupply_Control_Fail;
-					//		m_strMessage = "Fail to set power supply 1 off";
-					//		TraceLog(MSG_ERROR, m_strMessage);
-					//		return false;
-					//	}		
-					//	m_strErrorCode = CommErr_PowerSupply_Control_Fail;
-					//	CString str_trace;
-					//	str_trace.Format(_T("Power1 On Short Current Over Range : %f") , f_PowerOnShort);
-					//	m_strMessage = std::string(CT2A(str_trace));
-					//	TraceLog(MSG_ERROR, m_strMessage);
-					//	return false;
-					//}
-					Sleep(200);					
-				}
-				while( !PS1CheckTimer.TaskTimeOff() );
+				if ( m_i_PS1Check){
+					UTimer PS1CheckTimer;
+					PS1CheckTimer.SetTaskTimeCounter(1000);
+					CRangePair checkValue; 
+					checkValue.SetRange( m_str_PS1Value );
+					do 
+					{
+						PS1CheckTimer.SetTaskTimeON();
+						double f_PowerOnShort1 = 0.0;
+						m_pIPS->GetCurrent(f_PowerOnShort1);
+						if( !checkValue.InRange(f_PowerOnShort1) )
+						{
+							//Sleep(100);
+							//f_PowerOnShort2 = 0.0;
+							//if( !checkValue2.InRange(f_PowerOnShort2) )
+							//{
+								// First Close Power
+								if (!m_pIPS->SetPSOnOff(false))
+								{
+									//m_strErrorCode = CommErr_PowerSupply_Control_Fail;
+									//m_strMessage = "Fail to set power supply 1 off";
+									//TraceLog(MSG_ERROR, m_strMessage);
+									//return false;
+								}		
+								if (!m_pIPS2->SetPSOnOff(false))
+								{
+									//m_strErrorCode = CommErr_PowerSupply_Control_Fail;
+									//m_strMessage = "Fail to set power supply 2 off";
+									//TraceLog(MSG_ERROR, m_strMessage);
+									//return false;
+								}	
+
+
+								//m_strErrorCode = FunErr_Max_Current_Test_Fail;
+								m_strErrorCode = FunErr_Boot_Current_Test_Fail; //Eason
+								CString str_trace;
+								str_trace.Format(_T("Power1 On Short Current Over Range : %f") , f_PowerOnShort1);
+								m_strMessage = std::string(CT2A(str_trace));
+								TraceLog(MSG_ERROR, m_strMessage);
+								return false;
+							//}
+						}
+						if (m_pIPhone->IsConnected())
+						{	
+							break;
+						}
+						Sleep(200);					
+					}
+					while( !PS1CheckTimer.TaskTimeOff() );
+				}// end if check ps value
 				//------------------------------
 				TraceLog(MSG_INFO, "Set power supply 1 on success");
+				
 			}
 		}
 		//else
@@ -707,7 +730,7 @@ bool ITestProcessor::InitialPowerSupply()
 		//}
 		//------------------------------------------------------------------------------------------
 		/* 2. Start power supply 2 to link USB cable */
-			
+		Sleep(1000);
 		if (m_pIPS2)
 		{
 			if (m_pIPS2->PowerSupplyIsAvaliable())
@@ -759,54 +782,56 @@ bool ITestProcessor::InitialPowerSupply()
 			}
 			TraceLog(MSG_INFO, "Set power supply 2 on");
 			//-------------------------
-			UTimer PS2CheckTimer;
-			PS2CheckTimer.SetTaskTimeCounter(m_i_PowerCheckOnTime*1000);
-			CRangePair checkValue2; 
-			checkValue2.SetRange( m_str_PS2Value );
-			do 
-			{
-				PS2CheckTimer.SetTaskTimeON();
-				double f_PowerOnShort2 = 0.0;
-				m_pIPS->GetCurrent(f_PowerOnShort2);
-				if( !checkValue2.InRange(f_PowerOnShort2) )
+			if ( m_i_PS2Check){
+				UTimer PS2CheckTimer;
+				PS2CheckTimer.SetTaskTimeCounter(m_i_PowerCheckOnTime*1000);
+				CRangePair checkValue2; 
+				checkValue2.SetRange( m_str_PS2Value );
+				do 
 				{
-					//Sleep(100);
-					//f_PowerOnShort2 = 0.0;
-					//if( !checkValue2.InRange(f_PowerOnShort2) )
-					//{
-						// First Close Power
-						if (!m_pIPS->SetPSOnOff(false))
-						{
-							//m_strErrorCode = CommErr_PowerSupply_Control_Fail;
-							//m_strMessage = "Fail to set power supply 1 off";
-							//TraceLog(MSG_ERROR, m_strMessage);
-							//return false;
-						}		
-						if (!m_pIPS2->SetPSOnOff(false))
-						{
-							//m_strErrorCode = CommErr_PowerSupply_Control_Fail;
-							//m_strMessage = "Fail to set power supply 2 off";
-							//TraceLog(MSG_ERROR, m_strMessage);
-							//return false;
-						}	
+					PS2CheckTimer.SetTaskTimeON();
+					double f_PowerOnShort2 = 0.0;
+					m_pIPS2->GetCurrent(f_PowerOnShort2);
+					if( !checkValue2.InRange(f_PowerOnShort2) )
+					{
+						//Sleep(100);
+						//f_PowerOnShort2 = 0.0;
+						//if( !checkValue2.InRange(f_PowerOnShort2) )
+						//{
+							// First Close Power
+							if (!m_pIPS->SetPSOnOff(false))
+							{
+								//m_strErrorCode = CommErr_PowerSupply_Control_Fail;
+								//m_strMessage = "Fail to set power supply 1 off";
+								//TraceLog(MSG_ERROR, m_strMessage);
+								//return false;
+							}		
+							if (!m_pIPS2->SetPSOnOff(false))
+							{
+								//m_strErrorCode = CommErr_PowerSupply_Control_Fail;
+								//m_strMessage = "Fail to set power supply 2 off";
+								//TraceLog(MSG_ERROR, m_strMessage);
+								//return false;
+							}	
 
 
-						//m_strErrorCode = FunErr_Max_Current_Test_Fail;
-						m_strErrorCode = FunErr_Boot_Current_Test_Fail; //Eason
-						CString str_trace;
-						str_trace.Format(_T("Power2 On Short Current Over Range : %f") , f_PowerOnShort2);
-						m_strMessage = std::string(CT2A(str_trace));
-						TraceLog(MSG_ERROR, m_strMessage);
-						return false;
-					//}
+							//m_strErrorCode = FunErr_Max_Current_Test_Fail;
+							m_strErrorCode = FunErr_Boot_Current_Test_Fail; //Eason
+							CString str_trace;
+							str_trace.Format(_T("Power2 On Short Current Over Range : %f") , f_PowerOnShort2);
+							m_strMessage = std::string(CT2A(str_trace));
+							TraceLog(MSG_ERROR, m_strMessage);
+							return false;
+						//}
+					}
+					if (m_pIPhone->IsConnected())
+					{	
+						break;
+					}
+					Sleep(200);					
 				}
-				if (m_pIPhone->IsConnected())
-				{	
-					break;
-				}
-				Sleep(200);					
-			}
-			while( !PS2CheckTimer.TaskTimeOff() );
+				while( !PS2CheckTimer.TaskTimeOff() );
+			}//end if for check ps 2
 			//------------------------------
 		}
 		Sleep(1000); // ADB delay 
@@ -1833,8 +1858,16 @@ bool ITestProcessor::ParseLeakageCurrentPowerOnCheckParameters()  //Eason
 	if (IsPS1Value == NULL)
 		return false;
 	
+	XMLNode IsPS1Check = m_DeviceItemXML.SearchNode(_T("//Configuration//TestProcessor//PowerOnCheck//PS1Check"));
+	if (IsPS1Value == NULL)
+		return false;
+
 	XMLNode IsPS2Value = m_DeviceItemXML.SearchNode(_T("//Configuration//TestProcessor//PowerOnCheck//PS2Value"));
 	if (IsPS2Value == NULL)
+		return false;
+
+	XMLNode IsPS2Check = m_DeviceItemXML.SearchNode(_T("//Configuration//TestProcessor//PowerOnCheck//PS2Check"));
+	if (IsPS1Value == NULL)
 		return false;
 
 	CString str_IsUsePowerOnCheck = m_DeviceItemXML.GetNodeText(IsUsePowerOnCheck);
@@ -1846,6 +1879,13 @@ bool ITestProcessor::ParseLeakageCurrentPowerOnCheckParameters()  //Eason
 
 	m_str_PS1Value = m_DeviceItemXML.GetNodeText(IsPS1Value);
 	m_str_PS2Value = m_DeviceItemXML.GetNodeText(IsPS2Value);
+
+	CString str_PS1Check, str_PS2Check;
+	str_PS1Check =  m_DeviceItemXML.GetNodeText(IsPS1Check);
+	str_PS2Check =  m_DeviceItemXML.GetNodeText(IsPS1Check);
+
+	m_i_PS1Check =  CStr::StrToInt(str_PS1Check.GetString());
+	m_i_PS2Check =  CStr::StrToInt(str_PS2Check.GetString());	
 
 	return true;
 }

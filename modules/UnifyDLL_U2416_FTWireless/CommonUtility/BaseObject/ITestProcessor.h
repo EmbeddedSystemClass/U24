@@ -114,6 +114,8 @@ protected:
 	//Eason
 	bool m_b_IsUsePowerOnCheck;
 	int  m_i_PowerCheckOnTime;
+	int  m_i_PS1Check;
+	int  m_i_PS2Check;
 	std::string m_str_PS1Value;
 	std::string m_str_PS2Value;
 

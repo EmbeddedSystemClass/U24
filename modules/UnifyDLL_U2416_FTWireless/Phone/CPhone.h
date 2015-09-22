@@ -249,7 +249,7 @@ public:
 	bool FTD_BTSelfTest(int nPort, int nTimeout, char* pszInput, char* pszOutput);
 	bool FTD_BTLteTx(int nPort, int nTimeout, char* pszInput, char* pszOutput);
 	bool FTD_BTLteRx(int nPort, int nTimeout, char* pszInput, char* pszOutput);
-	bool FTD_2_4GTxPower(int nPort, int nTimeout, char* pszInput, char* pszOutput);
+	bool FTD_BT_INQUIRY(int nPort, int nTimeout, char* pszInput, char* pszOutput);
 	bool FTD_2_4GPowerMode(int nPort, int nTimeout, char* pszInput, char* pszOutput);
 	bool FTD_2_4GConsumer(int nPort, int nTimeout, char* pszInput, char* pszOutput);
 
@@ -258,6 +258,7 @@ public:
 	bool FTD_WLAN_TXPower(int nPort, int nTimeout, char* pszInput, char* pszOutput);
 	bool FTD_WLAN_ScanAP(int nPort, int nTimeout, char* pszInput, char* pszOutput);
 	bool FTD_WLAN_selfTest(int nPort, int nTimeout, char* pszInput, char* pszOutput);
+	bool FTD_WLAN_MODULE_Test(int nPort, int nTimeout, char* pszInput, char* pszOutput);
 	
 	//15-GPS
 	bool FTD_GPSValueCN0(int nPort, int nTimeout, char* pszInput, char* pszOutput);
@@ -359,7 +360,9 @@ public:
 	//93-misc
 	bool Sapporo_ftdStartEnd(int nPort, int nTimeout, char* InBuffer, char* OutBuffer);//cmd:5
 	bool FTD_Get_GPIO_Value(int nPort, int nTimeout, char* InBuffer, char* OutBuffer);//cmd:3
+	bool FTD_Check_APQ_UART(int nPort, int nTimeout, char* InBuffer, char* OutBuffer);//cmd:3
 
+	
 protected:
 private:
 	bool LoadMobileCommandDLL();

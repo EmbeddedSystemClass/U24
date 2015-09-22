@@ -22,18 +22,14 @@
 #define VERftd					_T("VERftd")			
 #define VERchange				_T("VERchange")
 #define BATTrtcTime				_T("BATTrtcTime")
-#define SNSRgsensorAcc			_T("SNSRgsensorAcc")
 #define LEDid					_T("LEDid")
-#define BoardRev				_T("BoardRev")
 #define MCPflashID				_T("MCPflashID")
 #define MCPddrID				_T("MCPddrID")
 
 #define MCPemmcsize				_T("MCPemmcsize")
 #define MCPemmcFWversion		_T("MCPemmcFWversion")
 #define MCPddrmr8				_T("MCPddrmr8")
-#define MCPddrmr6				_T("MCPddrmr6")
 
-#define AudioID					_T("AudioID") 
 #define PMICID					_T("PMICID") 
 
 
@@ -46,18 +42,6 @@
 #define SGAUGE					_T("Gauge")
 
 
-#define SNSR_GsensorID			_T("SNSR_GsensorID")
-#define SNSR_GsensorSelfTest	_T("SNSR_GsensorSelfTest")
-
-#define SNSR_EcompassID			_T("SNSR_EcompassID")
-#define SNSR_EcompassSelfTest	_T("SNSR_EcompassSelfTest")
-
-#define FM_SelfTest				_T("FM_SelfTest")
-#define BT_SelfTest				_T("BT_SelfTest")
-
-#define NFC_ID					_T("NFC_ID")
-#define FlashLED_ID				_T("FlashLED_ID")
-
 #define BuckID					_T("BuckID")			// 2 , 18		
 #define Buckfeature				_T("BuckFeature")		// 2 , 19	
 #define BacklightDriver			_T("BacklightDriver")	// 4 , 14
@@ -66,6 +50,12 @@
 
 #define PMid					_T("PMid")
 #define PMIid					_T("PMIid")
+#define PMIid					_T("PMIid")
+#define APQ_UART				_T("APQ_UART")
+#define HDMI_OUTPUT				_T("HDMI_OUTPUT")
+#define WLAN_MODULE				_T("WLAN_MODULE")
+#define BT_INQUIRY				_T("BT_INQUIRY")
+
 
 
 class CStringCheckProc : public ITestItem
@@ -83,6 +73,7 @@ private:
 	bool m_b_CheckFromServer;
 	bool m_b_CheckMatch;
 	int m_i_sleep;
+	std::string str_msg;
 
 // Member functions
 public:
@@ -97,50 +88,16 @@ public:
 
 protected:
 private:
-
-	bool ReadCPUid();
-	bool ReadVERftd();
-	bool ReadVERchange();
-	bool ReadBATTrtcTime();
-	bool ReadSNSRgsensorAcc();
-
-	bool ReadLEDid();
-	bool ReadBoardRev();
 	bool ReadMCPflashID();
 	bool ReadMCPddrID();
 	
 	bool ReadMCPddrmr8();  
 	bool ReadMCPemmcsize();  
 	bool ReadMCPemmcFWversion();  
-	bool ReadMCPddrmr6();  
 
-
-	bool ReadAudioID();  
-	bool ReadPMICID();  
-
-
-	
-	bool ReadRF_PA_QFE_ID();  
-	bool ReadRF_ASM_ID();  
-	
-	bool ReadSKU_ID(); 
 	bool ReadSOCversion(); 
-	bool ReadSOCfeature_ID(); 
-	bool GaugeCheckID();
 
-
-	bool Read_GsensorID();
-	bool Read_GsensorSelfTest();
-	bool Read_EcompassID();
-	bool Read_EcompassSelfTest();
-
-
-	bool Read_BTSelfTest();
-	bool Read_FMSelfTest();
-
-	bool Read_NFC_ID();
-	bool Read_FlashLED_ID();
-
+	
 	bool Read_BuckID();
 	bool Read_Buckfeature();
 	bool Read_BacklightDriver();
@@ -149,9 +106,14 @@ private:
 
 	bool ReadPMid();
 	bool ReadPMIid();
-
+	bool Check_APQ_UART();
+	bool Check_HDMI_OUTPUT();
+	bool Check_WLAN_MODULE();
+	bool Check_BT_INQUIRY();
+	bool showMsg(const char* szMsg);
 
 };
 
 
 #endif // End of #ifndef _C_String_Check_Proc_H_
+

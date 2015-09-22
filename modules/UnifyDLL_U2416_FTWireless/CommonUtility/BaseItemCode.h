@@ -374,11 +374,14 @@ Channel Definition:
 #define SOCfeature_ID_BaseItemCode							     		100376
 
 //YTT
-#define PMid_BaseItemCode							     		100388
-#define PCBVerMPP3_BaseItemCode							     		100389
-#define PCBVerMPP2_BaseItemCode							     		100390
-#define PMIid_BaseItemCode							     		100391
-
+#define PMid_BaseItemCode							     		        100388
+#define PCBVerMPP3_BaseItemCode							     		    100389
+#define PCBVerMPP2_BaseItemCode							     		    100390
+#define PMIid_BaseItemCode							     		        100391
+#define APQ_UART_BaseItemCode							     		    100392
+#define	HDMI_OUTPUT_BaseItemCode							     		100393
+#define	WLAN_MODULE_BaseItemCode							     		100394
+#define	BT_INQUIRY_BaseItemCode							     		100394
 
 //RF
 #define RF_Band_ID_Temperature_BaseItemCode								100377

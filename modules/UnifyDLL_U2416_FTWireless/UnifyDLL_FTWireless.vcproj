@@ -2111,14 +2111,6 @@
 						>
 					</File>
 					<File
-						RelativePath=".\TestProcessor\TestItem\FTTestItem\CheckHwVersion.cpp"
-						>
-					</File>
-					<File
-						RelativePath=".\TestProcessor\TestItem\FTTestItem\CheckHwVersion.h"
-						>
-					</File>
-					<File
 						RelativePath=".\TestProcessor\TestItem\FTTestItem\FlashLED.cpp"
 						>
 					</File>
@@ -2167,22 +2159,6 @@
 						>
 					</File>
 					<File
-						RelativePath=".\TestProcessor\TestItem\FTTestItem\NFCAntennaSelfTest.cpp"
-						>
-					</File>
-					<File
-						RelativePath=".\TestProcessor\TestItem\FTTestItem\NFCAntennaSelfTest.h"
-						>
-					</File>
-					<File
-						RelativePath=".\TestProcessor\TestItem\FTTestItem\NFCSwpSelfTest.cpp"
-						>
-					</File>
-					<File
-						RelativePath=".\TestProcessor\TestItem\FTTestItem\NFCSwpSelfTest.h"
-						>
-					</File>
-					<File
 						RelativePath=".\TestProcessor\TestItem\FTTestItem\RangeCheckProc.cpp"
 						>
 					</File>
@@ -2196,38 +2172,6 @@
 					</File>
 					<File
 						RelativePath=".\TestProcessor\TestItem\FTTestItem\RSenseCalibration.h"
-						>
-					</File>
-					<File
-						RelativePath=".\TestProcessor\TestItem\FTTestItem\SmartCoverChargeCurrent.cpp"
-						>
-					</File>
-					<File
-						RelativePath=".\TestProcessor\TestItem\FTTestItem\SmartCoverChargeCurrent.h"
-						>
-					</File>
-					<File
-						RelativePath=".\TestProcessor\TestItem\FTTestItem\SmartCoverCheckOutput.cpp"
-						>
-					</File>
-					<File
-						RelativePath=".\TestProcessor\TestItem\FTTestItem\SmartCoverCheckOutput.h"
-						>
-					</File>
-					<File
-						RelativePath=".\TestProcessor\TestItem\FTTestItem\SmartCoverDetectPin.cpp"
-						>
-					</File>
-					<File
-						RelativePath=".\TestProcessor\TestItem\FTTestItem\SmartCoverDetectPin.h"
-						>
-					</File>
-					<File
-						RelativePath=".\TestProcessor\TestItem\FTTestItem\SmartCoverInterruptPin.cpp"
-						>
-					</File>
-					<File
-						RelativePath=".\TestProcessor\TestItem\FTTestItem\SmartCoverInterruptPin.h"
 						>
 					</File>
 					<File
@@ -2334,14 +2278,6 @@
 				<Filter
 					Name="MMITestItem"
 					>
-					<File
-						RelativePath=".\TestProcessor\TestItem\MMITestItem\BostonTouchSelfTest.cpp"
-						>
-					</File>
-					<File
-						RelativePath=".\TestProcessor\TestItem\MMITestItem\BostonTouchSelfTest.h"
-						>
-					</File>
 					<File
 						RelativePath=".\TestProcessor\TestItem\MMITestItem\CameraEnd.cpp"
 						>
@@ -2579,22 +2515,6 @@
 						>
 					</File>
 					<File
-						RelativePath=".\TestProcessor\TestItem\MMITestItem\SapporoFtdTest.cpp"
-						>
-					</File>
-					<File
-						RelativePath=".\TestProcessor\TestItem\MMITestItem\SapporoFtdTest.h"
-						>
-					</File>
-					<File
-						RelativePath=".\TestProcessor\TestItem\MMITestItem\SapporoSmartCover.cpp"
-						>
-					</File>
-					<File
-						RelativePath=".\TestProcessor\TestItem\MMITestItem\SapporoSmartCover.h"
-						>
-					</File>
-					<File
 						RelativePath=".\TestProcessor\TestItem\MMITestItem\SideKeyTest.cpp"
 						>
 					</File>
@@ -2667,27 +2587,11 @@
 						>
 					</File>
 					<File
-						RelativePath=".\TestProcessor\TestItem\MMI_EM\CheckNfcFwVersion.cpp"
-						>
-					</File>
-					<File
-						RelativePath=".\TestProcessor\TestItem\MMI_EM\CheckNfcFwVersion.h"
-						>
-					</File>
-					<File
 						RelativePath=".\TestProcessor\TestItem\MMI_EM\MMI_EM.cpp"
 						>
 					</File>
 					<File
 						RelativePath=".\TestProcessor\TestItem\MMI_EM\MMI_EM.h"
-						>
-					</File>
-					<File
-						RelativePath=".\TestProcessor\TestItem\MMI_EM\NFCPowerOffCardMode.cpp"
-						>
-					</File>
-					<File
-						RelativePath=".\TestProcessor\TestItem\MMI_EM\NFCPowerOffCardMode.h"
 						>
 					</File>
 					<File

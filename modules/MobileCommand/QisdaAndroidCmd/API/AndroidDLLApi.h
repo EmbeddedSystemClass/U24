@@ -121,7 +121,7 @@ NEPDLLAPI int __stdcall FTD_BTRXrssi(int port, int timeout_ms, char* in_buf, cha
 NEPDLLAPI int __stdcall FTD_BTSelfTest(int port, int timeout_ms, char* in_buf, char* out_buf);
 NEPDLLAPI int __stdcall FTD_BTLteTx(int port, int timeout_ms, char* in_buf, char* out_buf);
 NEPDLLAPI int __stdcall FTD_BTLteRx(int port, int timeout_ms, char* in_buf, char* out_buf);
-NEPDLLAPI int __stdcall FTD_2_4GTxPower(int port, int timeout_ms, char* in_buf, char* out_buf);  //cmd:10
+NEPDLLAPI int __stdcall FTD_BT_INQUIRY(int port, int timeout_ms, char* in_buf, char* out_buf);  //cmd:10
 NEPDLLAPI int __stdcall FTD_2_4GPowerMode(int port, int timeout_ms, char* in_buf, char* out_buf);  //cmd:14
 NEPDLLAPI int __stdcall FTD_2_4GConsumer(int port, int timeout_ms, char* in_buf, char* out_buf);  //cmd:15
 
@@ -134,6 +134,7 @@ NEPDLLAPI int __stdcall FTD_WLAN_ConnectAP(int port, int timeout_ms, char* in_bu
 NEPDLLAPI int __stdcall FTD_WLANid(int port, int timeout_ms, char* in_buf, char* out_buf); // cmd: 7
 
 NEPDLLAPI int __stdcall FTD_WLAN_selfTest(int port, int timeout_ms, char* in_buf, char* out_buf); // cmd: 8
+NEPDLLAPI int __stdcall FTD_WLAN_MODULE_Test(int port, int timeout_ms, char* in_buf, char* out_buf); // cmd: 10
 
 
 //15:GPS
@@ -239,6 +240,8 @@ NEPDLLAPI int __stdcall FTD_FAC_RestoreModemCFG(int port, int timeout_ms, char* 
 //93:misc
 NEPDLLAPI int __stdcall FTD_MISC_CallDrop(int port, int timeout_ms, char* in_buf, char* out_buf);//cmd:2
 NEPDLLAPI int __stdcall FTD_Get_GPIO_Value(int port, int timeout_ms, char* in_buf, char* out_buf);//cmd:3
+NEPDLLAPI int __stdcall FTD_Check_APQ_UART(int port, int timeout_ms, char* in_buf, char* out_buf);//cmd:5
+
 
 //Special Control Functions
 NEPDLLAPI bool __stdcall FTD_SplitSimData(char* input, char* output, char* error_code);

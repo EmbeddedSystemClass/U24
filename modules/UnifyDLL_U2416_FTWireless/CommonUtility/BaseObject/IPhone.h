@@ -222,7 +222,7 @@ public:
 	virtual bool FTD_BTSelfTest(int nPort, int nTimeout, char* pszInput, char* pszOutput) = 0;
 	virtual bool FTD_BTLteTx(int nPort, int nTimeout, char* pszInput, char* pszOutput) = 0;
 	virtual bool FTD_BTLteRx(int nPort, int nTimeout, char* pszInput, char* pszOutput) = 0;
-	virtual bool FTD_2_4GTxPower(int nPort, int nTimeout, char* pszInput, char* pszOutput) = 0;
+	virtual bool FTD_BT_INQUIRY(int nPort, int nTimeout, char* pszInput, char* pszOutput) = 0;
 	virtual bool FTD_2_4GPowerMode(int nPort, int nTimeout, char* pszInput, char* pszOutput) = 0;
 	virtual bool FTD_2_4GConsumer(int nPort, int nTimeout, char* pszInput, char* pszOutput) = 0;
 
@@ -233,6 +233,7 @@ public:
 
 	virtual bool FTD_WLAN_ScanAP(int nPort, int nTimeout, char* pszInput, char* pszOutput) = 0;
 	virtual bool FTD_WLAN_selfTest(int nPort, int nTimeout, char* pszInput, char* pszOutput) = 0;
+	virtual bool FTD_WLAN_MODULE_Test(int nPort, int nTimeout, char* pszInput, char* pszOutput) = 0;
 	
 
 	//15-GPS
@@ -324,6 +325,8 @@ public:
 	//93-misc
 	virtual bool Sapporo_ftdStartEnd(int nPort, int nTimeout, char* InBuffer, char* OutBuffer) = 0;//cmd:1
 	virtual bool FTD_Get_GPIO_Value(int nPort, int nTimeout, char* InBuffer, char* OutBuffer) = 0 ;//cmd:3
+	virtual bool FTD_Check_APQ_UART(int nPort, int nTimeout, char* InBuffer, char* OutBuffer) = 0 ;//cmd:3
+	
 protected:
 private:
 };
