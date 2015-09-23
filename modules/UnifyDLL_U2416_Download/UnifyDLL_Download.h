@@ -115,6 +115,7 @@ private:
 	bool GetToolVersion(void);
 
 
+	void AddMsg(const char* szMsg, int nStep, int nProgress);
 	void SetErrorCode(const char* sz_errorCode, const int i_slot = 1);
 	void SetErrorMessage(const char* sz_errorMessage, const int i_slot = 1);
 	bool IsConnected(const int i_slot);
@@ -132,10 +133,6 @@ private:
 	void SetInfoLogFileName(CString str_fileName);
 	void WriteLog(CString str_log, const int i_severity = __INFO);
 
-	/* Only For Orange project */
-	//bool ForceToEnterDLMode(const int i_slot);
-
-	/* Only For C7 project */
 	bool GetImage(void);
 	bool GetFileNameFromDir(CString str_directoryName, CStringArray& stra_fileName);
 	bool SpiltString(CString str_sourceString, CString str_delimiter, CStringArray& stra_strArg);
@@ -170,11 +167,13 @@ private:
 	CString                      m_str_CustomerSwVersion;
 	CString						 csStation;
 
-	//std::map < CString> DL_ALL_CHECK1_IMGS;
-	//set < CString> FORMAT_IMGS;
-	//set < CString> ERASE_ALL_IMGS;
+	int m_nProgress; // Keep Original Progress data
+	std::string m_strMsg; // Keep Original Message
+
 
 };
+
+
 
 IDL_API bool NewInterface(IFacTestToolInterface**);
 IDL_API bool DeleteInterface(IFacTestToolInterface*);

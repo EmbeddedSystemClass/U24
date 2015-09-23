@@ -100,7 +100,8 @@ bool CDownload8994::MultiDownload(bool b_speedUp, bool b_reOpenAfterReset, Downl
 	{
 		if (  FindADBdevice(m_i_COMPort) ){
 
-		b_result = FastbootEXE_Download();
+		bGetADB();
+		b_result = FastbootEXE_Download(m_i_COMPort);
 		//b_result = FastbootEXE_OS_DL();
 		}
 		else return false;
@@ -116,7 +117,14 @@ bool CDownload8994::MultiDownload(bool b_speedUp, bool b_reOpenAfterReset, Downl
 	return b_result;
 }
 
+bool CDownload8994::bGetADB(){
+	 char* output;
+	char* ErrorCode;
+	bAdbCMD("adb devices", output, ErrorCode );
 
+	//CDownload8994::FastbootEXE_OS_DL(){
+	return true;
+}
 
 //bool CDownload8994::FastbootEXE_OS_DL(){
 //
@@ -315,7 +323,7 @@ bool CDownload8994::MultiDownload(bool b_speedUp, bool b_reOpenAfterReset, Downl
 //}
 
 
-bool CDownload8994::FastbootEXE_Download(){
+bool CDownload8994::FastbootEXE_Download(int nPort){
 	map<int,CString>::iterator iter;       
 	CString cs_MapValue = NULL;
 	CString csImgPath;// = NULL;
@@ -342,7 +350,8 @@ bool CDownload8994::FastbootEXE_Download(){
 		if(iter != mapDL_PASSPORT_IMGS.end()){
 			csImgPath = m_str_imageFilePath + "\\" + iter->second;
 		}
-		csExePath.Format(_T("\"%s\" flash %s \"%s\" -s QPHONE%d"),str_FastbootPath, csImgType, csImgPath, m_i_COMPort);
+		//csExePath.Format(_T("\"%s\" flash %s \"%s\" -s QPHONE%d"),str_FastbootPath, csImgType, csImgPath, m_i_COMPort);
+		csExePath.Format(_T("\"%s\" flash %s \"%s\" -s QPHONE%d"),str_FastbootPath, csImgType, csImgPath, nPort);
 
 		
 		bDLFlag = bFastbootDL(csExePath);
@@ -2231,7 +2240,7 @@ static void saveLog_Value(CString message)
 
 
 
-bool CDownload8994::bFastbootDL_New(CString Command, char* output, char* ErrorCode)
+bool CDownload8994::bAdbCMD(CString Command, char* output, char* ErrorCode)
 {
 	bool isOk = false;
 	DWORD nPipeSize = 1024 * 1024; //1M pipeline
@@ -2775,3 +2784,80 @@ bool CDownload8994::bFastbootDL(CString folderPath){
 
 	return true;
 }
+
+
+//bool CDownload8994::bAdbCMD(CString csCMD){
+//
+//	CString csExeCMD;
+//	bool bDLFlag = false;
+//
+//	/*get fastboot.exe path */
+//	char sz_currentPath[MAX_PATH] = { 0 };
+//	::GetModuleFileName(NULL, sz_currentPath, MAX_PATH);
+//	::PathRemoveFileSpec(sz_currentPath);
+//
+//	CString str_FastbootPath;
+//	str_FastbootPath.Format(_T("%s\\adb.exe"), sz_currentPath);
+//
+//
+//	//csExeCMD.Format(_T("CMD.EXE /C %s") ,folderPath);
+//	//csExeCMD.Format(_T("D:\\03.Factory\\00.DELL\\GF80B1A_Trigger_V1.004_20150729_debug\\fastboot.exe %s\"") ,folderPath);
+//	csExeCMD.Format(_T("%s %s") ,str_FastbootPath, csCMD);
+//	/* Run */
+//	TCHAR sz_commandLine[1024];
+//	memset(sz_commandLine, 0, sizeof(sz_commandLine));
+//	for (int i = 0; i < csExeCMD.GetLength(); i ++) 
+//	{
+//		sz_commandLine[i] = csExeCMD[i];   
+//	}
+//	PROCESS_INFORMATION pi_bFastbootDL = {0};;
+//	STARTUPINFO si = {0};
+//	memset(&si, 0, sizeof(si));
+//	si.cb          = sizeof(si);
+//	si.wShowWindow = SW_HIDE;
+//	si.dwFlags     = STARTF_USESTDHANDLES | STARTF_USESHOWWINDOW; 
+//
+//	BOOL b_createRes = FALSE;	
+//
+//	b_createRes = CreateProcess(NULL, sz_commandLine, NULL, NULL, true, CREATE_DEFAULT_ERROR_MODE, NULL, NULL, &si, &pi_bFastbootDL);
+//
+//	if(b_createRes == FALSE) 
+//	{
+//		AddMsg("b_createRes Fail", None, 10);
+//		return false;
+//	}
+//
+//	DWORD dw_waitResult = 0;
+//	DWORD dw_timeout;
+//	dw_timeout = 180 * 1000;
+//
+//	
+//	dw_waitResult = ::WaitForSingleObject(pi_bFastbootDL.hProcess, dw_timeout);
+//
+//	CloseHandle(pi_bFastbootDL.hThread);
+//	pi_bFastbootDL.hThread = NULL;	
+//	::CloseHandle(pi_bFastbootDL.hProcess);
+//	pi_bFastbootDL.hProcess = NULL;
+//
+//	switch(dw_waitResult)
+//	{
+//	case WAIT_FAILED:
+//		::CloseHandle(pi_bFastbootDL.hProcess);
+//		pi_bFastbootDL.hProcess = NULL;
+//		AddMsg("WAIT_FAILED Fail", None, 10);
+//		return false;
+//
+//	case WAIT_TIMEOUT:
+//		::CloseHandle(pi_bFastbootDL.hProcess);
+//		pi_bFastbootDL.hProcess = NULL;
+//		AddMsg("WAIT_TIMEOUT Fail", None, 10);
+//		return false;
+//
+//	case WAIT_OBJECT_0:
+//		break;
+//	}
+//	::CloseHandle(pi_bFastbootDL.hProcess);
+//	pi_bFastbootDL.hProcess = NULL;
+//
+//	return true;
+//}

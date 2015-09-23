@@ -174,7 +174,7 @@ private:
 /*======================== Qualcomm Download ================================================================================*/
 private:
 	bool Download(bool b_speedUp = false, bool b_reOpenAfterReset = false, DownloadProtocol nDLPROTOCOL = QTT_FASTDOWNLOAD);
-	bool FastbootEXE_Download(void);
+	bool FastbootEXE_Download(int nPort);
 	bool FastbootEXE_OS_DL(void);
 	//int  GetComport(void);
 	//void SetIsOveridePartition(bool b_overridePartition);
@@ -217,9 +217,14 @@ public:
 
 	int GetQualcommport(){return m_i_COMPort;};
 	bool bFastbootDL(CString folderPath);
+bool bAdbCMD(CString Command, char* output, char* ErrorCode);
+	//bool bFastbootDL_New(CString Command, char* output, char* ErrorCode);
+	//bool bAdbCMD(CString csCMD);
+	bool bGetADB();
+
 	bool Exec(CString& path, CString& param, DWORD msTimeout = INFINITE, bool hasResponse = true);
 	bool bFastbootDL_4(CString folderPath);
-	bool bFastbootDL_New(CString Command, char* output, char* ErrorCode);
+	
 	bool bFastbootDL_New2(char* szReturn, const char* szCmd1, const char* szCmd2);
 	bool bFastbootDL_3(const char* szExeName, const char* szCmd, const char* szSerialNumber, char *szReturn, long dwReturnLen, int iTimeout);
 	bool bFastbootDL_5(CString& path, CString& param, DWORD msTimeout, bool hasResponse);

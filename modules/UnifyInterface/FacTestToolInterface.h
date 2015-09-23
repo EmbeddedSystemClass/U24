@@ -12,7 +12,7 @@
 #include "NotifyBase.h"
 
 /*================================= Station DLL Name ==================================*/
-#define    DOWNLOAD_DLLNAME       _T("DL.dll")
+#define    DOWNLOAD_DLLNAME       _T("FactoryTool.dll")
 #define    FT_DLLNAME             _T("FT.dll")
 #define    RF_2G_DLLNAME          _T("RF.dll")
 #define    RF_3G_DLLNAME          _T("RF.dll")

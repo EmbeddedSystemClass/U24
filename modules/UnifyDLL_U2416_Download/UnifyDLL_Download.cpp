@@ -2351,3 +2351,39 @@ bool CDLInstance::SpiltString(CString str_sourceString, CString str_delimiter, C
 	return true;
 }
 
+//
+//CDLCommand::CDLCommand(const TSTRING& strDevice, const std::string& strPlatform)
+//:CInterfaceBase(strDevice, strPlatform)
+//,m_nProgress(0)
+//,CLog(strDevice)
+//,CLastError(strDevice)
+//{
+//	DefineNotify(EVENT_DL_PROGRESS);
+//    DefineNotify(EVENT_DL_PARTITION_DIF);
+//}
+//
+//CDLCommand::CDLCommand(int nCOMPort, const std::string& strPlatform)
+//:CInterfaceBase(COMDeviceName(nCOMPort), strPlatform)
+//,m_nProgress(0)
+//,CLog(COMDeviceName(nCOMPort))
+//,CLastError(COMDeviceName(nCOMPort))
+//{
+//	DefineNotify(EVENT_DL_PROGRESS);
+//    DefineNotify(EVENT_DL_PARTITION_DIF);
+//}
+//
+//CDLCommand::~CDLCommand(void)
+//{}
+
+
+//void CDLCommand::AddMsg(const char* szMsg, int nStep, int nProgress)
+//{
+//    if(!(m_nProgress == nProgress && m_strMsg == szMsg))
+//	{
+//		m_nProgress = nProgress;
+//		m_strMsg = szMsg;
+//		DL_PROGRESS Msg = {(char*)szMsg, (DownloadStep)nStep, nProgress};
+//		Fire(EVENT_DL_PROGRESS, (long)&Msg);
+//		TRACE(szMsg);
+//	}
+//}
