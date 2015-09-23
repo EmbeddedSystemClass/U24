@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "UnifyUI_FacTestTool", "UnifyUI_FacTestTool.vcproj", "{FFBDF5CB-ACA7-4DEF-9302-A4384F1F14BF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		RD_MODE|Win32 = RD_MODE|Win32
+		Release|Win32 = Release|Win32
+		TS_MODE|Win32 = TS_MODE|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FFBDF5CB-ACA7-4DEF-9302-A4384F1F14BF}.Debug|Win32.ActiveCfg = Debug|Win32
+		{FFBDF5CB-ACA7-4DEF-9302-A4384F1F14BF}.Debug|Win32.Build.0 = Debug|Win32
+		{FFBDF5CB-ACA7-4DEF-9302-A4384F1F14BF}.RD_MODE|Win32.ActiveCfg = RD_MODE|Win32
+		{FFBDF5CB-ACA7-4DEF-9302-A4384F1F14BF}.RD_MODE|Win32.Build.0 = RD_MODE|Win32
+		{FFBDF5CB-ACA7-4DEF-9302-A4384F1F14BF}.Release|Win32.ActiveCfg = Release|Win32
+		{FFBDF5CB-ACA7-4DEF-9302-A4384F1F14BF}.Release|Win32.Build.0 = Release|Win32
+		{FFBDF5CB-ACA7-4DEF-9302-A4384F1F14BF}.TS_MODE|Win32.ActiveCfg = TS_MODE|Win32
+		{FFBDF5CB-ACA7-4DEF-9302-A4384F1F14BF}.TS_MODE|Win32.Build.0 = TS_MODE|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
