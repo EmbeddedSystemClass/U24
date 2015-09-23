@@ -230,12 +230,12 @@ bool CBTWLAN_BT_TxTest::MainFunction(void)
 
 	Sleep(m_iCommandDelay);
 */
-	if (! m_pIPhone->BTModuleOnOffSwitch(true, 0 /*m_iStartDelay*/))
-	{
-		m_strMsg = "Fail to turn ON BT function";
-		TraceLog(MSG_ERROR, m_strMsg);
-		return false;
-	}
+	//if (! m_pIPhone->BTModuleOnOffSwitch(true, 0 /*m_iStartDelay*/))
+	//{
+	//	m_strMsg = "Fail to turn ON BT function";
+	//	TraceLog(MSG_ERROR, m_strMsg);
+	//	return false; 
+	//}
 	char szBTInput[128] = {0};
 	strcpy(szBTInput, m_strBTInput.c_str());
 	if (! m_pIPhone->BTStartTxPower(szBTInput))
