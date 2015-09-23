@@ -1882,7 +1882,7 @@ bool ITestProcessor::ParseLeakageCurrentPowerOnCheckParameters()  //Eason
 
 	CString str_PS1Check, str_PS2Check;
 	str_PS1Check =  m_DeviceItemXML.GetNodeText(IsPS1Check);
-	str_PS2Check =  m_DeviceItemXML.GetNodeText(IsPS1Check);
+	str_PS2Check =  m_DeviceItemXML.GetNodeText(IsPS2Check);
 
 	m_i_PS1Check =  CStr::StrToInt(str_PS1Check.GetString());
 	m_i_PS2Check =  CStr::StrToInt(str_PS2Check.GetString());	
