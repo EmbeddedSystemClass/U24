@@ -7,7 +7,8 @@
 //#include "..\RequestManager\Request\DownloadRequest.h"
 #include "..\Common\CommonUtil\RefObject.h"
 #include <vector>
-#include "..\Common\CommonUtil\NotifyBase.h"
+//#include "..\Common\CommonUtil\NotifyBase.h"
+#include "..\UnifyInterface\NotifyBase.h"
 #include "..\Common\CommonUtil\ErrorCode.h"
 #include "..\Common\ErrorDefine\ErrorDefine.h"
 
@@ -133,6 +134,7 @@ private:
 		}
 	}
 };
+
 
 class QISDA_DOWNLOAD_CLASS_API CDLCommand : public QSYNC_LIB::CNotifyBase_ANSI
 {

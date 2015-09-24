@@ -1,7 +1,8 @@
 #ifndef __DOWNLOAD_INTERFACE__
 #define __DOWNLOAD_INTERFACE__
 
-#include "../../CommonUtil/NotifyBase.h"
+//#include "../../CommonUtil/NotifyBase.h"
+#include "../../UnifyInterface/NotifyBase.h"
 #include "../../Modules/QisdaNVModule\NVItem.h"
 #include "Download_Export.h"
 #include "..\..\..\code\Components\ConfigureTool\IConfigure.h"

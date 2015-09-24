@@ -5,7 +5,9 @@
 
 using namespace std;
 
-CDLCommand::CDLCommand(){
+CDLCommand::CDLCommand()
+
+{
 		DefineNotify(EVENT_DL_PROGRESS);
 		DefineNotify(EVENT_DL_PARTITION_DIF);
 };

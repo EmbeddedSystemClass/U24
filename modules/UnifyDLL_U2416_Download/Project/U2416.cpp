@@ -217,7 +217,7 @@ bool CU2416::PostRun(int i_slot)
 	//	int i_COMPort = m_i_COMPort;
 	//	/* CDownload8994 */
 	//	CDownload8994 obj_download8994(i_COMPort, m_str_multiDLFlag);	
-	//	//obj_download8994.Register(this, EVENT_DL_PROGRESS);
+	//	obj_download8994.Register(this, EVENT_DL_PROGRESS);
 	//	if (b_res) 
 	//	{
 	//		if ( m_i_RebootMode == 0)
@@ -251,12 +251,12 @@ bool CU2416::PostRun(int i_slot)
 		//	Sleep(1000);
 		//}
 		//if( n_timeOut == 10 ){
-		//	//obj_download8994.Unregister(this, EVENT_DL_PROGRESS);
+		//	obj_download8994.Unregister(this, EVENT_DL_PROGRESS);
 		//	return false;
 		//}
 		//
 		//Sleep(2000);
-		////obj_download8994.Unregister(this, EVENT_DL_PROGRESS);
+		//obj_download8994.Unregister(this, EVENT_DL_PROGRESS);
 
 	//}
 	return true;
@@ -450,7 +450,7 @@ bool CU2416::DLchipset(void)
 
 	/* CDownload8994 */
 	CDownload8994 obj_download8994(i_COMPort, m_str_multiDLFlag);
-	//obj_download8994.Register(this, EVENT_DL_PROGRESS);
+	obj_download8994.Register(this, EVENT_DL_PROGRESS);
 
 	/* Set DL Parameter */
 	if (b_res) 
@@ -469,7 +469,7 @@ bool CU2416::DLchipset(void)
 		CString str_imagePath;
 		str_imagePath.Format("%s", m_vImage[0].str_imagePath.c_str());
 		obj_download8994.SetImagePath(str_imagePath);
-		obj_download8994.SetFactoryVersion(m_str_fatoryVersion);
+		//obj_download8994.SetFactoryVersion(m_str_fatoryVersion);
 		//obj_download8994.GetOemMainVersion(m_str_fatoryVersionDevice);
 		
 	}
@@ -494,7 +494,7 @@ bool CU2416::DLchipset(void)
 	/* Get Error code */
 	m_str_errorCode = obj_download8994.GetErrorCode();
 
-	//obj_download8994.Unregister(this, EVENT_DL_PROGRESS);
+	obj_download8994.Unregister(this, EVENT_DL_PROGRESS);
 
 
 	return b_res;
@@ -609,16 +609,16 @@ bool CU2416::DLchipset(void)
 	/* Set DL Parameter */
 	if (b_res) 
 	{
-		//obj_download8994.SetDLMode(m_str_DLMode);
-		//obj_download8994.SetReworkFlag(m_i_rework);
-		//obj_download8994.SetRebootFlag(m_i_reboot);
-		//obj_download8994.SetDDRCheckFlag(m_i_DDRCheck);
-		//obj_download8994.SetDumpEmmcLogFlag(m_i_DumpEmmcLog);
-		//obj_download8994.SetCheckSumFlag(m_i_checkSum);
-		//obj_download8994.SetBackupNVFlag(m_i_BackupNVPartition);
+		obj_download8994.SetDLMode(m_str_DLMode);
+	/*	obj_download8994.SetReworkFlag(m_i_rework);
+		obj_download8994.SetRebootFlag(m_i_reboot);
+		obj_download8994.SetDDRCheckFlag(m_i_DDRCheck);
+		obj_download8994.SetDumpEmmcLogFlag(m_i_DumpEmmcLog);
+		obj_download8994.SetCheckSumFlag(m_i_checkSum);
+		obj_download8994.SetBackupNVFlag(m_i_BackupNVPartition);*/
 		//obj_download8994.SetSupportQDownloadFlag(m_i_SupportQDownload);
 		//obj_download8994.SetEraseUserFatFlag(m_i_eraseUserFat);
-		//obj_download8994.SetCOMPicasso(m_i_COMPort, m_map_COMPicasso[m_i_COMPort]);
+		obj_download8994.SetCOMPicasso(m_i_COMPort, m_map_COMPicasso[m_i_COMPort]);
 
 		CString str_imagePath;
 		str_imagePath.Format("%s", m_vImage[0].str_imagePath.c_str());
@@ -637,7 +637,7 @@ bool CU2416::DLchipset(void)
 	/* Get Error code */
 	m_str_errorCode = obj_download8994.GetErrorCode();
 
-	//obj_download8994.Unregister(this, EVENT_DL_PROGRESS);
+	obj_download8994.Unregister(this, EVENT_DL_PROGRESS);
 
 	return b_res;
 }
@@ -1313,9 +1313,9 @@ bool CU2416::ForceToEnterDLMode(void)
 	bool b_res = false;
 	int i_COMPort = m_i_COMPort;
 	CDownload8994 obj_download8994(i_COMPort, m_str_multiDLFlag);
-	//obj_download8994.Register(this, EVENT_DL_PROGRESS);
+	obj_download8994.Register(this, EVENT_DL_PROGRESS);
 
-	//obj_download8994.SetDLMode(m_str_DLMode);
+	obj_download8994.SetDLMode(m_str_DLMode);
 	//obj_download8994.SetSupportQDownloadFlag(m_i_SupportQDownload);
 
 	/* Erase sbl1 to enter emergence DL mode */
@@ -1329,7 +1329,7 @@ bool CU2416::ForceToEnterDLMode(void)
 		}
 	}
 
-	//obj_download8994.Unregister(this, EVENT_DL_PROGRESS);
+	obj_download8994.Unregister(this, EVENT_DL_PROGRESS);
 
 	return b_res;
 }
@@ -1345,7 +1345,7 @@ bool CU2416::ReadFA(char* sz_FAData)
 	bool b_res = false;
 	int i_COMPort = m_i_COMPort;
 	CDownload8994 obj_download8994(i_COMPort, m_str_multiDLFlag);
-	//obj_download8994.Register(this, EVENT_DL_PROGRESS);
+	obj_download8994.Register(this, EVENT_DL_PROGRESS);
 
 //	obj_download8994.SetDLMode(m_str_DLMode);
 	//obj_download8994.SetSupportQDownloadFlag(m_i_SupportQDownload);
@@ -1355,7 +1355,7 @@ bool CU2416::ReadFA(char* sz_FAData)
 	b_res = obj_download8994.ReadFA(sz_data);
 	memcpy(sz_FAData, sz_data, 512);
 
-	//obj_download8994.Unregister(this, EVENT_DL_PROGRESS);
+	obj_download8994.Unregister(this, EVENT_DL_PROGRESS);
 
 	return b_res;
 }
@@ -1371,15 +1371,15 @@ bool CU2416::WriteFA(char* sz_FAData)
 	bool b_res = false;
 	int i_COMPort = m_i_COMPort;
 	CDownload8994 obj_download8994(i_COMPort, m_str_multiDLFlag);
-	//obj_download8994.Register(this, EVENT_DL_PROGRESS);
+	obj_download8994.Register(this, EVENT_DL_PROGRESS);
 
-	//obj_download8994.SetDLMode(m_str_DLMode);
+	obj_download8994.SetDLMode(m_str_DLMode);
 	//obj_download8994.SetSupportQDownloadFlag(m_i_SupportQDownload);
 
 	/* Write FA */
 	b_res = obj_download8994.WriteFA(sz_FAData);
 
-	//obj_download8994.Unregister(this, EVENT_DL_PROGRESS);
+	obj_download8994.Unregister(this, EVENT_DL_PROGRESS);
 
 	return b_res;
 }
@@ -1395,15 +1395,15 @@ bool CU2416::ReadFASector(int i_sectorNum, char *sz_sectorData, int i_sectorSize
 	bool b_res = false;
 	int i_COMPort = m_i_COMPort;
 	CDownload8994 obj_download8994(i_COMPort, m_str_multiDLFlag);
-	//obj_download8994.Register(this, EVENT_DL_PROGRESS);
+	obj_download8994.Register(this, EVENT_DL_PROGRESS);
 
-	//obj_download8994.SetDLMode(m_str_DLMode);
+	obj_download8994.SetDLMode(m_str_DLMode);
 	//obj_download8994.SetSupportQDownloadFlag(m_i_SupportQDownload);
 
 	/* Read FA */
 	b_res = obj_download8994.ReadFASector(i_sectorNum, sz_sectorData, i_sectorSize);
 
-	//obj_download8994.Unregister(this, EVENT_DL_PROGRESS);
+	obj_download8994.Unregister(this, EVENT_DL_PROGRESS);
 
 	return b_res;
 }
@@ -1419,15 +1419,15 @@ bool CU2416::WriteFASector(int i_sectorNum, char *sz_sectorData, int i_sectorSiz
 	bool b_res = false;
 	int i_COMPort = m_i_COMPort;
 	CDownload8994 obj_download8994(i_COMPort, m_str_multiDLFlag);
-	//obj_download8994.Register(this, EVENT_DL_PROGRESS);
+	obj_download8994.Register(this, EVENT_DL_PROGRESS);
 
-	//obj_download8994.SetDLMode(m_str_DLMode);
+	obj_download8994.SetDLMode(m_str_DLMode);
 	//obj_download8994.SetSupportQDownloadFlag(m_i_SupportQDownload);
 
 	/* Write FA */
 	b_res = obj_download8994.WriteFASector(i_sectorNum, sz_sectorData, i_sectorSize);
 
-	////obj_download8994.Unregister(this, EVENT_DL_PROGRESS);
+	//obj_download8994.Unregister(this, EVENT_DL_PROGRESS);
 
 	return b_res;
 }

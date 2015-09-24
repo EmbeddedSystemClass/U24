@@ -15,23 +15,6 @@ CDownload8994* g_pFirehoseDownload = NULL;
 template <class T> 
 std::string ConvertToString(T);
 
-CDownload8994::CDownload8994()
-{
-	m_str_errorCode = "";
-	m_str_DLMode = "";
-	m_i_reboot = 0;
-	m_i_checkSum = 0;
-	m_i_SupportQDownload = 0;
-	m_map_COMPicasso.clear();
-	m_map_imageNameCheckSum.clear();
-	g_hResourceContext = NULL;
-
-	g_pFirehoseDownload = this;
-
-	m_iFileCount = 0;
-	m_iFileIndex = 0;
-
-}
 
 CDownload8994::CDownload8994(int i_COMPort, CString str_multiDLFlag)
 {
@@ -69,6 +52,7 @@ CDownload8994::~CDownload8994(void)
 	
 }
 
+
 /*****************************************************************************
 * Function name: MultiStartDownload      
 * Summary      : Execute download (Hex DL + fastboot DL)
@@ -79,12 +63,15 @@ CDownload8994::~CDownload8994(void)
 * Version       Author          Date                Abstract                 
 * 1.0           Alex.Chen     2011/01/19            First version             
 *****************************************************************************/
-bool CDownload8994::MultiDownload(bool b_speedUp, bool b_reOpenAfterReset, DownloadProtocol nDLPROTOCOL) 
+bool CDownload8994::MultiDownload(bool b_speedUp, bool b_reOpenAfterReset, DownloadProtocol nDLPROTOCOL)  
 {
+
 	bool b_result = false;
+	char* output = new char[BUFFER_SIZE];
+	char* ErrorCode =new char[BUFFER_SIZE];
 
 	if (m_str_DLMode == DOWNLOAD_MODE_PREDL)
-	{
+	{ 
 		/* Hex Download */
 		b_result = Download(b_speedUp, b_reOpenAfterReset, nDLPROTOCOL);
 	
@@ -93,18 +80,40 @@ bool CDownload8994::MultiDownload(bool b_speedUp, bool b_reOpenAfterReset, Downl
 		///* Fastboot Download */
 		//if (b_result)
 		//{
-		//	b_result = FastbootDownload();
+		//	b_result = FastbootDownload(); 
 		//}
 	}
  	else if ((m_str_DLMode == DOWNLOAD_MODE_REDL) || (m_str_DLMode == DOWNLOAD_MODE_REDL_OSDL))
 	{
-		if (  FindADBdevice(m_i_COMPort) ){
+		bool b_wait_fastboot = false;
+		int nLimitTime = 0 ; 
+		//if (  FindADBdevice(m_i_COMPort) ){
+			CString cs_Qphone;
+			cs_Qphone.Format(_T("QPHONE%d"), m_i_COMPort);
+			if (bGetADB(m_i_COMPort)){
 
-		bGetADB();
-		b_result = FastbootEXE_Download(m_i_COMPort);
+				AddMsg("Get Adb Success.", None, 10);
+				//SendMessageToUI("Get Adb Success.");
+				
+				//Sleep(1000);//for adb mode to fastboot mode
+				//if (bGetFastboot(_T("devices"), output,ErrorCode, m_i_COMPort)){
+				while ( !b_wait_fastboot){
+					if (bCallAdbFastbootCMD(_T("fastboot.exe"), _T("devices"),output,ErrorCode, cs_Qphone) ){
+						b_wait_fastboot = true;
+						AddMsg("Get Fastboot Success.", None, 10);
+					}
+					Sleep(1000);
+					nLimitTime ++;
+					if ( nLimitTime > 60 ) break;
+				}
+				if ( b_wait_fastboot) b_result = FastbootEXE_Download(m_i_COMPort);
+				else AddMsg("Fail can't find fastboot", DownloadStep::None, 100);
+			}
+
+			
 		//b_result = FastbootEXE_OS_DL();
-		}
-		else return false;
+		//}
+		//else return false;
 		/* Fastboot Download */
 	//	b_result = FastbootDownload();
 	}
@@ -114,16 +123,40 @@ bool CDownload8994::MultiDownload(bool b_speedUp, bool b_reOpenAfterReset, Downl
 		return false;
 	}
 
+	delete[] output;
+	delete[] ErrorCode;
 	return b_result;
 }
 
-bool CDownload8994::bGetADB(){
-	 char* output;
-	char* ErrorCode;
-	bAdbCMD("adb devices", output, ErrorCode );
 
+bool CDownload8994::bGetADB(int nPhone){ 
+	char* output = new char[BUFFER_SIZE];
+	char* ErrorCode =new char[BUFFER_SIZE];
+	int nRetryTime = 60;
+	bool bGetAdb = false; 
+	CString csPhone;
+	CString csCmd;
+
+	//csCmd = _T("devices ");
+	csPhone.Format("QPHONE%d", nPhone);
+
+	for(int i =0; i <nRetryTime; i++){
+		//if ( bGetAdb = bAdbCMD(csCmd, output, ErrorCode, nPhone))
+		if (bCallAdbFastbootCMD(_T("adb.exe"), _T("devices "),output,ErrorCode, csPhone))
+		{
+			csCmd.Format(_T("reboot bootloader -s QPHONE%d"), nPhone);
+			bCallAdbFastbootCMD(_T("adb.exe"), csCmd,output,ErrorCode, _T("NULL"));
+			bGetAdb = true;
+			Sleep(1000);
+			//bAdbCMD(csCmd, output, ErrorCode, 0);
+			
+			break;
+		}
+	}
+
+	
 	//CDownload8994::FastbootEXE_OS_DL(){
-	return true;
+	return bGetAdb;
 }
 
 //bool CDownload8994::FastbootEXE_OS_DL(){
@@ -356,7 +389,6 @@ bool CDownload8994::FastbootEXE_Download(int nPort){
 		
 		bDLFlag = bFastbootDL(csExePath);
 		if ( bDLFlag ){
-
 			AddMsg("Passport OK", None, 10);
 		}else{
 			AddMsg("Passport Fail", None, 10);
@@ -383,12 +415,12 @@ bool CDownload8994::FastbootEXE_Download(int nPort){
 
 		CString csMsg;
 		if ( bDLFlag ){
-			csMsg.Format("%s ok",  iter->second);
+			csMsg.Format("flash %s ok",  iter->second);
 			AddMsg(csMsg, None, 10);
 		}
 		else
 		{
-			csMsg.Format("%s fail",  iter->second);
+			csMsg.Format("flash %s fail",  iter->second);
 			AddMsg(csMsg, None, 10);
 			return false;
 		}
@@ -407,12 +439,12 @@ bool CDownload8994::FastbootEXE_Download(int nPort){
 
 		CString csMsg;
 		if ( bDLFlag ){
-			csMsg.Format("%s ok",  iter->second);
+			csMsg.Format("format %s ok",  iter->second);
 			AddMsg(csMsg, None, 10);
 		}
 		else
 		{
-			csMsg.Format("%s fail",  iter->second);
+			csMsg.Format("format %s fail",  iter->second);
 			AddMsg(csMsg, None, 10);
 			return false;
 		}
@@ -430,12 +462,12 @@ bool CDownload8994::FastbootEXE_Download(int nPort){
 
 		CString csMsg;
 		if ( bDLFlag ){
-			csMsg.Format("%s ok",  iter->second);
+			csMsg.Format("erase %s ok",  iter->second);
 			AddMsg(csMsg, None, 10);
 		}
 		else
 		{
-			csMsg.Format("%s fail",  iter->second);
+			csMsg.Format("erase %s fail",  iter->second);
 			AddMsg(csMsg, None, 10);
 			return false;
 		}
@@ -649,82 +681,82 @@ bool CDownload8994::Download(bool b_speedUp, bool b_reOpenAfterReset, DownloadPr
 }
 
 //bool Exec(CString& path, CString& param, DWORD msTimeout = INFINITE, bool hasResponse = true);
-bool CDownload8994::Exec(CString& path, CString& param, DWORD msTimeout, bool hasResponse)
-{
-
-	if (!IsPathExist(path)) {
-		return false;
-	}
-
-	HANDLE hRead, hWrite;
-	SECURITY_ATTRIBUTES sa;
-	sa.nLength = sizeof(SECURITY_ATTRIBUTES);
-	sa.lpSecurityDescriptor = NULL;
-	sa.bInheritHandle = TRUE;
-	DWORD nPipeSize = 1024;
-	if (!CreatePipe(&hRead, &hWrite, &sa, nPipeSize)) {
-		::AfxMessageBox(_T("ERROR: CreatePipe fail!\r\n"));
-		return false;
-	}
-
-	TCHAR szNowPath[MAX_PATH] = {0};
-	GetCurrentDirectory(MAX_PATH, szNowPath);
-	TRACE(_T("current path: %s\n"), szNowPath);
-	CString WorkDir = path.Left(path.ReverseFind(_T('\\')));
-	TRACE(_T("working path: %s\n"), WorkDir);
-	SetCurrentDirectory(WorkDir);
-
-	bool isOk = false;
-	PROCESS_INFORMATION processInfo;
-	STARTUPINFO startupInfo;
-	::ZeroMemory(&startupInfo, sizeof(startupInfo));
-	startupInfo.cb = sizeof(startupInfo);
-	startupInfo.dwFlags = STARTF_USESHOWWINDOW | STARTF_USESTDHANDLES;
-	startupInfo.wShowWindow	= SW_HIDE;
-	startupInfo.hStdError = hWrite;
-	startupInfo.hStdOutput = hWrite;
-	CString Command = path;
-	if (!param.IsEmpty()) {
-		Command = Command + _T(" ") + param;
-	}
-	TRACE(_T("exec: %s\n"), Command);
-	if (::CreateProcess(NULL, Command.GetBuffer(), NULL, NULL, TRUE, 0, NULL, NULL, &startupInfo, &processInfo)) {
-		DWORD TimeoutFlag = WaitForSingleObject(processInfo.hProcess, msTimeout);
-		isOk = true;
-
-		if (hasResponse) {
-			DWORD bytesRead;
-			DWORD dwBytesWritten;
-			char message[512];
-			memset(message, 0, sizeof(message));
-			if (TimeoutFlag == WAIT_TIMEOUT)
-			{
-				WriteFile(hWrite, "FAIL", 4, &dwBytesWritten, NULL);
-				AfxMessageBox("timeout");
-			}
-			::ReadFile(hRead, message, 511, &bytesRead, NULL);
-			if (strlen(message) > 0) {
-				param = CA2T(message);
-			}
-			else {
-				param.Empty();
-			}
-		}
-	}
-	else {
-		isOk = false;
-		CString error_msg(_T("ERROR: Execute fail!\r\ncmd:"));
-		error_msg += Command;
-		::AfxMessageBox(error_msg);
-	}
-	Command.ReleaseBuffer();
-	CloseHandle(hRead);
-	CloseHandle(hWrite);
-	SetCurrentDirectory(szNowPath);
-
-	return isOk;
-}
-
+//bool CDownload8994::Exec(CString& path, CString& param, DWORD msTimeout, bool hasResponse)
+//{
+//
+//	if (!IsPathExist(path)) {
+//		return false;
+//	}
+//
+//	HANDLE hRead, hWrite;
+//	SECURITY_ATTRIBUTES sa;
+//	sa.nLength = sizeof(SECURITY_ATTRIBUTES);
+//	sa.lpSecurityDescriptor = NULL;
+//	sa.bInheritHandle = TRUE;
+//	DWORD nPipeSize = 1024;
+//	if (!CreatePipe(&hRead, &hWrite, &sa, nPipeSize)) {
+//		::AfxMessageBox(_T("ERROR: CreatePipe fail!\r\n"));
+//		return false;
+//	}
+//
+//	TCHAR szNowPath[MAX_PATH] = {0};
+//	GetCurrentDirectory(MAX_PATH, szNowPath);
+//	TRACE(_T("current path: %s\n"), szNowPath);
+//	CString WorkDir = path.Left(path.ReverseFind(_T('\\')));
+//	TRACE(_T("working path: %s\n"), WorkDir);
+//	SetCurrentDirectory(WorkDir);
+//
+//	bool isOk = false;
+//	PROCESS_INFORMATION processInfo;
+//	STARTUPINFO startupInfo;
+//	::ZeroMemory(&startupInfo, sizeof(startupInfo));
+//	startupInfo.cb = sizeof(startupInfo);
+//	startupInfo.dwFlags = STARTF_USESHOWWINDOW | STARTF_USESTDHANDLES;
+//	startupInfo.wShowWindow	= SW_HIDE;
+//	startupInfo.hStdError = hWrite;
+//	startupInfo.hStdOutput = hWrite;
+//	CString Command = path;
+//	if (!param.IsEmpty()) {
+//		Command = Command + _T(" ") + param;
+//	}
+//	TRACE(_T("exec: %s\n"), Command);
+//	if (::CreateProcess(NULL, Command.GetBuffer(), NULL, NULL, TRUE, 0, NULL, NULL, &startupInfo, &processInfo)) {
+//		DWORD TimeoutFlag = WaitForSingleObject(processInfo.hProcess, msTimeout);
+//		isOk = true;
+//
+//		if (hasResponse) {
+//			DWORD bytesRead;
+//			DWORD dwBytesWritten;
+//			char message[512];
+//			memset(message, 0, sizeof(message));
+//			if (TimeoutFlag == WAIT_TIMEOUT)
+//			{
+//				WriteFile(hWrite, "FAIL", 4, &dwBytesWritten, NULL);
+//				AfxMessageBox("timeout");
+//			}
+//			::ReadFile(hRead, message, 511, &bytesRead, NULL);
+//			if (strlen(message) > 0) {
+//				param = CA2T(message);
+//			}
+//			else {
+//				param.Empty();
+//			}
+//		}
+//	}
+//	else {
+//		isOk = false;
+//		CString error_msg(_T("ERROR: Execute fail!\r\ncmd:"));
+//		error_msg += Command;
+//		::AfxMessageBox(error_msg);
+//	}
+//	Command.ReleaseBuffer();
+//	CloseHandle(hRead);
+//	CloseHandle(hWrite);
+//	SetCurrentDirectory(szNowPath);
+//
+//	return isOk;
+//}
+//
 
 
 template <class T> 
@@ -2236,21 +2268,104 @@ static void saveLog_Value(CString message)
 
 
 
+//
+//
+//bool CDownload8994::bAdbCMD(CString Command, char* output, char* ErrorCode)
+//{
+//	bool isOk = false;
+//	DWORD nPipeSize = 1024 * 1024; //1M pipeline
+//
+//	CString pthToolDir;
+//	::GetModuleFileName(NULL, pthToolDir.GetBuffer(MAX_PATH), MAX_PATH);
+//	pthToolDir.ReleaseBuffer();
+//	pthToolDir = pthToolDir.Left(pthToolDir.ReverseFind('\\'));
+//	CString path_adb = pthToolDir + _T("\\adb.exe");
+//	if (_taccess(path_adb, 0) == -1)
+//	{
+//		strcpy(ErrorCode, "ERROR: No adb.exe exist!");
+//		return false;
+//	}
+//
+//	HANDLE hRead, hWrite;
+//	SECURITY_ATTRIBUTES sa;
+//	sa.nLength = sizeof(SECURITY_ATTRIBUTES);
+//	sa.lpSecurityDescriptor = NULL;
+//	sa.bInheritHandle = TRUE;
+//	if (!CreatePipe(&hRead, &hWrite, &sa, nPipeSize))
+//	{
+//		strcpy(ErrorCode, "ERROR: CreatePipe fail!");
+//		return false;
+//	}
+//
+//	//HANDLE hProcess = NULL;
+//	PROCESS_INFORMATION processInfo;
+//	STARTUPINFO startupInfo;
+//	::ZeroMemory(&startupInfo, sizeof(startupInfo));
+//	startupInfo.cb = sizeof(startupInfo);
+//	startupInfo.dwFlags = STARTF_USESHOWWINDOW | STARTF_USESTDHANDLES;
+//	startupInfo.wShowWindow	= SW_HIDE;
+//	startupInfo.hStdError = hWrite;
+//	startupInfo.hStdOutput = hWrite;
+//
+//	Command = _T("\"") + path_adb + _T("\" ") + Command;
+//	TRACE(_T("Cmd: %s\n"), Command);
+//	if (::CreateProcess(NULL, Command.GetBuffer(), NULL, NULL, TRUE, 0, NULL, NULL, &startupInfo, &processInfo))
+//	{
+//		DWORD TimeOutSignal = WaitForSingleObject(processInfo.hProcess, 10 * 1000); // timeout in 10 seconds
+//
+//		CloseHandle(hWrite);
+//		hWrite = NULL;
+//		//if timeout then exit the process
+//		if (TimeOutSignal == WAIT_TIMEOUT)
+//		{
+//			isOk = false;
+//			TerminateProcess(processInfo.hProcess, 0);
+//			strcpy(ErrorCode, "ERROR: Adb timeout");
+//		}
+//		else
+//		{
+//
+//			isOk = true;
+//			DWORD bytesRead;
+//			char* message = new char[nPipeSize];
+//			memset(message, 0, sizeof(message));
+//			::ReadFile(hRead, message, nPipeSize, &bytesRead, NULL);
+//			message[bytesRead] = '\0';
+//
+//			strcpy(output, message);
+//			strcpy(ErrorCode, "Adb command ok");
+//			delete [] message;
+//		}
+//	}
+//	else
+//	{
+//		isOk = false;
+//		strcpy(ErrorCode, "ERROR: Execute adb.exe fail!");
+//	}
+//	Command.ReleaseBuffer();
+//	CloseHandle(hRead);
+//	if (hWrite)CloseHandle(hWrite);
+//	//CloseHandle(hProcess);
+//
+//	CloseHandle(processInfo.hProcess);
+//	CloseHandle(processInfo.hThread);
+//	//hProcess = NULL;
+//
+//	return isOk;
+//}
 
-
-
-
-bool CDownload8994::bAdbCMD(CString Command, char* output, char* ErrorCode)
+//bool bCallAdbFastbootCMD(CString Command, char* output, char* ErrorCode, char* sz_FindData);
+bool CDownload8994::bCallAdbFastbootCMD(CString csAdbFastboot, CString Command, char* output, char* ErrorCode, CString cs_FindData)
 {
 	bool isOk = false;
-	DWORD nPipeSize = 1024 * 1024; //1M pipeline
-
 	CString pthToolDir;
+
 	::GetModuleFileName(NULL, pthToolDir.GetBuffer(MAX_PATH), MAX_PATH);
 	pthToolDir.ReleaseBuffer();
 	pthToolDir = pthToolDir.Left(pthToolDir.ReverseFind('\\'));
-	CString path_adb = pthToolDir + _T("\\fastboot.exe");
-	if (_taccess(path_adb, 0) == -1)
+	CString path_adb_fastboot = pthToolDir + _T("\\") + csAdbFastboot;
+	
+	if (_taccess(path_adb_fastboot, 0) == -1)
 	{
 		strcpy(ErrorCode, "ERROR: No adb.exe exist!");
 		return false;
@@ -2261,13 +2376,12 @@ bool CDownload8994::bAdbCMD(CString Command, char* output, char* ErrorCode)
 	sa.nLength = sizeof(SECURITY_ATTRIBUTES);
 	sa.lpSecurityDescriptor = NULL;
 	sa.bInheritHandle = TRUE;
-	if (!CreatePipe(&hRead, &hWrite, &sa, nPipeSize))
+	if (!CreatePipe(&hRead, &hWrite, &sa, BUFFER_SIZE))
 	{
 		strcpy(ErrorCode, "ERROR: CreatePipe fail!");
 		return false;
 	}
 
-	//HANDLE hProcess = NULL;
 	PROCESS_INFORMATION processInfo;
 	STARTUPINFO startupInfo;
 	::ZeroMemory(&startupInfo, sizeof(startupInfo));
@@ -2277,8 +2391,9 @@ bool CDownload8994::bAdbCMD(CString Command, char* output, char* ErrorCode)
 	startupInfo.hStdError = hWrite;
 	startupInfo.hStdOutput = hWrite;
 
-	Command = _T("\"") + path_adb + _T("\" ") + Command;
+	Command = _T("\"") + path_adb_fastboot + _T("\" ") + Command;
 	TRACE(_T("Cmd: %s\n"), Command);
+
 	if (::CreateProcess(NULL, Command.GetBuffer(), NULL, NULL, TRUE, 0, NULL, NULL, &startupInfo, &processInfo))
 	{
 		DWORD TimeOutSignal = WaitForSingleObject(processInfo.hProcess, 100 * 1000); // timeout in 10 seconds
@@ -2290,435 +2405,275 @@ bool CDownload8994::bAdbCMD(CString Command, char* output, char* ErrorCode)
 		{
 			isOk = false;
 			TerminateProcess(processInfo.hProcess, 0);
-			strcpy(ErrorCode, "ERROR: Adb timeout");
+			strcpy(ErrorCode, "ERROR: fastboot timeout");
 		}
 		else
 		{
+			if ( (cs_FindData.Find("NULL") == -1) ) {//need to check return payload
+			   DWORD dwRead;
+			   CHAR chBuf[4096]; 
+			   bool bSuccess = FALSE;
 
-			isOk = true;
-			DWORD bytesRead;
-			char* message = new char[nPipeSize];
-			memset(message, 0, sizeof(message));
-			::ReadFile(hRead, message, nPipeSize, &bytesRead, NULL);
-			message[bytesRead] = '\0';
-
-			strcpy(output, message);
-			strcpy(ErrorCode, "Adb command ok");
-			delete [] message;
+			   for (int i = 0; i < 60; i++) //get QPHONE
+			   { 
+				  bSuccess = ReadFile( hRead, chBuf, BUFFER_SIZE, &dwRead, NULL);
+				  chBuf[dwRead] = '\0';
+				  CString csBuf = chBuf;
+				  if(csBuf.Find(cs_FindData) != -1) {
+					  isOk = true; //get it
+					  break;
+				  }
+				  if( ! bSuccess || dwRead == 0 ) break; 
+			   }
+			    strcpy(ErrorCode, _T("Adb command ok"));
+			}
+			else /*do not neet to find anything*/
+			{
+				//strcpy(output, message);
+				
+			//	delete [] message;
+			}
 		}
 	}
 	else
 	{
 		isOk = false;
-		strcpy(ErrorCode, "ERROR: Execute adb.exe fail!");
+		strcpy(ErrorCode, "ERROR: Execute fastboot.exe fail!");
 	}
+
 	Command.ReleaseBuffer();
-	CloseHandle(hRead);
-	if (hWrite)CloseHandle(hWrite);
-	//CloseHandle(hProcess);
+	if(hRead){
+		CloseHandle(hRead);
+		hRead = NULL;
+	}
+	if (hWrite){
+		CloseHandle(hWrite);
+		hWrite = NULL;
+	}
 
 	CloseHandle(processInfo.hProcess);
 	CloseHandle(processInfo.hThread);
-	//hProcess = NULL;
-
-	return isOk;
-}
-
-bool CDownload8994::bFastbootDL_New2(char* szReturn, const char* szCmd1, const char* szCmd2)
-{
-	bool ret = true;
-	HANDLE hWrite, hRead;
-
-	PROCESS_INFORMATION processInfo;
-	memset(&processInfo, 0, sizeof(PROCESS_INFORMATION));
-
-	SECURITY_ATTRIBUTES saAttr;
-	saAttr.nLength = sizeof(SECURITY_ATTRIBUTES);
-	saAttr.bInheritHandle = TRUE;
-	saAttr.lpSecurityDescriptor = NULL;
-
-	try
-	{
-		if (!CreatePipe(&hRead, &hWrite, &saAttr, 0))
-		{
-			throw _T("CreatePipe");
-		}
-
-		STARTUPINFO si = {0};
-		si.cb = sizeof(STARTUPINFO);
-		si.hStdError = hWrite;
-		si.hStdOutput = hWrite;
-		si.hStdInput = hRead;
-		si.dwFlags |= STARTF_USESTDHANDLES | STARTF_USESHOWWINDOW;
-		si.wShowWindow = SW_HIDE;
-
-		TCHAR szWorkingDir[MAX_PATH], szExePath[MAX_PATH];
-		TCHAR szCmdLine[1024];
-
-		// Set WorkPath and ExePath
-		GetModuleFileNameA(NULL, szExePath, MAX_PATH);
-		PathRemoveFileSpecA(szExePath);
-		_tcscpy(szWorkingDir, szExePath);
-		//PathAppend(szExePath, "adb.exe");
-	PathAppend(szExePath, "fastboot.exe");
-
-		//bool bIsAdbDevices = false;
-		//if ((strstr(szCmd1, "devices") != NULL) || (strstr(szCmd1, "devices") != NULL))
-		//	bIsAdbDevices = true;
-
-		//if (m_bIsMultiMode && (bIsAdbDevices == false))
-		//	_stprintf(szCmdLine, _T("\"%s\" -s QPHONE%d %s %s"), szExePath, (m_PhoneIndex + 1), szCmd1, szCmd2);
-		//else
-		//	_stprintf(szCmdLine, _T("\"%s\" %s %s"), szExePath, szCmd1, szCmd2);
-
-		_stprintf(szCmdLine, _T("\"%s\" %s"), szExePath, szCmd1);
-
-		if (!CreateProcess(
-		        NULL,
-		        szCmdLine,
-		        NULL,
-		        NULL,
-		        TRUE,
-		        CREATE_DEFAULT_ERROR_MODE,
-		        NULL,
-		        szWorkingDir,
-		        &si,
-		        &processInfo
-		    ))
-		{
-			throw _T("CreateProcess");
-		}
-		DWORD dw_waitResult = WaitForSingleObject(processInfo.hProcess, 10 * 1000);
-		switch(dw_waitResult)
-		{
-		case WAIT_FAILED:
-			::CloseHandle(processInfo.hProcess);
-			processInfo.hProcess = NULL;
-			AddMsg("WAIT_FAILED Fail", None, 10);
-			return false;
-
-		case WAIT_TIMEOUT:
-			::CloseHandle(processInfo.hProcess);
-			processInfo.hProcess = NULL;
-			AddMsg("WAIT_TIMEOUT Fail", None, 10);
-			return false;
-
-		case WAIT_OBJECT_0:
-			break;
-		}
-
-		// if needs return value
-		if (szReturn != NULL)
-		{
-			DWORD dwAvail, numread;
-			BOOL bRet = PeekNamedPipe(hRead, NULL, 0, NULL, &dwAvail, 0);
-			if (bRet && dwAvail > 0)
-			{
-				ReadFile(hRead, szReturn, dwAvail, &numread, 0);
-			}
-		}
-	}
-	catch (const TCHAR* szError)
-	{
-		LPVOID lpMsgBuf;
-		FormatMessage(FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM,
-		              NULL, GetLastError(),
-		              MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
-		              (LPTSTR)&lpMsgBuf,
-		              0, NULL);
-
-		TCHAR szMessage[1024];
-		_stprintf(szMessage, "%s: %s", szError, lpMsgBuf);
-
-		LocalFree(lpMsgBuf);
-		ret = false;
-	}
-
-	CloseHandle(hRead);
-	CloseHandle(hWrite);
-	CloseHandle(processInfo.hProcess);
 	processInfo.hProcess = NULL;
-	CloseHandle(processInfo.hThread);
 	processInfo.hThread = NULL;
 
-	return ret;
-}
-
-bool CDownload8994::bFastbootDL_5(CString& path, CString& param, DWORD msTimeout, bool hasResponse)
-{
-	if (!IsPathExist(path)) {
-		return false;
-	}
-
-	HANDLE hRead, hWrite;
-	SECURITY_ATTRIBUTES sa;
-	sa.nLength = sizeof(SECURITY_ATTRIBUTES);
-	sa.lpSecurityDescriptor = NULL;
-	sa.bInheritHandle = TRUE;
-	DWORD nPipeSize = 1024;
-	if (!CreatePipe(&hRead, &hWrite, &sa, nPipeSize)) {
-		::AfxMessageBox(_T("ERROR: CreatePipe fail!\r\n"));
-		return false;
-	}
-
-	TCHAR szNowPath[MAX_PATH] = {0};
-	GetCurrentDirectory(MAX_PATH, szNowPath);
-	TRACE(_T("current path: %s\n"), szNowPath);
-	CString WorkDir = path.Left(path.ReverseFind(_T('\\')));
-	TRACE(_T("working path: %s\n"), WorkDir);
-	SetCurrentDirectory(WorkDir);
-
-	bool isOk = false;
-	PROCESS_INFORMATION processInfo;
-	STARTUPINFO startupInfo;
-	::ZeroMemory(&startupInfo, sizeof(startupInfo));
-	startupInfo.cb = sizeof(startupInfo);
-	startupInfo.dwFlags = STARTF_USESHOWWINDOW | STARTF_USESTDHANDLES;
-	startupInfo.wShowWindow	= SW_HIDE;
-	startupInfo.hStdError = hWrite;
-	startupInfo.hStdOutput = hWrite;
-	CString Command = path;
-	if (!param.IsEmpty()) {
-		Command = Command + _T(" ") + param;
-	}
-	TRACE(_T("exec: %s\n"), Command);
-	if (::CreateProcess(NULL, Command.GetBuffer(), NULL, NULL, TRUE, 0, NULL, NULL, &startupInfo, &processInfo)) {
-		DWORD TimeoutFlag = WaitForSingleObject(processInfo.hProcess, msTimeout);
-		isOk = true;
-
-		if (hasResponse) {
-			DWORD bytesRead;
-			DWORD dwBytesWritten;
-			char message[512];
-			memset(message, 0, sizeof(message));
-			if (TimeoutFlag == WAIT_TIMEOUT)
-			{
-				WriteFile(hWrite, "FAIL", 4, &dwBytesWritten, NULL);
-			}
-			::ReadFile(hRead, message, 511, &bytesRead, NULL);
-			if (strlen(message) > 0) {
-				param = CA2T(message);
-			}
-			else {
-				param.Empty();
-			}
-		}
-	}
-	else {
-		isOk = false;
-		CString error_msg(_T("ERROR: Execute fail!\r\ncmd:"));
-		error_msg += Command;
-		::AfxMessageBox(error_msg);
-	}
-	Command.ReleaseBuffer();
-	CloseHandle(hRead);
-	CloseHandle(hWrite);
-	SetCurrentDirectory(szNowPath);
 
 	return isOk;
 }
 
-bool CDownload8994::bFastbootDL_3(const char* szExeName, const char* szCmd, const char* szSerialNumber, char *szReturn, long dwReturnLen, int iTimeout)
-	{
-		bool ret = true;
-		HANDLE hWrite, hRead;
-		PROCESS_INFORMATION processInfo;
 
-		memset(&processInfo, 0, sizeof(PROCESS_INFORMATION));
-
-		SECURITY_ATTRIBUTES saAttr;
-		saAttr.nLength = sizeof(SECURITY_ATTRIBUTES);
-		saAttr.bInheritHandle = TRUE;
-		saAttr.lpSecurityDescriptor = NULL;
-
-		try
-		{
-			if (! CreatePipe(&hRead, &hWrite, &saAttr, 0))
-				throw _T("CreatePipe");
-
-			STARTUPINFO si = {0};
-			si.cb = sizeof(STARTUPINFO);
-			si.hStdError = hWrite;
-			si.hStdOutput = hWrite;
-			si.hStdInput = hRead;
-			si.dwFlags |= STARTF_USESTDHANDLES | STARTF_USESHOWWINDOW;
-			si.wShowWindow = SW_HIDE;
-
-
-			// Set WorkPath and ExePath
-			char szModuleFilePath[256];
-			std::string strExeCmdPath;
-			memset(szModuleFilePath, 0, 256);
-			GetModuleFileNameA(NULL, szModuleFilePath, 256);
-			PathRemoveFileSpecA(szModuleFilePath);
-			SetCurrentDirectory(szModuleFilePath);
-			strExeCmdPath = szModuleFilePath;
-
-
-
-			// Set cmd
-			char szCmdLine[1024];
-			std::string strSerialNumber;
-
-			memset(szCmdLine, 0, 1024);
-			strSerialNumber = szSerialNumber;
-
-			if (strstr(szCmd, "devices") != NULL)
-			{
-				// Enumerate devices, do not need serial number
-				sprintf_s(szCmdLine, 1024, "\"%s\\%s\" %s", strExeCmdPath.c_str(), szExeName, szCmd);
-			}
-			else
-			{
-				//if (! strSerialNumber.empty())
-				//	sprintf_s(szCmdLine, 1024, "\"%s\\%s\" -s %s %s", strExeCmdPath.c_str(), szExeName, strSerialNumber.c_str(), szCmd);
-				//else
-					sprintf_s(szCmdLine, 1024, "\"%s\\%s\" %s", strExeCmdPath.c_str(), szExeName, szCmd);
-			}
-
-
-			if (! CreateProcess(
-				NULL,
-				szCmdLine,
-				NULL,
-				NULL,
-				TRUE,
-				CREATE_DEFAULT_ERROR_MODE,
-				NULL,
-				strExeCmdPath.c_str(),
-				&si,
-				&processInfo
-				))
-			{
-				throw _T("CreateProcess");
-			}
-
-			WaitForSingleObject(processInfo.hProcess, iTimeout);
-
-			// if needs return value
-			if (szReturn != NULL)
-			{
-				DWORD dwAvail, numread;
-
-				BOOL bRet = PeekNamedPipe(hRead, NULL, 0, NULL, &dwAvail, 0);
-				if (bRet && ((int)dwAvail > 0))
-				{
-					char *pBuffer = new char [dwAvail+1];
-					memset(pBuffer, 0, dwAvail+1);
-
-					::ReadFile(hRead, pBuffer, dwAvail, &numread, 0);
-
-					memset(szReturn, 0, dwReturnLen);
-
-					if ((int)dwReturnLen >= (int)dwAvail)
-						memcpy(szReturn, pBuffer, dwAvail);
-					else
-						memcpy(szReturn, pBuffer, dwReturnLen);
-
-					delete [] pBuffer;
-				}
-			}
-		}
-		catch(const TCHAR* szError)
-		{
-			LPVOID lpMsgBuf;
-
-			FormatMessage(
-				FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM,
-				NULL, GetLastError(),
-				MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
-				(LPTSTR)&lpMsgBuf,
-				0,
-				NULL
-				);
-
-			TCHAR szMessage[1024] = {0};
-			sprintf_s(szMessage, 1024, "%s: %s", szError, lpMsgBuf);
-
-			LocalFree(lpMsgBuf);
-			ret = false;
-		}
-
-		CloseHandle(hRead);
-		CloseHandle(hWrite);
-		CloseHandle(processInfo.hThread);
-		processInfo.hThread = NULL;
-		CloseHandle(processInfo.hProcess);
-		processInfo.hProcess = NULL;
-
-		return ret;
-	}
-
-bool CDownload8994::bFastbootDL_4(CString folderPath){
-
-	CString csExeCMD;
-	//csExeCMD.Format(_T("CMD.EXE /C %s") ,folderPath);
-	//csExeCMD.Format(_T("D:\\03.Factory\\00.DELL\\GF80B1A_Trigger_V1.004_20150729_debug\\fastboot.exe %s\"") ,folderPath);
-	csExeCMD.Format(_T("%s") ,folderPath);
-	/* Run */
-	TCHAR sz_commandLine[1024];
-	memset(sz_commandLine, 0, sizeof(sz_commandLine));
-	for (int i = 0; i < csExeCMD.GetLength(); i ++) 
-	{
-		sz_commandLine[i] = csExeCMD[i];   
-	}
-	PROCESS_INFORMATION pi_bFastbootDL = {0};;
-	STARTUPINFO si = {0};
-	memset(&si, 0, sizeof(si));
-	si.cb          = sizeof(si);
-	si.wShowWindow = SW_HIDE;
-	si.dwFlags     = STARTF_USESHOWWINDOW;
-
-	BOOL b_createRes = FALSE;	
+//bool CDownload8994::bGetFastboot(CString Command, char* output, char* ErrorCode, int nPhoneIndex)
+//{
+//	bool isOk = false;
+//	CString csQphone;
+//	//DWORD nPipeSize = 4096; //1M pipeline
+//	//DWORD nPipeSize = 2048 * 1024; //1M pipeline
+//
+//	CString pthToolDir;
+//	::GetModuleFileName(NULL, pthToolDir.GetBuffer(MAX_PATH), MAX_PATH);
+//	pthToolDir.ReleaseBuffer();
+//	pthToolDir = pthToolDir.Left(pthToolDir.ReverseFind('\\'));
+//	CString path_adb = pthToolDir + _T("\\fastboot.exe ");
+//	
+//	if (_taccess(path_adb, 0) == -1)
+//	{
+//		strcpy(ErrorCode, "ERROR: No adb.exe exist!");
+//		return false;
+//	}
+//
+//	HANDLE hRead, hWrite;
+//	SECURITY_ATTRIBUTES sa;
+//	sa.nLength = sizeof(SECURITY_ATTRIBUTES);
+//	sa.lpSecurityDescriptor = NULL;
+//	sa.bInheritHandle = TRUE;
+//	if (!CreatePipe(&hRead, &hWrite, &sa, BUFFER_SIZE))
+//	{
+//		strcpy(ErrorCode, "ERROR: CreatePipe fail!");
+//		return false;
+//	}
+//
+//	//HANDLE hProcess = NULL;
+//	PROCESS_INFORMATION processInfo;
+//	STARTUPINFO startupInfo;
+//	::ZeroMemory(&startupInfo, sizeof(startupInfo));
+//	startupInfo.cb = sizeof(startupInfo);
+//	startupInfo.dwFlags = STARTF_USESHOWWINDOW | STARTF_USESTDHANDLES;
+//	startupInfo.wShowWindow	= SW_HIDE;
+//	startupInfo.hStdError = hWrite;
+//	startupInfo.hStdOutput = hWrite;
+//
+//	//Command = _T("\"") + path_adb + _T("\" ") + Command;
+//	Command = path_adb +  Command;
+//	TRACE(_T("Cmd: %s\n"), Command);
+//	if (::CreateProcess(NULL, Command.GetBuffer(), NULL, NULL, TRUE, 0, NULL, NULL, &startupInfo, &processInfo))
+//	{
+//		DWORD TimeOutSignal = WaitForSingleObject(processInfo.hProcess, 100 * 1000); // timeout in 10 seconds
+//
+//		CloseHandle(hWrite);
+//		hWrite = NULL;
+//		//if timeout then exit the process
+//		if (TimeOutSignal == WAIT_TIMEOUT)
+//		{
+//			isOk = false;
+//			TerminateProcess(processInfo.hProcess, 0);
+//			strcpy(ErrorCode, "ERROR: fastboot timeout");
+//		}
+//		else
+//		{
+//			if ( nPhoneIndex != 0){
+//
+//			   DWORD dwRead, dwWritten; 
+//			   CHAR chBuf[4096]; 
+//			   bool bSuccess = FALSE;
+//			   HANDLE hParentStdOut = GetStdHandle(STD_OUTPUT_HANDLE);
+//
+//			   for (int i = 0; i < 60; i++) //get QPHONE
+//			   { 
+//				  bSuccess = ReadFile( hRead, chBuf, BUFFER_SIZE, &dwRead, NULL);
+//				  CString csBuf = chBuf;
+//				  csQphone.Format(_T("QPHONE%d"), nPhoneIndex);
+//				  if(csBuf.Find(csQphone) != -1) {
+//					  isOk = true; //get it
+//					  break;
+//				  }
+//				  if( ! bSuccess || dwRead == 0 ) break; 
+//			   }
+//			    strcpy(ErrorCode, _T("Adb command ok"));
+//			}
+//			else /*do not neet to find anything*/
+//			{
+//				//strcpy(output, message);
+//				
+//			//	delete [] message;
+//			}
+//		}
+//	}
+//	else
+//	{
+//		isOk = false;
+//		strcpy(ErrorCode, "ERROR: Execute fastboot.exe fail!");
+//	}
+//	Command.ReleaseBuffer();
+//	CloseHandle(hRead);
+//	if (hWrite)CloseHandle(hWrite);
+//	//CloseHandle(hProcess);
+//
+//	CloseHandle(processInfo.hProcess);
+//	CloseHandle(processInfo.hThread);
+//	//hProcess = NULL;
+//
+//	return isOk;
+//}
 
 
-	//b_createRes = CreateProcess(_T("fastboot.exe"), _T("devices"), NULL, NULL, FALSE, 0, NULL, NULL, &si, &pi);
-
-	//b_createRes = CreateProcess(_T("C:\\Windows\\System32\\cmd.exe"), sz_commandLine, NULL, NULL, NULL, NULL, NULL, NULL, &si, &pi);
-
-	//b_createRes = CreateProcess(_T("D:\\03.Factory\\00.DELL\\GF80B1A_Trigger_V1.004_20150729_debug\\fastboot.exe"), sz_commandLine, NULL, NULL, false, NULL, NULL, NULL, &si, &pi_bFastbootDL);
-
-	//b_createRes = CreateProcess(NULL, sz_commandLine, NULL, NULL, true, NULL, NULL, NULL, &si, &pi);
-	b_createRes = CreateProcess(NULL, sz_commandLine, NULL, NULL, false, NULL, NULL, NULL, &si, &pi_bFastbootDL);
-//	b_createRes = CreateProcess(NULL, sz_commandLine, NULL, NULL, FALSE, NORMAL_PRIORITY_CLASS, NULL, NULL, &si, &pi);
-	if(b_createRes == FALSE) 
-	{
-		//SendMessageToUI("b_createRes Fail");
-		AddMsg("b_createRes Fail", None, 10);
-		return false;
-	}
-
-	//CloseHandle( pi.hProcess );
- //   CloseHandle( pi.hThread );
-	//return true;
-
-	DWORD dw_waitResult = 0;
-	DWORD dw_timeout;
-	dw_timeout = 30000;
-	dw_waitResult = ::WaitForSingleObject(pi_bFastbootDL.hProcess, dw_timeout);
-	//dw_waitResult = ::WaitForSingleObject(pi.hProcess, INFINITE);
-	switch(dw_waitResult)
-	{
-	case WAIT_FAILED:
-		::CloseHandle(pi_bFastbootDL.hProcess);
-		pi_bFastbootDL.hProcess = NULL;
-		AddMsg("WAIT_FAILED Fail", None, 10);
-		return false;
-
-	case WAIT_TIMEOUT:
-		::CloseHandle(pi_bFastbootDL.hProcess);
-		pi_bFastbootDL.hProcess = NULL;
-		AddMsg("WAIT_TIMEOUT Fail", None, 10);
-		return false;
-
-	case WAIT_OBJECT_0:
-		break;
-	}
-	::CloseHandle(pi_bFastbootDL.hProcess);
-	pi_bFastbootDL.hProcess = NULL;
-
-	return true;
-}
+//bool CDownload8994::bAdbCMD(CString Command, char* output, char* ErrorCode, int nPhoneIndex)
+//{
+//	bool isOk = false;
+//	CString csQphone;
+//	CString csBuf;
+//	////1M pipeline
+//
+//	CString pthToolDir;
+//	::GetModuleFileName(NULL, pthToolDir.GetBuffer(MAX_PATH), MAX_PATH);
+//	pthToolDir.ReleaseBuffer();
+//	pthToolDir = pthToolDir.Left(pthToolDir.ReverseFind('\\'));
+//	CString path_adb = pthToolDir + _T("\\adb.exe ");
+//	
+//	if (_taccess(path_adb, 0) == -1)
+//	{
+//		strcpy(ErrorCode, "ERROR: No adb.exe exist!");
+//		return false;
+//	}
+//
+//	HANDLE hRead, hWrite;
+//	SECURITY_ATTRIBUTES sa;
+//	sa.nLength = sizeof(SECURITY_ATTRIBUTES);
+//	sa.lpSecurityDescriptor = NULL;
+//	sa.bInheritHandle = TRUE;
+//	if (!CreatePipe(&hRead, &hWrite, &sa, BUFFER_SIZE))
+//	{
+//		strcpy(ErrorCode, "ERROR: CreatePipe fail!");
+//		return false;
+//	}
+//
+//	//HANDLE hProcess = NULL;
+//	PROCESS_INFORMATION processInfo;
+//	STARTUPINFO startupInfo;
+//	::ZeroMemory(&startupInfo, sizeof(startupInfo));
+//	startupInfo.cb = sizeof(startupInfo);
+//	startupInfo.dwFlags = STARTF_USESHOWWINDOW | STARTF_USESTDHANDLES;
+//	startupInfo.wShowWindow	= SW_HIDE;
+//	startupInfo.hStdError = hWrite;
+//	startupInfo.hStdOutput = hWrite;
+//
+//	//Command = _T("\"") + path_adb + _T("\" ") + Command;
+//	Command = path_adb +  Command;
+//	TRACE(_T("Cmd: %s\n"), Command);
+//	if (::CreateProcess(NULL, Command.GetBuffer(), NULL, NULL, TRUE, 0, NULL, NULL, &startupInfo, &processInfo))
+//	{
+//		DWORD TimeOutSignal = WaitForSingleObject(processInfo.hProcess, 100 * 1000); // timeout in 10 seconds
+//
+//		//CloseHandle(hWrite);
+//		//hWrite = NULL;
+//	//	//if timeout then exit the process
+//		if (TimeOutSignal == WAIT_TIMEOUT)
+//		{
+//			isOk = false;
+//			//TerminateProcess(processInfo.hProcess, 0);
+//			strcpy(ErrorCode, "ERROR: Adb timeout");
+//		}
+//		else
+//		{
+//			if ( nPhoneIndex != 0){
+//
+//			   DWORD dwRead;// dwWritten; 
+//			   CHAR chBuf[BUFFER_SIZE] = {0}; 
+//			   bool bSuccess = FALSE;
+//			 //  HANDLE hParentStdOut = GetStdHandle(STD_OUTPUT_HANDLE);
+//
+//			   for (int i = 0; i < 60; i++) //get QPHONE, maxmum read time = 60
+//			   { 
+//				  bSuccess = ReadFile( hRead, chBuf, BUFFER_SIZE, &dwRead, NULL);
+//				  csBuf = chBuf;
+//				  csQphone.Format(_T("QPHONE%d"), nPhoneIndex);
+//				  if(csBuf.Find(csQphone) != -1) {
+//					  isOk = true; //get it
+//					  break;
+//				  }
+//				  if( ! bSuccess || dwRead == 0 ) break; 
+//			   }
+//			   strcpy(ErrorCode, _T("Adb command ok"));
+//			}
+//			else /*do not neet to find anything*/
+//			{
+//				//strcpy(output, message);
+//				
+//			//	delete [] message;
+//			}
+//		}
+//	}
+//	else
+//	{
+//		isOk = false;
+//		strcpy(ErrorCode, "ERROR: Execute adb.exe fail!");
+//	}
+//	Command.ReleaseBuffer();
+//	if(hRead){
+//		CloseHandle(hRead);
+//		hRead = NULL;
+//	}
+//	if (hWrite){
+//		CloseHandle(hWrite);
+//		hWrite = NULL;
+//	}
+//	//CloseHandle(hProcess);
+//
+//	CloseHandle(processInfo.hProcess);
+//	CloseHandle(processInfo.hThread);
+//	processInfo.hProcess = NULL;
+//	processInfo.hProcess = NULL;
+//
+//	return isOk;
+//}
 
 bool CDownload8994::bFastbootDL(CString folderPath){
 
@@ -2784,6 +2739,404 @@ bool CDownload8994::bFastbootDL(CString folderPath){
 
 	return true;
 }
+
+
+
+//bool CDownload8994::bFastbootDL_New2(char* szReturn, const char* szCmd1, const char* szCmd2)
+//{
+//	bool ret = true;
+//	HANDLE hWrite, hRead;
+//
+//	PROCESS_INFORMATION processInfo;
+//	memset(&processInfo, 0, sizeof(PROCESS_INFORMATION));
+//
+//	SECURITY_ATTRIBUTES saAttr;
+//	saAttr.nLength = sizeof(SECURITY_ATTRIBUTES);
+//	saAttr.bInheritHandle = TRUE;
+//	saAttr.lpSecurityDescriptor = NULL;
+//
+//	try
+//	{
+//		if (!CreatePipe(&hRead, &hWrite, &saAttr, 0))
+//		{
+//			throw _T("CreatePipe");
+//		}
+//
+//		STARTUPINFO si = {0};
+//		si.cb = sizeof(STARTUPINFO);
+//		si.hStdError = hWrite;
+//		si.hStdOutput = hWrite;
+//		si.hStdInput = hRead;
+//		si.dwFlags |= STARTF_USESTDHANDLES | STARTF_USESHOWWINDOW; 
+//		si.wShowWindow = SW_HIDE;
+//
+//		TCHAR szWorkingDir[MAX_PATH], szExePath[MAX_PATH];
+//		TCHAR szCmdLine[1024];
+//
+//		// Set WorkPath and ExePath
+//		GetModuleFileNameA(NULL, szExePath, MAX_PATH);
+//		PathRemoveFileSpecA(szExePath);
+//		_tcscpy(szWorkingDir, szExePath);
+//		//PathAppend(szExePath, "adb.exe");
+//	PathAppend(szExePath, "fastboot.exe");
+//
+//		//bool bIsAdbDevices = false;
+//		//if ((strstr(szCmd1, "devices") != NULL) || (strstr(szCmd1, "devices") != NULL))
+//		//	bIsAdbDevices = true;
+//
+//		//if (m_bIsMultiMode && (bIsAdbDevices == false))
+//		//	_stprintf(szCmdLine, _T("\"%s\" -s QPHONE%d %s %s"), szExePath, (m_PhoneIndex + 1), szCmd1, szCmd2);
+//		//else
+//		//	_stprintf(szCmdLine, _T("\"%s\" %s %s"), szExePath, szCmd1, szCmd2);
+//
+//		_stprintf(szCmdLine, _T("\"%s\" %s"), szExePath, szCmd1);
+//
+//		if (!CreateProcess(
+//		        NULL,
+//		        szCmdLine,
+//		        NULL,
+//		        NULL,
+//		        TRUE,
+//		        CREATE_DEFAULT_ERROR_MODE,
+//		        NULL,
+//		        szWorkingDir,
+//		        &si,
+//		        &processInfo
+//		    ))
+//		{
+//			throw _T("CreateProcess");
+//		}
+//		DWORD dw_waitResult = WaitForSingleObject(processInfo.hProcess, 10 * 1000);
+//		switch(dw_waitResult)
+//		{
+//		case WAIT_FAILED:
+//			::CloseHandle(processInfo.hProcess);
+//			processInfo.hProcess = NULL;
+//			AddMsg("WAIT_FAILED Fail", None, 10);
+//			return false;
+//
+//		case WAIT_TIMEOUT:
+//			::CloseHandle(processInfo.hProcess);
+//			processInfo.hProcess = NULL;
+//			AddMsg("WAIT_TIMEOUT Fail", None, 10);
+//			return false;
+//
+//		case WAIT_OBJECT_0:
+//			break;
+//		}
+//
+//		// if needs return value
+//		if (szReturn != NULL)
+//		{
+//			DWORD dwAvail, numread;
+//			BOOL bRet = PeekNamedPipe(hRead, NULL, 0, NULL, &dwAvail, 0);
+//			if (bRet && dwAvail > 0)
+//			{
+//				ReadFile(hRead, szReturn, dwAvail, &numread, 0);
+//			}
+//		}
+//	}
+//	catch (const TCHAR* szError)
+//	{
+//		LPVOID lpMsgBuf;
+//		FormatMessage(FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM,
+//		              NULL, GetLastError(),
+//		              MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
+//		              (LPTSTR)&lpMsgBuf,
+//		              0, NULL);
+//
+//		TCHAR szMessage[1024];
+//		_stprintf(szMessage, "%s: %s", szError, lpMsgBuf);
+//
+//		LocalFree(lpMsgBuf);
+//		ret = false;
+//	}
+//
+//	CloseHandle(hRead);
+//	CloseHandle(hWrite);
+//	CloseHandle(processInfo.hProcess);
+//	processInfo.hProcess = NULL;
+//	CloseHandle(processInfo.hThread);
+//	processInfo.hThread = NULL;
+//
+//	return ret;
+//}
+
+//bool CDownload8994::bFastbootDL_5(CString& path, CString& param, DWORD msTimeout, bool hasResponse)
+//{
+//	if (!IsPathExist(path)) {
+//		return false;
+//	}
+//
+//	HANDLE hRead, hWrite;
+//	SECURITY_ATTRIBUTES sa;
+//	sa.nLength = sizeof(SECURITY_ATTRIBUTES);
+//	sa.lpSecurityDescriptor = NULL;
+//	sa.bInheritHandle = TRUE;
+//	DWORD nPipeSize = 1024;
+//	if (!CreatePipe(&hRead, &hWrite, &sa, nPipeSize)) {
+//		::AfxMessageBox(_T("ERROR: CreatePipe fail!\r\n"));
+//		return false;
+//	}
+//
+//	TCHAR szNowPath[MAX_PATH] = {0};
+//	GetCurrentDirectory(MAX_PATH, szNowPath);
+//	TRACE(_T("current path: %s\n"), szNowPath);
+//	CString WorkDir = path.Left(path.ReverseFind(_T('\\')));
+//	TRACE(_T("working path: %s\n"), WorkDir);
+//	SetCurrentDirectory(WorkDir);
+//
+//	bool isOk = false;
+//	PROCESS_INFORMATION processInfo;
+//	STARTUPINFO startupInfo;
+//	::ZeroMemory(&startupInfo, sizeof(startupInfo));
+//	startupInfo.cb = sizeof(startupInfo);
+//	startupInfo.dwFlags = STARTF_USESHOWWINDOW | STARTF_USESTDHANDLES;
+//	startupInfo.wShowWindow	= SW_HIDE;
+//	startupInfo.hStdError = hWrite;
+//	startupInfo.hStdOutput = hWrite;
+//	CString Command = path;
+//	if (!param.IsEmpty()) {
+//		Command = Command + _T(" ") + param;
+//	}
+//	TRACE(_T("exec: %s\n"), Command);
+//	if (::CreateProcess(NULL, Command.GetBuffer(), NULL, NULL, TRUE, 0, NULL, NULL, &startupInfo, &processInfo)) {
+//		DWORD TimeoutFlag = WaitForSingleObject(processInfo.hProcess, msTimeout);
+//		isOk = true;
+//
+//		if (hasResponse) {
+//			DWORD bytesRead;
+//			DWORD dwBytesWritten;
+//			char message[512];
+//			memset(message, 0, sizeof(message));
+//			if (TimeoutFlag == WAIT_TIMEOUT)
+//			{
+//				WriteFile(hWrite, "FAIL", 4, &dwBytesWritten, NULL);
+//			}
+//			::ReadFile(hRead, message, 511, &bytesRead, NULL);
+//			if (strlen(message) > 0) {
+//				param = CA2T(message);
+//			}
+//			else {
+//				param.Empty();
+//			}
+//		}
+//	}
+//	else {
+//		isOk = false;
+//		CString error_msg(_T("ERROR: Execute fail!\r\ncmd:"));
+//		error_msg += Command;
+//		::AfxMessageBox(error_msg);
+//	}
+//	Command.ReleaseBuffer();
+//	CloseHandle(hRead);
+//	CloseHandle(hWrite);
+//	SetCurrentDirectory(szNowPath);
+//
+//	return isOk;
+//}
+//
+//bool CDownload8994::bFastbootDL_3(const char* szExeName, const char* szCmd, const char* szSerialNumber, char *szReturn, long dwReturnLen, int iTimeout)
+//	{
+//		bool ret = true;
+//		HANDLE hWrite, hRead;
+//		PROCESS_INFORMATION processInfo;
+//
+//		memset(&processInfo, 0, sizeof(PROCESS_INFORMATION));
+//
+//		SECURITY_ATTRIBUTES saAttr;
+//		saAttr.nLength = sizeof(SECURITY_ATTRIBUTES);
+//		saAttr.bInheritHandle = TRUE;
+//		saAttr.lpSecurityDescriptor = NULL;
+//
+//		try
+//		{
+//			if (! CreatePipe(&hRead, &hWrite, &saAttr, 0))
+//				throw _T("CreatePipe");
+//
+//			STARTUPINFO si = {0};
+//			si.cb = sizeof(STARTUPINFO);
+//			si.hStdError = hWrite;
+//			si.hStdOutput = hWrite;
+//			si.hStdInput = hRead;
+//			si.dwFlags |= STARTF_USESTDHANDLES | STARTF_USESHOWWINDOW;
+//			si.wShowWindow = SW_HIDE;
+//
+//
+//			// Set WorkPath and ExePath
+//			char szModuleFilePath[256];
+//			std::string strExeCmdPath;
+//			memset(szModuleFilePath, 0, 256);
+//			GetModuleFileNameA(NULL, szModuleFilePath, 256);
+//			PathRemoveFileSpecA(szModuleFilePath);
+//			SetCurrentDirectory(szModuleFilePath);
+//			strExeCmdPath = szModuleFilePath;
+//
+//
+//
+//			// Set cmd
+//			char szCmdLine[1024];
+//			std::string strSerialNumber;
+//
+//			memset(szCmdLine, 0, 1024);
+//			strSerialNumber = szSerialNumber;
+//
+//			if (strstr(szCmd, "devices") != NULL)
+//			{
+//				// Enumerate devices, do not need serial number
+//				sprintf_s(szCmdLine, 1024, "\"%s\\%s\" %s", strExeCmdPath.c_str(), szExeName, szCmd);
+//			}
+//			else
+//			{
+//				//if (! strSerialNumber.empty())
+//				//	sprintf_s(szCmdLine, 1024, "\"%s\\%s\" -s %s %s", strExeCmdPath.c_str(), szExeName, strSerialNumber.c_str(), szCmd);
+//				//else
+//					sprintf_s(szCmdLine, 1024, "\"%s\\%s\" %s", strExeCmdPath.c_str(), szExeName, szCmd);
+//			}
+//
+//
+//			if (! CreateProcess(
+//				NULL,
+//				szCmdLine,
+//				NULL,
+//				NULL,
+//				TRUE,
+//				CREATE_DEFAULT_ERROR_MODE,
+//				NULL,
+//				strExeCmdPath.c_str(),
+//				&si,
+//				&processInfo
+//				))
+//			{
+//				throw _T("CreateProcess");
+//			}
+//
+//			WaitForSingleObject(processInfo.hProcess, iTimeout);
+//
+//			// if needs return value
+//			if (szReturn != NULL)
+//			{
+//				DWORD dwAvail, numread;
+//
+//				BOOL bRet = PeekNamedPipe(hRead, NULL, 0, NULL, &dwAvail, 0);
+//				if (bRet && ((int)dwAvail > 0))
+//				{
+//					char *pBuffer = new char [dwAvail+1];
+//					memset(pBuffer, 0, dwAvail+1);
+//
+//					::ReadFile(hRead, pBuffer, dwAvail, &numread, 0);
+//
+//					memset(szReturn, 0, dwReturnLen);
+//
+//					if ((int)dwReturnLen >= (int)dwAvail)
+//						memcpy(szReturn, pBuffer, dwAvail);
+//					else
+//						memcpy(szReturn, pBuffer, dwReturnLen);
+//
+//					delete [] pBuffer;
+//				}
+//			}
+//		}
+//		catch(const TCHAR* szError)
+//		{
+//			LPVOID lpMsgBuf;
+//
+//			FormatMessage(
+//				FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM,
+//				NULL, GetLastError(),
+//				MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
+//				(LPTSTR)&lpMsgBuf,
+//				0,
+//				NULL
+//				);
+//
+//			TCHAR szMessage[1024] = {0};
+//			sprintf_s(szMessage, 1024, "%s: %s", szError, lpMsgBuf);
+//
+//			LocalFree(lpMsgBuf);
+//			ret = false;
+//		}
+//
+//		CloseHandle(hRead);
+//		CloseHandle(hWrite);
+//		CloseHandle(processInfo.hThread);
+//		processInfo.hThread = NULL;
+//		CloseHandle(processInfo.hProcess);
+//		processInfo.hProcess = NULL;
+//
+//		return ret;
+//	}
+//
+//bool CDownload8994::bFastbootDL_4(CString folderPath){
+//
+//	CString csExeCMD;
+//	//csExeCMD.Format(_T("CMD.EXE /C %s") ,folderPath);
+//	//csExeCMD.Format(_T("D:\\03.Factory\\00.DELL\\GF80B1A_Trigger_V1.004_20150729_debug\\fastboot.exe %s\"") ,folderPath);
+//	csExeCMD.Format(_T("%s") ,folderPath);
+//	/* Run */
+//	TCHAR sz_commandLine[1024];
+//	memset(sz_commandLine, 0, sizeof(sz_commandLine));
+//	for (int i = 0; i < csExeCMD.GetLength(); i ++) 
+//	{
+//		sz_commandLine[i] = csExeCMD[i];   
+//	}
+//	PROCESS_INFORMATION pi_bFastbootDL = {0};;
+//	STARTUPINFO si = {0};
+//	memset(&si, 0, sizeof(si));
+//	si.cb          = sizeof(si);
+//	si.wShowWindow = SW_HIDE;
+//	si.dwFlags     = STARTF_USESHOWWINDOW;
+//
+//	BOOL b_createRes = FALSE;	
+//
+//
+//	//b_createRes = CreateProcess(_T("fastboot.exe"), _T("devices"), NULL, NULL, FALSE, 0, NULL, NULL, &si, &pi);
+//
+//	//b_createRes = CreateProcess(_T("C:\\Windows\\System32\\cmd.exe"), sz_commandLine, NULL, NULL, NULL, NULL, NULL, NULL, &si, &pi);
+//
+//	//b_createRes = CreateProcess(_T("D:\\03.Factory\\00.DELL\\GF80B1A_Trigger_V1.004_20150729_debug\\fastboot.exe"), sz_commandLine, NULL, NULL, false, NULL, NULL, NULL, &si, &pi_bFastbootDL);
+//
+//	//b_createRes = CreateProcess(NULL, sz_commandLine, NULL, NULL, true, NULL, NULL, NULL, &si, &pi);
+//	b_createRes = CreateProcess(NULL, sz_commandLine, NULL, NULL, false, NULL, NULL, NULL, &si, &pi_bFastbootDL);
+////	b_createRes = CreateProcess(NULL, sz_commandLine, NULL, NULL, FALSE, NORMAL_PRIORITY_CLASS, NULL, NULL, &si, &pi);
+//	if(b_createRes == FALSE) 
+//	{
+//		//SendMessageToUI("b_createRes Fail");
+//		AddMsg("b_createRes Fail", None, 10);
+//		return false;
+//	}
+//
+//	//CloseHandle( pi.hProcess );
+// //   CloseHandle( pi.hThread );
+//	//return true;
+//
+//	DWORD dw_waitResult = 0;
+//	DWORD dw_timeout;
+//	dw_timeout = 30000;
+//	dw_waitResult = ::WaitForSingleObject(pi_bFastbootDL.hProcess, dw_timeout);
+//	//dw_waitResult = ::WaitForSingleObject(pi.hProcess, INFINITE);
+//	switch(dw_waitResult)
+//	{
+//	case WAIT_FAILED:
+//		::CloseHandle(pi_bFastbootDL.hProcess);
+//		pi_bFastbootDL.hProcess = NULL;
+//		AddMsg("WAIT_FAILED Fail", None, 10);
+//		return false;
+//
+//	case WAIT_TIMEOUT:
+//		::CloseHandle(pi_bFastbootDL.hProcess);
+//		pi_bFastbootDL.hProcess = NULL;
+//		AddMsg("WAIT_TIMEOUT Fail", None, 10);
+//		return false;
+//
+//	case WAIT_OBJECT_0:
+//		break;
+//	}
+//	::CloseHandle(pi_bFastbootDL.hProcess);
+//	pi_bFastbootDL.hProcess = NULL;
+//
+//	return true;
+//}
 
 
 //bool CDownload8994::bAdbCMD(CString csCMD){

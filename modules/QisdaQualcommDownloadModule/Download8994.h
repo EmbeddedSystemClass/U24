@@ -11,6 +11,8 @@
 
 #pragma once
 
+//#include "../UnifyDLL_U2416_Download/Project/BaseProject.h" 
+#include "../UnifyInterface/FacTestToolInterface.h"
 #include "Download.h"
 //#include "ADBDevice.h"
 #include "../Common/ErrorDefine/ErrorDefine.h"
@@ -130,11 +132,10 @@ typedef enum IMAGE_TYPE_8916
 
 
 #define USB_BUF_SIZE 512
-
+#define BUFFER_SIZE 4096
 class QISDA_DOWNLOAD_CLASS_API CDownload8994 :public CDLCommand
 {
 public:
-	CDownload8994();
 	CDownload8994(int i_COMPort, CString str_multiDLFlag);
 	virtual ~CDownload8994(void);
 
@@ -154,6 +155,7 @@ public:
 
 	bool FindADBdevice(int nADBPort);
 	bool FindQualcomDevice(int nComport);
+
 private:
 	CString  m_str_multiDLFlag;		   // Multi-download flag	
 	CString  m_str_errorCode;
@@ -217,17 +219,22 @@ public:
 
 	int GetQualcommport(){return m_i_COMPort;};
 	bool bFastbootDL(CString folderPath);
-bool bAdbCMD(CString Command, char* output, char* ErrorCode);
+	bool bGetADB(int nPhone);
+	bool bCallAdbFastbootCMD(CString csAdbFastboot, CString Command, char* output, char* ErrorCode, CString cs_FindData);
+	//bool bAdbCMD(CString Command, char* output, char* ErrorCode, int nPhoneIndex);
+
+	//bool bGetFastboot(CString Command, char* output, char* ErrorCode, int nPhoneIndex);
 	//bool bFastbootDL_New(CString Command, char* output, char* ErrorCode);
 	//bool bAdbCMD(CString csCMD);
-	bool bGetADB();
-
-	bool Exec(CString& path, CString& param, DWORD msTimeout = INFINITE, bool hasResponse = true);
-	bool bFastbootDL_4(CString folderPath);
 	
-	bool bFastbootDL_New2(char* szReturn, const char* szCmd1, const char* szCmd2);
-	bool bFastbootDL_3(const char* szExeName, const char* szCmd, const char* szSerialNumber, char *szReturn, long dwReturnLen, int iTimeout);
-	bool bFastbootDL_5(CString& path, CString& param, DWORD msTimeout, bool hasResponse);
+	
+
+	//bool Exec(CString& path, CString& param, DWORD msTimeout = INFINITE, bool hasResponse = true);
+
+	//bool bFastbootDL_4(CString folderPath);
+	//bool bFastbootDL_New2(char* szReturn, const char* szCmd1, const char* szCmd2);
+	//bool bFastbootDL_3(const char* szExeName, const char* szCmd, const char* szSerialNumber, char *szReturn, long dwReturnLen, int iTimeout);
+	//bool bFastbootDL_5(CString& path, CString& param, DWORD msTimeout, bool hasResponse);
 
 	bool setIMGPath(CString imagePath);
 	bool ReadIMG(CString imagePath);
