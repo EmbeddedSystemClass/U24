@@ -108,6 +108,52 @@ bool CDownload8994::MultiDownload(bool b_speedUp, bool b_reOpenAfterReset, Downl
 				}
 				if ( b_wait_fastboot) b_result = FastbootEXE_Download(m_i_COMPort);
 				else AddMsg("Fail can't find fastboot", DownloadStep::None, 100);
+
+				//fastboot oem adb Qon
+				//fastboot oem root Qon
+				//fastboot oem permissive Qon
+				//fastboot oem ftd Qon
+
+				if (b_result){
+					if ( !(bCallAdbFastbootCMD(_T("fastboot.exe"), _T("oem adb Qon"),output,ErrorCode, _T("NULL")) )){
+						b_result = false;
+						AddMsg("oem adb Qon fail", None, 10);
+					}else
+					{
+						AddMsg("oem adb Qon pass", None, 10);
+					}
+					Sleep(200);
+				}
+				if (b_result){
+					if ( !(bCallAdbFastbootCMD(_T("fastboot.exe"), _T("oem root Qon"),output,ErrorCode, _T("NULL")) )){
+						b_result = false;
+						AddMsg("oem root Qon fail", None, 10);
+					}else
+					{
+						AddMsg("oem root Qon pass", None, 10);
+					}
+					Sleep(200);
+				}
+				if (b_result){
+					if ( !(bCallAdbFastbootCMD(_T("fastboot.exe"), _T("oem permissive Qon"),output,ErrorCode, _T("NULL")) )){
+						b_result = false;
+						AddMsg("oem permissive Qon fail", None, 10);
+					}else
+					{
+						AddMsg("oem permissive Qon pass", None, 10);
+					}
+					Sleep(200);
+				}
+				if (b_result){
+					if ( !(bCallAdbFastbootCMD(_T("fastboot.exe"), _T(" oem ftd Qon"),output,ErrorCode, _T("NULL")) )){
+						b_result = false;
+						AddMsg("o oem ftd Qon fail", None, 10);
+					}else
+					{
+						AddMsg("o oem ftd Qon pass", None, 10);
+					}
+					Sleep(200);
+				}
 			}
 
 			
@@ -2429,6 +2475,8 @@ bool CDownload8994::bCallAdbFastbootCMD(CString csAdbFastboot, CString Command, 
 			}
 			else /*do not neet to find anything*/
 			{
+				isOk = true; //don't not need to check
+
 				//strcpy(output, message);
 				
 			//	delete [] message;
