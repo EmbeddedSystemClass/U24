@@ -1320,6 +1320,7 @@ bool CAndroidPhone::WifiPowerOnTx(int m_iRateBitIndex, int m_iChannel,int m_iPow
 		if (!isOk) {
 				continue;
 		}
+		Sleep(500);
 
 		isOk = QLIB_FTM_WLAN_TLV_AddParam(m_hQMSLPhone, _T("txMode"), _itoa(3,buf,10)); // int txMode = 3; // Tx99 a = b = g = ac = n
 		if (!isOk) {
@@ -1335,6 +1336,11 @@ bool CAndroidPhone::WifiPowerOnTx(int m_iRateBitIndex, int m_iChannel,int m_iPow
 		if (!isOk) {
 				continue;
 		}
+
+		//isOk = QLIB_FTM_WLAN_TLV_AddParam(m_hQMSLPhone, _T("antenna"), _itoa(0, buf ,10)); //antenna
+		//if (!isOk) {
+		//		continue;
+		//}
 
 		isOk = QLIB_FTM_WLAN_TLV_AddParam(m_hQMSLPhone, _T("txPower0"), _itoa(m_iPower, buf ,10)); //iPower
 		if (!isOk) {
@@ -1383,6 +1389,10 @@ bool CAndroidPhone::WifiPowerOnTx(int m_iRateBitIndex, int m_iChannel,int m_iPow
 				continue;
 		}
 
+		isOk = QLIB_FTM_WLAN_TLV_AddParam(m_hQMSLPhone, _T("txPattern"), _itoa(0,buf,10));
+		if (!isOk) {
+				continue;
+		}
 
 		isOk = QLIB_FTM_WLAN_TLV_AddParam(m_hQMSLPhone, _T("scramblerOff"),_itoa(0,buf,10));
 		if (!isOk) {

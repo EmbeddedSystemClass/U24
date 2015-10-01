@@ -277,12 +277,12 @@ bool CBTWLAN_WiFi_5G_TxTest::Run(void)
 
 	if (bRes)
 	{
-		FactoryLog(true, "WiFi_5G_TxTest", "Pass", szBand, m_strChannel, szLower, szUpper, m_strMeasured, "dBm", "WiFi_5G_TxTest PASS");
+		FactoryLog(true, stdTestItem, "Pass", szBand, m_strChannel, szLower, szUpper, m_strMeasured, "dBm", "PASS");
 		SetPICSData(m_strPICSName, "PASS");
 	}
 	else
 	{
-		FactoryLog(false, "WiFi_5G_TxTest", FunErr_WLAN_Test_OutPower_OutRange, szBand, m_strChannel, szLower, szUpper, m_strMeasured, "dBm", m_strMsg);
+		FactoryLog(false, stdTestItem, FunErr_WLAN_Test_OutPower_OutRange, szBand, m_strChannel, szLower, szUpper, m_strMeasured, "dBm", "FAIL");
 		SetPICSData(m_strPICSName, "FAIL");
 	}
 	SetPICSData(m_strPICSName_Value, m_strMeasured);
@@ -322,7 +322,7 @@ bool CBTWLAN_WiFi_5G_TxTest::MainFunction(void)
 		return false;
 	}
 
-	
+	Sleep(m_iCommandDelay);
 	if (! m_pITesterDeviceFSP->ResetFSP())
 	{
 		m_strMsg = "Fail to initial tester device";
