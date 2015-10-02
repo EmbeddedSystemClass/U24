@@ -453,42 +453,44 @@ bool CU2416::DLchipset(void)
 	obj_download8994.Register(this, EVENT_DL_PROGRESS);
 
 	/* Set DL Parameter */
-	if (b_res) 
-	{
-		obj_download8994.SetDLMode(m_str_DLMode);
-		//obj_download8994.SetReworkFlag(m_i_rework);
-		//obj_download8994.SetRebootFlag(m_i_reboot);
-		//obj_download8994.SetDDRCheckFlag(m_i_DDRCheck);
-		//obj_download8994.SetDumpEmmcLogFlag(m_i_DumpEmmcLog);
-		//obj_download8994.SetCheckSumFlag(m_i_checkSum);
-		//obj_download8994.SetBackupNVFlag(m_i_BackupNVPartition);
-		//obj_download8994.SetSupportQDownloadFlag(m_i_SupportQDownload);
-		//obj_download8994.SetEraseUserFatFlag(m_i_eraseUserFat);
-		//obj_download8994.SetCOMPicasso(m_i_COMPort, m_map_COMPicasso[m_i_COMPort]);
 
-		CString str_imagePath;
-		str_imagePath.Format("%s", m_vImage[0].str_imagePath.c_str());
-		obj_download8994.SetImagePath(str_imagePath);
-		//obj_download8994.SetFactoryVersion(m_str_fatoryVersion);
-		//obj_download8994.GetOemMainVersion(m_str_fatoryVersionDevice);
-		
-	}
+	obj_download8994.SetDLMode(m_str_DLMode);
+	//obj_download8994.SetReworkFlag(m_i_rework);
+	//obj_download8994.SetRebootFlag(m_i_reboot);
+	//obj_download8994.SetDDRCheckFlag(m_i_DDRCheck);
+	//obj_download8994.SetDumpEmmcLogFlag(m_i_DumpEmmcLog);
+	//obj_download8994.SetCheckSumFlag(m_i_checkSum);
+	//obj_download8994.SetBackupNVFlag(m_i_BackupNVPartition);
+	//obj_download8994.SetSupportQDownloadFlag(m_i_SupportQDownload);
+	//obj_download8994.SetEraseUserFatFlag(m_i_eraseUserFat);
+	//obj_download8994.SetCOMPicasso(m_i_COMPort, m_map_COMPicasso[m_i_COMPort]);
+
+	CString str_imagePath;
+	str_imagePath.Format("%s", m_vImage[0].str_imagePath.c_str());
+	obj_download8994.SetImagePath(str_imagePath);
+
+	//obj_download8994.SetFactoryVersion(m_str_fatoryVersion);
+	//obj_download8994.GetOemMainVersion(m_str_fatoryVersionDevice);
+	
 
 	/*lion*/
 	obj_download8994.setIMGPath( m_vImage[0].str_imagePath.c_str());
 	obj_download8994.ReadIMG( m_vImage[0].str_imagePath.c_str());
 
+	SendMessageToUI("SetImgae. ok");
 
-	b_res = SetImageFile(obj_download8994, IMAGE_TYPE_8916::Q8K_HEX, _T("hex"));
-	if (b_res) 
-	{
-		b_res = SetImageFile(obj_download8994, IMAGE_TYPE_8916::Q8K_MSIMAGE, _T("msimage"));
-	}
+	//b_res = SetImageFile(obj_download8994, IMAGE_TYPE_8916::Q8K_HEX, _T("hex"));
+	//if (b_res) 
+	//{
+	//	b_res = SetImageFile(obj_download8994, IMAGE_TYPE_8916::Q8K_MSIMAGE, _T("msimage"));
+	//}
 
 	/* Download */
 	if (b_res) 
 	{
+		SendMessageToUI("Start DL");
 		b_res = obj_download8994.MultiDownload();
+		SendMessageToUI("DL OK");
 	}
 
 	/* Get Error code */
@@ -496,7 +498,7 @@ bool CU2416::DLchipset(void)
 
 	obj_download8994.Unregister(this, EVENT_DL_PROGRESS);
 
-
+	
 	return b_res;
 	/*********************new new new ******************************************/
 

@@ -91,8 +91,10 @@ bool CDownload8994::MultiDownload(bool b_speedUp, bool b_reOpenAfterReset, Downl
 			CString cs_Qphone;
 			cs_Qphone.Format(_T("QPHONE%d"), m_i_COMPort);
 			if (bGetADB(m_i_COMPort)){
-
 				AddMsg("Get Adb Success.", None, 10);
+
+				bADB_to_Fastboot(m_i_COMPort);
+				AddMsg("adb to fastboot ok", None, 10);
 				//SendMessageToUI("Get Adb Success.");
 				
 				//Sleep(1000);//for adb mode to fastboot mode
@@ -115,7 +117,7 @@ bool CDownload8994::MultiDownload(bool b_speedUp, bool b_reOpenAfterReset, Downl
 				//fastboot oem ftd Qon
 
 				if (b_result){
-					if ( !(bCallAdbFastbootCMD(_T("fastboot.exe"), _T("oem adb Qon"),output,ErrorCode, _T("NULL")) )){
+					if ( !(bCallAdbFastbootCMD(_T("fastboot.exe"), _T("oem adb Qon"),output,ErrorCode, DNULL) )){
 						b_result = false;
 						AddMsg("oem adb Qon fail", None, 10);
 					}else
@@ -125,7 +127,7 @@ bool CDownload8994::MultiDownload(bool b_speedUp, bool b_reOpenAfterReset, Downl
 					Sleep(200);
 				}
 				if (b_result){
-					if ( !(bCallAdbFastbootCMD(_T("fastboot.exe"), _T("oem root Qon"),output,ErrorCode, _T("NULL")) )){
+					if ( !(bCallAdbFastbootCMD(_T("fastboot.exe"), _T("oem root Qon"),output,ErrorCode, DNULL) )){
 						b_result = false;
 						AddMsg("oem root Qon fail", None, 10);
 					}else
@@ -135,7 +137,7 @@ bool CDownload8994::MultiDownload(bool b_speedUp, bool b_reOpenAfterReset, Downl
 					Sleep(200);
 				}
 				if (b_result){
-					if ( !(bCallAdbFastbootCMD(_T("fastboot.exe"), _T("oem permissive Qon"),output,ErrorCode, _T("NULL")) )){
+					if ( !(bCallAdbFastbootCMD(_T("fastboot.exe"), _T("oem permissive Qon"),output,ErrorCode, DNULL) )){
 						b_result = false;
 						AddMsg("oem permissive Qon fail", None, 10);
 					}else
@@ -145,12 +147,12 @@ bool CDownload8994::MultiDownload(bool b_speedUp, bool b_reOpenAfterReset, Downl
 					Sleep(200);
 				}
 				if (b_result){
-					if ( !(bCallAdbFastbootCMD(_T("fastboot.exe"), _T(" oem ftd Qon"),output,ErrorCode, _T("NULL")) )){
+					if ( !(bCallAdbFastbootCMD(_T("fastboot.exe"), _T("oem ftd Qon"),output,ErrorCode, DNULL) )){
 						b_result = false;
-						AddMsg("o oem ftd Qon fail", None, 10);
+						AddMsg("oem ftd Qon fail", None, 10);
 					}else
 					{
-						AddMsg("o oem ftd Qon pass", None, 10);
+						AddMsg("oem ftd Qon pass", None, 10);
 					}
 					Sleep(200);
 				}
@@ -175,6 +177,25 @@ bool CDownload8994::MultiDownload(bool b_speedUp, bool b_reOpenAfterReset, Downl
 }
 
 
+bool CDownload8994::bADB_to_Fastboot(int nPhone){ 
+	char* output = new char[BUFFER_SIZE];
+	char* ErrorCode =new char[BUFFER_SIZE];
+	//int nRetryTime = 60;
+	bool bGetAdb = false; 
+	CString csPhone;
+	CString csCmd;
+
+	csPhone.Format("QPHONE%d", nPhone);
+	csCmd.Format(_T("reboot bootloader -s QPHONE%d"), nPhone);
+
+	bGetAdb = bCallAdbFastbootCMD(_T("adb.exe"), csCmd,output,ErrorCode, DNULL);
+
+	Sleep(1000);
+	//bAdbCMD(csCmd, output, ErrorCode, 0);
+	
+	return bGetAdb;
+}
+
 bool CDownload8994::bGetADB(int nPhone){ 
 	char* output = new char[BUFFER_SIZE];
 	char* ErrorCode =new char[BUFFER_SIZE];
@@ -190,8 +211,8 @@ bool CDownload8994::bGetADB(int nPhone){
 		//if ( bGetAdb = bAdbCMD(csCmd, output, ErrorCode, nPhone))
 		if (bCallAdbFastbootCMD(_T("adb.exe"), _T("devices "),output,ErrorCode, csPhone))
 		{
-			csCmd.Format(_T("reboot bootloader -s QPHONE%d"), nPhone);
-			bCallAdbFastbootCMD(_T("adb.exe"), csCmd,output,ErrorCode, _T("NULL"));
+			//csCmd.Format(_T("reboot bootloader -s QPHONE%d"), nPhone);
+			//bCallAdbFastbootCMD(_T("adb.exe"), csCmd,output,ErrorCode, DNULL);
 			bGetAdb = true;
 			Sleep(1000);
 			//bAdbCMD(csCmd, output, ErrorCode, 0);
@@ -1928,7 +1949,7 @@ bool CDownload8994::ReadFA(char* sz_FAData)
 	//	return false;
 	//}
 
-	AddMsg("Read FA Success.", DownloadStep::None, 100);
+	AddMsg("CDownload8994 Read FA Success.", DownloadStep::None, 100);
 	return true;
 }
 
@@ -2025,7 +2046,7 @@ bool CDownload8994::WriteFA(char* sz_FAData)
 	//	return false;
 	//}
 
-	AddMsg("Write FA Success.", DownloadStep::None, 100);
+	AddMsg("CDownload8994 Write FA Success.", DownloadStep::None, 100);
 	return true;
 }
 
@@ -2041,29 +2062,61 @@ bool CDownload8994::WriteFA(char* sz_FAData)
 *****************************************************************************/
 bool CDownload8994::ReadFASector(int i_sectorNum, char *sz_sectorData, int i_sectorSize)
 {
-	//bool b_speedUp = false;
-	//bool b_reOpenAfterReset = false;
+	return true; //skip
+
+	bool b_speedUp = false;
+	bool b_reOpenAfterReset = false;
 	//bool b_res = true;
-	//DownloadProtocol nDLPROTOCOL = QTT_FASTDOWNLOAD;
-	//	
-	//if (!GetADB()) 
-	//{
-	//	//StreamingDLeMMCLog(8194);
+	bool b_result = false;
+	char* output = new char[BUFFER_SIZE];
+	char* ErrorCode =new char[BUFFER_SIZE];
+	int  i_length = i_sectorSize;
+	char sz_buffer[512] = {0};
+	bool b_wait_fastboot = false;
+	int  nLimitTime = 0;
+	CString cs_Qphone;
 
-	//	AddMsg("Get ADB Fail.", DownloadStep::None, 100);
-	//	return false;
-	//}
-	AddMsg("Read FA.", DownloadStep::None, 100);
+	
+	DownloadProtocol nDLPROTOCOL = QTT_FASTDOWNLOAD;
 
-	//bool b_result = false;
-	//int  i_length = i_sectorSize;
-	//char sz_buffer[512] = {0};
+	/*get fastboot*/
+	cs_Qphone.Format("QPHONE%d", m_i_COMPort);
+	
+	while ( !b_wait_fastboot){
+		if (bCallAdbFastbootCMD(_T("fastboot.exe"), _T("devices"),output,ErrorCode, cs_Qphone) ){
+			b_wait_fastboot = true;
+			AddMsg("Get Fastboot Success.", None, 10);
+		}
+		Sleep(1000);
+		nLimitTime ++;
+		if ( nLimitTime > 60 ) break;
+	}
 
-	///* dump protocol --- "dump:%s"  example:"dump:otpfa0x0+512" */
-	//char sz_sectorSize[32] = {0};
-	//sprintf(sz_sectorSize, "%d+%d", i_sectorNum * 512, i_sectorSize);
-	//char sz_command[1024] = {0};
-	//sprintf(sz_command, "dump:%s%s", "Qfa@", sz_sectorSize);
+	if ( !b_wait_fastboot){
+		AddMsg("ReadFASector Get fastboot Fail.", None, 10);
+		return false;
+	}
+
+	AddMsg("ReadFASector Read FA.", DownloadStep::None, 100);
+
+
+
+	/* dump protocol --- "dump:%s"  example:"dump:otpfa0x0+512" */
+	char sz_sectorSize[32] = {0};
+	sprintf(sz_sectorSize, "%d+%d", i_sectorNum * 512, i_sectorSize);
+	char sz_command[1024] = {0};
+	sprintf(sz_command, "dump:%s%s", "Qfa@", sz_sectorSize);
+
+	if ( !(bCallAdbFastbootCMD(_T("fastboot.exe"), sz_command, output, ErrorCode,DREAD) )){
+		b_result = false;
+		AddMsg("ReadFASector fail", None, 10);
+	}else
+	{
+		memcpy(sz_sectorData, output, i_sectorSize);
+		AddMsg("ReadFASector pass", None, 10);
+	}
+	Sleep(200);
+	return true;
 
 	//if (m_p_adbDevice->Write(sz_command, strlen(sz_command), 60000)) 
 	//{
@@ -2145,34 +2198,78 @@ bool CDownload8994::WriteFASector(int i_sectorNum, char *sz_sectorData, int i_se
 {
 	AddMsg("Write FA.", DownloadStep::None, 100);
 
-	///* Get ADB */
-	//if (!GetADB()) 
-	//{
-	//	////StreamingDLeMMCLog(8194);
-
-	//	AddMsg("Get ADB Fail.", DownloadStep::None, 100);
-	//	return false;
-	//}
-
-	//int i_length = i_sectorSize;
+	bool b_speedUp = false;
+	bool b_reOpenAfterReset = false;
+	//bool b_res = true;
 	bool b_result = false;
+	char* output = new char[BUFFER_SIZE];
+	char* ErrorCode =new char[BUFFER_SIZE];
 
-	///* fastboot oem write Qfa offset length value */
-	//char sz_command[1024] = {0};
-	//int offset = i_sectorNum * 512;
+	int  i_length = i_sectorSize;
+	char sz_buffer[512] = {0};
 
-	//if(i_sectorNum == 0){
-	//	sprintf(sz_command, "oem write Qfa %d %d %s", offset, 255, sz_sectorData);
+	int  nLimitTime = 0;
+	bool b_wait_fastboot = false;
+	CString cs_Qphone;
+
+	/*get fastboot*/
+	cs_Qphone.Format("QPHONE%d", m_i_COMPort);
+	DownloadProtocol nDLPROTOCOL = QTT_FASTDOWNLOAD;
+
+	while ( !b_wait_fastboot){
+		if (bCallAdbFastbootCMD(_T("fastboot.exe"), _T("devices"),output,ErrorCode, cs_Qphone) ){
+			b_wait_fastboot = true;
+			AddMsg("Get Fastboot Success.", None, 10);
+		}
+		Sleep(1000);
+		nLimitTime ++;
+		if ( nLimitTime > 60 ) break;
+	}
+
+	AddMsg("WriteFASector Write FA.", DownloadStep::None, 100);
+
+
+	/* fastboot oem write Qfa offset length value */
+	char sz_command[1024] = {0};
+	int offset = i_sectorNum * 512;
+
+
+	//if ( !(bCallAdbFastbootCMD(_T("fastboot.exe"), sz_command, output, ErrorCode, DNULL) )){
+	//	b_result = false;
+	//	AddMsg("ReadFASector fail", None, 10);
+	//}else
+	//{
+	//	memcpy(sz_sectorData, output, i_sectorSize);
+	//	AddMsg("ReadFASector pass", None, 10);
+	//}
+	//Sleep(200);
+
+
+
+	if(i_sectorNum == 0){
+		sprintf(sz_command, "oem write Qfa %d %d %s", offset, 255, sz_sectorData);
+		if ( !(bCallAdbFastbootCMD(_T("fastboot.exe"), sz_command, output, ErrorCode,DREAD) )){
+			b_result = false;
+			AddMsg("WriteFASector fail", None, 10);
+		}else
+		{
+			sprintf(sz_command, "oem write Qfa %d %d %s", offset+256, 512-1, sz_sectorData+256);
+			b_result = (bCallAdbFastbootCMD(_T("fastboot.exe"), sz_command, output, ErrorCode,DREAD));
+			//memcpy(sz_sectorData, output, i_sectorSize);
+			AddMsg("WriteFASector pass", None, 10);
+		}
 	//	b_result = runWriteFASector(sz_command);
 	//	if (b_result){
 	//		sprintf(sz_command, "oem write Qfa %d %d %s", offset+256, 512-1, sz_sectorData+256);
 	//		b_result = runWriteFASector(sz_command);
 	//	}
-	//}
-	//else{
-	//	sprintf(sz_command, "oem write Qfa %d %d %s", offset, offset+i_sectorSize-1, sz_sectorData);
+	}
+	else{
+		sprintf(sz_command, "oem write Qfa %d %d %s", offset, offset+i_sectorSize-1, sz_sectorData);
+		b_result = (bCallAdbFastbootCMD(_T("fastboot.exe"), sz_command, output, ErrorCode,DREAD));
+		AddMsg("WriteFASector pass", None, 10);
 	//	b_result = runWriteFASector(sz_command);
-	//}
+	}
 	
 	return b_result;
 }
@@ -2196,7 +2293,7 @@ bool CDownload8994::runWriteFASector(char *sz_sectorData){
 	//	return false;
 	//}
 
-	AddMsg("Write FA Success.", DownloadStep::None, 100);
+	AddMsg("CDownload8994 Write FA Success.", DownloadStep::None, 100);
 	return true;
 }
 
@@ -2440,6 +2537,10 @@ bool CDownload8994::bCallAdbFastbootCMD(CString csAdbFastboot, CString Command, 
 	Command = _T("\"") + path_adb_fastboot + _T("\" ") + Command;
 	TRACE(_T("Cmd: %s\n"), Command);
 
+	DWORD dwRead;
+	CHAR chBuf[4096]; 
+	bool bSuccess = FALSE;
+
 	if (::CreateProcess(NULL, Command.GetBuffer(), NULL, NULL, TRUE, 0, NULL, NULL, &startupInfo, &processInfo))
 	{
 		DWORD TimeOutSignal = WaitForSingleObject(processInfo.hProcess, 100 * 1000); // timeout in 10 seconds
@@ -2455,11 +2556,20 @@ bool CDownload8994::bCallAdbFastbootCMD(CString csAdbFastboot, CString Command, 
 		}
 		else
 		{
-			if ( (cs_FindData.Find("NULL") == -1) ) {//need to check return payload
-			   DWORD dwRead;
-			   CHAR chBuf[4096]; 
-			   bool bSuccess = FALSE;
+			if ( (cs_FindData.Find(DREAD) != -1) )// neet to read resolt
+			{
+				bSuccess = ReadFile( hRead, chBuf, BUFFER_SIZE, &dwRead, NULL);
+				chBuf[dwRead] = '\0';
+				strncpy(output, chBuf, dwRead);
 
+				if ( bSuccess ) 
+				{
+					strcpy(ErrorCode, _T("Adb command ok"));
+					isOk = true; //don't not need to check
+				}
+			}
+			else if ( ( cs_FindData.Find(DNULL) == -1) )  //need to check return payload
+			{
 			   for (int i = 0; i < 60; i++) //get QPHONE
 			   { 
 				  bSuccess = ReadFile( hRead, chBuf, BUFFER_SIZE, &dwRead, NULL);
@@ -2472,14 +2582,13 @@ bool CDownload8994::bCallAdbFastbootCMD(CString csAdbFastboot, CString Command, 
 				  if( ! bSuccess || dwRead == 0 ) break; 
 			   }
 			    strcpy(ErrorCode, _T("Adb command ok"));
+
+
 			}
 			else /*do not neet to find anything*/
 			{
-				isOk = true; //don't not need to check
 
-				//strcpy(output, message);
-				
-			//	delete [] message;
+				isOk = true; //don't not need to check
 			}
 		}
 	}

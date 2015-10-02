@@ -60,6 +60,9 @@
 #define DLERR_DL_UNKWON                      "DL2099"
 
 #define FIREHOSE_DL_MODE_FASTBOOT_ONLY 1
+
+#define DNULL                                "NULL"
+#define DREAD	                             "READ"
 /*============================ Define =================================*/
 
 /*============================ Const ==================================*/
@@ -220,6 +223,7 @@ public:
 	int GetQualcommport(){return m_i_COMPort;};
 	bool bFastbootDL(CString folderPath);
 	bool bGetADB(int nPhone);
+	bool bADB_to_Fastboot(int nPhone);
 	bool bCallAdbFastbootCMD(CString csAdbFastboot, CString Command, char* output, char* ErrorCode, CString cs_FindData);
 	//bool bAdbCMD(CString Command, char* output, char* ErrorCode, int nPhoneIndex);
 
