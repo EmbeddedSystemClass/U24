@@ -21,7 +21,7 @@
 //[10] Sleep         
 //[11] Reboot
              
-
+#define runIn_ThermalLog		"runIn_ThermalLog"
 #define runIn_2D				"runIn_2D"
 #define runIn_3D				"runIn_3D"
 #define runIn_CPU				"runIn_CPU"
@@ -86,7 +86,7 @@ private:
 	bool go_runIn_3D(int nIndex);
 	bool go_runIn_CPU(int nIndex);
 	bool go_runIn_Audio(int nIndex);
-	bool go_runIn_AudioToRece(int nIndex);
+	bool go_runIn_CPU_Loading(int nIndex);
 	bool go_runIn_Video(int nIndex);
 	bool go_runIn_Camera(int nIndex);
 	bool go_runIn_Storage(int nIndex);

@@ -73,87 +73,94 @@ bool CRUN_IN::Run()
 		FactoryLog();
 		return false;
 	}
-
+	if (m_str_TestItem == runIn_ThermalLog)  
+	{
+		m_str_TestItem = CStr::IntToStr(BatteryDetectSwitch_BaseItemCode);
+		m_strErrorCode = FunErr_GPU_2D_Test_Fail;
+		//str_Pics = CW2A(L"Fine_Wifi_AP");
+		saveLogWhenFail();
+		return true;
+	//	passFail = go_runIn_2D( m_i_Index );
+	}
 	if (m_str_TestItem == runIn_2D)  
 	{
 		m_str_TestItem = CStr::IntToStr(BatteryDetectSwitch_BaseItemCode);
-		m_strErrorCode = FunErr_Audio_Test_Fail;
-		str_Pics = CW2A(L"Fine_Wifi_AP");
+		m_strErrorCode = FunErr_GPU_2D_Test_Fail;
+		//str_Pics = CW2A(L"Fine_Wifi_AP");
 		passFail = go_runIn_2D( m_i_Index );
 	}
 	else if (m_str_TestItem == runIn_3D)
 	{
 		m_str_TestItem = CStr::IntToStr(BatteryDetectSwitch_BaseItemCode);
-		m_strErrorCode = FunErr_Receiver_Test_Fail;
-		//str_Pics = CW2A(L"Fine_Wifi_AP");
+		m_strErrorCode = FunErr_GPU_3D_Test_Fail;
+		////str_Pics = CW2A(L"Fine_Wifi_AP");
 		passFail = go_runIn_3D( m_i_Index );
 	}
 	else if (m_str_TestItem == runIn_CPU)
 	{
 		m_str_TestItem = CStr::IntToStr(BatteryDetectSwitch_BaseItemCode);
 		m_strErrorCode = FunErr_Check_CPU_Version_Fail;
-		//str_Pics = CW2A(L"Fine_Wifi_AP");
+		////str_Pics = CW2A(L"Fine_Wifi_AP");
 		passFail = go_runIn_CPU( m_i_Index );
 	}
 	else if (m_str_TestItem == runIn_Audio)
 	{
 		m_str_TestItem = CStr::IntToStr(BatteryDetectSwitch_BaseItemCode);
 		m_strErrorCode = FunErr_Speaker1_Test_Fail;
-		//str_Pics = CW2A(L"Fine_Wifi_AP");
+		////str_Pics = CW2A(L"Fine_Wifi_AP");
 		passFail = go_runIn_Audio( m_i_Index );
-	}
-	else if (m_str_TestItem == runIn_AudioToRece)
-	{
-		m_str_TestItem = CStr::IntToStr(BatteryDetectSwitch_BaseItemCode);
-		m_strErrorCode = FunErr_Receiver_Test_Fail;
-		//str_Pics = CW2A(L"Fine_Wifi_AP");
-		passFail = go_runIn_AudioToRece( m_i_Index );
 	}
 	else if (m_str_TestItem == runIn_Video)
 	{
 		m_str_TestItem = CStr::IntToStr(BatteryDetectSwitch_BaseItemCode);
 		m_strErrorCode = FunErr_Camera_Test_Fail;
-		//str_Pics = CW2A(L"Fine_Wifi_AP");
+		////str_Pics = CW2A(L"Fine_Wifi_AP");
 		passFail = go_runIn_Video( m_i_Index );
-	}
-	else if (m_str_TestItem == runIn_Camera)
-	{
-		m_str_TestItem = CStr::IntToStr(BatteryDetectSwitch_BaseItemCode);
-		m_strErrorCode = FunErr_Switch_Camera_Fail;
-		//str_Pics = CW2A(L"Fine_Wifi_AP");
-		passFail = go_runIn_Camera( m_i_Index );
 	}
 	else if (m_str_TestItem == runIn_Storage)
 	{
 		m_str_TestItem = CStr::IntToStr(BatteryDetectSwitch_BaseItemCode);
-		m_strErrorCode = FunErr_Receiver_Test_Fail;
-		//str_Pics = CW2A(L"Fine_Wifi_AP");
+		m_strErrorCode = FunErr_Check_eMMC_Fail;
+		////str_Pics = CW2A(L"Fine_Wifi_AP");
 		passFail = go_runIn_Storage( m_i_Index );
 	}
 	else if (m_str_TestItem == runIn_Memory)
 	{
 		m_str_TestItem = CStr::IntToStr(BatteryDetectSwitch_BaseItemCode);
-		m_strErrorCode = FunErr_Receiver_Test_Fail;
-		//str_Pics = CW2A(L"Fine_Wifi_AP");
+		m_strErrorCode = FunErr_DDR_ReadWrite_Data_Fail;
+		////str_Pics = CW2A(L"Fine_Wifi_AP");
 		passFail = go_runIn_Memory( m_i_Index );
 	}
 	else if (m_str_TestItem == runIn_Sleep)
 	{
 		m_str_TestItem = CStr::IntToStr(BatteryDetectSwitch_BaseItemCode);
 		m_strErrorCode = FunErr_System_Suspend_Resume_Fail;
-		//str_Pics = CW2A(L"Fine_Wifi_AP");
+		////str_Pics = CW2A(L"Fine_Wifi_AP");
 		passFail = go_runIn_Sleep( m_i_Index );
 	}
 	else if (m_str_TestItem == runIn_Reboot)
 	{
 		m_str_TestItem = CStr::IntToStr(BatteryDetectSwitch_BaseItemCode);
 		m_strErrorCode = FunErr_System_Reboot_Test_Fail;
-		//str_Pics = CW2A(L"Fine_Wifi_AP");
+		////str_Pics = CW2A(L"Fine_Wifi_AP");
 		passFail = go_runIn_Reboot( m_i_Index );
 	}
-
-
-	if ( !passFail ) saveLogWhenFail();
+	else if (m_str_TestItem == runIn_Camera)
+	{
+		m_str_TestItem = CStr::IntToStr(BatteryDetectSwitch_BaseItemCode);
+		m_strErrorCode = FunErr_Switch_Camera_Fail;
+		////str_Pics = CW2A(L"Fine_Wifi_AP");
+		passFail = go_runIn_Camera( m_i_Index );
+	}
+	else if (m_str_TestItem == runIn_AudioToRece)
+	{
+		m_str_TestItem = CStr::IntToStr(BatteryDetectSwitch_BaseItemCode);
+		m_strErrorCode = FunErr_Receiver_Test_Fail;
+		////str_Pics = CW2A(L"Fine_Wifi_AP");
+		passFail = go_runIn_CPU_Loading( m_i_Index );
+	}
+	//if ( !passFail ) saveLogWhenFail();
+	//saveLogWhenFail();
 	return passFail;
 }
 
@@ -561,7 +568,7 @@ bool CRUN_IN::go_runIn_Audio(int nIndex )
 	return b_res;
 }
 
-bool CRUN_IN::go_runIn_AudioToRece(int nIndex )
+bool CRUN_IN::go_runIn_CPU_Loading(int nIndex )
 {
 	bool b_res = false;
 
@@ -570,16 +577,16 @@ bool CRUN_IN::go_runIn_AudioToRece(int nIndex )
 	/* test result */
 	if(b_res)
 	{
-		str_msg = CW2A(L"runIn_AudioToRece PASS");
+		str_msg = CW2A(L"runIn_CPU_Loading PASS");
 		m_strResult = "PASS";
 		m_strErrorCode = "-";
 		m_strMessage = str_msg;
-		TraceLog(MSG_INFO, "runIn_AudioToRece PASS!");
+		TraceLog(MSG_INFO, "runIn_CPU_Loading PASS!");
 		SetPICSData(str_Pics, "PASS");
 	}
 	else
 	{
-		str_msg = CW2A(L"runIn_AudioToRece FAIL");
+		str_msg = CW2A(L"runIn_CPU_Loading FAIL");
 		m_strResult = "FAIL";
 		m_strMessage = str_msg;
 		TraceLog(MSG_INFO, "runIn_AudioToRece FAIL!");
