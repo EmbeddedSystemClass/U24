@@ -334,6 +334,23 @@ bool CCommonProcessor::End()
 		}
 	}
 
+	if (m_pIPS2 && m_b_PS2_OnOff)
+	{
+		if (m_pIPS2->PowerSupplyIsAvaliable())
+		{
+			if (m_pIPS2->SetPSOnOff(false))
+			{
+				TraceLog(MSG_INFO, "Stop power supply 2 success");
+			}
+			else
+			{
+				m_strErrorCode = CommErr_PowerSupply_Control_Fail;
+				m_strMessage = "Fail to set power supply 2 off";
+				TraceLog(MSG_ERROR, m_strMessage);
+			}
+		}
+	}
+
 	// 3. Kill adb thread in Task Manager
 	if (KillADBThread())
 		TraceLog(MSG_INFO, "Kill adb.exe thread success");

@@ -199,6 +199,7 @@ Channel Definition:
 #define BatteryTemperature_Test_BaseItemCode                            100068
 #define USBIsCharging_BaseItemcode                                      100069
 #define USBChargeCurrent_BaseItemcode                                   100070
+#define Monitor_BaseItemcode                                   100071
 
 #define WriteQfuse_BaseItemCode                                         100081
 #define CheckQfuse_BaseItemCode                                         100082

@@ -101,7 +101,7 @@
 
 /*================================= Station DLL Name ==================================*/
 #define    DOWNLOAD_DLLNAME       _T("DL.dll")
-#define    FT_DLLNAME             _T("FT.dll")
+#define    FT_DLLNAME             _T("FactoryTool.dll")
 #define    RF_DLLNAME			  _T("RF.dll")
 #define    RUN_IN_DLLNAME		  _T("RUN_IN.dll")
 

@@ -31,6 +31,7 @@ protected:
 	static std::map<std::string, std::map<std::string, std::string>> g_mapTxCableLossData;
 	static std::map<std::string, std::map<std::string, std::string>> g_mapRxCableLossData;
 	static std::string g_strPicasso;
+	static std::string g_strScalarID;
 	static std::string g_strIMEI;//LION 2012.4.25
 	static std::string g_str_modelName;
 	static std::string g_str_station;

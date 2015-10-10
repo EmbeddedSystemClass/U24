@@ -18,6 +18,7 @@ const std::string SHOW_PICTURE = "DLLTestItemShowPicture";
 const std::string JIG_REQUEST = "DLLTestItemJigRequest";
 const std::string SHOW_DIALOG = "DLLTestItemShowDialog";
 
+
 // Severity definition//110512 gilpin move to enumfile.h
 //const int MSG_INFO = 0;
 //const int MSG_WARNING = 1;
@@ -53,6 +54,12 @@ const std::string SHOW_DIALOG = "DLLTestItemShowDialog";
 
 /* OOB */
 #define STATION_OOB				      _T("OOB")
+#define IICDLL								_T("IIC.dll")
+#define F32SERVERDB					_T("f32server2.dll")
+#define ID_SIZE								11
+#define ID_SIZE_BUFFER					20
+//#define PICS_S3_FACTORY TEXT("Pics_S3_Factory.dll")
+//#define VMS_DBACCESS    TEXT("VMS_DBAccess.dll")
 /*==================== Station ============================*/
 
 // Test items event messages data structure

@@ -200,13 +200,13 @@ bool CWireless_CMU_BT_TxTest::MainFunction()
 	sprintf_s(szTmp, 255, "%.3f", dMax);
 	m_strMeasured = szTmp;
 
-	// Stop BT power
-	if (! m_pIPhone->BTModuleOnOffSwitch(false, 0))
-	{
-		m_strMsg = "Fail to turn OFF BT function";
-		TraceLog(MSG_ERROR, m_strMsg);
-		return false;
-	}
+	//// Stop BT power
+	//if (! m_pIPhone->BTModuleOnOffSwitch(false, 0))
+	//{
+	//	m_strMsg = "Fail to turn OFF BT function";
+	//	TraceLog(MSG_ERROR, m_strMsg);
+	//	return false;
+	//}
 
 
 

@@ -5,6 +5,7 @@
 std::map<std::string, std::map<std::string, std::string>> ITestProcessor::g_mapTxCableLossData;
 std::map<std::string, std::map<std::string, std::string>> ITestProcessor::g_mapRxCableLossData;
 std::string ITestProcessor::g_strPicasso;
+std::string ITestProcessor::g_strScalarID;
 CString ITestProcessor::m_csArrPicasso[5] = {"", "", "", "", ""};
 std::string ITestProcessor::g_str_modelName;
 std::string ITestProcessor::g_str_station;
@@ -13,7 +14,7 @@ std::string ITestProcessor::g_str_FactoryVersion;
 std::string ITestProcessor::g_str_HWVersion;
 std::string ITestProcessor::g_strIMEI;//LION 2012.4.25
 
-std::map<std::string, std::string> ITestProcessor::m_map_parameterListSeverCheck; //EASON
+std::map<std::string, std::string> ITestProcessor::m_map_parameterListSeverCheck; 
 
 IPowerSupply* ITestProcessor::m_pIPS = NULL;
 IPowerSupply* ITestProcessor::m_pIPS2 = NULL;
@@ -226,12 +227,13 @@ bool ITestProcessor::GPIBDeviceCreateObject()
 	m_strMeasured = "";
 	m_strMessage = "";
 
-	if (m_pITesterDevice == NULL)
+	if (m_pITesterDevice == NULL)  
 	{
 		// 1. Parse XML for GPIB instrument name and class name
 		if (!ParseGPIBDeviceParams())
 		{
 			m_strMessage = "Fail to parse XML for GPIB devices parameters";
+			AfxMessageBox( m_strMessage.c_str() );
 			return false;
 		}
 
@@ -239,6 +241,7 @@ bool ITestProcessor::GPIBDeviceCreateObject()
 		if (!DetectGPIBDevice())
 		{
 			m_strMessage = "Fail to detect GPIB devices";
+			//AfxMessageBox( m_strMessage.c_str() );
 			//return false;//EASON
 		}
 		// 3. Create tester device object & power supply object
@@ -246,6 +249,7 @@ bool ITestProcessor::GPIBDeviceCreateObject()
 		if (!IGPIBDevice::GetDeviceList(vDeviceList))
 		{
 			m_strMessage = "Fail to get GPIB device list";
+			AfxMessageBox( m_strMessage.c_str() );
 			return false;
 		}
 
@@ -260,6 +264,7 @@ bool ITestProcessor::GPIBDeviceCreateObject()
 					if ((pcObject = pcObjectFactory->CreateObject(itr->second)) == NULL)
 					{
 						m_strMessage = "Fail to create tester device object";
+						AfxMessageBox( m_strMessage.c_str() );
 						return false;
 					}
 
@@ -273,6 +278,7 @@ bool ITestProcessor::GPIBDeviceCreateObject()
 					{
 						m_pITesterDevice->Release();
 						m_strMessage = "Fail to execute InitData() of tester device object";
+						AfxMessageBox( m_strMessage.c_str() );
 						return false;
 					}
 				}
@@ -287,6 +293,7 @@ bool ITestProcessor::GPIBDeviceCreateObject()
 					if ((pcObject = pcObjectFactory->CreateObject(itr->second)) == NULL)
 					{
 						m_strMessage = "Fail to create power supply object";
+						AfxMessageBox( m_strMessage.c_str() );
 						return false;
 					}
 
@@ -302,6 +309,7 @@ bool ITestProcessor::GPIBDeviceCreateObject()
 					else
 					{
 						pIPS->Release();
+						AfxMessageBox( "m_vPowerSupplyAddr fail" );
 						return false;
 					}
 
@@ -313,6 +321,7 @@ bool ITestProcessor::GPIBDeviceCreateObject()
 					{
 						pIPS->Release();
 						m_strMessage = "Fail to execute InitData() of power supply object";
+						AfxMessageBox( m_strMessage.c_str() );
 						return false;
 					}
 				}

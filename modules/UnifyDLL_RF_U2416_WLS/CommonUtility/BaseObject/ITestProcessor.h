@@ -16,7 +16,7 @@
 #include "../../../Super4Relay/Super4Relay.h"
 #include "../CPKLog/CPKLogItem.h"
 #include "../CommonUtil.h"
-
+#include "../../../UnifyInterface/FacTestToolInterface.h"
 
 using namespace QSYNC_LIB;
 
@@ -43,6 +43,9 @@ public:
 protected:
 	static std::string g_str_modelName;
 	static std::string g_str_station;
+	static std::string g_strScalarID;
+	
+	static std::string g_strPicasso;
 	static int m_nFtdPort;
 	static int m_nFtdTimeOut;
 
@@ -89,7 +92,6 @@ protected:
 	std::vector<ITestProcessor*> m_vpiTestItem;
 	std::map<std::string, std::map<std::string, std::string>> m_mapTestItemParams;
 
-	static std::string g_strPicasso;
 
 	INotify_ANSI* m_piToolNotify;
 	static CCPKLogItem gCpkRecord;
@@ -127,6 +129,14 @@ public:
 	bool GetSWVersion(char* sz_value);
 	bool SetModelName(const char* p_sz_modelName);
 	bool SetStation(const char* p_sz_station);
+
+	static bool m_b_waitFlag;
+
+	/* Show dialog action result */
+	static bool m_b_DialogResponse;
+
+		/* Show Dialog */
+	void ShowDialog(const char *p_sz_message);
 
 	///////////////////////////////////////////////////////////////////////
 	//                          UnifyInterface

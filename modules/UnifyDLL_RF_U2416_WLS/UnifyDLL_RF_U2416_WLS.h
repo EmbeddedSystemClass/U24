@@ -84,6 +84,7 @@ public:
 
 	virtual void DefineNotify(const char* strNewEvent);
 	virtual void Fire(const char* strEvent,long nParam);
+	virtual bool SetTag(int i_slot, char *sz_sectorData, int i_sectorSize);
 
 	void DefineUINotify();
 

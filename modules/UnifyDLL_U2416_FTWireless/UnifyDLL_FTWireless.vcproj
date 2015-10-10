@@ -1429,10 +1429,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\KeyTestDlg.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\Label.cpp"
 				>
 			</File>
@@ -1567,30 +1563,6 @@
 						UsePrecompiledHeader="1"
 					/>
 				</FileConfiguration>
-			</File>
-			<File
-				RelativePath=".\TouchCapkeyDlg.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\TouchCircleDlg.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\TouchGraphDlg.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\TouchLineDlg.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\TouchParallelDlg.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\TouchPointDlg.cpp"
-				>
 			</File>
 			<File
 				RelativePath=".\UnifyDLL_FTWireless.cpp"
@@ -2251,14 +2223,6 @@
 						>
 					</File>
 					<File
-						RelativePath=".\TestProcessor\TestItem\AutomatinTestItem\CTouchPanelProc.cpp"
-						>
-					</File>
-					<File
-						RelativePath=".\TestProcessor\TestItem\AutomatinTestItem\CTouchPanelProc.h"
-						>
-					</File>
-					<File
 						RelativePath=".\TestProcessor\TestItem\AutomatinTestItem\EcompassSelfTest.cpp"
 						>
 					</File>
@@ -2648,6 +2612,58 @@
 					</File>
 					<File
 						RelativePath=".\TestProcessor\TestItem\Run_In\RUN_IN.h"
+						>
+					</File>
+				</Filter>
+				<Filter
+					Name="Monitor"
+					>
+					<File
+						RelativePath=".\TestProcessor\TestItem\Monitor\CMonitor.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\TestProcessor\TestItem\Monitor\CMonitor.h"
+						>
+					</File>
+					<File
+						RelativePath=".\TestProcessor\TestItem\Monitor\MonitorId.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\TestProcessor\TestItem\Monitor\MonitorId.h"
+						>
+					</File>
+					<File
+						RelativePath=".\TestProcessor\TestItem\Monitor\MonitorPartNo.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\TestProcessor\TestItem\Monitor\MonitorPartNo.h"
+						>
+					</File>
+					<File
+						RelativePath=".\TestProcessor\TestItem\Monitor\MonitorSo.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\TestProcessor\TestItem\Monitor\MonitorSo.h"
+						>
+					</File>
+					<File
+						RelativePath=".\TestProcessor\TestItem\Monitor\MonitorWbcModel.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\TestProcessor\TestItem\Monitor\MonitorWbcModel.h"
+						>
+					</File>
+					<File
+						RelativePath=".\TestProcessor\TestItem\Monitor\WRITE.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\TestProcessor\TestItem\Monitor\WRITE.h"
 						>
 					</File>
 				</Filter>

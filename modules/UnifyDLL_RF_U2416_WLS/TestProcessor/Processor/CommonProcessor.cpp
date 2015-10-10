@@ -243,6 +243,7 @@ bool CCommonProcessor::Begin()
 		piTestItem->Register(m_piToolNotify, DLL_PICSDATA);
 		piTestItem->Register(m_piToolNotify, DLL_JIG_CONTROL);
 		piTestItem->Register(m_piToolNotify, DLL_SHOW_MSG_DLG);
+		piTestItem->Register(m_piToolNotify, SHOW_DIALOG);
 		piTestItem->Register(m_piToolNotify, DLL_LOG);
 
 		// Run the object's InitData() API
@@ -413,6 +414,7 @@ bool CCommonProcessor::End()
 		m_vpiTestItem[i]->Unregister(m_piToolNotify, DLL_JIG_CONTROL);
 		m_vpiTestItem[i]->Unregister(m_piToolNotify, DLL_SHOW_MSG_DLG);
 		m_vpiTestItem[i]->Unregister(m_piToolNotify, DLL_LOG);
+		m_vpiTestItem[i]->Unregister(m_piToolNotify, SHOW_DIALOG);
 		m_vpiTestItem[i]->Release();
 	}
 

@@ -16,6 +16,7 @@ IPhone* ITestProcessor::m_pIPhone = NULL;
 
 std::string ITestProcessor::g_str_modelName;
 std::string ITestProcessor::g_str_station;
+std::string ITestProcessor::g_strScalarID;
 
 std::map<std::string, std::string> ITestProcessor::g_mapToolInfo;
 std::map<std::string, std::map<std::string, std::string>> ITestProcessor::g_mapTxCableLossData;
@@ -35,7 +36,11 @@ CString ITestProcessor::m_cstrTestItemFile;
 std::string ITestProcessor::g_strPicasso;
 CCPKLogItem ITestProcessor::gCpkRecord;
 
+/* Show dialog action result */
+bool ITestProcessor::m_b_DialogResponse = false;
+
 bool ITestProcessor::m_b_LogUpload = false;
+bool ITestProcessor::m_b_waitFlag = false;
 std::string ITestProcessor::m_str_UploadServerIP = _T("10.85.68.13");
 
 int ITestProcessor::m_nFtdPort = 2000;
@@ -70,6 +75,7 @@ ITestProcessor::ITestProcessor()
 	DefineNotify(DLL_JIG_CONTROL);
 	DefineNotify(DLL_SHOW_MSG_DLG);
 	DefineNotify(DLL_LOG);
+	DefineNotify(SHOW_DIALOG);
 
 	StartTotalDurationCounter();
 	StartTestItemDurationCounter();
@@ -936,6 +942,16 @@ bool ITestProcessor::SetStation(const char* p_sz_station)
 	}
 
 	return false;
+}
+
+
+//Show Dialog
+void ITestProcessor::ShowDialog(const char* p_sz_message)
+{
+	st_ShowDialog dialog;
+	dialog.i_slot = 1;
+	sprintf_s(dialog.sz_message, "%s", p_sz_message);
+	Fire(SHOW_DIALOG, (long)&dialog);
 }
 
 

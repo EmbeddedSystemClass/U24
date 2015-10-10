@@ -74,6 +74,7 @@ bool IPowerSupply::SetCurrRangeMax()
 //virtual bool SetCapacitance(int nFlag);//0 = low, 1 = high
 bool  IPowerSupply::SetCapacitance(int nFlag)//lion
 {
+	return true;
 	if (nFlag == 0 ){
 		return GPIB_PS_Write(std::string("OUTP:TYPE LOW"));
 	}

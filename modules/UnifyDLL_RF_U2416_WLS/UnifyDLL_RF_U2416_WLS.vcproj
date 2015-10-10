@@ -1261,6 +1261,50 @@
 						>
 					</File>
 				</Filter>
+				<Filter
+					Name="Monitor"
+					>
+					<File
+						RelativePath=".\TestProcessor\TestItem\Monitor\CMonitor.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\TestProcessor\TestItem\Monitor\CMonitor.h"
+						>
+					</File>
+					<File
+						RelativePath=".\TestProcessor\TestItem\Monitor\MonitorId.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\TestProcessor\TestItem\Monitor\MonitorId.h"
+						>
+					</File>
+					<File
+						RelativePath=".\TestProcessor\TestItem\Monitor\MonitorPartNo.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\TestProcessor\TestItem\Monitor\MonitorPartNo.h"
+						>
+					</File>
+					<File
+						RelativePath=".\TestProcessor\TestItem\Monitor\MonitorSo.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\TestProcessor\TestItem\Monitor\MonitorSo.h"
+						>
+					</File>
+					<File
+						RelativePath=".\TestProcessor\TestItem\Monitor\MonitorWbcModel.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\TestProcessor\TestItem\Monitor\MonitorWbcModel.h"
+						>
+					</File>
+				</Filter>
 			</Filter>
 		</Filter>
 		<Filter

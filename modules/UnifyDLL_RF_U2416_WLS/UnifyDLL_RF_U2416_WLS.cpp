@@ -194,6 +194,7 @@ bool CUnifyDLL_WLS::CreateTestProcessor()
 			m_pITool->Register(this, DLL_JIG_CONTROL);
 			m_pITool->Register(this, DLL_SHOW_MSG_DLG);
 			m_pITool->Register(this, DLL_LOG);
+			m_pITool->Register(this, SHOW_DIALOG);
 
 			m_pITool->SetCableLossXML(m_cstrCableLossFile);
 			m_pITool->SetTestItemXML(m_cstrTestItemFile);
@@ -550,7 +551,7 @@ bool CUnifyDLL_WLS::PostRun(int i_slot)
 	char szModulePath[MAX_PATH] = {0};
 	GetModuleFileName(NULL, szModulePath, MAX_PATH);
 	PathRemoveFileSpec(szModulePath);
-	char Path_UpLog_Bat[100];
+	char Path_UpLog_Bat[MAX_PATH] ={0};
 	sprintf(Path_UpLog_Bat, _T("%s\\Qisda\\UpLog.bat"), szModulePath);
 
 	string sz_modelName = m_cstr_ModelName.GetBuffer();
@@ -711,6 +712,10 @@ void CUnifyDLL_WLS::Event(const std::string& strEvent, long nParam)
 	else if (strEvent == UI_PICSDATA)
 	{
 		Fire(UI_PICSDATA, nParam);
+	}
+	else if (strEvent == SHOW_DIALOG)
+	{
+		Fire(UI_SHOWDIALOG, nParam);
 	}
 }
 
@@ -1029,4 +1034,14 @@ bool CUnifyDLL_WLS::CheckVerifyResult(CString str_logFile)
 	}
 
 	return true;
+}
+
+bool CUnifyDLL_WLS::SetTag(int i_slot, char *sz_sectorData, int i_sectorSize)
+{
+	bool b_Res = false;
+		char szInput[FTD_BUF_SIZE] = {0} ;
+
+	strcat(szInput, sz_sectorData);
+
+	return b_Res;
 }

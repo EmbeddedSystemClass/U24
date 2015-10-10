@@ -114,6 +114,7 @@ public:
 	/* Set/Get FA Sector Data */
 	virtual bool GetFASector(int i_slot, int i_sectorNum, char *sz_sectorData, int i_sectorSize);
 	virtual bool SetFASector(int i_slot, int i_sectorNum, char *sz_sectorData, int i_sectorSize);
+	virtual bool SetTag(int i_slot, char *sz_sectorData, int i_sectorSize);
 
 	/* Response to Jig control  */
 	virtual bool ResopnseToJig(bool b_wait);

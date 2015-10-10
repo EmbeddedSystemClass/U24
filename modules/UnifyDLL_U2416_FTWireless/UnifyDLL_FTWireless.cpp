@@ -696,17 +696,28 @@ bool CUnifyDLL_FTWireless::Begin(int i_slot)
 	{
 		b_Res = CheckCableLossXMLExist();
 	}
+	else
+	{
+		AfxMessageBox("GetXMLFileName Fail");
+	}
 
 	/* 3. Check if DeviceItem.xml file exist */
 	if (b_Res)
 	{
 		b_Res = CheckDeviceItemXMLExist();
 	}
+	else
+	{
+		AfxMessageBox("CheckCableLossXMLExist Fail");
+	}
 
 	/* 4. Check if TestItem.xml file exist */
 	if (b_Res)
 	{
 		b_Res = CheckTestItemXMLExist();
+	}else
+	{
+		AfxMessageBox("CheckDeviceItemXMLExist Fail");
 	}
 
 	/* 5. TestItem.xml file MD5 check if load factory test item file */
@@ -715,23 +726,36 @@ bool CUnifyDLL_FTWireless::Begin(int i_slot)
 		if (m_str_ToolMode.CompareNoCase(_T("RD")) != 0)
 		{
 			b_Res = CheckTestItemXMLMD5();
+			
 		}
+	}else
+	{
+		AfxMessageBox("CheckTestItemXMLExist Fail");
 	}
 
 	/* 6. Load tool information */
 	if (b_Res)
 	{
 		b_Res = LoadToolInfo();
+	
+	}
+	else
+	{
+			AfxMessageBox("CheckTestItemXMLMD5 Fail");
 	}
 
 	/* 7. Detect GPIB device and create related device object */
 	if (b_Res)
 	{
 		b_Res = m_pITool->GPIBDeviceCreateObject();
+	
+	}else{
+			AfxMessageBox("LoadToolInfo FAil");
 	}
 
 	if ( !b_Res)
 	{
+		AfxMessageBox("GPIBDeviceCreateObject FAIL");
 		sprintf_s(st_Result.sz_result, MAX_BUFFER_SIZE - 1, "%s", m_str_result);
 		sprintf_s(st_Result.sz_msg, MAX_BUFFER_SIZE - 1, "%s", m_str_message);
 
@@ -1311,6 +1335,17 @@ bool CUnifyDLL_FTWireless::GetFASector(int i_slot, int i_sectorNum, char *sz_sec
 	}
 	return true;
 }
+
+bool CUnifyDLL_FTWireless::SetTag(int i_slot, char *sz_sectorData, int i_sectorSize)
+{
+	bool b_Res = false;
+		char szInput[FTD_BUF_SIZE] = {0} ;
+
+	strcat(szInput, sz_sectorData);
+
+	return b_Res;
+}
+
 
 bool CUnifyDLL_FTWireless::SetFASector(int i_slot, int i_sectorNum, char *sz_sectorData, int i_sectorSize)
 {

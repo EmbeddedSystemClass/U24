@@ -7,6 +7,12 @@
 
 static const int FTD_BUF_SIZE = 4096;
 
+#define STATION_OOB				      _T("OOB")
+#define IICDLL								_T("IIC.dll")
+#define F32SERVERDB					_T("f32server2.dll")
+#define ID_SIZE								11
+#define ID_SIZE_BUFFER					20
+
 //WCDMA
 #define WCDMA_850_BAND_ID	850
 #define WCDMA_900_BAND_ID	900
@@ -29,7 +35,7 @@ const std::string DLL_PICSDATA = "DLLPICSData";
 const std::string DLL_JIG_CONTROL = "DLLJigControl";
 const std::string DLL_SHOW_MSG_DLG = "DLLShowMsgDlg";
 const std::string DLL_LOG = "DLLLog";
-
+const std::string SHOW_DIALOG = "DLLTestItemShowDialog";
 
 //// Severity definition
 const int MSG_INFO = 0;
