@@ -679,46 +679,54 @@ bool ITestProcessor::InitialPowerSupply()
 				}
 				//-------------------------
 				if ( m_i_PS1Check){
+					bool b_m_i_PS1Check = true;
 					UTimer PS1CheckTimer;
 					PS1CheckTimer.SetTaskTimeCounter(1000);
 					CRangePair checkValue; 
 					checkValue.SetRange( m_str_PS1Value );
+					double f_PowerOnShort1 = 0.0;
 					do 
 					{
 						PS1CheckTimer.SetTaskTimeON();
-						double f_PowerOnShort1 = 0.0;
+						
 						m_pIPS->GetCurrent(f_PowerOnShort1);
 						if( !checkValue.InRange(f_PowerOnShort1) )
 						{
+							b_m_i_PS1Check = false;
 							//Sleep(100);
 							//f_PowerOnShort2 = 0.0;
 							//if( !checkValue2.InRange(f_PowerOnShort2) )
 							//{
 								// First Close Power
-								if (!m_pIPS->SetPSOnOff(false))
-								{
+//								if (!m_pIPS->SetPSOnOff(false))
+					//			{
 									//m_strErrorCode = CommErr_PowerSupply_Control_Fail;
 									//m_strMessage = "Fail to set power supply 1 off";
 									//TraceLog(MSG_ERROR, m_strMessage);
 									//return false;
-								}		
-								if (!m_pIPS2->SetPSOnOff(false))
-								{
+						//		}		
+						//		if (!m_pIPS2->SetPSOnOff(false))
+						//		{
 									//m_strErrorCode = CommErr_PowerSupply_Control_Fail;
 									//m_strMessage = "Fail to set power supply 2 off";
 									//TraceLog(MSG_ERROR, m_strMessage);
 									//return false;
-								}	
-
+					//			}	
 
 								//m_strErrorCode = FunErr_Max_Current_Test_Fail;
-								m_strErrorCode = FunErr_Boot_Current_Test_Fail; //Eason
-								CString str_trace;
-								str_trace.Format(_T("Power1 On Short Current Over Range : %f") , f_PowerOnShort1);
-								m_strMessage = std::string(CT2A(str_trace));
-								TraceLog(MSG_ERROR, m_strMessage);
-								return false;
+								//m_strErrorCode = FunErr_Boot_Current_Test_Fail; 
+								//CString str_trace;
+								//str_trace.Format(_T("Power1 On Short Current Over Range : %f") , f_PowerOnShort1);
+								//m_strMessage = std::string(CT2A(str_trace));
+								//TraceLog(MSG_ERROR, m_strMessage);
+								//return false;
 							//}
+						}
+						else
+						{
+							/*check ok*/
+							b_m_i_PS1Check = true;
+							break;
 						}
 						if (m_pIPhone->IsConnected())
 						{	
@@ -727,6 +735,15 @@ bool ITestProcessor::InitialPowerSupply()
 						Sleep(200);					
 					}
 					while( !PS1CheckTimer.TaskTimeOff() );
+
+					if ( ! b_m_i_PS1Check ) {
+						m_strErrorCode = FunErr_Boot_Current_Test_Fail; 
+						CString str_trace;
+						str_trace.Format(_T("Power1 On Short Current Over Range : %f") , f_PowerOnShort1);
+						m_strMessage = std::string(CT2A(str_trace));
+						TraceLog(MSG_ERROR, m_strMessage);
+						return false;
+					}
 				}// end if check ps value
 				//------------------------------
 				TraceLog(MSG_INFO, "Set power supply 1 on success");

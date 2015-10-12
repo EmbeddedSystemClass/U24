@@ -107,7 +107,7 @@ bool CMonitor::Run()
 
 	else if (m_str_TestItem == GetHDCPKEY)
 	{
-		//m_strItemCode = CStr::IntToStr(Monitor_BaseItemcode);
+		//m_strItemCode = CStr::IntToStr(Monitor_BaseItemcode); 
 		m_strErrorCode = FunErr_GET_HDCP_KEY_Fail;
 		passFail = runGetHDCPKEY();
 		//passFail = bGetNewHDCPKEY( sz_value);
@@ -175,7 +175,7 @@ bool CMonitor::InitData(std::map<std::string, std::string>& paramMap)
 	if (paramMap.find(std::string("XMLOffCMDItem")) != paramMap.end())
 	{
 		m_str_OffCMD = paramMap[std::string("XMLOffCMDItem")];
-		checkStation = m_str_OffCMD;
+		//checkStation = m_str_OffCMD;
 	}
 	else
 	{
@@ -544,6 +544,7 @@ bool CMonitor::runCheckFlowAllStation( int i_type ){
 	int i_limitStation = 0; 
 //	g_str_station = "BBTEST";
 //	runInsertData(i_type);
+//	g_strPicasso = "1234567";
 	bool b_Res = false;
 	for (i = 0 ; i < i_Station_Count ; i ++){
 		if (st_Test_Flow[i].find( m_str_OffCMD.c_str())  != std::string::npos ){
@@ -554,15 +555,23 @@ bool CMonitor::runCheckFlowAllStation( int i_type ){
 	}
 
 	if ( b_Res ){
-		for (i = 0 ; i < i_limitStation ; i ++){
+			CString csInsertCmd;
+			csInsertCmd.Format(_T("need to check , szStation = %s "), m_str_OffCMD.c_str());
+			ErrMsg =  csInsertCmd;
+			TraceLog(MSG_INFO,  ErrMsg);		
+			//	ErrMsg = "can't find station , runCheckFlowAllStation";
+				//AfxMessageBox(ErrMsg.c_str());
+			//	TraceLog(MSG_INFO,  ErrMsg);		
+		for (i = 0 ; i <= i_limitStation ; i ++){
 			checkStation = st_Test_Flow[i];
 			if  (!runCheckFlow(i_type)){
 				b_Res = false;
 				return false;
 			}else{
-				//	ErrMsg = "can't find station , runCheckFlowAllStation";
-				//AfxMessageBox(ErrMsg.c_str());
-			//	TraceLog(MSG_INFO,  ErrMsg);		
+				//CString csInsertCmd;
+				//csInsertCmd.Format(_T(" check OK, Station = %s " ), checkStation);
+				//ErrMsg =  csInsertCmd;
+				//TraceLog(MSG_INFO,  ErrMsg);
 			}
 		}
 	}else{

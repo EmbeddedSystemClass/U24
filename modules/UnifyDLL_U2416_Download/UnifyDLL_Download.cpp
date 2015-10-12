@@ -406,13 +406,13 @@ bool CDLInstance::PostRun(int i_slot)
 		else
 			SetErrorMessage(_T("LogUpload Fail."), 0);
 	}
-	else
-	{ 
-		if ( p_obj_DL->LogUpload(str_modelName))
-			SetErrorMessage(_T("LogUpload Success."), 0);
-		else
-			SetErrorMessage(_T("LogUpload Fail."), 0);
-	}
+	//else
+	//{ 
+	//	if ( p_obj_DL->LogUpload(str_modelName))
+	//		SetErrorMessage(_T("LogUpload Success."), 0);
+	//	else
+	//		SetErrorMessage(_T("LogUpload Fail."), 0);
+	//}
 
 
 	delete p_obj_DL;

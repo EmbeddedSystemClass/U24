@@ -763,8 +763,8 @@ bool CUnifyDLL_FTWireless::Begin(int i_slot)
 	}
 
 	/* Delete log files */
-	char str_LocalPath[1000] = "D:\\Log";
-	m_pITool->DFSDeleteFile(str_LocalPath, _T(""));
+	//char str_LocalPath[1000] = "D:\\Log";
+	//m_pITool->DFSDeleteFile(str_LocalPath, _T(""));
 
 	return b_Res;
 }
@@ -1076,7 +1076,7 @@ bool CUnifyDLL_FTWireless::PostRun(int i_slot)
 	strcpy(str_modelName, sz_modelName.c_str());
 
 	if (::_taccess( Path_UpLog_Bat, 0 ) == 0) m_pITool->LogUploadByBAT(str_modelName);
-	else m_pITool->LogUpload(str_modelName);
+//	else m_pITool->LogUpload(str_modelName);
 
 	m_str_modelName.ReleaseBuffer();
 

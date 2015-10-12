@@ -286,8 +286,8 @@ bool CUnifyDLL_WLS::Begin(int i_slot)
 	}
 
 	/* Delete log files */
-	char str_LocalPath[1000] = "D:\\Log";
-	m_pITool->DFSDeleteFile(str_LocalPath, _T(""));
+	//char str_LocalPath[1000] = "D:\\Log";
+	//m_pITool->DFSDeleteFile(str_LocalPath, _T("")); 
 
 	// 9. run begin
 	if (m_pITool)
@@ -559,7 +559,7 @@ bool CUnifyDLL_WLS::PostRun(int i_slot)
 	strcpy_s(str_modelName, sz_modelName.c_str());
 
 	if (::_taccess( Path_UpLog_Bat, 0 ) == 0) m_pITool->LogUploadByBAT(str_modelName);
-	else m_pITool->LogUpload(str_modelName);
+//	else m_pITool->LogUpload(str_modelName);
 
 	m_cstr_ModelName.ReleaseBuffer();
 
