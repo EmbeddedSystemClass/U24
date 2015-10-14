@@ -69,9 +69,6 @@ CUnifyDLL_WLS::CUnifyDLL_WLS()
 
 	m_pITool = NULL;
 	m_mapKeyWord.clear();
-
-	SetLogFilePath();
-	SetLogFileName();
 }
 
 CUnifyDLL_WLS::~CUnifyDLL_WLS()
@@ -235,6 +232,9 @@ bool CUnifyDLL_WLS::OnAPPLaunch()
 bool CUnifyDLL_WLS::Begin(int i_slot)
 #endif
 {
+	SetLogFilePath();
+	SetLogFileName();
+
 	// 1. Get ModelName and StationName
 	if (!LoadSettingFile())
 	{
@@ -526,7 +526,7 @@ bool CUnifyDLL_WLS::PreRun(int i_slot)
 #endif
 {
 	m_str_picasso.Empty();
-	SetLogFileName();
+//	SetLogFileName();
 	return m_pITool->PreRun();
 }
 
