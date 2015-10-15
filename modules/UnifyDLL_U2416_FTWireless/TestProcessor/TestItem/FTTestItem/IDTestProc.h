@@ -87,7 +87,6 @@ private:
 	bool TouchCheckID();
 	bool TouchCheckModel();
 	bool DFIcheckVersion();
-	bool SmartCoverCheckI2CID();
 	bool CheckAntennaICID();
 	//ytt
 	bool CheckUSBTest();

@@ -250,6 +250,7 @@ public:
 	bool FTD_BTLteTx(int nPort, int nTimeout, char* pszInput, char* pszOutput);
 	bool FTD_BTLteRx(int nPort, int nTimeout, char* pszInput, char* pszOutput);
 	bool FTD_BT_INQUIRY(int nPort, int nTimeout, char* pszInput, char* pszOutput);
+	bool FTD_BT_MAC(int nPort, int nTimeout, char* pszInput, char* pszOutput);
 	bool FTD_2_4GPowerMode(int nPort, int nTimeout, char* pszInput, char* pszOutput);
 	bool FTD_2_4GConsumer(int nPort, int nTimeout, char* pszInput, char* pszOutput);
 
@@ -259,6 +260,7 @@ public:
 	bool FTD_WLAN_ScanAP(int nPort, int nTimeout, char* pszInput, char* pszOutput);
 	bool FTD_WLAN_selfTest(int nPort, int nTimeout, char* pszInput, char* pszOutput);
 	bool FTD_WLAN_MODULE_Test(int nPort, int nTimeout, char* pszInput, char* pszOutput);
+	bool FTD_WLAN_MAC(int nPort, int nTimeout, char* pszInput, char* pszOutput);
 	
 	//15-GPS
 	bool FTD_GPSValueCN0(int nPort, int nTimeout, char* pszInput, char* pszOutput);
@@ -310,10 +312,8 @@ public:
 	bool FTD_BoardADC(int nPort, int nTimeout, char* p_sz_Input, char* p_sz_Output);
 	bool FTD_AntennaIC(int nPort, int nTimeout, char* p_sz_Input, char* p_sz_Output);//13 FTD_AntennaIC
 
-
 	bool FTD_Audioid(int nPort, int nTimeout, char* p_sz_Input, char* p_sz_Output);		// 6 FTD_Audioid
 	bool FTD_PMICid(int nPort, int nTimeout, char* p_sz_Input, char* p_sz_Output);		// 7 FTD_PMICid
-
 
 	
 	bool FTD_RFPAQFEid(int nPort, int nTimeout, char* p_sz_Input, char* p_sz_Output);	//11 FTD_RFPAQFEid
@@ -328,13 +328,8 @@ public:
 	bool FTD_PCBVerMPP2(int nPort, int nTimeout, char* p_sz_Input, char* p_sz_Output);		// 10 FTD_PCBVerMPP2 ytt
 	bool FTD_PMIid(int nPort, int nTimeout, char* p_sz_Input, char* p_sz_Output);	//11 FTD_PMIid ytt
 
-
-	// 22-ID
-	bool Sapporo_SCoverDetect(int nPort, int nTimeout, char* InBuffer, char* OutBuffer);//cmd:1
-	bool Sapporo_SCoverInterrupt(int nPort, int nTimeout, char* InBuffer, char* OutBuffer);//cmd:2
-	bool Sapporo_SCoverEnable3V(int nPort, int nTimeout, char* InBuffer, char* OutBuffer);//cmd:3
-	bool Sapporo_SCoverCheckI2C(int nPort, int nTimeout, char* InBuffer, char* OutBuffer);//cmd:4
-	bool Sapporo_SCoverSwitch5V(int nPort, int nTimeout, char* InBuffer, char* OutBuffer);//cmd:5
+	//22-DHCP
+	virtual bool FTD_HDCPKEY(int nPort, int nTimeout, char* pszInput, char* pszOutput);
 
 	// 90-OS
 	bool FTD_OSpwr2home(int nPort, int nTimeout, char* pszInput, char* pszOutput);

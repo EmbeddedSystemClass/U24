@@ -835,6 +835,11 @@ bool CDLInstance::GetFASector(int i_slot, int i_sectorNum, char *sz_sectorData, 
 	return b_res;
 }
 
+
+bool CDLInstance::SetTag(int i_slot, char *sz_sectorData, int i_sectorSize)
+{
+	return true;
+}
 /*****************************************************************************
 * Function name: SetFASector      
 * Summary      : Write FA --- New FA structure

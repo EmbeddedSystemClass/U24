@@ -31,6 +31,7 @@ protected:
 	static std::map<std::string, std::map<std::string, std::string>> g_mapTxCableLossData;
 	static std::map<std::string, std::map<std::string, std::string>> g_mapRxCableLossData;
 	static std::string g_strPicasso;
+	static std::string g_strTag;
 	static std::string g_strScalarID;
 	static std::string g_strIMEI;//LION 2012.4.25
 	static std::string g_str_modelName;
@@ -199,6 +200,7 @@ public:
 	bool GetSWVersion(char* p_sz_SWVersion);
 	bool GetFactoryVersion(char* p_sz_FactoryVersion);
 	bool SetPicasso(const char* szPicasso);
+	bool SetTag(const char* szTag);
 	bool SetPicassoMulti(const char* szPicasso, const int nSlot);
 	bool SetSlotUsable(const char* szUsable, const int nSlot);
 	bool SetIMEI(const char* szIMEI);//Lion 2012.4.25

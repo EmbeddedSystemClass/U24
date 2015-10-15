@@ -97,6 +97,7 @@ public:
 	virtual bool GetFAData(int i_slot, char* sz_value, int i_size);
 	virtual bool GetFASector(int i_slot, int i_sectorNum, char *sz_sectorData, int i_sectorSize);
 	virtual bool SetFASector(int i_slot, int i_sectorNum, char *sz_sectorData, int i_sectorSize);
+	virtual bool SetTag(int i_slot, char *sz_sectorData, int i_sectorSize);
 	virtual int  GetItemCount(void);
 	virtual bool GetItemByIndex(int i_index, char* sz_name, int i_size);
 	virtual bool ResopnseToJig(bool b_wait);

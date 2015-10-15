@@ -132,12 +132,6 @@ bool CIDTestProc::Run()
 		m_strErrorCode = FunErr_DFI_Version_Check_Fail;
 		return DFIcheckVersion();
 	}
-	else if (m_str_IDType == SCI2CID)
-	{
-		m_strItemCode = CStr::IntToStr(Smart_Cover_BaseItemCode);
-		m_strErrorCode = FunErr_SmartCover_CheckI2C_Fail;
-		return SmartCoverCheckI2CID();
-	}
 	else if (m_str_IDType == AntennaICID)
 	{
 		m_strItemCode = CStr::IntToStr(WLAN_Test_BaseItemCode);
@@ -1027,71 +1021,6 @@ bool CIDTestProc::DFIcheckVersion(void)
 		TraceLog(MSG_INFO, "Check DFI Version FAIL!");
 	}
 	SetPICSData("DFI_VERSION", m_strMeasured);
-	FactoryLog();
-	return b_res;
-}
-
-bool CIDTestProc::SmartCoverCheckI2CID()
-{
-	std::string str_msg;
-	/* Read Version from mobile */
-	bool b_res = false;
-	char sz_InBuffer[FTD_BUF_SIZE] = {0};
-	memcpy(sz_InBuffer, m_str_SCI2CId.c_str(), m_str_SCI2CId.length());
-	str_msg = std::string("InBuffer: ") + sz_InBuffer;
-	TraceLog(MSG_INFO, str_msg);
-	char szVersion[FTD_BUF_SIZE] = {0};
-	if (!(b_res = m_pIPhone->Sapporo_SCoverCheckI2C(m_nFtdPort, m_nFtdTimeOut, sz_InBuffer, szVersion)))
-	{
-		str_msg = "Read smart cover I2C id from mobile fail";
-		TraceLog(MSG_INFO, str_msg);
-	}
-
-	/* Compare Version with config file */
-	if (b_res)
-	{
-		m_strMeasured = szVersion;
-		StrVtr vToken;
-		CStr::ParseString(m_str_ID, ",", vToken);
-		bool b_match = false;
-		for (size_t i = 0; i < vToken.size(); i++)
-		{
-			str_msg = "Token = " + vToken[i];
-			TraceLog(MSG_INFO, str_msg);
-			if (!(strstr(szVersion, vToken[i].c_str()) == NULL))
-			{
-				b_match = true;
-				break;
-			}
-		}
-		if (b_match)
-		{
-			str_msg = "Check smart cover I2C id PASS! Id = " + m_strMeasured;
-			TraceLog(MSG_INFO, str_msg);
-		}
-		else
-		{
-			str_msg = "Smart cover I2C id is not matched. Mobile:" + m_strMeasured + ",Config:" + m_str_ID;
-			TraceLog(MSG_INFO, str_msg);
-			b_res = false;
-		}
-	}
-
-	/* test result */
-	if (b_res)
-	{
-		m_strResult = "PASS";
-		m_strErrorCode = "-";
-		m_strMessage = str_msg;
-		TraceLog(MSG_INFO, "Check smart cover I2C id PASS!");
-	}
-	else
-	{
-		m_strResult = "FAIL";
-		m_strMessage = str_msg;
-		TraceLog(MSG_INFO, "Check smart cover I2C id FAIL!");
-	}
-	SetPICSData("SC_I2C_ID", m_strMeasured);
 	FactoryLog();
 	return b_res;
 }

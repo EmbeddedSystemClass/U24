@@ -118,14 +118,26 @@ bool CMonitor::Run()
 		}
 		passFail = runCheckFlowAllStation( i_id_type);
 	}
-
 	else if (m_str_TestItem == GetHDCPKEY)
 	{
 		m_strItemCode = CStr::IntToStr(Monitor_BaseItemcode);
 		m_strErrorCode = FunErr_GET_HDCP_KEY_Fail;
 		passFail = runGetHDCPKEY();
 		//passFail = bGetNewHDCPKEY( sz_value);
+	}else if (m_str_TestItem == WriteHDCP) 
+	{
+		m_strItemCode = CStr::IntToStr(Monitor_BaseItemcode);
+		m_strErrorCode = FunErr_GET_HDCP_KEY_Fail;
+		passFail = runWriteHDCPKEY();
+		//passFail = bGetNewHDCPKEY( sz_value);
 	}
+	else if (m_str_TestItem == WriteTag)
+	{
+		m_strItemCode = CStr::IntToStr(Monitor_BaseItemcode);
+		m_strErrorCode = FunErr_GET_HDCP_KEY_Fail;
+		passFail = runWriteTag();
+	}
+	
 	else
 	{
 		m_strMessage = "The Type of ID is not defined";
@@ -222,21 +234,21 @@ bool CMonitor::runReadScalarID( char *szvalue, int iSize )
 	if(Id.ReadId())
 	{	
 		//Id.GetId();
-		szScalarId = Id.GetId();
-		g_strScalarID = szScalarId;
-		if(szScalarId.empty() || szScalarId.length() != ID_SIZE)
+		std_ScalarId = Id.GetId();
+		g_strScalarID = std_ScalarId;
+		if(std_ScalarId.empty() || std_ScalarId.length() != ID_SIZE)
 		{	
 			
-			ErrMsg = "Fail to read ID, ID = ";
+			ErrMsg = "Fail to read ID, ID = "  + std_ScalarId;
 			AfxMessageBox( ErrMsg.c_str());
 			TraceLog(MSG_INFO,  ErrMsg);
 			b_res = false;
 		}
 		else
 		{	
-			ErrMsg = "Pass to read ID, ID = " + szScalarId;
+			ErrMsg = "Pass to read ID, ID = " + std_ScalarId;
 			TraceLog(MSG_INFO,  ErrMsg);
-			sprintf_s( szvalue , ID_SIZE_BUFFER, "%s", szScalarId.c_str());
+			sprintf_s( szvalue , ID_SIZE_BUFFER, "%s", std_ScalarId.c_str());
 		}
 	}
 	else
@@ -250,11 +262,11 @@ bool CMonitor::runReadScalarID( char *szvalue, int iSize )
 //F1008B28888
 	//sprintf_s( szvalue , 12, "%s", "F1008B28887" );
 	//if  ( ! (IfRepeated( szvalue ) ) ){
-	//	ErrMsg = "Single ID verify OK , ID = " +  szScalarId;
+	//	ErrMsg = "Single ID verify OK , ID = " +  std_ScalarId;
 	//	TraceLog(MSG_INFO,  ErrMsg);
 	//}
 	//else{
-	//	ErrMsg = "Fail duplicate ID , ID = " +  szScalarId;
+	//	ErrMsg = "Fail duplicate ID , ID = " +  std_ScalarId;
 	//	//AfxMessageBox("ID duplicate");
 	//	b_res = false;
 	//}
@@ -379,14 +391,26 @@ bool CMonitor::ExecAdbOut(CString Command, char* output, char* ErrorCode)
 
 			isOk = true;
 			DWORD bytesRead;
+			std::string	std_out = "";
+			std::string std_find_string = "error";
 			char* message = new char[nPipeSize];
 			memset(message, 0, sizeof(message));
 			::ReadFile(hRead, message, nPipeSize, &bytesRead, NULL);
 			message[bytesRead] = '\0';
 
-			strcpy(output, message);
-			strcpy(ErrorCode, "Adb command ok");
+			std_out = message;
+			if ( std_out.find( std_find_string )  != string::npos) 
+			{
+				isOk = false;
+				strcpy(ErrorCode, "ERROR: adb com fail!");
+			}
+			else
+			{
+				strcpy(output, message);
+				strcpy(ErrorCode, "Adb command ok");
+			}
 			delete [] message;
+
 		}
 	}
 	else
@@ -434,19 +458,21 @@ bool CMonitor::brunGetExistHDCPKEY(char *scalarID)
 		//	std::string stt = " GetExistHDCPKEY TRUE " ;
 			
 			if (GetExistHDCPKEY( (unsigned char*)scalarID, i_scalarID, szHDCPKEY, i_HDCPKEY) ){
+				std_Key_Id = (char*)szHDCPKEY;
 				//stt =  stt + scalarID;
 				//AfxMessageBox(stt.c_str());
-				ErrMsg = "Load GetExistHDCPKEY TRUE  " ;
+				ErrMsg = "GetExistHDCPKEY TRUE  " ;
 				ErrMsg = ErrMsg + "ID = " + scalarID;
 				TraceLog(MSG_INFO,  ErrMsg);
+				return true;
 			}
 			else
 			{
-
-				ErrMsg = "Load GetExistHDCPKEY Falsel" ;
+				ErrMsg = "GetExistHDCPKEY False, key not exist" ;
 				ErrMsg = ErrMsg + "ID = " + scalarID;
 			//	AfxMessageBox(ErrMsg.c_str());
 				TraceLog(MSG_INFO,  ErrMsg);
+				return false;
 			}
 
 			return true;
@@ -469,33 +495,347 @@ bool CMonitor::brunGetExistHDCPKEY(char *scalarID)
 	}
 }
 
+bool CMonitor::runWriteTag()
+{
+	bool bRes = false;
+	std::string st_readId = "";
+	char sz_ID[ID_SIZE_BUFFER] ="";
+	char szAddress[FTD_BUF_SIZE] = "1056,8";// dell tag
+	char m_szFAData[FTD_BUF_SIZE];
+	memset(m_szFAData, 0, sizeof(m_szFAData));
 
+//CPHONE_FTD_CMD_IN_OUT_CREATE(FTD_FAC_CFGRead, "FTD_FAC_CFGRead")
+//CPHONE_FTD_CMD_IN_OUT_CREATE(FTD_FAC_CFGWrite, "FTD_FAC_CFGWrite")
+//	char sz_outBuffer[FTD_BUF_SIZE] = {0};
+//	if (! m_pIPhone->FTD_CAMFlashLED(m_nFtdPort, m_nFtdTimeOut, "1", sz_outBuffer))
+	
+	if ( g_strTag.empty() ){
+	//	AfxMessageBox("fail, tag is empty");
+		ErrMsg = (_T("ail, tag is empty"));
+		AfxMessageBox( ErrMsg.c_str() );
+		TraceLog(MSG_INFO,  ErrMsg);
+		goto Exit_ShowResult;
+	}
+
+	sprintf_s((char*)sz_ID, ID_SIZE_BUFFER,"1056,8,%s", g_strTag.c_str() );
+
+	if (!m_pIPhone->FTD_FAC_CFGWrite(m_nFtdPort, m_nFtdTimeOut, sz_ID, m_szFAData))
+	{
+			ErrMsg = (_T("FTD_FAC_CFGWrite Fail"));
+			AfxMessageBox( ErrMsg.c_str() );
+			TraceLog(MSG_INFO,  ErrMsg);
+			goto Exit_ShowResult;
+	}
+
+	if (!m_pIPhone->FTD_FAC_CFGRead(m_nFtdPort, m_nFtdTimeOut, szAddress, m_szFAData))
+	{
+			ErrMsg = (_T("FTD_FAC_CFGRead Fail"));
+			AfxMessageBox( ErrMsg.c_str() );
+			TraceLog(MSG_INFO,  ErrMsg);
+			goto Exit_ShowResult;
+	}
+
+	st_readId = m_szFAData;
+	if  ( g_strTag.compare(st_readId) == 0 ){
+			ErrMsg = (_T("tag compare  ok"));
+			TraceLog(MSG_INFO,  ErrMsg);
+			m_strErrorCode = "-";
+			bRes = true;
+	}
+	else
+	{
+			ErrMsg = (_T("tag compare  Fail"));
+			//AfxMessageBox( ErrMsg.c_str() );
+			TraceLog(MSG_INFO,  ErrMsg);
+			goto Exit_ShowResult;
+	}
+
+Exit_ShowResult:
+	if ( !bRes) {
+		m_strResult = "FAIL";
+	}
+	else
+	{
+		m_strErrorCode = "-";
+		m_strResult = "PASS";
+	}
+
+	str_msg = ErrMsg;
+	m_strMessage = str_msg;
+	FactoryLog();
+	return bRes;
+}
+bool CMonitor::runWriteHDCPKEY()
+{
+	CString cs_write_cmd = "";
+	//FTD_HDCPKEY
+	bool bRes = false;
+	std::string st_readId = "";
+	char sz_cmd_in[FTD_BUF_SIZE] ="";
+	char sz_cmd_out[FTD_BUF_SIZE] ="";
+	char sz_cmd_errcode[FTD_BUF_SIZE] ="";
+
+	memset(sz_cmd_in, 0, sizeof(sz_cmd_in));
+	memset(sz_cmd_out, 0, sizeof(sz_cmd_out));
+	memset(sz_cmd_errcode, 0, sizeof(sz_cmd_errcode));
+
+	if ( !(runGetHDCPKEY()) ){
+		ErrMsg = (_T("runWriteHDCPKEY - runGetHDCPKEY Fail"));
+		TraceLog(MSG_INFO,  ErrMsg);
+		goto  Exit_ShowResult;
+	}
+
+
+	strcpy(sz_cmd_in, _T("remount"));
+	if ( !ExecAdbOut(sz_cmd_in, sz_cmd_out, sz_cmd_errcode) ){
+		ErrMsg = (_T("remount Fail"));
+		AfxMessageBox( ErrMsg.c_str() );
+		TraceLog(MSG_INFO,  ErrMsg);
+		goto  Exit_ShowResult;
+	}	
+	
+	strcpy(sz_cmd_in, _T("push cek.dat /cache/cek.dat"));
+	if ( !ExecAdbOut(sz_cmd_in, sz_cmd_out, sz_cmd_errcode) ){
+		ErrMsg = (_T("push cek.da Fail"));
+		AfxMessageBox( ErrMsg.c_str() );
+		TraceLog(MSG_INFO,  ErrMsg);
+		goto  Exit_ShowResult;
+	}	
+
+	cs_write_cmd.Format(_T("push %s /cache/pm.out"), cs_local_key_path);
+	sprintf_s((char*)sz_cmd_in, MAX_PATH, "%s", cs_write_cmd);
+	
+	//strcpy(sz_cmd_in, _T("push 00001_PM.out  /cache/pm.out"));
+	if ( !ExecAdbOut(sz_cmd_in, sz_cmd_out, sz_cmd_errcode) ){
+		ErrMsg = (_T("push cek.dat Fail"));
+		AfxMessageBox( ErrMsg.c_str() );
+		TraceLog(MSG_INFO,  ErrMsg);
+		goto  Exit_ShowResult;
+	}	
+
+	//FTD_HDCPKEY ok , skip first
+	if (!(bRes = m_pIPhone->FTD_HDCPKEY(m_nFtdPort, m_nFtdTimeOut, sz_cmd_in, sz_cmd_out)))
+	{
+		ErrMsg = _T("Check FTD_HDCPKEY Fail");
+		AfxMessageBox( ErrMsg.c_str() );
+		TraceLog(MSG_INFO, ErrMsg);
+	}
+	else
+	{
+		ErrMsg = _T("Check FTD_HDCPKEY PASS");
+		TraceLog(MSG_INFO, ErrMsg);
+	}
+
+	/*update key , mac/wifi address*/
+
+	if ( bUpdateKEYWrite() )
+	{
+		ErrMsg = _T("bUpdateKEYWrite PASS");
+		//bRes = true;
+		//AfxMessageBox( ErrMsg.c_str() );
+		TraceLog(MSG_INFO, ErrMsg);
+	}
+	else
+	{
+		ErrMsg = _T("bUpdateKEYWrite Fail");
+		AfxMessageBox( ErrMsg.c_str() );
+		TraceLog(MSG_INFO, ErrMsg);
+	}
+	
+Exit_ShowResult:
+	if ( !bRes) {
+		m_strResult = "FAIL";
+	}
+	else
+	{
+		m_strErrorCode = "-";
+		m_strResult = "PASS";
+	}
+
+
+	str_msg = ErrMsg;
+	m_strMessage = str_msg;
+	FactoryLog();
+	return bRes;
+}
 bool CMonitor::runGetHDCPKEY()
 {
 	bool bRes = false;
-//	char* szKEY = new char(30);
-//	std::string stKEY;
-	brunGetExistHDCPKEY("F1008B28887" );
+	char *sz_value = new char[ID_SIZE_BUFFER]  ;
+	char sz_copy_cmd[MAX_PATH] = "";
+	CString csKeyPath = "";
+	CString pthToolDir = "";
+	cs_local_key_path = "";
+	
+	sz_Hdcp_key_path.clear();
+	std_Key_Name.clear();
+	ZeroMemory(sz_local_file_path, sizeof(sz_local_file_path)/sizeof(char));
+	ZeroMemory(sz_remote_file_path, sizeof(sz_remote_file_path)/sizeof(char));
+
+	SHELLEXECUTEINFO ShExecInfo = {0};
+	ShExecInfo.cbSize = sizeof(SHELLEXECUTEINFO);
+	ShExecInfo.fMask = SEE_MASK_NOCLOSEPROCESS;
+	ShExecInfo.hwnd = NULL;
+	ShExecInfo.lpVerb = "open";
+	ShExecInfo.lpFile = "cmd";
+	ShExecInfo.lpDirectory = NULL;
+	ShExecInfo.nShow = SW_HIDE;
+	ShExecInfo.hInstApp = NULL;
+
+
+	/*ok but skip*/
+	//if ( !(runReadScalarID( sz_value, ID_SIZE))) {
+	//	ErrMsg = _T("runGetHDCPKEY fail");
+	//	TraceLog(MSG_INFO,  ErrMsg);		
+	//	goto Exit_ShowResult;
+	//}
+	//
+	std_ScalarId = _T("F1008B28887");
+
+	sprintf_s((char*)sz_value, ID_SIZE_BUFFER, "%s", std_ScalarId.c_str());//station name (before this station)
+
+	if (  (brunGetExistHDCPKEY( sz_value)) ){
+		ErrMsg = _T("brunGetExistHDCPKEY  true, already exist  key");
+		TraceLog(MSG_INFO,  ErrMsg);		 
+	}
+	else
+	{
+		/*get new key*/
+		if ( bGetNewHDCPKEY(sz_value) ){
+			ErrMsg = _T("bGetNewHDCPKEY  ok");
+			TraceLog(MSG_INFO,  ErrMsg);			
+		}
+		else
+		{
+			/*get new key fail*/
+			ErrMsg = _T("bGetNewHDCPKEY  fail");
+			TraceLog(MSG_INFO,  ErrMsg);		
+			goto Exit_ShowResult;
+		}
+	}
+
+	/*access HDCP key*/
+
+	std_Key_Name = std_Key_Id + _T("_PM.out");
+	csKeyPath.Format(_T("\\\\f32server7\\HDCPWrite\\%s"), std_Key_Name.c_str());
+	//csKeyPath.Format(_T("\\\\f32server7\\HDCPWrite\\%s_PM.out"), std_Key_Id.c_str());
+	std_key_path = csKeyPath;
+
+	if ( !checkFileExist(csKeyPath)){
+		goto Exit_ShowResult;
+	}
+
+
+	::GetModuleFileName(NULL, pthToolDir.GetBuffer(MAX_PATH), MAX_PATH);
+	pthToolDir.ReleaseBuffer();
+	pthToolDir = pthToolDir.Left(pthToolDir.ReverseFind('\\'));
+
+	/*check cek.dat file */
+	cs_local_key_path = pthToolDir + _T("\\cek.dat");
+	sprintf_s((char*)sz_local_file_path, MAX_PATH, "%s", cs_local_key_path);
+
+	if ( !checkFileExist(cs_local_key_path)){
+		goto Exit_ShowResult;
+	}
+
+	/*make folder*/
+	cs_local_key_path = pthToolDir + _T("\\HDCPKEY\\");
+	sprintf_s((char*)sz_local_file_path, MAX_PATH, "%s", cs_local_key_path);
+	_mkdir(sz_local_file_path);
+
+
+	/*remove key first */
+	sprintf(sz_copy_cmd, "/C del %s /f /s /q /a", sz_local_file_path );
+	ShExecInfo.lpParameters = sz_copy_cmd;
+	ShellExecuteEx(&ShExecInfo);
+	if (WaitForSingleObject(ShExecInfo.hProcess, 100000) == WAIT_TIMEOUT)
+	{
+		ErrMsg = _T("remove HDCPKEY folder fail");
+		AfxMessageBox( ErrMsg.c_str() );
+		TraceLog(MSG_INFO,  ErrMsg);		
+		goto Exit_ShowResult;
+	}
+
+	/*copy key */
+	cs_local_key_path = pthToolDir + _T("\\HDCPKEY\\") + std_Key_Name.c_str();
+
+	sprintf_s((char*)sz_local_file_path, MAX_PATH, "%s", cs_local_key_path); //locate path
+	sprintf_s((char*)sz_remote_file_path, MAX_PATH, "%s", csKeyPath); //remote path
+
+	sprintf(sz_copy_cmd, "/C copy %s %s", sz_remote_file_path, sz_local_file_path );
+	ShExecInfo.lpParameters = sz_copy_cmd;
+	ShellExecuteEx(&ShExecInfo);
+//	CString cs_local_key_path = pthToolDir + _T("\\HDCPKEY\\") + m_str_file.c_str();
+	if (WaitForSingleObject(ShExecInfo.hProcess, 100000) == WAIT_TIMEOUT)
+	{
+		ErrMsg = _T("fail to copy hdcp key from F32SERVER7");
+		AfxMessageBox( ErrMsg.c_str() );
+		TraceLog(MSG_INFO,  ErrMsg);		
+		goto Exit_ShowResult;
+	}
+
+
+	if ( !checkFileExist(sz_local_file_path)){
+		goto Exit_ShowResult;
+	}
+	else bRes = true;
+
+Exit_ShowResult:
+	if ( !bRes) {
+		m_strResult = "FAIL";
+	}
+	else
+	{
+		m_strErrorCode = "-";
+		m_strResult = "PASS";
+	}
+
+	str_msg = ErrMsg.c_str();
+	m_strMessage = str_msg;
+	FactoryLog();
+	return bRes;
+
+
 	brunGetExistHDCPKEY("F1008B28888" );
 
 	bGetNewHDCPKEY("F1008B28887" );
 	bGetNewHDCPKEY("F1008B28888" );
 	//stKEY = szKEY;
 	//AfxMessageBox("Get F1008B28887");
-	//AfxMessageBox( s_newKey.c_str());
+	//AfxMessageBox( std_Key_Id.c_str());
 
 //	stKEY = szKEY;
 	//AfxMessageBox("Get F1008B28888");
-//	AfxMessageBox( s_newKey.c_str());
+//	AfxMessageBox( std_Key_Id.c_str());
 	
-	return bRes;
+	//return bRes;
 }
+bool  CMonitor::checkFileExist(CString csFilePath){
+	std::string std_filePath = csFilePath;
+	if(access(csFilePath, 0) == 0)
+	{
+		ErrMsg = _T("access file ok, file path = ");
+		ErrMsg = ErrMsg + std_filePath ;
+		TraceLog(MSG_INFO,  ErrMsg);		
+		return true;
+	}
+	else
+	{
+		ErrMsg = _T("can't not access file , key path = ");
+		ErrMsg = ErrMsg  + std_filePath ;
+		AfxMessageBox( ErrMsg.c_str() );
+		TraceLog(MSG_INFO,  ErrMsg);		
+		return false;
+	}
+}
+
 bool CMonitor::bGetNewHDCPKEY(char *scalarID)
 {
 	unsigned char szHDCPKEY[30] = "";
 
 	int   i_scalarID = 30;
 	int  i_HDCPKEY = 30;
+	std_Key_Name.clear();
 
 //	std::string stid = scalarID;
 	//AfxMessageBox(stid.c_str());
@@ -510,13 +850,11 @@ bool CMonitor::bGetNewHDCPKEY(char *scalarID)
 		lpGetNewHDCPKEY GetNewHDCPKEY;
 		GetNewHDCPKEY = (lpGetNewHDCPKEY)::GetProcAddress(hDll,"GetNewHDCPKEY");
 		if (GetNewHDCPKEY != NULL)
-		{	
-			
+		{				
 			if (GetNewHDCPKEY( (unsigned char*)scalarID, i_scalarID, szHDCPKEY, i_HDCPKEY) ){
-				s_newKey = (char*)szHDCPKEY;
-				//sz_NewKEY = (char*)szHDCPKEY;
+				std_Key_Id = (char*)szHDCPKEY;
 				ErrMsg = _T("GetNewHDCPKEY OK");
-				ErrMsg = ErrMsg +  "New Key = " + s_newKey ;
+				ErrMsg = ErrMsg +  "New Key = " + std_Key_Id ;
 				TraceLog(MSG_INFO,  ErrMsg);
 				return true;
 			}
@@ -528,7 +866,7 @@ bool CMonitor::bGetNewHDCPKEY(char *scalarID)
 			}
 		}
 		else
-		{	
+		{				
 			
 			ErrMsg = "Load GetNewHDCPKEY Fail" ;
 			AfxMessageBox(ErrMsg.c_str());
@@ -544,6 +882,109 @@ bool CMonitor::bGetNewHDCPKEY(char *scalarID)
 		TraceLog(MSG_INFO,  ErrMsg);
 		return false;
 	}
+}
+
+bool CMonitor::bUpdateKEYWrite(){
+	bool bRes = false;
+		
+	CString str_dllF32SERVER2 = F32SERVERDB;
+
+	HMODULE hDll ;
+	hDll = ::LoadLibrary(str_dllF32SERVER2);
+
+	if( hDll != NULL )
+	{	
+		typedef bool (_stdcall *lpUpdateKEYWrite)(const unsigned char* Keysn,     unsigned short Keysnlen,
+							  const unsigned char* Id,        unsigned short Idlen,
+							  const unsigned char* Wireless,   unsigned short WirelessLen,
+							  const unsigned char* BTwifi,      unsigned short BTwifiLen,
+                              const unsigned char* ServiceTag,      unsigned short ServiceTagLen);
+
+		lpUpdateKEYWrite iUpdateKEYWrite = (lpUpdateKEYWrite)::GetProcAddress(hDll,"UpdateKEYWrite");
+
+		//unsigned char sz_ID[ID_SIZE_BUFFER] ="";
+	//	unsigned char szStation[ID_SIZE_BUFFER] ="";
+		
+		if( iUpdateKEYWrite != NULL)
+		{	
+			/*get bt wifi mac*/
+			char szInput[FTD_BUF_SIZE] = {0};
+			unsigned char szBTOutput[FTD_BUF_SIZE] = {0};
+			unsigned char szWifiOutput[FTD_BUF_SIZE] = {0};
+			unsigned char szKeyID[ID_SIZE_BUFFER] = {0};
+			unsigned char szScarlarId[ID_SIZE_BUFFER] = {0};
+			unsigned char szServerId[ID_SIZE_BUFFER] = {0};
+			if (!(m_pIPhone->FTD_BT_MAC(m_nFtdPort, 30000, szInput, (char*)szBTOutput)))
+			{
+				ErrMsg = "Read FTD_BT_MAC from mobile fail";
+				AfxMessageBox( ErrMsg.c_str() );
+				TraceLog(MSG_INFO, str_msg);
+				goto Exit_ShowResult;
+			}
+			//sprintf(sz_copy_cmd, "/C copy %s %s", sz_remote_file_path, sz_local_file_path );
+
+			if (!(m_pIPhone->FTD_WLAN_MAC(m_nFtdPort, 30000, szInput, (char*)szWifiOutput)))
+			{
+				ErrMsg = "Read FTD_WLAN_MAC from mobile fail";
+				AfxMessageBox( ErrMsg.c_str() );
+				TraceLog(MSG_INFO, str_msg);
+				goto Exit_ShowResult;
+			}
+
+			//std_Key_Id
+			sprintf_s((char*)szScarlarId , ID_SIZE_BUFFER, "%s", std_ScalarId.c_str());
+			sprintf_s((char*)szKeyID, ID_SIZE_BUFFER, "%s", std_Key_Id.c_str());
+			sprintf_s((char*)szServerId, ID_SIZE_BUFFER, "%s", g_strTag.c_str());
+
+			CString iUpdateKEYWriteCmd;
+			iUpdateKEYWriteCmd.Format(_T("szKeyID = %s, szScarlarId = %s, szWifiOutput = %s , szBTOutput = %s, szServerId = %s "), szKeyID,  szScarlarId, szWifiOutput, szBTOutput, szServerId);
+			ErrMsg = "iUpdateKEYWrite cmd = " + iUpdateKEYWriteCmd;
+			TraceLog(MSG_INFO,  ErrMsg);
+
+			//sprintf(szKeyID, "/C copy %s %s", sz_remote_file_path, sz_local_file_path );
+			if ( !iUpdateKEYWrite(szKeyID, ID_SIZE_BUFFER, szScarlarId, ID_SIZE_BUFFER, szWifiOutput, ID_SIZE_BUFFER, szBTOutput, ID_SIZE_BUFFER,szServerId ,10)){
+				ErrMsg = ("iUpdateKEYWrite Fail");
+				AfxMessageBox( ErrMsg.c_str() );
+				TraceLog(MSG_INFO,  ErrMsg);
+				goto Exit_ShowResult;
+			}
+			else
+			{
+				ErrMsg = ("iUpdateKEYWrite pass");
+				TraceLog(MSG_INFO,  ErrMsg);
+				bRes = true;
+			}
+		}
+		else{
+			ErrMsg = ("Load iUpdateKEYWrite Fail");
+			AfxMessageBox( ErrMsg.c_str() );
+			TraceLog(MSG_INFO,  ErrMsg);
+			goto Exit_ShowResult;
+		}
+	}
+	else
+	{
+			ErrMsg = ("Load str_dllF32SERVER2 Fail");
+			AfxMessageBox( ErrMsg.c_str() );
+			TraceLog(MSG_INFO,  ErrMsg);
+			goto Exit_ShowResult;
+	}
+	
+
+Exit_ShowResult:
+	if ( !bRes) {
+		m_strResult = "FAIL";
+	}
+	else
+	{
+		m_strErrorCode = "-";
+		m_strResult = "PASS";
+	}
+
+	str_msg = ErrMsg.c_str();
+	m_strMessage = str_msg;
+	FactoryLog();
+	return bRes;
 }
 bool CMonitor::runCheckFlowAllStation( int i_type ){
 	int i ;
@@ -815,7 +1256,6 @@ bool CMonitor::runInsertData(int i_type)
 				CString csInsertCmd;
 				csInsertCmd.Format(_T("szModel = %s, sz_ID = %s, szOperator = %s , szStation = %s "), szModel,  sz_ID, szOperator, szStation);
 				ErrMsg = "iInsertYrstation cmd = " + csInsertCmd;
-		//		AfxMessageBox(ErrMsg.c_str());				
 				TraceLog(MSG_INFO,  ErrMsg);
 
 			if(bReturn) 
@@ -823,7 +1263,6 @@ bool CMonitor::runInsertData(int i_type)
 			//	CString csInsertCmd;
 			//	csInsertCmd.Format(_T("szModel = %s, sz_ID = %s, szOperator = %s , szStation = %s "), szModel,  sz_ID, szOperator, szStation);
 				ErrMsg = "iInsertYrstation pass";
-		//		AfxMessageBox(ErrMsg.c_str());				
 				TraceLog(MSG_INFO,  ErrMsg);
 			}
 			else

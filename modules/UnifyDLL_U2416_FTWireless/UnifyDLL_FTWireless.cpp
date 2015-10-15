@@ -1068,7 +1068,7 @@ bool CUnifyDLL_FTWireless::PostRun(int i_slot)
 	char szModulePath[MAX_PATH] = {0};
 	GetModuleFileName(NULL, szModulePath, MAX_PATH);
 	PathRemoveFileSpec(szModulePath);
-	char Path_UpLog_Bat[100];
+	char Path_UpLog_Bat[MAX_PATH];
 	sprintf(Path_UpLog_Bat, _T("%s\\Qisda\\UpLog.bat"), szModulePath);
 
 	string sz_modelName = m_str_modelName.GetBuffer();
@@ -1141,6 +1141,13 @@ bool CUnifyDLL_FTWireless::SetParameterValue(char* sz_keyword, char* sz_value)
 		{
 			SetLogFileName();
 		}
+	}
+	else if (strcmp(sz_keyword, "TAG") == 0)
+	{
+		m_pITool->SetTag(sz_value);
+		str_temp.Format(_T("%s"), sz_value);
+		m_str_tag = str_temp;
+
 	}
 	else if (strcmp(sz_keyword, "MODEL_NAME") == 0)
 	{
@@ -1339,10 +1346,12 @@ bool CUnifyDLL_FTWireless::GetFASector(int i_slot, int i_sectorNum, char *sz_sec
 bool CUnifyDLL_FTWireless::SetTag(int i_slot, char *sz_sectorData, int i_sectorSize)
 {
 	bool b_Res = false;
-		char szInput[FTD_BUF_SIZE] = {0} ;
+	char szInput[FTD_BUF_SIZE] = {0} ;
 
 	strcat(szInput, sz_sectorData);
+//	g_strTag = sz_sectorData;
 
+	m_pITool->SetTag(sz_sectorData);
 	return b_Res;
 }
 

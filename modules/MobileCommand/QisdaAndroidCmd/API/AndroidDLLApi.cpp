@@ -560,6 +560,13 @@ NEPDLLAPI int __stdcall FTD_BT_INQUIRY(int port, int timeout_ms, char* in_buf, c
 	return MobileCmd(port, timeout_ms, Andriod_FT_BT, 10, in_buf, out_buf, __FUNCTION__);
 }
 
+NEPDLLAPI int __stdcall FTD_BT_MAC(int port, int timeout_ms, char* in_buf, char* out_buf)
+{
+	TRACER_FUNCTION_IN();
+	return MobileCmd(port, timeout_ms, Andriod_FT_BT, 9, in_buf, out_buf, __FUNCTION__);
+}
+
+
 NEPDLLAPI int __stdcall FTD_2_4GPowerMode(int port, int timeout_ms, char* in_buf, char* out_buf)
 {
 	TRACER_FUNCTION_IN();
@@ -614,6 +621,11 @@ NEPDLLAPI int __stdcall FTD_WLAN_selfTest(int port, int timeout_ms, char* in_buf
 	return MobileCmd(port, timeout_ms, Andriod_FT_WLAN, 8, in_buf, out_buf, __FUNCTION__);
 }
 
+NEPDLLAPI int __stdcall FTD_WLAN_MAC(int port, int timeout_ms, char* in_buf, char* out_buf)
+{
+	TRACER_FUNCTION_IN();
+	return MobileCmd(port, timeout_ms, Andriod_FT_WLAN, 9, in_buf, out_buf, __FUNCTION__);
+}
 
 NEPDLLAPI int __stdcall FTD_WLAN_MODULE_Test(int port, int timeout_ms, char* in_buf, char* out_buf)
 {
@@ -917,6 +929,12 @@ NEPDLLAPI int __stdcall FTD_SOCfeature(int port, int timeout_ms, char* in_buf, c
 	return MobileCmd(port, timeout_ms, Andriod_FT_ID, 17, in_buf, out_buf, __FUNCTION__);
 }
 
+//22
+NEPDLLAPI int __stdcall FTD_HDCPKEY(int port, int timeout_ms, char* in_buf, char* out_buf)
+{
+	TRACER_FUNCTION_IN();
+	return MobileCmd(port, timeout_ms, Andriod_FT_HDCP,  1, in_buf, out_buf, __FUNCTION__);
+}
 
 //90:OS
 NEPDLLAPI int __stdcall FTD_OSgetprop(int port, int timeout_ms, char* in_buf, char* out_buf)

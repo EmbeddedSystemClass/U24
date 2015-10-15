@@ -331,6 +331,7 @@ enum AndriodFtCommand{
     Andriod_FT_LED		= 19,
     Andriod_FT_SD		= 20,
     Andriod_FT_ID		= 21,
+	Andriod_FT_HDCP	= 22,
     Andriod_FT_OS		= 90,
     Andriod_FT_VER		= 91,
     Andriod_FT_FAC		= 92,

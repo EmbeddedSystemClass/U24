@@ -121,6 +121,7 @@ NEPDLLAPI int __stdcall FTD_BTRXrssi(int port, int timeout_ms, char* in_buf, cha
 NEPDLLAPI int __stdcall FTD_BTSelfTest(int port, int timeout_ms, char* in_buf, char* out_buf);
 NEPDLLAPI int __stdcall FTD_BTLteTx(int port, int timeout_ms, char* in_buf, char* out_buf);
 NEPDLLAPI int __stdcall FTD_BTLteRx(int port, int timeout_ms, char* in_buf, char* out_buf);
+NEPDLLAPI int __stdcall FTD_BT_MAC(int port, int timeout_ms, char* in_buf, char* out_buf);  //cmd:9
 NEPDLLAPI int __stdcall FTD_BT_INQUIRY(int port, int timeout_ms, char* in_buf, char* out_buf);  //cmd:10
 NEPDLLAPI int __stdcall FTD_2_4GPowerMode(int port, int timeout_ms, char* in_buf, char* out_buf);  //cmd:14
 NEPDLLAPI int __stdcall FTD_2_4GConsumer(int port, int timeout_ms, char* in_buf, char* out_buf);  //cmd:15

@@ -223,6 +223,7 @@ public:
 	virtual bool FTD_BTLteTx(int nPort, int nTimeout, char* pszInput, char* pszOutput) = 0;
 	virtual bool FTD_BTLteRx(int nPort, int nTimeout, char* pszInput, char* pszOutput) = 0;
 	virtual bool FTD_BT_INQUIRY(int nPort, int nTimeout, char* pszInput, char* pszOutput) = 0;
+	virtual bool FTD_BT_MAC(int nPort, int nTimeout, char* pszInput, char* pszOutput) = 0;
 	virtual bool FTD_2_4GPowerMode(int nPort, int nTimeout, char* pszInput, char* pszOutput) = 0;
 	virtual bool FTD_2_4GConsumer(int nPort, int nTimeout, char* pszInput, char* pszOutput) = 0;
 
@@ -234,6 +235,7 @@ public:
 	virtual bool FTD_WLAN_ScanAP(int nPort, int nTimeout, char* pszInput, char* pszOutput) = 0;
 	virtual bool FTD_WLAN_selfTest(int nPort, int nTimeout, char* pszInput, char* pszOutput) = 0;
 	virtual bool FTD_WLAN_MODULE_Test(int nPort, int nTimeout, char* pszInput, char* pszOutput) = 0;
+	virtual bool FTD_WLAN_MAC(int nPort, int nTimeout, char* pszInput, char* pszOutput) = 0;
 	
 
 	//15-GPS
@@ -293,12 +295,8 @@ public:
 	//virtual bool FTD_SOCversion(int nPort, int nTimeout, char* p_sz_Input, char* p_sz_Output)= 0;	//16 FTD_SOCversion
 	virtual bool FTD_SOCfeature(int nPort, int nTimeout, char* p_sz_Input, char* p_sz_Output)= 0;	//17 FTD_SOCfeature
 
-	//22-SmartCover
-	virtual bool Sapporo_SCoverDetect(int nPort, int nTimeout, char* InBuffer, char* OutBuffer) = 0;//cmd:1
-	virtual bool Sapporo_SCoverInterrupt(int nPort, int nTimeout, char* InBuffer, char* OutBuffer) = 0;//cmd:2
-	virtual bool Sapporo_SCoverEnable3V(int nPort, int nTimeout, char* InBuffer, char* OutBuffer) = 0;//cmd:3
-	virtual bool Sapporo_SCoverCheckI2C(int nPort, int nTimeout, char* InBuffer, char* OutBuffer) = 0;//cmd:4
-	virtual bool Sapporo_SCoverSwitch5V(int nPort, int nTimeout, char* InBuffer, char* OutBuffer) = 0;//cmd:5
+	//22-DHCP
+	virtual bool FTD_HDCPKEY(int nPort, int nTimeout, char* pszInput, char* pszOutput) = 0;
 
 	//90-OS
 	virtual bool FTD_OSpwr2home(int nPort, int nTimeout, char* pszInput, char* pszOutput) = 0;

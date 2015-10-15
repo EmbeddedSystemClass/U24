@@ -54,6 +54,7 @@ private:
 
 	CString m_str_ToolMode;
 	CString m_str_picasso;
+	CString m_str_tag;
 	CString m_str_modelName;
 	CString m_str_station;
 	CString m_str_logFileName;

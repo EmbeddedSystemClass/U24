@@ -15,14 +15,15 @@
 #include "MonitorWbcModel.h"
 #include "MonitorId.h"
 #include "../../../CommonUtility/CommonDefine.h"
+#include <direct.h>
 
 /* ID Type */
-#define BATTERY						"Battery"
-#define ReadScalarID					"ReadScalarID"
+
+#define ReadScalarID				"ReadScalarID"
 #define GetHDCPKEY					"GetHDCPKEY"
 #define CheckPCBAID					"CheckPCBAID"
 #define CheckFlow					"CheckFlow"
-#define CheckAllFlow					"CheckAllFlow"
+#define CheckAllFlow				"CheckAllFlow"
 #define InsertData					"InsertData"
 #define WriteHDCP					"WriteHDCP"
 #define WriteTag					"WriteTag"
@@ -60,6 +61,9 @@ private:
 
 	bool b_res_on, b_res_off ;
 	bool b_res_msg_try, b_res_msg_retry;
+	char sz_local_file_path[MAX_PATH];
+	char sz_remote_file_path[MAX_PATH];
+	CString cs_local_key_path;
 
 // Member functions
 public:
@@ -87,17 +91,19 @@ public:
 
 public:
 	CMonitorId Id;
-//	CMonitorRuncard Runcard;
 	CMonitorSo So;
 	CMonitorPartNo PartNo;
 	CMonitorWbcModel WbcFileName;
 
 protected:
 private:
-	std::string s_newKey;
-	std::string szScalarId ;
+	std::string std_key_path;
+	std::string std_Key_Id;
+	std::string std_Key_Name;
+	std::string std_ScalarId ;
 	std::string szPcabaId;
 	std::string checkStation;
+	std::string sz_Hdcp_key_path;
 
 	//unsigned char sz_ID[ID_SIZE_BUFFER] ;
 	//unsigned char szStation[ID_SIZE_BUFFER];
@@ -106,17 +112,19 @@ private:
 
 
 	bool runGetHDCPKEY();
+	bool runWriteHDCPKEY();
+	bool runWriteTag();
 	bool bGetNewHDCPKEY(char *scalarID);
 	bool brunGetExistHDCPKEY(char *scalarID);
 	bool runInsertData(int i_type);
 	bool runCheckFlow( int i_type);// i_type 1 = pcbaid,  2 = scalarId
 	bool runCheckFlowAllStation( int i_type);// i_type 1 = pcbaid,  2 = scalarId
-
+	bool bUpdateKEYWrite();
 	bool runReadScalarID( char *szvalue, int iSize );
 	bool runCheckPCBAID( char *szvalue );
 	bool IfRepeated( char *szvalue );    // 1 = ID ,2 = SN
 	//bool IfRepeated(unsigned short IdType);    // 1 = ID ,2 = SN
-
+	bool checkFileExist(CString csFilePath);
 	bool getWeek(void);
 	int GetWeek	(struct tm* date	);
 	int GetCurrentWeek();
