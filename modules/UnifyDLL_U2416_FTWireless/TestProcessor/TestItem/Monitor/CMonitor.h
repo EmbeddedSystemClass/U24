@@ -27,6 +27,7 @@
 #define InsertData					"InsertData"
 #define WriteHDCP					"WriteHDCP"
 #define WriteTag					"WriteTag"
+#define Postcmd					"Postcmd"
 
 #define ADB_CMD_TIMEOUT			25000
 #define ID_SIZE								11
@@ -122,6 +123,7 @@ private:
 	bool bUpdateKEYWrite();
 	bool runReadScalarID( char *szvalue, int iSize );
 	bool runCheckPCBAID( char *szvalue );
+	bool runPostCmd( );
 	bool IfRepeated( char *szvalue );    // 1 = ID ,2 = SN
 	//bool IfRepeated(unsigned short IdType);    // 1 = ID ,2 = SN
 	bool checkFileExist(CString csFilePath);
@@ -131,6 +133,7 @@ private:
 
 	bool showMsg(const char* szMsg);
 	bool ExecAdbOut(CString Command, char* output, char* ErrorCode);
+	bool ExecFastbootOut(CString Command, char* output, char* ErrorCode);
 };
 
 

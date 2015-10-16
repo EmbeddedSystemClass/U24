@@ -19,6 +19,17 @@
 #include "Project/U2416.h"
 #include "global.h"
 #include "io.h"
+#include "Monitor/MonitorId.h"
+//#include "Monitor/CommonDefine.h"
+#include <direct.h>
+
+#define ID_SIZE								11
+#define i_Station_Count					10
+#define IICDLL								_T("IIC.dll")
+#define F32SERVERDB					_T("f32server2.dll")
+#define VMS_DBACCESS				_T("VMS_DBACCESS.dll")
+#define ID_SIZE								11
+#define ID_SIZE_BUFFER					20
 
 #define IDL_EXPORT_EXPORTS
 
@@ -70,7 +81,7 @@ class CDLInstance : public IFacTestToolInterface, public CNotifyBase_Char, publi
 public:
 	CDLInstance();
 	virtual ~CDLInstance();
-
+	CMonitorId Id;
 public:
 	/* CNotifyBase_Char */
 	virtual bool Register(INotify_Char* pNotify, const char* strEvent);
@@ -104,6 +115,7 @@ public:
 	virtual bool ResopnseToShowDlg(char* sz_showReslut);
 	CString GetProjectName(){ return m_str_projectName;}
 private:
+	std::string st_Test_Flow[i_Station_Count];
 	bool ReadDLLIniFile(void);
 	bool GetDLLIniFile(void);
 	bool GetSupportQDownload(void);
@@ -114,8 +126,10 @@ private:
 	bool GetImageCount(void);
 	bool ReadSetupIniFile(void);
 	bool GetToolVersion(void);
-
-
+	bool GetCheckFlowInsertData(void);
+	bool GetSWVersion();
+	//bool runReadScalarID( char *szvalue, int iSize );
+	
 	void AddMsg(const char* szMsg, int nStep, int nProgress);
 	void SetErrorCode(const char* sz_errorCode, const int i_slot = 1);
 	void SetErrorMessage(const char* sz_errorMessage, const int i_slot = 1);
@@ -131,6 +145,7 @@ private:
 
 	/* google log */
 	void SetLogFileName(void);
+	void SetLogFilePath();
 	void SetInfoLogFileName(CString str_fileName);
 	void WriteLog(CString str_log, const int i_severity = __INFO);
 
@@ -146,6 +161,10 @@ private:
 	CString						 m_str_multiDLFlagList;		// All COM port, For example: 10,20,30,40,50,60,70,80
 	bool                         m_b_readIniFile;           // Read dll ini file result
 	bool                         m_b_SupportQDownload;      // Support QDownload Tool
+	bool                         m_b_checkFlow;     
+	bool                         m_b_insertData;  
+	bool                         m_b_checkSWVersion;     
+	CString						 str_prestation;
 	int                          m_i_imageCount;            // Image file count
 	char                         m_sz_DLMode[ARRAY_SIZE];   // Current DL mode
 	char                         m_sz_PID_VID[ARRAY_SIZE];   // Current DL mode
@@ -171,6 +190,25 @@ private:
 	int m_nProgress; // Keep Original Progress data
 	std::string m_strMsg; // Keep Original Message
 
+	std::string std_key_path;
+	std::string std_Key_Id;
+	std::string std_Key_Name;
+	std::string std_ScalarId ;
+	std::string szPcabaId;
+	std::string checkStation;
+	std::string sz_Hdcp_key_path;
+
+	bool runInsertData();
+	bool runCheckFlow( int i_type);// i_type 1 = pcbaid,  2 = scalarId
+	bool runCheckFlowAllStation( int i_type);// i_type 1 = pcbaid,  2 = scalarId
+	bool runReadScalarID( char *szvalue, int iSize );
+
+	bool getWeek(void);
+	int GetWeek	(struct tm* date	);
+	int GetCurrentWeek();
+	std::string ErrMsg;
+	std::string g_strScalarID;
+	std::string g_str_modelName;
 
 };
 

@@ -82,7 +82,7 @@ bool CMonitor::Run()
 	}
 	else if (m_str_TestItem == CheckFlow)
 	{
-		//m_strItemCode = CStr::IntToStr(Monitor_BaseItemcode);
+		//m_strItemCode = CStr::IntToStr(Monitor_BaseItemcode); 
 		m_strErrorCode = FunErr_CHECK_FLOW_Fail;
 		char *sz_value = new char[ID_SIZE_BUFFER]  ;
 		int i_id_type = CStr::StrToInt(m_str_CMD);
@@ -102,7 +102,7 @@ bool CMonitor::Run()
 			char *sz_value = new char[ID_SIZE_BUFFER]  ;
 			passFail = runReadScalarID( sz_value, ID_SIZE);
 		}
-		passFail = runCheckFlowAllStation( i_id_type);
+		passFail = runCheckFlow( i_id_type);
 	}
 
 	else if (m_str_TestItem == GetHDCPKEY)
@@ -175,7 +175,7 @@ bool CMonitor::InitData(std::map<std::string, std::string>& paramMap)
 	if (paramMap.find(std::string("XMLOffCMDItem")) != paramMap.end())
 	{
 		m_str_OffCMD = paramMap[std::string("XMLOffCMDItem")];
-		//checkStation = m_str_OffCMD;
+		checkStation = m_str_OffCMD;
 	}
 	else
 	{

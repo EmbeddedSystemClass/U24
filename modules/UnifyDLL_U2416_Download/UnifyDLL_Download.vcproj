@@ -1426,6 +1426,18 @@
 				</File>
 			</Filter>
 		</Filter>
+		<Filter
+			Name="Monitor"
+			>
+			<File
+				RelativePath=".\Monitor\MonitorId.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Monitor\MonitorId.h"
+				>
+			</File>
+		</Filter>
 		<File
 			RelativePath=".\ReadMe.txt"
 			>

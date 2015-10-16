@@ -92,6 +92,11 @@ bool CMonitor::Run()
 	//	char *sz_value = new char[ID_SIZE_BUFFER]  ;
 	//	int i_id_type = CStr::StrToInt(m_str_CMD);
 		int i_id_type = CStr::StrToInt(m_str_CMD);
+		char *sz_value = new char[ID_SIZE_BUFFER]  ;
+		if ( i_id_type == 2) {
+			char *sz_value = new char[ID_SIZE_BUFFER]  ;
+			passFail = runReadScalarID( sz_value, ID_SIZE);
+		}
 		passFail = runInsertData( i_id_type);
 	}
 	else if (m_str_TestItem == CheckFlow)
@@ -136,6 +141,12 @@ bool CMonitor::Run()
 		m_strItemCode = CStr::IntToStr(Monitor_BaseItemcode);
 		m_strErrorCode = FunErr_GET_HDCP_KEY_Fail;
 		passFail = runWriteTag();
+	}	
+	else if (m_str_TestItem == Postcmd)
+	{
+		m_strItemCode = CStr::IntToStr(Monitor_BaseItemcode);
+		m_strErrorCode = FunErr_GET_HDCP_KEY_Fail;
+		passFail = runPostCmd();
 	}
 	
 	else
@@ -190,7 +201,7 @@ bool CMonitor::InitData(std::map<std::string, std::string>& paramMap)
 
 	if (paramMap.find(std::string("XMLCMDItem")) != paramMap.end())
 	{
-		m_str_CMD = paramMap[std::string("XMLCMDItem")];
+		m_str_CMD = paramMap[std::string("XMLCMDItem")]; 
 	}
 	else
 	{
@@ -201,7 +212,7 @@ bool CMonitor::InitData(std::map<std::string, std::string>& paramMap)
 	if (paramMap.find(std::string("XMLOffCMDItem")) != paramMap.end())
 	{
 		m_str_OffCMD = paramMap[std::string("XMLOffCMDItem")];
-		//checkStation = m_str_OffCMD;
+		checkStation = m_str_OffCMD;
 	}
 	else
 	{
@@ -239,14 +250,17 @@ bool CMonitor::runReadScalarID( char *szvalue, int iSize )
 		if(std_ScalarId.empty() || std_ScalarId.length() != ID_SIZE)
 		{	
 			
-			ErrMsg = "Fail to read ID, ID = "  + std_ScalarId;
+			ErrMsg = "Fail to read ID, ID = ";//  + std_ScalarId.c_str();
+			ErrMsg = ErrMsg + std_ScalarId.c_str();
 			AfxMessageBox( ErrMsg.c_str());
 			TraceLog(MSG_INFO,  ErrMsg);
 			b_res = false;
 		}
 		else
 		{	
-			ErrMsg = "Pass to read ID, ID = " + std_ScalarId;
+			ErrMsg = "Pass to read ID, ID = ";//  + std_ScalarId.c_str();
+			ErrMsg = ErrMsg + std_ScalarId.c_str();
+		//	ErrMsg = "Pass to read ID, ID = " + std_ScalarId.c_str();
 			TraceLog(MSG_INFO,  ErrMsg);
 			sprintf_s( szvalue , ID_SIZE_BUFFER, "%s", std_ScalarId.c_str());
 		}
@@ -333,7 +347,6 @@ bool CMonitor::showMsg(const char* szMsg)
 	return m_b_DialogResponse;
 }
 
-
 bool CMonitor::ExecAdbOut(CString Command, char* output, char* ErrorCode)
 {
 	bool isOk = false;
@@ -344,6 +357,103 @@ bool CMonitor::ExecAdbOut(CString Command, char* output, char* ErrorCode)
 	pthToolDir.ReleaseBuffer();
 	pthToolDir = pthToolDir.Left(pthToolDir.ReverseFind('\\'));
 	CString path_adb = pthToolDir + _T("\\adb.exe");
+	if (_taccess(path_adb, 0) == -1)
+	{
+		strcpy(ErrorCode, "ERROR: No adb.exe exist!");
+		return false;
+	}
+
+	HANDLE hRead, hWrite;
+	SECURITY_ATTRIBUTES sa;
+	sa.nLength = sizeof(SECURITY_ATTRIBUTES);
+	sa.lpSecurityDescriptor = NULL;
+	sa.bInheritHandle = TRUE;
+	if (!CreatePipe(&hRead, &hWrite, &sa, nPipeSize))
+	{
+		strcpy(ErrorCode, "ERROR: CreatePipe fail!");
+		return false;
+	}
+
+	//HANDLE hProcess = NULL;
+	PROCESS_INFORMATION processInfo;
+	STARTUPINFO startupInfo;
+	::ZeroMemory(&startupInfo, sizeof(startupInfo));
+	startupInfo.cb = sizeof(startupInfo);
+	startupInfo.dwFlags = STARTF_USESHOWWINDOW | STARTF_USESTDHANDLES;
+	startupInfo.wShowWindow	= SW_HIDE;
+	startupInfo.hStdError = hWrite;
+	startupInfo.hStdOutput = hWrite;
+
+	Command = _T("\"") + path_adb + _T("\" ") + Command;
+	TRACE(_T("Cmd: %s\n"), Command);
+	if (::CreateProcess(NULL, Command.GetBuffer(), NULL, NULL, TRUE, 0, NULL, NULL, &startupInfo, &processInfo))
+	{
+		DWORD TimeOutSignal = WaitForSingleObject(processInfo.hProcess, 10 * 1000); // timeout in 10 seconds
+
+		CloseHandle(hWrite);
+		hWrite = NULL;
+		//if timeout then exit the process
+		if (TimeOutSignal == WAIT_TIMEOUT)
+		{
+			isOk = false;
+			TerminateProcess(processInfo.hProcess, 0);
+			strcpy(ErrorCode, "ERROR: Adb timeout");
+		}
+		else
+		{
+
+			isOk = true;
+			DWORD bytesRead;
+			std::string	std_out = "";
+			std::string std_find_string = "error";
+			char* message = new char[nPipeSize];
+			memset(message, 0, sizeof(message));
+			::ReadFile(hRead, message, nPipeSize, &bytesRead, NULL);
+			message[bytesRead] = '\0';
+
+			std_out = message;
+			if ( std_out.find( std_find_string )  != string::npos) 
+			{
+				isOk = false;
+				strcpy(ErrorCode, "ERROR: adb com fail!");
+			}
+			else
+			{
+				strcpy(output, message);
+				strcpy(ErrorCode, "Adb command ok");
+			}
+			delete [] message;
+
+		}
+	}
+	else
+	{
+		isOk = false;
+		strcpy(ErrorCode, "ERROR: Execute adb.exe fail!");
+	}
+	Command.ReleaseBuffer();
+	CloseHandle(hRead);
+	if (hWrite)CloseHandle(hWrite);
+	//CloseHandle(hProcess);
+
+	CloseHandle(processInfo.hProcess);
+	CloseHandle(processInfo.hThread);
+	//hProcess = NULL;
+
+	return isOk;
+}
+
+
+bool CMonitor::ExecFastbootOut(CString Command, char* output, char* ErrorCode)
+{
+	bool isOk = false;
+	DWORD nPipeSize = 1024 * 1024; //1M pipeline
+
+	CString pthToolDir;
+	::GetModuleFileName(NULL, pthToolDir.GetBuffer(MAX_PATH), MAX_PATH);
+	pthToolDir.ReleaseBuffer();
+	pthToolDir = pthToolDir.Left(pthToolDir.ReverseFind('\\'));
+	CString path_adb = pthToolDir + _T("\\fastboot.exe");
 	if (_taccess(path_adb, 0) == -1)
 	{
 		strcpy(ErrorCode, "ERROR: No adb.exe exist!");
@@ -494,7 +604,65 @@ bool CMonitor::brunGetExistHDCPKEY(char *scalarID)
 		return false;
 	}
 }
+bool CMonitor::runPostCmd()
+{
+	CString cs_write_cmd = "";
+	//FTD_HDCPKEY
+	bool bRes = true;
+	std::string st_readId = "";
+	char sz_cmd_in[FTD_BUF_SIZE] ="";
+	char sz_cmd_out[FTD_BUF_SIZE] ="";
+	char sz_cmd_errcode[FTD_BUF_SIZE] ="";
 
+	memset(sz_cmd_in, 0, sizeof(sz_cmd_in));
+	memset(sz_cmd_out, 0, sizeof(sz_cmd_out));
+	memset(sz_cmd_errcode, 0, sizeof(sz_cmd_errcode));
+
+
+	strcpy(sz_cmd_in, _T("reboot bootloader"));
+	if ( !ExecAdbOut(sz_cmd_in, sz_cmd_out, sz_cmd_errcode) ){
+		ErrMsg = (_T("reboot bootloader Fail"));
+		AfxMessageBox( ErrMsg.c_str() );
+		TraceLog(MSG_INFO,  ErrMsg);
+		goto  Exit_ShowResult;
+	}	
+	Sleep(5000);
+
+	strcpy(sz_cmd_in, _T("flash passport passport_FactoryDLTool"));
+	if ( !ExecFastbootOut(sz_cmd_in, sz_cmd_out, sz_cmd_errcode) ){
+		ErrMsg = (_T("flash passport passport_FactoryDLTool"));
+		AfxMessageBox( ErrMsg.c_str() );
+		TraceLog(MSG_INFO,  ErrMsg);
+		goto  Exit_ShowResult;
+	}	
+	Sleep(2000);
+
+	strcpy(sz_cmd_in, _T("oem ftd Qoff"));
+	if ( !ExecFastbootOut(sz_cmd_in, sz_cmd_out, sz_cmd_errcode) ){
+		ErrMsg = (_T("oem ftd Qoff"));
+		AfxMessageBox( ErrMsg.c_str() );
+		TraceLog(MSG_INFO,  ErrMsg);
+		goto  Exit_ShowResult;
+	}	
+	Sleep(1000);
+
+	
+Exit_ShowResult:
+	if ( !bRes) {
+		m_strResult = "FAIL";
+	}
+	else
+	{
+		m_strErrorCode = "-";
+		m_strResult = "PASS";
+	}
+
+
+	str_msg = ErrMsg;
+	m_strMessage = str_msg;
+	FactoryLog();
+	return bRes;
+}
 bool CMonitor::runWriteTag()
 {
 	bool bRes = false;
@@ -511,7 +679,7 @@ bool CMonitor::runWriteTag()
 	
 	if ( g_strTag.empty() ){
 	//	AfxMessageBox("fail, tag is empty");
-		ErrMsg = (_T("ail, tag is empty"));
+		ErrMsg = (_T("fail, tag is empty"));
 		AfxMessageBox( ErrMsg.c_str() );
 		TraceLog(MSG_INFO,  ErrMsg);
 		goto Exit_ShowResult;
@@ -684,13 +852,13 @@ bool CMonitor::runGetHDCPKEY()
 
 
 	/*ok but skip*/
-	//if ( !(runReadScalarID( sz_value, ID_SIZE))) {
-	//	ErrMsg = _T("runGetHDCPKEY fail");
-	//	TraceLog(MSG_INFO,  ErrMsg);		
-	//	goto Exit_ShowResult;
-	//}
-	//
-	std_ScalarId = _T("F1008B28887");
+	if ( !(runReadScalarID( sz_value, ID_SIZE))) {
+		ErrMsg = _T("runGetHDCPKEY fail");
+		TraceLog(MSG_INFO,  ErrMsg);		
+		goto Exit_ShowResult;
+	}
+	
+//	std_ScalarId = _T("F1008B28887");
 
 	sprintf_s((char*)sz_value, ID_SIZE_BUFFER, "%s", std_ScalarId.c_str());//station name (before this station)
 

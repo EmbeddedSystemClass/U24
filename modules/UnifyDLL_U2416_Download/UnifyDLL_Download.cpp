@@ -66,6 +66,9 @@ CDLInstance::CDLInstance()
 	/* Init member */
 	m_b_readIniFile = false;
 	m_b_SupportQDownload = false;
+	m_b_checkFlow = false;
+	m_b_insertData = false;
+	m_b_checkSWVersion = false;
 	m_i_imageCount = 0;
 	m_vector_image.clear();
 	m_map_picassoList.clear();
@@ -76,7 +79,7 @@ CDLInstance::CDLInstance()
 
 	/* Init google log */
 	//obj_gLog.InitializeGLog(LOG_PATH);
-	obj_gLog.InitializeGLog("");
+	//obj_gLog.InitializeGLog("");
 
 	if(::CoInitialize(NULL) != S_OK)
 	{
@@ -84,6 +87,14 @@ CDLInstance::CDLInstance()
 		Sleep(200);
 		::CoInitialize(NULL);
 	}
+
+	st_Test_Flow[0] = _T("BBTEST") ;
+	st_Test_Flow[1] = _T("BTWLAN") ;
+	st_Test_Flow[2] = _T("MMI") ;
+	st_Test_Flow[3] = _T("WLS") ;
+	st_Test_Flow[4] = _T("RUN_IN") ;
+	st_Test_Flow[5] = _T("OS_DL") ;
+	st_Test_Flow[6] = _T("WRITE") ;
 }
 
 CDLInstance::~CDLInstance()
@@ -250,7 +261,12 @@ bool CDLInstance::PreRun(int i_slot)
 			SetErrorMessage(_T("Check COMPort exist Fail."), i_slot);
 			return false;
 		}
-	
+
+
+ //runCheckFlow( int i_type);// i_type 1 = pcbaid,  2 = scalarId
+ //runCheckFlowAllStation( 2 );// i_type 1 = pcbaid,  2 = scalarId
+ //runReadScalarID( char *szvalue, int iSize );
+
 	//lion
 	//DL_PASSPORT_IMGS.clear();
 	//DL_ALL_CHECK1_IMGS.clear();
@@ -273,6 +289,9 @@ bool CDLInstance::PreRun(int i_slot)
 *****************************************************************************/
 bool CDLInstance::Run(int i_slot)
 {	
+	if ( m_b_checkSWVersion ){//liontest
+	}
+//	m_b_insertFlow = false;
 	/* Check input */
 	if ((i_slot < 0) || (i_slot >= MAX_SLOT))
 	{
@@ -332,6 +351,17 @@ bool CDLInstance::Run(int i_slot)
 	/* Set Customer SW version */
 	p_obj_DL->SetCustomerSwVerion(m_str_CustomerSwVersion);
 
+	bool passFail = false;
+	if (m_b_checkFlow)
+	{
+		char *sz_value = new char[ID_SIZE_BUFFER]  ;
+		passFail = runReadScalarID( sz_value, ID_SIZE);
+
+		passFail = runCheckFlow( 2 );// i_type 1 = pcbaid,  2 = scalarId
+		if ( !passFail) return false; 
+ 
+	}
+
 	/* Run */
 	bool b_res = false;
 	b_res = p_obj_DL->Run();
@@ -360,7 +390,89 @@ bool CDLInstance::Run(int i_slot)
 		return false;
 	}
 
-	return true;
+//	bool b_res = false;
+//	bool passFail = false;
+
+	if (m_b_insertData)
+	{
+		char *sz_value = new char[ID_SIZE_BUFFER]  ;
+		b_res = runInsertData();
+	}
+
+	return b_res;
+
+	//return true;
+}
+
+bool CDLInstance::GetSWVersion(void)
+{    
+     bool bReturn = false;
+
+     char szModel[8] = "GLUFB1A";
+     //char szModel[8] = "GNAMB1A";
+     char szSWVersion[30] = "";
+     char szErrCode[128] = "";
+     char szErrMsg[512] = "";
+     char szPartNoInfo[128] = "";
+	 char m_sz9JPartNo[31] ="";
+	 char m_szImagerVer[31] = "";
+	 std::string m_szSWver;
+	 //char m_szImagerVer[31] = "";
+     CString str_dllVMS_DBACCESS = VMS_DBACCESS;
+     HMODULE hDll = ::LoadLibrary(str_dllVMS_DBACCESS);
+     if(hDll == NULL)
+     {    goto Exit;
+     }
+
+     //WCHAR Buf[1000];
+     //GetCurrentDirectory(1000,Buf);
+
+     typedef bool (*fpVMS_ConnectDB)(void);
+     typedef bool (*fpVMS_CloseDB)(void);
+     fpVMS_CloseDB iVMS_CloseDB = (fpVMS_CloseDB)::GetProcAddress (hDll,"VMS_CloseDB");
+     if(iVMS_CloseDB == NULL)
+     {    //没有VMS_ConnectDB
+         goto Exit_FreeLibrary;
+     }
+     //char PartNo9J[31] = "9J.2EE12.33E";
+
+     fpVMS_ConnectDB iVMS_ConnectDB = (fpVMS_ConnectDB)::GetProcAddress(hDll,"VMS_ConnectDB");
+     if (iVMS_ConnectDB != NULL)
+     {    if(iVMS_ConnectDB())
+         {    typedef bool (*fpVMS_QuerySQNinfo_S3)(char *szModel, char *szPartNo, char *szSWVersion, char *st_PartnoInfo, char *szErrCode, char *szErrMsg);
+              fpVMS_QuerySQNinfo_S3 iVMS_QuerySQNinfo_S3 = (fpVMS_QuerySQNinfo_S3)::GetProcAddress(hDll,"VMS_QuerySQNinfo_S3");
+              if (iVMS_QuerySQNinfo_S3 != NULL )
+              {    bool bRef = iVMS_QuerySQNinfo_S3(szModel, m_sz9JPartNo, m_szImagerVer, szPartNoInfo, szErrCode, szErrMsg);
+                   if(bRef)
+                   {    m_szSWver = m_szImagerVer;
+                       bReturn = true;
+                   }
+                   else
+                   {    //查询失败
+                       goto Exit_CloseDB;
+                   }
+              }
+              else
+              {    //没有VMS_QuerySQNinfo
+                   goto Exit_CloseDB;
+              }
+         }
+         else
+         {    //链接VMS数据失败
+              goto Exit_FreeLibrary;
+         }
+     }
+     else
+     {    //没有VMS_ConnectDB
+         goto Exit_FreeLibrary;
+     }
+
+Exit_CloseDB:
+     iVMS_CloseDB();
+Exit_FreeLibrary:
+     FreeLibrary(hDll);
+Exit:
+     return bReturn;
 }
 
 
@@ -376,36 +488,47 @@ bool CDLInstance::Run(int i_slot)
 *****************************************************************************/
 bool CDLInstance::PostRun(int i_slot)
 {
+	return true;
 	bool b_res = false;
-	CBaseProject* p_obj_DL = NULL;
-	/* Get COMPort */
-	int i_comPort = m_map_deviceStruct[i_slot].i_COMPort;
-	/* Get Multi-download flag */
-	CString str_multiDLFlag = m_map_deviceStructMultiDLFlag[i_slot].str_multiDLFlag;
-	p_obj_DL = new CU2416(i_comPort, str_multiDLFlag);
+//	bool passFail = false;
 
-	p_obj_DL->SetDLLIniFileName(m_str_iniFileName);
-	b_res = p_obj_DL->PostRun(i_slot);
-
-	if ( !b_res){
-		/*can't reboot save err log*/
+	if (m_b_insertData)
+	{
+		char *sz_value = new char[ID_SIZE_BUFFER]  ;
+		b_res = runInsertData();
 	}
 
-	char szModulePath[MAX_PATH] = {0};
-	GetModuleFileName(NULL, szModulePath, MAX_PATH);
-	PathRemoveFileSpec(szModulePath);
-	char Path_UpLog_Bat[100];
-	sprintf(Path_UpLog_Bat, _T("%s\\Qisda\\UpLog.bat"), szModulePath);
+	return b_res;
+	 
+	//CBaseProject* p_obj_DL = NULL;
+	///* Get COMPort */
+	//int i_comPort = m_map_deviceStruct[i_slot].i_COMPort;
+	///* Get Multi-download flag */
+	//CString str_multiDLFlag = m_map_deviceStructMultiDLFlag[i_slot].str_multiDLFlag;
+	//p_obj_DL = new CU2416(i_comPort, str_multiDLFlag);
 
-	char str_modelName[32] = {0};
-	strcpy(str_modelName, CT2CA(m_str_modelName.GetBuffer()));
+	//p_obj_DL->SetDLLIniFileName(m_str_iniFileName);
+	//b_res = p_obj_DL->PostRun(i_slot);
 
-	if (::_taccess( Path_UpLog_Bat, 0 ) == 0){
-		if (p_obj_DL->LogUploadByBAT(str_modelName) )
-			SetErrorMessage(_T("LogUpload by bat Success."), 0);
-		else
-			SetErrorMessage(_T("LogUpload Fail."), 0);
-	}
+	//if ( !b_res){
+	//	/*can't reboot save err log*/
+	//}
+
+	//char szModulePath[MAX_PATH];
+	//GetModuleFileName(NULL, szModulePath, MAX_PATH);
+	//PathRemoveFileSpec(szModulePath);
+	//char Path_UpLog_Bat[100];
+	//sprintf(Path_UpLog_Bat, _T("%s\\Qisda\\UpLog.bat"), szModulePath);
+
+	//char str_modelName[32] = {0};
+	//strcpy(str_modelName, CT2CA(m_str_modelName.GetBuffer()));
+
+	//if (::_taccess( Path_UpLog_Bat, 0 ) == 0){
+	//	if (p_obj_DL->LogUploadByBAT(str_modelName) )
+	//		SetErrorMessage(_T("LogUpload by bat Success."), 0);
+	//	else
+	//		SetErrorMessage(_T("LogUpload Fail."), 0);
+	//}
 	//else
 	//{ 
 	//	if ( p_obj_DL->LogUpload(str_modelName))
@@ -415,21 +538,28 @@ bool CDLInstance::PostRun(int i_slot)
 	//}
 
 
-	delete p_obj_DL;
-	p_obj_DL = NULL;
+	//delete p_obj_DL;
+	//p_obj_DL = NULL;
 
-	return b_res;
+//	return b_res;
 }
 
 bool CDLInstance::Begin(int i_slot)
 {
 	/* Read INI file */
+	/* Set log path and file name */
+	bool passFail = false;
+	GetSWVersion();//liontest
+
 	m_b_readIniFile = ReadDLLIniFile();
 	if (m_b_readIniFile != true)
 	{
 		SetErrorMessage(_T("Read ini file Fail."), 0);
 		return false;
 	}
+
+	SetLogFilePath();
+	SetLogFileName();
 
 	/* Check MD5 */
 	if (m_str_toolMode == "RD")
@@ -445,6 +575,210 @@ bool CDLInstance::Begin(int i_slot)
 	return true;
 }
 
+bool CDLInstance::runReadScalarID( char *szvalue, int iSize )
+{
+	bool b_res = true;
+	std::string ErrMsg;
+
+	memset(szvalue,'\0',iSize);
+	if(Id.ReadId())
+	{	
+		//Id.GetId();
+		std_ScalarId = Id.GetId();
+		g_strScalarID = std_ScalarId;
+		if(std_ScalarId.empty() || std_ScalarId.length() != ID_SIZE)
+		{	
+			
+			ErrMsg = "Fail to read ID, ID = "  + std_ScalarId;
+			AfxMessageBox( ErrMsg.c_str());
+			//SetErrorMessage(ErrMsg.c_str() , 0);
+			SetErrorMessage(ErrMsg.c_str() , 0);
+			b_res = false;
+		}
+		else
+		{	
+			ErrMsg = "Pass to read ID, ID = " + std_ScalarId;
+			SetErrorMessage(ErrMsg.c_str() , 0);
+			sprintf_s( szvalue , ID_SIZE_BUFFER, "%s", std_ScalarId.c_str());
+		}
+	}
+	else
+	{
+		ErrMsg = "Read ID fail.";
+		AfxMessageBox( ErrMsg.c_str());
+		SetErrorMessage(ErrMsg.c_str() , 0);
+		b_res = false;
+	}
+	return b_res;
+}
+
+bool CDLInstance::runCheckFlowAllStation( int i_type ){
+	int i ;
+	int i_limitStation = 0; 
+//	g_str_station = "BBTEST";
+//	runInsertData(i_type);
+	bool b_Res = false;
+	for (i = 0 ; i < i_Station_Count ; i ++){
+		if (st_Test_Flow[i].find( str_prestation)  != std::string::npos ){
+			b_Res = true; 
+			i_limitStation = i;
+			break;
+		}
+	}
+
+	if ( b_Res ){
+			CString csInsertCmd;
+			csInsertCmd.Format(_T("need to check , szStation = %s "), str_prestation );
+			ErrMsg =  csInsertCmd;
+			SetErrorMessage(ErrMsg.c_str() , 0);		
+			//	ErrMsg = "can't find station , runCheckFlowAllStation";
+				//AfxMessageBox(ErrMsg.c_str());
+			//	SetErrorMessage(ErrMsg.c_str() , 0);		
+		for (i = 0 ; i <= i_limitStation ; i ++){
+			checkStation = st_Test_Flow[i];
+			if  (!runCheckFlow(i_type)){
+				b_Res = false;
+				return false;
+			}else{
+				//CString csInsertCmd;
+				//csInsertCmd.Format(_T(" check OK, Station = %s " ), checkStation);
+				//ErrMsg =  csInsertCmd;
+				//SetErrorMessage(ErrMsg.c_str() , 0);
+			}
+		}
+	}else{
+			ErrMsg = "can't find station , runCheckFlowAllStation";
+			AfxMessageBox(ErrMsg.c_str());
+			SetErrorMessage(ErrMsg.c_str() , 0);
+			return false;		
+	}
+
+	return true;
+}
+bool CDLInstance::runCheckFlow( int i_type)
+{	
+	bool bReturn = false;
+	CString str_dllF32SERVER2 = F32SERVERDB;
+
+	HMODULE hDll ;
+	hDll = ::LoadLibrary(str_dllF32SERVER2);
+
+	if( hDll != NULL )
+	{	
+		typedef bool (_stdcall *lpGetYrstationInfoByIdAndStation)( 
+																unsigned short WeekCount,const unsigned char* szId,          
+			                                                    unsigned short IdLen,const unsigned char* Station,       
+																unsigned short StationLen);
+		lpGetYrstationInfoByIdAndStation iGetYrstationInfoByIdAndStation = (lpGetYrstationInfoByIdAndStation)::GetProcAddress(hDll,"GetYrstationInfoByIdAndStation");
+
+		unsigned char sz_ID[ID_SIZE_BUFFER] ="";
+		unsigned char szStation[ID_SIZE_BUFFER] ="";
+		
+		if( iGetYrstationInfoByIdAndStation != NULL)
+		{	
+
+			sprintf_s((char*)szStation, ID_SIZE_BUFFER, "%s", checkStation.c_str());//station name (before this station)
+			//sprintf_s((char*)szStation, ID_SIZE_BUFFER, "%s", g_str_station.c_str());
+
+	
+
+			//scalar id
+			sprintf_s((char*)sz_ID, ID_SIZE_BUFFER,"%s", g_strScalarID.c_str() );
+			ErrMsg = " check flow2 = ";
+			ErrMsg = ErrMsg 	+ g_strScalarID.c_str() ;
+			//AfxMessageBox(ErrMsg.c_str());
+			SetErrorMessage(ErrMsg.c_str() , 0);
+			
+			std::string sta =(char*) sz_ID;
+			int i_week = GetCurrentWeek();
+
+			CString csiGetYrstationInfoByIdAndStation;
+			csiGetYrstationInfoByIdAndStation.Format(_T("i_week = %d, sz_ID = %s, szStation = %s "), i_week,  sz_ID, szStation);
+			ErrMsg = "csiGetYrstationInfoByIdAndStation cmd = ";
+			ErrMsg = ErrMsg + csiGetYrstationInfoByIdAndStation.GetBuffer(0);
+			csiGetYrstationInfoByIdAndStation.ReleaseBuffer();
+			SetErrorMessage(ErrMsg.c_str() , 0);
+
+			if(  iGetYrstationInfoByIdAndStation( i_week, sz_ID, ID_SIZE_BUFFER, szStation, ID_SIZE_BUFFER) ) {
+				csiGetYrstationInfoByIdAndStation.Format(_T("i_week = %d, sz_ID = %s, szStation = %s "), i_week,  sz_ID, szStation);
+				ErrMsg = "csiGetYrstationInfoByIdAndStation pass";	
+				SetErrorMessage(ErrMsg.c_str() , 0);
+				bReturn =  true; //exist id 
+			}
+			else
+			{
+
+				ErrMsg = " iGetYrstationInfoByIdAndStation false = " + sta ;
+				SetErrorMessage(ErrMsg.c_str() , 0);
+
+				CString csMsg;
+				csMsg.Format("%s 站无测试纪录，请回去重测, %s no test record, ", checkStation.c_str(), checkStation.c_str());
+				ErrMsg = csMsg;// CW2A(csMsg.GetBuffer(0));
+				SetErrorMessage(ErrMsg.c_str() , 0);
+
+				AfxMessageBox(csMsg);
+				//showMsg(csMsg);
+				//AfxMessageBox(ErrMsg.c_str());
+			//	SetErrorMessage(ErrMsg.c_str() , 0);
+				bReturn =  false;//id didn't exist
+				return false;
+			}
+
+	//		unsigned char Id[15] = "F1008B28887";
+	//		unsigned char szStation[20] = "MMI_EM";
+	//		int i_week = GetCurrentWeek();
+	//		std::string sta = (char*)Id;
+
+	//		if(  iGetYrstationInfoByIdAndStation( i_week, Id, 15, szStation, 10) ) {
+	//			ErrMsg = "Load iGetYrstationInfoByIdAndStation ok = " + sta ;
+	//			//ErrMsg = ErrMsg + Id;
+	//			AfxMessageBox(ErrMsg.c_str());						
+	//		}
+	//		else
+	//		{
+	//			
+	//			ErrMsg = "Load iGetYrstationInfoByIdAndStation fail = " + sta ;
+	//			//ErrMsg = ErrMsg + Id;
+	//			AfxMessageBox(ErrMsg.c_str());				
+	//		}
+
+	//		unsigned char Id1[15] = "F1008B28888";
+	//		sta = (char*)Id1;
+	////		 Id[15] = "F1008B28888";
+	//		if(  iGetYrstationInfoByIdAndStation( i_week, Id1, 15, szStation, 10) ) {
+	//			ErrMsg = "Load iGetYrstationInfoByIdAndStation ok = " + sta ;
+	//			//ErrMsg = ErrMsg + Id;
+	//			AfxMessageBox(ErrMsg.c_str());						
+	//		}
+	//		else
+	//		{
+	//			
+	//			ErrMsg = "Load iGetYrstationInfoByIdAndStation fail = " + sta ;
+	//			//ErrMsg = ErrMsg + Id;
+	//			AfxMessageBox(ErrMsg.c_str());				
+	//		}
+
+	//brunGetExistHDCPKEY("F1008B28887" );
+	//brunGetExistHDCPKEY("F1008B28888" );
+
+		}
+		else
+		{
+			ErrMsg = ("Load GetYrstationInfoByIdAndStation Fail");
+			AfxMessageBox( ErrMsg.c_str() );
+			SetErrorMessage(ErrMsg.c_str() , 0);
+			return false;
+		}
+	}
+	else
+	{
+			ErrMsg = ("Load str_dllF32SERVER2 Fail");
+			AfxMessageBox( ErrMsg.c_str() );
+			SetErrorMessage(ErrMsg.c_str() , 0);
+			return false;
+	}
+	return bReturn;
+}
 bool CDLInstance::End(int i_slot)
 {
 	return true;
@@ -543,7 +877,7 @@ bool CDLInstance::SetParameterValue(char* sz_keyword, char* sz_value)
 		}
 
 		/* Set DL log filename */
-		SetLogFileName();
+	//	SetLogFileName();
 	}
 
 	/* SW Version */
@@ -1031,8 +1365,6 @@ bool CDLInstance::ReadDLLIniFile(void)
 		return false;
 	}
 
-
-
 	/* Get tool version */
 	if (GetToolVersion() != true)
 	{
@@ -1044,7 +1376,11 @@ bool CDLInstance::ReadDLLIniFile(void)
 		return false;
 	}
 
-	
+	if (GetCheckFlowInsertData	() != true)
+	{
+		return false;
+	}
+
 	return true;
 }
 
@@ -1336,6 +1672,45 @@ bool CDLInstance::GetToolVersion(void)
 	m_str_ToolVersion.Format("%s", sz_toolVersion);
 
 	return true;
+}
+
+bool CDLInstance::GetCheckFlowInsertData(void)
+{
+	if (m_str_iniFileName == "")
+	{
+		return false;
+	}
+
+/*	bool                         m_b_checkFlow;     
+	bool                         m_b_insertData;    */  
+	CIniAccess obj_dllIni("Setting", m_str_iniFileName);
+	int i_InsertData = obj_dllIni.GetValue("insertdata", -1);
+	m_b_insertData = (i_InsertData == 1) ? true : false;
+
+	int i_checkflow = obj_dllIni.GetValue("checkflow", -1);
+	m_b_checkFlow = (m_b_checkFlow == 1) ? true : false;
+
+	int i_checkSWVersion= obj_dllIni.GetValue("checkSWVersion", -1);
+	m_b_checkSWVersion = (m_b_checkSWVersion == 1) ? true : false;
+
+//	int m_b_checkSWVersion;
+	char sz_prestation[128] = {0};
+	obj_dllIni.GetValue(_T("prestation"), sz_prestation, sizeof(sz_prestation));
+
+	str_prestation.Format(_T("%s"), sz_prestation);
+
+	if (str_prestation == _T(""))
+	{
+		SetErrorMessage("Get str_prestation Fail from QISDA.", 0);
+		return false;
+	}
+	checkStation = str_prestation;
+
+	//m_str_DLMode = str_DLMode;
+
+	return true;
+
+
 }
 
 
@@ -1712,6 +2087,17 @@ bool CDLInstance::IsImageFileExist(const int i_slot)
 * Version       Author          Date                Abstract                 
 * 1.0           Alex.Chen       2011/07/06          First version             
 *****************************************************************************/
+void CDLInstance::SetLogFilePath()
+{
+	SYSTEMTIME systemTime;
+	GetLocalTime(&systemTime);
+	CString currDate;
+	currDate.Format(_T("%04d%02d%02d"), systemTime.wYear, systemTime.wMonth, systemTime.wDay);
+	CString logPath;
+	logPath.Format(_T("D:\\LOG\\DLL\\%s\\%s"), csStation, currDate);
+	obj_gLog.InitializeGLog(logPath);
+}
+
 void CDLInstance::SetLogFileName(void)
 {
 	CString str_fileName = _T("");
@@ -1740,8 +2126,18 @@ void CDLInstance::SetLogFileName(void)
 		/* Set default log file name */
 		str_fileName = _T("DL");
 	}
-	str_fileName += _T(".log");
-	SetInfoLogFileName(str_fileName);
+	SYSTEMTIME systemTime;
+	GetLocalTime(&systemTime);
+    CString currTime;
+	currTime.Format(_T("%04d%02d%02d_%02d%02d_%02d"),
+		systemTime.wYear, systemTime.wMonth, systemTime.wDay,
+		systemTime.wHour, systemTime.wMinute, systemTime.wSecond);
+
+	CString filename;
+	filename.Format(_T("%s_%s.log"), str_fileName, currTime);
+
+	//str_fileName += _T(".log");
+	SetInfoLogFileName(filename);
 	m_str_logFileName = str_fileName;
 
 	return;
@@ -2356,39 +2752,180 @@ bool CDLInstance::SpiltString(CString str_sourceString, CString str_delimiter, C
 	return true;
 }
 
-//
-//CDLCommand::CDLCommand(const TSTRING& strDevice, const std::string& strPlatform)
-//:CInterfaceBase(strDevice, strPlatform)
-//,m_nProgress(0)
-//,CLog(strDevice)
-//,CLastError(strDevice)
-//{
-//	DefineNotify(EVENT_DL_PROGRESS);
-//    DefineNotify(EVENT_DL_PARTITION_DIF);
-//}
-//
-//CDLCommand::CDLCommand(int nCOMPort, const std::string& strPlatform)
-//:CInterfaceBase(COMDeviceName(nCOMPort), strPlatform)
-//,m_nProgress(0)
-//,CLog(COMDeviceName(nCOMPort))
-//,CLastError(COMDeviceName(nCOMPort))
-//{
-//	DefineNotify(EVENT_DL_PROGRESS);
-//    DefineNotify(EVENT_DL_PARTITION_DIF);
-//}
-//
-//CDLCommand::~CDLCommand(void)
-//{}
+bool CDLInstance ::runInsertData()
+{	
+	bool bReturn = false;
+	CString str_dllF32SERVER2 = F32SERVERDB;
+
+	HMODULE hDll ;
+	hDll = ::LoadLibrary(str_dllF32SERVER2);
+
+	if( hDll != NULL )
+	{	
+		typedef bool (_stdcall *lpInsertYrstation)(const unsigned char* Model,     unsigned short ModelLen,
+				   		        				   const unsigned char* Id,        unsigned short IdLen,
+												   const unsigned char* Shift,     unsigned short ShiftLen,
+												   const unsigned char* Station,   unsigned short StationLen,
+												   const unsigned char* Trid,      unsigned short TridLen,
+												   const unsigned char* Operator,  unsigned short OperatorLen,
+												   unsigned short CycleTime,
+												   const unsigned char* CheckInfo, unsigned short CheckInfoLen);
+		lpInsertYrstation iInsertYrstation = (lpInsertYrstation)::GetProcAddress(hDll,"InsertYrstation");
+		if( iInsertYrstation != NULL)
+		{	
+			unsigned char sz_ID[ID_SIZE_BUFFER] ="";
+			unsigned char szStation[ID_SIZE_BUFFER] ="";
+			unsigned char szLine[5]="B21";
+
+			sprintf_s((char*)szStation, ID_SIZE_BUFFER, "%s", csStation);
+
+			unsigned char szModel[ID_SIZE_BUFFER]="";
+			sprintf_s((char*)szModel, ID_SIZE_BUFFER, "%s", m_str_modelName);
+			unsigned char szTrid[5]="";
+			unsigned char szOperator[5]="";
+			unsigned char szCheckInfo[5]="";
+
+			//char szTemp[ID_SIZE_BUFFER];
+			//sprintf_s(szTemp,ID_SIZE_BUFFER, "F1008B28888");
+			//sprintf_s(szTemp,10,"%s",m_pIPhone->m_szSN.c_str());
+
+		//	unsigned char Id[ID_SIZE_BUFFER] = {0};
+			unsigned char Station[ID_SIZE_BUFFER]  = {0};
+
+				if ( g_strScalarID.empty()){
+					ErrMsg = "  scalar board is empty = " ;
+					ErrMsg =  ErrMsg + g_strScalarID.c_str() ;
+					//SetErrorMessage(ErrMsg.c_str() , 0);
+					AfxMessageBox(ErrMsg.c_str());
+					return false;
+				}
+				sprintf_s((char*)sz_ID, ID_SIZE_BUFFER,"%s", g_strScalarID.c_str() );
+				ErrMsg = " iInsertYrstation 2 = ";
+				ErrMsg = ErrMsg 	+ g_strScalarID.c_str() ;
+			//	AfxMessageBox(ErrMsg.c_str());
+				//SetErrorMessage(ErrMsg.c_str() , 0);
+
+			//memcpy(sz_ID,szTemp,ID_SIZE_BUFFER);
+			bReturn = iInsertYrstation(szModel,   (unsigned short)strlen((char*)szModel),
+									   sz_ID,	(unsigned short)strlen((char*)sz_ID),
+									   szLine,    (unsigned short)strlen((char*)szLine), 
+									   szStation, (unsigned short)strlen((char*)szStation),
+									   szTrid,     5,
+									   szOperator,   5,
+									   0,
+									   szCheckInfo,  5);
+				CString csInsertCmd;
+				csInsertCmd.Format(_T("szModel = %s, sz_ID = %s, szOperator = %s , szStation = %s "), szModel,  sz_ID, szOperator, szStation);
+				ErrMsg = "iInsertYrstation cmd = " + csInsertCmd;
+				//SetErrorMessage(ErrMsg.c_str() , 0);
+
+			if(bReturn) 
+			{
+			//	CString csInsertCmd;
+			//	csInsertCmd.Format(_T("szModel = %s, sz_ID = %s, szOperator = %s , szStation = %s "), szModel,  sz_ID, szOperator, szStation);
+				ErrMsg = "iInsertYrstation pass";
+				//SetErrorMessage(ErrMsg.c_str() , 0);
+			}
+			else
+			{
+				ErrMsg = "iInsertYrstation fail ";
+				AfxMessageBox(ErrMsg.c_str());				
+				//SetErrorMessage(ErrMsg.c_str() , 0);
+			}
+			goto Exit_FreeLibrary;
+		}
+		else
+		{	
+			ErrMsg = "Load InsertYrstation fail ";
+			AfxMessageBox(ErrMsg.c_str());				
+			//SetErrorMessage(ErrMsg.c_str() , 0);
+			goto Exit_FreeLibrary;
+		}
+	}
+	else
+	{	
+		ErrMsg = "Load str_dllF32SERVER2 fail ";
+		AfxMessageBox(ErrMsg.c_str());				
+		//SetErrorMessage(ErrMsg.c_str() , 0);
+		goto Exit;
+	}
+Exit_FreeLibrary:
+	FreeLibrary(hDll);
+Exit:
+	return bReturn;
+}
 
 
-//void CDLCommand::AddMsg(const char* szMsg, int nStep, int nProgress)
-//{
-//    if(!(m_nProgress == nProgress && m_strMsg == szMsg))
-//	{
-//		m_nProgress = nProgress;
-//		m_strMsg = szMsg;
-//		DL_PROGRESS Msg = {(char*)szMsg, (DownloadStep)nStep, nProgress};
-//		Fire(EVENT_DL_PROGRESS, (long)&Msg);
-//		TRACE(szMsg);
-//	}
-//}
+
+int CDLInstance ::GetWeek	(	struct tm* date	)
+{
+	if (NULL == date)
+	{
+		return 0; // or -1 or throw exception
+	}
+	if (::mktime(date) < 0) // Make sure _USE_32BIT_TIME_T is NOT defined.
+	{
+		return 0; // or -1 or throw exception
+	}
+	// The basic calculation:
+	// {Day of Year (1 to 366) + 10 - Day of Week (Mon = 1 to Sun = 7)} / 7
+	int monToSun = (date->tm_wday == 0) ? 7 : date->tm_wday; // Adjust zero indexed week day
+	int week = ((date->tm_yday + 11 - monToSun) / 7); // Add 11 because yday is 0 to 365.
+
+	// Now deal with special cases:
+	// A) If calculated week is zero, then it is part of the last week of the previous year.
+	if (week == 0)
+	{
+		// We need to find out if there are 53 weeks in previous year.
+		// Unfortunately to do so we have to call mktime again to get the information we require.
+		// Here we can use a slight cheat - reuse this function!
+		// (This won't end up in a loop, because there's no way week will be zero again with these values).
+		tm lastDay = { 0 };
+		lastDay.tm_mday = 31;
+		lastDay.tm_mon = 11;
+		lastDay.tm_year = date->tm_year - 1;
+		// We set time to sometime during the day (midday seems to make sense)
+		// so that we don't get problems with daylight saving time.
+		lastDay.tm_hour = 12;
+		week = GetWeek(&lastDay);
+	}
+	// B) If calculated week is 53, then we need to determine if there really are 53 weeks in current year
+	//    or if this is actually week one of the next year.
+	else if (week == 53)
+	{
+		// We need to find out if there really are 53 weeks in this year,
+		// There must be 53 weeks in the year if:
+		// a) it ends on Thurs (year also starts on Thurs, or Wed on leap year).
+		// b) it ends on Friday and starts on Thurs (a leap year).
+		// In order not to call mktime again, we can work this out from what we already know!
+		int lastDay = date->tm_wday + 31 - date->tm_mday;
+		if (lastDay == 5) // Last day of the year is Friday
+		{
+			// How many days in the year?
+			int daysInYear = date->tm_yday + 32 - date->tm_mday; // add 32 because yday is 0 to 365
+			if (daysInYear < 366)
+			{
+				// If 365 days in year, then the year started on Friday
+				// so there are only 52 weeks, and this is week one of next year.
+				week = 1;
+			}
+		}
+		else if (lastDay != 4) // Last day is NOT Thursday
+		{
+			// This must be the first week of next year
+			week = 1;
+		}
+		// Otherwise we really have 53 weeks!
+	}
+	return week;
+}
+
+int CDLInstance ::GetCurrentWeek()
+{
+	tm today;
+	time_t now;
+	time(&now);
+	errno_t error = ::localtime_s(&today, &now);
+	//int a = GetWeek(&today);
+	return GetWeek(&today);
+}
