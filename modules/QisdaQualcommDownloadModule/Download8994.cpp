@@ -1,7 +1,7 @@
 
 #include "StdAfx.h"
 #include "Download8994.h"
-#include "../../lib/Qualcomm/QDART4823/inc/QLib.h"
+//#include "../../lib/Qualcomm/QDART4823/inc/QLib.h"
 //#include "../UnifyDLL_U2416_Download/SparseLib/sparse.h"
 #include <SetupAPI.h>
 #pragma comment(lib, "setupapi")
@@ -20,12 +20,12 @@ CDownload8994::CDownload8994(int i_COMPort, CString str_multiDLFlag)
 {
 	m_str_errorCode = "";
 	m_str_DLMode = "";
-	m_i_reboot = 0;
+	/*m_i_reboot = 0;
 	m_i_RebootMode = 0;
 	m_i_checkSum = 0;
-	m_i_SupportQDownload = 0;
+	m_i_SupportQDownload = 0;*/
 	m_map_COMPicasso.clear();
-	m_map_imageNameCheckSum.clear();
+	//m_map_imageNameCheckSum.clear();
 	m_str_multiDLFlag = str_multiDLFlag;
 	m_i_COMPort = i_COMPort;
 }
@@ -87,83 +87,31 @@ bool CDownload8994::MultiDownload(bool b_speedUp, bool b_reOpenAfterReset, Downl
 	{
 		bool b_wait_fastboot = false;
 		int nLimitTime = 0 ; 
-		//if (  FindADBdevice(m_i_COMPort) ){
-			CString cs_Qphone;
-			cs_Qphone.Format(_T("QPHONE%d"), m_i_COMPort);
-			if (bGetADB(m_i_COMPort)){
-				AddMsg("Get Adb Success.", None, 10);
 
-				bADB_to_Fastboot(m_i_COMPort);
-				AddMsg("adb to fastboot ok", None, 10);
-				//SendMessageToUI("Get Adb Success.");
-				
-				//Sleep(1000);//for adb mode to fastboot mode
-				//if (bGetFastboot(_T("devices"), output,ErrorCode, m_i_COMPort)){
-				while ( !b_wait_fastboot){
-					if (bCallAdbFastbootCMD(_T("fastboot.exe"), _T("devices"),output,ErrorCode, cs_Qphone) ){
-						b_wait_fastboot = true;
-						AddMsg("Get Fastboot Success.", None, 10);
-					}
-					Sleep(1000);
-					nLimitTime ++;
-					if ( nLimitTime > 60 ) break;
-				}
-				if ( b_wait_fastboot) b_result = FastbootEXE_Download(m_i_COMPort);
-				else AddMsg("Fail can't find fastboot", DownloadStep::None, 100);
+		CString cs_Qphone;
+		cs_Qphone.Format(_T("QPHONE%d"), m_i_COMPort);
+		if (bGetADB(m_i_COMPort)){
+			AddMsg("Get Adb Success.", None, 10);
 
-				//fastboot oem adb Qon
-				//fastboot oem root Qon
-				//fastboot oem permissive Qon
-				//fastboot oem ftd Qon
+			bADB_to_Fastboot(m_i_COMPort);
+			AddMsg("adb to fastboot ok", None, 10);
 
-				if (b_result){
-					if ( !(bCallAdbFastbootCMD(_T("fastboot.exe"), _T("oem adb Qon"),output,ErrorCode, DNULL) )){
-						b_result = false;
-						AddMsg("oem adb Qon fail", None, 10);
-					}else
-					{
-						AddMsg("oem adb Qon pass", None, 10);
-					}
-					Sleep(200);
+			while ( !b_wait_fastboot){
+				if (bCallAdbFastbootCMD(_T("fastboot.exe"), _T("devices"),output,ErrorCode, cs_Qphone) ){
+					b_wait_fastboot = true;
+					AddMsg("Get Fastboot Success.", None, 10);
 				}
-				if (b_result){
-					if ( !(bCallAdbFastbootCMD(_T("fastboot.exe"), _T("oem root Qon"),output,ErrorCode, DNULL) )){
-						b_result = false;
-						AddMsg("oem root Qon fail", None, 10);
-					}else
-					{
-						AddMsg("oem root Qon pass", None, 10);
-					}
-					Sleep(200);
-				}
-				if (b_result){
-					if ( !(bCallAdbFastbootCMD(_T("fastboot.exe"), _T("oem permissive Qon"),output,ErrorCode, DNULL) )){
-						b_result = false;
-						AddMsg("oem permissive Qon fail", None, 10);
-					}else
-					{
-						AddMsg("oem permissive Qon pass", None, 10);
-					}
-					Sleep(200);
-				}
-				if (b_result){
-					if ( !(bCallAdbFastbootCMD(_T("fastboot.exe"), _T("oem ftd Qon"),output,ErrorCode, DNULL) )){
-						b_result = false;
-						AddMsg("oem ftd Qon fail", None, 10);
-					}else
-					{
-						AddMsg("oem ftd Qon pass", None, 10);
-					}
-					Sleep(200);
-				}
+				Sleep(1000);
+				nLimitTime ++;
+				if ( nLimitTime > 60 ) break;
 			}
 
-			
-		//b_result = FastbootEXE_OS_DL();
-		//}
-		//else return false;
-		/* Fastboot Download */
-	//	b_result = FastbootDownload();
+			if ( b_wait_fastboot) b_result = FastbootEXE_Download(m_i_COMPort);
+			else AddMsg("Fail can't find fastboot", DownloadStep::None, 100);
+
+			b_result = postCmd();
+
+		}
 	}
 	else
 	{
@@ -191,9 +139,118 @@ bool CDownload8994::bADB_to_Fastboot(int nPhone){
 	bGetAdb = bCallAdbFastbootCMD(_T("adb.exe"), csCmd,output,ErrorCode, DNULL);
 
 	Sleep(1000);
-	//bAdbCMD(csCmd, output, ErrorCode, 0);
 	
+	delete [] output;
+	delete [] ErrorCode;
 	return bGetAdb;
+}
+
+bool CDownload8994::postCmd(){
+	bool b_result = false;
+	std::string std_Msg;
+	char* output = new char[BUFFER_SIZE];
+	char* ErrorCode =new char[BUFFER_SIZE];
+	CString cs_FindString("on");
+	//fastboot oem adb Qon
+	//fastboot oem root Qon
+	//fastboot oem permissive Qon
+	//fastboot oem ftd Qon
+
+		if ( !( b_result = bCallAdbFastbootCMD(_T("fastboot.exe"), _T("oem adb Qon"),output,ErrorCode, DREAD) )){
+			AddMsg("oem adb Qon fail", None, 10);
+			goto Exit_ShowResult;
+		}else
+		{
+			AddMsg("oem adb Qon pass", None, 10);
+		}
+		Sleep(200);
+
+		if ( !( b_result = bCallAdbFastbootCMD(_T("fastboot.exe"), _T("oem root Qon"),output,ErrorCode, DREAD) )){
+			AddMsg("oem root Qon fail", None, 10);
+			goto Exit_ShowResult;
+		}else
+		{
+			AddMsg("oem root Qon pass", None, 10);
+		}
+		Sleep(200);
+
+		if ( !(  b_result = bCallAdbFastbootCMD(_T("fastboot.exe"), _T("oem permissive Qon"),output,ErrorCode, DREAD) )){
+			AddMsg("oem permissive Qon fail", None, 10);
+			goto Exit_ShowResult;
+		}else
+		{
+			AddMsg("oem permissive Qon pass", None, 10);
+		}
+		Sleep(200);
+
+		if ( !( b_result = bCallAdbFastbootCMD(_T("fastboot.exe"), _T("format drm"),output,ErrorCode, DREAD) )){
+			AddMsg("format drm fail", None, 10);
+			goto Exit_ShowResult;
+		}else
+		{
+			AddMsg("format drm pass", None, 10);
+		}
+		Sleep(200);
+
+		if ( !( b_result = bCallAdbFastbootCMD(_T("fastboot.exe"), _T("oem ftd Qon"),output,ErrorCode, DREAD) )){
+			AddMsg("oem ftd Qon fail", None, 10);
+			goto Exit_ShowResult;
+		}else
+		{
+			AddMsg("oem ftd Qon pass", None, 10);
+		}
+		Sleep(200);
+
+		/*check variable */
+
+		if ( !( b_result = bCallAdbFastbootCMD(_T("fastboot.exe"), _T("getvar ftd"),output,ErrorCode, cs_FindString) )){
+			AddMsg("getvar ftd fail", None, 10);
+			goto Exit_ShowResult;
+		}else
+		{
+			AddMsg("getvar ftd ok", None, 10);
+		}
+		Sleep(200);
+
+		if ( !( b_result = bCallAdbFastbootCMD(_T("fastboot.exe"), _T("getvar permissive"),output,ErrorCode, cs_FindString) )){
+			AddMsg("getvar permissive fail", None, 10);
+			goto Exit_ShowResult;
+		}else
+		{
+			AddMsg("getvar permissive ok", None, 10);
+		}
+		Sleep(200);
+
+		if ( !( b_result = bCallAdbFastbootCMD(_T("fastboot.exe"), _T("getvar adb"),output,ErrorCode, cs_FindString) )){
+			AddMsg("getvar adb fail", None, 10);
+			goto Exit_ShowResult;
+		}else
+		{
+			AddMsg("getvar adb ok", None, 10);
+		}
+		Sleep(200);
+
+		if ( !( b_result = bCallAdbFastbootCMD(_T("fastboot.exe"), _T("getvar root"),output,ErrorCode, cs_FindString) )){
+			AddMsg("getvar root fail", None, 10);
+			goto Exit_ShowResult;
+		}else
+		{
+			AddMsg("getvar root ok", None, 10);
+		}
+		Sleep(200);
+
+Exit_ShowResult:
+	if ( !b_result) {
+
+	}
+	else
+	{
+	//	m_strErrorCode = "-";
+	//	m_strResult = "PASS";
+	}
+
+
+	return b_result;
 }
 
 bool CDownload8994::bGetADB(int nPhone){ 
@@ -221,206 +278,11 @@ bool CDownload8994::bGetADB(int nPhone){
 		}
 	}
 
-	
-	//CDownload8994::FastbootEXE_OS_DL(){
+	delete[] output;
+	delete[] ErrorCode ;	
 	return bGetAdb;
 }
 
-//bool CDownload8994::FastbootEXE_OS_DL(){
-//
-//
-//	map<int,CString>::iterator iter;       
-//	CString cs_MapValue = NULL;
-//	CString csImgPath;// = NULL;
-//	CString csImgType;// = NULL;
-//	CString csExePath;
-//	bool bDLFlag = false;
-//
-//	/*get fastboot.exe path */
-//	char sz_currentPath[MAX_PATH] = { 0 };
-//	::GetModuleFileName(NULL, sz_currentPath, MAX_PATH);
-//	::PathRemoveFileSpec(sz_currentPath);
-//
-//	CString str_FastbootPath;
-//	str_FastbootPath.Format(_T("%s\\fastboot.exe"), sz_currentPath);
-//
-//	str_FastbootPath = _T("C:\\Image\\GF80B1A\\u2416_certification\\fastboot.exe");
-//	//m_i_COMPort += 1;
-//	/*** DL_PASSPORT_IMGS ****/
-//	for (int i = 0 ; i < mapDL_PASSPORT_IMGS_TYPE.size() ; i++){
-//		iter = mapDL_PASSPORT_IMGS_TYPE.find(i); 
-//		if(iter != mapDL_PASSPORT_IMGS_TYPE.end()){
-//			csImgType = iter->second;
-//		}
-//
-//		iter = mapDL_PASSPORT_IMGS.find(i); 
-//		if(iter != mapDL_PASSPORT_IMGS.end()){
-//			csImgPath = m_str_imageFilePath + "\\" + iter->second;
-//		}
-//
-//		//csExePath.Format(_T("\"%s\" flash %s \"%s\" -s QPHONE%d"),str_FastbootPath, csImgType, csImgPath, m_i_COMPort);
-//		//csExePath.Format(_T("\"%s\" flash %s \"%s\" -s QPHONE%d"),str_FastbootPath, csImgType, csImgPath, m_i_COMPort);
-//		csExePath.Format(_T("flash %s \"%s\""), csImgType, csImgPath);
-//		
-//
-//		bool isOk = false;
-//	DWORD nTimeout = (csExePath.Find(_T("system")) != -1) ? 600 * 1000 : 50 * 1000; // system > 15 + size/2 sec, other 10 sec
-//	CString param;
-//	param += csExePath;
-//
-//	TRACE(_T("fastboot command: %s\n"), csExePath);
-//	TRACE(_T("fastboot timeout: %d\n"), nTimeout);
-//		
-//
-//	if (Exec(str_FastbootPath, param, nTimeout)) {
-//		if (param.Find(_T("FAIL")) != -1) { // handle FAIL
-//			isOk = false;
-//			if (str_FastbootPath.Find(_T("status read failed")) != -1) {
-//			//	SendMsg(Command, "FAIL"); // ERROR_CONNECTION_INVALID 1229
-//			//	SendMsg(_T("ERROR: USB status read failed!\nPlease check USB hub, USB cable, and try again.\n"), "FAIL");
-//			}
-//			else if (str_FastbootPath.Find(_T("getvar")) != -1) {
-//				// skip getvar fail
-//			}
-//			else {
-//				//SendMsg(param, "FAIL");
-//			}
-//		}
-//		else { // handle OKAY
-//			isOk = true;
-//			//if (Command.Find(_T("reboot")) != -1) {
-//			//	// hide reboot command
-//			//}
-//			//else if (Command.Find(_T("flash")) != -1) {
-//			//	// hide flash command
-//			//}
-//			//else if (Command.Find(_T("getvar")) != -1) {
-//			//	// hide getvar command
-//			//}
-//			//else {
-//			//	SendMsg(param, "INFO");
-//			//}
-//		}
-//		//Command = param;
-//	}
-//	else {
-//		isOk = false;
-//	//	SendMsg(_T("ERROR: Execute fastboot fail!\n"), "FAIL");
-////#ifdef _DEBUG
-//	//	SendMsg(_T("#DEBUG: cmd -") + Command + _T("\n"), "FAIL");
-////#endif
-//	}
-//	return true;
-//
-//		
-//		bool bDLFlag = false;
-//		bDLFlag = bFastbootDL(csExePath);
-//		if ( bDLFlag ){
-//			AddMsg("Passport OK", None, 10);
-//		}else{
-//			AddMsg("Passport Fail", None, 10);
-//			return false;
-//		}
-//	}
-//
-//
-//	/*** DL_ALL_CHECK1_IMG ****/
-//	
-//	for (int i = 0 ; i < mapDL_ALL_CHECK1_IMGS_TYPE.size() ; i++){
-//		iter = mapDL_ALL_CHECK1_IMGS_TYPE.find(i); 
-//		if(iter != mapDL_ALL_CHECK1_IMGS_TYPE.end()){
-//			csImgType = iter->second;
-//		}
-//
-//		iter = mapDL_ALL_CHECK1_IMGS.find(i); 
-//		if(iter != mapDL_ALL_CHECK1_IMGS.end()){
-//			csImgPath = m_str_imageFilePath + "\\" + iter->second;
-//		}
-//		//csExePath.Format(_T("%s flash %s %s -s QPHONE%d"),str_FastbootPath, csImgType, csImgPath, m_i_COMPort);
-//		//csExePath.Format(_T("%s flash %s %s -s QPHONE%d"),str_FastbootPath, csImgType, csImgPath, m_i_COMPort);
-//		//bDLFlag = bFastbootDL(csExePath);
-//
-//		CString csMsg;
-//		if ( bDLFlag ){
-//			csMsg.Format("%s ok",  iter->second);
-//			AddMsg(csMsg, None, 10);
-//		}
-//		else
-//		{
-//			csMsg.Format("%s fail",  iter->second);
-//			AddMsg(csMsg, None, 10);
-//			return false;
-//		}
-//	}
-//
-//	/*** mapFORMAT_IMGS ****/
-//	Sleep(3000);
-//	for (int i = 0 ; i < mapFORMAT_IMGS.size() ; i++){
-//		iter = mapFORMAT_IMGS.find(i); 
-//		if(iter != mapFORMAT_IMGS.end()){
-//			csImgType = iter->second;
-//		}
-//
-//		//csExePath.Format(_T("\"%s\" format \"%s\" -s QPHONE%d"),str_FastbootPath, csImgType, m_i_COMPort);
-//	//	bDLFlag = bFastbootDL(csExePath);
-//
-//		CString csMsg;
-//		if ( bDLFlag ){
-//			csMsg.Format("%s ok",  iter->second);
-//			AddMsg(csMsg, None, 10);
-//		}
-//		else
-//		{
-//			csMsg.Format("%s fail",  iter->second);
-//			AddMsg(csMsg, None, 10);
-//			return false;
-//		}
-//	}
-//
-//	/**** mapERASE_ALL_IMGS ********/
-//	for (int i = 0 ; i < mapERASE_ALL_IMGS.size() ; i++){
-//		iter = mapERASE_ALL_IMGS.find(i); 
-//		if(iter != mapERASE_ALL_IMGS.end()){
-//			csImgType = iter->second;
-//		}
-//
-//		//csExePath.Format(_T("\"%s\" erase \"%s\" -s QPHONE%d"),str_FastbootPath, csImgType, m_i_COMPort);
-//		//bDLFlag = bFastbootDL(csExePath);
-//
-//		CString csMsg;
-//		if ( bDLFlag ){
-//			csMsg.Format("%s ok",  iter->second);
-//			AddMsg(csMsg, None, 10);
-//		}
-//		else
-//		{
-//			csMsg.Format("%s fail",  iter->second);
-//			AddMsg(csMsg, None, 10);
-//			return false;
-//		}
-//	}
-//
-//	return true;
-//
-//
-//	for (int i = 0 ; i < mapDL_ALL_CHECK1_IMGS.size() ; i++){
-//		iter = mapDL_ALL_CHECK1_IMGS.find(i); 
-//		if(iter != mapDL_ALL_CHECK1_IMGS.end()){
-//			csImgPath = m_str_imageFilePath + "\\" + iter->second;
-//
-//		}
-//	}
-////	csExePath.Format(_T("%s flash %s %s -s QPHONE%d"),str_FastbootPath, csImgType, csImgPath, m_i_COMPort);
-////	bFastbootDL(csExePath);
-//
-//	//mapDL_PASSPORT_IMGS;
-//	//std::map < int, CString> mapDL_PASSPORT_IMGS;
-//	//std::map < int, CString> mapDL_ALL_CHECK1_IMGS;
-//	//std::map < int, CString> mapFORMAT_IMGS;
-//	//std::map < int, CString> mapERASE_ALL_IMGS;
-//
-//	return true;
-//}
 
 
 bool CDownload8994::FastbootEXE_Download(int nPort){
@@ -733,12 +595,6 @@ bool CDownload8994::Download(bool b_speedUp, bool b_reOpenAfterReset, DownloadPr
 	}
 
 
-	//CString csImgPath;
-	//csImgPath.Format("%s%d", _T("D:\\03.Factory\\00.DELL\\GF80B1A_Trigger_V1.004_20150721_Dell_Debug\\fastboot.exe flash passport C:\\Image\\GF80B1A\\un2416_60531\\passport_FactoryDLTool -s QPHONE"), devStruct.nRealPort);
-	//bFastbootDL(csImgPath);
-
-	//csImgPath.Format("%s%d", _T("D:\\03.Factory\\00.DELL\\GF80B1A_Trigger_V1.004_20150721_Dell_Debug\\fastboot.exe flash partition C:\\Image\\GF80B1A\\un2416_60531\\gpt_both0.bin -s QPHONE"), devStruct.nRealPort);
-	//bFastbootDL(csImgPath);
 
 	return true;
 
@@ -928,6 +784,7 @@ bool CDownload8994::FindQualcomDevice(int nComport)
 	}
 
 	// Destroy handle
+	delete sz_id;
 	SetupDiDestroyDeviceInfoList(hDeviceInfo);
 	return bFound;
 }
@@ -987,11 +844,18 @@ bool CDownload8994::FindADBdevice(int nADBPort)
 			
 			/*return any port*/
 			if ( nADBPort == -1 ){
-				return atoi( sz_id);
+				if ( atoi( sz_id) >-1 ){//get any port
+					delete sz_id;
+					return true;
+				}
+			//	return atoi( sz_id);
 			}
 			else
 			{/*return specific port */
-				if( nADBPort = atoi( sz_id)) return true;;
+				if( nADBPort = atoi( sz_id)){
+					delete sz_id;
+					return true;
+				}
 			}
 			return false;
 
@@ -1055,16 +919,6 @@ bool CDownload8994::FindADBdevice(int nADBPort)
 	SetupDiDestroyDeviceInfoList(hDeviceInfo);
 	return -1;
 }
-/*****************************************************************************
-* Function name: DMSSDL     
-* Summary      : DMSSDL
-* Parameters   : void
-*                
-* Return       : bool
-* Exception    : 
-* Version       Author          Date                Abstract                 
-* 1.0          Alex.Chen     2011/01/19          First version             
-*****************************************************************************/
 
 /*****************************************************************************
 * Function name: QMSLCallBack_8994
@@ -1129,8 +983,8 @@ bool CDownload8994::SAHARADL(void)
 	}
 
 	if(saharaVer == 0){
-		AddMsg(false, "ConnectServer_Sahara_fail", SaharaProtocol);
-		//return false;
+		AddMsg("ConnectServer_Sahara_fail", DownloadStep::None, 100);
+		return false;
 	}
 
 	if(Sahara_FlashProgrammer != NULL)
@@ -1141,15 +995,13 @@ bool CDownload8994::SAHARADL(void)
 
 		if(cret) //1
 		{
-			//SetUIMessage("Flash Programmer Success");
+			AddMsg("Flash Programmer  ok", DownloadStep::None, 100);
 		}
 		else         //0
 		{
-			//SetUIMessage("Flash Programmer Fail");
+			AddMsg("Flash Programmer  Fail", DownloadStep::None, 100);
 			return false;
 		}
-
-		AddMsg(true, "Sahara_FlashProgrammer", SaharaProtocol);
 	}
 	else
 	{
@@ -1182,7 +1034,6 @@ void CDownload8994::RecordQMSLCallBack( char	*szMsg)
 {
 	if (NULL ==g_pFirehoseDownload)
 		return;
-//	TraceLog(MakeSTDstring("[QMSLCallBack]%s", szMsg));
 
 	AddMsg("[RecordQMSLCallBack]", DownloadStep::None, 10);
 
@@ -1203,32 +1054,22 @@ void CDownload8994::RecordQMSLCallBack( char	*szMsg)
 		
 	AddMsg("Get ADB Fail.", DownloadStep::None, 100);
 }
-
-void swdlCallBack_8994(
-   HANDLE hContextID,
-   char * sMsg,
-   unsigned short iMsgSize)
-{
-
-   printf("\n%s", sMsg);
-
-	FILE *pFile = NULL;
-	pFile = fopen("C:\\FireHoseQMSLCallBack_8916.log", "wb");
-	fseek(pFile, 0, SEEK_END);
-	fwrite(sMsg, 1, sizeof(sMsg)-1, pFile);
-	fclose(pFile);
-}
-
-
-//void QMSLCallBack_FireHose(HANDLE hQMSLContext,
-//				  char	*szMsg,
-//				  unsigned short iMsgSize)
-//{
-//	if (NULL ==g_pFirehoseDownload)
-//		return;
 //
-//	g_pFirehoseDownload->RecordQMSLCallBack(szMsg);
+//void swdlCallBack_8994(
+//   HANDLE hContextID,
+//   char * sMsg,
+//   unsigned short iMsgSize)
+//{
+//
+//   printf("\n%s", sMsg);
+//
+//	FILE *pFile = NULL;
+//	pFile = fopen("C:\\FireHoseQMSLCallBack_8916.log", "wb");
+//	fseek(pFile, 0, SEEK_END);
+//	fwrite(sMsg, 1, sizeof(sMsg)-1, pFile);
+//	fclose(pFile);
 //}
+
 
 bool CDownload8994::FlashProgrammer()
 {
@@ -1249,12 +1090,12 @@ bool CDownload8994::FlashProgrammer()
 
 		if (hPhone == 0)
 		{
-			//SetUIMessage("Connect Sahara Server Fail");
+			AddMsg("Connect Sahara Server Fail", DownloadStep::None, 100);
 			return false;
 		}
 		else
 		{
-			//SetUIMessage("Connect Sahara Server Success");
+			AddMsg("Connect Sahara Server ok", DownloadStep::None, 100);
 		}
 	}
 	else
@@ -1282,11 +1123,11 @@ bool CDownload8994::FlashProgrammer()
 		szResult = Sahara_FlashProgrammer(hPhone, szHexPath);
 		if(szResult) //1
 		{
-			//SetUIMessage("Flash Programmer Success");
+			AddMsg("Flash Programmer ok", DownloadStep::None, 100);
 		}
 		else         //0
 		{
-		//	SetUIMessage("Flash Programmer Fail");
+			AddMsg("Flash Programmer fail", DownloadStep::None, 100);
 			return false;
 		}
 	}
@@ -1300,7 +1141,7 @@ bool CDownload8994::FlashProgrammer()
 	if (hPhone != NULL && DisconnectServer_Sahara != NULL)
 	{
 		DisconnectServer_Sahara(hPhone);
-		//SetUIMessage("Disconnect Sahara Server Success");
+		AddMsg("Disconnect Sahara Server  ok", DownloadStep::None, 100);
 	}
 	hPhone = NULL;
 
@@ -1346,17 +1187,7 @@ bool CDownload8994::FireHose(void)
 	pQLIB_QPHONEMS_ConnectServer_FireHose ConnectServer_FireHose = (pQLIB_QPHONEMS_ConnectServer_FireHose)GetProcAddress(m_hQMSL_MSVC10R, "QLIB_QPHONEMS_ConnectServer_FireHose");
 	pQLIB_DisconnectServer_FireHose DisconnectServer_FireHose = (pQLIB_DisconnectServer_FireHose)GetProcAddress(m_hQMSL_MSVC10R, "QLIB_DisconnectServer_FireHose");
 	pQLIB_QPHONEMS_FireHosePower FireHose_Reboot = (pQLIB_QPHONEMS_FireHosePower)GetProcAddress(m_hQMSL_MSVC10R, "QLIB_QPHONEMS_FireHosePower");
-//	pQLIB_QPHONEMS_FireHosePower_WithDelay FireHosePower_WithDelay = (pQLIB_QPHONEMS_FireHosePower_WithDelay)GetProcAddress(m_hQMSL_MSVC10R, "QLIB_QPHONEMS_FireHosePower_WithDelay");
 
-	//Configure Callback
-	//pQLIB_QPHONEMS_FireHoseConfigureCallback FireHose_ConfigureCallback = (pQLIB_QPHONEMS_FireHoseConfigureCallback)GetProcAddress(m_hQMSL_MSVC10R, "QLIB_QPHONEMS_FireHoseConfigureCallback");
-//	FireHose_ConfigureCallback(hPhone, SWDL_QPHONEMS_CB);
-
-	//FireHose_ConfigureCallback(g_hResourceContext, swdlCallBack);
-  //  QLIB_QPHONEMS_FireHoseConfigureCallback(g_hResourceContext, swdlCallBack);
-
- //   SetLogFlags( g_hResourceContext, LOG_ALL );
- //   StartLogging( g_hResourceContext,  "C:\\QlibDemo_Sahara_Firehose.txt");
 
 
 	//Connect Server
@@ -1364,26 +1195,24 @@ bool CDownload8994::FireHose(void)
 	hPhone = ConnectServer_FireHose(iPort, swdlCallBack);
 	if (hPhone == 0)
 	{
-		//SetUIMessage("Connect Firehose Server Fail");
+		AddMsg("Connect Firehose Server Fail", DownloadStep::None, 100);
 		return false;
 	}
 	else
 	{
-		//SetUIMessage("Connect Firehose Server Success");
+		AddMsg("Connect Firehose Server ok", DownloadStep::None, 100);
 	}
-
-
 
 	//Ping device
 	pQLIB_QPHONEMS_FireHoseNOP FireHose_NOP = (pQLIB_QPHONEMS_FireHoseNOP)GetProcAddress(m_hQMSL_MSVC10R, "QLIB_QPHONEMS_FireHoseNOP");
 	szResult = FireHose_NOP(hPhone);
 	if(szResult) //1
 	{
-		//SetUIMessage("Ping Firehose device Success");
+		AddMsg("Ping Firehose device ok", DownloadStep::None, 100);
 	}
 	else         //0
 	{
-		//SetUIMessage("Ping Firehose device Fail");
+		AddMsg("Ping Firehose device fail", DownloadStep::None, 100);
 		return false;
 	}
 
@@ -1413,11 +1242,11 @@ bool CDownload8994::FireHose(void)
 
 	if(szResult) //1
 	{
-		//SetUIMessage("Configure Firehose Success");
+		AddMsg("Configure Firehose ok", DownloadStep::None, 100);
 	}
 	else         //0
 	{
-		//SetUIMessage("Configure Firehose Fail");
+		AddMsg("Configure Firehose fail", DownloadStep::None, 100);
 		return false;
 	}
 
@@ -1454,11 +1283,11 @@ bool CDownload8994::FireHose(void)
 	szResult = UploadEmmcImage_FireHose(hPhone, szRawProgramFile, szPatchFile, &imageSizeInMB, &throughput);
 	if(szResult) //1
 	{
-	//	SetUIMessage("Download image Success");
+		AddMsg("Firehose Download image Success ok", DownloadStep::None, 100);
 	}
 	else         //0
 	{
-		//SetUIMessage("Download image Fail");
+		AddMsg("Firehose Download image Success fail", DownloadStep::None, 100);
 		return false;
 	}
 
@@ -1467,11 +1296,11 @@ bool CDownload8994::FireHose(void)
 	szResult = FireHose_Reboot(hPhone, _T("reset"));
 	if(szResult) //1
 	{
-		//SetUIMessage("Reboot device Success");
+		AddMsg("Firehose  reset ok", DownloadStep::None, 100);
 	}
 	else         //0
 	{
-		//SetUIMessage("Reboot device Fail");
+		AddMsg("Firehose  reset fail", DownloadStep::None, 100);
 		return false;
 	}
 
@@ -1486,24 +1315,10 @@ bool CDownload8994::FireHose(void)
 	return true;
 }
 
-bool CDownload8994::IsPathExist(const CString& path)
-{
-	return (::GetFileAttributes(path) != INVALID_FILE_ATTRIBUTES);
-}
-
-
-
-/*****************************************************************************
-* Function name: DDRTest      
-* Summary      : DDR Check.
-* Parameters   : void
-*                
-* Return       : bool
-* Exception    : 
-* Version       Author          Date                Abstract                 
-* 1.0          Alex.Chen     2011/09/28          First version             
-*****************************************************************************/
-
+//bool CDownload8994::IsPathExist(const CString& path)
+//{
+//	return (::GetFileAttributes(path) != INVALID_FILE_ATTRIBUTES);
+//}
 
 bool CDownload8994::GetCOMPortDevByWDK(std::map<std::string, std::string>& map_strstrCOMDevice)
 {
@@ -1624,8 +1439,7 @@ bool CDownload8994::DetectDiagPort()
 
 			if (! bFound)
 			{
-
-				AddMsg(_T("Fail to find QUALCOMM Comport"), DownloadStep::None, 100);
+				AddMsg("Fail to find QUALCOMM Comport", DownloadStep::None, 100);
 				return false;
 			}
 
@@ -1669,190 +1483,139 @@ CString CDownload8994::GetErrorCode(void)
 * Version       Author          Date                Abstract                 
 * 1.0           Alex.Chen     2011/01/19            First version             
 *****************************************************************************/
-bool CDownload8994::SetImageFilePath(const int i_imageType, const std::string& str_filePath)
-{
-	bool b_res = false;
-
-	/* Check Input */
-	if(str_filePath.c_str() == _T("")) 
-	{
-		return false;
-	}
-
-	switch(i_imageType)
-	{
-	case IMAGE_TYPE_8916::Q8K_HEX:
-		m_str_hex = str_filePath;
-		break;
-
-	case IMAGE_TYPE_8916::Q8K_MSIMAGE:
-		m_str_msimage = str_filePath;
-		break;
-
-	case IMAGE_TYPE_8916::Q8K_PARTITIONBIN:
-		m_str_partitionBin = str_filePath;
-		break;
-
-	case IMAGE_TYPE_8916::Q8K_SBL1:
-		m_str_sbl1 = str_filePath;
-		break;
-
-	case IMAGE_TYPE_8916::Q8K_HYP:
-		m_str_hyp = str_filePath;
-		break;
-
-	case IMAGE_TYPE_8916::Q8K_HYPBAK:
-		m_str_hypbak = str_filePath;
-		break;
-
-	case IMAGE_TYPE_8916::Q8K_RPM:
-		m_str_rpm = str_filePath;
-		break;
-
-	case IMAGE_TYPE_8916::Q8K_TZ:
-		m_str_tz = str_filePath;
-		break;
-
-	case IMAGE_TYPE_8916::Q8K_APPBOOT:
-		m_str_appboot = str_filePath;
-		break;
-
-	case IMAGE_TYPE_8916::Q8K_SBL1BAK:
-		m_str_sbl1bak = str_filePath;
-		break;
-
-	case IMAGE_TYPE_8916::Q8K_RPMBAK:
-		m_str_rpmbak = str_filePath;
-		break;
-
-	case IMAGE_TYPE_8916::Q8K_TZBAK:
-		m_str_tzbak = str_filePath;
-		break;
-
-	case IMAGE_TYPE_8916::Q8K_ABOOTBAK:
-		m_str_abootbak = str_filePath;
-		break;
-
-	case IMAGE_TYPE_8916::Q8K_BOOT:
-		m_str_boot = str_filePath;
-		break;
-
-	case IMAGE_TYPE_8916::Q8K_RECOVERY:
-		m_str_recovery = str_filePath;
-		break;
-
-	case IMAGE_TYPE_8916::Q8K_SYSTEM:
-		m_str_system = str_filePath;
-		break;
-
-	case IMAGE_TYPE_8916::Q8K_CACHE:
-		m_str_cache = str_filePath;
-		break;
-
-	case IMAGE_TYPE_8916::Q8K_PERSIST:
-		m_str_persist = str_filePath;
-		break;
-
-	case IMAGE_TYPE_8916::Q8K_QGLOGFILTER:
-		m_str_qlogfilter = str_filePath;
-		break;
-
-	case IMAGE_TYPE_8916::Q8K_QGLOG:
-		m_str_qglog = str_filePath;
-		break;
-
-	case IMAGE_TYPE_8916::Q8K_NONHLOS:
-		m_str_nonhlos = str_filePath;
-		break;
-
-	case IMAGE_TYPE_8916::Q8K_OEM:
-		m_str_oem = str_filePath;
-		break;
-
-	case IMAGE_TYPE_8916::Q8K_SPLASH:
-		m_str_splash = str_filePath;
-		break;
-
-	case IMAGE_TYPE_8916::Q8K_USERDATA:
-		m_str_userdata = str_filePath;
-		break;
-
-	case IMAGE_TYPE_8916::Q8K_DRM:
-		m_str_drm = str_filePath;
-		break;
-
-	case IMAGE_TYPE_8916::Q8K_PASSPORT:
-		m_str_passport = str_filePath;
-		break;
-	
-
-	default:
-		return false;
-	}
-
-	/* Check image file if exist */
-	if(::_taccess(str_filePath.c_str(), 0) == 0) 
-	{
-		b_res = true;
-	} 
-	else 
-	{
-		b_res = false;
-	}
-
-	return b_res;
-}
-
-
-
-
-/*****************************************************************************
-* Function name: Reboot      
-* Summary      : Reboot mobile.
-* Parameters   : 
-* Return       : bool.
-*                
-* Exception    : 
-* Version       Author          Date                Abstract                 
-* 1.0          Alex.Chen     2011/09/19             First version             
-*****************************************************************************/
-bool CDownload8994::Reboot(void)
-{
-	AddMsg("Fastboot reboot.", DownloadStep::None, 100);
-
-	///* Get ADB */
-	//if (!GetADB()) 
-	//{
-
-	//	//StreamingDLeMMCLog(8194);
-
-	//	AddMsg("Get ADB Fail.", DownloadStep::None, 100);
-	//	return false;
-	//}
-
-	///* Write command "reboot" */
-	//if (m_p_adbDevice->Write("reboot", 6, 60000)) 
-	//{
-	//	/* Read response command "reboot" */
-	//	if (m_p_adbDevice->ReadResponse(60000) == RESPONSE::OKAY) 
-	//	{
-	//	} 
-	//	else 
-	//	{
-	//		AddMsg("Read reboot command response Fail.", DownloadStep::None, 100);
-	//		return false;
-	//	}
-	//}
-	//else 
-	//{
-	//	AddMsg("Write reboot command Fail.", DownloadStep::None, 100);
-	//	return false;
-	//}
-
-	AddMsg("Fastboot reboot Success.", DownloadStep::None, 100);
-	return true;
-}
-
+//bool CDownload8994::SetImageFilePath(const int i_imageType, const std::string& str_filePath)
+//{
+//	bool b_res = false;
+//
+//	/* Check Input */
+//	if(str_filePath.c_str() == _T("")) 
+//	{
+//		return false;
+//	}
+//
+//	switch(i_imageType)
+//	{
+//	case IMAGE_TYPE_8916::Q8K_HEX:
+//		m_str_hex = str_filePath;
+//		break;
+//
+//	case IMAGE_TYPE_8916::Q8K_MSIMAGE:
+//		m_str_msimage = str_filePath;
+//		break;
+//
+//	case IMAGE_TYPE_8916::Q8K_PARTITIONBIN:
+//		m_str_partitionBin = str_filePath;
+//		break;
+//
+//	case IMAGE_TYPE_8916::Q8K_SBL1:
+//		m_str_sbl1 = str_filePath;
+//		break;
+//
+//	case IMAGE_TYPE_8916::Q8K_HYP:
+//		m_str_hyp = str_filePath;
+//		break;
+//
+//	case IMAGE_TYPE_8916::Q8K_HYPBAK:
+//		m_str_hypbak = str_filePath;
+//		break;
+//
+//	case IMAGE_TYPE_8916::Q8K_RPM:
+//		m_str_rpm = str_filePath;
+//		break;
+//
+//	case IMAGE_TYPE_8916::Q8K_TZ:
+//		m_str_tz = str_filePath;
+//		break;
+//
+//	case IMAGE_TYPE_8916::Q8K_APPBOOT:
+//		m_str_appboot = str_filePath;
+//		break;
+//
+//	case IMAGE_TYPE_8916::Q8K_SBL1BAK:
+//		m_str_sbl1bak = str_filePath;
+//		break;
+//
+//	case IMAGE_TYPE_8916::Q8K_RPMBAK:
+//		m_str_rpmbak = str_filePath;
+//		break;
+//
+//	case IMAGE_TYPE_8916::Q8K_TZBAK:
+//		m_str_tzbak = str_filePath;
+//		break;
+//
+//	case IMAGE_TYPE_8916::Q8K_ABOOTBAK:
+//		m_str_abootbak = str_filePath;
+//		break;
+//
+//	case IMAGE_TYPE_8916::Q8K_BOOT:
+//		m_str_boot = str_filePath;
+//		break;
+//
+//	case IMAGE_TYPE_8916::Q8K_RECOVERY:
+//		m_str_recovery = str_filePath;
+//		break;
+//
+//	case IMAGE_TYPE_8916::Q8K_SYSTEM:
+//		m_str_system = str_filePath;
+//		break;
+//
+//	case IMAGE_TYPE_8916::Q8K_CACHE:
+//		m_str_cache = str_filePath;
+//		break;
+//
+//	case IMAGE_TYPE_8916::Q8K_PERSIST:
+//		m_str_persist = str_filePath;
+//		break;
+//
+//	case IMAGE_TYPE_8916::Q8K_QGLOGFILTER:
+//		m_str_qlogfilter = str_filePath;
+//		break;
+//
+//	case IMAGE_TYPE_8916::Q8K_QGLOG:
+//		m_str_qglog = str_filePath;
+//		break;
+//
+//	case IMAGE_TYPE_8916::Q8K_NONHLOS:
+//		m_str_nonhlos = str_filePath;
+//		break;
+//
+//	case IMAGE_TYPE_8916::Q8K_OEM:
+//		m_str_oem = str_filePath;
+//		break;
+//
+//	case IMAGE_TYPE_8916::Q8K_SPLASH:
+//		m_str_splash = str_filePath;
+//		break;
+//
+//	case IMAGE_TYPE_8916::Q8K_USERDATA:
+//		m_str_userdata = str_filePath;
+//		break;
+//
+//	case IMAGE_TYPE_8916::Q8K_DRM:
+//		m_str_drm = str_filePath;
+//		break;
+//
+//	case IMAGE_TYPE_8916::Q8K_PASSPORT:
+//		m_str_passport = str_filePath;
+//		break;
+//	
+//
+//	default:
+//		return false;
+//	}
+//
+//	/* Check image file if exist */
+//	if(::_taccess(str_filePath.c_str(), 0) == 0) 
+//	{
+//		b_res = true;
+//	} 
+//	else 
+//	{
+//		b_res = false;
+//	}
+//
+//	return b_res;
+//}
 
 
 
@@ -2062,8 +1825,44 @@ bool CDownload8994::WriteFA(char* sz_FAData)
 *****************************************************************************/
 bool CDownload8994::ReadFASector(int i_sectorNum, char *sz_sectorData, int i_sectorSize)
 {
+//	TRACE("msg=%s",m_str_station);
+	//if (!m_pITool->ReadFAData_New( i_slot, i_sectorNum, sz_sectorData, i_sectorSize))
+	//{
+	//	m_pITool->GetTestResult(0, &st_Result);
+	//	Fire(UI_RESULT, (long)&st_Result);
+	//	return false;
+	//}
+
+	//return true;
+	strcpy(sz_sectorData, _T("Dan6673Dan,01,5555555555,Undefined,Undefined,GBROB1A,0000000000000000000000,,"));
+
+	if ( ReadId() ){/*get scalar id ok*/
+		if(m_szId.empty() || m_szId.length() != ID_SIZE)
+		{	
+			m_szErrMsg = "get scalar id Fail  = ";//  + std_ScalarId.c_str();
+			m_szErrMsg = m_szErrMsg + m_szId.c_str();
+			AfxMessageBox( m_szErrMsg.c_str());
+
+			m_szId = m_szId + ",";
+			std::string str_faData = sz_sectorData;
+			str_faData.replace(14, 12, m_szId);
+			sprintf_s( sz_sectorData , 512, "%s", str_faData.c_str());
+		}
+		else
+		{
+			//	m_szId = "a1234567899";
+			
+			m_szId = m_szId + ",";
+			std::string str_faData = sz_sectorData;
+			str_faData.replace(15, 12, m_szId);
+			sprintf_s( sz_sectorData , 512, "%s", str_faData.c_str());
+		}
+	}
+
+
 	return true; //skip
 
+	/*old mathod*/
 	bool b_speedUp = false;
 	bool b_reOpenAfterReset = false;
 	//bool b_res = true;
@@ -2116,73 +1915,55 @@ bool CDownload8994::ReadFASector(int i_sectorNum, char *sz_sectorData, int i_sec
 		AddMsg("ReadFASector pass", None, 10);
 	}
 	Sleep(200);
+
+	delete[] output;
+	delete[] ErrorCode ;	
 	return true;
 
-	//if (m_p_adbDevice->Write(sz_command, strlen(sz_command), 60000)) 
-	//{
-	//	RESPONSE enum_readRosponse = UNKNOW;
-	//	enum_readRosponse = m_p_adbDevice->ReadResponse(60000);
-	//	if (enum_readRosponse == RESPONSE::OKAY)
-	//	{
-	//		/* upload command --- "upload:%08x"  example:"upload:0007d000" */
-	//		char sz_command[64] = {0};
-	//		sprintf(sz_command, "upload:%08x", i_length);
-	//		if (m_p_adbDevice->Write(sz_command, strlen(sz_command), 60000)) 
-	//		{
-	//			b_result = (m_p_adbDevice->ReadResponse(60000) == RESPONSE::OKAY);
-	//			if (b_result) 
-	//			{
-	//				unsigned long l_readLen = 0;
-	//				if (m_p_adbDevice->Read(sz_buffer, sizeof(sz_buffer), l_readLen, 60000) && (l_readLen == FALENGTH)) 
-	//				{
-	//					memcpy(sz_sectorData, sz_buffer, i_sectorSize);
-	//				}
-	//				else
-	//				{
-	//					AddMsg("Read upload data Fail.", DownloadStep::None, 100);
-	//					return false;
-	//				}
-
-	//				b_result = (m_p_adbDevice->ReadResponse(60000) == RESPONSE::OKAY);
-	//				if (!b_result)
-	//				{
-	//					AddMsg("Read upload data response Fail.", DownloadStep::None, 100);
-	//					return false;
-	//				}
-	//			}
-	//			else
-	//			{
-	//				AddMsg("Read upload command response Fail.", DownloadStep::None, 100);
-	//				return false;
-	//			}
-	//		} 
-	//		else 
-	//		{
-	//			AddMsg("Write upload command Fail.", DownloadStep::None, 100);
-	//			return false;
-	//		}
-	//	}
-	//	/* FA is empty */
-	//	else if (enum_readRosponse == RESPONSE::FAILFAEMPTY)
-	//	{
-	//		char sz_buffer[512] = {0};
-	//		memcpy(sz_sectorData, sz_buffer, i_sectorSize);
-	//	} 
-	//	else 
-	//	{
-	//		AddMsg("Read dump command response Fail.", DownloadStep::None, 100);
-	//		return false;
-	//	}
-	//}
-	//else
-	//{
-	//	AddMsg("Write dump command Fail.", DownloadStep::None, 100);
-	//	return false;
-	//}
-
-	AddMsg("Read FA Success.", DownloadStep::None, 100);
-	return true;
 }
+
+
+bool CDownload8994::ReadId (void)
+{
+	char szBuf[20]="";
+	CString str_dllIIC = IICDLL;
+	HINSTANCE hDll;
+	hDll = LoadLibrary(str_dllIIC);
+	if (hDll != NULL )
+	{
+		typedef void(_stdcall *lpReadId)(char*,int);
+		lpReadId ReadId;
+		ReadId =(lpReadId)::GetProcAddress(hDll,"ReadId");
+		if( ReadId != NULL)
+		{
+			ReadId(szBuf,20);
+			FreeLibrary(hDll);
+			m_szErrMsg = "";
+			//		m_str_message = _T("Can not find cable loss xml!");
+			m_szId = szBuf;
+			//AfxMessageBox(m_szId.c_str());
+			return true;
+		}
+		else
+		{	FreeLibrary(hDll);
+			m_szErrMsg = "Load address of ReadId fail.";
+			m_szId = szBuf;
+			AfxMessageBox(m_szErrMsg.c_str());
+			return false;
+		}
+	}
+	else
+	{	m_szErrMsg = "Load I2C.DLL fail.";
+		m_szId = szBuf;
+		AfxMessageBox(m_szErrMsg.c_str());
+		return false;
+	}
+}
+std::string CDownload8994::GetId(void)
+{	
+	return m_szId;
+}
+
 
 /*****************************************************************************
 * Function name: WriteFASector      
@@ -2200,7 +1981,6 @@ bool CDownload8994::WriteFASector(int i_sectorNum, char *sz_sectorData, int i_se
 
 	bool b_speedUp = false;
 	bool b_reOpenAfterReset = false;
-	//bool b_res = true;
 	bool b_result = false;
 	char* output = new char[BUFFER_SIZE];
 	char* ErrorCode =new char[BUFFER_SIZE];
@@ -2270,7 +2050,10 @@ bool CDownload8994::WriteFASector(int i_sectorNum, char *sz_sectorData, int i_se
 		AddMsg("WriteFASector pass", None, 10);
 	//	b_result = runWriteFASector(sz_command);
 	}
-	
+
+
+	delete[] output;
+	delete[] ErrorCode ;	
 	return b_result;
 }
 
@@ -2410,94 +2193,6 @@ static void saveLog_Value(CString message)
 }
 
 
-
-//
-//
-//bool CDownload8994::bAdbCMD(CString Command, char* output, char* ErrorCode)
-//{
-//	bool isOk = false;
-//	DWORD nPipeSize = 1024 * 1024; //1M pipeline
-//
-//	CString pthToolDir;
-//	::GetModuleFileName(NULL, pthToolDir.GetBuffer(MAX_PATH), MAX_PATH);
-//	pthToolDir.ReleaseBuffer();
-//	pthToolDir = pthToolDir.Left(pthToolDir.ReverseFind('\\'));
-//	CString path_adb = pthToolDir + _T("\\adb.exe");
-//	if (_taccess(path_adb, 0) == -1)
-//	{
-//		strcpy(ErrorCode, "ERROR: No adb.exe exist!");
-//		return false;
-//	}
-//
-//	HANDLE hRead, hWrite;
-//	SECURITY_ATTRIBUTES sa;
-//	sa.nLength = sizeof(SECURITY_ATTRIBUTES);
-//	sa.lpSecurityDescriptor = NULL;
-//	sa.bInheritHandle = TRUE;
-//	if (!CreatePipe(&hRead, &hWrite, &sa, nPipeSize))
-//	{
-//		strcpy(ErrorCode, "ERROR: CreatePipe fail!");
-//		return false;
-//	}
-//
-//	//HANDLE hProcess = NULL;
-//	PROCESS_INFORMATION processInfo;
-//	STARTUPINFO startupInfo;
-//	::ZeroMemory(&startupInfo, sizeof(startupInfo));
-//	startupInfo.cb = sizeof(startupInfo);
-//	startupInfo.dwFlags = STARTF_USESHOWWINDOW | STARTF_USESTDHANDLES;
-//	startupInfo.wShowWindow	= SW_HIDE;
-//	startupInfo.hStdError = hWrite;
-//	startupInfo.hStdOutput = hWrite;
-//
-//	Command = _T("\"") + path_adb + _T("\" ") + Command;
-//	TRACE(_T("Cmd: %s\n"), Command);
-//	if (::CreateProcess(NULL, Command.GetBuffer(), NULL, NULL, TRUE, 0, NULL, NULL, &startupInfo, &processInfo))
-//	{
-//		DWORD TimeOutSignal = WaitForSingleObject(processInfo.hProcess, 10 * 1000); // timeout in 10 seconds
-//
-//		CloseHandle(hWrite);
-//		hWrite = NULL;
-//		//if timeout then exit the process
-//		if (TimeOutSignal == WAIT_TIMEOUT)
-//		{
-//			isOk = false;
-//			TerminateProcess(processInfo.hProcess, 0);
-//			strcpy(ErrorCode, "ERROR: Adb timeout");
-//		}
-//		else
-//		{
-//
-//			isOk = true;
-//			DWORD bytesRead;
-//			char* message = new char[nPipeSize];
-//			memset(message, 0, sizeof(message));
-//			::ReadFile(hRead, message, nPipeSize, &bytesRead, NULL);
-//			message[bytesRead] = '\0';
-//
-//			strcpy(output, message);
-//			strcpy(ErrorCode, "Adb command ok");
-//			delete [] message;
-//		}
-//	}
-//	else
-//	{
-//		isOk = false;
-//		strcpy(ErrorCode, "ERROR: Execute adb.exe fail!");
-//	}
-//	Command.ReleaseBuffer();
-//	CloseHandle(hRead);
-//	if (hWrite)CloseHandle(hWrite);
-//	//CloseHandle(hProcess);
-//
-//	CloseHandle(processInfo.hProcess);
-//	CloseHandle(processInfo.hThread);
-//	//hProcess = NULL;
-//
-//	return isOk;
-//}
-
-//bool bCallAdbFastbootCMD(CString Command, char* output, char* ErrorCode, char* sz_FindData);
 bool CDownload8994::bCallAdbFastbootCMD(CString csAdbFastboot, CString Command, char* output, char* ErrorCode, CString cs_FindData)
 {
 	bool isOk = false;
@@ -2556,16 +2251,24 @@ bool CDownload8994::bCallAdbFastbootCMD(CString csAdbFastboot, CString Command, 
 		}
 		else
 		{
-			if ( (cs_FindData.Find(DREAD) != -1) )// neet to read resolt
+			if ( (cs_FindData.Find(DREAD) != -1) )// neet to read result
 			{
 				bSuccess = ReadFile( hRead, chBuf, BUFFER_SIZE, &dwRead, NULL);
 				chBuf[dwRead] = '\0';
 				strncpy(output, chBuf, dwRead);
-
+				std::string	 std_Buf = chBuf;
+				if ( std_Buf.find("FAILED") !=  string::npos ){
+					bSuccess = false; 
+				}
 				if ( bSuccess ) 
 				{
-					strcpy(ErrorCode, _T("Adb command ok"));
+					strcpy(ErrorCode, _T("bCallAdbFastbootCMD exec ok"));
 					isOk = true; //don't not need to check
+				}
+				else
+				{
+					strcpy(ErrorCode, _T(" bCallAdbFastbootCMD exec fail "));
+					isOk = false; //don't not need to check
 				}
 			}
 			else if ( ( cs_FindData.Find(DNULL) == -1) )  //need to check return payload
@@ -2618,224 +2321,9 @@ bool CDownload8994::bCallAdbFastbootCMD(CString csAdbFastboot, CString Command, 
 }
 
 
-//bool CDownload8994::bGetFastboot(CString Command, char* output, char* ErrorCode, int nPhoneIndex)
-//{
-//	bool isOk = false;
-//	CString csQphone;
-//	//DWORD nPipeSize = 4096; //1M pipeline
-//	//DWORD nPipeSize = 2048 * 1024; //1M pipeline
-//
-//	CString pthToolDir;
-//	::GetModuleFileName(NULL, pthToolDir.GetBuffer(MAX_PATH), MAX_PATH);
-//	pthToolDir.ReleaseBuffer();
-//	pthToolDir = pthToolDir.Left(pthToolDir.ReverseFind('\\'));
-//	CString path_adb = pthToolDir + _T("\\fastboot.exe ");
-//	
-//	if (_taccess(path_adb, 0) == -1)
-//	{
-//		strcpy(ErrorCode, "ERROR: No adb.exe exist!");
-//		return false;
-//	}
-//
-//	HANDLE hRead, hWrite;
-//	SECURITY_ATTRIBUTES sa;
-//	sa.nLength = sizeof(SECURITY_ATTRIBUTES);
-//	sa.lpSecurityDescriptor = NULL;
-//	sa.bInheritHandle = TRUE;
-//	if (!CreatePipe(&hRead, &hWrite, &sa, BUFFER_SIZE))
-//	{
-//		strcpy(ErrorCode, "ERROR: CreatePipe fail!");
-//		return false;
-//	}
-//
-//	//HANDLE hProcess = NULL;
-//	PROCESS_INFORMATION processInfo;
-//	STARTUPINFO startupInfo;
-//	::ZeroMemory(&startupInfo, sizeof(startupInfo));
-//	startupInfo.cb = sizeof(startupInfo);
-//	startupInfo.dwFlags = STARTF_USESHOWWINDOW | STARTF_USESTDHANDLES;
-//	startupInfo.wShowWindow	= SW_HIDE;
-//	startupInfo.hStdError = hWrite;
-//	startupInfo.hStdOutput = hWrite;
-//
-//	//Command = _T("\"") + path_adb + _T("\" ") + Command;
-//	Command = path_adb +  Command;
-//	TRACE(_T("Cmd: %s\n"), Command);
-//	if (::CreateProcess(NULL, Command.GetBuffer(), NULL, NULL, TRUE, 0, NULL, NULL, &startupInfo, &processInfo))
-//	{
-//		DWORD TimeOutSignal = WaitForSingleObject(processInfo.hProcess, 100 * 1000); // timeout in 10 seconds
-//
-//		CloseHandle(hWrite);
-//		hWrite = NULL;
-//		//if timeout then exit the process
-//		if (TimeOutSignal == WAIT_TIMEOUT)
-//		{
-//			isOk = false;
-//			TerminateProcess(processInfo.hProcess, 0);
-//			strcpy(ErrorCode, "ERROR: fastboot timeout");
-//		}
-//		else
-//		{
-//			if ( nPhoneIndex != 0){
-//
-//			   DWORD dwRead, dwWritten; 
-//			   CHAR chBuf[4096]; 
-//			   bool bSuccess = FALSE;
-//			   HANDLE hParentStdOut = GetStdHandle(STD_OUTPUT_HANDLE);
-//
-//			   for (int i = 0; i < 60; i++) //get QPHONE
-//			   { 
-//				  bSuccess = ReadFile( hRead, chBuf, BUFFER_SIZE, &dwRead, NULL);
-//				  CString csBuf = chBuf;
-//				  csQphone.Format(_T("QPHONE%d"), nPhoneIndex);
-//				  if(csBuf.Find(csQphone) != -1) {
-//					  isOk = true; //get it
-//					  break;
-//				  }
-//				  if( ! bSuccess || dwRead == 0 ) break; 
-//			   }
-//			    strcpy(ErrorCode, _T("Adb command ok"));
-//			}
-//			else /*do not neet to find anything*/
-//			{
-//				//strcpy(output, message);
-//				
-//			//	delete [] message;
-//			}
-//		}
-//	}
-//	else
-//	{
-//		isOk = false;
-//		strcpy(ErrorCode, "ERROR: Execute fastboot.exe fail!");
-//	}
-//	Command.ReleaseBuffer();
-//	CloseHandle(hRead);
-//	if (hWrite)CloseHandle(hWrite);
-//	//CloseHandle(hProcess);
-//
-//	CloseHandle(processInfo.hProcess);
-//	CloseHandle(processInfo.hThread);
-//	//hProcess = NULL;
-//
-//	return isOk;
-//}
-
-
-//bool CDownload8994::bAdbCMD(CString Command, char* output, char* ErrorCode, int nPhoneIndex)
-//{
-//	bool isOk = false;
-//	CString csQphone;
-//	CString csBuf;
-//	////1M pipeline
-//
-//	CString pthToolDir;
-//	::GetModuleFileName(NULL, pthToolDir.GetBuffer(MAX_PATH), MAX_PATH);
-//	pthToolDir.ReleaseBuffer();
-//	pthToolDir = pthToolDir.Left(pthToolDir.ReverseFind('\\'));
-//	CString path_adb = pthToolDir + _T("\\adb.exe ");
-//	
-//	if (_taccess(path_adb, 0) == -1)
-//	{
-//		strcpy(ErrorCode, "ERROR: No adb.exe exist!");
-//		return false;
-//	}
-//
-//	HANDLE hRead, hWrite;
-//	SECURITY_ATTRIBUTES sa;
-//	sa.nLength = sizeof(SECURITY_ATTRIBUTES);
-//	sa.lpSecurityDescriptor = NULL;
-//	sa.bInheritHandle = TRUE;
-//	if (!CreatePipe(&hRead, &hWrite, &sa, BUFFER_SIZE))
-//	{
-//		strcpy(ErrorCode, "ERROR: CreatePipe fail!");
-//		return false;
-//	}
-//
-//	//HANDLE hProcess = NULL;
-//	PROCESS_INFORMATION processInfo;
-//	STARTUPINFO startupInfo;
-//	::ZeroMemory(&startupInfo, sizeof(startupInfo));
-//	startupInfo.cb = sizeof(startupInfo);
-//	startupInfo.dwFlags = STARTF_USESHOWWINDOW | STARTF_USESTDHANDLES;
-//	startupInfo.wShowWindow	= SW_HIDE;
-//	startupInfo.hStdError = hWrite;
-//	startupInfo.hStdOutput = hWrite;
-//
-//	//Command = _T("\"") + path_adb + _T("\" ") + Command;
-//	Command = path_adb +  Command;
-//	TRACE(_T("Cmd: %s\n"), Command);
-//	if (::CreateProcess(NULL, Command.GetBuffer(), NULL, NULL, TRUE, 0, NULL, NULL, &startupInfo, &processInfo))
-//	{
-//		DWORD TimeOutSignal = WaitForSingleObject(processInfo.hProcess, 100 * 1000); // timeout in 10 seconds
-//
-//		//CloseHandle(hWrite);
-//		//hWrite = NULL;
-//	//	//if timeout then exit the process
-//		if (TimeOutSignal == WAIT_TIMEOUT)
-//		{
-//			isOk = false;
-//			//TerminateProcess(processInfo.hProcess, 0);
-//			strcpy(ErrorCode, "ERROR: Adb timeout");
-//		}
-//		else
-//		{
-//			if ( nPhoneIndex != 0){
-//
-//			   DWORD dwRead;// dwWritten; 
-//			   CHAR chBuf[BUFFER_SIZE] = {0}; 
-//			   bool bSuccess = FALSE;
-//			 //  HANDLE hParentStdOut = GetStdHandle(STD_OUTPUT_HANDLE);
-//
-//			   for (int i = 0; i < 60; i++) //get QPHONE, maxmum read time = 60
-//			   { 
-//				  bSuccess = ReadFile( hRead, chBuf, BUFFER_SIZE, &dwRead, NULL);
-//				  csBuf = chBuf;
-//				  csQphone.Format(_T("QPHONE%d"), nPhoneIndex);
-//				  if(csBuf.Find(csQphone) != -1) {
-//					  isOk = true; //get it
-//					  break;
-//				  }
-//				  if( ! bSuccess || dwRead == 0 ) break; 
-//			   }
-//			   strcpy(ErrorCode, _T("Adb command ok"));
-//			}
-//			else /*do not neet to find anything*/
-//			{
-//				//strcpy(output, message);
-//				
-//			//	delete [] message;
-//			}
-//		}
-//	}
-//	else
-//	{
-//		isOk = false;
-//		strcpy(ErrorCode, "ERROR: Execute adb.exe fail!");
-//	}
-//	Command.ReleaseBuffer();
-//	if(hRead){
-//		CloseHandle(hRead);
-//		hRead = NULL;
-//	}
-//	if (hWrite){
-//		CloseHandle(hWrite);
-//		hWrite = NULL;
-//	}
-//	//CloseHandle(hProcess);
-//
-//	CloseHandle(processInfo.hProcess);
-//	CloseHandle(processInfo.hThread);
-//	processInfo.hProcess = NULL;
-//	processInfo.hProcess = NULL;
-//
-//	return isOk;
-//}
-
 bool CDownload8994::bFastbootDL(CString folderPath){
 
 	CString csExeCMD;
-	//csExeCMD.Format(_T("CMD.EXE /C %s") ,folderPath);
 	//csExeCMD.Format(_T("D:\\03.Factory\\00.DELL\\GF80B1A_Trigger_V1.004_20150729_debug\\fastboot.exe %s\"") ,folderPath);
 	csExeCMD.Format(_T("%s") ,folderPath);
 	/* Run */
@@ -2896,478 +2384,3 @@ bool CDownload8994::bFastbootDL(CString folderPath){
 
 	return true;
 }
-
-
-
-//bool CDownload8994::bFastbootDL_New2(char* szReturn, const char* szCmd1, const char* szCmd2)
-//{
-//	bool ret = true;
-//	HANDLE hWrite, hRead;
-//
-//	PROCESS_INFORMATION processInfo;
-//	memset(&processInfo, 0, sizeof(PROCESS_INFORMATION));
-//
-//	SECURITY_ATTRIBUTES saAttr;
-//	saAttr.nLength = sizeof(SECURITY_ATTRIBUTES);
-//	saAttr.bInheritHandle = TRUE;
-//	saAttr.lpSecurityDescriptor = NULL;
-//
-//	try
-//	{
-//		if (!CreatePipe(&hRead, &hWrite, &saAttr, 0))
-//		{
-//			throw _T("CreatePipe");
-//		}
-//
-//		STARTUPINFO si = {0};
-//		si.cb = sizeof(STARTUPINFO);
-//		si.hStdError = hWrite;
-//		si.hStdOutput = hWrite;
-//		si.hStdInput = hRead;
-//		si.dwFlags |= STARTF_USESTDHANDLES | STARTF_USESHOWWINDOW; 
-//		si.wShowWindow = SW_HIDE;
-//
-//		TCHAR szWorkingDir[MAX_PATH], szExePath[MAX_PATH];
-//		TCHAR szCmdLine[1024];
-//
-//		// Set WorkPath and ExePath
-//		GetModuleFileNameA(NULL, szExePath, MAX_PATH);
-//		PathRemoveFileSpecA(szExePath);
-//		_tcscpy(szWorkingDir, szExePath);
-//		//PathAppend(szExePath, "adb.exe");
-//	PathAppend(szExePath, "fastboot.exe");
-//
-//		//bool bIsAdbDevices = false;
-//		//if ((strstr(szCmd1, "devices") != NULL) || (strstr(szCmd1, "devices") != NULL))
-//		//	bIsAdbDevices = true;
-//
-//		//if (m_bIsMultiMode && (bIsAdbDevices == false))
-//		//	_stprintf(szCmdLine, _T("\"%s\" -s QPHONE%d %s %s"), szExePath, (m_PhoneIndex + 1), szCmd1, szCmd2);
-//		//else
-//		//	_stprintf(szCmdLine, _T("\"%s\" %s %s"), szExePath, szCmd1, szCmd2);
-//
-//		_stprintf(szCmdLine, _T("\"%s\" %s"), szExePath, szCmd1);
-//
-//		if (!CreateProcess(
-//		        NULL,
-//		        szCmdLine,
-//		        NULL,
-//		        NULL,
-//		        TRUE,
-//		        CREATE_DEFAULT_ERROR_MODE,
-//		        NULL,
-//		        szWorkingDir,
-//		        &si,
-//		        &processInfo
-//		    ))
-//		{
-//			throw _T("CreateProcess");
-//		}
-//		DWORD dw_waitResult = WaitForSingleObject(processInfo.hProcess, 10 * 1000);
-//		switch(dw_waitResult)
-//		{
-//		case WAIT_FAILED:
-//			::CloseHandle(processInfo.hProcess);
-//			processInfo.hProcess = NULL;
-//			AddMsg("WAIT_FAILED Fail", None, 10);
-//			return false;
-//
-//		case WAIT_TIMEOUT:
-//			::CloseHandle(processInfo.hProcess);
-//			processInfo.hProcess = NULL;
-//			AddMsg("WAIT_TIMEOUT Fail", None, 10);
-//			return false;
-//
-//		case WAIT_OBJECT_0:
-//			break;
-//		}
-//
-//		// if needs return value
-//		if (szReturn != NULL)
-//		{
-//			DWORD dwAvail, numread;
-//			BOOL bRet = PeekNamedPipe(hRead, NULL, 0, NULL, &dwAvail, 0);
-//			if (bRet && dwAvail > 0)
-//			{
-//				ReadFile(hRead, szReturn, dwAvail, &numread, 0);
-//			}
-//		}
-//	}
-//	catch (const TCHAR* szError)
-//	{
-//		LPVOID lpMsgBuf;
-//		FormatMessage(FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM,
-//		              NULL, GetLastError(),
-//		              MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
-//		              (LPTSTR)&lpMsgBuf,
-//		              0, NULL);
-//
-//		TCHAR szMessage[1024];
-//		_stprintf(szMessage, "%s: %s", szError, lpMsgBuf);
-//
-//		LocalFree(lpMsgBuf);
-//		ret = false;
-//	}
-//
-//	CloseHandle(hRead);
-//	CloseHandle(hWrite);
-//	CloseHandle(processInfo.hProcess);
-//	processInfo.hProcess = NULL;
-//	CloseHandle(processInfo.hThread);
-//	processInfo.hThread = NULL;
-//
-//	return ret;
-//}
-
-//bool CDownload8994::bFastbootDL_5(CString& path, CString& param, DWORD msTimeout, bool hasResponse)
-//{
-//	if (!IsPathExist(path)) {
-//		return false;
-//	}
-//
-//	HANDLE hRead, hWrite;
-//	SECURITY_ATTRIBUTES sa;
-//	sa.nLength = sizeof(SECURITY_ATTRIBUTES);
-//	sa.lpSecurityDescriptor = NULL;
-//	sa.bInheritHandle = TRUE;
-//	DWORD nPipeSize = 1024;
-//	if (!CreatePipe(&hRead, &hWrite, &sa, nPipeSize)) {
-//		::AfxMessageBox(_T("ERROR: CreatePipe fail!\r\n"));
-//		return false;
-//	}
-//
-//	TCHAR szNowPath[MAX_PATH] = {0};
-//	GetCurrentDirectory(MAX_PATH, szNowPath);
-//	TRACE(_T("current path: %s\n"), szNowPath);
-//	CString WorkDir = path.Left(path.ReverseFind(_T('\\')));
-//	TRACE(_T("working path: %s\n"), WorkDir);
-//	SetCurrentDirectory(WorkDir);
-//
-//	bool isOk = false;
-//	PROCESS_INFORMATION processInfo;
-//	STARTUPINFO startupInfo;
-//	::ZeroMemory(&startupInfo, sizeof(startupInfo));
-//	startupInfo.cb = sizeof(startupInfo);
-//	startupInfo.dwFlags = STARTF_USESHOWWINDOW | STARTF_USESTDHANDLES;
-//	startupInfo.wShowWindow	= SW_HIDE;
-//	startupInfo.hStdError = hWrite;
-//	startupInfo.hStdOutput = hWrite;
-//	CString Command = path;
-//	if (!param.IsEmpty()) {
-//		Command = Command + _T(" ") + param;
-//	}
-//	TRACE(_T("exec: %s\n"), Command);
-//	if (::CreateProcess(NULL, Command.GetBuffer(), NULL, NULL, TRUE, 0, NULL, NULL, &startupInfo, &processInfo)) {
-//		DWORD TimeoutFlag = WaitForSingleObject(processInfo.hProcess, msTimeout);
-//		isOk = true;
-//
-//		if (hasResponse) {
-//			DWORD bytesRead;
-//			DWORD dwBytesWritten;
-//			char message[512];
-//			memset(message, 0, sizeof(message));
-//			if (TimeoutFlag == WAIT_TIMEOUT)
-//			{
-//				WriteFile(hWrite, "FAIL", 4, &dwBytesWritten, NULL);
-//			}
-//			::ReadFile(hRead, message, 511, &bytesRead, NULL);
-//			if (strlen(message) > 0) {
-//				param = CA2T(message);
-//			}
-//			else {
-//				param.Empty();
-//			}
-//		}
-//	}
-//	else {
-//		isOk = false;
-//		CString error_msg(_T("ERROR: Execute fail!\r\ncmd:"));
-//		error_msg += Command;
-//		::AfxMessageBox(error_msg);
-//	}
-//	Command.ReleaseBuffer();
-//	CloseHandle(hRead);
-//	CloseHandle(hWrite);
-//	SetCurrentDirectory(szNowPath);
-//
-//	return isOk;
-//}
-//
-//bool CDownload8994::bFastbootDL_3(const char* szExeName, const char* szCmd, const char* szSerialNumber, char *szReturn, long dwReturnLen, int iTimeout)
-//	{
-//		bool ret = true;
-//		HANDLE hWrite, hRead;
-//		PROCESS_INFORMATION processInfo;
-//
-//		memset(&processInfo, 0, sizeof(PROCESS_INFORMATION));
-//
-//		SECURITY_ATTRIBUTES saAttr;
-//		saAttr.nLength = sizeof(SECURITY_ATTRIBUTES);
-//		saAttr.bInheritHandle = TRUE;
-//		saAttr.lpSecurityDescriptor = NULL;
-//
-//		try
-//		{
-//			if (! CreatePipe(&hRead, &hWrite, &saAttr, 0))
-//				throw _T("CreatePipe");
-//
-//			STARTUPINFO si = {0};
-//			si.cb = sizeof(STARTUPINFO);
-//			si.hStdError = hWrite;
-//			si.hStdOutput = hWrite;
-//			si.hStdInput = hRead;
-//			si.dwFlags |= STARTF_USESTDHANDLES | STARTF_USESHOWWINDOW;
-//			si.wShowWindow = SW_HIDE;
-//
-//
-//			// Set WorkPath and ExePath
-//			char szModuleFilePath[256];
-//			std::string strExeCmdPath;
-//			memset(szModuleFilePath, 0, 256);
-//			GetModuleFileNameA(NULL, szModuleFilePath, 256);
-//			PathRemoveFileSpecA(szModuleFilePath);
-//			SetCurrentDirectory(szModuleFilePath);
-//			strExeCmdPath = szModuleFilePath;
-//
-//
-//
-//			// Set cmd
-//			char szCmdLine[1024];
-//			std::string strSerialNumber;
-//
-//			memset(szCmdLine, 0, 1024);
-//			strSerialNumber = szSerialNumber;
-//
-//			if (strstr(szCmd, "devices") != NULL)
-//			{
-//				// Enumerate devices, do not need serial number
-//				sprintf_s(szCmdLine, 1024, "\"%s\\%s\" %s", strExeCmdPath.c_str(), szExeName, szCmd);
-//			}
-//			else
-//			{
-//				//if (! strSerialNumber.empty())
-//				//	sprintf_s(szCmdLine, 1024, "\"%s\\%s\" -s %s %s", strExeCmdPath.c_str(), szExeName, strSerialNumber.c_str(), szCmd);
-//				//else
-//					sprintf_s(szCmdLine, 1024, "\"%s\\%s\" %s", strExeCmdPath.c_str(), szExeName, szCmd);
-//			}
-//
-//
-//			if (! CreateProcess(
-//				NULL,
-//				szCmdLine,
-//				NULL,
-//				NULL,
-//				TRUE,
-//				CREATE_DEFAULT_ERROR_MODE,
-//				NULL,
-//				strExeCmdPath.c_str(),
-//				&si,
-//				&processInfo
-//				))
-//			{
-//				throw _T("CreateProcess");
-//			}
-//
-//			WaitForSingleObject(processInfo.hProcess, iTimeout);
-//
-//			// if needs return value
-//			if (szReturn != NULL)
-//			{
-//				DWORD dwAvail, numread;
-//
-//				BOOL bRet = PeekNamedPipe(hRead, NULL, 0, NULL, &dwAvail, 0);
-//				if (bRet && ((int)dwAvail > 0))
-//				{
-//					char *pBuffer = new char [dwAvail+1];
-//					memset(pBuffer, 0, dwAvail+1);
-//
-//					::ReadFile(hRead, pBuffer, dwAvail, &numread, 0);
-//
-//					memset(szReturn, 0, dwReturnLen);
-//
-//					if ((int)dwReturnLen >= (int)dwAvail)
-//						memcpy(szReturn, pBuffer, dwAvail);
-//					else
-//						memcpy(szReturn, pBuffer, dwReturnLen);
-//
-//					delete [] pBuffer;
-//				}
-//			}
-//		}
-//		catch(const TCHAR* szError)
-//		{
-//			LPVOID lpMsgBuf;
-//
-//			FormatMessage(
-//				FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM,
-//				NULL, GetLastError(),
-//				MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
-//				(LPTSTR)&lpMsgBuf,
-//				0,
-//				NULL
-//				);
-//
-//			TCHAR szMessage[1024] = {0};
-//			sprintf_s(szMessage, 1024, "%s: %s", szError, lpMsgBuf);
-//
-//			LocalFree(lpMsgBuf);
-//			ret = false;
-//		}
-//
-//		CloseHandle(hRead);
-//		CloseHandle(hWrite);
-//		CloseHandle(processInfo.hThread);
-//		processInfo.hThread = NULL;
-//		CloseHandle(processInfo.hProcess);
-//		processInfo.hProcess = NULL;
-//
-//		return ret;
-//	}
-//
-//bool CDownload8994::bFastbootDL_4(CString folderPath){
-//
-//	CString csExeCMD;
-//	//csExeCMD.Format(_T("CMD.EXE /C %s") ,folderPath);
-//	//csExeCMD.Format(_T("D:\\03.Factory\\00.DELL\\GF80B1A_Trigger_V1.004_20150729_debug\\fastboot.exe %s\"") ,folderPath);
-//	csExeCMD.Format(_T("%s") ,folderPath);
-//	/* Run */
-//	TCHAR sz_commandLine[1024];
-//	memset(sz_commandLine, 0, sizeof(sz_commandLine));
-//	for (int i = 0; i < csExeCMD.GetLength(); i ++) 
-//	{
-//		sz_commandLine[i] = csExeCMD[i];   
-//	}
-//	PROCESS_INFORMATION pi_bFastbootDL = {0};;
-//	STARTUPINFO si = {0};
-//	memset(&si, 0, sizeof(si));
-//	si.cb          = sizeof(si);
-//	si.wShowWindow = SW_HIDE;
-//	si.dwFlags     = STARTF_USESHOWWINDOW;
-//
-//	BOOL b_createRes = FALSE;	
-//
-//
-//	//b_createRes = CreateProcess(_T("fastboot.exe"), _T("devices"), NULL, NULL, FALSE, 0, NULL, NULL, &si, &pi);
-//
-//	//b_createRes = CreateProcess(_T("C:\\Windows\\System32\\cmd.exe"), sz_commandLine, NULL, NULL, NULL, NULL, NULL, NULL, &si, &pi);
-//
-//	//b_createRes = CreateProcess(_T("D:\\03.Factory\\00.DELL\\GF80B1A_Trigger_V1.004_20150729_debug\\fastboot.exe"), sz_commandLine, NULL, NULL, false, NULL, NULL, NULL, &si, &pi_bFastbootDL);
-//
-//	//b_createRes = CreateProcess(NULL, sz_commandLine, NULL, NULL, true, NULL, NULL, NULL, &si, &pi);
-//	b_createRes = CreateProcess(NULL, sz_commandLine, NULL, NULL, false, NULL, NULL, NULL, &si, &pi_bFastbootDL);
-////	b_createRes = CreateProcess(NULL, sz_commandLine, NULL, NULL, FALSE, NORMAL_PRIORITY_CLASS, NULL, NULL, &si, &pi);
-//	if(b_createRes == FALSE) 
-//	{
-//		//SendMessageToUI("b_createRes Fail");
-//		AddMsg("b_createRes Fail", None, 10);
-//		return false;
-//	}
-//
-//	//CloseHandle( pi.hProcess );
-// //   CloseHandle( pi.hThread );
-//	//return true;
-//
-//	DWORD dw_waitResult = 0;
-//	DWORD dw_timeout;
-//	dw_timeout = 30000;
-//	dw_waitResult = ::WaitForSingleObject(pi_bFastbootDL.hProcess, dw_timeout);
-//	//dw_waitResult = ::WaitForSingleObject(pi.hProcess, INFINITE);
-//	switch(dw_waitResult)
-//	{
-//	case WAIT_FAILED:
-//		::CloseHandle(pi_bFastbootDL.hProcess);
-//		pi_bFastbootDL.hProcess = NULL;
-//		AddMsg("WAIT_FAILED Fail", None, 10);
-//		return false;
-//
-//	case WAIT_TIMEOUT:
-//		::CloseHandle(pi_bFastbootDL.hProcess);
-//		pi_bFastbootDL.hProcess = NULL;
-//		AddMsg("WAIT_TIMEOUT Fail", None, 10);
-//		return false;
-//
-//	case WAIT_OBJECT_0:
-//		break;
-//	}
-//	::CloseHandle(pi_bFastbootDL.hProcess);
-//	pi_bFastbootDL.hProcess = NULL;
-//
-//	return true;
-//}
-
-
-//bool CDownload8994::bAdbCMD(CString csCMD){
-//
-//	CString csExeCMD;
-//	bool bDLFlag = false;
-//
-//	/*get fastboot.exe path */
-//	char sz_currentPath[MAX_PATH] = { 0 };
-//	::GetModuleFileName(NULL, sz_currentPath, MAX_PATH);
-//	::PathRemoveFileSpec(sz_currentPath);
-//
-//	CString str_FastbootPath;
-//	str_FastbootPath.Format(_T("%s\\adb.exe"), sz_currentPath);
-//
-//
-//	//csExeCMD.Format(_T("CMD.EXE /C %s") ,folderPath);
-//	//csExeCMD.Format(_T("D:\\03.Factory\\00.DELL\\GF80B1A_Trigger_V1.004_20150729_debug\\fastboot.exe %s\"") ,folderPath);
-//	csExeCMD.Format(_T("%s %s") ,str_FastbootPath, csCMD);
-//	/* Run */
-//	TCHAR sz_commandLine[1024];
-//	memset(sz_commandLine, 0, sizeof(sz_commandLine));
-//	for (int i = 0; i < csExeCMD.GetLength(); i ++) 
-//	{
-//		sz_commandLine[i] = csExeCMD[i];   
-//	}
-//	PROCESS_INFORMATION pi_bFastbootDL = {0};;
-//	STARTUPINFO si = {0};
-//	memset(&si, 0, sizeof(si));
-//	si.cb          = sizeof(si);
-//	si.wShowWindow = SW_HIDE;
-//	si.dwFlags     = STARTF_USESTDHANDLES | STARTF_USESHOWWINDOW; 
-//
-//	BOOL b_createRes = FALSE;	
-//
-//	b_createRes = CreateProcess(NULL, sz_commandLine, NULL, NULL, true, CREATE_DEFAULT_ERROR_MODE, NULL, NULL, &si, &pi_bFastbootDL);
-//
-//	if(b_createRes == FALSE) 
-//	{
-//		AddMsg("b_createRes Fail", None, 10);
-//		return false;
-//	}
-//
-//	DWORD dw_waitResult = 0;
-//	DWORD dw_timeout;
-//	dw_timeout = 180 * 1000;
-//
-//	
-//	dw_waitResult = ::WaitForSingleObject(pi_bFastbootDL.hProcess, dw_timeout);
-//
-//	CloseHandle(pi_bFastbootDL.hThread);
-//	pi_bFastbootDL.hThread = NULL;	
-//	::CloseHandle(pi_bFastbootDL.hProcess);
-//	pi_bFastbootDL.hProcess = NULL;
-//
-//	switch(dw_waitResult)
-//	{
-//	case WAIT_FAILED:
-//		::CloseHandle(pi_bFastbootDL.hProcess);
-//		pi_bFastbootDL.hProcess = NULL;
-//		AddMsg("WAIT_FAILED Fail", None, 10);
-//		return false;
-//
-//	case WAIT_TIMEOUT:
-//		::CloseHandle(pi_bFastbootDL.hProcess);
-//		pi_bFastbootDL.hProcess = NULL;
-//		AddMsg("WAIT_TIMEOUT Fail", None, 10);
-//		return false;
-//
-//	case WAIT_OBJECT_0:
-//		break;
-//	}
-//	::CloseHandle(pi_bFastbootDL.hProcess);
-//	pi_bFastbootDL.hProcess = NULL;
-//
-//	return true;
-//}

@@ -118,12 +118,12 @@ private:
 	std::string st_Test_Flow[i_Station_Count];
 	bool ReadDLLIniFile(void);
 	bool GetDLLIniFile(void);
-	bool GetSupportQDownload(void);
+	//bool GetSupportQDownload(void);
 	bool GetCOMPort(void);
 	bool GetMultiDLFlag(void);
 	bool GetDLMode(void);
 	bool Get_PID_VID(void);
-	bool GetImageCount(void);
+	bool SetImagePath(void);
 	bool ReadSetupIniFile(void);
 	bool GetToolVersion(void);
 	bool GetCheckFlowInsertData(void);
@@ -135,7 +135,6 @@ private:
 	void SetErrorMessage(const char* sz_errorMessage, const int i_slot = 1);
 	bool IsConnected(const int i_slot);
 	bool IsCOMPortExist(const int i_slot);
-	bool IsImageFileExist(const int i_slot);
 
 	/* MD5 verify */
 	bool CheckMD5(void);
@@ -148,9 +147,6 @@ private:
 	void SetLogFilePath();
 	void SetInfoLogFileName(CString str_fileName);
 	void WriteLog(CString str_log, const int i_severity = __INFO);
-
-	bool GetImage(void);
-	bool GetFileNameFromDir(CString str_directoryName, CStringArray& stra_fileName);
 	bool SpiltString(CString str_sourceString, CString str_delimiter, CStringArray& stra_strArg);
 
 private:
@@ -165,6 +161,7 @@ private:
 	bool                         m_b_insertData;  
 	bool                         m_b_checkSWVersion;     
 	CString						 str_prestation;
+	CString						 str_SWVersion;
 	int                          m_i_imageCount;            // Image file count
 	char                         m_sz_DLMode[ARRAY_SIZE];   // Current DL mode
 	char                         m_sz_PID_VID[ARRAY_SIZE];   // Current DL mode

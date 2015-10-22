@@ -197,14 +197,6 @@ bool CDLInstance::PreRun(int i_slot)
 		return false;
 	}
 
-	/* Check image file exist */
-	if (IsImageFileExist(i_slot) != true)
-	{
-		m_map_picassoList.erase(i_slot);
-		SetErrorMessage(_T("Check image file exist Fail."), i_slot);
-		return false;
-	}
-
 	///* Check IsConnected */
 	//if (IsConnected(i_slot) != true)
 	//{
@@ -327,29 +319,17 @@ bool CDLInstance::Run(int i_slot)
 	/* Set DLL Ini file name */
 	p_obj_DL->SetDLLIniFileName(m_str_iniFileName);
 
-	/* Set COMPicasso */
-	p_obj_DL->SetCOMPicasso(m_map_COMPicasso);
-
 	/* Set SlotPicasso */
 	p_obj_DL->SetPicassoList(m_map_picassoList);
 
-	/* Set DLMode */
-	p_obj_DL->SetDLMode(m_sz_DLMode);
-
 	/* Set SW version */
 	p_obj_DL->SetSWVerion(m_str_SWVersion);
-
-	/* Set HW version */
-	p_obj_DL->SetHWVerion(m_str_HWVersion);
 
 	/* Set Tool version */
 	p_obj_DL->SetToolVerion(m_str_ToolVersion);
 
 	/* Set Factory version */
 	p_obj_DL->SetFactoryVerion(m_str_fatoryVersion);
-
-	/* Set Customer SW version */
-	p_obj_DL->SetCustomerSwVerion(m_str_CustomerSwVersion);
 
 	bool passFail = false;
 	if (m_b_checkFlow)
@@ -358,6 +338,7 @@ bool CDLInstance::Run(int i_slot)
 		passFail = runReadScalarID( sz_value, ID_SIZE);
 
 		passFail = runCheckFlow( 2 );// i_type 1 = pcbaid,  2 = scalarId
+		delete [] sz_value;
 		if ( !passFail) return false; 
  
 	}
@@ -395,7 +376,6 @@ bool CDLInstance::Run(int i_slot)
 
 	if (m_b_insertData)
 	{
-		char *sz_value = new char[ID_SIZE_BUFFER]  ;
 		b_res = runInsertData();
 	}
 
@@ -408,7 +388,7 @@ bool CDLInstance::GetSWVersion(void)
 {    
      bool bReturn = false;
 
-     char szModel[8] = "GLUFB1A";
+     char szModel[8] = "GBROB1A";
      //char szModel[8] = "GNAMB1A";
      char szSWVersion[30] = "";
      char szErrCode[128] = "";
@@ -489,59 +469,7 @@ Exit:
 bool CDLInstance::PostRun(int i_slot)
 {
 	return true;
-	bool b_res = false;
-//	bool passFail = false;
 
-	if (m_b_insertData)
-	{
-		char *sz_value = new char[ID_SIZE_BUFFER]  ;
-		b_res = runInsertData();
-	}
-
-	return b_res;
-	 
-	//CBaseProject* p_obj_DL = NULL;
-	///* Get COMPort */
-	//int i_comPort = m_map_deviceStruct[i_slot].i_COMPort;
-	///* Get Multi-download flag */
-	//CString str_multiDLFlag = m_map_deviceStructMultiDLFlag[i_slot].str_multiDLFlag;
-	//p_obj_DL = new CU2416(i_comPort, str_multiDLFlag);
-
-	//p_obj_DL->SetDLLIniFileName(m_str_iniFileName);
-	//b_res = p_obj_DL->PostRun(i_slot);
-
-	//if ( !b_res){
-	//	/*can't reboot save err log*/
-	//}
-
-	//char szModulePath[MAX_PATH];
-	//GetModuleFileName(NULL, szModulePath, MAX_PATH);
-	//PathRemoveFileSpec(szModulePath);
-	//char Path_UpLog_Bat[100];
-	//sprintf(Path_UpLog_Bat, _T("%s\\Qisda\\UpLog.bat"), szModulePath);
-
-	//char str_modelName[32] = {0};
-	//strcpy(str_modelName, CT2CA(m_str_modelName.GetBuffer()));
-
-	//if (::_taccess( Path_UpLog_Bat, 0 ) == 0){
-	//	if (p_obj_DL->LogUploadByBAT(str_modelName) )
-	//		SetErrorMessage(_T("LogUpload by bat Success."), 0);
-	//	else
-	//		SetErrorMessage(_T("LogUpload Fail."), 0);
-	//}
-	//else
-	//{ 
-	//	if ( p_obj_DL->LogUpload(str_modelName))
-	//		SetErrorMessage(_T("LogUpload Success."), 0);
-	//	else
-	//		SetErrorMessage(_T("LogUpload Fail."), 0);
-	//}
-
-
-	//delete p_obj_DL;
-	//p_obj_DL = NULL;
-
-//	return b_res;
 }
 
 bool CDLInstance::Begin(int i_slot)
@@ -549,7 +477,7 @@ bool CDLInstance::Begin(int i_slot)
 	/* Read INI file */
 	/* Set log path and file name */
 	bool passFail = false;
-	GetSWVersion();//liontest
+//	GetSWVersion();//liontest
 
 	m_b_readIniFile = ReadDLLIniFile();
 	if (m_b_readIniFile != true)
@@ -841,7 +769,7 @@ bool CDLInstance::SetParameterValue(char* sz_keyword, char* sz_value)
 	}
 
 	/* Picasso list --- Format: slot,picasso*/
-	else if (str_key == PARAMETER_THREE)
+	else if (str_key == PARAMETER_THREE) //liontest
 	{
 		CString str_temp;
 		str_temp.Format(_T("%s"), sz_value);
@@ -854,7 +782,7 @@ bool CDLInstance::SetParameterValue(char* sz_keyword, char* sz_value)
 				/* Get slot */
 				int i_slot = -1;
 				i_slot = ::atoi(str_temp.Left(i_first));
-				if ((i_slot < 0) || (i_slot >= MAX_SLOT))
+				if ((i_slot < 0) || (i_slot >= MAX_SLOT)) 
 				{
 					return false;
 				}
@@ -877,7 +805,7 @@ bool CDLInstance::SetParameterValue(char* sz_keyword, char* sz_value)
 		}
 
 		/* Set DL log filename */
-	//	SetLogFileName();
+		SetLogFileName();
 	}
 
 	/* SW Version */
@@ -1324,22 +1252,22 @@ bool CDLInstance::ReadDLLIniFile(void)
 		return false;
 	}
 
-	GetSupportQDownload();
-	if(m_b_SupportQDownload)
-	{
+	//GetSupportQDownload();
+	//if(m_b_SupportQDownload)
+	//{
 		/* Get COM Port */
 		if (GetCOMPort() != true)
 		{
 			return false;
 		}
-	}
-	else
-	{
-		if (ReadSetupIniFile() != true)
-		{
-			return false;
-		}
-	}
+	//}
+	//else
+	//{
+	//	if (ReadSetupIniFile() != true)
+	//	{
+	//		return false;
+	//	}
+	//}
 
 	/* Get Multi-download flag */
 	if (GetMultiDLFlag() != true)
@@ -1359,11 +1287,18 @@ bool CDLInstance::ReadDLLIniFile(void)
 	//	return false;
 	//}
 
-	/* Get image file name */
-	if (GetImageCount() != true)
+	
+	/* Get SetImagePath */
+	if (SetImagePath() != true)
 	{
 		return false;
 	}
+
+	///* Get image file name */
+	//if (GetImageCount() != true)
+	//{
+	//	return false;
+	//}
 
 	/* Get tool version */
 	if (GetToolVersion() != true)
@@ -1483,10 +1418,7 @@ bool CDLInstance::GetDLLIniFile(void)
 		WriteLog(str_message);		
 	}
 
-
-
 	m_str_iniFileName = str_iniFile; 
-
 	return true;
 }
 
@@ -1500,19 +1432,19 @@ bool CDLInstance::GetDLLIniFile(void)
 * Version       Author          Date                Abstract                 
 * 1.0           Erin.Chang      2013/06/26          First version             
 *****************************************************************************/
-bool CDLInstance::GetSupportQDownload(void)
-{
-	if (m_str_iniFileName == "")
-	{
-		return false;
-	}
-
-	CIniAccess obj_dllIni("Setting", m_str_iniFileName);
-	int i_SupportQDownload = obj_dllIni.GetValue("SupportQDownload", -1);
-
-	m_b_SupportQDownload = (i_SupportQDownload == 1) ? true : false;
-	return true;
-}
+//bool CDLInstance::GetSupportQDownload(void)
+//{
+//	if (m_str_iniFileName == "")
+//	{
+//		return false;
+//	}
+//
+//	CIniAccess obj_dllIni("Setting", m_str_iniFileName);
+//	int i_SupportQDownload = obj_dllIni.GetValue("SupportQDownload", -1);
+//
+//	m_b_SupportQDownload = (i_SupportQDownload == 1) ? true : false;
+//	return true;
+//}
 /*****************************************************************************
 * Function name: GetCOMPort      
 * Summary      : Get COM port from ini file
@@ -1688,15 +1620,14 @@ bool CDLInstance::GetCheckFlowInsertData(void)
 	m_b_insertData = (i_InsertData == 1) ? true : false;
 
 	int i_checkflow = obj_dllIni.GetValue("checkflow", -1);
-	m_b_checkFlow = (m_b_checkFlow == 1) ? true : false;
+	m_b_checkFlow = (i_checkflow == 1) ? true : false;
 
 	int i_checkSWVersion= obj_dllIni.GetValue("checkSWVersion", -1);
-	m_b_checkSWVersion = (m_b_checkSWVersion == 1) ? true : false;
+	m_b_checkSWVersion = (i_checkSWVersion == 1) ? true : false;
 
 //	int m_b_checkSWVersion;
 	char sz_prestation[128] = {0};
 	obj_dllIni.GetValue(_T("prestation"), sz_prestation, sizeof(sz_prestation));
-
 	str_prestation.Format(_T("%s"), sz_prestation);
 
 	if (str_prestation == _T(""))
@@ -1705,6 +1636,18 @@ bool CDLInstance::GetCheckFlowInsertData(void)
 		return false;
 	}
 	checkStation = str_prestation;
+
+	char sz_SWVersion[128] = {0};
+	obj_dllIni.GetValue(_T("SWVersion"), sz_SWVersion, sizeof(sz_SWVersion));
+	str_SWVersion.Format(_T("%s"), sz_SWVersion);
+
+	if (str_prestation == _T(""))
+	{
+		SetErrorMessage("Get str_prestation Fail from QISDA.", 0);
+		return false;
+	}
+
+	
 
 	//m_str_DLMode = str_DLMode;
 
@@ -1715,6 +1658,16 @@ bool CDLInstance::GetCheckFlowInsertData(void)
 
 
 
+bool CDLInstance::SetImagePath(void)
+{
+		/* Save image file */
+		st_Image st_image;
+		st_image.str_imageType = "";
+		st_image.str_imageName = "";
+		st_image.str_imagePath = m_str_imageFilePath;
+		m_vector_image.push_back(st_image);
+		return true;
+}
 /*****************************************************************************
 * Function name: GetImageCount      
 * Summary      : Get image count and image file name.
@@ -1725,79 +1678,86 @@ bool CDLInstance::GetCheckFlowInsertData(void)
 * Version       Author          Date                Abstract                 
 * 1.0           Alex.Chen       2011/07/06          First version             
 *****************************************************************************/
-bool CDLInstance::GetImageCount(void)
-{
-	/* Check member */
-	if (m_str_DLMode == "")
-	{
-		return false;
-	}
-	if (m_str_iniFileName == "")
-	{
-		return false;
-	}
-	if (m_str_imageFilePath == "")
-	{
-		return false;
-	}
-
-	m_i_imageCount = 0;
-
-	char sz_key[ARRAY_SIZE]    = {0};
-	char sz_type[ARRAY_SIZE]   = {0};
-	char sz_filename[MAX_PATH] = {0};
-
-	/* Get image count */
-	CIniAccess obj_countIni(m_sz_DLMode, m_str_iniFileName);
-	int i_count = 0;
-	i_count = obj_countIni.GetValue(_T("Count"));
-	if (i_count == 0)
-	{
-		return false;
-	}
-
-	/* Get image name */
-	for (int i = 0; i < i_count; i++)
-	{
-		/* Init */
-		memset(sz_key, 0, sizeof(sz_key));
-		memset(sz_type, 0, sizeof(sz_type));
-		memset(sz_filename, 0, sizeof(sz_filename));
-
-		/* Get image type */
-		CIniAccess obj_typeIni(m_sz_DLMode, m_str_iniFileName);
-		sprintf_s(sz_key, "%02d", i+1);
-		obj_typeIni.GetValue(sz_key, sz_type, sizeof(sz_type));
-	
-		/* Need download */
-		sprintf_s(sz_key, "Download_%02d", i+1);
-		if (obj_typeIni.GetValue(sz_key) == 0)
-		{
-			continue;
-		}
-
-		/* Get File Name */
-		CIniAccess obj_imageIni (_T("ImageFile"), m_str_iniFileName);
-		sprintf_s(sz_key, "%02d", i+1);
-		obj_imageIni.GetValue(sz_key, sz_filename);
-	
-		/* Save image file */
-		st_Image st_image;
-		st_image.str_imageType = sz_type;
-		st_image.str_imageName = sz_filename;
-		st_image.str_imagePath = m_str_imageFilePath;
-		m_vector_image.push_back(st_image);
-
-		if (m_str_imageFilePath == "")
-		{
-			return false;
-		}
-	}
-
-	m_i_imageCount = m_vector_image.size();
-
-	return true;
-}
+//bool CDLInstance::GetImageCount(void)
+//{
+//		/* Save image file */
+//		st_Image st_image;
+//		st_image.str_imageType = "";
+//		st_image.str_imageName = "";
+//		st_image.str_imagePath = m_str_imageFilePath;
+//		m_vector_image.push_back(st_image);
+//		return true;
+//	/* Check member */
+//	if (m_str_DLMode == "")
+//	{
+//		return false;
+//	}
+//	if (m_str_iniFileName == "")
+//	{
+//		return false;
+//	}
+//	if (m_str_imageFilePath == "")
+//	{
+//		return false;
+//	}
+//
+//	m_i_imageCount = 0;
+//
+//	char sz_key[ARRAY_SIZE]    = {0};
+//	char sz_type[ARRAY_SIZE]   = {0};
+//	char sz_filename[MAX_PATH] = {0};
+//
+//	/* Get image count */
+//	CIniAccess obj_countIni(m_sz_DLMode, m_str_iniFileName);
+//	int i_count = 0;
+//	i_count = obj_countIni.GetValue(_T("Count"));
+//	if (i_count == 0)
+//	{
+//		return false;
+//	}
+//
+//	/* Get image name */
+//	for (int i = 0; i < i_count; i++)
+//	{
+//		/* Init */
+//		memset(sz_key, 0, sizeof(sz_key));
+//		memset(sz_type, 0, sizeof(sz_type));
+//		memset(sz_filename, 0, sizeof(sz_filename));
+//
+//		/* Get image type */
+//		CIniAccess obj_typeIni(m_sz_DLMode, m_str_iniFileName);
+//		sprintf_s(sz_key, "%02d", i+1);
+//		obj_typeIni.GetValue(sz_key, sz_type, sizeof(sz_type));
+//	
+//		/* Need download */
+//		sprintf_s(sz_key, "Download_%02d", i+1);
+//		if (obj_typeIni.GetValue(sz_key) == 0)
+//		{
+//			continue;
+//		}
+//
+//		/* Get File Name */
+//		CIniAccess obj_imageIni (_T("ImageFile"), m_str_iniFileName);
+//		sprintf_s(sz_key, "%02d", i+1);
+//		obj_imageIni.GetValue(sz_key, sz_filename);
+//	
+//		/* Save image file */
+//		st_Image st_image;
+//		st_image.str_imageType = sz_type;
+//		st_image.str_imageName = sz_filename;
+//		st_image.str_imagePath = m_str_imageFilePath;
+//		m_vector_image.push_back(st_image);
+//
+//		if (m_str_imageFilePath == "")
+//		{
+//			//return false;
+//		}
+//	}
+//
+//	m_i_imageCount = m_vector_image.size();
+//
+//	return true;
+//}
 
 
 /*****************************************************************************
@@ -2047,34 +2007,34 @@ bool CDLInstance::IsCOMPortExist(const int i_slot)
 * Version       Author          Date                Abstract                 
 * 1.0           Alex.Chen       2011/07/06          First version             
 *****************************************************************************/
-bool CDLInstance::IsImageFileExist(const int i_slot)
-{
-	/* Check image num */
-	if (m_vector_image.size() == 0)
-	{
-		SetErrorCode(DLErr_Image_Is_not_Exist, i_slot);
-		SetErrorMessage(_T("All image files is missing."), i_slot);
-		return false;
-	}
-
-	/* Check image exist */
-	std::vector<st_Image>::iterator iter;
-	for (iter = m_vector_image.begin(); iter != m_vector_image.end(); iter++)
-	{
-		CString str_imageFileName;
-		str_imageFileName.Format(_T("%s\\%s"), m_str_imageFilePath, (*iter).str_imageName.c_str());
-		if (_taccess(str_imageFileName, 0) != 0) 
-		{
-			SetErrorCode(DLErr_Image_Is_not_Exist, i_slot);
-			CString str_errorMessage;
-			str_errorMessage.Format(_T("Image file %s is missing."), (*iter).str_imageName.c_str());
-			SetErrorMessage(str_errorMessage, i_slot);
-			return false;
-		}
-	}
-
-	return true;
-}
+//bool CDLInstance::IsImageFileExist(const int i_slot)
+//{
+//	/* Check image num */
+//	if (m_vector_image.size() == 0)
+//	{
+//		SetErrorCode(DLErr_Image_Is_not_Exist, i_slot);
+//		SetErrorMessage(_T("All image files is missing."), i_slot);
+//		return false;
+//	}
+//
+//	/* Check image exist */
+//	std::vector<st_Image>::iterator iter;
+//	for (iter = m_vector_image.begin(); iter != m_vector_image.end(); iter++)
+//	{
+//		CString str_imageFileName;
+//		str_imageFileName.Format(_T("%s\\%s"), m_str_imageFilePath, (*iter).str_imageName.c_str());
+//		if (_taccess(str_imageFileName, 0) != 0) 
+//		{
+//			SetErrorCode(DLErr_Image_Is_not_Exist, i_slot);
+//			CString str_errorMessage;
+//			str_errorMessage.Format(_T("Image file %s is missing."), (*iter).str_imageName.c_str());
+//			SetErrorMessage(str_errorMessage, i_slot);
+//			return false;
+//		}
+//	}
+//
+//	return true;
+//}
 
 
 /*****************************************************************************
@@ -2493,178 +2453,178 @@ bool CDLInstance::CheckVerifyResult(CString str_logFile)
 	return true;
 }
 
-/* Alex.Chen Add for C7 */
-bool CDLInstance::GetImage(void)
-{
-	/* Check member */
-	if (m_str_DLMode == "")
-	{
-		return false;
-	}
-	if (m_str_iniFileName == "")
-	{
-		return false;
-	}
-	if (m_str_imageFilePath == "")
-	{
-		return false;
-	}
-
-	m_i_imageCount = 0;
-
-	char sz_key[ARRAY_SIZE]    = {0};
-	char sz_type[ARRAY_SIZE]   = {0};
-	char sz_filename[MAX_PATH] = {0};
-
-	/* Get image count */
-	CIniAccess obj_countIni(m_sz_DLMode, m_str_iniFileName);
-	int i_count = 0;
-	i_count = obj_countIni.GetValue(_T("Count"));
-	if (i_count == 0)
-	{
-		return false;
-	}
-
-	/* Get image name */
-	for (int i = 0; i < i_count; i++)
-	{
-		/* Init */
-		memset(sz_key, 0, sizeof(sz_key));
-		memset(sz_type, 0, sizeof(sz_type));
-		memset(sz_filename, 0, sizeof(sz_filename));
-
-		/* Get image type */
-		CIniAccess obj_typeIni(m_sz_DLMode, m_str_iniFileName);
-		sprintf_s(sz_key, "%02d", i+1);
-		obj_typeIni.GetValue(sz_key, sz_type, sizeof(sz_type));
-
-		/* Need download */
-		sprintf_s(sz_key, "Download_%02d", i+1);
-		if (obj_typeIni.GetValue(sz_key) == 0)
-		{
-			continue;
-		}
-
-		/* Get File Name */
-		CIniAccess obj_imageIni (_T("ImageFile"), m_str_iniFileName);
-		sprintf_s(sz_key, "%02d", i+1);
-		obj_imageIni.GetValue(sz_key, sz_filename);
-
-		CString str_imageType;
-		str_imageType.Format("%s", sz_type);
-		CString str_imageName;
-		str_imageName.Format("%s", sz_filename);
-		if (str_imageType == _T("flex"))
-		{
-			CStringArray stra_fileName;
-			if (GetFileNameFromDir(m_str_imageFilePath, stra_fileName) != true)
-			{
-				return false;
-			}
-			if (stra_fileName.GetSize() < 1)
-			{
-				return false;
-			}
-
-			CStringArray stra_spiltName;
-			if ((SpiltString(str_imageName, "*", stra_spiltName) != true))
-			{
-				return false;
-			}
-			if (stra_spiltName.GetSize() < 3)
-			{
-				return false;
-			}
-			
-			CString str_findOne = stra_spiltName.GetAt(0);
-			CString str_findTwo = stra_spiltName.GetAt(1);
-			CString str_findThree = _T(".bchecc.img");
-
-			CString str_temp;
-			bool b_findRes = false;
-			for (int i = 0; i < stra_fileName.GetSize(); i++)
-			{
-				str_temp = stra_fileName.GetAt(i);
-				if (str_temp.Find(str_findOne) != -1)
-				{
-					if (str_temp.Find(str_findTwo) != -1)
-					{
-						if (str_temp.Find(str_findThree) == -1)
-						{
-							b_findRes = true;
-							break;
-						}
-					}	
-				}
-			}
-			if (b_findRes == false)
-			{
-				return false;
-			}
-
-			/* Save image file */
-			st_Image st_image;
-			st_image.str_imageType = sz_type;
-			st_image.str_imageName = str_temp;
-			st_image.str_imagePath = m_str_imageFilePath;
-			m_vector_image.push_back(st_image);	
-		}
-		else
-		{
-			/* Save image file */
-			st_Image st_image;
-			st_image.str_imageType = sz_type;
-			st_image.str_imageName = sz_filename;
-			st_image.str_imagePath = m_str_imageFilePath;
-			m_vector_image.push_back(st_image);
-		}
-
-		if (m_str_imageFilePath == "")
-		{
-			return false;
-		}
-	}
-
-	m_i_imageCount = m_vector_image.size();
-
-	return true;
-}
-bool CDLInstance::GetFileNameFromDir(CString str_directoryName, CStringArray& stra_fileName)
-{
-	/* Check Input */
-	if(str_directoryName == _T(""))
-	{
-		return false;
-	}
-
-	stra_fileName.RemoveAll();
-
-	CFileFind obj_tempFind;               
-	char sz_tempFileFind[256];
-	memset(sz_tempFileFind, 0,sizeof(sz_tempFileFind));
-
-	sprintf_s(sz_tempFileFind , "%s\\*.img", str_directoryName);
-
-	BOOL b_isFinded = (BOOL)obj_tempFind.FindFile(sz_tempFileFind);
-	while(b_isFinded) 
-	{
-		b_isFinded = ( BOOL )obj_tempFind.FindNextFile();
-		if(!obj_tempFind.IsDots())
-		{
-			if(!obj_tempFind.IsDirectory())
-			{
-				/* It is not directory */
-				CString str_tempFileName;
-				str_tempFileName = obj_tempFind.GetFileName().GetBuffer(256);
-				stra_fileName.Add(str_tempFileName);
-			}
-		}
-	}
-
-	obj_tempFind.Close();
-
-	return true;
-}
+///* Alex.Chen Add for C7 */
+//bool CDLInstance::GetImage(void)
+//{
+//	/* Check member */
+//	if (m_str_DLMode == "")
+//	{
+//		return false;
+//	}
+//	if (m_str_iniFileName == "")
+//	{
+//		return false;
+//	}
+//	if (m_str_imageFilePath == "")
+//	{
+//		return false;
+//	}
+//
+//	m_i_imageCount = 0;
+//
+//	char sz_key[ARRAY_SIZE]    = {0};
+//	char sz_type[ARRAY_SIZE]   = {0};
+//	char sz_filename[MAX_PATH] = {0};
+//
+//	/* Get image count */
+//	CIniAccess obj_countIni(m_sz_DLMode, m_str_iniFileName);
+//	int i_count = 0;
+//	i_count = obj_countIni.GetValue(_T("Count"));
+//	if (i_count == 0)
+//	{
+//		return false;
+//	}
+//
+//	/* Get image name */
+//	for (int i = 0; i < i_count; i++)
+//	{
+//		/* Init */
+//		memset(sz_key, 0, sizeof(sz_key));
+//		memset(sz_type, 0, sizeof(sz_type));
+//		memset(sz_filename, 0, sizeof(sz_filename));
+//
+//		/* Get image type */
+//		CIniAccess obj_typeIni(m_sz_DLMode, m_str_iniFileName);
+//		sprintf_s(sz_key, "%02d", i+1);
+//		obj_typeIni.GetValue(sz_key, sz_type, sizeof(sz_type));
+//
+//		/* Need download */
+//		sprintf_s(sz_key, "Download_%02d", i+1);
+//		if (obj_typeIni.GetValue(sz_key) == 0)
+//		{
+//			continue;
+//		}
+//
+//		/* Get File Name */
+//		CIniAccess obj_imageIni (_T("ImageFile"), m_str_iniFileName);
+//		sprintf_s(sz_key, "%02d", i+1);
+//		obj_imageIni.GetValue(sz_key, sz_filename);
+//
+//		CString str_imageType;
+//		str_imageType.Format("%s", sz_type);
+//		CString str_imageName;
+//		str_imageName.Format("%s", sz_filename);
+//		if (str_imageType == _T("flex"))
+//		{
+//			CStringArray stra_fileName;
+//			if (GetFileNameFromDir(m_str_imageFilePath, stra_fileName) != true)
+//			{
+//				return false;
+//			}
+//			if (stra_fileName.GetSize() < 1)
+//			{
+//				return false;
+//			}
+//
+//			CStringArray stra_spiltName;
+//			if ((SpiltString(str_imageName, "*", stra_spiltName) != true))
+//			{
+//				return false;
+//			}
+//			if (stra_spiltName.GetSize() < 3)
+//			{
+//				return false;
+//			}
+//			
+//			CString str_findOne = stra_spiltName.GetAt(0);
+//			CString str_findTwo = stra_spiltName.GetAt(1);
+//			CString str_findThree = _T(".bchecc.img");
+//
+//			CString str_temp;
+//			bool b_findRes = false;
+//			for (int i = 0; i < stra_fileName.GetSize(); i++)
+//			{
+//				str_temp = stra_fileName.GetAt(i);
+//				if (str_temp.Find(str_findOne) != -1)
+//				{
+//					if (str_temp.Find(str_findTwo) != -1)
+//					{
+//						if (str_temp.Find(str_findThree) == -1)
+//						{
+//							b_findRes = true;
+//							break;
+//						}
+//					}	
+//				}
+//			}
+//			if (b_findRes == false)
+//			{
+//				return false;
+//			}
+//
+//			/* Save image file */
+//			st_Image st_image;
+//			st_image.str_imageType = sz_type;
+//			st_image.str_imageName = str_temp;
+//			st_image.str_imagePath = m_str_imageFilePath;
+//			m_vector_image.push_back(st_image);	
+//		}
+//		else
+//		{
+//			/* Save image file */
+//			st_Image st_image;
+//			st_image.str_imageType = sz_type;
+//			st_image.str_imageName = sz_filename;
+//			st_image.str_imagePath = m_str_imageFilePath;
+//			m_vector_image.push_back(st_image);
+//		}
+//
+//		if (m_str_imageFilePath == "")
+//		{
+//			return false;
+//		}
+//	}
+//
+//	m_i_imageCount = m_vector_image.size();
+//
+//	return true;
+//}
+//bool CDLInstance::GetFileNameFromDir(CString str_directoryName, CStringArray& stra_fileName)
+//{
+//	/* Check Input */
+//	if(str_directoryName == _T(""))
+//	{
+//		return false;
+//	}
+//
+//	stra_fileName.RemoveAll();
+//
+//	CFileFind obj_tempFind;               
+//	char sz_tempFileFind[256];
+//	memset(sz_tempFileFind, 0,sizeof(sz_tempFileFind));
+//
+//	sprintf_s(sz_tempFileFind , "%s\\*.img", str_directoryName);
+//
+//	BOOL b_isFinded = (BOOL)obj_tempFind.FindFile(sz_tempFileFind);
+//	while(b_isFinded) 
+//	{
+//		b_isFinded = ( BOOL )obj_tempFind.FindNextFile();
+//		if(!obj_tempFind.IsDots())
+//		{
+//			if(!obj_tempFind.IsDirectory())
+//			{
+//				/* It is not directory */
+//				CString str_tempFileName;
+//				str_tempFileName = obj_tempFind.GetFileName().GetBuffer(256);
+//				stra_fileName.Add(str_tempFileName);
+//			}
+//		}
+//	}
+//
+//	obj_tempFind.Close();
+//
+//	return true;
+//}
 bool CDLInstance::SpiltString(CString str_sourceString, CString str_delimiter, CStringArray& stra_strArg)
 {
 	/* Check Input */
@@ -2797,11 +2757,13 @@ bool CDLInstance ::runInsertData()
 					ErrMsg =  ErrMsg + g_strScalarID.c_str() ;
 					//SetErrorMessage(ErrMsg.c_str() , 0);
 					AfxMessageBox(ErrMsg.c_str());
+					SetErrorMessage(ErrMsg.c_str() , 0);
 					return false;
 				}
 				sprintf_s((char*)sz_ID, ID_SIZE_BUFFER,"%s", g_strScalarID.c_str() );
 				ErrMsg = " iInsertYrstation 2 = ";
 				ErrMsg = ErrMsg 	+ g_strScalarID.c_str() ;
+				SetErrorMessage(ErrMsg.c_str() , 0);
 			//	AfxMessageBox(ErrMsg.c_str());
 				//SetErrorMessage(ErrMsg.c_str() , 0);
 
@@ -2817,19 +2779,21 @@ bool CDLInstance ::runInsertData()
 				CString csInsertCmd;
 				csInsertCmd.Format(_T("szModel = %s, sz_ID = %s, szOperator = %s , szStation = %s "), szModel,  sz_ID, szOperator, szStation);
 				ErrMsg = "iInsertYrstation cmd = " + csInsertCmd;
-				//SetErrorMessage(ErrMsg.c_str() , 0);
+				SetErrorMessage(ErrMsg.c_str() , 0);
 
 			if(bReturn) 
 			{
 			//	CString csInsertCmd;
 			//	csInsertCmd.Format(_T("szModel = %s, sz_ID = %s, szOperator = %s , szStation = %s "), szModel,  sz_ID, szOperator, szStation);
 				ErrMsg = "iInsertYrstation pass";
+				SetErrorMessage(ErrMsg.c_str() , 0);
 				//SetErrorMessage(ErrMsg.c_str() , 0);
 			}
 			else
 			{
 				ErrMsg = "iInsertYrstation fail ";
-				AfxMessageBox(ErrMsg.c_str());				
+				AfxMessageBox(ErrMsg.c_str());			
+				SetErrorMessage(ErrMsg.c_str() , 0);
 				//SetErrorMessage(ErrMsg.c_str() , 0);
 			}
 			goto Exit_FreeLibrary;
@@ -2838,6 +2802,7 @@ bool CDLInstance ::runInsertData()
 		{	
 			ErrMsg = "Load InsertYrstation fail ";
 			AfxMessageBox(ErrMsg.c_str());				
+			SetErrorMessage(ErrMsg.c_str() , 0);
 			//SetErrorMessage(ErrMsg.c_str() , 0);
 			goto Exit_FreeLibrary;
 		}
@@ -2846,6 +2811,7 @@ bool CDLInstance ::runInsertData()
 	{	
 		ErrMsg = "Load str_dllF32SERVER2 fail ";
 		AfxMessageBox(ErrMsg.c_str());				
+		SetErrorMessage(ErrMsg.c_str() , 0);
 		//SetErrorMessage(ErrMsg.c_str() , 0);
 		goto Exit;
 	}

@@ -69,7 +69,7 @@
 				Name="VCLinkerTool"
 				AdditionalDependencies="setupapi.lib"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="&quot;$(OutDir)&quot;;&quot;$(ProjectDir)..\..\lib\Qualcomm\QDART4823\lib&quot;"
+				AdditionalLibraryDirectories=""
 				ModuleDefinitionFile=".\QisdaQualcommDownloadModule.def"
 				GenerateDebugInformation="true"
 				SubSystem="2"

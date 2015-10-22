@@ -28,7 +28,6 @@ public:
 	bool WriteFA(char* sz_FAData);
 	bool ReadFASector(int i_sectorNum, char *sz_sectorData, int i_sectorSize);
 	bool WriteFASector(int i_sectorNum, char *sz_sectorData, int i_sectorSize);
-	bool ForceToEnterDLMode(void);
 	bool LogUpload(char *str_modelname);
 	bool LogUploadByBAT(char* str_modelname);
 	bool DFSCheckFile(char *str_LocalPath, char *str_RemotePath, char *str_TracePath);
@@ -50,26 +49,13 @@ public:
 private:
 	bool PreDLRun(void);          // COM download + Fastboot download
 	bool ReDLRun(void);           // Fastboot download
-//	bool CheckConnection(CCFCDiagCommandPtr pDiag);
-//	bool IsDLMode(CCFCDiagCommandPtr pDiag);
 	bool Download(void);
 	bool DLchipset(void);
-	bool SetImageFile(CDownload8994& obj_download, const int i_imageType, const char* sz_type);
 	bool ReadIniFile(void);
-
 
 private:
 	bool GetDLMode(void);
-	bool GetRework(void);
-	bool GetReboot(void);
-	bool GetDDRCheck(void);
-	bool GetDumpEmmcLog(void);
-	bool GetRebootMode(void);
-	bool GetCheckSum(void);
-	bool GetBackupNVPartition(void);
 	bool GetSupportQDownload(void);
-	bool GetEraseUserFat(void);
-	bool GetLogUploadInfo(void);
 
 private:
 	int      m_i_COMPort;              // COM port

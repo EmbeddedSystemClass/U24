@@ -12,12 +12,8 @@
 #include "../../../Modules/UnifyInterface/FacTestToolInterface.h"
 #include "../IniAccess.h"
 #include "../DLError.h"
-
-//#include "../../../Modules/QisdaNVModule/NVItem.h"
 #include "../../../Modules/QisdaQualcommDownloadModule/Download.h"
-//#include "../../../modules/QcnToCnvDll/QcnToCnvDll.h"
-#include "../../SPU/SPU/ISPU_CALLBACK.h"
-//#include "../../SPU/SPU_Loader/LoaderExport.h"
+
 
 
 /*================================= Structure ==============================*/
@@ -42,7 +38,7 @@ typedef struct
 /*================================= Const ==================================*/
 
 using namespace QSYNC_LIB;
-class CBaseProject : public CNotifyBase_ANSI, public INotify_ANSI, public ISPU_CALLBACK
+class CBaseProject : public CNotifyBase_ANSI, public INotify_ANSI
 {
 public:
 	CBaseProject();
@@ -69,12 +65,12 @@ public:
 	void SetSlotNumber(int i_slot);
 	void SetImageVector(std::vector<st_Image> vector_image);
 	void SetPicassoList(std::map<int, CString> map_picassoList);
-	void SetCOMPicasso(std::map<int, CString> map_COMPicasso);
+	//void SetCOMPicasso(std::map<int, CString> map_COMPicasso);
 	void SetSWVerion(CString str_SWVeriosn);
-	void SetHWVerion(CString str_HWVeriosn);
+	//void SetHWVerion(CString str_HWVeriosn);
 	void SetToolVerion(CString str_ToolVeriosn);
 	void SetFactoryVerion(CString str_fatoryVersion);
-	void SetCustomerSwVerion(CString str_CustomerSwVersion);
+	//void SetCustomerSwVerion(CString str_CustomerSwVersion);
 	void SetMobileId(CString str_MobileId);
 	void SetDLLIniFileName(const char* sz_iniFileName);
 	void SetDLMode(const char* sz_DLMode);
@@ -102,6 +98,7 @@ private:
 protected:
 	bool GetHWPlatform(char* sz_outBuffer, DWORD dw_size);
 	bool GetSWVersion(char* sz_outBuffer, DWORD dw_size);
+	bool CheckSWVersion();
 	bool GetHWVersion(char* sz_outBuffer, DWORD dw_size);
 	bool GetToolVersion(char* sz_outBuffer, DWORD dw_size);
 

@@ -455,16 +455,6 @@ bool CU2416::DLchipset(void)
 	/* Set DL Parameter */
 
 	obj_download8994.SetDLMode(m_str_DLMode);
-	//obj_download8994.SetReworkFlag(m_i_rework);
-	//obj_download8994.SetRebootFlag(m_i_reboot);
-	//obj_download8994.SetDDRCheckFlag(m_i_DDRCheck);
-	//obj_download8994.SetDumpEmmcLogFlag(m_i_DumpEmmcLog);
-	//obj_download8994.SetCheckSumFlag(m_i_checkSum);
-	//obj_download8994.SetBackupNVFlag(m_i_BackupNVPartition);
-	//obj_download8994.SetSupportQDownloadFlag(m_i_SupportQDownload);
-	//obj_download8994.SetEraseUserFatFlag(m_i_eraseUserFat);
-	//obj_download8994.SetCOMPicasso(m_i_COMPort, m_map_COMPicasso[m_i_COMPort]);
-
 	CString str_imagePath;
 	str_imagePath.Format("%s", m_vImage[0].str_imagePath.c_str());
 	obj_download8994.SetImagePath(str_imagePath);
@@ -474,6 +464,7 @@ bool CU2416::DLchipset(void)
 	
 
 	/*lion*/
+	
 	obj_download8994.setIMGPath( m_vImage[0].str_imagePath.c_str());
 	obj_download8994.ReadIMG( m_vImage[0].str_imagePath.c_str());
 
@@ -503,111 +494,6 @@ bool CU2416::DLchipset(void)
 	/*********************new new new ******************************************/
 
 
-	/* Set File name */
-
-	b_res = SetImageFile(obj_download8994, IMAGE_TYPE_8916::Q8K_HEX, _T("hex"));
-	if (b_res) 
-	{
-		b_res = SetImageFile(obj_download8994, IMAGE_TYPE_8916::Q8K_MSIMAGE, _T("msimage"));
-	}
-	if (b_res) 
-	{
-		b_res = SetImageFile(obj_download8994, IMAGE_TYPE_8916::Q8K_PARTITIONBIN, _T("partitionbin"));
-	}
-	if (b_res) 
-	{
-		b_res = SetImageFile(obj_download8994, IMAGE_TYPE_8916::Q8K_SBL1, _T("sbl1"));
-	}
-	if (b_res) 
-	{
-		b_res = SetImageFile(obj_download8994, IMAGE_TYPE_8916::Q8K_HYP, _T("hyp"));
-	}
-	if (b_res) 
-	{
-		b_res = SetImageFile(obj_download8994, IMAGE_TYPE_8916::Q8K_HYPBAK, _T("hypbak"));
-	}
-	if (b_res) 
-	{
-		b_res = SetImageFile(obj_download8994, IMAGE_TYPE_8916::Q8K_RPM, _T("rpm"));
-	}
-	if (b_res) 
-	{
-		b_res = SetImageFile(obj_download8994, IMAGE_TYPE_8916::Q8K_TZ, _T("tz"));
-	}
-	if (b_res) 
-	{
-		b_res = SetImageFile(obj_download8994, IMAGE_TYPE_8916::Q8K_APPBOOT, _T("appboot"));
-	}
-	if (b_res) 
-	{
-		b_res = SetImageFile(obj_download8994, IMAGE_TYPE_8916::Q8K_SBL1BAK, _T("sbl1bak"));
-	}
-	if (b_res) 
-	{
-		b_res = SetImageFile(obj_download8994, IMAGE_TYPE_8916::Q8K_RPMBAK, _T("rpmbak"));
-	}
-	if (b_res) 
-	{
-		b_res = SetImageFile(obj_download8994, IMAGE_TYPE_8916::Q8K_TZBAK, _T("tzbak"));
-	}
-	if (b_res) 
-	{
-		b_res = SetImageFile(obj_download8994, IMAGE_TYPE_8916::Q8K_ABOOTBAK, _T("abootbak"));
-	}
-	if (b_res) 
-	{
-		b_res = SetImageFile(obj_download8994, IMAGE_TYPE_8916::Q8K_BOOT, _T("boot"));
-	}
-	if (b_res) 
-	{
-		b_res = SetImageFile(obj_download8994, IMAGE_TYPE_8916::Q8K_RECOVERY, _T("recovery"));
-	}
-	if (b_res) 
-	{
-		b_res = SetImageFile(obj_download8994, IMAGE_TYPE_8916::Q8K_SYSTEM, _T("system"));
-	}
-	if (b_res) 
-	{
-		b_res = SetImageFile(obj_download8994, IMAGE_TYPE_8916::Q8K_CACHE, _T("cache"));
-	}
-	if (b_res) 
-	{
-		b_res = SetImageFile(obj_download8994, IMAGE_TYPE_8916::Q8K_PERSIST, _T("persist"));
-	}
-	if (b_res) 
-	{
-		b_res = SetImageFile(obj_download8994, IMAGE_TYPE_8916::Q8K_QGLOGFILTER, _T("Qlogfilter"));
-	}
-	if (b_res) 
-	{
-		b_res = SetImageFile(obj_download8994, IMAGE_TYPE_8916::Q8K_QGLOG, _T("glog"));
-	}
-	if (b_res) 
-	{
-		b_res = SetImageFile(obj_download8994, IMAGE_TYPE_8916::Q8K_SPLASH, _T("splash"));
-	}
-	if (b_res) 
-	{
-		b_res = SetImageFile(obj_download8994, IMAGE_TYPE_8916::Q8K_OEM, _T("oem"));
-	}
-	if (b_res) 
-	{
-		b_res = SetImageFile(obj_download8994, IMAGE_TYPE_8916::Q8K_NONHLOS, _T("NON-HLOS"));
-	}
-	if (b_res) 
-	{
-		b_res = SetImageFile(obj_download8994, IMAGE_TYPE_8916::Q8K_USERDATA, _T("userdata"));
-	}
-	if (b_res) 
-	{
-		b_res = SetImageFile(obj_download8994, IMAGE_TYPE_8916::Q8K_DRM, _T("drm"));
-	}
-	if (b_res) 
-	{
-		b_res = SetImageFile(obj_download8994, IMAGE_TYPE_8916::Q8K_PASSPORT, _T("passport_FactoryDLTool"));
-	}
-	
-
 	/* Set DL Parameter */
 	if (b_res) 
 	{
@@ -618,15 +504,9 @@ bool CU2416::DLchipset(void)
 		obj_download8994.SetDumpEmmcLogFlag(m_i_DumpEmmcLog);
 		obj_download8994.SetCheckSumFlag(m_i_checkSum);
 		obj_download8994.SetBackupNVFlag(m_i_BackupNVPartition);*/
-		//obj_download8994.SetSupportQDownloadFlag(m_i_SupportQDownload);
-		//obj_download8994.SetEraseUserFatFlag(m_i_eraseUserFat);
-		obj_download8994.SetCOMPicasso(m_i_COMPort, m_map_COMPicasso[m_i_COMPort]);
 
 		CString str_imagePath;
 		str_imagePath.Format("%s", m_vImage[0].str_imagePath.c_str());
-		obj_download8994.SetImagePath(str_imagePath);
-		obj_download8994.SetFactoryVersion(m_str_fatoryVersion);
-	//	obj_download8994.GetOemMainVersion(m_str_fatoryVersionDevice);
 		
 	}
 
@@ -642,40 +522,6 @@ bool CU2416::DLchipset(void)
 	obj_download8994.Unregister(this, EVENT_DL_PROGRESS);
 
 	return b_res;
-}
-
-
-/*****************************************************************************
-* Function name: SetImageFile      
-* Summary      : Set image file path.
-*              
-* Parameters   : 
-* Return       :            
-* Exception    : 
-* Version       Author          Date                Abstract                 
-* 1.0           Alex.Chen       2011/07/18          First version             
-*****************************************************************************/
-bool CU2416::SetImageFile(CDownload8994& obj_download, const int i_imageType, const char* sz_type)
-{
-	std::string str_filePathName;
-	str_filePathName = SearchImageFileByType(sz_type);
-	if (str_filePathName != _T(""))
-	{
-		if (!obj_download.SetImageFilePath(i_imageType, str_filePathName)) 
-		{
-			CString str_message;
-			str_message.Format("%s is not exist.", str_filePathName);
-			SendMessageToUI(str_message); 
-			return false;
-		}
-
-
-	}
-	else
-	{
-		return true;
-	}
-	return true;
 }
 
 bool CU2416::check_IMAGE_MD5(){
@@ -1016,66 +862,66 @@ bool CU2416::ReadIniFile(void)
 	bool b_res = false;
 	b_res = GetDLMode();
 
-	/* Get Rework flag */
-	if (b_res) 
-	{
-		b_res = GetRework();
-	}
+	///* Get Rework flag */
+	//if (b_res) 
+	//{
+	//	b_res = GetRework();
+	//}
 
-	/* Get Reboot flag */
-	if (b_res) 
-	{
-		b_res = GetReboot();
-	}
+	///* Get Reboot flag */
+	//if (b_res) 
+	//{
+	//	b_res = GetReboot();
+	//}
 
-	/* Get DDR Check flag */
-	if (b_res) 
-	{
-		b_res = GetDDRCheck();
-	}
+	///* Get DDR Check flag */
+	//if (b_res) 
+	//{
+	//	b_res = GetDDRCheck();
+	//}
 
-	/* Get DumpEmmcLog flag */ 
-	if (b_res) 
-	{
-		b_res = GetDumpEmmcLog();
-	}
+	///* Get DumpEmmcLog flag */ 
+	//if (b_res) 
+	//{
+	//	b_res = GetDumpEmmcLog();
+	//}
 
-	/* Get DumpEmmcLog flag */ 
-	if (b_res) 
-	{
-		b_res = GetRebootMode();
-	}
-	
+	///* Get DumpEmmcLog flag */ 
+	//if (b_res) 
+	//{
+	//	b_res = GetRebootMode();
+	//}
+	//
 
-	/* Get CheckSum flag */
-	if (b_res) 
-	{
-		b_res = GetCheckSum();
-	}
+	///* Get CheckSum flag */
+	//if (b_res) 
+	//{
+	//	b_res = GetCheckSum();
+	//}
 
-	/* Get Backup NV flag */
-	if (b_res) 
-	{
-		b_res = GetBackupNVPartition();
-	}
+	///* Get Backup NV flag */
+	//if (b_res) 
+	//{
+	//	b_res = GetBackupNVPartition();
+	//}
 
-	/* Get Support for QDownload */
-	if (b_res) 
-	{
-		b_res = GetSupportQDownload();
-	}
+	///* Get Support for QDownload */
+	//if (b_res) 
+	//{
+	//	b_res = GetSupportQDownload();
+	//}
 
-	/* Get Erase user fat flag */
-	if (b_res) 
-	{
-		b_res = GetEraseUserFat();
-	}
+	///* Get Erase user fat flag */
+	//if (b_res) 
+	//{
+	//	b_res = GetEraseUserFat();
+	//}
 
-	/* Get Log upload info flag */
-	if (b_res) 
-	{
-		b_res = GetLogUploadInfo();
-	}
+	///* Get Log upload info flag */
+	//if (b_res) 
+	//{
+	//	b_res = GetLogUploadInfo();
+	//}
 
 
 	return b_res;
@@ -1103,238 +949,238 @@ bool CU2416::GetDLMode(void)
 	return true;
 }
 
-bool CU2416::GetRework(void)
-{
-	int i_rework = -1;
+//bool CU2416::GetRework(void)
+//{
+//	int i_rework = -1;
+//
+//	CIniAccess obj_dllIni("Setting", m_str_dllIniFile);
+//	i_rework = obj_dllIni.GetValue("Rework", -1); 
+//
+//	if ((i_rework != 0) && (i_rework != 1))
+//	{
+//		SendMessageToUI("Get Rework Fail from QISDA.");
+//		SetError(DLERR_UNKNOWN);
+//		return false;
+//	}
+//
+//	m_i_rework = i_rework;
+//
+//	return true;
+//}
+//
+//bool CU2416::GetReboot(void)
+//{
+//	int i_reboot = -1;
+//
+//	CIniAccess obj_dllIni("Setting", m_str_dllIniFile);
+//	i_reboot = obj_dllIni.GetValue("Reboot", -1);
+//
+//	if ((i_reboot != 0) && (i_reboot != 1))
+//	{
+//		SendMessageToUI("Get Reboot Fail from QISDA.");
+//		SetError(DLERR_UNKNOWN);
+//		return false;
+//	}
+//
+//	m_i_reboot = i_reboot;
+//
+//	return true;
+//}
+//
+//bool CU2416::GetDDRCheck(void)
+//{
+//	int i_DDRCheck = -1;
+//
+//	CIniAccess obj_dllIni("Setting", m_str_dllIniFile);
+//	i_DDRCheck = obj_dllIni.GetValue("DDRCheck", -1);
+//
+//	if ((i_DDRCheck != 0) && (i_DDRCheck != 1))
+//	{
+//		SendMessageToUI("Get DDRCheck Fail from QISDA.");
+//		SetError(DLERR_UNKNOWN);
+//		return false;
+//	}
+//
+//	m_i_DDRCheck = i_DDRCheck;
+//
+//	return true;
+//}
+//
+//bool CU2416::GetDumpEmmcLog(void)
+//{
+//	int i_DumpEmmcLog = -1;
+//
+//	CIniAccess obj_dllIni("Setting", m_str_dllIniFile);
+//	i_DumpEmmcLog = obj_dllIni.GetValue("DumpEmmcLog", -1);
+//
+//	if ((i_DumpEmmcLog != 0) && (i_DumpEmmcLog != 1))
+//	{
+//		SendMessageToUI("GetDumpLog Fail from QISDA.");
+//		//SetError(DLERR_UNKNOWN);
+//		//return false;
+//	}
+//
+//	m_i_DumpEmmcLog = i_DumpEmmcLog;
+//
+//	return true;
+//}
+//
+//bool CU2416::GetRebootMode(void)
+//{
+//	int i_RebootMode = -1;
+//
+//	CIniAccess obj_dllIni("Setting", m_str_dllIniFile);
+//	i_RebootMode = obj_dllIni.GetValue("RebootMode", -1);
+//
+//	if (i_RebootMode == -1 )
+//	{
+//		SendMessageToUI("GetRebootMode Fail from QISDA");
+//		//return false;
+//	}
+//
+//	m_i_RebootMode = i_RebootMode;
+//	return true;
+//}
+//
+//
+//
+//bool CU2416::GetCheckSum(void)
+//{
+//	int i_checkSum = -1;
+//
+//	CIniAccess obj_dllIni("Setting", m_str_dllIniFile);
+//	i_checkSum = obj_dllIni.GetValue("CheckSum", -1);
+//
+//	if ((i_checkSum != 0) && (i_checkSum != 1))
+//	{
+//		SendMessageToUI("Get CheckSum Fail from QISDA.");
+//		SetError(DLERR_UNKNOWN);
+//		return false;
+//	}
+//
+//	m_i_checkSum = i_checkSum;
+//
+//	return true;
+//}
+//
+//bool CU2416::GetBackupNVPartition(void)
+//{
+//	int i_BackupNVPartition = -1;
+//
+//	CIniAccess obj_dllIni("Setting", m_str_dllIniFile);
+//	i_BackupNVPartition = obj_dllIni.GetValue("BackupNVPartition", -1);
+//
+//	if ((i_BackupNVPartition != 0) && (i_BackupNVPartition != 1))
+//	{
+//		SendMessageToUI("Get BackupNVPartition Fail from QISDA.");
+//		SetError(DLERR_UNKNOWN);
+//		return false;
+//	}
+//
+//	m_i_BackupNVPartition = i_BackupNVPartition;
+//
+//	return true;
+//}
 
-	CIniAccess obj_dllIni("Setting", m_str_dllIniFile);
-	i_rework = obj_dllIni.GetValue("Rework", -1); 
+//bool CU2416::GetSupportQDownload(void)
+//{
+//	int i_SupportQDownload = -1;
+//
+//	CIniAccess obj_dllIni("Setting", m_str_dllIniFile);
+//	i_SupportQDownload = obj_dllIni.GetValue("SupportQDownload", -1);
+//
+//	if ((i_SupportQDownload != 0) && (i_SupportQDownload != 1))
+//	{
+//		SendMessageToUI("Get SupportQDownload Fail from QISDA.");
+//		SetError(DLERR_UNKNOWN);
+//		return false;
+//	}
+//
+//	m_i_SupportQDownload = i_SupportQDownload;
+//
+//	return true;
+//}
 
-	if ((i_rework != 0) && (i_rework != 1))
-	{
-		SendMessageToUI("Get Rework Fail from QISDA.");
-		SetError(DLERR_UNKNOWN);
-		return false;
-	}
-
-	m_i_rework = i_rework;
-
-	return true;
-}
-
-bool CU2416::GetReboot(void)
-{
-	int i_reboot = -1;
-
-	CIniAccess obj_dllIni("Setting", m_str_dllIniFile);
-	i_reboot = obj_dllIni.GetValue("Reboot", -1);
-
-	if ((i_reboot != 0) && (i_reboot != 1))
-	{
-		SendMessageToUI("Get Reboot Fail from QISDA.");
-		SetError(DLERR_UNKNOWN);
-		return false;
-	}
-
-	m_i_reboot = i_reboot;
-
-	return true;
-}
-
-bool CU2416::GetDDRCheck(void)
-{
-	int i_DDRCheck = -1;
-
-	CIniAccess obj_dllIni("Setting", m_str_dllIniFile);
-	i_DDRCheck = obj_dllIni.GetValue("DDRCheck", -1);
-
-	if ((i_DDRCheck != 0) && (i_DDRCheck != 1))
-	{
-		SendMessageToUI("Get DDRCheck Fail from QISDA.");
-		SetError(DLERR_UNKNOWN);
-		return false;
-	}
-
-	m_i_DDRCheck = i_DDRCheck;
-
-	return true;
-}
-
-bool CU2416::GetDumpEmmcLog(void)
-{
-	int i_DumpEmmcLog = -1;
-
-	CIniAccess obj_dllIni("Setting", m_str_dllIniFile);
-	i_DumpEmmcLog = obj_dllIni.GetValue("DumpEmmcLog", -1);
-
-	if ((i_DumpEmmcLog != 0) && (i_DumpEmmcLog != 1))
-	{
-		SendMessageToUI("GetDumpLog Fail from QISDA.");
-		//SetError(DLERR_UNKNOWN);
-		//return false;
-	}
-
-	m_i_DumpEmmcLog = i_DumpEmmcLog;
-
-	return true;
-}
-
-bool CU2416::GetRebootMode(void)
-{
-	int i_RebootMode = -1;
-
-	CIniAccess obj_dllIni("Setting", m_str_dllIniFile);
-	i_RebootMode = obj_dllIni.GetValue("RebootMode", -1);
-
-	if (i_RebootMode == -1 )
-	{
-		SendMessageToUI("GetRebootMode Fail from QISDA");
-		//return false;
-	}
-
-	m_i_RebootMode = i_RebootMode;
-	return true;
-}
-
-
-
-bool CU2416::GetCheckSum(void)
-{
-	int i_checkSum = -1;
-
-	CIniAccess obj_dllIni("Setting", m_str_dllIniFile);
-	i_checkSum = obj_dllIni.GetValue("CheckSum", -1);
-
-	if ((i_checkSum != 0) && (i_checkSum != 1))
-	{
-		SendMessageToUI("Get CheckSum Fail from QISDA.");
-		SetError(DLERR_UNKNOWN);
-		return false;
-	}
-
-	m_i_checkSum = i_checkSum;
-
-	return true;
-}
-
-bool CU2416::GetBackupNVPartition(void)
-{
-	int i_BackupNVPartition = -1;
-
-	CIniAccess obj_dllIni("Setting", m_str_dllIniFile);
-	i_BackupNVPartition = obj_dllIni.GetValue("BackupNVPartition", -1);
-
-	if ((i_BackupNVPartition != 0) && (i_BackupNVPartition != 1))
-	{
-		SendMessageToUI("Get BackupNVPartition Fail from QISDA.");
-		SetError(DLERR_UNKNOWN);
-		return false;
-	}
-
-	m_i_BackupNVPartition = i_BackupNVPartition;
-
-	return true;
-}
-
-bool CU2416::GetSupportQDownload(void)
-{
-	int i_SupportQDownload = -1;
-
-	CIniAccess obj_dllIni("Setting", m_str_dllIniFile);
-	i_SupportQDownload = obj_dllIni.GetValue("SupportQDownload", -1);
-
-	if ((i_SupportQDownload != 0) && (i_SupportQDownload != 1))
-	{
-		SendMessageToUI("Get SupportQDownload Fail from QISDA.");
-		SetError(DLERR_UNKNOWN);
-		return false;
-	}
-
-	m_i_SupportQDownload = i_SupportQDownload;
-
-	return true;
-}
-
-bool CU2416::GetEraseUserFat(void)
-{
-	int i_eraseUserFat = -1;
-
-	CIniAccess obj_dllIni("Setting", m_str_dllIniFile);
-	i_eraseUserFat = obj_dllIni.GetValue("EraseUserFat", -1);
-
-	if ((i_eraseUserFat != 0) && (i_eraseUserFat != 1))
-	{
-		SendMessageToUI("Get EraseUserFat Fail from QISDA.");
-		SetError(DLERR_UNKNOWN);
-		return false;
-	}
-
-	m_i_eraseUserFat = i_eraseUserFat;
-
-	return true;
-}
-
-bool CU2416::GetLogUploadInfo(void)
-{	
-	CString str_LogUpload;
-	CString str_UploadServerIP;
-	char sz_outBuffer[64] = {0};
-
-	CIniAccess obj_dllIni("Setting", m_str_dllIniFile);
-	if (!obj_dllIni.GetValue ("LogUpload", sz_outBuffer, 64)) 
-	{
-		m_b_LogUpload = false;
-	}
-	else
-	{
-		str_LogUpload.Format(_T("%s"), sz_outBuffer);
-		m_b_LogUpload = (str_LogUpload.Compare(_T("TRUE")) == 0) ? true : false;
-	}
-	
-	memset(sz_outBuffer, 0, 64);
-	if (!obj_dllIni.GetValue ("UploadServerIP", sz_outBuffer, 64)) 
-	{
-		m_str_UploadServerIP = _T("10.85.68.13");
-	}
-	else
-	{
-		str_UploadServerIP.Format(_T("%s"), sz_outBuffer);
-	}
-
-	return true;
-}
-
-bool CU2416::ForceToEnterDLMode(void)
-{
-	/* Read ini file */
-	if (ReadIniFile() != true)
-	{
-		return false;
-	}
-
-	bool b_res = false;
-	int i_COMPort = m_i_COMPort;
-	CDownload8994 obj_download8994(i_COMPort, m_str_multiDLFlag);
-	obj_download8994.Register(this, EVENT_DL_PROGRESS);
-
-	obj_download8994.SetDLMode(m_str_DLMode);
-	//obj_download8994.SetSupportQDownloadFlag(m_i_SupportQDownload);
-
-	/* Erase sbl1 to enter emergence DL mode */
-//	b_res = obj_download8994.EraseSBL1();
-	if (b_res)
-	{
-		b_res = obj_download8994.Reboot();
-		if (b_res)
-		{
-			Sleep(3000);
-		}
-	}
-
-	obj_download8994.Unregister(this, EVENT_DL_PROGRESS);
-
-	return b_res;
-}
+//bool CU2416::GetEraseUserFat(void)
+//{
+//	int i_eraseUserFat = -1;
+//
+//	CIniAccess obj_dllIni("Setting", m_str_dllIniFile);
+//	i_eraseUserFat = obj_dllIni.GetValue("EraseUserFat", -1);
+//
+//	if ((i_eraseUserFat != 0) && (i_eraseUserFat != 1))
+//	{
+//		SendMessageToUI("Get EraseUserFat Fail from QISDA.");
+//		SetError(DLERR_UNKNOWN);
+//		return false;
+//	}
+//
+//	m_i_eraseUserFat = i_eraseUserFat;
+//
+//	return true;
+//}
+//
+//bool CU2416::GetLogUploadInfo(void)
+//{	
+//	CString str_LogUpload;
+//	CString str_UploadServerIP;
+//	char sz_outBuffer[64] = {0};
+//
+//	CIniAccess obj_dllIni("Setting", m_str_dllIniFile);
+//	if (!obj_dllIni.GetValue ("LogUpload", sz_outBuffer, 64)) 
+//	{
+//		m_b_LogUpload = false;
+//	}
+//	else
+//	{
+//		str_LogUpload.Format(_T("%s"), sz_outBuffer);
+//		m_b_LogUpload = (str_LogUpload.Compare(_T("TRUE")) == 0) ? true : false;
+//	}
+//	
+//	memset(sz_outBuffer, 0, 64);
+//	if (!obj_dllIni.GetValue ("UploadServerIP", sz_outBuffer, 64)) 
+//	{
+//		m_str_UploadServerIP = _T("10.85.68.13");
+//	}
+//	else
+//	{
+//		str_UploadServerIP.Format(_T("%s"), sz_outBuffer);
+//	}
+//
+//	return true;
+//}
+//
+//bool CU2416::ForceToEnterDLMode(void)
+//{
+//	/* Read ini file */
+//	if (ReadIniFile() != true)
+//	{
+//		return false;
+//	}
+//
+//	bool b_res = false;
+//	int i_COMPort = m_i_COMPort;
+//	CDownload8994 obj_download8994(i_COMPort, m_str_multiDLFlag);
+//	obj_download8994.Register(this, EVENT_DL_PROGRESS);
+//
+//	obj_download8994.SetDLMode(m_str_DLMode);
+//	//obj_download8994.SetSupportQDownloadFlag(m_i_SupportQDownload);
+//
+//	/* Erase sbl1 to enter emergence DL mode */
+////	b_res = obj_download8994.EraseSBL1();
+//	if (b_res)
+//	{
+//		b_res = obj_download8994.Reboot();
+//		if (b_res)
+//		{
+//			Sleep(3000);
+//		}
+//	}
+//
+//	obj_download8994.Unregister(this, EVENT_DL_PROGRESS);
+//
+//	return b_res;
+//}
 
 bool CU2416::ReadFA(char* sz_FAData)
 {

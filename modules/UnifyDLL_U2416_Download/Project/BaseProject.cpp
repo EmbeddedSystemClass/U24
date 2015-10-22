@@ -128,10 +128,10 @@ void CBaseProject::SetPicassoList(std::map<int, CString> map_picassoList)
 	m_map_picassoList = map_picassoList;
 }
 
-void CBaseProject::SetCOMPicasso(std::map<int, CString> map_COMPicasso)
-{
-	m_map_COMPicasso = map_COMPicasso;
-}
+//void CBaseProject::SetCOMPicasso(std::map<int, CString> map_COMPicasso)
+//{
+//	m_map_COMPicasso = map_COMPicasso;
+//}
 
 void CBaseProject::SetDLMode(const char* sz_DLMode)
 {
@@ -143,10 +143,10 @@ void CBaseProject::SetSWVerion(CString str_SWVeriosn)
 	m_str_SWVersion = str_SWVeriosn;
 }
 
-void CBaseProject::SetHWVerion(CString str_HWVeriosn)
-{
-	m_str_HWVersion = str_HWVeriosn;
-}
+//void CBaseProject::SetHWVerion(CString str_HWVeriosn)
+//{
+//	m_str_HWVersion = str_HWVeriosn;
+//}
 
 void CBaseProject::SetToolVerion(CString str_ToolVeriosn)
 {
@@ -158,10 +158,10 @@ void CBaseProject::SetFactoryVerion(CString str_fatoryVersion)
 	m_str_fatoryVersion = str_fatoryVersion;
 }
 
-void CBaseProject::SetCustomerSwVerion(CString str_CustomerSwVersion)
-{
-	m_str_CustomerSwVersion = str_CustomerSwVersion;
-}
+//void CBaseProject::SetCustomerSwVerion(CString str_CustomerSwVersion)
+//{
+//	m_str_CustomerSwVersion = str_CustomerSwVersion;
+//}
 
 /*****************************************************************************
 * Function name: SetDLLIniFileName      
@@ -443,6 +443,65 @@ bool CBaseProject::GetSWVersion(char* sz_outBuffer, DWORD dw_size)
 		return false;
 	}
 
+	return true;
+}
+
+bool CBaseProject::CheckSWVersion()
+{
+	////-- Check SW Version --//
+	//char SWver[1024];
+	//if (strcmp(m_VersionType.c_str(), "Factory") == 0)
+	//{
+	//	GetFactoryVersion(SWver);
+	//}
+	//else if (strcmp(m_VersionType.c_str(), "Ship") == 0)
+	//{
+	//	GetSWVersion(SWver);
+	//}
+	//else
+	//{
+	//	m_strMessage = "Get XML Version Type fail";
+	//	m_strResult = "FAIL";
+	//	m_strErrorCode = CommErr_Get_Software_Version_Fail;
+	//	TraceLog(MSG_ERROR, m_strMessage);
+	//	FactoryLog();
+	//	return false;
+	//}
+
+	//StrVtr vToken;
+	//CStr::ParseString(SWver, _T(","), vToken);
+	//bool b_match = false;
+	//for (size_t i = 0; i < vToken.size(); i++)
+	//{
+	//	if (strstr(output, vToken[i].c_str()) != NULL)
+	//	{
+	//		b_match = true;
+	//		break;
+	//	}
+	//}
+
+	//char msg[1024];
+	//if (!b_match)
+	//{
+	//	strcpy(msg, "SWVer are diff. Server=");
+	//	strcat(msg, SWver);
+	//	m_strMessage = msg;
+	//	m_strResult = "FAIL";
+	//	m_strMeasured = output;
+	//	m_strErrorCode = CommErr_Check_Software_Version_Fail;
+	//	TraceLog(MSG_ERROR, m_strMessage);
+	//	FactoryLog();
+	//	return false;
+	//}
+
+	//strcpy(msg, "Server=");
+	//strcat(msg, SWver);
+	//m_strMessage = msg;
+	//m_strResult = "PASS";
+	//m_strErrorCode = "-";
+	//m_strMeasured = output;
+	//TraceLog(MSG_INFO, m_strMessage);
+	//FactoryLog();
 	return true;
 }
 
