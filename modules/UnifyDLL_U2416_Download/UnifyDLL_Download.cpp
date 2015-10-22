@@ -769,7 +769,7 @@ bool CDLInstance::SetParameterValue(char* sz_keyword, char* sz_value)
 	}
 
 	/* Picasso list --- Format: slot,picasso*/
-	else if (str_key == PARAMETER_THREE) //liontest
+	else if (str_key == PARAMETER_THREE) 
 	{
 		CString str_temp;
 		str_temp.Format(_T("%s"), sz_value);

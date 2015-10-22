@@ -1843,18 +1843,17 @@ bool CDownload8994::ReadFASector(int i_sectorNum, char *sz_sectorData, int i_sec
 			m_szErrMsg = m_szErrMsg + m_szId.c_str();
 			AfxMessageBox( m_szErrMsg.c_str());
 
-			m_szId = m_szId + ",";
-			std::string str_faData = sz_sectorData;
-			str_faData.replace(14, 12, m_szId);
-			sprintf_s( sz_sectorData , 512, "%s", str_faData.c_str());
+			//m_szId = m_szId + ",";
+			//std::string str_faData = sz_sectorData;
+			//str_faData.replace(14, 12, m_szId);
+			//sprintf_s( sz_sectorData , 512, "%s", str_faData.c_str());
 		}
 		else
 		{
 			//	m_szId = "a1234567899";
-			
 			m_szId = m_szId + ",";
 			std::string str_faData = sz_sectorData;
-			str_faData.replace(15, 12, m_szId);
+			str_faData.replace(14, 12, m_szId);
 			sprintf_s( sz_sectorData , 512, "%s", str_faData.c_str());
 		}
 	}
