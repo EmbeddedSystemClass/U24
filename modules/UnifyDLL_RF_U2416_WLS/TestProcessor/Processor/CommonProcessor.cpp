@@ -578,12 +578,33 @@ bool CCommonProcessor::GetFASector( int i_slot, int i_sectorNum, char *sz_sector
 		FactoryLog(true, "Initial_Phone", "--", "--", "--", "--", "--", "", "--", "Connect FTD PASS");
 		if (! m_pIPhone->GetFASector(i_sectorNum,sz_sectorData,i_sectorSize))
 		{
+			
 			TraceLog(MSG_ERROR, "Fail to get FA with Qisda module");
 			FactoryLog(false, "GetFASector", "--", "--", "--", "--", "--", "Fail", "--", "Fail to get FA with Qisda module");
 		}
 		else
 		{
 			FactoryLog(true, "GetFASector", "--", "--", "--", "--", "--", "Pass", "--", "Success to check ftd connection after phone booting");
+			TRACE("%s", g_str_station);
+			if  (g_str_station.find("WLS") != std::string::npos ){
+				if ( Id.ReadId() ){/*get scalar id ok*/
+					m_szId =  Id.GetId();
+					if(m_szId.empty() || m_szId.length() != ID_SIZE)
+					{	
+						m_szErrMsg = "get scalar id Fail  = ";//  + std_ScalarId.c_str();
+						m_szErrMsg = m_szErrMsg + m_szId.c_str();
+						AfxMessageBox( m_szErrMsg.c_str());
+					}
+					else
+					{
+						//	m_szId = "a1234567899";
+						m_szId = m_szId + ",";
+						std::string str_faData = sz_sectorData;
+						str_faData.replace(14, 12, m_szId);
+						sprintf_s( sz_sectorData , 512, "%s", str_faData.c_str());
+					}
+				}
+			}
 			return true;
 		}
 	}

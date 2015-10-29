@@ -3421,32 +3421,32 @@ bool CAndroidPhone::FTD_FAC_FSGProtect(int nPort, int nTimeout, char* pszInput, 
 	return (nRetCode == 1);//HS_OK;
 }
 
-bool CAndroidPhone::ResetBinFile()
-{
-	char szErr[FTD_BUF_SIZE] = {0};
-	char szOut[FTD_BUF_SIZE] = {0};
-	char szIn[FTD_BUF_SIZE] ={0};
-	CString csCommandShell;
-
-	csCommandShell.Format("shell mount -t ext4 -o remount,rw,nosuid,nodev,barrier=1 /dev/block/platform/msm_sdcc.1/by-name/persist /persist");
-	if( !ExecAdbCommand(csCommandShell, szOut, szErr) )
-		return false;
-	
-	Sleep(500);
-	csCommandShell.Format("push WCNSS_qcom_wlan_nv0.bin %s", _T("/persist/WCNSS_qcom_wlan_nv0.bin"));
-	if( !ExecAdbCommand(csCommandShell, szOut, szErr) )
-		return false;
-
-	csCommandShell.Format("push WCNSS_qcom_wlan_nv1.bin %s", _T("/persist/WCNSS_qcom_wlan_nv1.bin"));
-	if( !ExecAdbCommand(csCommandShell, szOut, szErr) )
-		return false;
-
-	csCommandShell.Format("push WCNSS_qcom_wlan_nv2.bin %s", _T("/persist/WCNSS_qcom_wlan_nv2.bin"));
-	if( !ExecAdbCommand(csCommandShell, szOut, szErr) )
-		return false;
-
-	return true;
-}
+//bool CAndroidPhone::ResetBinFile()
+//{
+//	char szErr[FTD_BUF_SIZE] = {0};
+//	char szOut[FTD_BUF_SIZE] = {0};
+//	char szIn[FTD_BUF_SIZE] ={0};
+//	CString csCommandShell;
+//
+//	csCommandShell.Format("shell mount -t ext4 -o remount,rw,nosuid,nodev,barrier=1 /dev/block/platform/msm_sdcc.1/by-name/persist /persist");
+//	if( !ExecAdbCommand(csCommandShell, szOut, szErr) )
+//		return false;
+//	
+//	Sleep(500);
+//	csCommandShell.Format("push WCNSS_qcom_wlan_nv0.bin %s", _T("/persist/WCNSS_qcom_wlan_nv0.bin"));
+//	if( !ExecAdbCommand(csCommandShell, szOut, szErr) )
+//		return false;
+//
+//	csCommandShell.Format("push WCNSS_qcom_wlan_nv1.bin %s", _T("/persist/WCNSS_qcom_wlan_nv1.bin"));
+//	if( !ExecAdbCommand(csCommandShell, szOut, szErr) )
+//		return false;
+//
+//	csCommandShell.Format("push WCNSS_qcom_wlan_nv2.bin %s", _T("/persist/WCNSS_qcom_wlan_nv2.bin"));
+//	if( !ExecAdbCommand(csCommandShell, szOut, szErr) )
+//		return false;
+//
+//	return true;
+//}
 //////////////////////////////////////////////////////////////////////////
 // LTE
 //////////////////////////////////////////////////////////////////////////

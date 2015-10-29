@@ -3,13 +3,9 @@
 
 
 #include "../CommonUtility/BaseObject/IPhone.h"
-//#include "../../../lib/Qualcomm/QDART4820/inc/QLib.h"
-//#include "../../../lib/Qualcomm/QDART4820/inc/QLib_Defines.h"
-
 #include "../../../lib/Qualcomm/QDART4823/inc/QLib.h"
 #include "../../../lib/Qualcomm/QDART4823/inc/QLib_Defines.h"
 #include "Qisda_API.h"
-#include "QualComm_RFNVItems.h"
 
 
 #define FTD_PORT			2000
@@ -24,7 +20,6 @@ class CAndroidPhone : public IPhone
 
 	// Data members
 public:
-	CQualComm_RFNVItems m_RFNVItems;
 
 protected:
 private:
@@ -72,7 +67,6 @@ public:
 	virtual bool Adb_Shell_Start();
 	virtual bool WifiBinNumberWrite (int offset, int length, int nBin);
 	virtual bool ExecAdbCommand(CString str_command, char* pszOutput, char* p_sz_ErrorMsg);
-	virtual bool ResetBinFile();
 
 	// AT command
 	virtual bool Send_ATCommand(char* szPort, char* szCommand, char* szResponse) ;

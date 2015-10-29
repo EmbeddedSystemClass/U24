@@ -40,7 +40,7 @@ bool CMonitorId::ReadId (void)
 		}
 	}
 	else
-	{	m_szErrMsg = "Load I2C.DLL fail.";
+	{	m_szErrMsg = "Load IIC.DLL fail.";
 		m_szId = szBuf;
 		AfxMessageBox(m_szErrMsg.c_str());
 		return false;

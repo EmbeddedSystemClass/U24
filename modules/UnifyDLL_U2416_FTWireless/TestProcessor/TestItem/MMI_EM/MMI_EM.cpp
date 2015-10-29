@@ -142,6 +142,7 @@ bool MMIBBProc::MMI_PASS_FAIL_CRITERIA()
 
 	if (m_szFAData[m_i_offset - 504] == 2)
 	{
+		m_str_ErrorCode = "-";
 		m_strResult = "PASS";
 		m_strMessage = m_str_Message + "_PASS";
 		SetPICSData("MMIEM_RESULT", m_str_Message + "_PASS");

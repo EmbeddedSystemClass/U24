@@ -87,14 +87,11 @@ public:
 	~CMonitor() {}
 
 	virtual bool InitData(std::map<std::string, std::string>& paramMap);
-
-	//virtual bool PreRun();
 	virtual bool Run();
 	virtual bool PostRun();
 
 public:
 	CMonitorId Id;
-//	CMonitorRuncard Runcard;
 	CMonitorSo So;
 	CMonitorPartNo PartNo;
 	CMonitorWbcModel WbcFileName;

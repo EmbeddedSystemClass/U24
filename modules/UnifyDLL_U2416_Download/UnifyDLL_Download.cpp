@@ -209,7 +209,10 @@ bool CDLInstance::PreRun(int i_slot)
 		/* ReDL download mode */
 		CString str_DLMode;
 		str_DLMode.Format(_T("%s"), m_sz_DLMode);
-		if ((str_DLMode == DOWNLOAD_MODE_REDL) || ( str_DLMode == DOWNLOAD_MODE_REDL_OSDL ))
+		if ((str_DLMode == DOWNLOAD_MODE_REDL) 
+			|| ( str_DLMode == DOWNLOAD_MODE_REDL_OSDL )
+			|| ( str_DLMode == DOWNLOAD_MODE_OSDL1 )
+			)
 		{
 			return true;
 		}
@@ -281,9 +284,26 @@ bool CDLInstance::PreRun(int i_slot)
 *****************************************************************************/
 bool CDLInstance::Run(int i_slot)
 {	
-	if ( m_b_checkSWVersion ){//liontest
+	//GetSWVersion();//liontest
+
+	if ( m_b_checkSWVersion ){//liontes
+		char *sz_value = new char[ID_SIZE_BUFFER]  ;
+		runReadScalarID( sz_value, ID_SIZE);
+		if (!GetPartNo()) return false;
+		if (!GetSWVersion()) return false;
+		if (str_SWVersion.Find(m_szSWver.c_str()) == -1 ){
+			CString cs;
+			cs.Format(_T("Check SoftWare Version Fail，PVCS Version = %s  Current DL Version = %s"), m_szSWver.c_str(),  str_SWVersion);
+			::MessageBox(NULL, cs.GetBuffer(0), _T("Warnning!!"), MB_TASKMODAL|MB_TOPMOST);
+			cs.ReleaseBuffer();
+			ErrMsg = cs;
+			SetErrorMessage(ErrMsg.c_str() , 0);
+			return false;
+		}
+		ErrMsg = "Check SoftWare Version OK";
+		SetErrorMessage(ErrMsg.c_str() , 0);
 	}
-//	m_b_insertFlow = false;
+
 	/* Check input */
 	if ((i_slot < 0) || (i_slot >= MAX_SLOT))
 	{
@@ -384,72 +404,170 @@ bool CDLInstance::Run(int i_slot)
 	//return true;
 }
 
+bool CDLInstance::GetPartNo()
+{
+	bool bReturn = false;
+	unsigned char szPartNo[27] = {0};
+	CString str_dllF32SERVER2 = F32SERVERDB;
+
+	if(std_ScalarId.empty() || std_ScalarId.length() != ID_SIZE){
+	  //  m_szPartNo =  (char*) szPartNo;
+		ErrMsg = "ScalarId fail id  = " + std_ScalarId;
+		goto Exit_FreeLibrary;
+	}
+
+	HMODULE hDll ;
+	hDll = ::LoadLibrary(str_dllF32SERVER2);
+
+	if( hDll != NULL )
+	{	
+		typedef unsigned short (_stdcall *lpGetPartNoById)(const unsigned char* Id,unsigned short IdLen,unsigned char* PartNo,unsigned short PartNoLen);
+		lpGetPartNoById iGetPartNoById = (lpGetPartNoById)::GetProcAddress(hDll,"GetPartNoById");
+		if ( NULL != iGetPartNoById )
+		{	
+
+			//scalar id
+			unsigned char sz_ID[ID_SIZE_BUFFER] ="";
+			sprintf_s((char*)sz_ID, ID_SIZE_BUFFER,"%s", std_ScalarId.c_str() );
+
+			if( 0 != iGetPartNoById( sz_ID , 11, szPartNo, 13))
+			{	
+				//cout<<szPartNo<<endl;
+			    m_szPartNo =  (char*) szPartNo;
+				ErrMsg = "iGetPartNoById  ok, m_szPartNo = " + m_szPartNo;
+				ErrMsg = ErrMsg + " ScalarId = " +  std_ScalarId ;
+			//	SetErrorMessage(ErrMsg.c_str() , 0);
+				bReturn = true;
+			}
+			else
+			{	
+				ErrMsg = "GetPartNo.  iGetPartNoById Fail ";
+				AfxMessageBox(ErrMsg.c_str());
+				goto Exit_FreeLibrary;
+			}
+		}
+		else
+		{
+				ErrMsg = "GetPartNo. Load str_dllF32SERVER2 Fail ";
+				AfxMessageBox(ErrMsg.c_str());
+				goto Exit_FreeLibrary;
+		}
+	}
+	else
+	{
+			ErrMsg = "GetPartNo. iGetPartNoById NULL ";
+			AfxMessageBox(ErrMsg.c_str());
+			goto Exit_FreeLibrary;
+	}
+
+Exit_FreeLibrary:
+	SetErrorMessage(ErrMsg.c_str() , 0);
+    FreeLibrary(hDll);
+
+	return bReturn;
+}
+
 bool CDLInstance::GetSWVersion(void)
 {    
      bool bReturn = false;
 
-     char szModel[8] = "GBROB1A";
+     char szModel[ID_SIZE_BUFFER] = "";
      //char szModel[8] = "GNAMB1A";
      char szSWVersion[30] = "";
      char szErrCode[128] = "";
      char szErrMsg[512] = "";
      char szPartNoInfo[128] = "";
-	 char m_sz9JPartNo[31] ="";
+	 char m_sz9JPartNo[31] ="";//9J.2VM72.DLU
 	 char m_szImagerVer[31] = "";
-	 std::string m_szSWver;
-	 //char m_szImagerVer[31] = "";
+
+
      CString str_dllVMS_DBACCESS = VMS_DBACCESS;
      HMODULE hDll = ::LoadLibrary(str_dllVMS_DBACCESS);
      if(hDll == NULL)
      {    goto Exit;
      }
 
-     //WCHAR Buf[1000];
-     //GetCurrentDirectory(1000,Buf);
-
      typedef bool (*fpVMS_ConnectDB)(void);
      typedef bool (*fpVMS_CloseDB)(void);
      fpVMS_CloseDB iVMS_CloseDB = (fpVMS_CloseDB)::GetProcAddress (hDll,"VMS_CloseDB");
      if(iVMS_CloseDB == NULL)
      {    //没有VMS_ConnectDB
+		ErrMsg = "iVMS_CloseDB = NULL" ;
+		AfxMessageBox(ErrMsg.c_str());
          goto Exit_FreeLibrary;
      }
      //char PartNo9J[31] = "9J.2EE12.33E";
 
      fpVMS_ConnectDB iVMS_ConnectDB = (fpVMS_ConnectDB)::GetProcAddress(hDll,"VMS_ConnectDB");
      if (iVMS_ConnectDB != NULL)
-     {    if(iVMS_ConnectDB())
-         {    typedef bool (*fpVMS_QuerySQNinfo_S3)(char *szModel, char *szPartNo, char *szSWVersion, char *st_PartnoInfo, char *szErrCode, char *szErrMsg);
+     {  
+		 if(iVMS_ConnectDB())
+         {    
+			 typedef bool (*fpVMS_QuerySQNinfo_S3)(char *szModel, char *szPartNo, char *szSWVersion, char *st_PartnoInfo, char *szErrCode, char *szErrMsg);
               fpVMS_QuerySQNinfo_S3 iVMS_QuerySQNinfo_S3 = (fpVMS_QuerySQNinfo_S3)::GetProcAddress(hDll,"VMS_QuerySQNinfo_S3");
               if (iVMS_QuerySQNinfo_S3 != NULL )
-              {    bool bRef = iVMS_QuerySQNinfo_S3(szModel, m_sz9JPartNo, m_szImagerVer, szPartNoInfo, szErrCode, szErrMsg);
+              {  
+
+				 if ( m_str_modelName.GetLength() < 1 ) {
+						ErrMsg = "fail  m_str_modelName  = 0 ";
+						ErrMsg = ErrMsg + m_str_modelName.GetBuffer(0);
+						AfxMessageBox(ErrMsg.c_str());
+						m_str_modelName.ReleaseBuffer();
+						goto Exit_FreeLibrary;
+				 }
+
+				 if(m_szPartNo.empty() || m_szPartNo.length() < 1){
+						ErrMsg = "fail  m_szPartNo  =  " + m_szPartNo;
+						//ErrMsg = ErrMsg + m_szPartNo;
+						AfxMessageBox(ErrMsg.c_str());
+						goto Exit_FreeLibrary;
+				 }
+
+				 	//AfxMessageBox(m_szPartNo.c_str());
+				  sprintf_s(szModel, ID_SIZE_BUFFER, "%s", m_str_modelName);
+				  sprintf_s(m_sz9JPartNo, ID_SIZE_BUFFER, "%s", m_szPartNo.c_str());
+
+				  bool bRef = iVMS_QuerySQNinfo_S3(szModel, m_sz9JPartNo, m_szImagerVer, szPartNoInfo, szErrCode, szErrMsg);
                    if(bRef)
-                   {    m_szSWver = m_szImagerVer;
+                   {  
+					   m_szSWver = m_szImagerVer;
+						ErrMsg = "iVMS_QuerySQNinfo_S3  ok, m_szSWver = " + m_szSWver;
+						//SetErrorMessage(ErrMsg.c_str() , 0);
                        bReturn = true;
                    }
                    else
                    {    //查询失败
+						ErrMsg = "iVMS_QuerySQNinfo_S3 fail " ;//+ std_ScalarId;
+						AfxMessageBox(ErrMsg.c_str());
+				//		sprintf_s( szvalue , ID_SIZE_BUFFER, "%s", std_ScalarId.c_str());
                        goto Exit_CloseDB;
                    }
-              }
+			  }
               else
               {    //没有VMS_QuerySQNinfo
+					ErrMsg = "iVMS_QuerySQNinfo_S3 NULL fail " ;
+					AfxMessageBox(ErrMsg.c_str());
                    goto Exit_CloseDB;
-              }
-         }
+			  }
+		 }
          else
          {    //链接VMS数据失败
+			  ErrMsg = "iVMS_ConnectDB  fail " ;
+			  AfxMessageBox(ErrMsg.c_str());
               goto Exit_FreeLibrary;
          }
      }
      else
      {    //没有VMS_ConnectDB
+		  ErrMsg = "iVMS_ConnectDB  NULL " ;
+		  AfxMessageBox(ErrMsg.c_str());
          goto Exit_FreeLibrary;
      }
 
 Exit_CloseDB:
      iVMS_CloseDB();
 Exit_FreeLibrary:
+	 SetErrorMessage(ErrMsg.c_str() , 0);
      FreeLibrary(hDll);
 Exit:
      return bReturn;
@@ -476,8 +594,7 @@ bool CDLInstance::Begin(int i_slot)
 {
 	/* Read INI file */
 	/* Set log path and file name */
-	bool passFail = false;
-//	GetSWVersion();//liontest
+
 
 	m_b_readIniFile = ReadDLLIniFile();
 	if (m_b_readIniFile != true)
@@ -513,10 +630,9 @@ bool CDLInstance::runReadScalarID( char *szvalue, int iSize )
 	{	
 		//Id.GetId();
 		std_ScalarId = Id.GetId();
-		g_strScalarID = std_ScalarId;
+	//	g_strScalarID = std_ScalarId;
 		if(std_ScalarId.empty() || std_ScalarId.length() != ID_SIZE)
-		{	
-			
+		{		
 			ErrMsg = "Fail to read ID, ID = "  + std_ScalarId;
 			AfxMessageBox( ErrMsg.c_str());
 			//SetErrorMessage(ErrMsg.c_str() , 0);
@@ -611,9 +727,9 @@ bool CDLInstance::runCheckFlow( int i_type)
 	
 
 			//scalar id
-			sprintf_s((char*)sz_ID, ID_SIZE_BUFFER,"%s", g_strScalarID.c_str() );
+			sprintf_s((char*)sz_ID, ID_SIZE_BUFFER,"%s", std_ScalarId.c_str() );
 			ErrMsg = " check flow2 = ";
-			ErrMsg = ErrMsg 	+ g_strScalarID.c_str() ;
+			ErrMsg = ErrMsg 	+ std_ScalarId.c_str() ;
 			//AfxMessageBox(ErrMsg.c_str());
 			SetErrorMessage(ErrMsg.c_str() , 0);
 			
@@ -850,7 +966,11 @@ bool CDLInstance::SetParameterValue(char* sz_keyword, char* sz_value)
 	{
 		strcpy(m_sz_DLMode, sz_value);
 		m_str_DLMode.Format("%s", m_sz_DLMode);
-		if ((m_str_DLMode != DOWNLOAD_MODE_PREDL) && (m_str_DLMode != DOWNLOAD_MODE_REDL) && (m_str_DLMode != DOWNLOAD_MODE_REDL_OSDL))
+		if ((m_str_DLMode != DOWNLOAD_MODE_PREDL) 
+			&& (m_str_DLMode != DOWNLOAD_MODE_REDL) 
+			&& (m_str_DLMode != DOWNLOAD_MODE_REDL_OSDL)
+			&& (m_str_DLMode != DOWNLOAD_MODE_OSDL1)
+			)
 		{
 			return false;
 		}
@@ -1395,7 +1515,7 @@ bool CDLInstance::GetDLLIniFile(void)
 	CString str_iniFile;
 	CString str_message;
 
-	if (m_str_DLMode.Compare(_T("PreDL")) == 0 ){
+	if (m_str_DLMode.Compare(_T("PreDL")) == 0 ){ 
 		csStation.Format(_T("Trigger"));
 	}
 	else if (m_str_DLMode.Compare(_T("ReDL")) == 0 )
@@ -1404,7 +1524,7 @@ bool CDLInstance::GetDLLIniFile(void)
 	}
 
 
-	str_iniFile.Format(_T("%s\\QISDA\\%s_%s_TestItem.xml"), sz_currentPath, m_str_projectName, csStation );
+	str_iniFile.Format(_T("%s\\QISDA\\%s_%s_TestItem_RD.xml"), sz_currentPath, m_str_projectName, csStation );
 	if (_taccess(str_iniFile, 0) != 0) 
 	{
 		
@@ -2752,17 +2872,17 @@ bool CDLInstance ::runInsertData()
 		//	unsigned char Id[ID_SIZE_BUFFER] = {0};
 			unsigned char Station[ID_SIZE_BUFFER]  = {0};
 
-				if ( g_strScalarID.empty()){
+				if ( std_ScalarId.empty()){
 					ErrMsg = "  scalar board is empty = " ;
-					ErrMsg =  ErrMsg + g_strScalarID.c_str() ;
+					ErrMsg =  ErrMsg + std_ScalarId.c_str() ;
 					//SetErrorMessage(ErrMsg.c_str() , 0);
 					AfxMessageBox(ErrMsg.c_str());
 					SetErrorMessage(ErrMsg.c_str() , 0);
 					return false;
 				}
-				sprintf_s((char*)sz_ID, ID_SIZE_BUFFER,"%s", g_strScalarID.c_str() );
+				sprintf_s((char*)sz_ID, ID_SIZE_BUFFER,"%s", std_ScalarId.c_str() );
 				ErrMsg = " iInsertYrstation 2 = ";
-				ErrMsg = ErrMsg 	+ g_strScalarID.c_str() ;
+				ErrMsg = ErrMsg 	+ std_ScalarId.c_str() ;
 				SetErrorMessage(ErrMsg.c_str() , 0);
 			//	AfxMessageBox(ErrMsg.c_str());
 				//SetErrorMessage(ErrMsg.c_str() , 0);

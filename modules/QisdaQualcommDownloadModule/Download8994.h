@@ -74,6 +74,7 @@
 /*============================ Const ==================================*/
 #define DOWNLOAD_MODE_PREDL             _T("PreDL")
 #define DOWNLOAD_MODE_REDL              _T("ReDL")
+#define DOWNLOAD_MODE_OSDL1            _T("OS_DL1")
 #define DOWNLOAD_MODE_REDL_OSDL         _T("ReDL_OSDL")
 #define FALENGTH                        512
 #define NVPARTITION_1_LENGTH            1152 / 2 * 1024
@@ -171,6 +172,7 @@ private:
 private:
 	bool Download(bool b_speedUp = false, bool b_reOpenAfterReset = false, DownloadProtocol nDLPROTOCOL = QTT_FASTDOWNLOAD);
 	bool FastbootEXE_Download(int nPort);
+	bool FastbootEXE_Download_SINGLE();
 	bool FastbootEXE_OS_DL(void);
     bool ReadId(void);
 	std::string GetId(void);
@@ -214,7 +216,9 @@ public:
 	int GetQualcommport(){return m_i_COMPort;};
 	bool bFastbootDL(CString folderPath);
 	bool bGetADB(int nPhone);
+	bool bGetADB_SINGLE();
 	bool bADB_to_Fastboot(int nPhone);
+	bool bADB_to_Fastboot_SINGLE();
 	bool bCallAdbFastbootCMD(CString csAdbFastboot, CString Command, char* output, char* ErrorCode, CString cs_FindData);
 	bool postCmd();
 	//bool bAdbCMD(CString Command, char* output, char* ErrorCode, int nPhoneIndex);

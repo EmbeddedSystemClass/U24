@@ -38,44 +38,6 @@ bool CMonitor::Run()
 {
 	bool passFail = false;
 
-	///*test 1*/
-	//ErrMsg = "test1, id type = 1  id value =  ";
-	//ErrMsg = ErrMsg 	+ g_strPicasso.c_str() ;
-	//AfxMessageBox(ErrMsg.c_str());
-
-	//runInsertData(1);
-	//runCheckFlow( 1);
-
-	///*test 2*/
-	//char *sz_value = new char[ID_SIZE_BUFFER]  ;
-	//passFail = runReadScalarID( sz_value, ID_SIZE);
-	//ErrMsg = "test2, id type = 2  id value =  ";
-	//ErrMsg = ErrMsg 	+ g_strScalarID.c_str() ;
-	//AfxMessageBox(ErrMsg.c_str());
-
-	//runInsertData(2);
-	//runCheckFlow( 2);
-
-	///*test 3*/
-	//g_strPicasso = "1234567";
-	//ErrMsg = "test 3 , id type = 1  id value =  ";
-	//ErrMsg = ErrMsg 	+ g_strPicasso.c_str() ;
-	//AfxMessageBox(ErrMsg.c_str());
-
-	//runCheckFlow( 1);
-	///*test 4*/
-	//char *sz_value1 = new char[ID_SIZE_BUFFER]  ;
-	//passFail = runReadScalarID( sz_value1, ID_SIZE);
-	//g_strScalarID = "12345678911";
-	//ErrMsg = "test4, id type = 2  id value =  ";
-	//ErrMsg = ErrMsg 	+ g_strScalarID.c_str() ;
-	//AfxMessageBox(ErrMsg.c_str());
-
-	//runCheckFlow( 2);
-
-//	AfxMessageBox(g_strPicasso.c_str());
-	//runCheckFlow( 1); // ok, good
-	//GetCurrentWeek(); //ok, good
 	if (m_str_TestItem == ReadScalarID)
 	{
 		m_strItemCode = CStr::IntToStr(Monitor_BaseItemcode);
@@ -83,6 +45,7 @@ bool CMonitor::Run()
 		//str_Pics = CW2A(L"Fine_Wifi_AP");
 		char *sz_value = new char[ID_SIZE_BUFFER]  ;
 		passFail = runReadScalarID( sz_value, ID_SIZE);
+		delete[] sz_value;
 	}
 	
 	else if (m_str_TestItem == InsertData)
@@ -94,9 +57,9 @@ bool CMonitor::Run()
 		int i_id_type = CStr::StrToInt(m_str_CMD);
 		char *sz_value = new char[ID_SIZE_BUFFER]  ;
 		if ( i_id_type == 2) {
-			char *sz_value = new char[ID_SIZE_BUFFER]  ;
 			passFail = runReadScalarID( sz_value, ID_SIZE);
 		}
+		delete[] sz_value;
 		passFail = runInsertData( i_id_type);
 	}
 	else if (m_str_TestItem == CheckFlow)
@@ -106,10 +69,20 @@ bool CMonitor::Run()
 		char *sz_value = new char[ID_SIZE_BUFFER]  ;
 		int i_id_type = CStr::StrToInt(m_str_CMD);
 		if ( i_id_type == 2) {
-			char *sz_value = new char[ID_SIZE_BUFFER]  ;
-			passFail = runReadScalarID( sz_value, ID_SIZE);
+			if (passFail = runReadScalarID( sz_value, ID_SIZE)){//check by scalar id
+				passFail = runCheckFlow( i_id_type);
+			}
+			else
+			{
+			//	return false;
+			}
 		}
-		passFail = runCheckFlow( i_id_type);
+		else//check by picasso(pcba id)
+		{
+			passFail = runCheckFlow( i_id_type);
+		}
+		delete[] sz_value;
+		
 	}
 	else if (m_str_TestItem == CheckAllFlow)
 	{
@@ -118,9 +91,9 @@ bool CMonitor::Run()
 		char *sz_value = new char[ID_SIZE_BUFFER]  ;
 		int i_id_type = CStr::StrToInt(m_str_CMD);
 		if ( i_id_type == 2) {
-			char *sz_value = new char[ID_SIZE_BUFFER]  ;
 			passFail = runReadScalarID( sz_value, ID_SIZE);
 		}
+		delete[] sz_value;
 		passFail = runCheckFlowAllStation( i_id_type);
 	}
 	else if (m_str_TestItem == GetHDCPKEY)
@@ -136,16 +109,29 @@ bool CMonitor::Run()
 		passFail = runWriteHDCPKEY();
 		//passFail = bGetNewHDCPKEY( sz_value);
 	}
+	
+	else if (m_str_TestItem == CheckSWVersion)
+	{
+		m_strItemCode = CStr::IntToStr(Monitor_BaseItemcode);
+		m_strErrorCode = FunErr_Check_SWVERSION_Fail;
+		passFail = runCheckSWversion();
+	}	
+	else if (m_str_TestItem == CheckModel)
+	{
+		m_strItemCode = CStr::IntToStr(Monitor_BaseItemcode);
+		m_strErrorCode = FunErr_CHECK_MODEL_Fail;
+		passFail = runCheckModel();
+	}	
 	else if (m_str_TestItem == WriteTag)
 	{
 		m_strItemCode = CStr::IntToStr(Monitor_BaseItemcode);
-		m_strErrorCode = FunErr_GET_HDCP_KEY_Fail;
+		m_strErrorCode = FunErr_WRITE_TAG_Fail;
 		passFail = runWriteTag();
 	}	
 	else if (m_str_TestItem == Postcmd)
 	{
 		m_strItemCode = CStr::IntToStr(Monitor_BaseItemcode);
-		m_strErrorCode = FunErr_GET_HDCP_KEY_Fail;
+		m_strErrorCode = FunErr_POST_CMD_Fail;
 		passFail = runPostCmd();
 	}
 	
@@ -444,6 +430,125 @@ bool CMonitor::ExecAdbOut(CString Command, char* output, char* ErrorCode)
 }
 
 
+bool CMonitor::bCallAdbFastbootCMD(CString csAdbFastboot, CString Command, char* output, char* ErrorCode, CString cs_FindData)
+{
+	bool isOk = false;
+	CString pthToolDir;
+
+	::GetModuleFileName(NULL, pthToolDir.GetBuffer(MAX_PATH), MAX_PATH);
+	pthToolDir.ReleaseBuffer();
+	pthToolDir = pthToolDir.Left(pthToolDir.ReverseFind('\\'));
+	CString path_adb_fastboot = pthToolDir + _T("\\") + csAdbFastboot;
+	
+	if (_taccess(path_adb_fastboot, 0) == -1)
+	{
+		strcpy(ErrorCode, "ERROR: No adb.exe exist!");
+		return false;
+	}
+
+	HANDLE hRead, hWrite;
+	SECURITY_ATTRIBUTES sa;
+	sa.nLength = sizeof(SECURITY_ATTRIBUTES);
+	sa.lpSecurityDescriptor = NULL;
+	sa.bInheritHandle = TRUE;
+	if (!CreatePipe(&hRead, &hWrite, &sa, BUFFER_SIZE))
+	{
+		strcpy(ErrorCode, "ERROR: CreatePipe fail!");
+		return false;
+	}
+
+	PROCESS_INFORMATION processInfo;
+	STARTUPINFO startupInfo;
+	::ZeroMemory(&startupInfo, sizeof(startupInfo));
+	startupInfo.cb = sizeof(startupInfo);
+	startupInfo.dwFlags = STARTF_USESHOWWINDOW | STARTF_USESTDHANDLES;
+	startupInfo.wShowWindow	= SW_HIDE;
+	startupInfo.hStdError = hWrite;
+	startupInfo.hStdOutput = hWrite;
+
+	Command = _T("\"") + path_adb_fastboot + _T("\" ") + Command;
+	TRACE(_T("Cmd: %s\n"), Command);
+
+	DWORD dwRead;
+	CHAR chBuf[4096]; 
+	bool bSuccess = FALSE;
+
+	if (::CreateProcess(NULL, Command.GetBuffer(), NULL, NULL, TRUE, 0, NULL, NULL, &startupInfo, &processInfo))
+	{
+		DWORD TimeOutSignal = WaitForSingleObject(processInfo.hProcess, 100 * 1000); // timeout in 10 seconds
+
+		CloseHandle(hWrite);
+		hWrite = NULL;
+		//if timeout then exit the process
+		if (TimeOutSignal == WAIT_TIMEOUT)
+		{
+			isOk = false;
+			TerminateProcess(processInfo.hProcess, 0);
+			strcpy(ErrorCode, "ERROR: fastboot timeout");
+		}
+		else
+		{
+			if ( (cs_FindData.Find(DREAD) != -1) )// neet to read resolt
+			{
+				bSuccess = ReadFile( hRead, chBuf, BUFFER_SIZE, &dwRead, NULL);
+				chBuf[dwRead] = '\0';
+				strncpy(output, chBuf, dwRead);
+
+				if ( bSuccess ) 
+				{
+					strcpy(ErrorCode, _T("Adb command ok"));
+					isOk = true; //don't not need to check
+				}
+			}
+			else if ( ( cs_FindData.Find(DNULL) == -1) )  //need to check return payload
+			{
+			   for (int i = 0; i < 60; i++) //get QPHONE
+			   { 
+				  bSuccess = ReadFile( hRead, chBuf, BUFFER_SIZE, &dwRead, NULL);
+				  chBuf[dwRead] = '\0';
+				  CString csBuf = chBuf;
+				  if(csBuf.Find(cs_FindData) != -1) {
+					  isOk = true; //get it
+					  break;
+				  }
+				  if( ! bSuccess || dwRead == 0 ) break; 
+			   }
+			    strcpy(ErrorCode, _T("Adb command ok"));
+
+
+			}
+			else /*do not neet to find anything*/
+			{
+
+				isOk = true; //don't not need to check
+			}
+		}
+	}
+	else
+	{
+		isOk = false;
+		strcpy(ErrorCode, "ERROR: Execute fastboot.exe fail!");
+	}
+
+	Command.ReleaseBuffer();
+	if(hRead){
+		CloseHandle(hRead);
+		hRead = NULL;
+	}
+	if (hWrite){
+		CloseHandle(hWrite);
+		hWrite = NULL;
+	}
+
+	CloseHandle(processInfo.hProcess);
+	CloseHandle(processInfo.hThread);
+	processInfo.hProcess = NULL;
+	processInfo.hThread = NULL;
+
+
+	return isOk;
+}
+
 bool CMonitor::ExecFastbootOut(CString Command, char* output, char* ErrorCode)
 {
 	bool isOk = false;
@@ -604,15 +709,148 @@ bool CMonitor::brunGetExistHDCPKEY(char *scalarID)
 		return false;
 	}
 }
+
+bool CMonitor::runCheckSWversion()
+{
+	bool bRes = false;;
+	std::string st_readId = "";
+	char sz_cmd_in[FTD_BUF_SIZE] ="";
+	char sz_cmd_out[FTD_BUF_SIZE] ="";
+	char sz_cmd_errcode[FTD_BUF_SIZE] ="";
+	std::string std_ModelNamel = "";
+	CString cs_getModelNamel = "";
+	CString cs_xmlModelNamel = "";
+
+	memset(sz_cmd_in, 0, sizeof(sz_cmd_in));
+	memset(sz_cmd_out, 0, sizeof(sz_cmd_out));
+	memset(sz_cmd_errcode, 0, sizeof(sz_cmd_errcode));
+
+
+	strcpy(sz_cmd_in, _T("shell getprop ro.build.oemversion.main"));
+	if ( !ExecAdbOut(sz_cmd_in, sz_cmd_out, sz_cmd_errcode) ){
+		ErrMsg = (_T("adb shell getprop ro.build.oemversion.main fail"));
+		AfxMessageBox( ErrMsg.c_str() );
+		TraceLog(MSG_INFO,  ErrMsg);
+		goto  Exit_ShowResult;
+	}	
+	//Sleep(200);
+	std_ModelNamel = (char*)sz_cmd_out;
+	cs_getModelNamel.Format(_T("%s"),  sz_cmd_out);
+	cs_getModelNamel.Trim();
+	cs_xmlModelNamel = m_str_CMD.c_str();
+	cs_xmlModelNamel.Trim();
+
+	if (cs_xmlModelNamel.Compare( cs_getModelNamel ) == 0 )
+	{
+		ErrMsg = _T("runCheckSWversion check  ok  , get data = ") + std_ModelNamel; 
+		bRes = true;
+	}
+	else
+	{
+		ErrMsg = _T("runCheckSWversion check  Fail xml setting = ") + m_str_CMD + _T(" get data = ") + std_ModelNamel; 
+		TraceLog(MSG_INFO,  ErrMsg);
+	}
+
+//[ro.build.variant]: [dels2317w] gbrob2a
+//[ro.build.variant]: [delu2417w] gbrob1a
+
+	//compare ,	m_str_CMD, sz_cmd_out
+
+	
+Exit_ShowResult:
+	if ( !bRes) {
+		m_strResult = "FAIL";
+	}
+	else
+	{
+		m_strErrorCode = "-";
+		m_strResult = "PASS";
+	}
+
+
+	str_msg = ErrMsg;
+	m_strMessage = str_msg;
+	FactoryLog();
+	return bRes;
+}
+
+bool CMonitor::runCheckModel()
+{
+	bool bRes = false;;
+	std::string st_readId = "";
+	char sz_cmd_in[FTD_BUF_SIZE] ="";
+	char sz_cmd_out[FTD_BUF_SIZE] ="";
+	char sz_cmd_errcode[FTD_BUF_SIZE] ="";
+	std::string std_ModelNamel = "";
+	CString cs_getModelNamel = "";
+	CString cs_xmlModelNamel = "";
+
+	memset(sz_cmd_in, 0, sizeof(sz_cmd_in));
+	memset(sz_cmd_out, 0, sizeof(sz_cmd_out));
+	memset(sz_cmd_errcode, 0, sizeof(sz_cmd_errcode));
+
+
+	strcpy(sz_cmd_in, _T("shell getprop ro.build.variant"));
+	if ( !ExecAdbOut(sz_cmd_in, sz_cmd_out, sz_cmd_errcode) ){
+		ErrMsg = (_T("shell getprop ro.build.variant Fail"));
+		AfxMessageBox( ErrMsg.c_str() );
+		TraceLog(MSG_INFO,  ErrMsg);
+		goto  Exit_ShowResult;
+	}	
+	//Sleep(200);
+	std_ModelNamel = (char*)sz_cmd_out;
+	cs_getModelNamel.Format(_T("%s"),  sz_cmd_out);
+	cs_getModelNamel.Trim();
+	cs_xmlModelNamel = m_str_CMD.c_str();
+	cs_xmlModelNamel.Trim();
+	//sprintf
+	//std_ModelNamel = "qisda";
+	if (cs_xmlModelNamel.Compare( cs_getModelNamel ) == 0 )
+	{
+		ErrMsg = _T("runCheckModel check  ok  , get data = ") + std_ModelNamel; 
+		bRes = true;
+	}
+	else
+	{
+		ErrMsg = _T("runCheckModel check  Fail xml setting = ") + m_str_CMD + _T(" get data = ") + std_ModelNamel; 
+		TraceLog(MSG_INFO,  ErrMsg);
+	}
+
+//[ro.build.variant]: [dels2317w] gbrob2a
+//[ro.build.variant]: [delu2417w] gbrob1a
+
+	//compare ,	m_str_CMD, sz_cmd_out
+
+	
+Exit_ShowResult:
+	if ( !bRes) {
+		m_strResult = "FAIL";
+	}
+	else
+	{
+		m_strErrorCode = "-";
+		m_strResult = "PASS";
+	}
+
+
+	str_msg = ErrMsg;
+	m_strMessage = str_msg;
+	FactoryLog();
+	return bRes;
+}
 bool CMonitor::runPostCmd()
 {
 	CString cs_write_cmd = "";
-	//FTD_HDCPKEY
+
 	bool bRes = true;
 	std::string st_readId = "";
 	char sz_cmd_in[FTD_BUF_SIZE] ="";
 	char sz_cmd_out[FTD_BUF_SIZE] ="";
 	char sz_cmd_errcode[FTD_BUF_SIZE] ="";
+
+	bool b_wait_fastboot = false;
+	int nLimitTime = 0 ;
+	CString csFastboot("fastboot");
 
 	memset(sz_cmd_in, 0, sizeof(sz_cmd_in));
 	memset(sz_cmd_out, 0, sizeof(sz_cmd_out));
@@ -626,7 +864,28 @@ bool CMonitor::runPostCmd()
 		TraceLog(MSG_INFO,  ErrMsg);
 		goto  Exit_ShowResult;
 	}	
-	Sleep(5000);
+	Sleep(3000);
+
+
+	while ( !b_wait_fastboot){
+		if (bCallAdbFastbootCMD(_T("fastboot.exe"), _T("devices"), sz_cmd_out, sz_cmd_errcode, csFastboot) ){
+			b_wait_fastboot = true;
+			ErrMsg = (_T("Get Fastboot Success"));
+			//AfxMessageBox( ErrMsg.c_str() );
+			TraceLog(MSG_INFO,  ErrMsg);
+		//	AddMsg("Get Fastboot Success.", None, 10);
+		}
+		Sleep(1000);
+		nLimitTime ++;
+		if ( nLimitTime > 60 ) break;
+	}
+	
+	if ( ! b_wait_fastboot ) {
+		ErrMsg = (_T("reboot to fastboot fail "));
+		AfxMessageBox( ErrMsg.c_str() );
+		TraceLog(MSG_INFO,  ErrMsg);
+		goto  Exit_ShowResult;
+	}
 
 	strcpy(sz_cmd_in, _T("flash passport passport_FactoryDLTool"));
 	if ( !ExecFastbootOut(sz_cmd_in, sz_cmd_out, sz_cmd_errcode) ){
@@ -635,7 +894,7 @@ bool CMonitor::runPostCmd()
 		TraceLog(MSG_INFO,  ErrMsg);
 		goto  Exit_ShowResult;
 	}	
-	Sleep(2000);
+	Sleep(1000);
 
 	strcpy(sz_cmd_in, _T("oem ftd Qoff"));
 	if ( !ExecFastbootOut(sz_cmd_in, sz_cmd_out, sz_cmd_errcode) ){
@@ -663,6 +922,7 @@ Exit_ShowResult:
 	FactoryLog();
 	return bRes;
 }
+
 bool CMonitor::runWriteTag()
 {
 	bool bRes = false;
@@ -733,6 +993,7 @@ Exit_ShowResult:
 	FactoryLog();
 	return bRes;
 }
+
 bool CMonitor::runWriteHDCPKEY()
 {
 	CString cs_write_cmd = "";
@@ -781,12 +1042,12 @@ bool CMonitor::runWriteHDCPKEY()
 		goto  Exit_ShowResult;
 	}	
 
-	//FTD_HDCPKEY ok , skip first
 	if (!(bRes = m_pIPhone->FTD_HDCPKEY(m_nFtdPort, m_nFtdTimeOut, sz_cmd_in, sz_cmd_out)))
 	{
 		ErrMsg = _T("Check FTD_HDCPKEY Fail");
 		AfxMessageBox( ErrMsg.c_str() );
 		TraceLog(MSG_INFO, ErrMsg);
+		goto  Exit_ShowResult;
 	}
 	else
 	{
@@ -794,19 +1055,19 @@ bool CMonitor::runWriteHDCPKEY()
 		TraceLog(MSG_INFO, ErrMsg);
 	}
 
+	Sleep(200);
 	/*update key , mac/wifi address*/
 
-	if ( bUpdateKEYWrite() )
-	{
-		ErrMsg = _T("bUpdateKEYWrite PASS");
-		//bRes = true;
-		//AfxMessageBox( ErrMsg.c_str() );
-		TraceLog(MSG_INFO, ErrMsg);
-	}
-	else
+	if ( !(bRes = bUpdateKEYWrite() ))
 	{
 		ErrMsg = _T("bUpdateKEYWrite Fail");
 		AfxMessageBox( ErrMsg.c_str() );
+		TraceLog(MSG_INFO, ErrMsg);
+		goto  Exit_ShowResult;
+	}
+	else
+	{
+		ErrMsg = _T("bUpdateKEYWrite PASS");
 		TraceLog(MSG_INFO, ErrMsg);
 	}
 	
@@ -961,6 +1222,7 @@ Exit_ShowResult:
 	str_msg = ErrMsg.c_str();
 	m_strMessage = str_msg;
 	FactoryLog();
+	delete[] sz_value;
 	return bRes;
 
 

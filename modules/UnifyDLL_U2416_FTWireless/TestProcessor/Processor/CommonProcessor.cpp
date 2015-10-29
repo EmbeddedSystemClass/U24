@@ -19,13 +19,13 @@ bool CCommonProcessor::Begin()
 	m_strMessage = "";
 
 	// 1. Load cable loss value
-	if (!LoadCableLossXML())
-	{
-		m_strMessage = "Fail to load Cable Loss XML";
-		TraceLog(MSG_ERROR, m_strMessage);
-		return false;
-	}
-	TraceLog(MSG_INFO, "Load cable loss value success");
+	//if (!LoadCableLossXML())
+	//{
+	//	m_strMessage = "Fail to load Cable Loss XML";
+	//	TraceLog(MSG_ERROR, m_strMessage);
+	//	return false;
+	//}
+	//TraceLog(MSG_INFO, "Load cable loss value success");
 
 	// 2. Parse each test item's parameters
 	if (!ParseTestItemParameters())
@@ -70,9 +70,9 @@ bool CCommonProcessor::Begin()
 		ITestItem* piTestItem = dynamic_cast<ITestItem*>(pcObject);
 		piTestItem->Register(m_piToolNotify, TRACE_LOG);
 		piTestItem->Register(m_piToolNotify, FACTORY_LOG);
-		piTestItem->Register(m_piToolNotify, PICS_DATA);
+	//	piTestItem->Register(m_piToolNotify, PICS_DATA);
 		piTestItem->Register(m_piToolNotify, SHOW_PICTURE);
-		piTestItem->Register(m_piToolNotify, JIG_REQUEST);
+	//	piTestItem->Register(m_piToolNotify, JIG_REQUEST);
 		piTestItem->Register(m_piToolNotify, SHOW_DIALOG);
 		m_vpiTestItem.push_back(piTestItem);
 	}
@@ -280,9 +280,9 @@ bool CCommonProcessor::End()
 	{
 		m_vpiTestItem[i]->Unregister(m_piToolNotify, TRACE_LOG);
 		m_vpiTestItem[i]->Unregister(m_piToolNotify, FACTORY_LOG);
-		m_vpiTestItem[i]->Unregister(m_piToolNotify, PICS_DATA);
+	//	m_vpiTestItem[i]->Unregister(m_piToolNotify, PICS_DATA);
 		m_vpiTestItem[i]->Unregister(m_piToolNotify, SHOW_PICTURE);
-		m_vpiTestItem[i]->Unregister(m_piToolNotify, JIG_REQUEST);
+	//	m_vpiTestItem[i]->Unregister(m_piToolNotify, JIG_REQUEST);
 		m_vpiTestItem[i]->Unregister(m_piToolNotify, SHOW_DIALOG);
 		m_vpiTestItem[i]->Release();
 	}

@@ -1288,172 +1288,172 @@ bool ITestProcessor::GetTestResult(int nIndex, st_UIResult* psResult)
 }
 
 //Initial functions
-bool ITestProcessor::LoadCableLossXML()
-{
-	if (m_CableLossXML.Load(m_cstrCableLossFile) != ERROR_SUCCESS)
-		return false;
-
-	XMLNode currentRfLosses = m_CableLossXML.SearchNode(_T("//FrameworkConfig//RfSettings//RfCable//CurrentRfLosses"));
-	if (currentRfLosses == NULL)
-		return false;
-
-	CString cstrCurrentRfLosses = m_CableLossXML.GetNodeText(currentRfLosses);
-	if (cstrCurrentRfLosses.IsEmpty())
-		return false;
-
-	XMLNode rfCable = m_CableLossXML.SearchNode(_T("//FrameworkConfig//RfSettings//RfCable"));
-	if (rfCable == NULL)
-		return false;
-
-	XMLNodeList rfLossesList = m_CableLossXML.GetChildNodes(rfCable);
-	if (rfLossesList == NULL)
-		return false;
-
-	for (UINT i = 0; i < m_CableLossXML.GetNodeListSize(rfLossesList); ++i)
-	{
-		XMLNode rfLosses = m_CableLossXML.GetNodeListItem(rfLossesList, i);
-		if (rfLosses == NULL)
-			continue;
-
-		CString cstrRfLossesAttr = m_CableLossXML.GetNodeAttrValue(rfLosses, _T("name"));
-		if (cstrRfLossesAttr.CompareNoCase(cstrCurrentRfLosses) != 0)
-			continue;
-
-		// Found matching cable loss set
-		std::map<std::string, std::map<std::string, std::string>> mapTxCableLossData;
-		std::map<std::string, std::map<std::string, std::string>> mapRxCableLossData;
-		std::map<std::string, std::string> mapCableLoss;
-		XMLNode rfType = m_CableLossXML.GetFirstChild(rfLosses);
-		while (rfType)
-		{
-			CString cstrRfTypeAttr = m_CableLossXML.GetNodeAttrValue(rfType, _T("name"));
-			if (cstrRfTypeAttr.CompareNoCase(_T("TX")) == 0)
-			{
-				// Start parsing TX cable losses
-				XMLNodeList rfBandList = m_CableLossXML.GetChildNodes(rfType);
-				if (rfBandList == NULL)
-					continue;
-
-				for (UINT j = 0; j < m_CableLossXML.GetNodeListSize(rfBandList); ++j)
-				{
-					// FrameworkConfig//RfSettings//RfCable//RfType//RfBand
-					XMLNode rfBand = m_CableLossXML.GetNodeListItem(rfBandList, j);
-					if (rfBand == NULL)
-						continue;
-
-					mapCableLoss.clear();
-					CString cstrRfBandName = m_CableLossXML.GetNodeAttrValue(rfBand, _T("name"));
-					XMLNodeList rfChannelList = m_CableLossXML.GetChildNodes(rfBand);
-					if (rfChannelList == NULL)
-						continue;
-
-					for (UINT k = 0; k < m_CableLossXML.GetNodeListSize(rfChannelList); ++k)
-					{
-						// FrameworkConfig//RfSettings//RfCable//RfType//RfBand//RfChannel
-						XMLNode rfChannel = m_CableLossXML.GetNodeListItem(rfChannelList, k);
-						if (rfChannel == NULL)
-							continue;
-
-						CString cstrRfChannelRange = m_CableLossXML.GetNodeAttrValue(rfChannel, _T("range"));
-						if (cstrRfChannelRange.IsEmpty())
-							cstrRfChannelRange = m_CableLossXML.GetNodeAttrValue(rfChannel, _T("name"));
-						// FrameworkConfig//RfSettings//RfCable//RfType//RfBand//RfChannel//RfLoss
-						XMLNodeList rfLossList = m_CableLossXML.GetChildNodes(rfChannel);
-						if (rfLossList == NULL)
-							continue;
-
-						for (UINT l = 0; l < m_CableLossXML.GetNodeListSize(rfLossList); ++l)
-						{
-							XMLNode rfLoss = m_CableLossXML.GetNodeListItem(rfLossList, l);
-							if (rfLoss == NULL)
-								continue;
-
-							CString cstrRfLossNodeName = m_CableLossXML.GetNodeName(rfLoss);
-							if (cstrRfLossNodeName.CompareNoCase(_T("RfLoss")) == 0)
-							{
-								CString cstrRfLoss = m_CableLossXML.GetNodeText(rfLoss);
-
-								// Insert a cable loss value in map
-								CT2A szRange(cstrRfChannelRange);
-								std::string strRange(szRange);
-								CT2A szRfLoss(cstrRfLoss);
-								std::string strRfLoss(szRfLoss);
-								mapCableLoss[strRange] = strRfLoss;
-							}
-						}
-					}
-
-					if (mapCableLoss.empty() != true)
-					{
-						CT2A szBand(cstrRfBandName);
-						std::string strBand(szBand);
-						mapTxCableLossData[strBand] = mapCableLoss;
-					}
-				}//for (UINT k
-			}
-			else if (cstrRfTypeAttr.CompareNoCase(_T("RX")) == 0)
-			{
-				// Start parsing RX cable losses
-				XMLNodeList rfBandList = m_CableLossXML.GetChildNodes(rfType);
-				if (rfBandList == NULL)
-					continue;
-
-				for (UINT j = 0; j < m_CableLossXML.GetNodeListSize(rfBandList); ++j)
-				{
-					// FrameworkConfig//RfSettings//RfCable//RfType//RfBand
-					XMLNode rfBand = m_CableLossXML.GetNodeListItem(rfBandList, j);
-					if (rfBand == NULL)
-						continue;
-
-					mapCableLoss.clear();
-					CString cstrRfBandName = m_CableLossXML.GetNodeAttrValue(rfBand, _T("name"));
-					XMLNodeList rfChannelList = m_CableLossXML.GetChildNodes(rfBand);
-					if (rfChannelList == NULL)
-						continue;
-
-					for (UINT k = 0; k < m_CableLossXML.GetNodeListSize(rfChannelList); ++k)
-					{
-						// FrameworkConfig//RfSettings//RfCable//RfType//RfBand//RfChannel
-						XMLNode rfChannel = m_CableLossXML.GetNodeListItem(rfChannelList, k);
-						if (rfChannel == NULL)
-							continue;
-
-						CString cstrRfChannelRange = m_CableLossXML.GetNodeAttrValue(rfChannel, _T("range"));
-						if (cstrRfChannelRange.IsEmpty())
-							cstrRfChannelRange = m_CableLossXML.GetNodeAttrValue(rfChannel, _T("name"));
-						// FrameworkConfig//RfSettings//RfCable//RfType//RfBand//RfChannel//RfLoss
-						XMLNode rfLoss = m_CableLossXML.GetFirstChild(rfChannel);
-						if (rfLoss == NULL)
-							continue;
-
-						CString cstrRfLoss = m_CableLossXML.GetNodeText(rfLoss);
-						// Insert a cable loss value in map
-						CT2A szRange(cstrRfChannelRange);
-						std::string strRange(szRange);
-						CT2A szRfLoss(cstrRfLoss);
-						std::string strRfLoss(szRfLoss);
-						mapCableLoss[strRange] = strRfLoss;
-					}//for (UINT k
-					if (mapCableLoss.empty() != true)
-					{
-						CT2A szBand(cstrRfBandName);
-						std::string strBand(szBand);
-						mapRxCableLossData[strBand] = mapCableLoss;
-					}
-				}//for (UINT j
-			}
-			rfType = rfType->GetnextSibling();
-		}//while (rfType)
-
-		if (mapTxCableLossData.empty() != true)
-			g_mapTxCableLossData = mapTxCableLossData;
-
-		if (mapRxCableLossData.empty() != true)
-			g_mapRxCableLossData = mapRxCableLossData;
-	}//for (UINT i
-
-	return true;
-}
+//bool ITestProcessor::LoadCableLossXML()
+//{
+//	if (m_CableLossXML.Load(m_cstrCableLossFile) != ERROR_SUCCESS)
+//		return false;
+//
+//	XMLNode currentRfLosses = m_CableLossXML.SearchNode(_T("//FrameworkConfig//RfSettings//RfCable//CurrentRfLosses"));
+//	if (currentRfLosses == NULL)
+//		return false;
+//
+//	CString cstrCurrentRfLosses = m_CableLossXML.GetNodeText(currentRfLosses);
+//	if (cstrCurrentRfLosses.IsEmpty())
+//		return false;
+//
+//	XMLNode rfCable = m_CableLossXML.SearchNode(_T("//FrameworkConfig//RfSettings//RfCable"));
+//	if (rfCable == NULL)
+//		return false;
+//
+//	XMLNodeList rfLossesList = m_CableLossXML.GetChildNodes(rfCable);
+//	if (rfLossesList == NULL)
+//		return false;
+//
+//	for (UINT i = 0; i < m_CableLossXML.GetNodeListSize(rfLossesList); ++i)
+//	{
+//		XMLNode rfLosses = m_CableLossXML.GetNodeListItem(rfLossesList, i);
+//		if (rfLosses == NULL)
+//			continue;
+//
+//		CString cstrRfLossesAttr = m_CableLossXML.GetNodeAttrValue(rfLosses, _T("name"));
+//		if (cstrRfLossesAttr.CompareNoCase(cstrCurrentRfLosses) != 0)
+//			continue;
+//
+//		// Found matching cable loss set
+//		std::map<std::string, std::map<std::string, std::string>> mapTxCableLossData;
+//		std::map<std::string, std::map<std::string, std::string>> mapRxCableLossData;
+//		std::map<std::string, std::string> mapCableLoss;
+//		XMLNode rfType = m_CableLossXML.GetFirstChild(rfLosses);
+//		while (rfType)
+//		{
+//			CString cstrRfTypeAttr = m_CableLossXML.GetNodeAttrValue(rfType, _T("name"));
+//			if (cstrRfTypeAttr.CompareNoCase(_T("TX")) == 0)
+//			{
+//				// Start parsing TX cable losses
+//				XMLNodeList rfBandList = m_CableLossXML.GetChildNodes(rfType);
+//				if (rfBandList == NULL)
+//					continue;
+//
+//				for (UINT j = 0; j < m_CableLossXML.GetNodeListSize(rfBandList); ++j)
+//				{
+//					// FrameworkConfig//RfSettings//RfCable//RfType//RfBand
+//					XMLNode rfBand = m_CableLossXML.GetNodeListItem(rfBandList, j);
+//					if (rfBand == NULL)
+//						continue;
+//
+//					mapCableLoss.clear();
+//					CString cstrRfBandName = m_CableLossXML.GetNodeAttrValue(rfBand, _T("name"));
+//					XMLNodeList rfChannelList = m_CableLossXML.GetChildNodes(rfBand);
+//					if (rfChannelList == NULL)
+//						continue;
+//
+//					for (UINT k = 0; k < m_CableLossXML.GetNodeListSize(rfChannelList); ++k)
+//					{
+//						// FrameworkConfig//RfSettings//RfCable//RfType//RfBand//RfChannel
+//						XMLNode rfChannel = m_CableLossXML.GetNodeListItem(rfChannelList, k);
+//						if (rfChannel == NULL)
+//							continue;
+//
+//						CString cstrRfChannelRange = m_CableLossXML.GetNodeAttrValue(rfChannel, _T("range"));
+//						if (cstrRfChannelRange.IsEmpty())
+//							cstrRfChannelRange = m_CableLossXML.GetNodeAttrValue(rfChannel, _T("name"));
+//						// FrameworkConfig//RfSettings//RfCable//RfType//RfBand//RfChannel//RfLoss
+//						XMLNodeList rfLossList = m_CableLossXML.GetChildNodes(rfChannel);
+//						if (rfLossList == NULL)
+//							continue;
+//
+//						for (UINT l = 0; l < m_CableLossXML.GetNodeListSize(rfLossList); ++l)
+//						{
+//							XMLNode rfLoss = m_CableLossXML.GetNodeListItem(rfLossList, l);
+//							if (rfLoss == NULL)
+//								continue;
+//
+//							CString cstrRfLossNodeName = m_CableLossXML.GetNodeName(rfLoss);
+//							if (cstrRfLossNodeName.CompareNoCase(_T("RfLoss")) == 0)
+//							{
+//								CString cstrRfLoss = m_CableLossXML.GetNodeText(rfLoss);
+//
+//								// Insert a cable loss value in map
+//								CT2A szRange(cstrRfChannelRange);
+//								std::string strRange(szRange);
+//								CT2A szRfLoss(cstrRfLoss);
+//								std::string strRfLoss(szRfLoss);
+//								mapCableLoss[strRange] = strRfLoss;
+//							}
+//						}
+//					}
+//
+//					if (mapCableLoss.empty() != true)
+//					{
+//						CT2A szBand(cstrRfBandName);
+//						std::string strBand(szBand);
+//						mapTxCableLossData[strBand] = mapCableLoss;
+//					}
+//				}//for (UINT k
+//			}
+//			else if (cstrRfTypeAttr.CompareNoCase(_T("RX")) == 0)
+//			{
+//				// Start parsing RX cable losses
+//				XMLNodeList rfBandList = m_CableLossXML.GetChildNodes(rfType);
+//				if (rfBandList == NULL)
+//					continue;
+//
+//				for (UINT j = 0; j < m_CableLossXML.GetNodeListSize(rfBandList); ++j)
+//				{
+//					// FrameworkConfig//RfSettings//RfCable//RfType//RfBand
+//					XMLNode rfBand = m_CableLossXML.GetNodeListItem(rfBandList, j);
+//					if (rfBand == NULL)
+//						continue;
+//
+//					mapCableLoss.clear();
+//					CString cstrRfBandName = m_CableLossXML.GetNodeAttrValue(rfBand, _T("name"));
+//					XMLNodeList rfChannelList = m_CableLossXML.GetChildNodes(rfBand);
+//					if (rfChannelList == NULL)
+//						continue;
+//
+//					for (UINT k = 0; k < m_CableLossXML.GetNodeListSize(rfChannelList); ++k)
+//					{
+//						// FrameworkConfig//RfSettings//RfCable//RfType//RfBand//RfChannel
+//						XMLNode rfChannel = m_CableLossXML.GetNodeListItem(rfChannelList, k);
+//						if (rfChannel == NULL)
+//							continue;
+//
+//						CString cstrRfChannelRange = m_CableLossXML.GetNodeAttrValue(rfChannel, _T("range"));
+//						if (cstrRfChannelRange.IsEmpty())
+//							cstrRfChannelRange = m_CableLossXML.GetNodeAttrValue(rfChannel, _T("name"));
+//						// FrameworkConfig//RfSettings//RfCable//RfType//RfBand//RfChannel//RfLoss
+//						XMLNode rfLoss = m_CableLossXML.GetFirstChild(rfChannel);
+//						if (rfLoss == NULL)
+//							continue;
+//
+//						CString cstrRfLoss = m_CableLossXML.GetNodeText(rfLoss);
+//						// Insert a cable loss value in map
+//						CT2A szRange(cstrRfChannelRange);
+//						std::string strRange(szRange);
+//						CT2A szRfLoss(cstrRfLoss);
+//						std::string strRfLoss(szRfLoss);
+//						mapCableLoss[strRange] = strRfLoss;
+//					}//for (UINT k
+//					if (mapCableLoss.empty() != true)
+//					{
+//						CT2A szBand(cstrRfBandName);
+//						std::string strBand(szBand);
+//						mapRxCableLossData[strBand] = mapCableLoss;
+//					}
+//				}//for (UINT j
+//			}
+//			rfType = rfType->GetnextSibling();
+//		}//while (rfType)
+//
+//		if (mapTxCableLossData.empty() != true)
+//			g_mapTxCableLossData = mapTxCableLossData;
+//
+//		if (mapRxCableLossData.empty() != true)
+//			g_mapRxCableLossData = mapRxCableLossData;
+//	}//for (UINT i
+//
+//	return true;
+//}
 
 bool ITestProcessor::ParseGPIBDeviceParams()
 {

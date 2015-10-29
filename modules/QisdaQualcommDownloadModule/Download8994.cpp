@@ -112,6 +112,36 @@ bool CDownload8994::MultiDownload(bool b_speedUp, bool b_reOpenAfterReset, Downl
 			b_result = postCmd();
 
 		}
+	}	else if (m_str_DLMode == DOWNLOAD_MODE_OSDL1)
+	{
+		bool b_wait_fastboot = false;
+		int nLimitTime = 0 ; 
+		m_str_multiDLFlag = _T("0") ;//slingle dl only
+
+		CString cs_Qphone; 
+		cs_Qphone = _T("QPHONE");
+		if (bGetADB_SINGLE()){
+			AddMsg("Get Adb Success.", None, 10);
+
+			bADB_to_Fastboot_SINGLE();
+			AddMsg("adb to fastboot ok", None, 10);
+
+			while ( !b_wait_fastboot){
+				if (bCallAdbFastbootCMD(_T("fastboot.exe"), _T("devices"),output,ErrorCode, cs_Qphone) ){
+					b_wait_fastboot = true;
+					AddMsg("Get Fastboot Success.", None, 10);
+				}
+				Sleep(1000);
+				nLimitTime ++;
+				if ( nLimitTime > 60 ) break;
+			}
+
+			if ( b_wait_fastboot) b_result = FastbootEXE_Download_SINGLE();
+			else AddMsg("Fail can't find fastboot", DownloadStep::None, 100);
+
+			b_result = postCmd();
+
+		}
 	}
 	else
 	{
@@ -124,6 +154,27 @@ bool CDownload8994::MultiDownload(bool b_speedUp, bool b_reOpenAfterReset, Downl
 	return b_result;
 }
 
+
+
+bool CDownload8994::bADB_to_Fastboot_SINGLE( ){ 
+	char* output = new char[BUFFER_SIZE];
+	char* ErrorCode =new char[BUFFER_SIZE];
+
+	bool bGetAdb = false; 
+	CString csPhone;
+	CString csCmd;
+
+//	csPhone.Format("QPHONE");
+	csCmd.Format(_T("reboot bootloader"));
+
+	bGetAdb = bCallAdbFastbootCMD(_T("adb.exe"), csCmd,output,ErrorCode, DNULL);
+
+	Sleep(1000);
+	
+	delete [] output;
+	delete [] ErrorCode;
+	return bGetAdb;
+}
 
 bool CDownload8994::bADB_to_Fastboot(int nPhone){ 
 	char* output = new char[BUFFER_SIZE];
@@ -253,6 +304,34 @@ Exit_ShowResult:
 	return b_result;
 }
 
+
+bool CDownload8994::bGetADB_SINGLE(){ 
+	char* output = new char[BUFFER_SIZE];
+	char* ErrorCode =new char[BUFFER_SIZE];
+	int nRetryTime = 60;
+	bool bGetAdb = false; 
+	CString csPhone;
+	CString csCmd;
+
+	//csCmd = _T("devices ");
+	csPhone.Format("QPHONE");
+
+	for(int i =0; i <nRetryTime; i++){
+		//if ( bGetAdb = bAdbCMD(csCmd, output, ErrorCode, nPhone))
+		if (bCallAdbFastbootCMD(_T("adb.exe"), _T("devices "),output,ErrorCode, csPhone))
+		{
+			bGetAdb = true;
+			Sleep(1000);
+			break;
+		}
+	}
+
+	delete[] output;
+	delete[] ErrorCode ;	
+	return bGetAdb;
+}
+
+
 bool CDownload8994::bGetADB(int nPhone){ 
 	char* output = new char[BUFFER_SIZE];
 	char* ErrorCode =new char[BUFFER_SIZE];
@@ -283,6 +362,137 @@ bool CDownload8994::bGetADB(int nPhone){
 	return bGetAdb;
 }
 
+bool CDownload8994::FastbootEXE_Download_SINGLE(){
+	map<int,CString>::iterator iter;       
+	CString cs_MapValue = NULL;
+	CString csImgPath;// = NULL;
+	CString csImgType;// = NULL;
+	CString csExePath;
+	bool bDLFlag = false;
+
+	/*get fastboot.exe path */
+	char sz_currentPath[MAX_PATH] = { 0 };
+	::GetModuleFileName(NULL, sz_currentPath, MAX_PATH);
+	::PathRemoveFileSpec(sz_currentPath);
+
+	CString str_FastbootPath;
+	str_FastbootPath.Format(_T("%s\\fastboot.exe"), sz_currentPath);
+
+	/*** DL_PASSPORT_IMGS ****/
+	for (int i = 0 ; i < mapDL_PASSPORT_IMGS_TYPE.size() ; i++){
+		iter = mapDL_PASSPORT_IMGS_TYPE.find(i); 
+		if(iter != mapDL_PASSPORT_IMGS_TYPE.end()){
+			csImgType = iter->second;
+		}
+
+		iter = mapDL_PASSPORT_IMGS.find(i); 
+		if(iter != mapDL_PASSPORT_IMGS.end()){
+			csImgPath = m_str_imageFilePath + "\\" + iter->second;
+		}
+		//csExePath.Format(_T("\"%s\" flash %s \"%s\" -s QPHONE%d"),str_FastbootPath, csImgType, csImgPath, m_i_COMPort);
+		csExePath.Format(_T("\"%s\" flash %s \"%s\" "),str_FastbootPath, csImgType, csImgPath);
+
+		
+		bDLFlag = bFastbootDL(csExePath);
+		if ( bDLFlag ){
+			AddMsg("Passport OK", None, 10);
+		}else{
+			AddMsg("Passport Fail", None, 10);
+			return false;
+		}
+	}
+
+
+	/*** DL_ALL_CHECK1_IMG ****/
+	
+	for (int i = 0 ; i < mapDL_ALL_CHECK1_IMGS_TYPE.size() ; i++){
+		iter = mapDL_ALL_CHECK1_IMGS_TYPE.find(i); 
+		if(iter != mapDL_ALL_CHECK1_IMGS_TYPE.end()){
+			csImgType = iter->second;
+		}
+
+		iter = mapDL_ALL_CHECK1_IMGS.find(i); 
+		if(iter != mapDL_ALL_CHECK1_IMGS.end()){
+			csImgPath = m_str_imageFilePath + "\\" + iter->second;
+		}
+		csExePath.Format(_T("%s flash %s %s"),str_FastbootPath, csImgType, csImgPath);
+		//csExePath.Format(_T("%s flash %s %s -s QPHONE%d"),str_FastbootPath, csImgType, csImgPath, m_i_COMPort);
+		bDLFlag = bFastbootDL(csExePath);
+
+		CString csMsg;
+		if ( bDLFlag ){
+			csMsg.Format("flash %s ok",  iter->second);
+			AddMsg(csMsg, None, 10);
+		}
+		else
+		{
+			csMsg.Format("flash %s fail",  iter->second);
+			AddMsg(csMsg, None, 10);
+			return false;
+		}
+	}
+
+	/*** mapFORMAT_IMGS ****/
+	Sleep(3000);
+	for (int i = 0 ; i < mapFORMAT_IMGS.size() ; i++){
+		iter = mapFORMAT_IMGS.find(i); 
+		if(iter != mapFORMAT_IMGS.end()){
+			csImgType = iter->second;
+		}
+
+		csExePath.Format(_T("\"%s\" format \"%s\" "),str_FastbootPath, csImgType);
+		bDLFlag = bFastbootDL(csExePath);
+
+		CString csMsg;
+		if ( bDLFlag ){
+			csMsg.Format("format %s ok",  iter->second);
+			AddMsg(csMsg, None, 10);
+		}
+		else
+		{
+			csMsg.Format("format %s fail",  iter->second);
+			AddMsg(csMsg, None, 10);
+			return false;
+		}
+	}
+
+	/**** mapERASE_ALL_IMGS ********/
+	for (int i = 0 ; i < mapERASE_ALL_IMGS.size() ; i++){
+		iter = mapERASE_ALL_IMGS.find(i); 
+		if(iter != mapERASE_ALL_IMGS.end()){
+			csImgType = iter->second;
+		}
+
+		csExePath.Format(_T("\"%s\" erase \"%s\""),str_FastbootPath, csImgType);
+		bDLFlag = bFastbootDL(csExePath);
+
+		CString csMsg;
+		if ( bDLFlag ){
+			csMsg.Format("erase %s ok",  iter->second);
+			AddMsg(csMsg, None, 10);
+		}
+		else
+		{
+			csMsg.Format("erase %s fail",  iter->second);
+			AddMsg(csMsg, None, 10);
+			return false;
+		}
+	}
+
+	return true;
+
+
+	//for (int i = 0 ; i < mapDL_ALL_CHECK1_IMGS.size() ; i++){
+	//	iter = mapDL_ALL_CHECK1_IMGS.find(i); 
+	//	if(iter != mapDL_ALL_CHECK1_IMGS.end()){
+	//		csImgPath = m_str_imageFilePath + "\\" + iter->second;
+
+	//	}
+	//}
+	//csExePath.Format(_T("%s flash %s %s -s"),str_FastbootPath, csImgType, csImgPath);
+	//bFastbootDL(csExePath);
+	//return true;
+}
 
 
 bool CDownload8994::FastbootEXE_Download(int nPort){

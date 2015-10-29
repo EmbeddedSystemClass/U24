@@ -20,14 +20,22 @@
 /* ID Type */
 
 #define ReadScalarID				"ReadScalarID"
-#define GetHDCPKEY					"GetHDCPKEY"
-#define CheckPCBAID					"CheckPCBAID"
+#define GetHDCPKEY				"GetHDCPKEY"
+#define CheckPCBAID				"CheckPCBAID"
 #define CheckFlow					"CheckFlow"
 #define CheckAllFlow				"CheckAllFlow"
 #define InsertData					"InsertData"
-#define WriteHDCP					"WriteHDCP"
+#define WriteHDCP				"WriteHDCP"
 #define WriteTag					"WriteTag"
+#define CheckModel				"CheckModel"
+#define CheckSWVersion		"CheckSWVersion"
 #define Postcmd					"Postcmd"
+
+#define DNULL                        "NULL"
+#define DREAD	                       "READ"
+
+#define USB_BUF_SIZE 512
+#define BUFFER_SIZE 4096
 
 #define ADB_CMD_TIMEOUT			25000
 #define ID_SIZE								11
@@ -123,6 +131,8 @@ private:
 	bool bUpdateKEYWrite();
 	bool runReadScalarID( char *szvalue, int iSize );
 	bool runCheckPCBAID( char *szvalue );
+	bool runCheckModel();
+	bool runCheckSWversion();
 	bool runPostCmd( );
 	bool IfRepeated( char *szvalue );    // 1 = ID ,2 = SN
 	//bool IfRepeated(unsigned short IdType);    // 1 = ID ,2 = SN
@@ -134,6 +144,7 @@ private:
 	bool showMsg(const char* szMsg);
 	bool ExecAdbOut(CString Command, char* output, char* ErrorCode);
 	bool ExecFastbootOut(CString Command, char* output, char* ErrorCode);
+	bool bCallAdbFastbootCMD(CString csAdbFastboot, CString Command, char* output, char* ErrorCode, CString cs_FindData);
 };
 
 

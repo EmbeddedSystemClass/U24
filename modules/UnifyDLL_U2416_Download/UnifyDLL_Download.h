@@ -128,6 +128,7 @@ private:
 	bool GetToolVersion(void);
 	bool GetCheckFlowInsertData(void);
 	bool GetSWVersion();
+	bool GetPartNo();
 	//bool runReadScalarID( char *szvalue, int iSize );
 	
 	void AddMsg(const char* szMsg, int nStep, int nProgress);
@@ -204,8 +205,10 @@ private:
 	int GetWeek	(struct tm* date	);
 	int GetCurrentWeek();
 	std::string ErrMsg;
-	std::string g_strScalarID;
-	std::string g_str_modelName;
+	//std::string g_strScalarID;
+	//std::string g_str_modelName;
+	std::string m_szSWver;
+	std::string m_szPartNo;
 
 };
 

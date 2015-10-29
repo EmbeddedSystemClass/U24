@@ -58,7 +58,7 @@ public:
 	virtual bool Adb_Shell_Start() = 0;
 	virtual bool WifiBinNumberWrite (int offset, int length, int nBin) = 0;
 	virtual bool ExecAdbCommand(CString str_command, char* pszOutput, char* p_sz_ErrorMsg) =0;
-	virtual bool ResetBinFile() = 0;
+	//virtual bool ResetBinFile() = 0;
 
 	// AT Control
 	virtual bool Send_ATCommand(char* szPort, char* szCommand, char* szResponse) = 0;

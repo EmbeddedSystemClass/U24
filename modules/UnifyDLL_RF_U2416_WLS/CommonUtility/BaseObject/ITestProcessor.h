@@ -35,6 +35,8 @@ RF_DECLARE_DYNAMIC(ITestProcessor)
 public:
 	bool m_bUsingJig;
 	std::string m_strDeviceName;
+	static std::string g_str_station;
+
 	int m_iBaudRate;
 
 	static std::string g_strErrMsg;
@@ -42,7 +44,7 @@ public:
 	static std::map<std::string, std::string> g_mapToolInfo;
 protected:
 	static std::string g_str_modelName;
-	static std::string g_str_station;
+	
 	static std::string g_strScalarID;
 	
 	static std::string g_strPicasso;

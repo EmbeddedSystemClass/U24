@@ -18,6 +18,7 @@
 #include "./CommonUtility/XML/MyMSXML.h"
 #include "./GLog.h"
 #include "./CommonUtility/BaseObject/IErrorHandling.h"
+#include "TestProcessor/TestItem/Monitor/MonitorId.h"
 
 #ifdef FT_WIRELESS_INSTANCE_EXPORTS
 #define IDL_API extern "C" __declspec(dllexport)
@@ -92,7 +93,7 @@ public:
 	/* Setting files related functions */
 	bool LoadSettingFile();
 	bool GetXMLFileName();
-	bool CheckCableLossXMLExist();
+	//bool CheckCableLossXMLExist();
 	bool CheckDeviceItemXMLExist();
 	bool CheckTestItemXMLExist();
 	bool LoadToolInfo();
@@ -182,6 +183,11 @@ private:
 	void WriteLog(CString str_log, const int i_severity = __INFO);
 	void SetLogFileName();
 	void SetLogFilePath();
+    //bool ReadId(void);
+	//std::string GetId(void);
+	std::string m_szId;
+	std::string	m_szErrMsg;
+	CMonitorId Id;
 };
 
 

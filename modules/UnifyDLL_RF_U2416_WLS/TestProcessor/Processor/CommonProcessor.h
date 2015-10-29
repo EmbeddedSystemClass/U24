@@ -3,6 +3,7 @@
 
 
 #include "../../CommonUtility/BaseObject/ITestProcessor.h"
+#include "../TestItem/Monitor/MonitorId.h"
 //#include "../../CommonUtility/BaseObject/ITestItem.h"
 
 
@@ -46,6 +47,11 @@ public:
 
 protected:
 private:
+	//bool ReadId(void);
+	//std::string GetId(void);
+	std::string m_szId;
+	std::string	m_szErrMsg;
+	CMonitorId Id;
 };
 
 

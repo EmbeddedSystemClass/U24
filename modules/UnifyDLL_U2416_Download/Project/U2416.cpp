@@ -173,20 +173,20 @@ bool CU2416::Run()
 		}
 
 		/* ReDL */
-		else if (m_str_DLMode == DOWNLOAD_MODE_REDL)
+		else if ((m_str_DLMode == DOWNLOAD_MODE_REDL) 
+			||(m_str_DLMode == DOWNLOAD_MODE_REDL_OSDL)
+			||(m_str_DLMode == DOWNLOAD_MODE_OSDL1))
 		{
 			b_res = ReDLRun();
 		}
-
-		/* OS_DL */
-		else if (m_str_DLMode == DOWNLOAD_MODE_REDL_OSDL)
+		else
 		{
-			b_res = ReDLRun();
+			SendMessageToUI("CU2416::Run() Fail");
+			b_res = false;
 		}
 	}
 
 	Beep(750, 300);
-
 	SetProgress(100, 100);
 
 	return b_res;
@@ -206,59 +206,6 @@ bool CU2416::PostRun(int i_slot)
 {
 	bool b_res = true;
 
-	//char sz_temp[512] = {0};
-	//sprintf(sz_temp, "CU2416 PostRun Start");
-	//SendMessageToUI(sz_temp);
-	///* Get DLL ini file */
-	//b_res = ReadIniFile();
-
-	//if ((m_str_DLMode == DOWNLOAD_MODE_REDL) || ( m_str_DLMode == DOWNLOAD_MODE_REDL_OSDL))
-	//{
-	//	int i_COMPort = m_i_COMPort;
-	//	/* CDownload8994 */
-	//	CDownload8994 obj_download8994(i_COMPort, m_str_multiDLFlag);	
-	//	obj_download8994.Register(this, EVENT_DL_PROGRESS);
-	//	if (b_res) 
-	//	{
-	//		if ( m_i_RebootMode == 0)
-	//		{
-	//			b_res = obj_download8994.ExecuteFastboot(_T("reboot"));
-	//		}
-	//		else if(m_i_RebootMode == 1) 
-	//		{
-	//			b_res = obj_download8994.ExecuteFastboot(_T("oem shutdown"));
-	//		}
-	//		else
-	//		{
-	//			/*do nothing */
-	//		}
-	//		//b_res = obj_download8994.ExecuteFastboot(_T("oem shutdown"));
-	//		//b_res = obj_download8994.ExecuteFastboot(_T("reboot"));
-	//		//b_res = obj_download8994.ExecuteFastboot(_T("shutdown"));
-	//	}
-
-		//Beep(750, 300);
-		//SetProgress(100, 100);
-
-		//delete obj_download8994.m_p_adbDevice;
-		//obj_download8994.m_p_adbDevice = NULL;
-		//
-
-		//int n_timeOut = 0;
-		//for( n_timeOut = 0 ; n_timeOut < 10 ; n_timeOut++){
-		//	b_res = obj_download8994.GetADB();
-		//	if (!b_res) break;
-		//	Sleep(1000);
-		//}
-		//if( n_timeOut == 10 ){
-		//	obj_download8994.Unregister(this, EVENT_DL_PROGRESS);
-		//	return false;
-		//}
-		//
-		//Sleep(2000);
-		//obj_download8994.Unregister(this, EVENT_DL_PROGRESS);
-
-	//}
 	return true;
 }
 

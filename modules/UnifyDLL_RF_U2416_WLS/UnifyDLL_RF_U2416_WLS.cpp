@@ -548,17 +548,17 @@ bool CUnifyDLL_WLS::PostRun(int i_slot)
 	bool bRes = m_pITool->PostRun();
 
 	/* Upload Log to server */
-	char szModulePath[MAX_PATH] = {0};
-	GetModuleFileName(NULL, szModulePath, MAX_PATH);
-	PathRemoveFileSpec(szModulePath);
-	char Path_UpLog_Bat[MAX_PATH] ={0};
-	sprintf(Path_UpLog_Bat, _T("%s\\Qisda\\UpLog.bat"), szModulePath);
+	//char szModulePath[MAX_PATH] = {0};
+	//GetModuleFileName(NULL, szModulePath, MAX_PATH);
+	//PathRemoveFileSpec(szModulePath);
+	//char Path_UpLog_Bat[MAX_PATH] ={0};
+	//sprintf(Path_UpLog_Bat, _T("%s\\Qisda\\UpLog.bat"), szModulePath);
 
-	string sz_modelName = m_cstr_ModelName.GetBuffer();
-	char str_modelName[50];
-	strcpy_s(str_modelName, sz_modelName.c_str());
+	//string sz_modelName = m_cstr_ModelName.GetBuffer();
+	//char str_modelName[50];
+	//strcpy_s(str_modelName, sz_modelName.c_str());
 
-	if (::_taccess( Path_UpLog_Bat, 0 ) == 0) m_pITool->LogUploadByBAT(str_modelName);
+	//if (::_taccess( Path_UpLog_Bat, 0 ) == 0) m_pITool->LogUploadByBAT(str_modelName);
 //	else m_pITool->LogUpload(str_modelName);
 
 	m_cstr_ModelName.ReleaseBuffer();

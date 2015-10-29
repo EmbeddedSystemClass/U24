@@ -103,45 +103,45 @@ bool CUnifyDLL_FTWireless::GetXMLFileName()
 	return true;
 }
 
-bool CUnifyDLL_FTWireless::CheckCableLossXMLExist()
-{
-	bool bRes = false;
-	char szModulePath[MAX_PATH] = {0};
-	CString cstrConfigXML = _T("");
-
-	GetModuleFileName(NULL, szModulePath, MAX_PATH);
-	PathRemoveFileSpec(szModulePath);
-#ifndef _ToolInterface
-	cstrConfigXML.Format(_T("%s\\Qisda\\%s"), szModulePath, m_cstrCableLossFile);
-#else
-	cstrConfigXML.Format(_T("%sQisda\\%s"), m_str_ToolWorkDirectory, m_cstrCableLossFile);
-#endif
-	if (::_taccess(cstrConfigXML, 0) == 0)
-	{
-		m_cstrCableLossFile = cstrConfigXML;
-
-		if (m_CableLossXML.Load(m_cstrCableLossFile) == ERROR_SUCCESS)
-		{
-			bRes = true;
-		}
-		else
-		{
-			bRes = false;
-			m_str_result = _T("FAIL");
-			m_str_errorCode = _T("");
-			m_str_message = _T("Load cable loss xml fail!");
-		}
-	}
-	else
-	{
-		bRes = false;
-		m_str_result = _T("FAIL");
-		m_str_errorCode = _T("");
-		m_str_message = _T("Can not find cable loss xml!");
-	}
-
-	return bRes;
-}
+//bool CUnifyDLL_FTWireless::CheckCableLossXMLExist()
+//{
+//	bool bRes = false;
+//	char szModulePath[MAX_PATH] = {0};
+//	CString cstrConfigXML = _T("");
+//
+//	GetModuleFileName(NULL, szModulePath, MAX_PATH);
+//	PathRemoveFileSpec(szModulePath);
+//#ifndef _ToolInterface
+//	cstrConfigXML.Format(_T("%s\\Qisda\\%s"), szModulePath, m_cstrCableLossFile);
+//#else
+//	cstrConfigXML.Format(_T("%sQisda\\%s"), m_str_ToolWorkDirectory, m_cstrCableLossFile);
+//#endif
+//	if (::_taccess(cstrConfigXML, 0) == 0)
+//	{
+//		m_cstrCableLossFile = cstrConfigXML;
+//
+//		if (m_CableLossXML.Load(m_cstrCableLossFile) == ERROR_SUCCESS)
+//		{
+//			bRes = true;
+//		}
+//		else
+//		{
+//			bRes = false;
+//			m_str_result = _T("FAIL");
+//			m_str_errorCode = _T("");
+//			m_str_message = _T("Load cable loss xml fail!");
+//		}
+//	}
+//	else
+//	{
+//		bRes = false;
+//		m_str_result = _T("FAIL");
+//		m_str_errorCode = _T("");
+//		m_str_message = _T("Can not find cable loss xml!");
+//	}
+//
+//	return bRes;
+//}
 
 bool CUnifyDLL_FTWireless::CheckDeviceItemXMLExist()
 {
@@ -689,60 +689,84 @@ bool CUnifyDLL_FTWireless::Begin(int i_slot)
 	SetLogFileName();
 
 	/* 1. Load FT_Wireless_Instance.ini */
-	b_Res = GetXMLFileName();
+	if (!(b_Res = GetXMLFileName() ) ){
+		AfxMessageBox("GetXMLFileName Fail");
+		goto Exit_ShowResult;
+	}
+
+	if (!(b_Res = CheckDeviceItemXMLExist() ) ){
+		AfxMessageBox("CheckDeviceItemXMLExist Fail");
+		goto Exit_ShowResult;
+	}
+
+	if (!(b_Res = CheckTestItemXMLExist() ) ){
+		AfxMessageBox("CheckTestItemXMLExist Fail");
+		goto Exit_ShowResult;
+	}
+
+
 
 	/* 2. Check if CableLoss.xml file exist */
-	if (b_Res)
-	{
-		b_Res = CheckCableLossXMLExist();
-	}
-	else
-	{
-		AfxMessageBox("GetXMLFileName Fail");
-	}
+	//if (b_Res)
+	//{
+	//	b_Res = CheckCableLossXMLExist();
+	//}
+	//else
+	//{
+	//	AfxMessageBox("GetXMLFileName Fail");
+	//}
 
 	/* 3. Check if DeviceItem.xml file exist */
-	if (b_Res)
-	{
-		b_Res = CheckDeviceItemXMLExist();
-	}
-	else
-	{
-		AfxMessageBox("CheckCableLossXMLExist Fail");
-	}
+	//if (b_Res)
+	//{
+	//	b_Res = CheckDeviceItemXMLExist();
+	//}
+	//else
+	//{
+	//	AfxMessageBox("GetXMLFileName Fail");
+	//}
 
 	/* 4. Check if TestItem.xml file exist */
-	if (b_Res)
-	{
-		b_Res = CheckTestItemXMLExist();
-	}else
-	{
-		AfxMessageBox("CheckDeviceItemXMLExist Fail");
-	}
+	//if (b_Res)
+	//{
+	//	b_Res = CheckTestItemXMLExist();
+	//}else
+	//{
+	//	AfxMessageBox("CheckDeviceItemXMLExist Fail");
+	//}
 
 	/* 5. TestItem.xml file MD5 check if load factory test item file */
 	if (b_Res)
 	{
 		if (m_str_ToolMode.CompareNoCase(_T("RD")) != 0)
 		{
-			b_Res = CheckTestItemXMLMD5();
-			
+			//b_Res = CheckTestItemXMLMD5();
+			if (!(b_Res = CheckTestItemXMLMD5() ) ){
+				AfxMessageBox("CheckTestItemXMLMD5 Fail");
+				goto Exit_ShowResult;
+			}
+
 		}
 	}else
 	{
 		AfxMessageBox("CheckTestItemXMLExist Fail");
 	}
 
+	if (!(b_Res = LoadToolInfo() ) ){
+		AfxMessageBox("LoadToolInfo Fail");
+		goto Exit_ShowResult;
+	}
+
 	/* 6. Load tool information */
-	if (b_Res)
-	{
-		b_Res = LoadToolInfo();
-	
-	}
-	else
-	{
-			AfxMessageBox("CheckTestItemXMLMD5 Fail");
-	}
+	//if (b_Res)
+	//{
+	//	b_Res = LoadToolInfo();
+	//
+	//}
+	//else
+	//{
+	//		AfxMessageBox("CheckTestItemXMLMD5 Fail");
+	//}
 
 	/* 7. Detect GPIB device and create related device object */
 	if (b_Res)
@@ -762,6 +786,7 @@ bool CUnifyDLL_FTWireless::Begin(int i_slot)
 		Fire(UI_RESULT, (long)&st_Result);
 	}
 
+Exit_ShowResult:
 	/* Delete log files */
 	//char str_LocalPath[1000] = "D:\\Log";
 	//m_pITool->DFSDeleteFile(str_LocalPath, _T(""));
@@ -835,8 +860,8 @@ bool CUnifyDLL_FTWireless::PreRun(int i_slot)
 
 	m_pITool->KillADBThread();
 
-	/* Set log file name again in every run */
-	SetLogFileName();
+	///* Set log file name again in every run */
+	//SetLogFileName();
 
 	/* 2. Initial Relay Board */
 	if ( !(b_Res = m_pITool->InitialRelayBoard()))
@@ -1048,11 +1073,11 @@ bool CUnifyDLL_FTWireless::PostRun(int i_slot)
 	if( i_slot !=  0) return true;
 
 	/* 1. Close USB4702 */
-	if ( !m_pITool->CloseUSB4702())
-	{
-		m_pITool->GetTestResult(0, &st_Result);
-		Fire(UI_RESULT, (long)&st_Result);
-	}
+	//if ( !m_pITool->CloseUSB4702())
+	//{
+	//	m_pITool->GetTestResult(0, &st_Result);
+	//	Fire(UI_RESULT, (long)&st_Result);
+	//}
 
 	/* 2. run end function */
 	if ( !m_pITool->End())
@@ -1065,20 +1090,20 @@ bool CUnifyDLL_FTWireless::PostRun(int i_slot)
 	m_str_picasso = _T("");
 
 	/* 4. Upload Log to server */
-	char szModulePath[MAX_PATH] = {0};
-	GetModuleFileName(NULL, szModulePath, MAX_PATH);
-	PathRemoveFileSpec(szModulePath);
-	char Path_UpLog_Bat[MAX_PATH];
-	sprintf(Path_UpLog_Bat, _T("%s\\Qisda\\UpLog.bat"), szModulePath);
+	//char szModulePath[MAX_PATH] = {0};
+	//GetModuleFileName(NULL, szModulePath, MAX_PATH);
+	//PathRemoveFileSpec(szModulePath);
+	//char Path_UpLog_Bat[MAX_PATH];
+	//sprintf(Path_UpLog_Bat, _T("%s\\Qisda\\UpLog.bat"), szModulePath);
 
-	string sz_modelName = m_str_modelName.GetBuffer();
-	char str_modelName[50];
-	strcpy(str_modelName, sz_modelName.c_str());
+	//string sz_modelName = m_str_modelName.GetBuffer();
+	//char str_modelName[50];
+	//strcpy(str_modelName, sz_modelName.c_str());
 
-	if (::_taccess( Path_UpLog_Bat, 0 ) == 0) m_pITool->LogUploadByBAT(str_modelName);
+//	if (::_taccess( Path_UpLog_Bat, 0 ) == 0) m_pITool->LogUploadByBAT(str_modelName);
 //	else m_pITool->LogUpload(str_modelName);
 
-	m_str_modelName.ReleaseBuffer();
+	//m_str_modelName.ReleaseBuffer();
 
 	return true;
 }
@@ -1331,15 +1356,39 @@ bool CUnifyDLL_FTWireless::SetFAData(int i_slot, char* sz_value)
 {
 	return false;
 }
-
+ 
 bool CUnifyDLL_FTWireless::GetFASector(int i_slot, int i_sectorNum, char *sz_sectorData, int i_sectorSize)
 {
+	TRACE("msg=%s",m_str_station);
 	if (!m_pITool->ReadFAData_New( i_slot, i_sectorNum, sz_sectorData, i_sectorSize))
 	{
 		m_pITool->GetTestResult(0, &st_Result);
 		Fire(UI_RESULT, (long)&st_Result);
 		return false;
 	}
+
+	if (  m_str_station.Compare("RUN_IN")  == 0||
+		  m_str_station.Compare("WRITE") == 0 )
+	{	
+		if ( Id.ReadId() ){/*get scalar id ok*/
+			m_szId = Id.GetId();
+			if(m_szId.empty() || m_szId.length() != ID_SIZE)
+			{	
+				m_szErrMsg = "get scalar id Fail  = ";//  + std_ScalarId.c_str();
+				m_szErrMsg = m_szErrMsg + m_szId.c_str();
+				AfxMessageBox( m_szErrMsg.c_str());
+			}
+			else
+			{
+				//	m_szId = "a1234567899";
+				m_szId = m_szId + ",";
+				std::string str_faData = sz_sectorData;
+				str_faData.replace(14, 12, m_szId);
+				sprintf_s( sz_sectorData , 512, "%s", str_faData.c_str());
+			}
+		}
+	}
+
 	return true;
 }
 
@@ -1349,13 +1398,12 @@ bool CUnifyDLL_FTWireless::SetTag(int i_slot, char *sz_sectorData, int i_sectorS
 	char szInput[FTD_BUF_SIZE] = {0} ;
 
 	strcat(szInput, sz_sectorData);
-//	g_strTag = sz_sectorData;
 
 	m_pITool->SetTag(sz_sectorData);
 	return b_Res;
 }
 
-
+	
 bool CUnifyDLL_FTWireless::SetFASector(int i_slot, int i_sectorNum, char *sz_sectorData, int i_sectorSize)
 {
 	bool b_Res = false;
