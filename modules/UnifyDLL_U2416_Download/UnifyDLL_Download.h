@@ -129,6 +129,8 @@ private:
 	bool GetCheckFlowInsertData(void);
 	bool GetSWVersion();
 	bool GetPartNo();
+	bool GetModelByPartNo();
+	bool changeModel();
 	//bool runReadScalarID( char *szvalue, int iSize );
 	
 	void AddMsg(const char* szMsg, int nStep, int nProgress);
@@ -209,6 +211,7 @@ private:
 	//std::string g_str_modelName;
 	std::string m_szSWver;
 	std::string m_szPartNo;
+	std::string m_ModelName;
 
 };
 

@@ -19,7 +19,7 @@
 #include "../../Lib/Qualcomm/QDART4823/inc/inc/QMSL_Core.h"
 #include "../../Lib/Qualcomm/QDART4823/inc/inc/QMSL_SWDownload/QMSL_QPHONEMS_SWDL.h"
 #include <ATLSTR.H>
-
+#include <stdio.h>
 #pragma warning(disable:4996)
 #pragma warning(disable:4251)
 #pragma warning(disable:4482)
@@ -64,6 +64,7 @@
 #define DNULL                                "NULL"
 #define DREAD	                             "READ"
 
+#define QMSL_MSVC10R				_T("QMSL_MSVC10R.dll")
 #define IICDLL								_T("IIC.dll")
 #define F32SERVERDB					_T("f32server2.dll")
 #define ID_SIZE								11
@@ -72,7 +73,7 @@
 /*============================ Define =================================*/
 
 /*============================ Const ==================================*/
-#define DOWNLOAD_MODE_PREDL             _T("PreDL")
+#define DOWNLOAD_MODE_PREDL             _T("PREDL")
 #define DOWNLOAD_MODE_REDL              _T("ReDL")
 #define DOWNLOAD_MODE_OSDL1            _T("OS_DL1")
 #define DOWNLOAD_MODE_REDL_OSDL         _T("ReDL_OSDL")
@@ -128,6 +129,14 @@
 
 #define USB_BUF_SIZE 512
 #define BUFFER_SIZE 4096
+
+typedef struct  {
+	std::string	m_firehose_8994_lite;
+	std::string  m_patch0_fastbootimage;
+	std::string m_rawprogram0_fastbootimage;
+	std::string m_emmc_appsboot;
+} QFIL;
+
 class QISDA_DOWNLOAD_CLASS_API CDownload8994 :public CDLCommand
 {
 public:
@@ -226,6 +235,9 @@ public:
 	//bool bGetFastboot(CString Command, char* output, char* ErrorCode, int nPhoneIndex);
 	//bool bFastbootDL_New(CString Command, char* output, char* ErrorCode);
 	//bool bAdbCMD(CString csCMD);
+	
+	QFIL st_QFILE;
+	bool ReadIMG_qfil(CString imagePath);
 
 	bool setIMGPath(CString imagePath);
 	bool ReadIMG(CString imagePath);
@@ -239,13 +251,6 @@ public:
 	std::map < int, CString> mapFORMAT_IMGS_TYPE;
 	std::map < int, CString> mapERASE_ALL_IMGS_TYPE;
 private:
-	//bool FastbootDownload(void);
-	//bool FastbootFlashCmd(const std::string& str_parameter);
-//	bool FastbootFormatCmd(const std::string& str_parameter);
-	//bool ADBFlash(const char* sz_parmeter, const void* p_data, unsigned long long l_fileLen);
-	//void* LoadFile(const char* sz_fileName, unsigned long long* i_fileSize);
-	//ADBDevice* GetADBDevice(const char* sz_comPort);
-
 	bool SpiltString(CString str_sourceString, CString str_delimiter, CStringArray& stra_strArg);
 
 
@@ -267,13 +272,13 @@ private:
 /*============================ Structrue ==============================*/
 
 //typedef QLIB_API HANDLE (*pQLIB_QPHONEMS_ConnectServer_Sahara)(unsigned int iComPort, unsigned long* version, swdlQPHONEMSCB pSWDL_QPHONEMS_CB);
-typedef HANDLE (*pQLIB_QPHONEMS_ConnectServer_Sahara)( unsigned int iComPort, unsigned long* version, unsigned long* msmid,  unsigned char bGetMsmId, int mode, unsigned long timeout, swdlQPHONEMSCB pSWDL_QPHONEMS_CB);
+//typedef HANDLE (*pQLIB_QPHONEMS_ConnectServer_Sahara)( unsigned int iComPort, unsigned long* version, unsigned long* msmid,  unsigned char bGetMsmId, int mode, unsigned long timeout, swdlQPHONEMSCB pSWDL_QPHONEMS_CB);
 
-typedef unsigned char (*pQLIB_QPHONEMS_Sahara_FlashProgrammer)(HANDLE hResourceContext, char* sARMPRG_FileName);
+//typedef unsigned char (*pQLIB_QPHONEMS_Sahara_FlashProgrammer)(HANDLE hResourceContext, char* sARMPRG_FileName);
 typedef void (*pQLIB_DisconnectServer)(HANDLE hResourceContext);
 
 typedef HANDLE (*pQLIB_QPHONEMS_ConnectServer_FireHose)( unsigned int iComPort, swdlQPHONEMSCB pSWDL_QPHONEMS_CB);
-typedef void (*pQLIB_QPHONEMS_FireHoseConfigureCallback)(HANDLE hResourceContext, swdlQPHONEMSCB pSWDL_QPHONEMS_CB);
+//typedef void (*pQLIB_QPHONEMS_FireHoseConfigureCallback)(HANDLE hResourceContext, swdlQPHONEMSCB pSWDL_QPHONEMS_CB);
 typedef unsigned char (*pQLIB_QPHONEMS_FireHoseNOP)(HANDLE hResourceContext);
 typedef unsigned char (*pQLIB_QPHONEMS_FireHoseConfigure)(  HANDLE hResourceContext,
 																   char* MaxPayloadSizeToTargetInBytes,
@@ -290,15 +295,15 @@ typedef unsigned char (*pQLIB_QPHONEMS_UploadEmmcImage_FireHose)(HANDLE hResourc
 typedef unsigned char (*pQLIB_QPHONEMS_FireHosePower)(HANDLE hResourceContext, char* Action);
 typedef void (*pQLIB_DisconnectServer_FireHose)(HANDLE hResourceContext );
 
-typedef void (*pQLIB_QPHONEMS_FireHosePower_WithDelay)(HANDLE hResourceContext,
-														char* Action,
-														unsigned int DelayInSeconds);
+//typedef void (*pQLIB_QPHONEMS_FireHosePower_WithDelay)(HANDLE hResourceContext,
+//														char* Action,
+//														unsigned int DelayInSeconds);
 
-typedef HANDLE (*pQLIB_ConnectServer) ( unsigned int iComPort );
+//typedef HANDLE (*pQLIB_ConnectServer) ( unsigned int iComPort );
 
 
-typedef unsigned char (*pQLIB_QPHONEMS_QLIB_SetLogFlags)( HANDLE hResourceContext, unsigned int uiLogFlags );
-typedef unsigned char (*pQLIB_QPHONEMS_QLIB_StartLogging)( HANDLE hResourceContext, char* sLogFile );
+//typedef unsigned char (*pQLIB_QPHONEMS_QLIB_SetLogFlags)( HANDLE hResourceContext, unsigned int uiLogFlags );
+//typedef unsigned char (*pQLIB_QPHONEMS_QLIB_StartLogging)( HANDLE hResourceContext, char* sLogFile );
 /*======================== Android Download =================================================================================*/
 };
 

@@ -24,6 +24,7 @@
 #define CheckPCBAID					"CheckPCBAID"
 #define CheckFlow					"CheckFlow"
 #define CheckAllFlow					"CheckAllFlow"
+#define CheckModel					"CheckModel"
 #define InsertData					"InsertData"
 
 
@@ -102,6 +103,8 @@ private:
 	std::string szScalarId ;
 	std::string szPcabaId;
 	std::string checkStation;
+	std::string m_szPartNo;
+	std::string m_ModelName;
 
 	//unsigned char sz_ID[ID_SIZE_BUFFER] ;
 	//unsigned char szStation[ID_SIZE_BUFFER];
@@ -117,6 +120,9 @@ private:
 	bool runCheckFlowAllStation( int i_type);// i_type 1 = pcbaid,  2 = scalarId
 
 	bool runReadScalarID( char *szvalue, int iSize );
+	bool runCheckModel( );
+	bool GetPartNo();
+	bool GetModelByPartNo();
 	bool runCheckPCBAID( char *szvalue );
 	bool IfRepeated( char *szvalue );    // 1 = ID ,2 = SN
 	//bool IfRepeated(unsigned short IdType);    // 1 = ID ,2 = SN

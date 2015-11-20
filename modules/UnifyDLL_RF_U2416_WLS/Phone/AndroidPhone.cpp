@@ -3400,6 +3400,39 @@ bool CAndroidPhone::FTD_PWRgaugeVoltage(int nPort, int nTimeout, char* pszInput,
 	return (nRetCode == 1);//HS_OK;
 }
 
+//bool CAndroidPhone::FTD_Set_Model(int nPort, int nTimeout, char* pszInput, char* pszOutput)
+//{
+//	int nRetCode;
+//	char in_buf[FTD_BUF_SIZE] = {0};
+//	char out_buf[FTD_BUF_SIZE] = {0};
+//
+//	PFGenCmdInOut pFTD_Set_Model = (PFGenCmdInOut)::GetProcAddress(m_hNeptuneCtrl, _T("FTD_Set_Model"));
+//	if (!pFTD_Set_Model)
+//	{
+//		return false;
+//	}
+//	strcpy(in_buf, pszInput);
+//	nRetCode = pFTD_Set_Model(nPort, nTimeout, in_buf, out_buf);
+//	if (nRetCode == 1)  //HS_OK
+//	{
+//		strcpy(pszOutput, out_buf);
+//	}
+//
+//	return (nRetCode == 1);//HS_OK;
+//}
+
+
+bool CAndroidPhone::FTDCmdCtrl(int nPort, int nTimeout, char* szFuncName, char* pszInput, char* pszOutput)
+{
+	CString dllFunctionName(szFuncName);
+	PFGenCmdInOut fp = (PFGenCmdInOut)::GetProcAddress(m_hNeptuneCtrl, dllFunctionName);
+	if (!fp) return false;
+	return (fp(nPort, nTimeout, pszInput, pszOutput) == 1);
+}
+
+//93-misc
+CPHONE_FTD_CMD_IN_OUT_CREATE(FTD_Set_Model, _T("FTD_Set_Model"))
+
 bool CAndroidPhone::FTD_FAC_FSGProtect(int nPort, int nTimeout, char* pszInput, char* pszOutput)
 {
 	int nRetCode;

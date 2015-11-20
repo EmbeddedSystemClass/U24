@@ -1367,8 +1367,9 @@ bool CUnifyDLL_FTWireless::GetFASector(int i_slot, int i_sectorNum, char *sz_sec
 		return false;
 	}
 
-	if (  m_str_station.Compare("RUN_IN")  == 0||
-		  m_str_station.Compare("WRITE") == 0 )
+	if (  m_str_station.Compare("RUN_IN")  == 0 ||
+		  m_str_station.Compare("WRITE") == 0 ||
+		  m_str_station.Compare("MMI") == 0 )
 	{	
 		if ( Id.ReadId() ){/*get scalar id ok*/
 			m_szId = Id.GetId();

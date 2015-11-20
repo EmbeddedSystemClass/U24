@@ -227,7 +227,7 @@ bool CU2416::PreDLRun(void)
 	/* Download */
 	if (b_res)
 	{
-		b_res = Download();
+		b_res = runDownload();
 	}
 
 	/* Sleep 1s */
@@ -260,7 +260,7 @@ bool CU2416::ReDLRun(void)
 	/* Download */
 	if (b_res)
 	{
-		b_res = Download();
+		b_res = runDownload();
 	}
 
 	/* Sleep 1s */
@@ -360,7 +360,7 @@ bool CU2416::ReDLRun(void)
 * Version       Author          Date                Abstract                 
 * 1.0           Alex.Chen       2011/07/18          First version             
 *****************************************************************************/
-bool CU2416::Download(void)
+bool CU2416::runDownload(void)
 {
 	SendMessageToUI("CU2416 Download Start.");
 
@@ -412,8 +412,25 @@ bool CU2416::DLchipset(void)
 
 	/*lion*/
 	
-	obj_download8994.setIMGPath( m_vImage[0].str_imagePath.c_str());
-	obj_download8994.ReadIMG( m_vImage[0].str_imagePath.c_str());
+	if (obj_download8994.setIMGPath( m_vImage[0].str_imagePath.c_str()) ) {
+		SendMessageToUI("setIMGPath. ok");
+	}
+	else{
+		SendMessageToUI("setIMGPath. fail");
+	}
+
+	if (obj_download8994.ReadIMG( m_vImage[0].str_imagePath.c_str()) ) {
+		SendMessageToUI("ReadIMG. ok");
+	}
+	else{
+		SendMessageToUI("ReadIMG. fail");
+	}
+	if (obj_download8994.ReadIMG_qfil( m_vImage[0].str_imagePath.c_str())) {
+		SendMessageToUI("setIMGPathReadIMG_qfil ok");
+	}
+	else{
+		SendMessageToUI("ReadIMG_qfil. fail");
+	}
 
 	SendMessageToUI("SetImgae. ok");
 

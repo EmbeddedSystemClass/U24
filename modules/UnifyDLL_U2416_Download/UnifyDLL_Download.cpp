@@ -290,6 +290,8 @@ bool CDLInstance::Run(int i_slot)
 		char *sz_value = new char[ID_SIZE_BUFFER]  ;
 		runReadScalarID( sz_value, ID_SIZE);
 		if (!GetPartNo()) return false;
+		if (!GetModelByPartNo()) return false;
+		if (!changeModel()) return false;
 		if (!GetSWVersion()) return false;
 		if (str_SWVersion.Find(m_szSWver.c_str()) == -1 ){
 			CString cs;
@@ -404,6 +406,110 @@ bool CDLInstance::Run(int i_slot)
 	//return true;
 }
 
+bool CDLInstance::changeModel(){
+	CString cs_DBModelNamel = "";
+	cs_DBModelNamel = m_ModelName.c_str();
+	cs_DBModelNamel.Trim();
+
+	if (cs_DBModelNamel.Compare( _T("U2417HWi") ) == 0 )
+	{
+		m_str_modelName = _T("GBROB1A");
+		ErrMsg = (_T("set  m_str_modelName  = "));
+	//	ErrMsg  = ErrMsg + m_str_modelName;
+	//	st_XMLSetting = m_str_CMD;
+	}
+	else 	if (cs_DBModelNamel.Compare( _T("S2317HWi") ) == 0 )
+	{
+		m_str_modelName = _T("GBROB2A");
+		ErrMsg = (_T("set  m_str_modelName  = GBROB2A"));
+	//	ErrMsg  = ErrMsg + m_str_modelName;
+	//	st_XMLSetting = m_str_OffCMD;
+	}
+	else
+	{
+		ErrMsg = (_T("cant find cs_DBModelNamel  = "));
+		ErrMsg  = ErrMsg + m_ModelName;
+		AfxMessageBox( ErrMsg.c_str() );
+		return false;
+	}
+
+	SetErrorMessage(ErrMsg.c_str() , 0);
+	return true;
+}
+
+bool CDLInstance::GetModelByPartNo()
+{
+	bool bReturn = false;
+	CString str_dllF32SERVER2 = F32SERVERDB;
+
+	HMODULE hDll ;
+	hDll = ::LoadLibrary(str_dllF32SERVER2);
+
+	if( hDll != NULL )
+	{	
+		typedef void (_stdcall *lpGetMonitorInfoByPartNo)(const unsigned char* PartNo,    unsigned short PartNoLen,
+                                                  unsigned char* WBCFileName, unsigned short WBCFileNameLen,
+                                                  unsigned char* ModelName,   unsigned short ModelNameLen,
+                                                  unsigned char* DDCFileName, unsigned short DDCFileNameLen,
+                                                  unsigned char* Info,        unsigned short InfoLen,
+                                                  unsigned char* SWInfo,      unsigned short SWInfoLen,
+                                                  unsigned char* Port,        unsigned short PortLen
+                                                  );
+         lpGetMonitorInfoByPartNo iGetMonitorInfoByPartNo = (lpGetMonitorInfoByPartNo)::GetProcAddress(hDll,"GetMonitorInfoByPartNo");
+
+		//unsigned char sz_ID[ID_SIZE_BUFFER] ="";
+	//	unsigned char szStation[ID_SIZE_BUFFER] ="";
+
+         if(NULL != iGetMonitorInfoByPartNo)
+         {    
+			 unsigned char szPartNo[]="9j.2vm72.dlu";
+              unsigned char szWbcFileName[30]= {0};
+              unsigned char szModelName[30] = {0};
+              unsigned char szDdcFileName[30] = {0};
+              unsigned char szInfo[30] = {0};
+              unsigned char szSwInfo[30] = {0};
+              unsigned char szPort[30] = {0};
+
+			 sprintf_s((char*)szPartNo, 13,"%s", m_szPartNo.c_str() );
+
+			 iGetMonitorInfoByPartNo(szPartNo,13,szWbcFileName,30,szModelName,30,szDdcFileName,30,szInfo,30,szSwInfo,30,szPort,30);
+
+			m_ModelName =  (char*) szModelName;
+
+			if ( m_ModelName.empty() || m_ModelName.length() <1 ){
+				ErrMsg = "iGetMonitorInfoByPartNo  fail, m_ModelName = " + m_ModelName;
+				ErrMsg = ErrMsg + " szScalarId = " +  std_ScalarId ;
+				goto Exit_FreeLibrary;
+			}
+			else
+			{
+				ErrMsg = "iGetMonitorInfoByPartNo  ok, m_ModelName = " + m_ModelName;
+				ErrMsg = ErrMsg + " std_ScalarId = " +  std_ScalarId ;
+				bReturn = true;
+			}
+		}
+		else
+		{
+			ErrMsg = ("GetModelByPartNo Load iGetMonitorInfoByPartNo Fail");
+			AfxMessageBox( ErrMsg.c_str() );
+			goto Exit_FreeLibrary;
+		 }
+	}
+	else
+	{
+			ErrMsg = ("GetModelByPartNo Load str_dllF32SERVER2 Fail");
+			AfxMessageBox( ErrMsg.c_str() );
+			goto Exit_FreeLibrary;
+	}
+
+Exit_FreeLibrary:
+	SetErrorMessage(ErrMsg.c_str() , 0);
+//	TraceLog(MSG_INFO,  ErrMsg);
+    FreeLibrary(hDll);
+
+	return bReturn;
+}
+
 bool CDLInstance::GetPartNo()
 {
 	bool bReturn = false;
@@ -484,7 +590,8 @@ bool CDLInstance::GetSWVersion(void)
      CString str_dllVMS_DBACCESS = VMS_DBACCESS;
      HMODULE hDll = ::LoadLibrary(str_dllVMS_DBACCESS);
      if(hDll == NULL)
-     {    goto Exit;
+     {    
+		 goto Exit_FreeLibrary;
      }
 
      typedef bool (*fpVMS_ConnectDB)(void);
@@ -1515,8 +1622,8 @@ bool CDLInstance::GetDLLIniFile(void)
 	CString str_iniFile;
 	CString str_message;
 
-	if (m_str_DLMode.Compare(_T("PreDL")) == 0 ){ 
-		csStation.Format(_T("Trigger"));
+	if (m_str_DLMode.Compare(_T("PREDL")) == 0 ){ 
+		csStation.Format(_T("PREDL"));
 	}
 	else if (m_str_DLMode.Compare(_T("ReDL")) == 0 )
 	{

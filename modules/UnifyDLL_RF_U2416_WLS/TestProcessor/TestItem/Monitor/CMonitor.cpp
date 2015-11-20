@@ -69,6 +69,7 @@ bool CMonitor::Run()
 		//str_Pics = CW2A(L"Fine_Wifi_AP");
 		char *sz_value = new char[ID_SIZE_BUFFER]  ;
 		passFail = runReadScalarID( sz_value, ID_SIZE);
+		delete[] sz_value;
 	}
 	
 	else if (m_str_TestItem == InsertData)
@@ -78,6 +79,13 @@ bool CMonitor::Run()
 	//	char *sz_value = new char[ID_SIZE_BUFFER]  ;
 	//	int i_id_type = CStr::StrToInt(m_str_CMD);
 		int i_id_type = CStr::StrToInt(m_str_CMD);
+
+		char *sz_value = new char[ID_SIZE_BUFFER]  ;
+		if ( i_id_type == 2) {
+			passFail = runReadScalarID( sz_value, ID_SIZE);
+		}
+		delete[] sz_value;
+
 		passFail = runInsertData( i_id_type);
 	}
 	else if (m_str_TestItem == CheckFlow)
@@ -90,6 +98,7 @@ bool CMonitor::Run()
 			char *sz_value = new char[ID_SIZE_BUFFER]  ;
 			passFail = runReadScalarID( sz_value, ID_SIZE);
 		}
+		delete[] sz_value;
 		passFail = runCheckFlow( i_id_type);
 	}
 	else if (m_str_TestItem == CheckAllFlow)
@@ -102,9 +111,20 @@ bool CMonitor::Run()
 			char *sz_value = new char[ID_SIZE_BUFFER]  ;
 			passFail = runReadScalarID( sz_value, ID_SIZE);
 		}
+		delete[] sz_value;
 		passFail = runCheckFlow( i_id_type);
 	}
+	else if (m_str_TestItem == CheckModel)
+	{
+		//m_strItemCode = CStr::IntToStr(Monitor_BaseItemcode);
+		//Sleep(2000);
+		m_strErrorCode = FunErr_CHECK_Model_Fail;
 
+		char *sz_value = new char[ID_SIZE_BUFFER]  ;
+		runReadScalarID( sz_value, ID_SIZE);
+		delete[] sz_value;
+		passFail = runCheckModel();
+	}
 	else if (m_str_TestItem == GetHDCPKEY)
 	{
 		//m_strItemCode = CStr::IntToStr(Monitor_BaseItemcode); 
@@ -583,6 +603,210 @@ bool CMonitor::runCheckFlowAllStation( int i_type ){
 
 	return true;
 }
+bool CMonitor::GetPartNo()
+{
+	bool bReturn = false;
+	unsigned char szPartNo[13] = {0};
+	CString str_dllF32SERVER2 = F32SERVERDB;
+
+	if(szScalarId.empty() || szScalarId.length() != ID_SIZE){
+	  //  m_szPartNo =  (char*) szPartNo;
+		ErrMsg = "GetPartNo ScalarId fail id  = " + szScalarId;
+		goto Exit_FreeLibrary;
+	}
+
+	HMODULE hDll ;
+	hDll = ::LoadLibrary(str_dllF32SERVER2);
+
+	if( hDll != NULL )
+	{	
+		typedef unsigned short (_stdcall *lpGetPartNoById)(const unsigned char* Id,unsigned short IdLen,unsigned char* PartNo,unsigned short PartNoLen);
+		lpGetPartNoById iGetPartNoById = (lpGetPartNoById)::GetProcAddress(hDll,"GetPartNoById");
+		if ( NULL != iGetPartNoById )
+		{	
+			//scalar id
+			unsigned char sz_ID[ID_SIZE_BUFFER] ="";
+			sprintf_s((char*)sz_ID, ID_SIZE_BUFFER,"%s", szScalarId.c_str() );
+
+			if( 0 != iGetPartNoById( sz_ID , 11, szPartNo, 13))
+			{	
+				//cout<<szPartNo<<endl;
+			    m_szPartNo =  (char*) szPartNo;
+				ErrMsg = "iGetPartNoById  ok, m_szPartNo = " + m_szPartNo;
+				ErrMsg = ErrMsg + " ScalarId = " +  szScalarId ;
+				bReturn = true;
+			}
+			else
+			{	
+				ErrMsg = "GetPartNo.  iGetPartNoById Fail ";
+				AfxMessageBox(ErrMsg.c_str());
+				goto Exit_FreeLibrary;
+			}
+		}
+		else
+		{
+				ErrMsg = "GetPartNo. Load str_dllF32SERVER2 Fail ";
+				AfxMessageBox(ErrMsg.c_str());
+				goto Exit_FreeLibrary;
+		}
+	}
+	else
+	{
+			ErrMsg = "GetPartNo. iGetPartNoById NULL ";
+			AfxMessageBox(ErrMsg.c_str());
+			goto Exit_FreeLibrary;
+	}
+
+Exit_FreeLibrary:
+	TraceLog(MSG_INFO,  ErrMsg);
+    FreeLibrary(hDll);
+
+	return bReturn;
+}
+
+bool CMonitor::GetModelByPartNo()
+{
+	bool bReturn = false;
+	CString str_dllF32SERVER2 = F32SERVERDB;
+
+	HMODULE hDll ;
+	hDll = ::LoadLibrary(str_dllF32SERVER2);
+
+	if( hDll != NULL )
+	{	
+		typedef void (_stdcall *lpGetMonitorInfoByPartNo)(const unsigned char* PartNo,    unsigned short PartNoLen,
+                                                  unsigned char* WBCFileName, unsigned short WBCFileNameLen,
+                                                  unsigned char* ModelName,   unsigned short ModelNameLen,
+                                                  unsigned char* DDCFileName, unsigned short DDCFileNameLen,
+                                                  unsigned char* Info,        unsigned short InfoLen,
+                                                  unsigned char* SWInfo,      unsigned short SWInfoLen,
+                                                  unsigned char* Port,        unsigned short PortLen
+                                                  );
+         lpGetMonitorInfoByPartNo iGetMonitorInfoByPartNo = (lpGetMonitorInfoByPartNo)::GetProcAddress(hDll,"GetMonitorInfoByPartNo");
+
+		//unsigned char sz_ID[ID_SIZE_BUFFER] ="";
+	//	unsigned char szStation[ID_SIZE_BUFFER] ="";
+
+         if(NULL != iGetMonitorInfoByPartNo)
+         {    
+			 unsigned char szPartNo[]="9j.2vm72.dlu";
+              unsigned char szWbcFileName[30]= {0};
+              unsigned char szModelName[30] = {0};
+              unsigned char szDdcFileName[30] = {0};
+              unsigned char szInfo[30] = {0};
+              unsigned char szSwInfo[30] = {0};
+              unsigned char szPort[30] = {0};
+
+			 sprintf_s((char*)szPartNo, 13,"%s", m_szPartNo.c_str() );//m_szPartNo
+
+			 iGetMonitorInfoByPartNo(szPartNo,13,szWbcFileName,30,szModelName,30,szDdcFileName,30,szInfo,30,szSwInfo,30,szPort,30);
+			
+			 
+		//	m_ModelName =  reinterpret_cast<const char*>(szModelName);
+			 std::string res(szModelName, szModelName + 9 );
+			m_ModelName = res;
+		//	m_ModelName =  (char*) szModelName;
+			return true;
+			if ( m_ModelName.empty() || m_ModelName.length() <1 ){
+				ErrMsg = "iGetMonitorInfoByPartNo  fail, m_ModelName = " + m_ModelName;
+				ErrMsg = ErrMsg + " szScalarId = " +  szScalarId ;
+				goto Exit_FreeLibrary;
+			}
+			else
+			{
+				ErrMsg = "iGetMonitorInfoByPartNo  ok, m_ModelName = " + m_ModelName;
+				ErrMsg = ErrMsg + " szScalarId = " +  szScalarId ;
+				bReturn = true;
+			}
+		}
+		else
+		{
+			ErrMsg = ("GetModelByPartNo Load iGetMonitorInfoByPartNo Fail");
+			AfxMessageBox( ErrMsg.c_str() );
+			goto Exit_FreeLibrary;
+		 }
+	}
+	else
+	{
+			ErrMsg = ("GetModelByPartNo Load str_dllF32SERVER2 Fail");
+			AfxMessageBox( ErrMsg.c_str() );
+			goto Exit_FreeLibrary;
+	}
+
+Exit_FreeLibrary:
+	TraceLog(MSG_INFO,  ErrMsg);
+    FreeLibrary(hDll);
+
+	return bReturn;
+}
+bool CMonitor::runCheckModel()
+{	
+	bool bReturn = false;
+	char sz_Model[ID_SIZE] ="";
+	char m_szFAData[FTD_BUF_SIZE] = "";
+
+	//m_ModelName = "U2417HWi";
+	if (!GetPartNo()) return false; 
+	if (!GetModelByPartNo()) return false;
+
+	ErrMsg = (_T("GetPartNo, GetModelByPartNo OK"));
+	TraceLog(MSG_INFO,  ErrMsg);
+	//CString csModelName = m_ModelName.c_str();
+//	csModelName.Trim();
+	if ( m_ModelName.length() < 1 ){
+			ErrMsg = (_T("ModelName  Fail, Model = ")) + m_ModelName;
+			goto Exit_ShowResult;
+	}
+
+	ErrMsg = _T("m_ModelName = ") + m_ModelName + _T(" m_str_OffCMD = ") + m_str_OffCMD;
+	TraceLog(MSG_INFO,  ErrMsg);
+
+	//checkStation = U2417HWi
+	if ( m_ModelName.compare( m_str_OffCMD )  != string.npos ){
+		//FTD_Set_Model
+
+		ErrMsg = (_T("start to run m_pIPhone FTD_Set_Model "));
+		TraceLog(MSG_INFO,  ErrMsg);
+
+		sprintf_s((char*)sz_Model, ID_SIZE,"%s", m_ModelName.c_str() );
+		if ( !m_pIPhone->FTD_Set_Model(m_nFtdPort, m_nFtdTimeOut, sz_Model, m_szFAData)){
+				ErrMsg = (_T("m_pIPhone FTD_Set_Model Fail"));
+				AfxMessageBox( ErrMsg.c_str() );
+				goto Exit_ShowResult;
+		}
+		else
+		{
+				ErrMsg = (_T("FTD_Set_Model to U2417HWi ok "));
+				bReturn = true;
+				//AfxMessageBox( ErrMsg.c_str() );		 
+		}
+	}
+	else
+	{
+			//model =  DELLS2317HWi , do nothing
+			ErrMsg = _T("[DELLS2317HWi do nothing] compare  different,  m_ModelName = ") + m_ModelName + _T(" checkStation = ") + checkStation;
+			bReturn = true;
+			//AfxMessageBox( ErrMsg.c_str() );
+			goto Exit_ShowResult;
+	}
+
+Exit_ShowResult:
+	TraceLog(MSG_INFO,  ErrMsg);
+	m_strMessage = ErrMsg ;
+
+	if (bReturn)
+	{
+		FactoryLog(bReturn, "", "", "", "", "" , m_strMessage, "" , "PASS");
+	}
+	else
+	{
+		FactoryLog(bReturn, "", "", "", "", "" , m_strMessage, "" , "FAIL");
+	}
+
+
+	return bReturn;
+}
+
 bool CMonitor::runCheckFlow( int i_type)
 {	
 	bool bReturn = false;

@@ -120,6 +120,9 @@ bool CMonitor::Run()
 	{
 		m_strItemCode = CStr::IntToStr(Monitor_BaseItemcode);
 		m_strErrorCode = FunErr_CHECK_MODEL_Fail;
+		char *sz_value = new char[ID_SIZE_BUFFER]  ;
+		runReadScalarID( sz_value, ID_SIZE);
+		delete[] sz_value;
 		passFail = runCheckModel();
 	}	
 	else if (m_str_TestItem == WriteTag)
@@ -776,19 +779,28 @@ Exit_ShowResult:
 
 bool CMonitor::runCheckModel()
 {
-	bool bRes = false;;
-	std::string st_readId = "";
+	bool bRes = false;
+	//std::string st_readId = "";
+	std::string	st_XMLSetting = "";
 	char sz_cmd_in[FTD_BUF_SIZE] ="";
 	char sz_cmd_out[FTD_BUF_SIZE] ="";
 	char sz_cmd_errcode[FTD_BUF_SIZE] ="";
 	std::string std_ModelNamel = "";
 	CString cs_getModelNamel = "";
-	CString cs_xmlModelNamel = "";
+	CString cs_DBModelNamel = "";
+	CString cs_XMLModelNamel = "";
 
 	memset(sz_cmd_in, 0, sizeof(sz_cmd_in));
 	memset(sz_cmd_out, 0, sizeof(sz_cmd_out));
 	memset(sz_cmd_errcode, 0, sizeof(sz_cmd_errcode));
 
+	if (!GetPartNo()) return false;
+	if (!GetModelByPartNo()) return false;
+
+	if ( m_ModelName.length() < 1 ){
+			ErrMsg = (_T("ModelName  Fail, Model = ")) + m_ModelName;
+			goto Exit_ShowResult;
+	}
 
 	strcpy(sz_cmd_in, _T("shell getprop ro.build.variant"));
 	if ( !ExecAdbOut(sz_cmd_in, sz_cmd_out, sz_cmd_errcode) ){
@@ -801,18 +813,41 @@ bool CMonitor::runCheckModel()
 	std_ModelNamel = (char*)sz_cmd_out;
 	cs_getModelNamel.Format(_T("%s"),  sz_cmd_out);
 	cs_getModelNamel.Trim();
-	cs_xmlModelNamel = m_str_CMD.c_str();
-	cs_xmlModelNamel.Trim();
-	//sprintf
-	//std_ModelNamel = "qisda";
-	if (cs_xmlModelNamel.Compare( cs_getModelNamel ) == 0 )
+
+	cs_DBModelNamel = m_ModelName.c_str();
+	cs_DBModelNamel.Trim();
+
+	//cs_DBModelNamel = "S2317HWi"; //liontest
+	//image setting delu2417w, dels2317w
+	//db setting U2417HWi , S2317HWi
+	if (cs_DBModelNamel.Compare( _T("U2417HWi") ) == 0 )
+	{
+		cs_XMLModelNamel = m_str_CMD.c_str();
+		st_XMLSetting = m_str_CMD;
+	}
+	else 	if (cs_DBModelNamel.Compare( _T("S2317HWi") ) == 0 )
+	{
+		cs_XMLModelNamel = m_str_OffCMD.c_str();
+		st_XMLSetting = m_str_OffCMD;
+	}
+	else
+	{
+		ErrMsg = (_T("cant find cs_DBModelNamel  = "));
+		ErrMsg  = ErrMsg + m_ModelName;
+		AfxMessageBox( ErrMsg.c_str() );
+		TraceLog(MSG_INFO,  ErrMsg);
+		goto  Exit_ShowResult;
+	}
+
+	cs_XMLModelNamel.Trim();
+	if (cs_XMLModelNamel.Compare( cs_getModelNamel ) == 0 )
 	{
 		ErrMsg = _T("runCheckModel check  ok  , get data = ") + std_ModelNamel; 
 		bRes = true;
 	}
 	else
 	{
-		ErrMsg = _T("runCheckModel check  Fail xml setting = ") + m_str_CMD + _T(" get data = ") + std_ModelNamel; 
+		ErrMsg = _T("runCheckModel check  Fail DB setting = ") + m_ModelName + _T(" get data = ") + std_ModelNamel + _T(" XMLSetting = ")  + st_XMLSetting;
 		TraceLog(MSG_INFO,  ErrMsg);
 	}
 
@@ -838,6 +873,204 @@ Exit_ShowResult:
 	FactoryLog();
 	return bRes;
 }
+
+bool CMonitor::GetPartNo()
+{
+	bool bReturn = false;
+	unsigned char szPartNo[27] = {0};
+	CString str_dllF32SERVER2 = F32SERVERDB;
+
+	if(std_ScalarId.empty() || std_ScalarId.length() != ID_SIZE){
+	  //  m_szPartNo =  (char*) szPartNo;
+		ErrMsg = "GetPartNo ScalarId fail id  = " + std_ScalarId;
+		goto Exit_FreeLibrary;
+	}
+
+	HMODULE hDll ;
+	hDll = ::LoadLibrary(str_dllF32SERVER2);
+
+	if( hDll != NULL )
+	{	
+		typedef unsigned short (_stdcall *lpGetPartNoById)(const unsigned char* Id,unsigned short IdLen,unsigned char* PartNo,unsigned short PartNoLen);
+		lpGetPartNoById iGetPartNoById = (lpGetPartNoById)::GetProcAddress(hDll,"GetPartNoById");
+		if ( NULL != iGetPartNoById )
+		{	
+			//scalar id
+			unsigned char sz_ID[ID_SIZE_BUFFER] ="";
+			sprintf_s((char*)sz_ID, ID_SIZE_BUFFER,"%s", std_ScalarId.c_str() );
+
+			if( 0 != iGetPartNoById( sz_ID , 11, szPartNo, 13))
+			{	
+				//cout<<szPartNo<<endl;
+			    m_szPartNo =  (char*) szPartNo;
+				ErrMsg = "iGetPartNoById  ok, m_szPartNo = " + m_szPartNo;
+				ErrMsg = ErrMsg + " ScalarId = " +  std_ScalarId ;
+				bReturn = true;
+			}
+			else
+			{	
+				ErrMsg = "GetPartNo.  iGetPartNoById Fail ";
+				AfxMessageBox(ErrMsg.c_str());
+				goto Exit_FreeLibrary;
+			}
+		}
+		else
+		{
+				ErrMsg = "GetPartNo. Load str_dllF32SERVER2 Fail ";
+				AfxMessageBox(ErrMsg.c_str());
+				goto Exit_FreeLibrary;
+		}
+	}
+	else
+	{
+			ErrMsg = "GetPartNo. iGetPartNoById NULL ";
+			AfxMessageBox(ErrMsg.c_str());
+			goto Exit_FreeLibrary;
+	}
+
+Exit_FreeLibrary:
+	TraceLog(MSG_INFO,  ErrMsg);
+    FreeLibrary(hDll);
+
+	return bReturn;
+}
+
+bool CMonitor::GetModelByPartNo()
+{
+	bool bReturn = false;
+	CString str_dllF32SERVER2 = F32SERVERDB;
+
+	HMODULE hDll ;
+	hDll = ::LoadLibrary(str_dllF32SERVER2);
+
+	if( hDll != NULL )
+	{	
+		typedef void (_stdcall *lpGetMonitorInfoByPartNo)(const unsigned char* PartNo,    unsigned short PartNoLen,
+                                                  unsigned char* WBCFileName, unsigned short WBCFileNameLen,
+                                                  unsigned char* ModelName,   unsigned short ModelNameLen,
+                                                  unsigned char* DDCFileName, unsigned short DDCFileNameLen,
+                                                  unsigned char* Info,        unsigned short InfoLen,
+                                                  unsigned char* SWInfo,      unsigned short SWInfoLen,
+                                                  unsigned char* Port,        unsigned short PortLen
+                                                  );
+         lpGetMonitorInfoByPartNo iGetMonitorInfoByPartNo = (lpGetMonitorInfoByPartNo)::GetProcAddress(hDll,"GetMonitorInfoByPartNo");
+
+		//unsigned char sz_ID[ID_SIZE_BUFFER] ="";
+	//	unsigned char szStation[ID_SIZE_BUFFER] ="";
+
+         if(NULL != iGetMonitorInfoByPartNo)
+         {    
+			 unsigned char szPartNo[]="9j.2vm72.dlu";
+              unsigned char szWbcFileName[30]= {0};
+              unsigned char szModelName[30] = {0};
+              unsigned char szDdcFileName[30] = {0};
+              unsigned char szInfo[30] = {0};
+              unsigned char szSwInfo[30] = {0};
+              unsigned char szPort[30] = {0};
+
+			 sprintf_s((char*)szPartNo, 13,"%s", m_szPartNo.c_str() );
+
+			 iGetMonitorInfoByPartNo(szPartNo,13,szWbcFileName,30,szModelName,30,szDdcFileName,30,szInfo,30,szSwInfo,30,szPort,30);
+
+			m_ModelName =  (char*) szModelName;
+
+			if ( m_ModelName.empty() || m_ModelName.length() <1 ){
+				ErrMsg = "iGetMonitorInfoByPartNo  fail, m_ModelName = " + m_ModelName;
+				ErrMsg = ErrMsg + " szScalarId = " +  std_ScalarId ;
+				goto Exit_FreeLibrary;
+			}
+			else
+			{
+				ErrMsg = "iGetMonitorInfoByPartNo  ok, m_ModelName = " + m_ModelName;
+				ErrMsg = ErrMsg + " std_ScalarId = " +  std_ScalarId ;
+				bReturn = true;
+			}
+		}
+		else
+		{
+			ErrMsg = ("GetModelByPartNo Load iGetMonitorInfoByPartNo Fail");
+			AfxMessageBox( ErrMsg.c_str() );
+			goto Exit_FreeLibrary;
+		 }
+	}
+	else
+	{
+			ErrMsg = ("GetModelByPartNo Load str_dllF32SERVER2 Fail");
+			AfxMessageBox( ErrMsg.c_str() );
+			goto Exit_FreeLibrary;
+	}
+
+Exit_FreeLibrary:
+	TraceLog(MSG_INFO,  ErrMsg);
+    FreeLibrary(hDll);
+
+	return bReturn;
+}
+/*old math for xml setting*/
+//bool CMonitor::runCheckModel()
+//{
+//	bool bRes = false;;
+//	std::string st_readId = "";
+//	char sz_cmd_in[FTD_BUF_SIZE] ="";
+//	char sz_cmd_out[FTD_BUF_SIZE] ="";
+//	char sz_cmd_errcode[FTD_BUF_SIZE] ="";
+//	std::string std_ModelNamel = "";
+//	CString cs_getModelNamel = "";
+//	CString cs_xmlModelNamel = "";
+//
+//	memset(sz_cmd_in, 0, sizeof(sz_cmd_in));
+//	memset(sz_cmd_out, 0, sizeof(sz_cmd_out));
+//	memset(sz_cmd_errcode, 0, sizeof(sz_cmd_errcode));
+//
+//
+//	strcpy(sz_cmd_in, _T("shell getprop ro.build.variant"));
+//	if ( !ExecAdbOut(sz_cmd_in, sz_cmd_out, sz_cmd_errcode) ){
+//		ErrMsg = (_T("shell getprop ro.build.variant Fail"));
+//		AfxMessageBox( ErrMsg.c_str() );
+//		TraceLog(MSG_INFO,  ErrMsg);
+//		goto  Exit_ShowResult;
+//	}	
+//	//Sleep(200);
+//	std_ModelNamel = (char*)sz_cmd_out;
+//	cs_getModelNamel.Format(_T("%s"),  sz_cmd_out);
+//	cs_getModelNamel.Trim();
+//	cs_xmlModelNamel = m_str_CMD.c_str();
+//	cs_xmlModelNamel.Trim();
+//	//sprintf
+//	//std_ModelNamel = "qisda";
+//	if (cs_xmlModelNamel.Compare( cs_getModelNamel ) == 0 )
+//	{
+//		ErrMsg = _T("runCheckModel check  ok  , get data = ") + std_ModelNamel; 
+//		bRes = true;
+//	}
+//	else
+//	{
+//		ErrMsg = _T("runCheckModel check  Fail xml setting = ") + m_str_CMD + _T(" get data = ") + std_ModelNamel; 
+//		TraceLog(MSG_INFO,  ErrMsg);
+//	}
+//
+////[ro.build.variant]: [dels2317w] gbrob2a
+////[ro.build.variant]: [delu2417w] gbrob1a
+//
+//	//compare ,	m_str_CMD, sz_cmd_out
+//
+//	
+//Exit_ShowResult:
+//	if ( !bRes) {
+//		m_strResult = "FAIL";
+//	}
+//	else
+//	{
+//		m_strErrorCode = "-";
+//		m_strResult = "PASS";
+//	}
+//
+//
+//	str_msg = ErrMsg;
+//	m_strMessage = str_msg;
+//	FactoryLog();
+//	return bRes;
+//}
 bool CMonitor::runPostCmd()
 {
 	CString cs_write_cmd = "";

@@ -244,6 +244,9 @@ NEPDLLAPI int __stdcall FTD_Get_GPIO_Value(int port, int timeout_ms, char* in_bu
 NEPDLLAPI int __stdcall FTD_Check_APQ_UART(int port, int timeout_ms, char* in_buf, char* out_buf);//cmd:5
 
 
+NEPDLLAPI int __stdcall FTD_Set_Model(int port, int timeout_ms, char* in_buf, char* out_buf);//cmd:5
+
+
 //Special Control Functions
 NEPDLLAPI bool __stdcall FTD_SplitSimData(char* input, char* output, char* error_code);
 NEPDLLAPI bool __stdcall FTD_SplitPublicKey(char* input, char* output, char* error_code);

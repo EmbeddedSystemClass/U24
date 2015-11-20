@@ -12,6 +12,12 @@
 #define FTD_TIMEOUT         15000
 #define FTD_OK				1
 
+#define CPHONE_FTD_CMD_IN_OUT_CREATE(cphone_func_name, dll_api_name)                  \
+bool CAndroidPhone::cphone_func_name(int nPort, int nTimeout, char* szInput, char* szOutput) \
+{                                                                                     \
+	return FTDCmdCtrl(nPort, nTimeout, dll_api_name, szInput, szOutput);              \
+}
+
 
 class CAndroidPhone : public IPhone
 {
@@ -101,6 +107,13 @@ public:
 	bool Detroit_PWRWriteRsenseData(int nPort, int nTimeout, char* p_sz_Input, char* p_sz_Output);// cmd: 13
 	bool Detroit_PWRAverageGaugeCurrent(int nPort, int nTimeout, char* p_sz_Input, char* p_sz_Output);// cmd: 14
 	bool FTD_PWRgaugeVoltage(int nPort, int nTimeout, char* pszInput, char* pszOutput); //cmd: 2
+
+	//bool FTD_Set_Model(int nPort, int nTimeout, char* pszInput, char* pszOutput); //cmd: 2
+
+
+	bool FTDCmdCtrl(int nPort, int nTimeout, char* szFuncName, char* pszInput, char* pszOutput);
+	//93 - 6
+	virtual bool FTD_Set_Model(int nPort, int nTimeout, char* p_sz_Input, char* p_sz_Output) ; //cmd: 2
 
 	// NFC
 	virtual bool NFC_IsConnected() { return true; } ;

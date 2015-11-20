@@ -49,7 +49,7 @@ public:
 private:
 	bool PreDLRun(void);          // COM download + Fastboot download
 	bool ReDLRun(void);           // Fastboot download
-	bool Download(void);
+	bool runDownload(void);
 	bool DLchipset(void);
 	bool ReadIniFile(void);
 

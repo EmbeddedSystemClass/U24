@@ -93,6 +93,9 @@ public:
 	virtual bool Detroit_PWRAverageGaugeCurrent(int nPort, int nTimeout, char* p_sz_Input, char* p_sz_Output) = 0;// cmd: 14
 	virtual bool FTD_PWRgaugeVoltage(int nPort, int nTimeout, char* p_sz_Input, char* p_sz_Output) = 0; //cmd: 2
 
+	//93 - 6
+	virtual bool FTD_Set_Model(int nPort, int nTimeout, char* p_sz_Input, char* p_sz_Output) = 0; //cmd: 2
+
 	//add for Sapporo FSG lock 20130909
 	virtual bool FTD_FAC_FSGProtect(int nPort, int nTimeout, char* pszInput, char* pszOutput) = 0;
 

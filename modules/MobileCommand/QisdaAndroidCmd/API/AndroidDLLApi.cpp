@@ -1098,11 +1098,18 @@ NEPDLLAPI int __stdcall FTD_Get_GPIO_Value(int port, int timeout_ms, char* in_bu
 	return MobileCmd(port, timeout_ms, Andriod_FT_MISC, 3, in_buf, out_buf, __FUNCTION__);
 }
 
-NEPDLLAPI int __stdcall FTD_Check_APQ_UART(int port, int timeout_ms, char* in_buf, char* out_buf) //cmd:3
+NEPDLLAPI int __stdcall FTD_Check_APQ_UART(int port, int timeout_ms, char* in_buf, char* out_buf) //cmd:5
 {
 	TRACER_FUNCTION_IN();
 	return MobileCmd(port, timeout_ms, Andriod_FT_MISC, 5, in_buf, out_buf, __FUNCTION__);
 }
+
+NEPDLLAPI int __stdcall FTD_Set_Model(int port, int timeout_ms, char* in_buf, char* out_buf) //cmd:6
+{
+	TRACER_FUNCTION_IN();
+	return MobileCmd(port, timeout_ms, Andriod_FT_MISC, 6, in_buf, out_buf, __FUNCTION__);
+}
+
 
 
 

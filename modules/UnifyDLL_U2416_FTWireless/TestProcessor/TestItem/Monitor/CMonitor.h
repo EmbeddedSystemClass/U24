@@ -113,13 +113,16 @@ private:
 	std::string szPcabaId;
 	std::string checkStation;
 	std::string sz_Hdcp_key_path;
+	std::string m_szPartNo;
+	std::string m_ModelName;
 
 	//unsigned char sz_ID[ID_SIZE_BUFFER] ;
 	//unsigned char szStation[ID_SIZE_BUFFER];
 	
 	//bool runReadScalarID( char *szvalue, int iSize );
 
-
+	bool GetPartNo();
+	bool GetModelByPartNo();
 	bool runGetHDCPKEY();
 	bool runWriteHDCPKEY();
 	bool runWriteTag();
