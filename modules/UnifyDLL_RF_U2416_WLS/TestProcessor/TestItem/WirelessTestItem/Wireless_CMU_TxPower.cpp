@@ -30,6 +30,10 @@ bool CWireless_CMU_TxPower::Run()
 	{
 		m_dAdjPower = GetCableLoss("TX", "BTWLAN_WIFI", "WifiAdjPower_11B_Chain_1");
 	}
+	else if (0 == strcmp(m_strLineName.c_str(), "\"11B_Chain_0\""))
+	{
+		m_dAdjPower = GetCableLoss("TX", "BTWLAN_WIFI", "WifiAdjPower_11B_Chain_0");
+	}
 
 	// Define //------------------------------------------------------------------------------
 	char szBandFunction[256];
