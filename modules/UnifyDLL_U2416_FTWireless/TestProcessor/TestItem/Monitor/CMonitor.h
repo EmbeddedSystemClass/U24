@@ -30,9 +30,11 @@
 #define CheckModel				"CheckModel"
 #define CheckSWVersion		"CheckSWVersion"
 #define Postcmd					"Postcmd"
+#define CheckSWversionByDB "CheckSWversionByDB"
 
 #define DNULL                        "NULL"
 #define DREAD	                       "READ"
+#define VMS_DBACCESS				_T("VMS_DBACCESS.dll")
 
 #define USB_BUF_SIZE 512
 #define BUFFER_SIZE 4096
@@ -115,6 +117,9 @@ private:
 	std::string sz_Hdcp_key_path;
 	std::string m_szPartNo;
 	std::string m_ModelName;
+	std::string m_szSWver;
+	CString     cs_modelName_cmonitor;
+	CString cs_DBModelNamel;
 
 	//unsigned char sz_ID[ID_SIZE_BUFFER] ;
 	//unsigned char szStation[ID_SIZE_BUFFER];
@@ -123,6 +128,7 @@ private:
 
 	bool GetPartNo();
 	bool GetModelByPartNo();
+	bool changeModel();
 	bool runGetHDCPKEY();
 	bool runWriteHDCPKEY();
 	bool runWriteTag();
@@ -136,6 +142,8 @@ private:
 	bool runCheckPCBAID( char *szvalue );
 	bool runCheckModel();
 	bool runCheckSWversion();
+	bool runCheckSWversionByDB();
+	bool GetSWVersionFromDB();
 	bool runPostCmd( );
 	bool IfRepeated( char *szvalue );    // 1 = ID ,2 = SN
 	//bool IfRepeated(unsigned short IdType);    // 1 = ID ,2 = SN

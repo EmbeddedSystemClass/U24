@@ -116,6 +116,12 @@ bool CMonitor::Run()
 		m_strErrorCode = FunErr_Check_SWVERSION_Fail;
 		passFail = runCheckSWversion();
 	}	
+	else if (m_str_TestItem == CheckSWversionByDB)
+	{
+		m_strItemCode = CStr::IntToStr(Monitor_BaseItemcode);
+		m_strErrorCode = FunErr_Check_SWVERSION_Fail;
+		passFail = runCheckSWversionByDB();
+	}	
 	else if (m_str_TestItem == CheckModel)
 	{
 		m_strItemCode = CStr::IntToStr(Monitor_BaseItemcode);
@@ -713,6 +719,205 @@ bool CMonitor::brunGetExistHDCPKEY(char *scalarID)
 	}
 }
 
+bool CMonitor::runCheckSWversionByDB()
+{
+	bool bRes = false;;
+	//std::string st_readId = "";
+	char sz_cmd_in[FTD_BUF_SIZE] ="";
+	char sz_cmd_out[FTD_BUF_SIZE] ="";
+	char sz_cmd_errcode[FTD_BUF_SIZE] ="";
+	char *sz_value = new char[ID_SIZE_BUFFER]  ;
+
+	if ( ! runReadScalarID( sz_value, ID_SIZE) ) return false; //read monitor id
+	if (!GetPartNo()) return false; //get partNo by id
+	if (!GetModelByPartNo()) return false;
+
+	std::string std_SoftWareVersion = "";
+	CString cs_SoftWareVersion= "";
+	//CString cs_xmlModelNamel = "";
+
+	memset(sz_cmd_in, 0, sizeof(sz_cmd_in));
+	memset(sz_cmd_out, 0, sizeof(sz_cmd_out));
+	memset(sz_cmd_errcode, 0, sizeof(sz_cmd_errcode));
+
+
+	if ( m_ModelName.length() < 1 ){
+			ErrMsg = (_T("runCheckSWversionByDB ModelName  Fail, Model = ")) + m_ModelName;
+			AfxMessageBox( ErrMsg.c_str() );
+			TraceLog(MSG_INFO,  ErrMsg);
+			goto Exit_ShowResult;
+	}
+
+	cs_DBModelNamel = m_ModelName.c_str();
+	cs_DBModelNamel.Trim();
+
+	if (!changeModel()) return false;
+	if (!GetSWVersionFromDB()) return false;	
+
+	strcpy(sz_cmd_in, _T("shell getprop ro.build.oemversion.main"));
+	if ( !ExecAdbOut(sz_cmd_in, sz_cmd_out, sz_cmd_errcode) ){
+		ErrMsg = (_T("adb shell getprop ro.build.oemversion.main fail"));
+		AfxMessageBox( ErrMsg.c_str() );
+		TraceLog(MSG_INFO,  ErrMsg);
+		goto  Exit_ShowResult;
+	}	
+	//Sleep(200);
+	std_SoftWareVersion = (char*)sz_cmd_out;
+	cs_SoftWareVersion.Format(_T("%s"),  sz_cmd_out);
+	cs_SoftWareVersion.Trim();
+
+	//cs_xmlModelNamel = m_str_CMD.c_str();
+	//cs_xmlModelNamel.Trim();
+
+	if (cs_SoftWareVersion.Find(m_szSWver.c_str()) == -1 ){
+		CString cs;
+		cs.Format(_T("Check SoftWare Version Fail，DB Version = %s  Current DL Version = %s"), m_szSWver.c_str(),  cs_SoftWareVersion);
+		::MessageBox(NULL, cs.GetBuffer(0), _T("Warnning!!"), MB_TASKMODAL|MB_TOPMOST);
+		ErrMsg = cs;
+		TraceLog(MSG_INFO,  ErrMsg);
+		goto  Exit_ShowResult;
+	}
+	else
+	{
+		CString cs;
+		cs.Format(_T("Check SoftWare Version pass，DB Version = %s  Current DL Version = %s"), m_szSWver.c_str(),  cs_SoftWareVersion);
+		ErrMsg = cs;
+		TraceLog(MSG_INFO,  ErrMsg);
+		bRes = true;
+	}
+
+
+//[ro.build.variant]: [dels2317w] gbrob2a
+//[ro.build.variant]: [delu2417w] gbrob1a
+
+	//compare ,	m_str_CMD, sz_cmd_out
+
+	
+Exit_ShowResult:
+	if ( !bRes) {
+		m_strResult = "FAIL";
+	}
+	else
+	{
+		m_strErrorCode = "-";
+		m_strResult = "PASS";
+	}
+
+	delete[] sz_value;
+	str_msg = ErrMsg;
+	m_strMessage = str_msg;
+	FactoryLog();
+	return bRes;
+}
+
+bool CMonitor::GetSWVersionFromDB(void)
+{    
+     bool bReturn = false;
+
+     char szModel[ID_SIZE_BUFFER] = "";
+     char szSWVersion[30] = "";
+     char szErrCode[128] = "";
+     char szErrMsg[512] = "";
+     char szPartNoInfo[128] = "";
+	 char m_sz9JPartNo[31] ="";//9J.2VM72.DLU
+	 char m_szImagerVer[31] = "";
+
+
+     CString str_dllVMS_DBACCESS = VMS_DBACCESS;
+     HMODULE hDll = ::LoadLibrary(str_dllVMS_DBACCESS);
+     if(hDll == NULL)
+     {    
+		 goto Exit_FreeLibrary;
+     }
+
+     typedef bool (*fpVMS_ConnectDB)(void);
+     typedef bool (*fpVMS_CloseDB)(void);
+     fpVMS_CloseDB iVMS_CloseDB = (fpVMS_CloseDB)::GetProcAddress (hDll,"VMS_CloseDB");
+     if(iVMS_CloseDB == NULL)
+     {    //没有VMS_ConnectDB
+		ErrMsg = "iVMS_CloseDB = NULL" ;
+		AfxMessageBox(ErrMsg.c_str());
+         goto Exit_FreeLibrary;
+     }
+     //char PartNo9J[31] = "9J.2EE12.33E";
+
+     fpVMS_ConnectDB iVMS_ConnectDB = (fpVMS_ConnectDB)::GetProcAddress(hDll,"VMS_ConnectDB");
+     if (iVMS_ConnectDB != NULL)
+     {  
+		 if(iVMS_ConnectDB())
+         {    
+			 typedef bool (*fpVMS_QuerySQNinfo_S3)(char *szModel, char *szPartNo, char *szSWVersion, char *st_PartnoInfo, char *szErrCode, char *szErrMsg);
+              fpVMS_QuerySQNinfo_S3 iVMS_QuerySQNinfo_S3 = (fpVMS_QuerySQNinfo_S3)::GetProcAddress(hDll,"VMS_QuerySQNinfo_S3");
+              if (iVMS_QuerySQNinfo_S3 != NULL )
+              {  
+
+				 if ( cs_modelName_cmonitor.GetLength() < 1 ) {
+						ErrMsg = "fail  m_str_modelName  = 0 ";
+						ErrMsg = ErrMsg + cs_modelName_cmonitor.GetBuffer(0);
+						AfxMessageBox(ErrMsg.c_str());
+						cs_modelName_cmonitor.ReleaseBuffer();
+						goto Exit_FreeLibrary;
+				 }
+
+				 if(m_szPartNo.empty() || m_szPartNo.length() < 1){
+						ErrMsg = "fail  m_szPartNo  =  " + m_szPartNo;
+						//ErrMsg = ErrMsg + m_szPartNo;
+						AfxMessageBox(ErrMsg.c_str());
+						goto Exit_FreeLibrary;
+				 }
+
+				 	//AfxMessageBox(m_szPartNo.c_str());
+				  sprintf_s(szModel, ID_SIZE_BUFFER, "%s", cs_modelName_cmonitor);
+				  sprintf_s(m_sz9JPartNo, ID_SIZE_BUFFER, "%s", m_szPartNo.c_str());
+
+				  bool bRef = iVMS_QuerySQNinfo_S3(szModel, m_sz9JPartNo, m_szImagerVer, szPartNoInfo, szErrCode, szErrMsg);
+                   if(bRef)
+                   {  
+					   m_szSWver = m_szImagerVer;
+						ErrMsg = "iVMS_QuerySQNinfo_S3  ok, m_szSWver = " + m_szSWver;
+						//SetErrorMessage(ErrMsg.c_str() , 0);
+                       bReturn = true;
+                   }
+                   else
+                   {    //查询失败
+						ErrMsg = "iVMS_QuerySQNinfo_S3 fail " ;//+ std_ScalarId;
+						AfxMessageBox(ErrMsg.c_str());
+				//		sprintf_s( szvalue , ID_SIZE_BUFFER, "%s", std_ScalarId.c_str());
+                       goto Exit_CloseDB;
+                   }
+			  }
+              else
+              {    //没有VMS_QuerySQNinfo
+					ErrMsg = "iVMS_QuerySQNinfo_S3 NULL fail " ;
+					AfxMessageBox(ErrMsg.c_str());
+                   goto Exit_CloseDB;
+			  }
+		 }
+         else
+         {    //链接VMS数据失败
+			  ErrMsg = "iVMS_ConnectDB  fail " ;
+			  AfxMessageBox(ErrMsg.c_str());
+              goto Exit_FreeLibrary;
+         }
+     }
+     else
+     {    //没有VMS_ConnectDB
+		  ErrMsg = "iVMS_ConnectDB  NULL " ;
+		  AfxMessageBox(ErrMsg.c_str());
+         goto Exit_FreeLibrary;
+     }
+
+Exit_CloseDB:
+     iVMS_CloseDB();
+Exit_FreeLibrary:
+	// SetErrorMessage(ErrMsg.c_str() , 0);
+	 TraceLog(MSG_INFO,  ErrMsg);
+     FreeLibrary(hDll);
+Exit:
+     return bReturn;
+}
+
+
 bool CMonitor::runCheckSWversion()
 {
 	bool bRes = false;;
@@ -1006,6 +1211,39 @@ Exit_FreeLibrary:
 
 	return bReturn;
 }
+
+bool CMonitor::changeModel(){
+//	CString cs_DBModelNamel = "";
+//	cs_DBModelNamel = m_ModelName.c_str();
+	cs_DBModelNamel.Trim();
+
+	if (cs_DBModelNamel.Compare( _T("U2417HWi") ) == 0 )
+	{
+		cs_modelName_cmonitor = _T("GBROB1A");
+		ErrMsg = (_T("set  m_str_modelName  = "));
+	//	ErrMsg  = ErrMsg + m_str_modelName;
+	//	st_XMLSetting = m_str_CMD;
+	}
+	else 	if (cs_DBModelNamel.Compare( _T("S2317HWi") ) == 0 )
+	{
+		cs_modelName_cmonitor = _T("GBROB2A");
+		ErrMsg = (_T("set  m_str_modelName  = GBROB2A"));
+	//	ErrMsg  = ErrMsg + m_str_modelName;
+	//	st_XMLSetting = m_str_OffCMD;
+	}
+	else
+	{
+		ErrMsg = (_T("cant find cs_DBModelNamel  = "));
+		ErrMsg  = ErrMsg + m_ModelName;
+		AfxMessageBox( ErrMsg.c_str() );
+		return false;
+	}
+
+	TraceLog(MSG_INFO,  ErrMsg);
+	return true;
+}
+
+
 /*old math for xml setting*/
 //bool CMonitor::runCheckModel()
 //{

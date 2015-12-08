@@ -198,6 +198,7 @@ public:
 	/* Get/Set parameter functions */
 	bool GetDeviceName(char* szName, int iSize);
 	bool GetSWVersion(char* p_sz_SWVersion);
+	bool GetSWVersionFromDB();
 	bool GetFactoryVersion(char* p_sz_FactoryVersion);
 	bool SetPicasso(const char* szPicasso);
 	bool SetTag(const char* szTag);
