@@ -1,0 +1,15 @@
+; USB4702Ctrl.def : Declares the module parameters for the DLL.
+
+LIBRARY      "USB4702Ctrl"
+
+EXPORTS
+    ; Explicit exports can go here
+USB4702_Init					@1
+USB4702_Close					@2
+USB4702_GetDOVal				@3
+USB4702_SetDOVal				@4
+USB4702_GetADCVol				@5
+USB4702_SetDOBit				@6
+USB4702_ClearDOBit				@7
+USB4702_SetAOVol				@8
+USB4702_GetADCVolEx				@9

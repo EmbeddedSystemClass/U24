@@ -1,0 +1,36 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "EntranceTool", "..\UI\EntranceTool\Entrance Tool.vcproj", "{4B0E45B5-B149-4B8C-BE02-408AE52D3BF2}"
+	ProjectSection(ProjectDependencies) = postProject
+		{1A1074A8-AB23-40E5-ACC4-14027778871E} = {1A1074A8-AB23-40E5-ACC4-14027778871E}
+		{AFF1ACF3-C295-489F-B56B-5A04713E323E} = {AFF1ACF3-C295-489F-B56B-5A04713E323E}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DBAccess", "..\Modules\DBAccess\DBAccess.vcproj", "{1A1074A8-AB23-40E5-ACC4-14027778871E}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "VMS_DBAccess", "..\Modules\VMS_DBAccess\VMS_DBAccess.vcproj", "{AFF1ACF3-C295-489F-B56B-5A04713E323E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4B0E45B5-B149-4B8C-BE02-408AE52D3BF2}.Debug|Win32.ActiveCfg = Debug|Win32
+		{4B0E45B5-B149-4B8C-BE02-408AE52D3BF2}.Debug|Win32.Build.0 = Debug|Win32
+		{4B0E45B5-B149-4B8C-BE02-408AE52D3BF2}.Release|Win32.ActiveCfg = Release|Win32
+		{4B0E45B5-B149-4B8C-BE02-408AE52D3BF2}.Release|Win32.Build.0 = Release|Win32
+		{1A1074A8-AB23-40E5-ACC4-14027778871E}.Debug|Win32.ActiveCfg = Debug|Win32
+		{1A1074A8-AB23-40E5-ACC4-14027778871E}.Debug|Win32.Build.0 = Debug|Win32
+		{1A1074A8-AB23-40E5-ACC4-14027778871E}.Release|Win32.ActiveCfg = Release|Win32
+		{1A1074A8-AB23-40E5-ACC4-14027778871E}.Release|Win32.Build.0 = Release|Win32
+		{AFF1ACF3-C295-489F-B56B-5A04713E323E}.Debug|Win32.ActiveCfg = Debug|Win32
+		{AFF1ACF3-C295-489F-B56B-5A04713E323E}.Debug|Win32.Build.0 = Debug|Win32
+		{AFF1ACF3-C295-489F-B56B-5A04713E323E}.Release|Win32.ActiveCfg = Release|Win32
+		{AFF1ACF3-C295-489F-B56B-5A04713E323E}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

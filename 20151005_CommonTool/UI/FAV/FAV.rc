@@ -1,0 +1,294 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#ifndef APSTUDIO_INVOKED
+#include "targetver.h"
+#endif
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// Chinese (P.R.C.) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_CHS)
+#ifdef _WIN32
+LANGUAGE LANG_CHINESE, SUBLANG_CHINESE_SIMPLIFIED
+#pragma code_page(936)
+#endif //_WIN32
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#ifndef APSTUDIO_INVOKED\r\n"
+    "#include ""targetver.h""\r\n"
+    "#endif\r\n"
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "#define _AFX_NO_SPLITTER_RESOURCES\r\n"
+    "#define _AFX_NO_OLE_RESOURCES\r\n"
+    "#define _AFX_NO_TRACKER_RESOURCES\r\n"
+    "#define _AFX_NO_PROPERTY_RESOURCES\r\n"
+    "\r\n"
+    "#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)\r\n"
+    "LANGUAGE 9, 1\r\n"
+    "#pragma code_page(1252)\r\n"
+    "#include ""res\\FAV.rc2""  // non-Microsoft Visual C++ edited resources\r\n"
+    "#include ""afxres.rc""     // Standard components\r\n"
+    "#endif\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDR_MAINFRAME           ICON                    "res\\FAV.ico"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_INITIAL_DIALOG DIALOGEX 0, 0, 215, 150
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+EXSTYLE WS_EX_APPWINDOW
+CAPTION "INITIAL"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    PUSHBUTTON      "Cancel",IDCANCEL,123,101,54,17
+    DEFPUSHBUTTON   "OK",IDOK,33,101,50,17
+    LTEXT           "LOT Number:",IDC_STATIC,32,34,43,8
+    EDITTEXT        IDC_EDIT_LOT,86,32,88,13,ES_AUTOHSCROLL
+    LTEXT           "LOT Count:",IDC_STATIC,32,56,38,8
+    EDITTEXT        IDC_EDIT_LOTCOUNT,86,53,88,13,ES_AUTOHSCROLL | ES_NUMBER
+    GROUPBOX        "QA Only",IDC_STATIC,21,10,166,68
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO 
+BEGIN
+    IDD_INITIAL_DIALOG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 208
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 142
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+#endif    // Chinese (P.R.C.) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
+// English (U.S.) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+#ifdef _WIN32
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+#endif //_WIN32
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_ABOUTBOX DIALOGEX 0, 0, 170, 62
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "About FAV"
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    ICON            IDR_MAINFRAME,IDC_STATIC,14,14,21,20
+    LTEXT           "FAV, Version 1.0",IDC_STATIC,42,14,114,8,SS_NOPREFIX
+    LTEXT           "Copyright (C) 2011",IDC_STATIC,42,26,114,8
+    DEFPUSHBUTTON   "OK",IDOK,113,41,50,14,WS_GROUP
+END
+
+IDD_FAV_DIALOG DIALOGEX 0, 0, 565, 433
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+EXSTYLE WS_EX_APPWINDOW
+CAPTION "QA.exe"
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    EDITTEXT        IDC_EDIT_SN,81,137,145,12,ES_AUTOHSCROLL | NOT WS_TABSTOP
+    PUSHBUTTON      "PASS",IDC_BUTTON_PASS,129,393,87,33
+    PUSHBUTTON      "FAIL",IDC_BUTTON_FAIL,323,393,87,33
+    LTEXT           "Model Name:",IDC_STATIC,11,61,42,8
+    LTEXT           "SO Number:",IDC_STATIC,11,77,40,8
+    LTEXT           "Employee ID:",IDC_STATIC,11,108,44,8
+    LTEXT           "Static",IDC_STATIC_MODEL,70,59,103,12,SS_SUNKEN
+    LTEXT           "Static",IDC_STATIC_SO,70,75,103,12,SS_SUNKEN
+    CONTROL         "",IDC_LIST_RESULT,"SysListView32",LVS_REPORT | LVS_ALIGNLEFT | WS_BORDER | WS_TABSTOP,358,58,199,147
+    LTEXT           "Lot Number:",IDC_STATIC,191,91,40,8
+    LTEXT           "Static",IDC_STATIC_LOT,244,90,103,12,SS_SUNKEN
+    LTEXT           "Work Type:",IDC_STATIC,191,108,38,8
+    LTEXT           "Static",IDC_STATIC_WORKTYPE,244,106,103,12,SS_SUNKEN
+    LTEXT           "Part Number:",IDC_STATIC,11,92,44,8
+    LTEXT           "SW Version:",IDC_STATIC,191,61,40,8
+    LTEXT           "",IDC_STATIC_SW,244,58,103,12,SS_SUNKEN
+    PUSHBUTTON      "LOCK",IDC_BUTTON_LOCK,274,197,32,14,NOT WS_TABSTOP
+    PUSHBUTTON      "UNLOCK",IDC_BUTTON_UNLOCK,314,197,32,14,NOT WS_TABSTOP
+    GROUPBOX        "Function List",IDC_STATIC,268,124,82,90
+    CONTROL         "",IDC_LIST_KEYPART,"SysListView32",LVS_REPORT | LVS_ALIGNLEFT | WS_BORDER | WS_TABSTOP,11,224,546,167
+    COMBOBOX        IDC_COMBO_ERRORCODE,15,171,238,143,CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL
+    GROUPBOX        "ErrorCode:",IDC_STATIC,10,159,252,30
+    LTEXT           "",IDC_STATIC_PARTNUMBER,70,90,104,13,SS_SUNKEN
+    CONTROL         "Accessory Check",IDC_CHECK_ACCESSORY,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,278,141,70,10
+    EDITTEXT        IDC_EDIT_KEYPARTBARCODE,54,202,208,12,ES_AUTOHSCROLL | NOT WS_TABSTOP
+    LTEXT           "Static",IDC_STATIC_LOTCOUNT,244,74,103,12,SS_SUNKEN
+    LTEXT           "Lot Count:",IDC_STATIC,192,75,35,8
+    LTEXT           "PASS:",IDC_STATIC,362,209,18,8
+    LTEXT           "FAIL:",IDC_STATIC,425,209,16,8
+    LTEXT           "Total:",IDC_STATIC,490,209,17,8
+    LTEXT           "Static",IDC_STATIC_PASS,389,209,19,8
+    LTEXT           "Static",IDC_STATIC_FAIL,451,209,19,8
+    LTEXT           "Static",IDC_STATIC_TOTAL,517,209,19,8
+    LTEXT           "Accessory:",IDC_STATIC,12,204,36,8
+    LTEXT           "Picasso(PPID/IMEI):",IDC_STATIC,12,139,65,8
+    CONTROL         "",IDC_STATIC_TITLE,"Static",SS_BLACKFRAME,7,6,549,48
+    GROUPBOX        "Input:",IDC_STATIC,9,125,253,32
+    EDITTEXT        IDC_EDIT_EMPLOYEE_ID,70,106,105,14,ES_PASSWORD | ES_AUTOHSCROLL | ES_READONLY | WS_DISABLED
+    CONTROL         "Factory Reset",IDC_CHECK_RESET,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,278,160,61,10
+    PUSHBUTTON      "ReadIMEI",IDC_BUTTON_ReadIMEI,227,136,36,14
+    CONTROL         "Read Picasso",IDC_CHECK_READPICASSO,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,278,179,58,10
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO 
+BEGIN
+    IDD_ABOUTBOX, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 163
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 55
+    END
+
+    IDD_FAV_DIALOG, DIALOG
+    BEGIN
+        LEFTMARGIN, 5
+        RIGHTMARGIN, 558
+        VERTGUIDE, 564
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 426
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 2,0,1,1
+ PRODUCTVERSION 2,0,1,1
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x4L
+ FILETYPE 0x1L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904e4"
+        BEGIN
+            VALUE "CompanyName", "Qisda"
+            VALUE "FileDescription", "QA FAV Tool"
+            VALUE "FileVersion", "2.0.1.1"
+            VALUE "InternalName", "FAV.exe"
+            VALUE "LegalCopyright", "(c) Qisda.  All rights reserved."
+            VALUE "OriginalFilename", "FAV.exe"
+            VALUE "ProductName", "FAV"
+            VALUE "ProductVersion", "2.0.1.1"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x409, 1252
+    END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE 
+BEGIN
+    IDS_ABOUTBOX            "&About FAV..."
+END
+
+#endif    // English (U.S.) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+#define _AFX_NO_SPLITTER_RESOURCES
+#define _AFX_NO_OLE_RESOURCES
+#define _AFX_NO_TRACKER_RESOURCES
+#define _AFX_NO_PROPERTY_RESOURCES
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+LANGUAGE 9, 1
+#pragma code_page(1252)
+#include "res\FAV.rc2"  // non-Microsoft Visual C++ edited resources
+#include "afxres.rc"     // Standard components
+#endif
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

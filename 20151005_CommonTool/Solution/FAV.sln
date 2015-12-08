@@ -1,0 +1,29 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DBAccess", "..\Modules\DBAccess\DBAccess.vcproj", "{1A1074A8-AB23-40E5-ACC4-14027778871E}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FAV", "..\UI\FAV\FAV.vcproj", "{990A85A1-0DB1-4D9C-A1D2-B186B45954D1}"
+	ProjectSection(ProjectDependencies) = postProject
+		{1A1074A8-AB23-40E5-ACC4-14027778871E} = {1A1074A8-AB23-40E5-ACC4-14027778871E}
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1A1074A8-AB23-40E5-ACC4-14027778871E}.Debug|Win32.ActiveCfg = Debug|Win32
+		{1A1074A8-AB23-40E5-ACC4-14027778871E}.Debug|Win32.Build.0 = Debug|Win32
+		{1A1074A8-AB23-40E5-ACC4-14027778871E}.Release|Win32.ActiveCfg = Release|Win32
+		{1A1074A8-AB23-40E5-ACC4-14027778871E}.Release|Win32.Build.0 = Release|Win32
+		{990A85A1-0DB1-4D9C-A1D2-B186B45954D1}.Debug|Win32.ActiveCfg = Debug|Win32
+		{990A85A1-0DB1-4D9C-A1D2-B186B45954D1}.Debug|Win32.Build.0 = Debug|Win32
+		{990A85A1-0DB1-4D9C-A1D2-B186B45954D1}.Release|Win32.ActiveCfg = Release|Win32
+		{990A85A1-0DB1-4D9C-A1D2-B186B45954D1}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

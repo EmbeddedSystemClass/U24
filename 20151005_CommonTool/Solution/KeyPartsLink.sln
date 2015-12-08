@@ -1,0 +1,50 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "KeyPartsLink", "..\UI\KeyPartsLink\KeyPartsLink.vcproj", "{2B913374-CF70-4716-80D3-9522279BEBED}"
+	ProjectSection(ProjectDependencies) = postProject
+		{CCBA802D-4A76-4FE1-B5F1-584C6C3F66C4} = {CCBA802D-4A76-4FE1-B5F1-584C6C3F66C4}
+		{1A1074A8-AB23-40E5-ACC4-14027778871E} = {1A1074A8-AB23-40E5-ACC4-14027778871E}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PrintLabel", "..\Modules\Common\PrintLabel\PrintLabel.vcproj", "{CCBA802D-4A76-4FE1-B5F1-584C6C3F66C4}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DBAccess", "..\Modules\DBAccess\DBAccess.vcproj", "{1A1074A8-AB23-40E5-ACC4-14027778871E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+		Static_Multibyte_Debug|Win32 = Static_Multibyte_Debug|Win32
+		Static_Multibyte_Release|Win32 = Static_Multibyte_Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2B913374-CF70-4716-80D3-9522279BEBED}.Debug|Win32.ActiveCfg = Debug|Win32
+		{2B913374-CF70-4716-80D3-9522279BEBED}.Debug|Win32.Build.0 = Debug|Win32
+		{2B913374-CF70-4716-80D3-9522279BEBED}.Release|Win32.ActiveCfg = Release|Win32
+		{2B913374-CF70-4716-80D3-9522279BEBED}.Release|Win32.Build.0 = Release|Win32
+		{2B913374-CF70-4716-80D3-9522279BEBED}.Static_Multibyte_Debug|Win32.ActiveCfg = Debug|Win32
+		{2B913374-CF70-4716-80D3-9522279BEBED}.Static_Multibyte_Debug|Win32.Build.0 = Debug|Win32
+		{2B913374-CF70-4716-80D3-9522279BEBED}.Static_Multibyte_Release|Win32.ActiveCfg = Release|Win32
+		{2B913374-CF70-4716-80D3-9522279BEBED}.Static_Multibyte_Release|Win32.Build.0 = Release|Win32
+		{CCBA802D-4A76-4FE1-B5F1-584C6C3F66C4}.Debug|Win32.ActiveCfg = Debug|Win32
+		{CCBA802D-4A76-4FE1-B5F1-584C6C3F66C4}.Debug|Win32.Build.0 = Debug|Win32
+		{CCBA802D-4A76-4FE1-B5F1-584C6C3F66C4}.Release|Win32.ActiveCfg = Release|Win32
+		{CCBA802D-4A76-4FE1-B5F1-584C6C3F66C4}.Release|Win32.Build.0 = Release|Win32
+		{CCBA802D-4A76-4FE1-B5F1-584C6C3F66C4}.Static_Multibyte_Debug|Win32.ActiveCfg = Static_Multibyte_Debug|Win32
+		{CCBA802D-4A76-4FE1-B5F1-584C6C3F66C4}.Static_Multibyte_Debug|Win32.Build.0 = Static_Multibyte_Debug|Win32
+		{CCBA802D-4A76-4FE1-B5F1-584C6C3F66C4}.Static_Multibyte_Release|Win32.ActiveCfg = Static_Multibyte_Release|Win32
+		{CCBA802D-4A76-4FE1-B5F1-584C6C3F66C4}.Static_Multibyte_Release|Win32.Build.0 = Static_Multibyte_Release|Win32
+		{1A1074A8-AB23-40E5-ACC4-14027778871E}.Debug|Win32.ActiveCfg = Debug|Win32
+		{1A1074A8-AB23-40E5-ACC4-14027778871E}.Debug|Win32.Build.0 = Debug|Win32
+		{1A1074A8-AB23-40E5-ACC4-14027778871E}.Release|Win32.ActiveCfg = Release|Win32
+		{1A1074A8-AB23-40E5-ACC4-14027778871E}.Release|Win32.Build.0 = Release|Win32
+		{1A1074A8-AB23-40E5-ACC4-14027778871E}.Static_Multibyte_Debug|Win32.ActiveCfg = Debug|Win32
+		{1A1074A8-AB23-40E5-ACC4-14027778871E}.Static_Multibyte_Debug|Win32.Build.0 = Debug|Win32
+		{1A1074A8-AB23-40E5-ACC4-14027778871E}.Static_Multibyte_Release|Win32.ActiveCfg = Release|Win32
+		{1A1074A8-AB23-40E5-ACC4-14027778871E}.Static_Multibyte_Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,326 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#ifndef APSTUDIO_INVOKED
+#include "targetver.h"
+#endif
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// Chinese (P.R.C.) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_CHS)
+#ifdef _WIN32
+LANGUAGE LANG_CHINESE, SUBLANG_CHINESE_SIMPLIFIED
+#pragma code_page(936)
+#endif //_WIN32
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#ifndef APSTUDIO_INVOKED\r\n"
+    "#include ""targetver.h""\r\n"
+    "#endif\r\n"
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "#define _AFX_NO_SPLITTER_RESOURCES\r\n"
+    "#define _AFX_NO_OLE_RESOURCES\r\n"
+    "#define _AFX_NO_TRACKER_RESOURCES\r\n"
+    "#define _AFX_NO_PROPERTY_RESOURCES\r\n"
+    "\r\n"
+    "#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)\r\n"
+    "LANGUAGE 9, 1\r\n"
+    "#pragma code_page(1252)\r\n"
+    "#include ""res\\KeyPartsLink.rc2""  // non-Microsoft Visual C++ edited resources\r\n"
+    "#include ""afxres.rc""     // Standard components\r\n"
+    "#endif\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDR_MAINFRAME           ICON                    "res\\KeyPartsLink.ico"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_INITIALDLG DIALOGEX 0, 0, 215, 215
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+EXSTYLE WS_EX_APPWINDOW
+CAPTION "INITIAL"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    PUSHBUTTON      "Cancel",IDCANCEL,125,160,50,14
+    DEFPUSHBUTTON   "OK",IDOK,35,160,50,14
+    LTEXT           "Model Name:",IDC_STATIC,36,40,88,8
+    LTEXT           "Line Name:",IDC_STATIC,36,60,88,8
+    LTEXT           "Part Number:",IDC_STATIC,36,80,88,8
+    LTEXT           "SO Number:",IDC_STATIC,36,100,88,8
+    LTEXT           "Employee ID:",IDC_STATIC,36,120,88,8
+    COMBOBOX        IDC_COMBO_MODELNAME,100,40,80,40,CBS_DROPDOWNLIST | CBS_SORT | WS_DISABLED | WS_VSCROLL | WS_TABSTOP
+    EDITTEXT        IDC_EDIT_LINENAME,100,60,80,12,ES_UPPERCASE | ES_AUTOHSCROLL | WS_DISABLED
+    EDITTEXT        IDC_EDIT_PARTNUMBER,100,80,80,12,ES_UPPERCASE | ES_AUTOHSCROLL | WS_DISABLED
+    EDITTEXT        IDC_EDIT_SONUMBER,100,100,80,12,ES_UPPERCASE | ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_EMPLOYEEID,100,120,80,12,ES_UPPERCASE | ES_AUTOHSCROLL
+END
+
+IDD_OCA_PARA_SETTING DIALOGEX 0, 0, 259, 174
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "OCA Para Settings"
+FONT 8, "MS Shell Dlg", 0, 0, 0x0
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,57,133,62,27
+    PUSHBUTTON      "Cancel",IDCANCEL,141,133,62,27
+    LTEXT           "Z轴高度:",IDC_STATIC,50,69,44,12
+    EDITTEXT        IDC_EDIT_Z_AXIS_HEIGHT,108,69,44,12,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_ROLLER_PRESSURE,108,42,44,12,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_MOUNDLAYER_HEIGHT,108,96,44,12,ES_AUTOHSCROLL
+    LTEXT           "单位:mm",IDC_STATIC,176,69,64,12
+    LTEXT           "压条高度:",IDC_STATIC,50,96,44,12
+    LTEXT           "滚轮压力:",IDC_STATIC,50,42,44,12
+    LTEXT           "单位: kg/cm*cm",IDC_STATIC,176,42,64,12
+    LTEXT           "单位:mm",IDC_STATIC,176,96,64,12
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO 
+BEGIN
+    IDD_INITIALDLG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 193
+    END
+
+    IDD_OCA_PARA_SETTING, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 252
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 167
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+#endif    // Chinese (P.R.C.) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
+// English (U.S.) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+#ifdef _WIN32
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+#endif //_WIN32
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_ABOUTBOX DIALOGEX 0, 0, 170, 62
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "About KeyPartsLink"
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    ICON            IDR_MAINFRAME,IDC_STATIC,14,14,21,20
+    LTEXT           "KeyPartsLink, Version 1.0",IDC_STATIC,42,14,114,8,SS_NOPREFIX
+    LTEXT           "Copyright (C) 2011",IDC_STATIC,42,26,114,8
+    DEFPUSHBUTTON   "OK",IDOK,113,41,50,14,WS_GROUP
+END
+
+IDD_KeyPartsLink_DIALOG DIALOGEX 0, 0, 575, 501
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+EXSTYLE WS_EX_APPWINDOW
+CAPTION "KeyPartsLink"
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    CONTROL         "",IDC_STATIC_TITLE,"Static",SS_BLACKFRAME,15,6,546,38
+    LTEXT           "Model Name:",IDC_STATIC,30,49,42,8
+    LTEXT           "Part Number:",IDC_STATIC,180,49,44,8
+    LTEXT           "Employee ID:",IDC_STATIC,30,69,44,8
+    LTEXT           "SO Number:",IDC_STATIC,180,69,40,8
+    LTEXT           "Line Name:",IDC_STATIC,30,89,36,8
+    LTEXT           "PC Name",IDC_STATIC,180,89,40,8
+    LTEXT           "Segment:",IDC_STATIC,31,108,32,8
+    LTEXT           "Process:",IDC_STATIC,179,108,28,8
+    PUSHBUTTON      "LOCK",IDC_BUTTON_LOCK,235,132,50,14
+    PUSHBUTTON      "Edit OCA",IDC_BUTTON_EDIT_OCA_PATA,288,132,50,14
+    LTEXT           "Please Scan Picasso(PPID/IMEI)",IDC_STATIC,25,180,115,8
+    EDITTEXT        IDC_EDIT_SN,145,180,135,14,ES_UPPERCASE | ES_AUTOHSCROLL
+    LTEXT           "Please Scan KeyPart Barcode:",IDC_STATIC,25,202,104,8
+    EDITTEXT        IDC_EDIT_KEYPARTBARCODE,145,202,135,14,ES_UPPERCASE | ES_AUTOHSCROLL
+    CONTROL         "",IDC_LIST_KEYPART,"SysListView32",LVS_REPORT | LVS_ALIGNLEFT | WS_BORDER | WS_TABSTOP,23,225,531,138
+    CONTROL         "",IDC_LIST_RESULT,"SysListView32",LVS_REPORT | LVS_ALIGNLEFT | WS_BORDER | WS_TABSTOP,344,56,211,115
+    LTEXT           "Static",IDC_STATIC_MODELNAME,100,49,64,16,SS_SUNKEN
+    LTEXT           "Static",IDC_STATIC_PARTNUMBER,250,49,64,16,SS_SUNKEN
+    LTEXT           "Static",IDC_STATIC_EMPLOYEEID,100,69,64,16,SS_SUNKEN
+    LTEXT           "Static",IDC_STATIC_SONUMBER,250,69,64,16,SS_SUNKEN
+    LTEXT           "Static",IDC_STATIC_LINENAME,100,89,64,16,SS_SUNKEN
+    LTEXT           "Static",IDC_STATIC_PCNAME,250,89,64,16,SS_SUNKEN
+    LTEXT           "Static",IDC_STATIC_SEGMENT,100,109,64,16,SS_SUNKEN
+    COMBOBOX        IDC_COMBO_PROCESS,250,109,64,16,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    CONTROL         "FA PRINT PCBA Label",IDC_CHECK_PRINT_PCBA_LABEL,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,30,157,84,10
+    CONTROL         "OnLine Print FA Tracking Label",IDC_CHECK_PRINT,"Button",BS_AUTOCHECKBOX | WS_DISABLED | WS_TABSTOP,122,157,111,10
+    CONTROL         "Re_Print FA Tracking Label",IDC_CHECK_REPRINTLABEL,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,238,156,99,10
+    LTEXT           "The Latest 10 Records:",IDC_STATIC_RESULT,347,47,97,8
+    CTEXT           "",IDC_STATIC_SHOWPASS,364,188,125,33,SS_CENTERIMAGE
+    LTEXT           "Status:",IDC_STATIC,314,200,40,8
+    GROUPBOX        "Check Battery Status Option",IDC_STATIC,24,125,204,21
+    GROUPBOX        "Print Label Option",IDC_STATIC,24,148,316,21
+    CONTROL         "Only One Pass Run-In",IDC_RADIO_ONLY_ONE,"Button",BS_AUTORADIOBUTTON,31,134,87,10
+    CONTROL         "At Least One Pass Run-In",IDC_RADIO_ATLEAST_ONE,"Button",BS_AUTORADIOBUTTON,124,134,99,10
+    EDITTEXT        IDC_EDIT_UNLINK_SN,91,381,153,14,ES_UPPERCASE | ES_AUTOHSCROLL
+    PUSHBUTTON      "Inquiry",IDC_BUTTON_INQUIRY,259,381,50,14
+    PUSHBUTTON      "Remove",IDC_BUTTON_UNLINK,328,381,50,14
+    CONTROL         "",IDC_LIST_PTKPWIPLIST,"SysListView32",LVS_REPORT | LVS_ALIGNLEFT | WS_BORDER | WS_TABSTOP,22,401,532,84
+    COMBOBOX        IDC_COMBO_Index,28,381,55,36,CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    CONTROL         "DO UNLINK",IDC_CHECK_UNLINK,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,502,381,52,10
+    GROUPBOX        "UnLink",IDC_STATIC,14,369,547,123
+    GROUPBOX        "Link",IDC_STATIC,16,170,546,198
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO 
+BEGIN
+    IDD_ABOUTBOX, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 163
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 55
+    END
+
+    IDD_KeyPartsLink_DIALOG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 366
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 365
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 2,0,1,6
+ PRODUCTVERSION 2,0,1,6
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x4L
+ FILETYPE 0x1L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904e4"
+        BEGIN
+            VALUE "CompanyName", "TODO: <Company name>"
+            VALUE "FileDescription", "TODO: <File description>"
+            VALUE "FileVersion", "2.0.1.6"
+            VALUE "InternalName", "KeyPartsLink.exe"
+            VALUE "LegalCopyright", "TODO: (c) <Company name>.  All rights reserved."
+            VALUE "OriginalFilename", "KeyPartsLink.exe"
+            VALUE "ProductName", "TODO: <Product name>"
+            VALUE "ProductVersion", "2.0.1.6"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x409, 1252
+    END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE 
+BEGIN
+    IDS_ABOUTBOX            "&About KeyPartsLink..."
+END
+
+#endif    // English (U.S.) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+#define _AFX_NO_SPLITTER_RESOURCES
+#define _AFX_NO_OLE_RESOURCES
+#define _AFX_NO_TRACKER_RESOURCES
+#define _AFX_NO_PROPERTY_RESOURCES
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+LANGUAGE 9, 1
+#pragma code_page(1252)
+#include "res\KeyPartsLink.rc2"  // non-Microsoft Visual C++ edited resources
+#include "afxres.rc"     // Standard components
+#endif
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

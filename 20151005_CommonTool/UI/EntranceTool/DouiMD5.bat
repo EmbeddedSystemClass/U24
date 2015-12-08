@@ -1,0 +1,1 @@
+fciv.exe -r C:\Tool\GORAB1A_Orange\TLFT_GORAB1A_v1.010\\IMEI\UnifyUI_FacTestTool.exe -xml c:\UI.xml

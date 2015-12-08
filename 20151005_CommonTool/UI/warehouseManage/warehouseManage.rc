@@ -1,0 +1,372 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "resource.h"
+
+// Generated Help ID header file
+#define APSTUDIO_HIDDEN_SYMBOLS
+#include "resource.hm"
+#undef APSTUDIO_HIDDEN_SYMBOLS
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#ifndef APSTUDIO_INVOKED
+#include "targetver.h"
+#endif
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// Chinese (P.R.C.) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_CHS)
+#ifdef _WIN32
+LANGUAGE LANG_CHINESE, SUBLANG_CHINESE_SIMPLIFIED
+#pragma code_page(936)
+#endif //_WIN32
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#ifndef APSTUDIO_INVOKED\r\n"
+    "#include ""targetver.h""\r\n"
+    "#endif\r\n"
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "#define _AFX_NO_SPLITTER_RESOURCES\r\n"
+    "#define _AFX_NO_OLE_RESOURCES\r\n"
+    "#define _AFX_NO_TRACKER_RESOURCES\r\n"
+    "#define _AFX_NO_PROPERTY_RESOURCES\r\n"
+    "\r\n"
+    "#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)\r\n"
+    "LANGUAGE 9, 1\r\n"
+    "#pragma code_page(1252)\r\n"
+    "#include ""res\\warehouseManage.rc2""  // non-Microsoft Visual C++ edited resources\r\n"
+    "#include ""afxres.rc""     // Standard components\r\n"
+    "#endif\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDR_MAINFRAME           ICON                    "res\\warehouseManage.ico"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+warehouse_Input DIALOGEX 0, 0, 460, 289
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_SYSMENU
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    EDITTEXT        IDC_EDIT1,100,11,192,15,ES_AUTOHSCROLL | ES_NUMBER
+    EDITTEXT        IDC_EDIT2,100,58,192,15,ES_AUTOHSCROLL
+    LTEXT           "SO:",IDC_STATIC_SO_Edit,30,15,66,10
+    LTEXT           "Carton ID/IMEI:",IDC_ID,30,59,55,11
+    CONTROL         "",IDC_LIST1,"SysListView32",LVS_REPORT | LVS_ALIGNLEFT | WS_BORDER | WS_TABSTOP,30,78,400,128
+    PUSHBUTTON      "OK",IDOK,7,6,10,14,NOT WS_VISIBLE
+    LTEXT           "Pass:",IDC_Pass,28,221,20,8
+    LTEXT           "",IDC_Pass_Show,58,221,57,8
+    LTEXT           "Fail:",IDC_Fail,147,221,20,8
+    LTEXT           "",IDC_Fail_show,179,221,57,8
+    LTEXT           "Total:",IDC_STATIC,266,221,20,8
+    LTEXT           "",IDC_Total_show,300,221,57,8
+    CONTROL         "Carton ID",IDC_CartonID,"Button",BS_AUTORADIOBUTTON,30,43,52,10
+    CONTROL         "IMEI",IDC_IMEI,"Button",BS_AUTORADIOBUTTON,100,43,52,10
+    LTEXT           "PN:",IDC_STATIC_PN,309,36,16,8,0,WS_EX_TRANSPARENT
+    LTEXT           "",IDC_PN_show,342,36,81,8
+    LTEXT           "SW:",IDC_STATIC_SW1,309,46,16,8
+    LTEXT           "",IDC_SW_Show,342,46,81,8
+    LTEXT           "Qty:",IDC_STATIC_ID1,309,57,16,8
+    CONTROL         "LOCK",IDC_CHECK1,"Button",BS_AUTOCHECKBOX | BS_NOTIFY | WS_TABSTOP,304,12,45,10,0,HIDC_CHECK1
+    LTEXT           "",IDC_Qty_show,342,57,81,8
+    GROUPBOX        "",IDC_STATIC,304,27,138,45
+END
+
+warehouse_Out DIALOGEX 0, 0, 460, 289
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_SYSMENU
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    CTEXT           "Carton ID/IMEI:",IDC_ID,39,71,56,13,SS_CENTERIMAGE
+    EDITTEXT        IDC_EDIT1,109,71,227,14,ES_AUTOHSCROLL
+    CONTROL         "",IDC_LIST1,"SysListView32",LVS_REPORT | LVS_ALIGNLEFT | WS_BORDER | WS_TABSTOP,30,96,400,126
+    PUSHBUTTON      "OK",IDOK,433,2,21,14,NOT WS_VISIBLE
+    LTEXT           "Pass:",IDC_STATIC,34,260,20,8
+    LTEXT           "",IDC_Pass_Show,64,260,34,8
+    LTEXT           "Fail:",IDC_STATIC,153,260,20,8
+    LTEXT           "",IDC_Fail_show,185,260,34,8
+    LTEXT           "Total:",IDC_STATIC,272,260,20,8
+    LTEXT           "",IDC_Total_show,306,260,34,8
+    CONTROL         "Carton ID",IDC_RADIO1,"Button",BS_AUTORADIOBUTTON,39,52,56,13
+    CONTROL         "IMEI",IDC_RADIO2,"Button",BS_AUTORADIOBUTTON,111,52,56,13
+    CTEXT           "Rework Reason",IDC_ID2,39,24,56,13,SS_CENTERIMAGE
+    EDITTEXT        IDC_EDIT2,98,24,95,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT4,271,24,95,14,ES_AUTOHSCROLL
+    CONTROL         "LOCK",IDC_CHECK1,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,381,24,56,13
+    CONTROL         "DOA RMA No",IDC_CHECK3,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,213,25,54,13
+END
+
+IDD_DlgMsg DIALOGEX 0, 0, 316, 191
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "warehouseManage"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    PUSHBUTTON      "Close",IDCANCEL,113,170,71,14
+    CTEXT           "Static",IDC_STATIC_Ercode,12,12,287,38,SS_ENDELLIPSIS | WS_BORDER,WS_EX_CLIENTEDGE
+    LTEXT           "Static",IDC_STATIC_ERMsg,12,57,287,107,0,WS_EX_CLIENTEDGE
+END
+
+IDD_ABOUTBOX DIALOGEX 0, 0, 262, 83
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Version"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,205,62,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,205,62,50,14
+    LTEXT           "WareHouseManage Version2.003",IDC_STATIC,78,20,110,8
+END
+
+warehouse_Csd DIALOGEX 0, 0, 444, 271
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_SYSMENU
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    LTEXT           "SO:",IDC_STATIC,31,24,13,8
+    EDITTEXT        IDC_EDIT1,81,22,173,14,ES_AUTOHSCROLL | ES_WANTRETURN
+    LTEXT           "IMEI:",IDC_STATIC,31,46,18,8
+    LTEXT           "PICASSO:",IDC_STATIC,31,67,33,8
+    EDITTEXT        IDC_EDIT2,81,43,174,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT3,81,64,174,14,ES_AUTOHSCROLL
+    CONTROL         "",IDC_LIST1,"SysListView32",LVS_REPORT | LVS_ALIGNLEFT | WS_BORDER | WS_TABSTOP,29,95,344,103
+    GROUPBOX        "",IDC_STATIC,303,20,125,61
+    LTEXT           "MODEL:",IDC_STATIC_MODEL,316,35,26,8
+    LTEXT           "PN:",IDC_STATIC_PN,316,48,12,8
+    LTEXT           "SW:",IDC_STATIC_SW,316,63,14,8
+    LTEXT           "",IDC_Model_show,356,34,50,8
+    LTEXT           "",IDC_PN_show,356,50,51,8
+    LTEXT           "",IDC_SW_Show,355,63,60,8
+    LTEXT           "pass:",IDC_STATIC,32,215,18,8
+    LTEXT           "fail:",IDC_STATIC,157,215,18,8
+    LTEXT           "total:",IDC_STATIC,272,215,18,8
+    LTEXT           "",IDC_Pass_Show,69,215,30,8
+    LTEXT           "",IDC_Fail_show,190,215,30,8
+    LTEXT           "",IDC_Total_show,311,215,30,8
+    CONTROL         "LOCK",IDC_CHECK3,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,263,24,33,10
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO 
+BEGIN
+    warehouse_Input, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 454
+        TOPMARGIN, 6
+        BOTTOMMARGIN, 268
+    END
+
+    warehouse_Out, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 453
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 282
+    END
+
+    IDD_DlgMsg, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 309
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 184
+    END
+
+    IDD_ABOUTBOX, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 255
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 76
+    END
+
+    warehouse_Csd, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 437
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 264
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Menu
+//
+
+IDR_MENU1 MENU 
+BEGIN
+    POPUP "Help"
+    BEGIN
+        MENUITEM "About",                       ID_HELP_ABOUT
+    END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE 
+BEGIN
+    ID_About_String         "Version 1.00"
+END
+
+#endif    // Chinese (P.R.C.) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
+// English (U.S.) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+#ifdef _WIN32
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+#endif //_WIN32
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_WAREHOUSEMANAGE_DIALOG DIALOGEX 0, 0, 475, 426
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_VISIBLE | WS_CAPTION
+EXSTYLE WS_EX_APPWINDOW
+CAPTION "warehouseManage"
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    CONTROL         "Test",IDOK,"Button",BS_OWNERDRAW | WS_TABSTOP,88,360,79,29
+    CONTROL         "Cancel",IDCANCEL,"Button",BS_OWNERDRAW | WS_TABSTOP,308,360,79,29
+    CONTROL         "",IDC_TAB1,"SysTabControl32",0x0,7,80,461,248
+    CONTROL         "Confirm",IDC_Convirm,"Button",BS_OWNERDRAW | WS_TABSTOP,198,360,79,29
+    CONTROL         "",IDC_STATIC_Title,"Static",SS_BLACKFRAME,7,7,461,74
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO 
+BEGIN
+    IDD_WAREHOUSEMANAGE_DIALOG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 468
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 419
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 1,30,0,0
+ PRODUCTVERSION 2,0,0,5
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x4L
+ FILETYPE 0x1L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904e4"
+        BEGIN
+            VALUE "CompanyName", "TODO: <Company name>"
+            VALUE "FileDescription", "TODO: <File description>"
+            VALUE "FileVersion", "1.30"
+            VALUE "InternalName", "warehouseManage.exe"
+            VALUE "LegalCopyright", "TODO: (c) <Company name>.  All rights reserved."
+            VALUE "OriginalFilename", "warehouseManage.exe"
+            VALUE "ProductName", "TODO: <Product name>"
+            VALUE "ProductVersion", "2.0.1.1"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x409, 1252
+    END
+END
+
+#endif    // English (U.S.) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+#define _AFX_NO_SPLITTER_RESOURCES
+#define _AFX_NO_OLE_RESOURCES
+#define _AFX_NO_TRACKER_RESOURCES
+#define _AFX_NO_PROPERTY_RESOURCES
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+LANGUAGE 9, 1
+#pragma code_page(1252)
+#include "res\warehouseManage.rc2"  // non-Microsoft Visual C++ edited resources
+#include "afxres.rc"     // Standard components
+#endif
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+
