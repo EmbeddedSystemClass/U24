@@ -615,7 +615,8 @@ bool ITestProcessor::InitialPowerSupply()
 		m_strMessage = "StartPowerOnCheck";
 		TraceLog(MSG_ERROR, m_strMessage);
 
-		if ( m_pIPS == NULL || m_pIPS2 == NULL )
+		//if ( m_pIPS == NULL || m_pIPS2 == NULL )
+		if ( m_pIPS == NULL )
 		{
 			if ( m_pIPS == NULL )
 			{
@@ -1907,7 +1908,7 @@ bool ITestProcessor::ParseLeakageCurrentPowerOnCheckParameters()  //Eason
 		return false;
 
 	XMLNode IsPS2Check = m_DeviceItemXML.SearchNode(_T("//Configuration//TestProcessor//PowerOnCheck//PS2Check"));
-	if (IsPS1Value == NULL)
+	if (IsPS2Value == NULL)
 		return false;
 
 	CString str_IsUsePowerOnCheck = m_DeviceItemXML.GetNodeText(IsUsePowerOnCheck);
