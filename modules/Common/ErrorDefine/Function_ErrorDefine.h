@@ -592,6 +592,7 @@
 #define FunErr_Check_PMid_Fail					"FunErr_Check_PMid__Fail"
 #define FunErr_Check_PMIid_Fail					"FunErr_Check_PMIid_Fail"
 #define FunErr_Check_APQ_UART_Fail					"FunErr_Check_APQ_UART_Fail"
+#define FunErr_Check_DDC_RX_Fail					"FunErr_Check_DDC_RX_Fail"
 #define FunErr_Check_HDMI_OUTPUT_Fail					"FunErr_Check_HDMI_OUTPUT_Fail"
 #define FunErr_Check_WLAN_MODULE_Fail					"FunErr_Check_WLAN_MODULE_Fail"
 #define FunErr_Check_BT_INQUIRY_Fail					"FunErr_Check_BT_INQUIRY_Fail"
