@@ -30,6 +30,7 @@
 #define CheckModel				"CheckModel"
 #define CheckSWVersion		"CheckSWVersion"
 #define Postcmd					"Postcmd"
+#define PlayVideo					"PlayVideo"
 #define CheckSWversionByDB "CheckSWversionByDB"
 
 #define DNULL                        "NULL"
@@ -145,6 +146,7 @@ private:
 	bool runCheckSWversionByDB();
 	bool GetSWVersionFromDB();
 	bool runPostCmd( );
+	bool runPlayVideo( );
 	bool IfRepeated( char *szvalue );    // 1 = ID ,2 = SN
 	//bool IfRepeated(unsigned short IdType);    // 1 = ID ,2 = SN
 	bool checkFileExist(CString csFilePath);

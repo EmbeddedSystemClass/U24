@@ -143,6 +143,12 @@ bool CMonitor::Run()
 		m_strErrorCode = FunErr_POST_CMD_Fail;
 		passFail = runPostCmd();
 	}
+	else if (m_str_TestItem == PlayVideo)
+	{
+		m_strItemCode = CStr::IntToStr(Monitor_BaseItemcode);
+		m_strErrorCode = "-";
+		passFail = runPlayVideo();
+	}	
 	
 	else
 	{
@@ -161,7 +167,6 @@ bool CMonitor::Run()
 	//}
 
 	return passFail;
-
 }
 
 bool CMonitor::PostRun()
@@ -178,7 +183,7 @@ bool CMonitor::InitData(std::map<std::string, std::string>& paramMap)
 	}
 	else
 	{
-		TraceLog(MSG_INFO, "Failed to Get filed 'TestItem' for class 'CMonitor'");
+		TraceLog(MSG_INFO, "Failed to Get filed 'TestItem' for class 'CMonitor'"); 
 		return false;
 	}
 
@@ -1309,6 +1314,77 @@ bool CMonitor::changeModel(){
 //	FactoryLog();
 //	return bRes;
 //}
+
+bool CMonitor::runPlayVideo() 
+{
+	CString cs_write_cmd = "";
+
+	bool bRes = true;
+	char sz_cmd_in[FTD_BUF_SIZE] ="";
+	char sz_cmd_out[FTD_BUF_SIZE] ="";
+	char sz_cmd_errcode[FTD_BUF_SIZE] ="";
+
+	memset(sz_cmd_in, 0, sizeof(sz_cmd_in));
+	memset(sz_cmd_out, 0, sizeof(sz_cmd_out));
+	memset(sz_cmd_errcode, 0, sizeof(sz_cmd_errcode));
+
+	//adb shell touch /data/data/com.oem.runin/skipCheckMMI
+
+	strcpy(sz_cmd_in, _T("shell stop ftd"));
+	if ( !ExecAdbOut(sz_cmd_in, sz_cmd_out, sz_cmd_errcode) ){
+		ErrMsg = (_T("shell stop ftd Fail"));
+	//	AfxMessageBox( ErrMsg.c_str() );
+		TraceLog(MSG_INFO,  ErrMsg);
+		goto  Exit_ShowResult;
+	}	
+	Sleep(m_i_SleepTime);
+
+	strcpy(sz_cmd_in, _T("shell start"));
+	if ( !ExecAdbOut(sz_cmd_in, sz_cmd_out, sz_cmd_errcode) ){
+		ErrMsg = (_T("shell start"));
+	//	AfxMessageBox( ErrMsg.c_str() );
+		TraceLog(MSG_INFO,  ErrMsg);
+		goto  Exit_ShowResult;
+	}	
+	Sleep(m_i_SleepTime);
+
+	strcpy(sz_cmd_in, _T("shell  input keyevent 26"));
+	if ( !ExecAdbOut(sz_cmd_in, sz_cmd_out, sz_cmd_errcode) ){
+		ErrMsg = (_T("shell  input keyevent 26 Fail"));
+	//	AfxMessageBox( ErrMsg.c_str() );
+		TraceLog(MSG_INFO,  ErrMsg);
+		goto  Exit_ShowResult;
+	}	
+	Sleep(m_i_SleepTime);
+
+	strcpy(sz_cmd_in, _T("shell am start -n com.oem.runin/com.oem.runin.TesterVideo")); 
+	if ( !ExecAdbOut(sz_cmd_in, sz_cmd_out, sz_cmd_errcode) ){
+		ErrMsg = (_T("shell am start -n com.oem.runin/com.oem.runin.TesterVideo fail"));
+	//	AfxMessageBox( ErrMsg.c_str() );
+		TraceLog(MSG_INFO,  ErrMsg);
+		goto  Exit_ShowResult;
+	}	
+	Sleep(m_i_SleepTime);
+
+
+	
+Exit_ShowResult:
+	if ( !bRes) {
+		m_strResult = "FAIL";
+	}
+	else
+	{
+		m_strErrorCode = "-";
+		m_strResult = "PASS";
+	}
+
+
+	str_msg = ErrMsg;
+	m_strMessage = str_msg;
+	FactoryLog();
+	return true;
+}
+
 bool CMonitor::runPostCmd()
 {
 	CString cs_write_cmd = "";

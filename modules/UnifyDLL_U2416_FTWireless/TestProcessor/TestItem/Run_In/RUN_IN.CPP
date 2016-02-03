@@ -834,14 +834,26 @@ bool CRUN_IN::ExecAdbOut(CString Command, char* output, char* ErrorCode, int nSl
 
 			isOk = true;
 			DWORD bytesRead;
+			std::string	std_out = "";
+			std::string std_find_string = "not";
 			char* message = new char[nPipeSize];
 			memset(message, 0, sizeof(message));
 			::ReadFile(hRead, message, nPipeSize, &bytesRead, NULL);
 			message[bytesRead] = '\0';
 
-			strcpy(output, message);
-			strcpy(ErrorCode, "Adb command ok");
+			std_out = message;
+			if ( std_out.find( std_find_string )  != string::npos) 
+			{
+				isOk = false;
+				strcpy(ErrorCode, "ERROR: adb com fail!");
+			}
+			else
+			{
+				strcpy(output, message);
+				strcpy(ErrorCode, "Adb command ok");
+			}
 			delete [] message;
+
 		}
 	}
 	else
