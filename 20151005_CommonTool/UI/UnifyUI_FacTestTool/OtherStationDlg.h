@@ -44,7 +44,9 @@ public:
 	bool SetPicasso(std::map<int, CString> map_picasso);
 
 	bool GetTag(std::map<int, CString> &map_tag);
+	bool GetSn(std::map<int, CString> &map_sn);
 	bool SetTag(std::map<int, CString> map_tag);
+	bool SetSn(std::map<int, CString> map_sn);
 	void SetTestResult(int i_slot, CString str_testresult){}
 	bool PostRun();
 	bool ResetPage();
@@ -77,12 +79,14 @@ private:
 	bool InitialFA();
 	bool InitialFA_new();
 	bool setTag();
+	bool setSn();
 	bool ReadFA();
 	bool WriteFA(char* sz_result);
 	bool CheckPicassoDuplicate();
 	bool ComparePicassoTag();
 	bool CheckScan();
 	bool CheckScanTAG();
+	bool CheckScanSN();
 	void LogMsg(CString logContent);
 	bool SetParameterToDLL(void);
 	bool GetParameterFromDLL(void);
@@ -101,6 +105,7 @@ private:
 	CString							m_str_tag;             // picasso number
 	CString							m_str_invalidepicasso;     //invalide picasso
 	CString							m_str_invalidetag;
+	CString							m_str_invalidesn;
 	std::map<CString,int>			m_map_testItem;            // the Map is for UI to focus on the current test item, reference Event() function
 	CFAOperator						m_obj_faOperator;          // object of CFAOperator
 	CFAOperator_new					m_obj_newFA;				// object of CFAOperator

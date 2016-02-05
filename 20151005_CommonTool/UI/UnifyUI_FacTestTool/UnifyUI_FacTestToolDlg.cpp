@@ -6,6 +6,7 @@
 #include "IMEIFCDlg.h"
 #include "OtherStationDlg.h"
 #include "OthersMultiDlg.h"
+#include "OtherStationReadDlg.h"
 #include "../../Modules/Common/CommonUtil/Win32SHELLUtility.h"
 
 
@@ -112,8 +113,13 @@ CUnifyUI_FacTestToolDlg::CUnifyUI_FacTestToolDlg(CWnd* pParent /*=NULL*/)
 	m_st_uiControl.b_AutoRunPreScan   = false;
 	m_st_uiControl.b_WriteTag			  = false;
 	m_st_uiControl.b_ReadTag			  = false;
-	m_st_uiControl.b_WriteTagFrame			  = false;
+	m_st_uiControl.b_WriteTagFrame		= false;
 	m_st_uiControl.b_ScanTag				= false;
+
+	m_st_uiControl.b_WriteSn			  = false;
+	m_st_uiControl.b_ReadSn			  = false;
+	m_st_uiControl.b_WriteSnFrame			  = false;
+	m_st_uiControl.b_ScanSn				= false;
 
 	m_st_uiControl.b_ReadFA           = true;//default read fa, lion
 	m_st_uiControl.b_WriteFA          = false;
@@ -908,7 +914,6 @@ bool CUnifyUI_FacTestToolDlg::InitialUIControl()
 	::GetPrivateProfileString(m_st_idParameter.str_station, _T("WriteTAG"), _T("0"), sz_temp, sizeof(sz_temp), sz_iniFolderName);
 	m_st_uiControl.b_WriteTag =  (StrToInt(sz_temp)!=0);
 
-	
 	//if b_ReadTag
 	::GetPrivateProfileString(m_st_idParameter.str_station, _T("ReadTag"), _T("0"), sz_temp, sizeof(sz_temp), sz_iniFolderName);
 	m_st_uiControl.b_ReadTag =  (StrToInt(sz_temp)!=0);
@@ -917,7 +922,19 @@ bool CUnifyUI_FacTestToolDlg::InitialUIControl()
 	::GetPrivateProfileString(m_st_idParameter.str_station, _T("ScanTag"), _T("0"), sz_temp, sizeof(sz_temp), sz_iniFolderName);
 	m_st_uiControl.b_ScanTag = (StrToInt(sz_temp)!=0);
 
-	/* Scan Tag */
+	//if WriteSN
+	::GetPrivateProfileString(m_st_idParameter.str_station, _T("WriteSN"), _T("0"), sz_temp, sizeof(sz_temp), sz_iniFolderName);
+	m_st_uiControl.b_WriteSn =  (StrToInt(sz_temp)!=0);
+
+	//if b_ReadSn
+	::GetPrivateProfileString(m_st_idParameter.str_station, _T("ReadSn"), _T("0"), sz_temp, sizeof(sz_temp), sz_iniFolderName);
+	m_st_uiControl.b_ReadSn =  (StrToInt(sz_temp)!=0);
+
+	/* Scan Sn */
+	::GetPrivateProfileString(m_st_idParameter.str_station, _T("ScanSn"), _T("0"), sz_temp, sizeof(sz_temp), sz_iniFolderName);
+	m_st_uiControl.b_ScanSn = (StrToInt(sz_temp)!=0);
+
+	/* Time out */
 	::GetPrivateProfileString(m_st_idParameter.str_station, _T("Timeout"), _T("0"), sz_temp, sizeof(sz_temp), sz_iniFolderName);
 	m_st_uiControl.i_ToolTimeout   = StrToInt(sz_temp);
 
@@ -926,6 +943,7 @@ bool CUnifyUI_FacTestToolDlg::InitialUIControl()
 	//for wirte station
 	if (m_st_idParameter.str_station.Compare(L"WRITE") == 0){
 		m_st_uiControl.b_WriteTagFrame = true;
+		m_st_uiControl.b_WriteSnFrame = true;
 	}
 
 	//auto run only for OS_DL
@@ -1307,25 +1325,25 @@ bool CUnifyUI_FacTestToolDlg::InitialTabCtrl()
 			m_pageArray.Add(p_Other_Station);
 		}
 	}
-	else /*if ((m_st_idParameter.str_station == STATION_2GPTEST)||
-			 (m_st_idParameter.str_station == STATION_3GPTEST)||
-			 (m_st_idParameter.str_station == STATION_2G3GTEST)||
-			 (m_st_idParameter.str_station == STATION_BBTEST)||
-			 (m_st_idParameter.str_station == STATION_BOOT)||
-			 (m_st_idParameter.str_station == STATION_BTWLAN)||
-			 (m_st_idParameter.str_station == STATION_RUN_IN)||
-			 (m_st_idParameter.str_station == STATION_ONLINE_WLS)||
-			 (m_st_idParameter.str_station == STATION_ONLINE_WLS2)||
-			 (m_st_idParameter.str_station == STATION_ONLINE_WLS3)||
-			 (m_st_idParameter.str_station == STATION_MMI_BB)||
-			 (m_st_idParameter.str_station == STATION_ALS_AUDIO)||	
-			 (m_st_idParameter.str_station == STATION_ALS)||
-			 (m_st_idParameter.str_station == STATION_AUDIO)||
-			 (m_st_idParameter.str_station == STATION_TOUCH)||
-			 (m_st_idParameter.str_station == STATION_CAMERA)||
-			 (m_st_idParameter.str_station == STATION_FFU)||
-			 (m_st_idParameter.str_station == STATION_CURRENT)||
-			 (m_st_idParameter.str_station == STATION_MMI_TEST))*/
+	else if ( m_st_idParameter.str_station == STATION_READ  )
+	{
+		/* Add RF/FT/Wireless/MMI Page */
+		COtherStationReadDlg* p_Other_Station = new COtherStationReadDlg(this);
+		if (p_Other_Station == NULL)
+		{
+			m_str_errorCode = CommErr_UI_Init_Diag_Fail;
+			m_str_errorMsg = _T("初始化tab页失败!\nInitial station tab page fail!");
+			LogMsg(m_str_errorMsg);
+			return false;
+		}
+		else
+		{
+			p_Other_Station->Create(COtherStationReadDlg::IDD, &m_tab_stationPageCtrl);
+			m_tab_stationPageCtrl.InsertItem(m_tab_stationPageCtrl.GetItemCount(), m_st_idParameter.str_station);
+			m_pageArray.Add(p_Other_Station);
+		}
+	}
+	else
 	{
 		/* Add RF/FT/Wireless/MMI Page */
 		COtherStationDlg* p_Other_Station = new COtherStationDlg(this);
@@ -2077,6 +2095,11 @@ UINT CUnifyUI_FacTestToolDlg::RunThread(LPVOID pParam)
 		return 0;
 	}
 
+	if (!pThis->GetSnFromStationPage())
+	{
+		return 0;
+	}
+
 	pThis->LogMsg(_T("MainUI Run() GetPicasso From Station Page Suceess!"));
 
 
@@ -2204,6 +2227,26 @@ bool CUnifyUI_FacTestToolDlg::GetTagFromStationPage()
 		if (i_pageIdx == m_tab_stationPageCtrl.GetCurSel()) 
 		{
 			return m_pageArray.GetAt(i_pageIdx)->GetTag(m_map_tag);
+		}
+	}
+
+	return false;
+}
+
+bool CUnifyUI_FacTestToolDlg::GetSnFromStationPage()
+{
+	m_map_sn.clear();
+
+	for (int i_pageIdx = 0; i_pageIdx < m_pageArray.GetSize(); i_pageIdx++) 
+	{
+		if (m_pageArray[i_pageIdx] == NULL) 
+		{
+			continue;
+		}
+
+		if (i_pageIdx == m_tab_stationPageCtrl.GetCurSel()) 
+		{
+			return m_pageArray.GetAt(i_pageIdx)->GetSn(m_map_sn);
 		}
 	}
 
@@ -2482,6 +2525,11 @@ bool CUnifyUI_FacTestToolDlg::GetUIControlParameter( st_UIControl &st_uiControl 
 	st_uiControl.b_WriteTag = m_st_uiControl.b_WriteTag;
 	st_uiControl.b_ReadTag = m_st_uiControl.b_ReadTag;
 	st_uiControl.b_ScanTag = m_st_uiControl.b_ScanTag;
+
+	st_uiControl.b_WriteSnFrame = m_st_uiControl.b_WriteSnFrame;
+	st_uiControl.b_WriteSn = m_st_uiControl.b_WriteSn;
+	st_uiControl.b_ReadSn = m_st_uiControl.b_ReadSn;
+	st_uiControl.b_ScanSn = m_st_uiControl.b_ScanSn;
 	st_uiControl.i_ToolTimeout = m_st_uiControl.i_ToolTimeout;
 
 	st_uiControl.i_DevControl = m_st_uiControl.i_DevControl;

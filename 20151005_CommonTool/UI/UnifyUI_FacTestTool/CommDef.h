@@ -67,6 +67,7 @@ const int WM_EntranceToolToUnifyUI = WM_USER + 0X103;
 #define STATION_ONLINE_WLS		      _T("ONLINE_WLS")
 #define STATION_ONLINE_WLS2		      _T("ONLINE_WLS2")
 #define STATION_ONLINE_WLS3		      _T("ONLINE_WLS3")
+#define STATION_READ				  _T("READ")
 #define STATION_MMI_BB			      _T("MMI_BB")
 #define STATION_ALS_AUDIO			  _T("ALS_AUDIO")
 #define STATION_TOUCH				  _T("TOUCH")
@@ -138,6 +139,7 @@ const int WM_EntranceToolToUnifyUI = WM_USER + 0X103;
 
 #define PICASSO_LENGTH  10 //dell  us2416
 #define TAG_LENGTH  7 //dell  us2416
+#define SN_LENGTH  20//Marco
 #define NAL_LENGTH		15
 #define IMEI_LENGTH     15
 #define Acer22_LENGTH  22
@@ -241,6 +243,11 @@ struct st_UIControl
 	bool b_WriteTag;
 	bool b_ReadTag;
 	bool b_WriteTagFrame;
+
+	bool b_ScanSn;
+	bool b_WriteSn;
+	bool b_ReadSn;
+	bool b_WriteSnFrame;
 	CString str_NAL6;
 };
 #pragma pack()

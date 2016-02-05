@@ -36,6 +36,8 @@ public:
 
 	bool GetTag(std::map<int, CString> &map_Tag){ return true;};
 	bool SetTag(std::map<int, CString> map_Tag){ return true;};
+	bool GetSn(std::map<int, CString> &map_Sn){ return true;};
+	bool SetSn(std::map<int, CString> map_Sn){ return true;};
 	void SetTestResult(int i_slot, CString str_testresult);
 	bool PostRun();
 	bool ResetPage();

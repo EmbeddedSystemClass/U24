@@ -58,6 +58,7 @@
 #define CommErr_UI_Picasso_Scaned_Fail              _T("UI003014")
 #define CommErr_UI_ID_Invalid                       _T("UI003015")
 #define CommErr_UI_TAG_Not_Input				_T("UI003016")
+#define CommErr_UI_SN_Not_Input				_T("UI003017")
 //UIDLpage
 #define CommErr_UI_DL_Image_Not_Exist				_T("UI004001")
 //UIinterface related

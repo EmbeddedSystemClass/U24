@@ -18,6 +18,7 @@
 #define IDD_OTHERS_MULTI_STATION        136
 #define IDD_POPUP_IMG_DIALOG            137
 #define IDD_DIALOG2                     138
+#define IDD_OTHER_READ                  139
 #define IDC_EDIT_Model                  1000
 #define IDC_EDIT_Line                   1001
 #define IDC_EDIT_PCBA                   1002
@@ -116,6 +117,7 @@
 #define IDC_INIT_STATIC_PartNumber      1091
 #define IDC_STATIC_TAG                  1091
 #define IDC_INIT_STATIC_LoadVer         1092
+#define IDC_STATIC_SN                   1092
 #define IDC_INIT_STATIC_Station         1093
 #define IDC_INIT_EDIT_Model             1094
 #define IDC_INIT_EDIT_PartNumber        1095
@@ -133,6 +135,7 @@
 #define IDC_BUTTON_NEXT                 1106
 #define IDC_EDIT_TAG                    1107
 #define IDC_STATIC_TEXT                 1108
+#define IDC_EDIT_SN                     1153
 #define IDC_STATIC_ERROR                1109
 #define IDC_STATIC_VER                  1111
 #define IDC_STATIC_SHOW_IMG             1112
@@ -157,7 +160,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        139
 #define _APS_NEXT_COMMAND_VALUE         32771
-#define _APS_NEXT_CONTROL_VALUE         1116
+#define _APS_NEXT_CONTROL_VALUE         1117
 #define _APS_NEXT_SYMED_VALUE           106
 #endif
 #endif

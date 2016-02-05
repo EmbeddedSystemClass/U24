@@ -139,12 +139,25 @@ BOOL COtherStationDlg::OnInitDialog()
 	/*write station*/
 	if (m_st_uiControl.b_WriteTagFrame)
 	{
+		//tag
 		GetDlgItem(IDC_EDIT_TAG)->ShowWindow(SW_SHOW);
 	    GetDlgItem(IDC_STATIC_TAG)->ShowWindow(SW_SHOW);
 		GetDlgItem(IDC_EDIT_TAG)->EnableWindow(true);		
 		((CEdit*)GetDlgItem(IDC_EDIT_TAG))->SetLimitText(TAG_LENGTH);
+
 		GetDlgItem(IDC_EDIT_RF_ID)->EnableWindow(false);
 	}
+
+	/*write sn*/
+	if (m_st_uiControl.b_WriteSnFrame)
+	{
+		GetDlgItem(IDC_EDIT_SN)->ShowWindow(SW_SHOW);
+	    GetDlgItem(IDC_STATIC_SN)->ShowWindow(SW_SHOW);
+		GetDlgItem(IDC_EDIT_SN)->EnableWindow(true);		
+		((CEdit*)GetDlgItem(IDC_EDIT_SN))->SetLimitText(SN_LENGTH);
+	}
+
+
 
 	LogMsg(_T("begin init"));
 	/* Init */
@@ -431,6 +444,30 @@ void COtherStationDlg::ClearMessageList(void)
 	return true;
 }
 
+ bool COtherStationDlg::GetSn(std::map<int, CString> &map_sn)
+{
+	/* Clear UI After Go */
+	GetDlgItem(IDC_EDIT_SN)->EnableWindow(false);
+
+	USES_CONVERSION;
+
+	/* Check if scan Tag */
+	if (m_st_uiControl.b_ScanSn)
+	{
+		if (!CheckScanSN())
+		{
+			return false;
+		}
+		CString str_scaned_sn;
+		GetDlgItem(IDC_EDIT_SN)->GetWindowText(str_scaned_sn);
+		map_sn[0] = str_scaned_sn;
+		m_p_facTestToolInterface->SetParameterValue(INIT_SLOT, "0");
+		m_p_facTestToolInterface->SetParameterValue("SN", T2A(map_sn[0]));
+	}
+
+	return true;
+}
+
 bool COtherStationDlg::GetPicasso(std::map<int, CString> &map_picasso)
 {
 	/* Clear UI After Go */
@@ -438,6 +475,7 @@ bool COtherStationDlg::GetPicasso(std::map<int, CString> &map_picasso)
 	ResetLatestClock();
 	GetDlgItem(IDC_EDIT_RF_ID)->EnableWindow(false);
 	GetDlgItem(IDC_EDIT_TAG)->EnableWindow(false);
+	GetDlgItem(IDC_EDIT_SN)->EnableWindow(false);
 	GetDlgItem(IDC_BUTTON_NEXT)->EnableWindow(false);
 
 	USES_CONVERSION;
@@ -1151,10 +1189,12 @@ bool COtherStationDlg::ResetPage()
  	{
  		GetDlgItem(IDC_EDIT_RF_ID)->SetWindowText(_T(""));
 		GetDlgItem(IDC_EDIT_TAG)->SetWindowText(_T(""));
+		GetDlgItem(IDC_EDIT_SN)->SetWindowText(_T(""));
  	}
 
 
 	/*write station*/
+
 	if (m_st_uiControl.b_WriteTagFrame)
 	{
 		GetDlgItem(IDC_EDIT_TAG)->EnableWindow(TRUE);
@@ -1165,7 +1205,12 @@ bool COtherStationDlg::ResetPage()
 		GetDlgItem(IDC_EDIT_RF_ID)->EnableWindow(TRUE);
 		((CEdit   *)GetDlgItem(IDC_EDIT_RF_ID))->SetFocus();
 	}
-
+	/*sn*/
+	if (m_st_uiControl.b_WriteSnFrame)
+	{
+		GetDlgItem(IDC_EDIT_SN)->EnableWindow(TRUE);
+		GetDlgItem(IDC_EDIT_SN)->SetFocus();
+	}
 	m_str_errorCode = _T("");
 	m_str_errorMessage = _T("");
 
@@ -1374,6 +1419,18 @@ bool COtherStationDlg::SetTag( std::map<int, CString> map_tag )
 	return true;
 }
 
+bool COtherStationDlg::SetSn( std::map<int, CString> map_sn )
+{
+	if (!map_sn.empty())
+	{
+		m_str_invalidesn = map_sn[0];
+		LogMsg(_T("Invalide Sn from UI is ") + m_str_invalidesn);
+	}
+		
+	return true;
+}
+
+
 bool COtherStationDlg::CheckPicassoDuplicate()
 {
 	char sz_mobileCIM[30] = {0};
@@ -1553,9 +1610,56 @@ bool COtherStationDlg::CheckScanTAG()
 		}	
 		else
 		{
-			m_st_return.str_errorMsg.Format(_T("TAG 长度不正确!\nPicasso Length invalid!"),str_TagUI);
+			m_st_return.str_errorMsg.Format(_T("TAG 长度不正确!\nTAG Length invalid!"),str_TagUI);
 			m_p_dlgParent->SendMessage(WM_USER_SETRESULT, (WPARAM)_T(""), (LPARAM)&m_st_return);
 			GetDlgItem(IDC_EDIT_TAG)->SetWindowText(_T(""));
+			return false;
+		}
+	}
+	
+	m_st_return.str_errorcode = "";
+	return true;
+}
+
+
+bool COtherStationDlg::CheckScanSN()
+{
+	CString str_SnUI = _T("");
+	GetDlgItem(IDC_EDIT_SN)->GetWindowText(str_SnUI);
+	
+	m_st_return.str_errorcode = CommErr_UI_SN_Not_Input;
+	//if this station need scan picasso
+	if (str_SnUI == _T(""))
+	{
+		m_st_return.str_errorMsg.Format(_T("本站(%s)需要扫入Serial Number!\nNo SN scanned in!"),m_st_uiParameter.str_station);
+		m_p_dlgParent->SendMessage(WM_USER_SETRESULT, (WPARAM)_T(""), (LPARAM)&m_st_return);
+		GetDlgItem(IDC_EDIT_SN)->SetWindowText(_T(""));
+		return false;
+	}
+	else
+	{
+		if (str_SnUI.GetLength() == SN_LENGTH)
+		{
+			if((str_SnUI.SpanIncluding(_T("01231456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"))).GetLength() == SN_LENGTH)
+			{
+				char sz_sn[41]={0};
+				CStringToChar(str_SnUI,sz_sn);
+			//	m_p_dlgParent->SetPICSData(0,"id",sz_tag);
+			}
+			else
+			{
+				m_st_return.str_errorMsg.Format(_T("SN 含无效字符!\nSN  include invalid chars!"),str_SnUI);
+				m_st_return.str_errorcode = CommErr_UI_SN_Not_Input;
+				m_p_dlgParent->SendMessage(WM_USER_SETRESULT, (WPARAM)_T(""), (LPARAM)&m_st_return);
+				GetDlgItem(IDC_EDIT_SN)->SetWindowText(_T(""));
+				return false;
+			}
+		}	
+		else
+		{
+			m_st_return.str_errorMsg.Format(_T("SN 长度不正确!\nSN Length invalid!"),str_SnUI);
+			m_p_dlgParent->SendMessage(WM_USER_SETRESULT, (WPARAM)_T(""), (LPARAM)&m_st_return);
+			GetDlgItem(IDC_EDIT_SN)->SetWindowText(_T(""));
 			return false;
 		}
 	}

@@ -122,6 +122,8 @@ public:
 	bool SetPicasso(std::map<int, CString> map_picasso);
 	bool GetTag(std::map<int, CString> &map_Tag){ return true;};
 	bool SetTag(std::map<int, CString> map_Tag){ return true;};
+	bool GetSn(std::map<int, CString> &map_Sn){ return true;};
+	bool SetSn(std::map<int, CString> map_Sn){ return true;};
 	bool ResetPage(void);
 	void SetTestResult(int i_slot, CString str_testresult);
 	void ChangeGB();

@@ -30,6 +30,8 @@ public:
 	/* Get Tag from station Pages */
 	virtual bool GetTag(std::map<int, CString> &map_Tag) = 0;
 	virtual bool SetTag(std::map<int, CString> map_Tag) = 0;
+	virtual bool GetSn(std::map<int, CString> &map_Sn) = 0;
+	virtual bool SetSn(std::map<int, CString> map_Sn) = 0;
 	virtual void SetTestResult(int i_slot, CString str_testresult) = 0;
 
 	/* Station Pages test progress */

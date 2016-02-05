@@ -134,6 +134,7 @@ private:
 	/* Get Picasso Number from Station page function */
 	bool GetPicassoFromStationPage();
 	bool GetTagFromStationPage();
+	bool GetSnFromStationPage();
 	bool PostRun();
 
 	bool SetTestResultToStation(int i_slot, CString str_result);
@@ -229,6 +230,7 @@ private:
 public:
 	std::map<int, CString> m_map_picasso;
 	std::map<int, CString> m_map_tag;
+	std::map<int, CString> m_map_sn;
 	CString	 m_str_appver;
 private:
 	std::map<CString, CString> m_map_picsData;
