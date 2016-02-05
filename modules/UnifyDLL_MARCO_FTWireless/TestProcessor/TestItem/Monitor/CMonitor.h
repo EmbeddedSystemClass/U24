@@ -28,6 +28,7 @@
 #define WriteHDCP				"WriteHDCP"
 #define WriteHDCP_OFFLINE	"WriteHDCP_OFFLINE"
 #define WriteTag					"WriteTag"
+#define WriteSn						"WriteSn"
 #define CheckModel				"CheckModel"
 #define CheckSWVersion		"CheckSWVersion"
 #define Postcmd					"Postcmd"

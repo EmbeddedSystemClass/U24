@@ -600,6 +600,7 @@
 #define FunErr_GET_HDCP_KEY_Fail					"FunErr_GET_HDCP_KEY_Fail"
 #define FunErr_WRITE_HDCP_KEY_Fail			"FunErr_WRITE_HDCP_KEY_Fail"
 #define FunErr_WRITE_TAG_Fail					"FunErr_WRITE_TAG_Fail"
+#define FunErr_WRITE_SN_Fail					"FunErr_WRITE_SN_Fail"
 #define FunErr_CHECK_FLOW_Fail					"FunErr_CHECK_FLOW_Fail"
 #define FunErr_CHECK_Model_Fail					"FunErr_CHECK_Model_Fail"
 #define FunErr_INSERT_DATA_Fail					"FunErr_INSERT_DATA_Fail"

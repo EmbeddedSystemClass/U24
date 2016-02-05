@@ -6,6 +6,7 @@ std::map<std::string, std::map<std::string, std::string>> ITestProcessor::g_mapT
 std::map<std::string, std::map<std::string, std::string>> ITestProcessor::g_mapRxCableLossData;
 std::string ITestProcessor::g_strPicasso;
 std::string ITestProcessor::g_strTag;
+std::string ITestProcessor::g_strSn;
 std::string ITestProcessor::g_strScalarID;
 CString ITestProcessor::m_csArrPicasso[5] = {"", "", "", "", ""};
 std::string ITestProcessor::g_str_modelName;
@@ -120,6 +121,17 @@ bool ITestProcessor:: SetTag(const char* szTag)
 	return false;
 }
 
+bool ITestProcessor:: SetSn(const char* szSn)
+{
+	if (szSn != NULL)
+	{
+		g_strSn = szSn;
+		
+		return true;
+	}
+
+	return false;
+}
 
 bool ITestProcessor::SetPicassoMulti(const char* szPicasso, const int nSlot)
 {

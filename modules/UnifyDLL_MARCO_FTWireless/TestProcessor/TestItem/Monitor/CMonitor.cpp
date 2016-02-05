@@ -142,6 +142,12 @@ bool CMonitor::Run()
 		m_strErrorCode = FunErr_WRITE_TAG_Fail;
 		passFail = runWriteTag();
 	}	
+	else if (m_str_TestItem == WriteSn)
+	{
+		m_strItemCode = CStr::IntToStr(Monitor_BaseItemcode);
+		m_strErrorCode = FunErr_WRITE_TAG_Fail;
+		passFail = runWriteSN();
+	}	
 	else if (m_str_TestItem == Postcmd)
 	{
 		m_strItemCode = CStr::IntToStr(Monitor_BaseItemcode);
@@ -1404,8 +1410,8 @@ bool CMonitor::runWriteSN()
 {
 	bool bRes = false;
 	std::string st_readId = "";
-	char sz_ID[ID_SIZE_BUFFER] ="";
-	char szAddress[FTD_BUF_SIZE] = "1056,8";// dell tag
+	char sz_ID[40] ="";
+	char szAddress[FTD_BUF_SIZE] = "1024,20";// dell tag
 	char m_szFAData[FTD_BUF_SIZE];
 	memset(m_szFAData, 0, sizeof(m_szFAData));
 
@@ -1414,19 +1420,19 @@ bool CMonitor::runWriteSN()
 //	char sz_outBuffer[FTD_BUF_SIZE] = {0};
 //	if (! m_pIPhone->FTD_CAMFlashLED(m_nFtdPort, m_nFtdTimeOut, "1", sz_outBuffer))
 	
-	if ( g_strTag.empty() ){
+	if ( g_strSn.empty() ){
 	//	AfxMessageBox("fail, tag is empty");
-		ErrMsg = (_T("fail, tag is empty"));
+		ErrMsg = (_T("fail, Serial Number is empty"));
 		AfxMessageBox( ErrMsg.c_str() );
 		TraceLog(MSG_INFO,  ErrMsg);
 		goto Exit_ShowResult;
 	}
 
-	sprintf_s((char*)sz_ID, ID_SIZE_BUFFER,"1056,8,%s", g_strTag.c_str() );
+	sprintf_s((char*)sz_ID, 40,"1024,20,%s", g_strSn.c_str() );
 
 	if (!m_pIPhone->FTD_FAC_CFGWrite(m_nFtdPort, m_nFtdTimeOut, sz_ID, m_szFAData))
 	{
-			ErrMsg = (_T("FTD_FAC_CFGWrite Fail"));
+			ErrMsg = (_T("runWriteSN FTD_FAC_CFGWrite Fail"));
 			AfxMessageBox( ErrMsg.c_str() );
 			TraceLog(MSG_INFO,  ErrMsg);
 			goto Exit_ShowResult;
@@ -1434,22 +1440,22 @@ bool CMonitor::runWriteSN()
 
 	if (!m_pIPhone->FTD_FAC_CFGRead(m_nFtdPort, m_nFtdTimeOut, szAddress, m_szFAData))
 	{
-			ErrMsg = (_T("FTD_FAC_CFGRead Fail"));
+			ErrMsg = (_T("runWriteSN FTD_FAC_CFGRead Fail"));
 			AfxMessageBox( ErrMsg.c_str() );
 			TraceLog(MSG_INFO,  ErrMsg);
 			goto Exit_ShowResult;
 	}
 
 	st_readId = m_szFAData;
-	if  ( g_strTag.compare(st_readId) == 0 ){
-			ErrMsg = (_T("tag compare  ok"));
+	if  ( g_strSn.compare(st_readId) == 0 ){
+			ErrMsg = (_T("Serial Number  compare  ok"));
 			TraceLog(MSG_INFO,  ErrMsg);
 			m_strErrorCode = "-";
 			bRes = true;
 	}
 	else
 	{
-			ErrMsg = (_T("tag compare  Fail"));
+			ErrMsg = (_T("Serial Number  compare  Fail"));
 			//AfxMessageBox( ErrMsg.c_str() );
 			TraceLog(MSG_INFO,  ErrMsg);
 			goto Exit_ShowResult;
