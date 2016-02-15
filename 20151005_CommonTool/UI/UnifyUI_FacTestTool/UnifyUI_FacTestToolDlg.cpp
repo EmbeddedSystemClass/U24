@@ -933,6 +933,7 @@ bool CUnifyUI_FacTestToolDlg::InitialUIControl()
 	/* Scan Sn */
 	::GetPrivateProfileString(m_st_idParameter.str_station, _T("ScanSn"), _T("0"), sz_temp, sizeof(sz_temp), sz_iniFolderName);
 	m_st_uiControl.b_ScanSn = (StrToInt(sz_temp)!=0);
+	m_st_uiControl.b_WriteSnFrame = (StrToInt(sz_temp)!=0);
 
 	/* Time out */
 	::GetPrivateProfileString(m_st_idParameter.str_station, _T("Timeout"), _T("0"), sz_temp, sizeof(sz_temp), sz_iniFolderName);
@@ -943,7 +944,7 @@ bool CUnifyUI_FacTestToolDlg::InitialUIControl()
 	//for wirte station
 	if (m_st_idParameter.str_station.Compare(L"WRITE") == 0){
 		m_st_uiControl.b_WriteTagFrame = true;
-		m_st_uiControl.b_WriteSnFrame = true;
+//		m_st_uiControl.b_WriteSnFrame = true;
 	}
 
 	//auto run only for OS_DL
