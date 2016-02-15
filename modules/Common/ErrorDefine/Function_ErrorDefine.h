@@ -606,6 +606,7 @@
 #define FunErr_INSERT_DATA_Fail					"FunErr_INSERT_DATA_Fail"
 #define FunErr_CHECK_MODEL_Fail					"FunErr_CHECK_MODEL_Fail"
 #define FunErr_POST_CMD_Fail					"FunErr_POST_CMD_Fail"
+#define FunErr_PRE_CMD_Fail					"FunErr_PRE_CMD_Fail"
 #define FunErr_Check_SWVERSION_Fail					"FunErr_Check_SWVERSION_Fail"
 
 #endif //_FUNCTION_ERRORDEFINE_H

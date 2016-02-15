@@ -1174,6 +1174,12 @@ bool CUnifyDLL_FTWireless::SetParameterValue(char* sz_keyword, char* sz_value)
 		m_str_tag = str_temp;
 
 	}
+	else if (strcmp(sz_keyword, "SN") == 0)
+	{
+		m_pITool->SetSn(sz_value);
+		str_temp.Format(_T("%s"), sz_value);
+		m_str_sn = str_temp;
+	}
 	else if (strcmp(sz_keyword, "MODEL_NAME") == 0)
 	{
 		m_pITool->SetModelName(sz_value);
@@ -1403,7 +1409,16 @@ bool CUnifyDLL_FTWireless::SetTag(int i_slot, char *sz_sectorData, int i_sectorS
 	m_pITool->SetTag(sz_sectorData);
 	return b_Res;
 }
+bool CUnifyDLL_FTWireless::SetSn(int i_slot, char *sz_sectorData, int i_sectorSize)
+{
+	bool b_Res = false;
+	char szInput[FTD_BUF_SIZE] = {0} ;
 
+	strcat(szInput, sz_sectorData);
+
+	m_pITool->SetSn(sz_sectorData);
+	return b_Res;
+}
 	
 bool CUnifyDLL_FTWireless::SetFASector(int i_slot, int i_sectorNum, char *sz_sectorData, int i_sectorSize)
 {

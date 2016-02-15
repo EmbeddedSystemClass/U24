@@ -56,6 +56,7 @@ private:
 	CString m_str_ToolMode;
 	CString m_str_picasso;
 	CString m_str_tag;
+	CString m_str_sn;
 	CString m_str_modelName;
 	CString m_str_station;
 	CString m_str_logFileName;
@@ -117,6 +118,7 @@ public:
 	virtual bool GetFASector(int i_slot, int i_sectorNum, char *sz_sectorData, int i_sectorSize);
 	virtual bool SetFASector(int i_slot, int i_sectorNum, char *sz_sectorData, int i_sectorSize);
 	virtual bool SetTag(int i_slot, char *sz_sectorData, int i_sectorSize);
+	virtual bool SetSn(int i_slot, char *sz_sectorData, int i_sectorSize);
 
 	/* Response to Jig control  */
 	virtual bool ResopnseToJig(bool b_wait);

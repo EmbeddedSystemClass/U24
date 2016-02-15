@@ -137,6 +137,12 @@ bool CMonitor::Run()
 		m_strErrorCode = FunErr_WRITE_TAG_Fail;
 		passFail = runWriteTag();
 	}	
+	else if (m_str_TestItem == Precmd)
+	{
+		m_strItemCode = CStr::IntToStr(Monitor_BaseItemcode);
+		m_strErrorCode = FunErr_PRE_CMD_Fail;
+		passFail = runPreCmd();
+	}
 	else if (m_str_TestItem == Postcmd)
 	{
 		m_strItemCode = CStr::IntToStr(Monitor_BaseItemcode);
@@ -1384,6 +1390,128 @@ Exit_ShowResult:
 	FactoryLog();
 	return true;
 }
+
+bool CMonitor::runPreCmd()
+{
+	CString cs_write_cmd = "";
+
+	bool bRes = true;
+	std::string st_readId = "";
+	char sz_cmd_in[FTD_BUF_SIZE] ="";
+	char sz_cmd_out[FTD_BUF_SIZE] ="";
+	char sz_cmd_errcode[FTD_BUF_SIZE] ="";
+
+	bool b_wait_fastboot = false;
+	int nLimitTime = 0 ;
+	CString csFastboot("fastboot");
+
+	memset(sz_cmd_in, 0, sizeof(sz_cmd_in));
+	memset(sz_cmd_out, 0, sizeof(sz_cmd_out));
+	memset(sz_cmd_errcode, 0, sizeof(sz_cmd_errcode));
+
+
+	strcpy(sz_cmd_in, _T("reboot bootloader"));
+	if ( !ExecAdbOut(sz_cmd_in, sz_cmd_out, sz_cmd_errcode) ){
+		ErrMsg = (_T("reboot bootloader Fail"));
+		AfxMessageBox( ErrMsg.c_str() );
+		TraceLog(MSG_INFO,  ErrMsg);
+		goto  Exit_ShowResult;
+	}	
+	Sleep(3000);
+
+
+	while ( !b_wait_fastboot){
+		if (bCallAdbFastbootCMD(_T("fastboot.exe"), _T("devices"), sz_cmd_out, sz_cmd_errcode, csFastboot) ){
+			b_wait_fastboot = true;
+			ErrMsg = (_T("Get Fastboot Success"));
+			//AfxMessageBox( ErrMsg.c_str() );
+			TraceLog(MSG_INFO,  ErrMsg);
+		//	AddMsg("Get Fastboot Success.", None, 10);
+		}
+		Sleep(1000);
+		nLimitTime ++;
+		if ( nLimitTime > 60 ) break;
+	}
+	
+	if ( ! b_wait_fastboot ) {
+		ErrMsg = (_T("reboot to fastboot fail "));
+		AfxMessageBox( ErrMsg.c_str() );
+		TraceLog(MSG_INFO,  ErrMsg);
+		goto  Exit_ShowResult;
+	}
+
+	strcpy(sz_cmd_in, _T("flash passport passport_FactoryDLTool"));
+	if ( !ExecFastbootOut(sz_cmd_in, sz_cmd_out, sz_cmd_errcode) ){
+		ErrMsg = (_T("flash passport passport_FactoryDLTool"));
+		AfxMessageBox( ErrMsg.c_str() );
+		TraceLog(MSG_INFO,  ErrMsg);
+		goto  Exit_ShowResult;
+	}	
+	Sleep(1000);
+
+	strcpy(sz_cmd_in, _T("oem adb Qon"));
+	if ( !ExecFastbootOut(sz_cmd_in, sz_cmd_out, sz_cmd_errcode) ){
+		ErrMsg = (_T("oem adb Qon"));
+		AfxMessageBox( ErrMsg.c_str() );
+		TraceLog(MSG_INFO,  ErrMsg);
+		goto  Exit_ShowResult;
+	}	
+	Sleep(1000);
+
+
+	strcpy(sz_cmd_in, _T("oem root Qon"));
+	if ( !ExecFastbootOut(sz_cmd_in, sz_cmd_out, sz_cmd_errcode) ){
+		ErrMsg = (_T("oem root Qon"));
+		AfxMessageBox( ErrMsg.c_str() );
+		TraceLog(MSG_INFO,  ErrMsg);
+		goto  Exit_ShowResult;
+	}	
+	Sleep(1000);
+
+	strcpy(sz_cmd_in, _T("oem permissive Qon"));
+	if ( !ExecFastbootOut(sz_cmd_in, sz_cmd_out, sz_cmd_errcode) ){
+		ErrMsg = (_T("oem permissive Qon"));
+		AfxMessageBox( ErrMsg.c_str() );
+		TraceLog(MSG_INFO,  ErrMsg);
+		goto  Exit_ShowResult;
+	}	
+	Sleep(1000);
+
+	strcpy(sz_cmd_in, _T("oem ftd Qon"));
+	if ( !ExecFastbootOut(sz_cmd_in, sz_cmd_out, sz_cmd_errcode) ){
+		ErrMsg = (_T("oem ftd Qon"));
+		AfxMessageBox( ErrMsg.c_str() );
+		TraceLog(MSG_INFO,  ErrMsg);
+		goto  Exit_ShowResult;
+	}	
+	Sleep(1000);
+
+	strcpy(sz_cmd_in, _T("reboot"));
+	if ( !ExecFastbootOut(sz_cmd_in, sz_cmd_out, sz_cmd_errcode) ){
+		ErrMsg = (_T("reboot"));
+		AfxMessageBox( ErrMsg.c_str() );
+		TraceLog(MSG_INFO,  ErrMsg);
+		goto  Exit_ShowResult;
+	}	
+	Sleep(5000);
+Exit_ShowResult:
+	if ( !bRes) {
+		m_strResult = "FAIL";
+	}
+	else
+	{
+		ErrMsg = (_T("PreCmd  Success"));
+		m_strErrorCode = "-";
+		m_strResult = "PASS";
+	}
+
+
+	str_msg = ErrMsg;
+	m_strMessage = str_msg;
+	FactoryLog();
+	return bRes;
+}
+
 
 bool CMonitor::runPostCmd()
 {

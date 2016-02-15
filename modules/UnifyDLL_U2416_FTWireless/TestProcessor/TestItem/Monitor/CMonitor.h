@@ -30,6 +30,7 @@
 #define CheckModel				"CheckModel"
 #define CheckSWVersion		"CheckSWVersion"
 #define Postcmd					"Postcmd"
+#define Precmd					"Precmd"
 #define PlayVideo					"PlayVideo"
 #define CheckSWversionByDB "CheckSWversionByDB"
 
@@ -146,6 +147,7 @@ private:
 	bool runCheckSWversionByDB();
 	bool GetSWVersionFromDB();
 	bool runPostCmd( );
+	bool runPreCmd( );
 	bool runPlayVideo( );
 	bool IfRepeated( char *szvalue );    // 1 = ID ,2 = SN
 	//bool IfRepeated(unsigned short IdType);    // 1 = ID ,2 = SN
