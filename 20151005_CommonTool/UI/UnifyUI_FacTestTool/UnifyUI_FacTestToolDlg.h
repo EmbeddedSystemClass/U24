@@ -4,6 +4,7 @@
 #include "afxcmn.h"
 #include "atlimage.h"
 #include "InitDlg.h"
+#include "InitDlg_S3.h"
 #include "ResultDlg.h"
 #include "label.h"
 #include "afxwin.h"
@@ -221,6 +222,7 @@ private:
 	CTabCtrl m_tab_stationPageCtrl;
 
 	CInitDlg   m_dlg_initDlg;
+	CInitDlg_S3   m_dlg_initDlg_S3;
 	CResultDlg m_dlg_resultDlg;
 
 	CFont   m_font_button;

@@ -181,6 +181,13 @@ struct st_UIIDparameter
 	int		i_idLength;
 	bool    b_OpenbyEntranceTool;
 };
+
+struct st_UIIDparameter_S3
+{
+	CString str_power;           // Model Name
+	CString str_line;                // Line (T-Line,A-Line...)
+	CString str_type;
+};
 #pragma pack()
 
 /* For IMEI/FC station use */

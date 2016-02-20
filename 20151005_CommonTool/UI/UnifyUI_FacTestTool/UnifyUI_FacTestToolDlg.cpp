@@ -424,11 +424,11 @@ BOOL CUnifyUI_FacTestToolDlg::OnInitDialog()
 
 #ifndef FACTORY_MODE
 	//if not factory mode, initdlg need to show for user to input some parameters
-	//if (m_dlg_initDlg.DoModal() == IDCANCEL)
-	//{
-	//	CDialog::OnCancel();
-	//	return TRUE;
-	//}
+	if (m_dlg_initDlg_S3.DoModal() == IDCANCEL)
+	{
+		CDialog::OnCancel();
+		return TRUE;
+	}
 
 	///*liontest*/
 	//m_dlg_initDlg.GetInitData(m_st_idParameter);

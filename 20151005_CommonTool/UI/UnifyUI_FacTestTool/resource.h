@@ -19,6 +19,7 @@
 #define IDD_POPUP_IMG_DIALOG            137
 #define IDD_DIALOG2                     138
 #define IDD_OTHER_READ                  139
+#define IDD_DIALOG_INIT_S3              140
 #define IDC_EDIT_Model                  1000
 #define IDC_EDIT_Line                   1001
 #define IDC_EDIT_PCBA                   1002
@@ -135,7 +136,6 @@
 #define IDC_BUTTON_NEXT                 1106
 #define IDC_EDIT_TAG                    1107
 #define IDC_STATIC_TEXT                 1108
-#define IDC_EDIT_SN                     1153
 #define IDC_STATIC_ERROR                1109
 #define IDC_STATIC_VER                  1111
 #define IDC_STATIC_SHOW_IMG             1112
@@ -143,6 +143,8 @@
 #define IDC_EDIT_IMEI_Acer22            1114
 #define IDC_BUTTON1                     1115
 #define IDC_BUTTON_CYCLETEST            1115
+#define IDC_INIT_EDIT_POWER             1117
+#define IDC_INIT_COMBO_TYPE             1118
 #define IDC_LIST_TESTITEM2              1139
 #define IDC_EDIT_RF_ID2                 1140
 #define IDC_LIST_TESTITEM3              1141
@@ -153,6 +155,7 @@
 #define IDC_STATIC2                     1150
 #define IDC_STATIC3                     1151
 #define IDC_STATIC4                     1152
+#define IDC_EDIT_SN                     1153
 
 // Next default values for new objects
 // 
@@ -160,7 +163,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        139
 #define _APS_NEXT_COMMAND_VALUE         32771
-#define _APS_NEXT_CONTROL_VALUE         1117
+#define _APS_NEXT_CONTROL_VALUE         1119
 #define _APS_NEXT_SYMED_VALUE           106
 #endif
 #endif
