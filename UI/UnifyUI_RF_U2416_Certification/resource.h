@@ -16,6 +16,7 @@
 #define IDD_SERVICE_SUBUI_5G_TX         139
 #define IDD_SERVICE_SUBUI_WIFI_5G_RX    140
 #define IDD_SERVICE_SUBUI_5G_TX_CW      141
+#define IDD_SERVICE_SUBUI_CSDWRITE      142
 #define IDC_TAB_MODULE                  1000
 #define IDC_MODULE_BUTTON0              1001
 #define IDC_MODULE_BUTTON1              1002
@@ -95,7 +96,9 @@
 #define IDC_EDIT_CW_CHANNEL             1060
 #define IDC_COMBO_CW_WlanMode           1061
 #define IDC_EDIT_CW_WlanMode            1062
+#define IDC_EDIT_TAG                    1062
 #define IDC_EDIT_CW_CHAIN               1063
+#define IDC_TEXT_SCANTAG_CSD            65535
 
 // Next default values for new objects
 // 
@@ -103,7 +106,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        143
 #define _APS_NEXT_COMMAND_VALUE         32771
-#define _APS_NEXT_CONTROL_VALUE         1062
+#define _APS_NEXT_CONTROL_VALUE         1063
 #define _APS_NEXT_SYMED_VALUE           104
 #endif
 #endif

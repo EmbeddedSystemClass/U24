@@ -194,6 +194,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\CSDWRITE.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\DllCtrl.cpp"
 				>
 			</File>
@@ -289,6 +293,10 @@
 			>
 			<File
 				RelativePath=".\ButtonCtrl.h"
+				>
+			</File>
+			<File
+				RelativePath=".\CSDWRITE.h"
 				>
 			</File>
 			<File

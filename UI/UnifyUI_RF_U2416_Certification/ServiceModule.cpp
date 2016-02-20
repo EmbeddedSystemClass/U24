@@ -9,6 +9,7 @@
 //#include "FuncInfoWriter.h"
 //#include "FuncFactoryInfoList.h"
 #include "RFCertificationTx.h"
+#include "CSDWRITE.h"
 #include "RFCertificationRx.h"
 #include "RFCertificationTxCw.h"
 //#include "RFCertification2G4Tx.h"
@@ -125,6 +126,11 @@ void CServiceModule::OnBnClickedButtonTool(int nIndex)
 	}
 	else if (m_info[nIndex].type == _T("RFCERTIFICATIONTXCWWAVE")) {
 		CRFCertificationTxCw dlg(this);
+		dlg.SetInit(m_info[nIndex]);
+		dlg.DoModal();
+	}
+	else if (m_info[nIndex].type == _T("CSDWRITE")) {
+		CCSDWRITE dlg(this);
 		dlg.SetInit(m_info[nIndex]);
 		dlg.DoModal();
 	}
