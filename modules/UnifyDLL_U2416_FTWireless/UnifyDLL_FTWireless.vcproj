@@ -364,7 +364,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="echo  $(TargetPath) $(TargetDir)MMIBB.dll&#x0D;&#x0A;copy /y  $(TargetPath) $(TargetDir)MMIBB.dll&#x0D;&#x0A;copy /y  $(TargetPath) $(TargetDir)IMEI.dll&#x0D;&#x0A;mkdir $(OutDir)\Qisda&#x0D;&#x0A;copy $(ProjectDir)Qisda\*.* $(OutDir)\Qisda\&#x0D;&#x0A;mkdir $(OutDir)\MD5&#x0D;&#x0A;copy $(ProjectDir)MD5\*.* $(OutDir)\MD5\&#x0D;&#x0A;mkdir $(OutDir)\Data&#x0D;&#x0A;copy $(ProjectDir)DLLAPI\Data\*.* $(OutDir)\Data\&#x0D;&#x0A;mkdir $(OutDir)&#x0D;&#x0A;copy $(ProjectDir)DLLAPI\*.* $(OutDir)\&#x0D;&#x0A;copy $(ProjectDir)..\..\Lib\Qualcomm\dll\QMSL_MSVC9R.dll $(OutDir)\&#x0D;&#x0A;copy $(ProjectDir)..\..\Lib\Android\ADB\*.* $(OutDir)\&#x0D;&#x0A;"
+				CommandLine=""
 			/>
 		</Configuration>
 		<Configuration

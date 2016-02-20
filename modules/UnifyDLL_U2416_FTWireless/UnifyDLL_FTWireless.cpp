@@ -154,7 +154,7 @@ bool CUnifyDLL_FTWireless::CheckDeviceItemXMLExist()
 #ifndef _ToolInterface
 	cstrDeviceXML.Format(_T("%s\\Qisda\\%s"), szModulePath, m_cstrDeviceItemFile);
 #else
-	cstrDeviceXML.Format(_T("%sQisda\\%s"), m_str_ToolWorkDirectory, m_cstrDeviceItemFile);
+	cstrDeviceXML.Format(_T("%s\\Qisda\\%s"), m_str_ToolWorkDirectory, m_cstrDeviceItemFile);
 #endif
 	if (::_taccess(cstrDeviceXML, 0) == 0)
 	{
@@ -194,7 +194,7 @@ bool CUnifyDLL_FTWireless::CheckTestItemXMLExist()
 #ifndef _ToolInterface
 	cstrRFXML.Format(_T("%s\\Qisda\\%s"), szModulePath, m_cstrTestItemFile);
 #else
-	cstrRFXML.Format(_T("%sQisda\\%s"), m_str_ToolWorkDirectory, m_cstrTestItemFile);
+	cstrRFXML.Format(_T("%s\\Qisda\\%s"), m_str_ToolWorkDirectory, m_cstrTestItemFile);
 #endif
 	if (::_taccess(cstrRFXML, 0) == 0)
 	{
@@ -223,51 +223,51 @@ bool CUnifyDLL_FTWireless::CheckTestItemXMLExist()
 
 // ------------ MD5 verify functions ------------
 
-bool CUnifyDLL_FTWireless::CheckTestItemXMLMD5()
-{
-	char sz_currentPath[MAX_PATH] = {0};
-	::GetModuleFileName(NULL, sz_currentPath, MAX_PATH);
-	::PathRemoveFileSpec(sz_currentPath);
-
-	CString str_MD5LocalPath;
-	str_MD5LocalPath.Format("%s\\MD5\\%s_%s_TestItem_MD5.xml", sz_currentPath, m_str_modelName, m_str_station);
-	if (_taccess(str_MD5LocalPath, 0) != 0)
-	{
-		m_str_result = _T("FAIL");
-		m_str_errorCode = _T("");
-		m_str_message = _T("MD5 xml file of test item is not exist!");
-		return false;
-	}
-
-	/* Replace tool path of MD5 xml */
-	if (ConvertXML(str_MD5LocalPath, m_cstrTestItemFile) != true)
-	{
-		m_str_result = _T("FAIL");
-		m_str_errorCode = _T("");
-		m_str_message = _T("Replace tool path of MD5 xml fail!");
-		return false;
-	}
-
-	CString str_logName;
-	str_logName = "C:\\MD5.log";
-	if (MD5Verify(m_cstrTestItemFile, str_MD5LocalPath, str_logName) != true)
-	{
-		m_str_result = _T("FAIL");
-		m_str_errorCode = _T("");
-		m_str_message = _T("Verify MD5 fail!");
-		return false;
-	}
-
-	if (CheckVerifyResult(str_logName) != true)
-	{
-		m_str_result = _T("FAIL");
-		m_str_errorCode = _T("");
-		m_str_message = _T("Check test item xml MD5 fail.\nTest item xml may be changed, Please check it!");
-		return false;
-	}
-
-	return true;
-}
+//bool CUnifyDLL_FTWireless::CheckTestItemXMLMD5()
+//{
+//	char sz_currentPath[MAX_PATH] = {0};
+//	::GetModuleFileName(NULL, sz_currentPath, MAX_PATH);
+//	::PathRemoveFileSpec(sz_currentPath);
+//
+//	CString str_MD5LocalPath;
+//	str_MD5LocalPath.Format("%s\\MD5\\%s_%s_TestItem_MD5.xml", sz_currentPath, m_str_modelName, m_str_station);
+//	if (_taccess(str_MD5LocalPath, 0) != 0)
+//	{
+//		m_str_result = _T("FAIL");
+//		m_str_errorCode = _T("");
+//		m_str_message = _T("MD5 xml file of test item is not exist!");
+//		return false;
+//	}
+//
+//	/* Replace tool path of MD5 xml */
+//	if (ConvertXML(str_MD5LocalPath, m_cstrTestItemFile) != true)
+//	{
+//		m_str_result = _T("FAIL");
+//		m_str_errorCode = _T("");
+//		m_str_message = _T("Replace tool path of MD5 xml fail!");
+//		return false;
+//	}
+//
+//	CString str_logName;
+//	str_logName = "C:\\MD5.log";
+//	if (MD5Verify(m_cstrTestItemFile, str_MD5LocalPath, str_logName) != true)
+//	{
+//		m_str_result = _T("FAIL");
+//		m_str_errorCode = _T("");
+//		m_str_message = _T("Verify MD5 fail!");
+//		return false;
+//	}
+//
+//	if (CheckVerifyResult(str_logName) != true)
+//	{
+//		m_str_result = _T("FAIL");
+//		m_str_errorCode = _T("");
+//		m_str_message = _T("Check test item xml MD5 fail.\nTest item xml may be changed, Please check it!");
+//		return false;
+//	}
+//
+//	return true;
+//}
 
 bool CUnifyDLL_FTWireless::ConvertXML(CString str_XMLFilePathName, CString str_newName)
 {
@@ -736,21 +736,21 @@ bool CUnifyDLL_FTWireless::Begin(int i_slot)
 	//}
 
 	/* 5. TestItem.xml file MD5 check if load factory test item file */
-	if (b_Res)
-	{
-		if (m_str_ToolMode.CompareNoCase(_T("RD")) != 0)
-		{
-			//b_Res = CheckTestItemXMLMD5();
-			if (!(b_Res = CheckTestItemXMLMD5() ) ){
-				AfxMessageBox("CheckTestItemXMLMD5 Fail");
-				goto Exit_ShowResult;
-			}
+	//if (b_Res)
+	//{
+	//	if (m_str_ToolMode.CompareNoCase(_T("RD")) != 0)
+	//	{
+	//		//b_Res = CheckTestItemXMLMD5();
+	//		if (!(b_Res = CheckTestItemXMLMD5() ) ){
+	//			AfxMessageBox("CheckTestItemXMLMD5 Fail");
+	//			goto Exit_ShowResult;
+	//		}
 
-		}
-	}else
-	{
-		AfxMessageBox("CheckTestItemXMLExist Fail");
-	}
+	//	}
+	//}else
+	//{
+	//	AfxMessageBox("CheckTestItemXMLExist Fail");
+	//}
 
 	if (!(b_Res = LoadToolInfo() ) ){
 		AfxMessageBox("LoadToolInfo Fail");
@@ -977,10 +977,9 @@ bool CUnifyDLL_FTWireless::PreRun(int i_slot)
 bool CUnifyDLL_FTWireless::RunTestItem(int iItem, int i_slot)
 #else
 bool CUnifyDLL_FTWireless::Run(int i_slot)
+if( i_slot !=  0) return true;
 #endif
 {
-	if( i_slot !=  0) return true;
-
 	bool b_Res = true;
 	char sz_testItem[MAX_BUFFER_SIZE];
 	::memset(sz_testItem, 0, MAX_BUFFER_SIZE);

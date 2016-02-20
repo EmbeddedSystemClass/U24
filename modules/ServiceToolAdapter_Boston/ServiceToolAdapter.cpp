@@ -276,6 +276,14 @@ CServiceToolController::CServiceToolController()
 		this->m_Parametermap[ParameterKeyWord::WORKINGDIR] = this->m_Parametermap[ParameterKeyWord::WORKINGDIR].Left(this->m_Parametermap[ParameterKeyWord::WORKINGDIR].ReverseFind('\\'));
 		this->m_Parametermap[ParameterKeyWord::WORKINGDIR].Append(_T("\\Module\\4GEE Action CAM\\L1L2\\CSDEM\\"));
 	}
+	else if(QISDA_MODULE_NAME == "CSDWRITE")
+	{
+		this->m_Parametermap[ParameterKeyWord::STATIONNAME] = this->m_strCurrentStation = STATION_CSDWRITE;
+		GetModuleFileName(NULL, this->m_Parametermap[ParameterKeyWord::WORKINGDIR].GetBufferSetLength(MAX_PATH+1), MAX_PATH);
+		this->m_Parametermap[ParameterKeyWord::WORKINGDIR].ReleaseBuffer();
+		this->m_Parametermap[ParameterKeyWord::WORKINGDIR] = this->m_Parametermap[ParameterKeyWord::WORKINGDIR].Left(this->m_Parametermap[ParameterKeyWord::WORKINGDIR].ReverseFind('\\'));
+		this->m_Parametermap[ParameterKeyWord::WORKINGDIR].Append(_T("\\Module\\BROOK\\L1L2\\CSDWRITE"));
+	}
 	/*
 	else if(QISDA_MODULE_NAME == "OS_DL")
 	{
@@ -711,11 +719,11 @@ size_t CServiceToolController::SetParameterToDLL()
 		return 5;
 	}
 
-	if(!this->m_pITI->SetParameterValue(_T("TOOL_MODE"),  _T("RD")))
-	{
-		//some log
-		return 6;
-	}
+	//if(!this->m_pITI->SetParameterValue(_T("TOOL_MODE"),  _T("RD")))
+	//{
+	//	//some log
+	//	return 6;
+	//}
 /*
 	if(QISDA_MODULE_NAME == "OS_DL")
 	{
@@ -751,6 +759,7 @@ size_t CServiceToolController::MakeEnhanceController()
 		this->m_strCurrentStation == STATION_4GPTEST ||
 		this->m_strCurrentStation == STATION_BTWLAN ||
 		this->m_strCurrentStation == STATION_CSDEM ||
+		this->m_strCurrentStation == STATION_CSDWRITE ||
 		//this->m_strCurrentStation == STATION_CURRENT ||
 		//this->m_strCurrentStation == STATION_ONLINE_WLS ||
 		//this->m_strCurrentStation == STATION_ONLINE_WLS2 ||

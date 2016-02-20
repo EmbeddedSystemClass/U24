@@ -136,7 +136,7 @@ size_t CTestItemHdrStd::CheckTestItemXMLExist()
 	else
 	{
 		cstrTestItemPath = this->m_Parametermap[ParameterKeyWord::WORKINGDIR] + 
-												_T("Qisda\\") + 
+												_T("\\Qisda\\") + 
 												this->m_Parametermap[ParameterKeyWord::MODELNAME] + 
 												_T("_") + 
 												this->m_Parametermap[ParameterKeyWord::STATIONNAME] + 

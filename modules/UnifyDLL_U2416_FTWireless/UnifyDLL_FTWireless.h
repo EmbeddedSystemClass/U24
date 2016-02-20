@@ -100,7 +100,7 @@ public:
 	bool LoadToolInfo();
 
 	/* MD5 verify functions */
-	bool CheckTestItemXMLMD5();
+	//bool CheckTestItemXMLMD5();
 	bool ConvertXML(CString str_XMLFilePathName, CString str_newName);
 	bool MD5Verify(CString str_dirPath, CString str_XMLFilePathName, CString str_logFile);
 	bool CheckVerifyResult(CString str_logFile);

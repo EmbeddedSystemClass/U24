@@ -29,6 +29,7 @@
 #define STATION_VI				      _T("VI")
 #define STATION_RUN_IN				  _T("RUN_IN")
 #define STATION_CSDEM		          _T("CSDEM")
+#define STATION_CSDWRITE	          _T("CSDWRITE")
 
 /* P-Line */
 #define STATION_IMEI			      _T("IMEI")
