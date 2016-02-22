@@ -1598,30 +1598,172 @@ Exit_ShowResult:
 	return bRes;
 }
 
+bool CMonitor::runCheckTag(){
+	bool bRes = false;
+	unsigned short unsServiceTagLen = 7 ;
+	unsigned char szTargetTag[ID_SIZE_BUFFER] = {0};
+	sprintf_s((char*)szTargetTag, ID_SIZE_BUFFER, "%s", g_strTag.c_str());
+
+	CString str_dllF32SERVER2 = F32SERVERDB;
+	HMODULE hDll ;
+	hDll = ::LoadLibrary(str_dllF32SERVER2);
+
+	ErrMsg = ("start check Tag , Tag = ") + g_strTag;
+	TraceLog(MSG_INFO,  ErrMsg);
+	if( hDll != NULL )
+	{	
+		/*判断ServiceTag是否可以使用(是否合法)*/
+		typedef bool (_stdcall *lpGetExistServiceTag)(const unsigned char* ServiceTag,      unsigned short ServiceTagLen);     //ServiceTag                                     
+		lpGetExistServiceTag iGetExistServiceTag = (lpGetExistServiceTag)::GetProcAddress(hDll,"GetExistServiceTag");
+		if(NULL != iGetExistServiceTag){
+				if ( iGetExistServiceTag(szTargetTag, unsServiceTagLen )){
+					ErrMsg = ("iGetExistServiceTag pass");
+					TraceLog(MSG_INFO,  ErrMsg);
+				}
+				else
+				{
+					ErrMsg = ("iGetExistServiceTag false");
+					AfxMessageBox( ErrMsg.c_str() );
+					TraceLog(MSG_INFO,  ErrMsg);
+					return false;
+				//	goto Exit_ShowResult;
+				}
+		}
+		else
+		{
+			ErrMsg = ("Load iGetExistServiceTag Fail");
+			AfxMessageBox( ErrMsg.c_str() );
+			TraceLog(MSG_INFO,  ErrMsg);
+			return false;
+		//	goto Exit_ShowResult;
+		}
+
+		/*判断ServiceTag是否被重复使用(是否唯一)*/
+		typedef bool (_stdcall *lpIfRepeatedServiceTag)(const unsigned char* ServiceTag,      unsigned short ServiceTagLen);
+		lpIfRepeatedServiceTag iIfRepeatedServiceTag = (lpIfRepeatedServiceTag)::GetProcAddress(hDll,"IfRepeatedServiceTag");
+
+		if(NULL != iIfRepeatedServiceTag)
+		{	
+			if ( iIfRepeatedServiceTag(szTargetTag, unsServiceTagLen )){
+				ErrMsg = ("iIfRepeatedServiceTag pass");
+				TraceLog(MSG_INFO,  ErrMsg);
+			}
+			else
+			{
+				ErrMsg = ("iIfRepeatedServiceTag false");
+				AfxMessageBox( ErrMsg.c_str() );
+				TraceLog(MSG_INFO,  ErrMsg);
+				return false;
+			//	goto Exit_ShowResult;
+			}
+		
+		}
+		else{
+			ErrMsg = ("Load iIfRepeatedServiceTag Fail");
+			AfxMessageBox( ErrMsg.c_str() );
+			TraceLog(MSG_INFO,  ErrMsg);
+			return false;
+		//	goto Exit_ShowResult;
+		}
+
+	}
+	else
+	{
+			ErrMsg = ("Load str_dllF32SERVER2 Fail");
+			AfxMessageBox( ErrMsg.c_str() );
+			TraceLog(MSG_INFO,  ErrMsg);
+			return false;
+			//goto Exit_ShowResult;
+	}
+
+	bRes = true;
+	return bRes;
+}
+
 bool CMonitor::runWriteTag()
 {
+	CString cs_readId;
 	bool bRes = false;
 	std::string st_readId = "";
 	char sz_ID[ID_SIZE_BUFFER] ="";
 	char szAddress[FTD_BUF_SIZE] = "1056,8";// dell tag
 	char m_szFAData[FTD_BUF_SIZE];
+	std::string stEmptyTag  = "0000000";
 	memset(m_szFAData, 0, sizeof(m_szFAData));
-
-//CPHONE_FTD_CMD_IN_OUT_CREATE(FTD_FAC_CFGRead, "FTD_FAC_CFGRead")
-//CPHONE_FTD_CMD_IN_OUT_CREATE(FTD_FAC_CFGWrite, "FTD_FAC_CFGWrite")
-//	char sz_outBuffer[FTD_BUF_SIZE] = {0};
-//	if (! m_pIPhone->FTD_CAMFlashLED(m_nFtdPort, m_nFtdTimeOut, "1", sz_outBuffer))
+	int n_SwitchCase = 0 ;
 	
 	if ( g_strTag.empty() ){
-	//	AfxMessageBox("fail, tag is empty");
-		ErrMsg = (_T("fail, tag is empty"));
+		ErrMsg = (_T("fail, scanTag is empty"));
 		AfxMessageBox( ErrMsg.c_str() );
 		TraceLog(MSG_INFO,  ErrMsg);
 		goto Exit_ShowResult;
 	}
 
-	sprintf_s((char*)sz_ID, ID_SIZE_BUFFER,"1056,8,%s", g_strTag.c_str() );
+	//1:read from target
+	if (!m_pIPhone->FTD_FAC_CFGRead(m_nFtdPort, m_nFtdTimeOut, szAddress, m_szFAData))
+	{
+			ErrMsg = (_T("FTD_FAC_CFGRead Fail"));
+			AfxMessageBox( ErrMsg.c_str() );
+			TraceLog(MSG_INFO,  ErrMsg);
+			goto Exit_ShowResult;
+	}
 
+	/*
+	1:not empty , same tag, skip
+	2:not empty , checck . different, write 
+	3:empty,check. scanTag unique & verify, write
+	*/
+	st_readId = m_szFAData;
+	cs_readId = st_readId.c_str();
+	cs_readId.Trim();
+	st_readId = cs_readId;
+	//st_readId.
+	if ( st_readId.length() == 0 ){
+//	if  ( stEmptyTag.compare(st_readId) == 0 ){
+			ErrMsg = (_T("runCheckTag  is empty, target id = ")) + st_readId ;
+			TraceLog(MSG_INFO,  ErrMsg);
+			n_SwitchCase = 3;
+			//bRes = true;
+	}
+	else
+	{
+			ErrMsg = (_T("runCheckTag  not empty, target id = ")) + st_readId ;
+			TraceLog(MSG_INFO,  ErrMsg);
+			if  ( g_strTag.compare(st_readId) == 0 ){ //same tag , skip
+				n_SwitchCase = 1;
+				ErrMsg = (_T("runCheckTag  not empty, same tag = ")) + st_readId ;
+				TraceLog(MSG_INFO,  ErrMsg);
+			}else
+			{
+				n_SwitchCase = 2;
+			}
+	}
+
+	switch(n_SwitchCase)
+	{
+	case 1://1:not empty , same tag, skip
+				ErrMsg = _T("1:not empty , same tag, skip") ;
+				bRes = true;
+			goto Exit_ShowResult;
+		break;
+	case 2://2:empty, scanTag unique & verify, write
+			bRes = runCheckTag();
+			ErrMsg = _T("2:not empty , checck . different, write  ") ;
+		break;
+	case 3: //3:not empty , different, scanTag unique & verify, write write 
+			bRes = runCheckTag();
+			ErrMsg = _T("3:empty,check. scanTag unique & verify, write ") ;
+		break;
+	}
+	TraceLog(MSG_INFO,  ErrMsg);
+
+	if ( !bRes){
+			ErrMsg = (_T("check Tag Fail"));
+			TraceLog(MSG_INFO,  ErrMsg);
+		goto Exit_ShowResult;
+	}
+
+	sprintf_s((char*)sz_ID, ID_SIZE_BUFFER,"1056,8,%s", g_strTag.c_str() );
 	if (!m_pIPhone->FTD_FAC_CFGWrite(m_nFtdPort, m_nFtdTimeOut, sz_ID, m_szFAData))
 	{
 			ErrMsg = (_T("FTD_FAC_CFGWrite Fail"));
@@ -1668,6 +1810,77 @@ Exit_ShowResult:
 	FactoryLog();
 	return bRes;
 }
+
+//bool CMonitor::runWriteTag()
+//{
+//	bool bRes = false;
+//	std::string st_readId = "";
+//	char sz_ID[ID_SIZE_BUFFER] ="";
+//	char szAddress[FTD_BUF_SIZE] = "1056,8";// dell tag
+//	char m_szFAData[FTD_BUF_SIZE];
+//	memset(m_szFAData, 0, sizeof(m_szFAData));
+//
+////CPHONE_FTD_CMD_IN_OUT_CREATE(FTD_FAC_CFGRead, "FTD_FAC_CFGRead")
+////CPHONE_FTD_CMD_IN_OUT_CREATE(FTD_FAC_CFGWrite, "FTD_FAC_CFGWrite")
+////	char sz_outBuffer[FTD_BUF_SIZE] = {0};
+////	if (! m_pIPhone->FTD_CAMFlashLED(m_nFtdPort, m_nFtdTimeOut, "1", sz_outBuffer))
+//	
+//	if ( g_strTag.empty() ){
+//	//	AfxMessageBox("fail, tag is empty");
+//		ErrMsg = (_T("fail, tag is empty"));
+//		AfxMessageBox( ErrMsg.c_str() );
+//		TraceLog(MSG_INFO,  ErrMsg);
+//		goto Exit_ShowResult;
+//	}
+//
+//	sprintf_s((char*)sz_ID, ID_SIZE_BUFFER,"1056,8,%s", g_strTag.c_str() );
+//
+//	if (!m_pIPhone->FTD_FAC_CFGWrite(m_nFtdPort, m_nFtdTimeOut, sz_ID, m_szFAData))
+//	{
+//			ErrMsg = (_T("FTD_FAC_CFGWrite Fail"));
+//			AfxMessageBox( ErrMsg.c_str() );
+//			TraceLog(MSG_INFO,  ErrMsg);
+//			goto Exit_ShowResult;
+//	}
+//
+//	if (!m_pIPhone->FTD_FAC_CFGRead(m_nFtdPort, m_nFtdTimeOut, szAddress, m_szFAData))
+//	{
+//			ErrMsg = (_T("FTD_FAC_CFGRead Fail"));
+//			AfxMessageBox( ErrMsg.c_str() );
+//			TraceLog(MSG_INFO,  ErrMsg);
+//			goto Exit_ShowResult;
+//	}
+//
+//	st_readId = m_szFAData;
+//	if  ( g_strTag.compare(st_readId) == 0 ){
+//			ErrMsg = (_T("tag compare  ok"));
+//			TraceLog(MSG_INFO,  ErrMsg);
+//			m_strErrorCode = "-";
+//			bRes = true;
+//	}
+//	else
+//	{
+//			ErrMsg = (_T("tag compare  Fail"));
+//			//AfxMessageBox( ErrMsg.c_str() );
+//			TraceLog(MSG_INFO,  ErrMsg);
+//			goto Exit_ShowResult;
+//	}
+//
+//Exit_ShowResult:
+//	if ( !bRes) {
+//		m_strResult = "FAIL";
+//	}
+//	else
+//	{
+//		m_strErrorCode = "-";
+//		m_strResult = "PASS";
+//	}
+//
+//	str_msg = ErrMsg;
+//	m_strMessage = str_msg;
+//	FactoryLog();
+//	return bRes;
+//}
 
 bool CMonitor::runWriteHDCPKEY()
 {

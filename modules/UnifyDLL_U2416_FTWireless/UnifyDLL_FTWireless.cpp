@@ -854,7 +854,9 @@ bool CUnifyDLL_FTWireless::OnRunInit(int i_slot)
 bool CUnifyDLL_FTWireless::PreRun(int i_slot)
 #endif
 {
+#ifndef _ToolInterface
 	if( i_slot !=  0) return true;
+#endif
 
 	bool b_Res = false;
 
@@ -977,9 +979,12 @@ bool CUnifyDLL_FTWireless::PreRun(int i_slot)
 bool CUnifyDLL_FTWireless::RunTestItem(int iItem, int i_slot)
 #else
 bool CUnifyDLL_FTWireless::Run(int i_slot)
-if( i_slot !=  0) return true;
 #endif
 {
+#ifndef _ToolInterface
+	if( i_slot !=  0) return true;
+#endif
+
 	bool b_Res = true;
 	char sz_testItem[MAX_BUFFER_SIZE];
 	::memset(sz_testItem, 0, MAX_BUFFER_SIZE);
