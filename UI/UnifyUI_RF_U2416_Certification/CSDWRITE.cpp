@@ -401,6 +401,11 @@ void CCSDWRITE::WorkerThreadFuncRun()
 		nRetCode = m_dllCtrl.PostRun();
 	}
 
+	if (nRetCode == NO_ERROR){
+		csString = _T("----------------  Write Success -----------\n\n") ;
+		PrintMsg(csString, _T(""));
+	}
+
 	//UIControl(true);
 	Timer(false);
 	CString csTime;
