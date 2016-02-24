@@ -196,6 +196,9 @@ public:
 	/* Show pass or fail on device LCD screen*/
 	bool ShowPassFailOnDeviceLCD();
 
+	/*CSD Write open ftd  */
+	bool CsdOpenFtd();
+
 	/* Get/Set parameter functions */
 	bool GetDeviceName(char* szName, int iSize);
 	bool GetSWVersion(char* p_sz_SWVersion);

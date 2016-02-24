@@ -170,6 +170,15 @@ ISRV_API int PostRun(HANDLE hResource)
 	return ret;
 }
 
+ISRV_API int ShowPopupMsg(HANDLE hResource, int(*CallBack)(const char*))
+{
+	AFX_MANAGE_STATE(AfxGetStaticModuleState());
+
+	CServiceToolController* pSTController = (CServiceToolController*)hResource;
+	pSTController->SetShowPopupMsg(CallBack);
+	return NO_ERROR;
+}
+
 /******************************************************************************
  *  implement class
  *  CNotifyBase_Char_Public
@@ -225,7 +234,7 @@ CServiceToolController::CServiceToolController()
 		GetModuleFileName(NULL, this->m_Parametermap[ParameterKeyWord::WORKINGDIR].GetBufferSetLength(MAX_PATH+1), MAX_PATH);
 		this->m_Parametermap[ParameterKeyWord::WORKINGDIR].ReleaseBuffer();
 		this->m_Parametermap[ParameterKeyWord::WORKINGDIR] = this->m_Parametermap[ParameterKeyWord::WORKINGDIR].Left(this->m_Parametermap[ParameterKeyWord::WORKINGDIR].ReverseFind('\\'));
-		this->m_Parametermap[ParameterKeyWord::WORKINGDIR].Append(_T("\\Module\\F5\\L3L4\\BBTEST_NFC\\"));
+		this->m_Parametermap[ParameterKeyWord::WORKINGDIR].Append(_T("\\Module\\Boston\\L3L4\\BBTEST_NFC\\"));
 	}
 	else if(QISDA_MODULE_NAME == "BBTEST_nonNFC")
 	{
@@ -233,7 +242,7 @@ CServiceToolController::CServiceToolController()
 		GetModuleFileName(NULL, this->m_Parametermap[ParameterKeyWord::WORKINGDIR].GetBufferSetLength(MAX_PATH+1), MAX_PATH);
 		this->m_Parametermap[ParameterKeyWord::WORKINGDIR].ReleaseBuffer();
 		this->m_Parametermap[ParameterKeyWord::WORKINGDIR] = this->m_Parametermap[ParameterKeyWord::WORKINGDIR].Left(this->m_Parametermap[ParameterKeyWord::WORKINGDIR].ReverseFind('\\'));
-		this->m_Parametermap[ParameterKeyWord::WORKINGDIR].Append(_T("\\Module\\F5\\L3L4\\BBTEST_nonNFC\\"));
+		this->m_Parametermap[ParameterKeyWord::WORKINGDIR].Append(_T("\\Module\\Boston\\L3L4\\BBTEST_nonNFC\\"));
 	}
 	else if(QISDA_MODULE_NAME == "2G3GTEST")
 	{
@@ -241,7 +250,7 @@ CServiceToolController::CServiceToolController()
 		GetModuleFileName(NULL, this->m_Parametermap[ParameterKeyWord::WORKINGDIR].GetBufferSetLength(MAX_PATH+1), MAX_PATH);
 		this->m_Parametermap[ParameterKeyWord::WORKINGDIR].ReleaseBuffer();
 		this->m_Parametermap[ParameterKeyWord::WORKINGDIR] = this->m_Parametermap[ParameterKeyWord::WORKINGDIR].Left(this->m_Parametermap[ParameterKeyWord::WORKINGDIR].ReverseFind('\\'));
-		this->m_Parametermap[ParameterKeyWord::WORKINGDIR].Append(_T("\\Module\\F5\\L3L4\\2G3GTEST\\"));
+		this->m_Parametermap[ParameterKeyWord::WORKINGDIR].Append(_T("\\Module\\Boston\\L3L4\\2G3GTEST\\"));
 	}
 	else if(QISDA_MODULE_NAME == "LTE")
 	{
@@ -249,7 +258,7 @@ CServiceToolController::CServiceToolController()
 		GetModuleFileName(NULL, this->m_Parametermap[ParameterKeyWord::WORKINGDIR].GetBufferSetLength(MAX_PATH+1), MAX_PATH);
 		this->m_Parametermap[ParameterKeyWord::WORKINGDIR].ReleaseBuffer();
 		this->m_Parametermap[ParameterKeyWord::WORKINGDIR] = this->m_Parametermap[ParameterKeyWord::WORKINGDIR].Left(this->m_Parametermap[ParameterKeyWord::WORKINGDIR].ReverseFind('\\'));
-		this->m_Parametermap[ParameterKeyWord::WORKINGDIR].Append(_T("\\Module\\F5\\L3L4\\LTE\\"));
+		this->m_Parametermap[ParameterKeyWord::WORKINGDIR].Append(_T("\\Module\\Boston\\L3L4\\LTE\\"));
 	}
 	else if(QISDA_MODULE_NAME == "BTWLAN")
 	{
@@ -257,15 +266,32 @@ CServiceToolController::CServiceToolController()
 		GetModuleFileName(NULL, this->m_Parametermap[ParameterKeyWord::WORKINGDIR].GetBufferSetLength(MAX_PATH+1), MAX_PATH);
 		this->m_Parametermap[ParameterKeyWord::WORKINGDIR].ReleaseBuffer();
 		this->m_Parametermap[ParameterKeyWord::WORKINGDIR] = this->m_Parametermap[ParameterKeyWord::WORKINGDIR].Left(this->m_Parametermap[ParameterKeyWord::WORKINGDIR].ReverseFind('\\'));
-		this->m_Parametermap[ParameterKeyWord::WORKINGDIR].Append(_T("\\Module\\F5\\L3L4\\BTWLAN\\"));
-	}/*
+		this->m_Parametermap[ParameterKeyWord::WORKINGDIR].Append(_T("\\Module\\Boston\\L3L4\\BTWLAN\\"));
+	}
+	else if(QISDA_MODULE_NAME == "CSDEM")
+	{
+		this->m_Parametermap[ParameterKeyWord::STATIONNAME] = this->m_strCurrentStation = STATION_CSDEM;
+		GetModuleFileName(NULL, this->m_Parametermap[ParameterKeyWord::WORKINGDIR].GetBufferSetLength(MAX_PATH+1), MAX_PATH);
+		this->m_Parametermap[ParameterKeyWord::WORKINGDIR].ReleaseBuffer();
+		this->m_Parametermap[ParameterKeyWord::WORKINGDIR] = this->m_Parametermap[ParameterKeyWord::WORKINGDIR].Left(this->m_Parametermap[ParameterKeyWord::WORKINGDIR].ReverseFind('\\'));
+		this->m_Parametermap[ParameterKeyWord::WORKINGDIR].Append(_T("\\Module\\4GEE Action CAM\\L1L2\\CSDEM\\"));
+	}
+	else if(QISDA_MODULE_NAME == "CSDWRITE") 
+	{
+		this->m_Parametermap[ParameterKeyWord::STATIONNAME] = this->m_strCurrentStation = STATION_CSDWRITE;
+		GetModuleFileName(NULL, this->m_Parametermap[ParameterKeyWord::WORKINGDIR].GetBufferSetLength(MAX_PATH+1), MAX_PATH);
+		this->m_Parametermap[ParameterKeyWord::WORKINGDIR].ReleaseBuffer();
+		this->m_Parametermap[ParameterKeyWord::WORKINGDIR] = this->m_Parametermap[ParameterKeyWord::WORKINGDIR].Left(this->m_Parametermap[ParameterKeyWord::WORKINGDIR].ReverseFind('\\'));
+		this->m_Parametermap[ParameterKeyWord::WORKINGDIR].Append(_T("\\Module\\BROOK\\L1L2\\CSDWRITE"));
+	}
+	/*
 	else if(QISDA_MODULE_NAME == "OS_DL")
 	{
 		this->m_Parametermap[ParameterKeyWord::STATIONNAME] = this->m_strCurrentStation = STATION_OS_DL;
 		GetModuleFileName(NULL, this->m_Parametermap[ParameterKeyWord::WORKINGDIR].GetBufferSetLength(MAX_PATH+1), MAX_PATH);
 		this->m_Parametermap[ParameterKeyWord::WORKINGDIR].ReleaseBuffer();
 		this->m_Parametermap[ParameterKeyWord::WORKINGDIR] = this->m_Parametermap[ParameterKeyWord::WORKINGDIR].Left(this->m_Parametermap[ParameterKeyWord::WORKINGDIR].ReverseFind('\\'));
-		this->m_Parametermap[ParameterKeyWord::WORKINGDIR].Append(_T("\\Module\\F5(CHT)\\L3L4\\OS_DL\\"));
+		this->m_Parametermap[ParameterKeyWord::WORKINGDIR].Append(_T("\\Module\\Boston\\L3L4\\OS_DL\\"));
 		this->m_Parametermap[_T("DLMODE")] = _T("ReDL");
 	}*/
 }
@@ -277,6 +303,11 @@ CServiceToolController::~CServiceToolController()
 size_t CServiceToolController::SetParameterValue(char* sz_keyword, char* sz_value)
 {
 	std::string key = sz_keyword;
+
+	if (key == "XMLCMDItem")
+	{
+		this->m_Parametermap[_T("XMLCMDItem")] = CA2CT(sz_value);
+	}
 	//CString strVlaue = CA2CT(sz_value);
 	if (key == "image_path") {
 		//this->m_Parametermap[_T("IMAGEPATH")] = strVlaue.Right(strVlaue.GetLength() - strVlaue.ReverseFind('\\') - 1);
@@ -365,6 +396,23 @@ size_t CServiceToolController::GetParameterValue(char* sz_keyword, char* sz_valu
 			strncpy(sz_value, msg, strlen(msg));
 		}
 	}
+	else if(QISDA_MODULE_NAME == "CSDEM")
+	{
+		if (key == "msg_process") {
+			char* msg = "Service CSDEM \r\n"
+						"Need to ¡§Open Authorization¡¨ before process this function.\r\n"
+						"1. Power on the device. \r\n"
+						"2. Connect the device to PC through USB cable. \r\n"
+						"3. Click \"RUN\" to start process. \r\n"
+						"4. Follow the pop-up message to test. \r\n"
+						"Must process the ¡§ Close Authorization¡¨ function after the repair process. \r\n";
+			strncpy(sz_value, msg, strlen(msg));
+		}
+		else if (key == "msg_warning") {
+			char* msg = "";
+			strncpy(sz_value, msg, strlen(msg));
+		}
+	}
 /*
 	else if(QISDA_MODULE_NAME == "OS_DL")
 	{
@@ -439,6 +487,22 @@ int CServiceToolController::GetInfoByIndex(int nIndex, char *szName, char *szInf
 	strcpy(szName, CT2A(m_vTestItemList[nIndex].GetString()));
 	return NO_ERROR;
 }
+
+void CServiceToolController::SetShowPopupMsg(LPVOID pfunc)
+{
+	m_fpSetShowPopupMsg = (ShowPopupMsgCallBack)pfunc;
+}
+
+int CServiceToolController::SendShowPopupMsg(const char *szMsg)
+{
+	int ret;
+	if (m_fpSetShowPopupMsg != NULL)
+	{
+		ret = m_fpSetShowPopupMsg(szMsg);
+	}
+	return ret;
+}
+
 /*
 size_t CServiceToolController::RegCallback( p_fn_Callback p_cb )
 {
@@ -501,6 +565,15 @@ void CServiceToolController::Event(const char* str_event, long nParam)
 	{
 		st_UIMessage* p_st_uiMessage = (st_UIMessage*)nParam;
 		SendMsg(p_st_uiMessage->sz_message, "INFO");
+	}
+
+	else if (strcmp(str_event, UI_SHOWDIALOG) == 0)
+	{
+		st_ShowDialog* p_st_showDialog = (st_ShowDialog*)nParam;
+		int nResult = SendShowPopupMsg(p_st_showDialog->sz_message);
+		char szRet[10] = {0};
+		sprintf(szRet,"%d",nResult);
+		CEnhanceController::Enhance_SetResopnseToShowDlg(szRet);
 	}
 
 }
@@ -651,11 +724,11 @@ size_t CServiceToolController::SetParameterToDLL()
 		return 5;
 	}
 
-	if(!this->m_pITI->SetParameterValue(_T("TOOL_MODE"),  _T("RD")))
-	{
-		//some log
-		return 6;
-	}
+	//if(!this->m_pITI->SetParameterValue(_T("TOOL_MODE"),  _T("RD")))
+	//{
+	//	//some log
+	//	return 6;
+	//}
 /*
 	if(QISDA_MODULE_NAME == "OS_DL")
 	{
@@ -690,11 +763,13 @@ size_t CServiceToolController::MakeEnhanceController()
 		this->m_strCurrentStation == STATION_2G3GTEST ||
 		this->m_strCurrentStation == STATION_4GPTEST ||
 		this->m_strCurrentStation == STATION_BTWLAN ||
+		this->m_strCurrentStation == STATION_CSDEM ||
+		this->m_strCurrentStation == STATION_CSDWRITE ||
 		//this->m_strCurrentStation == STATION_CURRENT ||
 		//this->m_strCurrentStation == STATION_ONLINE_WLS ||
 		//this->m_strCurrentStation == STATION_ONLINE_WLS2 ||
 		//this->m_strCurrentStation == "SPRD" ||
-		this->m_strCurrentStation == "LTE")
+		this->m_strCurrentStation == "LTE")	
 	{
 		//CEnhanceController *pTestBoxHdrStd = new CTestBoxHdrStd(pPhoneHdrStd);
 		//CEnhanceController *pPowerSupplyHdrStd = new CPowerSupplyHdrStd(pTestBoxHdrStd);
@@ -728,7 +803,7 @@ void CServiceToolController::DefineNotifyEvent()
 	this->m_vEvent.push_back(UI_RESULT);
 	//this->m_vEvent.push_back(UI_PICSDATA);
 	//this->m_vEvent.push_back(UI_JIGCONTROL);
-	//this->m_vEvent.push_back(UI_SHOWDIALOG);
+	this->m_vEvent.push_back(UI_SHOWDIALOG);
 	//this->m_vEvent.push_back(UI_RELAYBOARD);
 	//this->m_vEvent.push_back(UI_POWERSUPPLY);
 

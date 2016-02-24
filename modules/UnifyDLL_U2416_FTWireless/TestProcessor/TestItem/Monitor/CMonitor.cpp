@@ -137,6 +137,12 @@ bool CMonitor::Run()
 		m_strErrorCode = FunErr_WRITE_TAG_Fail;
 		passFail = runWriteTag();
 	}	
+	else if (m_str_TestItem == WriteCSDTag)
+	{
+		m_strItemCode = CStr::IntToStr(Monitor_BaseItemcode);
+		m_strErrorCode = FunErr_WRITE_TAG_Fail;
+		passFail = runWriteCSDTag();
+	}	
 	else if (m_str_TestItem == Precmd)
 	{
 		m_strItemCode = CStr::IntToStr(Monitor_BaseItemcode);
@@ -1539,6 +1545,8 @@ bool CMonitor::runPostCmd()
 		TraceLog(MSG_INFO,  ErrMsg);
 		goto  Exit_ShowResult;
 	}	
+	ErrMsg = (_T("runPostCmd reboot bootloader ok"));
+	TraceLog(MSG_INFO,  ErrMsg);
 	Sleep(3000);
 
 
@@ -1561,6 +1569,8 @@ bool CMonitor::runPostCmd()
 		TraceLog(MSG_INFO,  ErrMsg);
 		goto  Exit_ShowResult;
 	}
+	ErrMsg = (_T("runPostCmd reboot to fastboot  ok"));
+	TraceLog(MSG_INFO,  ErrMsg);
 
 	strcpy(sz_cmd_in, _T("flash passport passport_FactoryDLTool"));
 	if ( !ExecFastbootOut(sz_cmd_in, sz_cmd_out, sz_cmd_errcode) ){
@@ -1570,6 +1580,8 @@ bool CMonitor::runPostCmd()
 		goto  Exit_ShowResult;
 	}	
 	Sleep(1000);
+	ErrMsg = (_T("runPostCmd flash passport passport_FactoryDLTool ok"));
+	TraceLog(MSG_INFO,  ErrMsg);
 
 	strcpy(sz_cmd_in, _T("oem ftd Qoff"));
 	if ( !ExecFastbootOut(sz_cmd_in, sz_cmd_out, sz_cmd_errcode) ){
@@ -1579,6 +1591,8 @@ bool CMonitor::runPostCmd()
 		goto  Exit_ShowResult;
 	}	
 	Sleep(1000);
+	ErrMsg = (_T("runPostCmd oem ftd Qoff ok"));
+	TraceLog(MSG_INFO,  ErrMsg);
 
 	
 Exit_ShowResult:
@@ -1591,9 +1605,9 @@ Exit_ShowResult:
 		m_strResult = "PASS";
 	}
 
-
 	str_msg = ErrMsg;
 	m_strMessage = str_msg;
+	TraceLog(MSG_INFO,  ErrMsg);
 	FactoryLog();
 	return bRes;
 }
@@ -1811,6 +1825,73 @@ Exit_ShowResult:
 	return bRes;
 }
 
+bool CMonitor::runWriteCSDTag()
+{
+	bool bRes = false;
+	std::string st_readId = "";
+	char sz_ID[ID_SIZE_BUFFER] ="";
+	char szAddress[FTD_BUF_SIZE] = "1056,8";// dell tag
+	char m_szFAData[FTD_BUF_SIZE];
+	memset(m_szFAData, 0, sizeof(m_szFAData));
+
+	if (m_str_CMD.empty()) {
+		ErrMsg = (_T("fail, tag is empty"));
+		AfxMessageBox( ErrMsg.c_str() );
+		TraceLog(MSG_INFO,  ErrMsg);
+		goto Exit_ShowResult;
+	}
+
+	g_strTag = m_str_CMD;
+	ErrMsg = (_T("get tag  ok , "));
+	ErrMsg	= ErrMsg + g_strTag.c_str();
+	TraceLog(MSG_INFO,  ErrMsg);
+
+	sprintf_s((char*)sz_ID, ID_SIZE_BUFFER,"1056,8,%s", g_strTag.c_str() );
+
+	if (!m_pIPhone->FTD_FAC_CFGWrite(m_nFtdPort, m_nFtdTimeOut, sz_ID, m_szFAData))
+	{
+			ErrMsg = (_T("FTD_FAC_CFGWrite Fail"));
+			goto Exit_ShowResult;
+	}
+
+	if (!m_pIPhone->FTD_FAC_CFGRead(m_nFtdPort, m_nFtdTimeOut, szAddress, m_szFAData))
+	{
+			ErrMsg = (_T("FTD_FAC_CFGRead Fail"));
+			goto Exit_ShowResult;
+	}
+
+	st_readId = m_szFAData;
+	if  ( g_strTag.compare(st_readId) == 0 ){
+			ErrMsg = (_T("runWriteCSDTag tag compare  ok"));
+			m_strErrorCode = "-";
+			bRes = true;
+	}
+	else
+	{
+			ErrMsg = (_T("runWriteCSDTag tag compare  Fail"));
+			goto Exit_ShowResult;
+	}
+
+Exit_ShowResult:
+
+	if ( !bRes) {
+		AfxMessageBox( ErrMsg.c_str() );
+		m_strResult = "FAIL";
+	}
+	else
+	{
+		m_strErrorCode = "-";
+		m_strResult = "PASS";
+	}
+
+	str_msg = ErrMsg;
+	TraceLog(MSG_INFO,  ErrMsg);
+	m_strMessage = str_msg;
+	FactoryLog();
+	return bRes;
+}
+
+
 //bool CMonitor::runWriteTag()
 //{
 //	bool bRes = false;
@@ -1902,6 +1983,8 @@ bool CMonitor::runWriteHDCPKEY()
 		goto  Exit_ShowResult;
 	}
 
+	ErrMsg = _T("runGetHDCPKEY ok");
+	TraceLog(MSG_INFO,  ErrMsg);		
 
 	strcpy(sz_cmd_in, _T("remount"));
 	if ( !ExecAdbOut(sz_cmd_in, sz_cmd_out, sz_cmd_errcode) ){
@@ -1911,6 +1994,10 @@ bool CMonitor::runWriteHDCPKEY()
 		goto  Exit_ShowResult;
 	}	
 	
+	Sleep(1000);
+	ErrMsg = _T("remount ok");
+	TraceLog(MSG_INFO,  ErrMsg);		
+
 	strcpy(sz_cmd_in, _T("push cek.dat /cache/cek.dat"));
 	if ( !ExecAdbOut(sz_cmd_in, sz_cmd_out, sz_cmd_errcode) ){
 		ErrMsg = (_T("push cek.da Fail"));
@@ -1918,6 +2005,9 @@ bool CMonitor::runWriteHDCPKEY()
 		TraceLog(MSG_INFO,  ErrMsg);
 		goto  Exit_ShowResult;
 	}	
+
+	ErrMsg = _T("push cek.dat /cache/cek.dat  ok");
+	TraceLog(MSG_INFO,  ErrMsg);		
 
 	cs_write_cmd.Format(_T("push %s /cache/pm.out"), cs_local_key_path);
 	sprintf_s((char*)sz_cmd_in, MAX_PATH, "%s", cs_write_cmd);
@@ -1930,6 +2020,9 @@ bool CMonitor::runWriteHDCPKEY()
 		goto  Exit_ShowResult;
 	}	
 
+	ErrMsg = _T("push cek.dat ok");
+	TraceLog(MSG_INFO,  ErrMsg);		
+
 	if (!(bRes = m_pIPhone->FTD_HDCPKEY(m_nFtdPort, m_nFtdTimeOut, sz_cmd_in, sz_cmd_out)))
 	{
 		ErrMsg = _T("Check FTD_HDCPKEY Fail");
@@ -1937,11 +2030,9 @@ bool CMonitor::runWriteHDCPKEY()
 		TraceLog(MSG_INFO, ErrMsg);
 		goto  Exit_ShowResult;
 	}
-	else
-	{
-		ErrMsg = _T("Check FTD_HDCPKEY PASS");
-		TraceLog(MSG_INFO, ErrMsg);
-	}
+
+	ErrMsg = _T("Check FTD_HDCPKEY PASS");
+	TraceLog(MSG_INFO, ErrMsg);
 
 	Sleep(200);
 	/*update key , mac/wifi address*/
@@ -2073,6 +2164,9 @@ bool CMonitor::runGetHDCPKEY()
 		goto Exit_ShowResult;
 	}
 
+	ErrMsg = _T("remove HDCPKEY folder ok");
+	TraceLog(MSG_INFO,  ErrMsg);		
+
 	/*copy key */
 	cs_local_key_path = pthToolDir + _T("\\HDCPKEY\\") + std_Key_Name.c_str();
 
@@ -2091,6 +2185,8 @@ bool CMonitor::runGetHDCPKEY()
 		goto Exit_ShowResult;
 	}
 
+	ErrMsg = _T("copy hdcp key from F32SERVER7 ok");
+	TraceLog(MSG_INFO,  ErrMsg);		
 
 	if ( !checkFileExist(sz_local_file_path)){
 		goto Exit_ShowResult;
@@ -2239,6 +2335,8 @@ bool CMonitor::bUpdateKEYWrite(){
 				TraceLog(MSG_INFO, str_msg);
 				goto Exit_ShowResult;
 			}
+			ErrMsg = "Read FTD_BT_MAC from mobile ok";
+			TraceLog(MSG_INFO, str_msg);
 			//sprintf(sz_copy_cmd, "/C copy %s %s", sz_remote_file_path, sz_local_file_path );
 
 			if (!(m_pIPhone->FTD_WLAN_MAC(m_nFtdPort, 30000, szInput, (char*)szWifiOutput)))
@@ -2248,6 +2346,8 @@ bool CMonitor::bUpdateKEYWrite(){
 				TraceLog(MSG_INFO, str_msg);
 				goto Exit_ShowResult;
 			}
+			ErrMsg = "Read FTD_WLAN_MAC from mobile ok";
+			TraceLog(MSG_INFO, str_msg);
 
 			//std_Key_Id
 			sprintf_s((char*)szScarlarId , ID_SIZE_BUFFER, "%s", std_ScalarId.c_str());
@@ -2266,12 +2366,9 @@ bool CMonitor::bUpdateKEYWrite(){
 				TraceLog(MSG_INFO,  ErrMsg);
 				goto Exit_ShowResult;
 			}
-			else
-			{
-				ErrMsg = ("iUpdateKEYWrite pass");
-				TraceLog(MSG_INFO,  ErrMsg);
-				bRes = true;
-			}
+			ErrMsg = ("iUpdateKEYWrite pass");
+			TraceLog(MSG_INFO,  ErrMsg);
+			bRes = true;
 		}
 		else{
 			ErrMsg = ("Load iUpdateKEYWrite Fail");

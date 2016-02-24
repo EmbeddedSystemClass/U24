@@ -35,6 +35,11 @@ size_t CTestItemHdrStd::Enhance_OnAPPLaunch()
 	if(NOERROR != ret)
 		return ret;
 */
+	ret = this->SetTestItemXMLValueForCSDWrite();
+	if(NOERROR != ret)
+		return ret;
+
+
 	this->SetOtherParameter();
 
 	return ret;
@@ -112,6 +117,98 @@ size_t CTestItemHdrStd::Enhance_SetResopnseToShowDlg(char* sz_showReslut)
 	if(!this->m_pITI->ResopnseToShowDlg(sz_showReslut))
 	{
 		return TOOL_ONRUN_FAIL;
+	}
+
+	return ret;
+}
+size_t CTestItemHdrStd::SetTestItemXMLValueForCSDWrite()
+{
+	size_t ret = NOERROR;
+	CString cstrTestItemPath;
+	CMyMSXML m_TestItemXML;
+
+	if (this->m_Parametermap[ParameterKeyWord::STATIONNAME] == STATION_2G3GTEST )
+	{
+		cstrTestItemPath = this->m_Parametermap[ParameterKeyWord::WORKINGDIR] + 
+												_T("Qisda\\") + 
+												this->m_Parametermap[ParameterKeyWord::MODELNAME] + 
+												_T("_") + 
+												this->m_Parametermap[ParameterKeyWord::STATIONNAME] + 
+												_T("_TestItem_CMW.xml");
+	}
+	else
+	{
+		cstrTestItemPath = this->m_Parametermap[ParameterKeyWord::WORKINGDIR] + 
+												_T("\\Qisda\\") + 
+												this->m_Parametermap[ParameterKeyWord::MODELNAME] + 
+												_T("_") + 
+												this->m_Parametermap[ParameterKeyWord::STATIONNAME] + 
+												_T("_TestItem.xml");
+	}
+
+	if (::_taccess(cstrTestItemPath, 0) == 0)
+	{
+		if (m_TestItemXML.Load(cstrTestItemPath) != ERROR_SUCCESS)
+		{
+			ret = LOAD_TESTITEM_FAIL;
+		}
+	}
+	else
+	{
+		ret = LOAD_TESTITEM_FAIL;
+	}
+
+	if (NOERROR == ret)
+	{
+		//Write test item parameter
+
+		XMLNode TagNode = m_TestItemXML.SearchNode(_T("//Configuration//ProcessObjectSet//WriteCSDTagObjects//ProcessObject//XMLCMDItem"));
+		if (TagNode != NULL)
+		{
+			m_TestItemXML.SetNodeText(TagNode, this->m_Parametermap[_T("XMLCMDItem")]);
+		}
+
+
+		//XMLNode ChannelNode = m_TestItemXML.SearchNode(_T("//Configuration//ProcessObjectSet//WirelessTestObjects//ProcessObject//CHANNEL"));
+		//if (ChannelNode != NULL)
+		//{
+		//	m_TestItemXML.SetNodeText(ChannelNode, this->m_Parametermap[_T("CHANNEL")]);
+		//}
+
+
+		//XMLNode RateMaskNode = m_TestItemXML.SearchNode(_T("//Configuration//ProcessObjectSet//WirelessTestObjects//ProcessObject//RATEMASK"));
+		//if (RateMaskNode != NULL)
+		//{
+		//	m_TestItemXML.SetNodeText(RateMaskNode, this->m_Parametermap[_T("RATEMASK")]);
+		//}
+
+
+		//XMLNode PowerNode = m_TestItemXML.SearchNode(_T("//Configuration//ProcessObjectSet//WirelessTestObjects//ProcessObject//POWER"));
+		//if (PowerNode != NULL)
+		//{
+		//	m_TestItemXML.SetNodeText(PowerNode, this->m_Parametermap[_T("POWER")]);
+		//}
+
+		//XMLNode RateBitIndexNode = m_TestItemXML.SearchNode(_T("//Configuration//ProcessObjectSet//WirelessTestObjects//ProcessObject//RATEBITINDEX"));
+		//if (RateBitIndexNode != NULL)
+		//{
+		//	m_TestItemXML.SetNodeText(RateBitIndexNode, this->m_Parametermap[_T("RATEBITINDEX")]);
+		//}
+
+
+		//XMLNode WlanModeNode = m_TestItemXML.SearchNode(_T("//Configuration//ProcessObjectSet//WirelessTestObjects//ProcessObject//WLANMODE"));
+		//if (WlanModeNode != NULL)
+		//{
+		//	m_TestItemXML.SetNodeText(WlanModeNode, this->m_Parametermap[_T("WLANMODE")]);
+		//}
+
+		//XMLNode ChannelChainNode = m_TestItemXML.SearchNode(_T("//Configuration//ProcessObjectSet//WirelessTestObjects//ProcessObject//CHAIN"));
+		//if (ChannelChainNode != NULL)
+		//{
+		//	m_TestItemXML.SetNodeText(ChannelChainNode, this->m_Parametermap[_T("CHAIN")]);
+		//}
+
+		m_TestItemXML.Save();
 	}
 
 	return ret;

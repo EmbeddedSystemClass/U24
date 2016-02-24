@@ -2318,6 +2318,135 @@ bool ITestProcessor::LogUploadByBAT(char* str_modelname)
 	return true;
 }
 
+	/*CSD Write open ftd  */
+bool ITestProcessor::CsdOpenFtd()
+{
+	TraceLog(MSG_INFO, "start CsdOpenFtd"); 
+	bool b_wait_fastboot = false;
+	bool bRes = false;
+	int nLimitTime = 0 ;
+
+	CString str_command;
+	char errMsg[128] = {0};
+	char cmdOut[1024] = {0};
+	
+	//start**********************************/
+	str_command = _T("reboot bootloader");
+	if (!m_pIPhone->ExecAdbCommand(str_command, cmdOut, errMsg))
+	{
+		m_strMessage = "Fail to reboot bootloader";
+		goto  Exit_ShowResult;
+	}
+	m_strMessage = "CsdOpenFtd reboot bootloader ok";
+	TraceLog(MSG_INFO, m_strMessage);
+	Sleep(3000);
+
+	str_command = ("devices");
+	while ( !b_wait_fastboot){
+		if (!m_pIPhone->ExecFastbootCommand(str_command, cmdOut, errMsg))
+		{
+			TraceLog(MSG_INFO, m_strMessage);
+			goto  Exit_ShowResult;
+		}
+
+		CString csBuf = cmdOut;
+		CString csFastboot("fastboot");
+		if(csBuf.Find(csFastboot) != -1) {
+		  b_wait_fastboot = true; //get it
+		  break;
+		}
+		Sleep(1000);
+		nLimitTime ++;
+		if ( nLimitTime > 60 ) break; //time out
+	}
+
+
+	if ( ! b_wait_fastboot ) {
+		m_strMessage = _T("reboot to fastboot fail ");
+		goto  Exit_ShowResult;
+	}
+	m_strMessage = "CsdOpenFtd reboot to fastboot ok";
+	TraceLog(MSG_INFO, m_strMessage);
+
+	str_command = ("flash passport passport_FactoryDLTool");
+	if (!m_pIPhone->ExecFastbootCommand(str_command, cmdOut, errMsg))
+	{
+		m_strMessage = "Fail to flash passport passport_FactoryDLTool";
+		goto  Exit_ShowResult;
+	}
+	m_strMessage = "CsdOpenFtd flash passport passport_FactoryDLTool ok";
+	TraceLog(MSG_INFO, m_strMessage);
+
+	Sleep(1000);
+
+	str_command = ("oem adb Qon");
+	if (!m_pIPhone->ExecFastbootCommand(str_command, cmdOut, errMsg))
+	{
+		m_strMessage = "Fail to oem adb Qon";
+		goto  Exit_ShowResult;
+	}
+	m_strMessage = "CsdOpenFtd oem adb Qon ok";
+	TraceLog(MSG_INFO, m_strMessage);
+	Sleep(500);
+
+	str_command =  _T("oem root Qon");
+	if (!m_pIPhone->ExecFastbootCommand(str_command, cmdOut, errMsg))
+	{
+		m_strMessage = "Fail to oem root Qon";
+		goto  Exit_ShowResult;
+	}
+	m_strMessage = "CsdOpenFtd oem root Qon ok";
+	TraceLog(MSG_INFO, m_strMessage);
+	Sleep(1000);
+
+	str_command = _T("oem permissive Qon");
+	if (!m_pIPhone->ExecFastbootCommand(str_command, cmdOut, errMsg))
+	{
+		m_strMessage = "Fail to oem permissive Qon";
+		goto  Exit_ShowResult;
+	}
+	m_strMessage = "CsdOpenFtd oem permissive Qon ok";
+	TraceLog(MSG_INFO, m_strMessage);
+	Sleep(1000);
+
+	str_command = _T("oem ftd Qon");
+	if (!m_pIPhone->ExecFastbootCommand(str_command, cmdOut, errMsg))
+	{
+		m_strMessage = "Fail to oem ftd Qon";
+		goto  Exit_ShowResult;
+	}
+	m_strMessage = "CsdOpenFtd oem ftd Qon ok";
+	TraceLog(MSG_INFO, m_strMessage);
+	Sleep(1000);
+
+	str_command = _T("reboot");
+	if (!m_pIPhone->ExecFastbootCommand(str_command, cmdOut, errMsg))
+	{
+		m_strMessage = "Fail to reboot";
+		goto  Exit_ShowResult;
+	}
+	m_strMessage = "CsdOpenFtd fastboot reboot ok";
+	TraceLog(MSG_INFO, m_strMessage);
+	Sleep(3000);
+	
+	bRes = true;
+
+Exit_ShowResult:
+	if ( !bRes) {
+		m_strResult = "FAIL";
+	}
+	else
+	{
+		m_strMessage = (_T("CsdOpenFtd  ok  \n"));
+		m_strErrorCode = "-";
+	//	m_strResult = "PASS";
+	}
+
+	TraceLog(MSG_INFO, m_strMessage);
+	FactoryLog();
+	return bRes;
+}
+
 //upload log to server
 bool ITestProcessor::LogUpload(char* str_modelname)
 {

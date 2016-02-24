@@ -24,6 +24,7 @@ public:
 
 protected:
 	size_t CheckTestItemXMLExist();
+	size_t SetTestItemXMLValueForCSDWrite();
 //	size_t LoadTestProcessor();
 //	size_t GetTestItem();
 	size_t SetToolTestItem();

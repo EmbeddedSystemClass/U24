@@ -27,6 +27,7 @@
 #define InsertData					"InsertData"
 #define WriteHDCP				"WriteHDCP"
 #define WriteTag					"WriteTag"
+#define WriteCSDTag					"WriteCSDTag"
 #define CheckTag					"CheckTag"
 #define CheckModel				"CheckModel"
 #define CheckSWVersion		"CheckSWVersion"
@@ -136,6 +137,7 @@ private:
 	bool runWriteHDCPKEY();
 	bool runCheckTag();
 	bool runWriteTag();
+	bool runWriteCSDTag();
 	bool bGetNewHDCPKEY(char *scalarID);
 	bool brunGetExistHDCPKEY(char *scalarID);
 	bool runInsertData(int i_type);

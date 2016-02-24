@@ -31,8 +31,9 @@
 #define ISRV_CLASS_API __declspec(dllimport)
 #endif
 
-#define _2G3GTEST
-#define UNIFYMODELNAME			      _T("GF01B3A")
+//#define _BBTEST_nonNFC
+#define _CSDWRITE
+#define UNIFYMODELNAME			      _T("GBROB1A")
 
 #ifdef _BBTEST_NFC
 	#define QISDA_MODULE_NAME "BBTEST_NFC"
@@ -48,9 +49,9 @@
 	static const bool QISDA_MODULE_CHECK_DONGLE = true;
 #elif defined _2G3GTEST
 	#define QISDA_MODULE_NAME "2G3GTEST"
-	#define QISDA_MODULE_TITLE "UnifyUI_RD.exe"
-	#define QISDA_MODULE_INFO ""
-	#define QISDA_MODULE_TYPE "EXEC"
+	#define QISDA_MODULE_TITLE "2G3GTEST"
+	#define QISDA_MODULE_INFO "reserved"
+	#define QISDA_MODULE_TYPE "FACTORYINFOLIST"
 	static const bool QISDA_MODULE_CHECK_DONGLE = true;
 #elif defined _LTE
 	#define QISDA_MODULE_NAME "LTE"
@@ -64,6 +65,18 @@
 	#define QISDA_MODULE_INFO "reserved"
 	#define QISDA_MODULE_TYPE "FACTORYINFOLIST"
 	static const bool QISDA_MODULE_CHECK_DONGLE = true;
+#elif defined _CSDEM
+	#define QISDA_MODULE_NAME "CSDEM"
+	#define QISDA_MODULE_TITLE "CSDEM"
+	#define QISDA_MODULE_INFO "reserved"
+	#define QISDA_MODULE_TYPE "FACTORYINFOLIST"
+	static const bool QISDA_MODULE_CHECK_DONGLE = false;
+#elif defined _CSDWRITE
+	#define QISDA_MODULE_NAME "CSDWRITE"
+	#define QISDA_MODULE_TITLE "CSDWRITE"
+	#define QISDA_MODULE_INFO "reserved"
+	#define QISDA_MODULE_TYPE "CSDWRITE"
+	static const bool QISDA_MODULE_CHECK_DONGLE = false;
 /*
 #elif defined _OSDL
 	#define QISDA_MODULE_NAME "OS_DL"
@@ -77,6 +90,7 @@
 typedef int (*MsgCallBack)(const char* szMsg, const char* szTag);
 typedef int (*PortCallBack)(const char* szPort);
 typedef int (*ResultCallBack)(const int nIndex, const char* szUnit, const char* szLower, const char* szUpper, const char* szMeasured, const char* szResult, const char* szErrCode, const char* szMsg);
+typedef int (*ShowPopupMsgCallBack)(const char* szMsg);
 
 /******************************************************************************
  * export  extern C API ,
@@ -109,6 +123,8 @@ ISRV_API int Begin(HANDLE hResource);
 ISRV_API int PreRun(HANDLE hResource);
 ISRV_API int Run(HANDLE hResource);
 ISRV_API int PostRun(HANDLE hResource);
+
+ISRV_API int ShowPopupMsg(HANDLE hResource, int(*CallBack)(const char*)); // NO_ERROR
 
 /******************************************************************************
  *  declare class
@@ -149,6 +165,7 @@ public:
 	void SetCallSendMsg(LPVOID pfunc);
 	void SetCallSetPort(LPVOID pfunc);
 	void SetCallSendResult(LPVOID pfunc);
+	void SetShowPopupMsg(LPVOID pfunc);
 
 	int GetInfoCount();
 	int GetInfoByIndex(int nIndex, char* szName, char*szInfo);
@@ -197,4 +214,8 @@ private:
 	void SetPort(const char* szPort);
 	ResultCallBack m_fpSendResult;
 	void SendResult(const int nIndex, const char* szUnit, const char* szLower, const char* szUpper, const char* szMeasured, const char* szResult, const char* szErrCode, const char* szMsg);
+	ShowPopupMsgCallBack m_fpSetShowPopupMsg;
+	int SendShowPopupMsg(const char* szMsg);
+
+	IFacTestToolInterface*			m_p_facTestToolInterface;  // point to IFacTestToolInterface
 };

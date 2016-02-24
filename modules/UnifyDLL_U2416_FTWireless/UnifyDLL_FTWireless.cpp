@@ -927,6 +927,43 @@ bool CUnifyDLL_FTWireless::PreRun(int i_slot)
 		}
 	}
 
+#ifdef _ToolInterface
+	if (b_Res)
+	{
+		char sz_sectorData[512] = {0};
+		std::string st_sectorData;
+		TRACE("msg=%s",m_str_station);
+
+		if (! (b_Res = m_pITool->CsdOpenFtd()))
+		{
+			m_pITool->GetTestResult(0, &st_Result);
+			Fire(UI_RESULT, (long)&st_Result);
+			return false;
+		}
+		Sleep(1000);
+
+
+		if (!m_pITool->ReadFAData_New( 0, 0, sz_sectorData, 200))
+		{
+			m_pITool->GetTestResult(0, &st_Result);
+			Fire(UI_RESULT, (long)&st_Result);
+			return false;
+		}
+
+		st_sectorData = sz_sectorData;
+		StrVtr vToken;
+		CStr::ParseString(st_sectorData.c_str(), _T(","), vToken);
+		m_pITool->SetPicasso( vToken[2].c_str());
+		m_str_picasso = vToken[2].c_str();
+		/* Set google log file name again if Picasso is not empty*/
+		if ( !m_str_picasso.IsEmpty())
+		{
+			SetLogFileName();
+		}
+
+	}
+
+#endif
 	/* 8. Check if phone is in FTD mode */
 /*	if (b_Res)
 	{
@@ -974,6 +1011,7 @@ bool CUnifyDLL_FTWireless::PreRun(int i_slot)
 
 	return b_Res;
 }
+
 
 #ifdef _ToolInterface
 bool CUnifyDLL_FTWireless::RunTestItem(int iItem, int i_slot)
