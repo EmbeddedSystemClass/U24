@@ -2299,8 +2299,15 @@ bool CMonitor::bGetNewHDCPKEY(char *scalarID)
 }
 
 bool CMonitor::bUpdateKEYWrite(){
+	ErrMsg = "start bUpdateKEYWrite Sleep 3000...";
+	TraceLog(MSG_INFO, ErrMsg);
+
+	Sleep(3000);
+	ErrMsg = "start bUpdateKEYWrite go ";
+	TraceLog(MSG_INFO, ErrMsg);
+
+
 	bool bRes = false;
-		
 	CString str_dllF32SERVER2 = F32SERVERDB;
 
 	HMODULE hDll ;
@@ -2316,8 +2323,6 @@ bool CMonitor::bUpdateKEYWrite(){
 
 		lpUpdateKEYWrite iUpdateKEYWrite = (lpUpdateKEYWrite)::GetProcAddress(hDll,"UpdateKEYWrite");
 
-		//unsigned char sz_ID[ID_SIZE_BUFFER] ="";
-	//	unsigned char szStation[ID_SIZE_BUFFER] ="";
 		
 		if( iUpdateKEYWrite != NULL)
 		{	
@@ -2328,26 +2333,27 @@ bool CMonitor::bUpdateKEYWrite(){
 			unsigned char szKeyID[ID_SIZE_BUFFER] = {0};
 			unsigned char szScarlarId[ID_SIZE_BUFFER] = {0};
 			unsigned char szServerId[ID_SIZE_BUFFER] = {0};
-			if (!(m_pIPhone->FTD_BT_MAC(m_nFtdPort, 30000, szInput, (char*)szBTOutput)))
+			if (!(m_pIPhone->FTD_BT_MAC(m_nFtdPort, m_nFtdTimeOut, szInput, (char*)szBTOutput)))
 			{
 				ErrMsg = "Read FTD_BT_MAC from mobile fail";
 				AfxMessageBox( ErrMsg.c_str() );
-				TraceLog(MSG_INFO, str_msg);
+				TraceLog(MSG_INFO, ErrMsg);
 				goto Exit_ShowResult;
 			}
 			ErrMsg = "Read FTD_BT_MAC from mobile ok";
-			TraceLog(MSG_INFO, str_msg);
+			TraceLog(MSG_INFO, ErrMsg);
+			Sleep(500);
 			//sprintf(sz_copy_cmd, "/C copy %s %s", sz_remote_file_path, sz_local_file_path );
 
-			if (!(m_pIPhone->FTD_WLAN_MAC(m_nFtdPort, 30000, szInput, (char*)szWifiOutput)))
+			if (!(m_pIPhone->FTD_WLAN_MAC(m_nFtdPort, m_nFtdTimeOut, szInput, (char*)szWifiOutput)))
 			{
 				ErrMsg = "Read FTD_WLAN_MAC from mobile fail";
 				AfxMessageBox( ErrMsg.c_str() );
-				TraceLog(MSG_INFO, str_msg);
+				TraceLog(MSG_INFO, ErrMsg);
 				goto Exit_ShowResult;
 			}
 			ErrMsg = "Read FTD_WLAN_MAC from mobile ok";
-			TraceLog(MSG_INFO, str_msg);
+			TraceLog(MSG_INFO, ErrMsg);
 
 			//std_Key_Id
 			sprintf_s((char*)szScarlarId , ID_SIZE_BUFFER, "%s", std_ScalarId.c_str());
