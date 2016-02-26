@@ -1697,7 +1697,7 @@ bool CDownload8994::ReadFASector(int i_sectorNum, char *sz_sectorData, int i_sec
 		}
 
 	}
-	else if  ( i_idtype == 1){// read picasso 
+	else if  (( i_idtype == 0)||( i_idtype == 1)){// read picasso 
 			bool b_result = false;
 			char* output = new char[BUFFER_SIZE];
 			char* ErrorCode =new char[BUFFER_SIZE];

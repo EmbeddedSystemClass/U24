@@ -1340,6 +1340,7 @@ bool CDownLoadDlg::GetPicasso(std::map<int, CString>& map_picasso)
 						CStringToChar(_T("GetFASector Fail"), st_result.sz_msg);
 						CStringToChar(CommErr_UI_Interface_GetFA_Fail, st_result.sz_errCode);
 						m_p_DLInterface->Fire(UI_RESULT, (long)&st_result);
+						return false;
 					}
 					else
 					{
