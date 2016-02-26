@@ -26,7 +26,7 @@ public:
 public:
 	bool ReadFA(char* sz_FAData);
 	bool WriteFA(char* sz_FAData);
-	bool ReadFASector(int i_sectorNum, char *sz_sectorData, int i_sectorSize);
+	bool ReadFASector(int i_sectorNum, char *sz_sectorData, int i_sectorSize, int i_idtype);
 	bool WriteFASector(int i_sectorNum, char *sz_sectorData, int i_sectorSize);
 	bool LogUpload(char *str_modelname);
 	bool LogUploadByBAT(char* str_modelname);
@@ -55,6 +55,7 @@ private:
 
 private:
 	bool GetDLMode(void);
+	bool GetIDType(void);
 	bool GetSupportQDownload(void);
 
 private:
@@ -62,6 +63,7 @@ private:
 	CString  m_str_multiDLFlag;        // multi-download flag
 	CString  m_str_errorCode;          // ErrorCode
 	CString  m_str_DLMode;             // DL Mode
+	int		 m_i_idtype;
 	int      m_i_rework;               // Rework flag
 	int      m_i_reboot;               // Reboot flag
 	int      m_i_DDRCheck;             // DDR check flag

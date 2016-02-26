@@ -67,7 +67,7 @@ CDLInstance::CDLInstance()
 	m_b_readIniFile = false;
 	m_b_SupportQDownload = false;
 	m_b_checkFlow = false;
-	m_b_insertData = false;
+	i_InsertData = 0;
 	m_b_checkSWVersion = false;
 	m_i_imageCount = 0;
 	m_vector_image.clear();
@@ -396,9 +396,9 @@ bool CDLInstance::Run(int i_slot)
 //	bool b_res = false;
 //	bool passFail = false;
 
-	if (m_b_insertData)
+	if (i_InsertData)
 	{
-		b_res = runInsertData();
+		b_res = runInsertData( i_InsertData );
 	}
 
 	return b_res;
@@ -676,7 +676,7 @@ Exit_CloseDB:
 Exit_FreeLibrary:
 	 SetErrorMessage(ErrMsg.c_str() , 0);
      FreeLibrary(hDll);
-Exit:
+
      return bReturn;
 }
 
@@ -1014,6 +1014,7 @@ bool CDLInstance::SetParameterValue(char* sz_keyword, char* sz_value)
 				CString str_picasso;
 				str_picasso = str_temp.Right(str_temp.GetLength() - i_first - 1);
 				m_map_picassoList[i_slot] = str_picasso;
+				cs_Picasso =  str_picasso;
 				m_map_COMPicasso[m_map_deviceStruct[i_slot].i_COMPort] = str_picasso;
 			}
 			catch(CMemoryException* e)
@@ -1312,7 +1313,8 @@ bool CDLInstance::GetFASector(int i_slot, int i_sectorNum, char *sz_sectorData, 
 	p_obj_DL->SetImageVector(m_vector_image);
 
 	bool b_res = false;
-	b_res = p_obj_DL->ReadFASector(i_sectorNum, sz_sectorData, i_sectorSize);
+	int i_tmp = 1;
+	b_res = p_obj_DL->ReadFASector(i_sectorNum, sz_sectorData, i_sectorSize,  i_tmp);
 
 	p_obj_DL->Unregister (this, UI_MESSAGE);
 	p_obj_DL->Unregister(this, UI_PROGRESS);
@@ -1326,6 +1328,10 @@ bool CDLInstance::GetFASector(int i_slot, int i_sectorNum, char *sz_sectorData, 
 
 
 bool CDLInstance::SetTag(int i_slot, char *sz_sectorData, int i_sectorSize)
+{
+	return true;
+}
+bool CDLInstance::SetSn(int i_slot, char *sz_sectorData, int i_sectorSize)
 {
 	return true;
 }
@@ -1843,8 +1849,7 @@ bool CDLInstance::GetCheckFlowInsertData(void)
 /*	bool                         m_b_checkFlow;     
 	bool                         m_b_insertData;    */  
 	CIniAccess obj_dllIni("Setting", m_str_iniFileName);
-	int i_InsertData = obj_dllIni.GetValue("insertdata", -1);
-	m_b_insertData = (i_InsertData == 1) ? true : false;
+	i_InsertData = obj_dllIni.GetValue("insertdata", 2);
 
 	int i_checkflow = obj_dllIni.GetValue("checkflow", -1);
 	m_b_checkFlow = (i_checkflow == 1) ? true : false;
@@ -2939,7 +2944,7 @@ bool CDLInstance::SpiltString(CString str_sourceString, CString str_delimiter, C
 	return true;
 }
 
-bool CDLInstance ::runInsertData()
+bool CDLInstance ::runInsertData(int n_type)
 {	
 	bool bReturn = false;
 	CString str_dllF32SERVER2 = F32SERVERDB;
@@ -2976,9 +2981,25 @@ bool CDLInstance ::runInsertData()
 			//sprintf_s(szTemp,ID_SIZE_BUFFER, "F1008B28888");
 			//sprintf_s(szTemp,10,"%s",m_pIPhone->m_szSN.c_str());
 
-		//	unsigned char Id[ID_SIZE_BUFFER] = {0};
 			unsigned char Station[ID_SIZE_BUFFER]  = {0};
+			if ( n_type == 1 ){ //arm board id
+				std::string  stdPicasso = cs_Picasso.GetBuffer(0); 
+				cs_Picasso.ReleaseBuffer();
+				if ( stdPicasso.empty()){
+					ErrMsg = "  picasso is empty = " ;
+					ErrMsg =  ErrMsg + std_ScalarId.c_str() ;
+					AfxMessageBox(ErrMsg.c_str());
+					SetErrorMessage(ErrMsg.c_str() , 0);
+					return false;
+				}
+				sprintf_s((char*)sz_ID, ID_SIZE_BUFFER,"%s", stdPicasso );
 
+				ErrMsg = "  iInsertYrstation 1 = " ;
+				ErrMsg =  ErrMsg + stdPicasso ;
+			//	AfxMessageBox(ErrMsg.c_str());
+				SetErrorMessage(ErrMsg.c_str() , 0);
+			}
+			else 	if ( n_type == 2 ){
 				if ( std_ScalarId.empty()){
 					ErrMsg = "  scalar board is empty = " ;
 					ErrMsg =  ErrMsg + std_ScalarId.c_str() ;
@@ -2991,6 +3012,15 @@ bool CDLInstance ::runInsertData()
 				ErrMsg = " iInsertYrstation 2 = ";
 				ErrMsg = ErrMsg 	+ std_ScalarId.c_str() ;
 				SetErrorMessage(ErrMsg.c_str() , 0);
+			}
+			else
+			{
+				ErrMsg = "can't find id type ";
+				//ErrMsg = " iInsertYrstation 2 = ";
+				ErrMsg = ErrMsg 	+ std_ScalarId.c_str() ;
+				SetErrorMessage(ErrMsg.c_str() , 0);
+				return false;
+			}
 			//	AfxMessageBox(ErrMsg.c_str());
 				//SetErrorMessage(ErrMsg.c_str() , 0);
 

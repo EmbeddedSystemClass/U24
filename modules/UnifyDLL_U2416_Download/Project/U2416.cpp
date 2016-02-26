@@ -444,7 +444,8 @@ bool CU2416::DLchipset(void)
 	if (b_res) 
 	{
 		SendMessageToUI("Start DL");
-		b_res = obj_download8994.MultiDownload();
+		 DownloadProtocol nDLPROTOCOL = QTT_FASTDOWNLOAD;
+		b_res = obj_download8994.MultiDownload(NULL, NULL,  nDLPROTOCOL, m_i_idtype);
 		SendMessageToUI("DL OK");
 	}
 
@@ -826,11 +827,12 @@ bool CU2416::ReadIniFile(void)
 	bool b_res = false;
 	b_res = GetDLMode();
 
-	///* Get Rework flag */
-	//if (b_res) 
-	//{
-	//	b_res = GetRework();
-	//}
+
+	/* Get GetIDType flag */
+	if (b_res) 
+	{
+		b_res = GetIDType();
+	}
 
 	///* Get Reboot flag */
 	//if (b_res) 
@@ -909,6 +911,25 @@ bool CU2416::GetDLMode(void)
 	}
 
 	m_str_DLMode = str_DLMode;
+
+	return true;
+}
+
+bool CU2416::GetIDType(void)
+{
+	int i_idtype = -1;
+
+	CIniAccess obj_dllIni("IDTYPE", m_str_dllIniFile);
+	i_idtype = obj_dllIni.GetValue("IDTYPE", 2); 
+
+	if ((i_idtype != 1) && (i_idtype != 2))
+	{
+		SendMessageToUI("GetIDType Fail from QISDA.");
+		SetError(DLERR_UNKNOWN);
+		return false;
+	}
+
+	m_i_idtype = i_idtype;
 
 	return true;
 }
@@ -1196,7 +1217,7 @@ bool CU2416::WriteFA(char* sz_FAData)
 	return b_res;
 }
 
-bool CU2416::ReadFASector(int i_sectorNum, char *sz_sectorData, int i_sectorSize)
+bool CU2416::ReadFASector(int i_sectorNum, char *sz_sectorData, int i_sectorSize, int i_idtype)
 {
 	/* Read ini file */
 	if (ReadIniFile() != true)
@@ -1213,7 +1234,7 @@ bool CU2416::ReadFASector(int i_sectorNum, char *sz_sectorData, int i_sectorSize
 	//obj_download8994.SetSupportQDownloadFlag(m_i_SupportQDownload);
 
 	/* Read FA */
-	b_res = obj_download8994.ReadFASector(i_sectorNum, sz_sectorData, i_sectorSize);
+	b_res = obj_download8994.ReadFASector(i_sectorNum, sz_sectorData, i_sectorSize, m_i_idtype);
 
 	obj_download8994.Unregister(this, EVENT_DL_PROGRESS);
 

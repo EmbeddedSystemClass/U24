@@ -12,7 +12,8 @@
 #include <map>
 #include "Shlwapi.h"
 
-#include "../../Modules/UnifyInterface/FacTestToolInterface.h"
+//#include "../../Modules/UnifyInterface/FacTestToolInterface.h"
+#include "../../20151005_CommonTool/Modules/UnifyInterface/FacTestToolInterface.h"
 #include "../../Modules/QisdaEmmcDownloadModule/QisdaEmmcDownloadModule.h"
 #include "IniAccess.h"
 #include "GLog.h"
@@ -109,6 +110,7 @@ public:
 	virtual bool GetFASector(int i_slot, int i_sectorNum, char *sz_sectorData, int i_sectorSize);
 	virtual bool SetFASector(int i_slot, int i_sectorNum, char *sz_sectorData, int i_sectorSize);
 	virtual bool SetTag(int i_slot, char *sz_sectorData, int i_sectorSize);
+	virtual bool SetSn(int i_slot, char *sz_sectorData, int i_sectorSize);
 	virtual int  GetItemCount(void);
 	virtual bool GetItemByIndex(int i_index, char* sz_name, int i_size);
 	virtual bool ResopnseToJig(bool b_wait);
@@ -166,12 +168,14 @@ private:
 	CString						 str_prestation;
 	CString						 str_SWVersion;
 	int                          m_i_imageCount;            // Image file count
+	int								i_InsertData;
 	char                         m_sz_DLMode[ARRAY_SIZE];   // Current DL mode
 	char                         m_sz_PID_VID[ARRAY_SIZE];   // Current DL mode
 	std::vector<st_Image>        m_vector_image;            // Image
 	std::map<int, DeviceStruct>	 m_map_deviceStruct;        // Slot <-> COM port
 	std::map<int, DeviceStruct>	 m_map_deviceStructMultiDLFlag;  // Slot <-> Multi-download flag
 	std::map<int, CString>	     m_map_picassoList;         // Slot <-> Picasso
+	CString						cs_Picasso;
 	CString                      m_str_SWVersion;           // SW version
 	CString                      m_str_HWVersion;           // HW version
 	CString                      m_str_ToolVersion;         // Tool version
@@ -198,7 +202,7 @@ private:
 	std::string checkStation;
 	std::string sz_Hdcp_key_path;
 
-	bool runInsertData();
+	bool runInsertData(int n_type);
 	bool runCheckFlow( int i_type);// i_type 1 = pcbaid,  2 = scalarId
 	bool runCheckFlowAllStation( int i_type);// i_type 1 = pcbaid,  2 = scalarId
 	bool runReadScalarID( char *szvalue, int iSize );

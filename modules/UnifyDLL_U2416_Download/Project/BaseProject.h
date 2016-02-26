@@ -9,7 +9,10 @@
 
 #pragma once
 
-#include "../../../Modules/UnifyInterface/FacTestToolInterface.h"
+//#include "../../../Modules/UnifyInterface/FacTestToolInterface.h"
+#include "../../../20151005_CommonTool/Modules/UnifyInterface/FacTestToolInterface.h"
+//#include "../../../20151005_CommonTool/UI/UnifyUI_FacTestTool/FacTestToolInterface.h"
+#include "../../../20151005_CommonTool/Modules/UnifyInterface/FacTestToolInterface.h"
 #include "../IniAccess.h"
 #include "../DLError.h"
 #include "../../../Modules/QisdaQualcommDownloadModule/Download.h"
@@ -79,7 +82,7 @@ public:
 	virtual bool PostRun(int i_slot) = 0;
 	virtual bool ReadFA(char* sz_FAData) = 0;
 	virtual bool WriteFA(char* sz_FAData) = 0;
-	virtual bool ReadFASector(int i_sectorNum, char *sz_sectorData, int i_sectorSize) = 0;
+	virtual bool ReadFASector(int i_sectorNum, char *sz_sectorData, int i_sectorSize, int i_idtype) = 0;
 	virtual bool WriteFASector(int i_sectorNum, char *sz_sectorData, int i_sectorSize) = 0;
 	virtual bool LogUpload(char *str_modelname) = 0;
 	virtual bool LogUploadByBAT(char *str_modelname) = 0;

@@ -12,7 +12,9 @@
 #pragma once
 
 //#include "../UnifyDLL_U2416_Download/Project/BaseProject.h" 
-#include "../UnifyInterface/FacTestToolInterface.h"
+//#include "../UnifyInterface/FacTestToolInterface.h"
+//#include "../../20151005_CommonTool/UI/UnifyUI_FacTestTool/FacTestToolInterface.h"
+#include "../../20151005_CommonTool/Modules/UnifyInterface/FacTestToolInterface.h"
 #include "Download.h"
 //#include "ADBDevice.h"
 #include "../Common/ErrorDefine/ErrorDefine.h"
@@ -145,7 +147,7 @@ public:
 
 public:
 	/* 8260 Only support b_speedUp(false) and QTT_FASTDOWNLOAD, b_speedUp relate to Hex(QTH Modify Hex to Qualcomm) */
-	bool MultiDownload(bool b_speedUp = false, bool b_reOpenAfterReset = false, DownloadProtocol nDLPROTOCOL = QTT_FASTDOWNLOAD);
+	bool MultiDownload(bool b_speedUp = false, bool b_reOpenAfterReset = false, DownloadProtocol nDLPROTOCOL = QTT_FASTDOWNLOAD, int i_idtype = 2);
 	//bool SetImageFilePath(const int i_imageType, const std::string& str_filePath);
 	CString GetErrorCode(void);
 	void SetDLMode(CString str_DLMode) {m_str_DLMode = str_DLMode;};
@@ -218,7 +220,7 @@ private:
 public:
 	bool ReadFA(char* sz_FAData);
 	bool WriteFA(char* sz_FAData);
-	bool ReadFASector(int i_sectorNum, char *sz_sectorData, int i_sectorSize);
+	bool ReadFASector(int i_sectorNum, char *sz_sectorData, int i_sectorSize, int i_idtype);
 	bool WriteFASector(int i_sectorNum, char *sz_sectorData, int i_sectorSize);
 	bool runWriteFASector(char *sz_sectorData);
 

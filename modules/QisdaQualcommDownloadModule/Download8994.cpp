@@ -52,7 +52,7 @@ CDownload8994::~CDownload8994(void)
 * Version       Author          Date                Abstract                 
 * 1.0           Alex.Chen     2011/01/19            First version             
 *****************************************************************************/
-bool CDownload8994::MultiDownload(bool b_speedUp, bool b_reOpenAfterReset, DownloadProtocol nDLPROTOCOL)  
+bool CDownload8994::MultiDownload(bool b_speedUp, bool b_reOpenAfterReset, DownloadProtocol nDLPROTOCOL, int i_idtype)  
 {
 
 	bool b_result = false;
@@ -126,28 +126,33 @@ bool CDownload8994::MultiDownload(bool b_speedUp, bool b_reOpenAfterReset, Downl
 
 		CString cs_Qphone; 
 		cs_Qphone = _T("QPHONE");
-		if (bGetADB_SINGLE()){
-			AddMsg("Get Adb Success.", None, 10);
+		if ( i_idtype == 2){ //dell id , from adb to fastboot
+			if (bGetADB_SINGLE()){
+				AddMsg("Get Adb Success.", None, 10);
 
-			bADB_to_Fastboot_SINGLE();
-			AddMsg("adb to fastboot ok", None, 10);
+				bADB_to_Fastboot_SINGLE();
+				AddMsg("adb to fastboot ok", None, 10);
 
-			while ( !b_wait_fastboot){
-				if (bCallAdbFastbootCMD(_T("fastboot.exe"), _T("devices"),output,ErrorCode, cs_Qphone) ){
-					b_wait_fastboot = true;
-					AddMsg("Get Fastboot Success.", None, 10);
+				while ( !b_wait_fastboot){
+					if (bCallAdbFastbootCMD(_T("fastboot.exe"), _T("devices"),output,ErrorCode, cs_Qphone) ){
+						b_wait_fastboot = true;
+						AddMsg("Get Fastboot Success.", None, 10);
+					}
+					Sleep(1000);
+					nLimitTime ++;
+					if ( nLimitTime > 60 ) break;
 				}
-				Sleep(1000);
-				nLimitTime ++;
-				if ( nLimitTime > 60 ) break;
 			}
-
-			if ( b_wait_fastboot) b_result = FastbootEXE_Download_SINGLE();
-			else AddMsg("Fail can't find fastboot", DownloadStep::None, 100);
-
-			b_result = postCmd();
-
 		}
+		else if ( i_idtype == 1)// picasso 
+		{
+			b_wait_fastboot = true;
+		}
+
+		if ( b_wait_fastboot) b_result = FastbootEXE_Download_SINGLE();
+		else AddMsg("Fail can't find fastboot", DownloadStep::None, 100);
+		b_result = postCmd();
+
 	}
 	else
 	{
@@ -1669,95 +1674,140 @@ bool CDownload8994::WriteFA(char* sz_FAData)
 * Version       Author          Date                Abstract                 
 * 1.0          Alex.Chen        2011/11/23          First version             
 *****************************************************************************/
-bool CDownload8994::ReadFASector(int i_sectorNum, char *sz_sectorData, int i_sectorSize)
+bool CDownload8994::ReadFASector(int i_sectorNum, char *sz_sectorData, int i_sectorSize, int i_idtype)
 {
-
-	//return true;
-	strcpy(sz_sectorData, _T("Dan6673Dan,01,5555555555,Undefined,Undefined,GBROB1A,0000000000000000000000,,"));
-
-	if ( ReadId() ){/*get scalar id ok*/
-		if(m_szId.empty() || m_szId.length() != ID_SIZE)
-		{	
-			m_szErrMsg = "get scalar id Fail  = ";//  + std_ScalarId.c_str();
-			m_szErrMsg = m_szErrMsg + m_szId.c_str();
-			AfxMessageBox( m_szErrMsg.c_str());
-
-			//m_szId = m_szId + ",";
-			//std::string str_faData = sz_sectorData;
-			//str_faData.replace(14, 12, m_szId);
-			//sprintf_s( sz_sectorData , 512, "%s", str_faData.c_str());
-		}
-		else
-		{
-			//	m_szId = "a1234567899";
-			m_szId = m_szId + ",";
-			std::string str_faData = sz_sectorData;
-			str_faData.replace(14, 12, m_szId);
-			sprintf_s( sz_sectorData , 512, "%s", str_faData.c_str());
-		}
-	}
-
-
-	return true; //skip
-
-	/*old mathod*/
-	bool b_speedUp = false;
-	bool b_reOpenAfterReset = false;
-	//bool b_res = true;
-	bool b_result = false;
-	char* output = new char[BUFFER_SIZE];
-	char* ErrorCode =new char[BUFFER_SIZE];
-	int  i_length = i_sectorSize;
-	char sz_buffer[512] = {0};
-	bool b_wait_fastboot = false;
-	int  nLimitTime = 0;
-	CString cs_Qphone;
-
-	
-	DownloadProtocol nDLPROTOCOL = QTT_FASTDOWNLOAD;
-
-	/*get fastboot*/
-	cs_Qphone.Format("QPHONE%d", m_i_COMPort);
-	
-	while ( !b_wait_fastboot){
-		if (bCallAdbFastbootCMD(_T("fastboot.exe"), _T("devices"),output,ErrorCode, cs_Qphone) ){
-			b_wait_fastboot = true;
-			AddMsg("Get Fastboot Success.", None, 10);
-		}
-		Sleep(1000);
-		nLimitTime ++;
-		if ( nLimitTime > 60 ) break;
-	}
-
-	if ( !b_wait_fastboot){
-		AddMsg("ReadFASector Get fastboot Fail.", None, 10);
-		return false;
-	}
-
-	AddMsg("ReadFASector Read FA.", DownloadStep::None, 100);
-
-
-
-	/* dump protocol --- "dump:%s"  example:"dump:otpfa0x0+512" */
-	char sz_sectorSize[32] = {0};
-	sprintf(sz_sectorSize, "%d+%d", i_sectorNum * 512, i_sectorSize);
-	char sz_command[1024] = {0};
-	sprintf(sz_command, "dump:%s%s", "Qfa@", sz_sectorSize);
-
-	if ( !(bCallAdbFastbootCMD(_T("fastboot.exe"), sz_command, output, ErrorCode,DREAD) )){
-		b_result = false;
-		AddMsg("ReadFASector fail", None, 10);
-	}else
+	if (i_idtype == 2 )
 	{
-		memcpy(sz_sectorData, output, i_sectorSize);
-		AddMsg("ReadFASector pass", None, 10);
+		strcpy(sz_sectorData, _T("Dan6673Dan,01,5555555555,Undefined,Undefined,GBROB1A,0000000000000000000000,,"));
+		if ( ReadId() ){/*get scalar id ok*/
+			if(m_szId.empty() || m_szId.length() != ID_SIZE)
+			{	
+				m_szErrMsg = "get scalar id Fail  = ";//  + std_ScalarId.c_str();
+				m_szErrMsg = m_szErrMsg + m_szId.c_str();
+				AfxMessageBox( m_szErrMsg.c_str());
+			}
+			else
+			{
+				//	m_szId = "a1234567899";
+				m_szId = m_szId + ",";
+				std::string str_faData = sz_sectorData;
+				str_faData.replace(14, 12, m_szId);
+				sprintf_s( sz_sectorData , 512, "%s", str_faData.c_str());
+			}
+		}
+
 	}
-	Sleep(200);
+	else if  ( i_idtype == 1){// read picasso 
+			bool b_result = false;
+			char* output = new char[BUFFER_SIZE];
+			char* ErrorCode =new char[BUFFER_SIZE];
+			char sz_buffer[512] = {0};
+			bool b_wait_fastboot = false;
+			int  nLimitTime = 0;
+			CString cs_Qphone;
+			
+			cs_Qphone = _T("QPHONE");
+			if (bGetADB_SINGLE()){
+				AddMsg("ReadFASector Get Adb Success.", None, 10);
 
-	delete[] output;
-	delete[] ErrorCode ;	
+				bADB_to_Fastboot_SINGLE();
+				AddMsg("ReadFASector adb to fastboot ok", None, 10);
+
+				while ( !b_wait_fastboot){
+					if (bCallAdbFastbootCMD(_T("fastboot.exe"), _T("devices"),output,ErrorCode, cs_Qphone) ){
+						b_wait_fastboot = true;
+						AddMsg("ReadFASector Get Fastboot Success.", None, 10);
+					}
+					Sleep(1000);
+					nLimitTime ++;
+					if ( nLimitTime > 60 ) break;
+				}
+			}
+		/*get fastboot*/
+
+			if ( !b_wait_fastboot){
+				AddMsg("ReadFASector Get fastboot Fail.", None, 10);
+				return false;
+			}
+
+			AddMsg("ReadFASector Get fastboot ok.", DownloadStep::None, 100);
+			Sleep(300);
+
+			/* dump protocol --- "dump:%s"  example:"dump:otpfa0x0+512" */
+			char sz_sectorSize[32] = {0};
+			char sz_command[1024] = {0};
+
+			sprintf(sz_command, "flash passport passport_FactoryDLTool");
+			if ( !(bCallAdbFastbootCMD(_T("fastboot.exe"), sz_command, output, ErrorCode,DREAD) )){
+			//	b_result = false;
+				AddMsg("ReadFASector flash passport passport_FactoryDLTool fail", None, 10);
+				return false;
+			}else
+			{
+				memcpy(sz_sectorData, output, i_sectorSize);
+				AddMsg("ReadFASector flash passport passport_FactoryDLTool ok", None, 10);
+			}
+			Sleep(300);
+
+			sprintf(sz_sectorSize, "%d+%d", i_sectorNum * 512, i_sectorSize);
+			sprintf(sz_command, "dump:%s%s", "Qfa@", sz_sectorSize);
+			if ( !(bCallAdbFastbootCMD(_T("fastboot.exe"), sz_command, output, ErrorCode,DREAD) )){
+				AddMsg("ReadFASector dump fail ", None, 10);
+				return false;
+			}else
+			{
+				memcpy(sz_sectorData, output, i_sectorSize);
+				AddMsg("ReadFASector dump ok", None, 10);
+			}
+			Sleep(300);
+
+			sprintf(sz_command, "upload:200 picasso.bin");
+			if ( !(bCallAdbFastbootCMD(_T("fastboot.exe"), sz_command, output, ErrorCode,DREAD) )){
+				//b_result = false;
+				AddMsg("ReadFASector fail,  upload:200 picasso.bin", None, 10);
+				return false;
+			}else
+			{
+				memcpy(sz_sectorData, output, i_sectorSize);
+				AddMsg("ReadFASector ok,  upload:200 picasso.bin", None, 10);
+			}
+			Sleep(300);
+
+			sprintf(sz_command, "getvar picasso");
+			if ( !(bCallAdbFastbootCMD(_T("fastboot.exe"), sz_command, output, ErrorCode,DREAD) )){
+				b_result = false;
+				AddMsg("ReadFASector fail, getvar picasso", None, 10);
+			}else
+			{
+				memcpy(sz_sectorData, output, i_sectorSize);
+				AddMsg("ReadFASector ok,  getvar picasso", None, 10);
+			}
+			Sleep(300);
+		
+			std::string strPicasso;
+			char * pch;
+
+			pch = strstr (output, "finished");
+			strncpy (pch,"\0",1);
+			pch = output;
+
+			strPicasso = output;
+			CString csPicasso = strPicasso.c_str();
+			csPicasso.Replace(_T("picasso: "), _T("")); 
+			strPicasso = csPicasso.GetBuffer(0); //get piccsso finally
+			strPicasso = 	strPicasso + ",";
+			csPicasso.ReleaseBuffer();
+
+			strcpy(sz_sectorData, _T("Dan6673Dan,01,5555555555,Undefined,Undefined,GBROB1A,0000000000000000000000,,"));
+			std::string str_faData = sz_sectorData;
+			str_faData.replace(14, 11, strPicasso);
+			sprintf_s( sz_sectorData , 512, "%s", str_faData.c_str());
+
+			delete[] output;
+			delete[] ErrorCode ;	
+	}
+
 	return true;
-
 }
 
 
