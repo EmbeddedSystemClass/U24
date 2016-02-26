@@ -130,7 +130,7 @@ private:
 	bool GetToolVersion(void);
 	bool GetCheckFlowInsertData(void);
 	bool GetSWVersion();
-	bool GetPartNo();
+	bool GetPartNo(int n_type);// 1 picasso, 2 dell id
 	bool GetModelByPartNo();
 	bool changeModel();
 	//bool runReadScalarID( char *szvalue, int iSize );
@@ -162,11 +162,12 @@ private:
 	CString						 m_str_multiDLFlagList;		// All COM port, For example: 10,20,30,40,50,60,70,80
 	bool                         m_b_readIniFile;           // Read dll ini file result
 	bool                         m_b_SupportQDownload;      // Support QDownload Tool
-	bool                         m_b_checkFlow;     
+	//bool                         m_b_checkFlow;     
 	bool                         m_b_insertData;  
-	bool                         m_b_checkSWVersion;     
+	int                          i_checkSWVersion;     
 	CString						 str_prestation;
 	CString						 str_SWVersion;
+	int								i_checkflow;
 	int                          m_i_imageCount;            // Image file count
 	int								i_InsertData;
 	char                         m_sz_DLMode[ARRAY_SIZE];   // Current DL mode
@@ -175,7 +176,7 @@ private:
 	std::map<int, DeviceStruct>	 m_map_deviceStruct;        // Slot <-> COM port
 	std::map<int, DeviceStruct>	 m_map_deviceStructMultiDLFlag;  // Slot <-> Multi-download flag
 	std::map<int, CString>	     m_map_picassoList;         // Slot <-> Picasso
-	CString						cs_Picasso;
+	//CString						cs_Picasso;
 	CString                      m_str_SWVersion;           // SW version
 	CString                      m_str_HWVersion;           // HW version
 	CString                      m_str_ToolVersion;         // Tool version
@@ -198,7 +199,7 @@ private:
 	std::string std_Key_Id;
 	std::string std_Key_Name;
 	std::string std_ScalarId ;
-	std::string szPcabaId;
+	std::string std_Picasso;
 	std::string checkStation;
 	std::string sz_Hdcp_key_path;
 

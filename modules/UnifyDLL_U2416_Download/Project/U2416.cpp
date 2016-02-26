@@ -418,7 +418,7 @@ bool CU2416::DLchipset(void)
 	else{
 		SendMessageToUI("setIMGPath. fail");
 	}
-
+	Sleep(500);
 	if (obj_download8994.ReadIMG( m_vImage[0].str_imagePath.c_str()) ) {
 		SendMessageToUI("ReadIMG. ok");
 	}

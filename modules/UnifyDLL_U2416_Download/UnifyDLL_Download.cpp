@@ -66,9 +66,9 @@ CDLInstance::CDLInstance()
 	/* Init member */
 	m_b_readIniFile = false;
 	m_b_SupportQDownload = false;
-	m_b_checkFlow = false;
+	i_checkflow = 0;
 	i_InsertData = 0;
-	m_b_checkSWVersion = false;
+	i_checkSWVersion = 0;
 	m_i_imageCount = 0;
 	m_vector_image.clear();
 	m_map_picassoList.clear();
@@ -286,10 +286,12 @@ bool CDLInstance::Run(int i_slot)
 {	
 	//GetSWVersion();//liontest
 
-	if ( m_b_checkSWVersion ){//liontes
-		char *sz_value = new char[ID_SIZE_BUFFER]  ;
-		runReadScalarID( sz_value, ID_SIZE);
-		if (!GetPartNo()) return false;
+	if ( i_checkSWVersion != 0 ){//liontes
+		if ( i_checkSWVersion == 2){
+			char *sz_value = new char[ID_SIZE_BUFFER]  ;
+			runReadScalarID( sz_value, ID_SIZE);
+		}
+		if (!GetPartNo(i_checkSWVersion)) return false;
 		if (!GetModelByPartNo()) return false;
 		if (!changeModel()) return false;
 		if (!GetSWVersion()) return false;
@@ -354,7 +356,20 @@ bool CDLInstance::Run(int i_slot)
 	p_obj_DL->SetFactoryVerion(m_str_fatoryVersion);
 
 	bool passFail = false;
-	if (m_b_checkFlow)
+	if (i_checkflow == 0)
+	{
+		//do nothing 
+	}
+	else if  (i_checkflow == 1)
+	{
+		char *sz_value = new char[ID_SIZE_BUFFER]  ;
+		//passFail = runReadScalarID( sz_value, ID_SIZE);
+
+		passFail = runCheckFlow( 1 );// i_type 1 = pcbaid,  2 = scalarId
+		delete [] sz_value;
+		if ( !passFail) return false; 
+	}
+	else if  (i_checkflow == 2)
 	{
 		char *sz_value = new char[ID_SIZE_BUFFER]  ;
 		passFail = runReadScalarID( sz_value, ID_SIZE);
@@ -362,9 +377,7 @@ bool CDLInstance::Run(int i_slot)
 		passFail = runCheckFlow( 2 );// i_type 1 = pcbaid,  2 = scalarId
 		delete [] sz_value;
 		if ( !passFail) return false; 
- 
 	}
-
 	/* Run */
 	bool b_res = false;
 	b_res = p_obj_DL->Run();
@@ -396,9 +409,9 @@ bool CDLInstance::Run(int i_slot)
 //	bool b_res = false;
 //	bool passFail = false;
 
-	if (i_InsertData)
+	if (i_InsertData != 0)
 	{
-		b_res = runInsertData( i_InsertData );
+		b_res = runInsertData( i_InsertData );// 1 picasso, 2 dell id;
 	}
 
 	return b_res;
@@ -510,16 +523,35 @@ Exit_FreeLibrary:
 	return bReturn;
 }
 
-bool CDLInstance::GetPartNo()
+bool CDLInstance::GetPartNo(int n_type)
 {
 	bool bReturn = false;
 	unsigned char szPartNo[27] = {0};
 	CString str_dllF32SERVER2 = F32SERVERDB;
-
-	if(std_ScalarId.empty() || std_ScalarId.length() != ID_SIZE){
-	  //  m_szPartNo =  (char*) szPartNo;
-		ErrMsg = "ScalarId fail id  = " + std_ScalarId;
-		goto Exit_FreeLibrary;
+	unsigned char sz_ID[ID_SIZE_BUFFER] ="";
+	int nIDLength;
+	if (n_type==2)
+	{
+		if(std_ScalarId.empty() || std_ScalarId.length() != ID_SIZE){
+		  //  m_szPartNo =  (char*) szPartNo;
+			ErrMsg = "ScalarId fail id  = " + std_ScalarId;
+			AfxMessageBox(ErrMsg.c_str());
+			goto Exit_FreeLibrary;
+		}
+		//scalar id
+		sprintf_s((char*)sz_ID, ID_SIZE_BUFFER,"%s", std_ScalarId.c_str() );
+		nIDLength = 11;
+	}
+	else if ( n_type ==1){
+		if(std_Picasso.empty() || std_Picasso.length() != 10){
+		  //  m_szPartNo =  (char*) szPartNo;
+			ErrMsg = "Picasso fail id  = " + std_Picasso;
+			AfxMessageBox(ErrMsg.c_str());
+			goto Exit_FreeLibrary;
+		}
+		//scalar id
+		sprintf_s((char*)sz_ID, ID_SIZE_BUFFER,"%s", std_Picasso.c_str() );
+		nIDLength = 10;
 	}
 
 	HMODULE hDll ;
@@ -533,10 +565,10 @@ bool CDLInstance::GetPartNo()
 		{	
 
 			//scalar id
-			unsigned char sz_ID[ID_SIZE_BUFFER] ="";
-			sprintf_s((char*)sz_ID, ID_SIZE_BUFFER,"%s", std_ScalarId.c_str() );
+			//unsigned char sz_ID[ID_SIZE_BUFFER] ="";
+			//sprintf_s((char*)sz_ID, ID_SIZE_BUFFER,"%s", std_ScalarId.c_str() );
 
-			if( 0 != iGetPartNoById( sz_ID , 11, szPartNo, 13))
+			if( 0 != iGetPartNoById( sz_ID , nIDLength, szPartNo, 13))
 			{	
 				//cout<<szPartNo<<endl;
 			    m_szPartNo =  (char*) szPartNo;
@@ -831,14 +863,35 @@ bool CDLInstance::runCheckFlow( int i_type)
 			sprintf_s((char*)szStation, ID_SIZE_BUFFER, "%s", checkStation.c_str());//station name (before this station)
 			//sprintf_s((char*)szStation, ID_SIZE_BUFFER, "%s", g_str_station.c_str());
 
-	
-
+			if ( i_type == 1 ){ //arm board id
+				sprintf_s((char*)sz_ID, ID_SIZE_BUFFER,"%s", std_Picasso.c_str() );
+				ErrMsg = " check flow1 = " ;
+				ErrMsg =  ErrMsg + std_Picasso.c_str() ;
+				SetErrorMessage(ErrMsg.c_str() , 0);
+			}
+			else if( i_type == 2 )
+			{
 			//scalar id
-			sprintf_s((char*)sz_ID, ID_SIZE_BUFFER,"%s", std_ScalarId.c_str() );
-			ErrMsg = " check flow2 = ";
-			ErrMsg = ErrMsg 	+ std_ScalarId.c_str() ;
-			//AfxMessageBox(ErrMsg.c_str());
-			SetErrorMessage(ErrMsg.c_str() , 0);
+				sprintf_s((char*)sz_ID, ID_SIZE_BUFFER,"%s", std_ScalarId.c_str() );
+				ErrMsg = " check flow2 = ";
+				ErrMsg = ErrMsg 	+ std_ScalarId.c_str() ;
+			//	AfxMessageBox(ErrMsg.c_str());
+				SetErrorMessage(ErrMsg.c_str() , 0);
+			}
+			else
+			{
+				ErrMsg = "can't find id type ";
+				AfxMessageBox(ErrMsg.c_str());
+				SetErrorMessage(ErrMsg.c_str() , 0);
+				return false;
+			}
+
+			////scalar id
+			//sprintf_s((char*)sz_ID, ID_SIZE_BUFFER,"%s", std_ScalarId.c_str() );
+			//ErrMsg = " check flow2 = ";
+			//ErrMsg = ErrMsg 	+ std_ScalarId.c_str() ;
+			////AfxMessageBox(ErrMsg.c_str());
+			//SetErrorMessage(ErrMsg.c_str() , 0);
 			
 			std::string sta =(char*) sz_ID;
 			int i_week = GetCurrentWeek();
@@ -1014,7 +1067,9 @@ bool CDLInstance::SetParameterValue(char* sz_keyword, char* sz_value)
 				CString str_picasso;
 				str_picasso = str_temp.Right(str_temp.GetLength() - i_first - 1);
 				m_map_picassoList[i_slot] = str_picasso;
-				cs_Picasso =  str_picasso;
+				str_picasso.Trim();
+				std_Picasso = str_picasso.GetBuffer(0);
+				str_picasso.ReleaseBuffer();
 				m_map_COMPicasso[m_map_deviceStruct[i_slot].i_COMPort] = str_picasso;
 			}
 			catch(CMemoryException* e)
@@ -1849,13 +1904,14 @@ bool CDLInstance::GetCheckFlowInsertData(void)
 /*	bool                         m_b_checkFlow;     
 	bool                         m_b_insertData;    */  
 	CIniAccess obj_dllIni("Setting", m_str_iniFileName);
-	i_InsertData = obj_dllIni.GetValue("insertdata", 2);
+	// 0 do nothing , 1 check by picasso, 2 check by dell id
+	i_InsertData = obj_dllIni.GetValue("insertdata", 0); 
 
-	int i_checkflow = obj_dllIni.GetValue("checkflow", -1);
-	m_b_checkFlow = (i_checkflow == 1) ? true : false;
+	i_checkflow = obj_dllIni.GetValue("checkflow", 0);
+	//m_b_checkFlow = (i_checkflow == 1) ? true : false;
 
-	int i_checkSWVersion= obj_dllIni.GetValue("checkSWVersion", -1);
-	m_b_checkSWVersion = (i_checkSWVersion == 1) ? true : false;
+	i_checkSWVersion = obj_dllIni.GetValue("checkSWVersion", 0);
+	//m_b_checkSWVersion = (i_checkSWVersion == 1) ? true : false;
 
 //	int m_b_checkSWVersion;
 	char sz_prestation[128] = {0};
@@ -2983,20 +3039,17 @@ bool CDLInstance ::runInsertData(int n_type)
 
 			unsigned char Station[ID_SIZE_BUFFER]  = {0};
 			if ( n_type == 1 ){ //arm board id
-				std::string  stdPicasso = cs_Picasso.GetBuffer(0); 
-				cs_Picasso.ReleaseBuffer();
-				if ( stdPicasso.empty()){
+				if ( std_Picasso.empty()){
 					ErrMsg = "  picasso is empty = " ;
 					ErrMsg =  ErrMsg + std_ScalarId.c_str() ;
 					AfxMessageBox(ErrMsg.c_str());
 					SetErrorMessage(ErrMsg.c_str() , 0);
 					return false;
 				}
-				sprintf_s((char*)sz_ID, ID_SIZE_BUFFER,"%s", stdPicasso );
+				sprintf_s((char*)sz_ID, ID_SIZE_BUFFER,"%s", std_Picasso );
 
 				ErrMsg = "  iInsertYrstation 1 = " ;
-				ErrMsg =  ErrMsg + stdPicasso ;
-			//	AfxMessageBox(ErrMsg.c_str());
+				ErrMsg =  ErrMsg + std_Picasso ;
 				SetErrorMessage(ErrMsg.c_str() , 0);
 			}
 			else 	if ( n_type == 2 ){
@@ -3019,10 +3072,10 @@ bool CDLInstance ::runInsertData(int n_type)
 				//ErrMsg = " iInsertYrstation 2 = ";
 				ErrMsg = ErrMsg 	+ std_ScalarId.c_str() ;
 				SetErrorMessage(ErrMsg.c_str() , 0);
+				AfxMessageBox(ErrMsg.c_str());
 				return false;
 			}
-			//	AfxMessageBox(ErrMsg.c_str());
-				//SetErrorMessage(ErrMsg.c_str() , 0);
+
 
 			//memcpy(sz_ID,szTemp,ID_SIZE_BUFFER);
 			bReturn = iInsertYrstation(szModel,   (unsigned short)strlen((char*)szModel),
