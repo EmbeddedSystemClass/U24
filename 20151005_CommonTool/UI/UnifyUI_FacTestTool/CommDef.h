@@ -137,6 +137,10 @@ const int WM_EntranceToolToUnifyUI = WM_USER + 0X103;
 #define DEVICE4						"DEVICE4"
 #define INIT_SLOT					"InitSlot"
 
+#define FACTORY_LINE			   "FACTORY_LINE"
+#define FACTORY_DAYNIGHT			   "FACTORY_DAYNIGHT"
+
+
 #define PICASSO_LENGTH  10 //dell  us2416
 #define TAG_LENGTH  7 //dell  us2416
 #define SN_LENGTH  20//Marco
@@ -163,6 +167,7 @@ struct st_UIIDparameter
 	CString str_station;             // Station (DL,FT...)
 	CString str_modelName;           // Model Name
 	CString str_line;                // Line (T-Line,A-Line...)
+	CString str_daynight;                // Line (T-Line,A-Line...)
 	CString str_pcba;
 	CString str_so;
 	CString str_partNumber;
@@ -182,12 +187,7 @@ struct st_UIIDparameter
 	bool    b_OpenbyEntranceTool;
 };
 
-struct st_UIIDparameter_S3
-{
-	CString str_power;           // Model Name
-	CString str_line;                // Line (T-Line,A-Line...)
-	CString str_type;
-};
+
 #pragma pack()
 
 /* For IMEI/FC station use */
@@ -250,6 +250,7 @@ struct st_UIControl
 	bool b_WriteTag;
 	bool b_ReadTag;
 	bool b_WriteTagFrame;
+	bool b_S3DDC; 
 
 	bool b_ScanSn;
 	bool b_WriteSn;

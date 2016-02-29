@@ -74,6 +74,7 @@ CUnifyUI_FacTestToolDlg::CUnifyUI_FacTestToolDlg(CWnd* pParent /*=NULL*/)
 	m_st_idParameter.str_station      = _T("");
 	m_st_idParameter.str_modelName    = _T("");
 	m_st_idParameter.str_line         = _T("");
+	m_st_idParameter.str_daynight         = _T("");
 	m_st_idParameter.str_pcba         = _T("");
 	m_st_idParameter.str_so           = _T("");
 	m_st_idParameter.str_partNumber   = _T("");
@@ -124,6 +125,8 @@ CUnifyUI_FacTestToolDlg::CUnifyUI_FacTestToolDlg(CWnd* pParent /*=NULL*/)
 	m_st_uiControl.b_ReadFA           = true;//default read fa, lion
 	m_st_uiControl.b_WriteFA          = false;
 	m_st_uiControl.i_ToolTimeout            = 480; //default set 8 min, 8 x 60 = 480 s
+
+	m_st_uiControl.b_S3DDC			= false;
 
 	m_st_uiControl.b_Multi      = false;
 
@@ -424,16 +427,46 @@ BOOL CUnifyUI_FacTestToolDlg::OnInitDialog()
 
 #ifndef FACTORY_MODE
 	//if not factory mode, initdlg need to show for user to input some parameters
-	if (m_dlg_initDlg_S3.DoModal() == IDCANCEL)
+	TCHAR sz_temp[2048] = {0};
+	TCHAR sz_iniFolderName[512] = {0};
+	CString strTemp;
+
+	/* Check ini file exist */
+	CFileFind file_findCtrl;
+
+ 	TCHAR sz_folder[MAX_PATH] = {0};
+ 	GetModuleFileName(NULL, sz_folder, MAX_PATH);
+ 	PathRemoveFileSpec(sz_folder);
+ 
+ 	/* Check ini file exist */
+ 	wsprintf(sz_iniFolderName, _T("%s\\Qisda\\config.ini"), sz_folder);
+
+	if (!file_findCtrl.FindFile(sz_iniFolderName))
 	{
-		CDialog::OnCancel();
-		return TRUE;
+		LogMsg(_T("Can not find \\Qisda\\config.ini, use default value!"));
+	}
+	else
+	{
+		//support s3 ddc link station
+		::GetPrivateProfileString(_T("s3"), _T("s3DDCStation"), _T("0"), sz_temp, sizeof(sz_temp), sz_iniFolderName);
+		m_st_uiControl.b_S3DDC = (StrToInt(sz_temp)!=0);
 	}
 
-	///*liontest*/
-	//m_dlg_initDlg.GetInitData(m_st_idParameter);
+	if (m_st_uiControl.b_S3DDC) {
+		if (m_dlg_initDlg_S3.DoModal() == IDCANCEL)
+		{
+			CDialog::OnCancel();
+			return TRUE;
+		}
+		m_dlg_initDlg_S3.GetInitData(m_st_idParameter); 
+	}
+
+
+	
 	//m_st_idParameter.
 	if ( findXML() ){
+		m_st_idParameter.str_line = m_st_idParameter.str_line; 
+		m_st_idParameter.str_daynight = m_st_idParameter.str_daynight; 
 		m_st_idParameter.i_parameterNum = 12; 
 		m_st_idParameter.b_tsFlag = false;
 		m_st_idParameter.str_station  = cs_Station_Name;// _T("MMI");
@@ -942,10 +975,10 @@ bool CUnifyUI_FacTestToolDlg::InitialUIControl()
 	
 	//m_st_uiControl.b_ScanTag				= false;
 	//for wirte station
-	if (m_st_idParameter.str_station.Compare(L"WRITE") == 0){
-		m_st_uiControl.b_WriteTagFrame = true;
+//	if (m_st_idParameter.str_station.Compare(L"WRITE") == 0){
+	//	m_st_uiControl.b_WriteTagFrame = true;
 //		m_st_uiControl.b_WriteSnFrame = true;
-	}
+//	}
 
 	//auto run only for OS_DL
 	::GetPrivateProfileString(m_st_idParameter.str_station, _T("AutoRun"), _T("0"), sz_temp, sizeof(sz_temp), sz_iniFolderName);
@@ -1135,9 +1168,11 @@ bool CUnifyUI_FacTestToolDlg::InitialWidgetProperty()
 bool CUnifyUI_FacTestToolDlg::InitialUIID()
 {
 
+	//lion
 	m_edit_model.SetWindowText(m_st_idParameter.str_modelName);
+	m_edit_partNumber.SetWindowText(m_st_idParameter.str_daynight);
 	m_edit_line.SetWindowText(m_st_idParameter.str_line);
-	m_edit_pcba.SetWindowText(m_st_idParameter.str_pcba);
+
 	CString str_so_type;
 	if (m_st_idParameter.str_CRType != _T(""))
 	{
@@ -1148,7 +1183,7 @@ bool CUnifyUI_FacTestToolDlg::InitialUIID()
 		str_so_type = m_st_idParameter.str_so + _T(" [") + m_st_idParameter.str_soType + _T("]");
 	}
 	m_edit_so.SetWindowText(str_so_type);
-	m_edit_partNumber.SetWindowText(m_st_idParameter.str_partNumber);
+	//m_edit_partNumber.SetWindowText(m_st_idParameter.str_partNumber);
 	m_edit_toolVer.SetWindowText(m_st_idParameter.str_toolVer);
 	m_edit_employee.SetWindowText(m_st_idParameter.str_employee);
 	m_edit_factoryVer.SetWindowText(m_st_idParameter.str_factoryVer);
@@ -2181,7 +2216,8 @@ bool CUnifyUI_FacTestToolDlg::GetIDFromUI()
 {
 	m_edit_model.GetWindowText(m_st_idParameter.str_modelName);
 	m_edit_line.GetWindowText(m_st_idParameter.str_line);
-	m_edit_pcba.GetWindowText(m_st_idParameter.str_pcba);
+	
+	//m_edit_pcba.GetWindowText(m_st_idParameter.str_pcba);
 	m_edit_so.GetWindowText(m_st_idParameter.str_so);
 	m_edit_partNumber.GetWindowText(m_st_idParameter.str_partNumber);
 	m_edit_toolVer.GetWindowText(m_st_idParameter.str_toolVer);
@@ -2458,7 +2494,8 @@ bool CUnifyUI_FacTestToolDlg::SetUIIDParameter(st_UIIDparameter st_idParameter)
 	m_st_idParameter.str_station.Format(_T("%s"), st_idParameter.str_station);
 	m_st_idParameter.str_modelName.Format(_T("%s"), st_idParameter.str_modelName);
 	m_st_idParameter.str_line.Format(_T("%s"), st_idParameter.str_line);
-	m_st_idParameter.str_pcba.Format(_T("%s"), st_idParameter.str_pcba);
+	m_st_idParameter.str_pcba.Format(_T("%s"), st_idParameter.str_daynight);
+	//m_st_idParameter.str_pcba.Format(_T("%s"), st_idParameter.str_pcba);
 	m_st_idParameter.str_so.Format(_T("%s"), st_idParameter.str_so);
 	m_st_idParameter.str_partNumber.Format(_T("%s"), st_idParameter.str_partNumber);
 	m_st_idParameter.str_toolVer.Format(_T("%s"), st_idParameter.str_toolVer);
@@ -2489,8 +2526,9 @@ bool CUnifyUI_FacTestToolDlg::GetUIIDParameter(st_UIIDparameter &st_idParameter)
 	st_idParameter.str_modelName.Format(_T("%s"), m_st_idParameter.str_modelName);
 	st_idParameter.str_firstProcess.Format(_T("%s"), m_st_idParameter.str_firstProcess);	
 	st_idParameter.str_station.Format(_T("%s"), m_st_idParameter.str_station);
-	st_idParameter.str_line.Format(_T("%s"), m_st_idParameter.str_line);
-	st_idParameter.str_pcba.Format(_T("%s"), m_st_idParameter.str_pcba);
+	st_idParameter.str_line.Format(_T("%s"), m_st_idParameter.str_line);//lion
+	st_idParameter.str_daynight.Format(_T("%s"), m_st_idParameter.str_daynight);//lion
+//	st_idParameter.str_pcba.Format(_T("%s"), m_st_idParameter.str_pcba);
 	st_idParameter.str_so.Format(_T("%s"), m_st_idParameter.str_so);
 	st_idParameter.str_partNumber.Format(_T("%s"), m_st_idParameter.str_partNumber);
 	st_idParameter.str_toolVer.Format(_T("%s"), m_st_idParameter.str_toolVer);

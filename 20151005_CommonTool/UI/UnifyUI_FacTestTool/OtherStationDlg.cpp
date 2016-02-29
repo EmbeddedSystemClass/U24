@@ -152,11 +152,14 @@ BOOL COtherStationDlg::OnInitDialog()
 	if (m_st_uiControl.b_WriteSnFrame)
 	{
 		GetDlgItem(IDC_EDIT_SN)->ShowWindow(SW_SHOW);
+		GetDlgItem(IDC_EDIT_SN2)->ShowWindow(SW_SHOW);
 	    GetDlgItem(IDC_STATIC_SN)->ShowWindow(SW_SHOW);
+		GetDlgItem(IDC_STATIC_SN2)->ShowWindow(SW_SHOW);
 		GetDlgItem(IDC_EDIT_SN)->EnableWindow(true);		
+		GetDlgItem(IDC_EDIT_SN2)->EnableWindow(true);		
 		((CEdit*)GetDlgItem(IDC_EDIT_SN))->SetLimitText(SN_LENGTH);
+		((CEdit*)GetDlgItem(IDC_EDIT_SN2))->SetLimitText(SN_LENGTH);
 	}
-
 
 
 	LogMsg(_T("begin init"));
@@ -448,24 +451,41 @@ void COtherStationDlg::ClearMessageList(void)
 {
 	/* Clear UI After Go */
 	GetDlgItem(IDC_EDIT_SN)->EnableWindow(false);
+	GetDlgItem(IDC_EDIT_SN2)->EnableWindow(false);
 
 	USES_CONVERSION;
 
 	/* Check if scan Tag */
 	if (m_st_uiControl.b_ScanSn)
 	{
-		if (!CheckScanSN())
+		if ((!CheckScanSN()) ||( !CheckScanSN2()))
 		{
 			return false;
 		}
-		CString str_scaned_sn;
+		CString str_scaned_sn, str_scaned_sn2;
 		GetDlgItem(IDC_EDIT_SN)->GetWindowText(str_scaned_sn);
+	    GetDlgItem(IDC_EDIT_SN2)->GetWindowText(str_scaned_sn2);
+
+		if ( ! compare2sn(str_scaned_sn, str_scaned_sn2) ){
+			m_st_return.str_errorMsg.Format(_T("SN1: %s != SN2:%s, 不相等!\n !"),str_scaned_sn, str_scaned_sn2);
+			m_st_return.str_errorcode = CommErr_UI_SN_Not_Input;
+			m_p_dlgParent->SendMessage(WM_USER_SETRESULT, (WPARAM)_T(""), (LPARAM)&m_st_return);
+			GetDlgItem(IDC_EDIT_SN)->SetWindowText(_T(""));
+			GetDlgItem(IDC_EDIT_SN2)->SetWindowText(_T(""));
+			return false;
+		}
 		map_sn[0] = str_scaned_sn;
 		m_p_facTestToolInterface->SetParameterValue(INIT_SLOT, "0");
 		m_p_facTestToolInterface->SetParameterValue("SN", T2A(map_sn[0]));
 	}
 
 	return true;
+ }
+
+ bool COtherStationDlg::compare2sn(CString sn1, CString sn2)
+{
+	if (sn1.Compare(sn2) == 0 )	return true;
+	return false;;
 }
 
 bool COtherStationDlg::GetPicasso(std::map<int, CString> &map_picasso)
@@ -476,6 +496,7 @@ bool COtherStationDlg::GetPicasso(std::map<int, CString> &map_picasso)
 	GetDlgItem(IDC_EDIT_RF_ID)->EnableWindow(false);
 	GetDlgItem(IDC_EDIT_TAG)->EnableWindow(false);
 	GetDlgItem(IDC_EDIT_SN)->EnableWindow(false);
+	GetDlgItem(IDC_EDIT_SN2)->EnableWindow(false);
 	GetDlgItem(IDC_BUTTON_NEXT)->EnableWindow(false);
 
 	USES_CONVERSION;
@@ -1155,6 +1176,10 @@ BOOL COtherStationDlg::PreTranslateMessage(MSG* pMsg)
 		switch (pMsg->wParam)
 		{
 		case VK_RETURN:
+			if (m_st_uiControl.b_WriteSnFrame)
+			{
+				GetDlgItem(IDC_EDIT_SN2)->SetFocus();
+			}
 			m_p_dlgParent->PostMessage(WM_KEYDOWN, VK_RETURN, 0);
 			
 			break;
@@ -1190,6 +1215,7 @@ bool COtherStationDlg::ResetPage()
  		GetDlgItem(IDC_EDIT_RF_ID)->SetWindowText(_T(""));
 		GetDlgItem(IDC_EDIT_TAG)->SetWindowText(_T(""));
 		GetDlgItem(IDC_EDIT_SN)->SetWindowText(_T(""));
+		GetDlgItem(IDC_EDIT_SN2)->SetWindowText(_T(""));
  	}
 
 
@@ -1209,6 +1235,7 @@ bool COtherStationDlg::ResetPage()
 	if (m_st_uiControl.b_WriteSnFrame)
 	{
 		GetDlgItem(IDC_EDIT_SN)->EnableWindow(TRUE);
+		GetDlgItem(IDC_EDIT_SN2)->EnableWindow(TRUE);
 		GetDlgItem(IDC_EDIT_SN)->SetFocus();
 	}
 	m_str_errorCode = _T("");
@@ -1620,6 +1647,51 @@ bool COtherStationDlg::CheckScanTAG()
 	m_st_return.str_errorcode = "";
 	return true;
 }
+bool COtherStationDlg::CheckScanSN2()
+{
+	CString str_SnUI = _T("");
+	GetDlgItem(IDC_EDIT_SN2)->GetWindowText(str_SnUI);
+	
+	m_st_return.str_errorcode = CommErr_UI_SN_Not_Input;
+	//if this station need scan picasso
+	if (str_SnUI == _T(""))
+	{
+		m_st_return.str_errorMsg.Format(_T("本站(%s)需要扫入Serial Number 2!\nNo SN2 scanned in!"),m_st_uiParameter.str_station);
+		m_p_dlgParent->SendMessage(WM_USER_SETRESULT, (WPARAM)_T(""), (LPARAM)&m_st_return);
+		GetDlgItem(IDC_EDIT_SN2)->SetWindowText(_T(""));
+		return false;
+	}
+	else
+	{
+		if (str_SnUI.GetLength() == SN_LENGTH)
+		{
+			if((str_SnUI.SpanIncluding(_T("01231456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"))).GetLength() == SN_LENGTH)
+			{
+				char sz_sn[41]={0};
+				CStringToChar(str_SnUI,sz_sn);
+			//	m_p_dlgParent->SetPICSData(0,"id",sz_tag);
+			}
+			else
+			{
+				m_st_return.str_errorMsg.Format(_T("SN2 含无效字符!\nSN2  include invalid chars!"),str_SnUI);
+				m_st_return.str_errorcode = CommErr_UI_SN_Not_Input;
+				m_p_dlgParent->SendMessage(WM_USER_SETRESULT, (WPARAM)_T(""), (LPARAM)&m_st_return);
+				GetDlgItem(IDC_EDIT_SN2)->SetWindowText(_T(""));
+				return false;
+			}
+		}	
+		else
+		{
+			m_st_return.str_errorMsg.Format(_T("SN2 长度不正确!\nSN2 Length invalid!"),str_SnUI);
+			m_p_dlgParent->SendMessage(WM_USER_SETRESULT, (WPARAM)_T(""), (LPARAM)&m_st_return);
+			GetDlgItem(IDC_EDIT_SN2)->SetWindowText(_T(""));
+			return false;
+		}
+	}
+	
+	m_st_return.str_errorcode = "";
+	return true;
+}
 
 
 bool COtherStationDlg::CheckScanSN()
@@ -1872,6 +1944,21 @@ bool COtherStationDlg::SetParameterToDLL( void )
 		LogMsg(Itr->first + _T("--") + Itr->second);
 	}
 
+	strTemp.Format(_T("LINE---%s"),m_st_uiParameter.str_line);
+	LogMsg(strTemp);
+	if (!m_p_facTestToolInterface->SetParameterValue(FACTORY_LINE, T2A(m_st_uiParameter.str_line)))
+	{
+		m_str_errorMessage.Format(_T("LINE(%s) is invalide!"), m_st_uiParameter.str_line);
+		return false;
+	}
+
+	strTemp.Format(_T("FACTORY_DAYNIGHT---%s"),m_st_uiParameter.str_daynight);
+	LogMsg(strTemp);
+	if (!m_p_facTestToolInterface->SetParameterValue(FACTORY_DAYNIGHT, T2A(m_st_uiParameter.str_daynight)))
+	{
+		m_str_errorMessage.Format(_T("FACTORY_DAYNIGHT(%s) is invalide!"), m_st_uiParameter.str_daynight);
+		return false;
+	}
 	return true;
 }
 

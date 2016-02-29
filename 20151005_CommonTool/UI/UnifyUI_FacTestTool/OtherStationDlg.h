@@ -45,6 +45,7 @@ public:
 
 	bool GetTag(std::map<int, CString> &map_tag);
 	bool GetSn(std::map<int, CString> &map_sn);
+	bool compare2sn(CString sn1, CString sn2);
 	bool SetTag(std::map<int, CString> map_tag);
 	bool SetSn(std::map<int, CString> map_sn);
 	void SetTestResult(int i_slot, CString str_testresult){}
@@ -80,6 +81,8 @@ private:
 	bool InitialFA_new();
 	bool setTag();
 	bool setSn();
+	bool SetTag();
+	bool SetSn();
 	bool ReadFA();
 	bool WriteFA(char* sz_result);
 	bool CheckPicassoDuplicate();
@@ -87,6 +90,7 @@ private:
 	bool CheckScan();
 	bool CheckScanTAG();
 	bool CheckScanSN();
+	bool CheckScanSN2();
 	void LogMsg(CString logContent);
 	bool SetParameterToDLL(void);
 	bool GetParameterFromDLL(void);
@@ -106,6 +110,8 @@ private:
 	CString							m_str_invalidepicasso;     //invalide picasso
 	CString							m_str_invalidetag;
 	CString							m_str_invalidesn;
+	CString							m_str_invalideline;
+	CString							m_str_invalidedaynight;
 	std::map<CString,int>			m_map_testItem;            // the Map is for UI to focus on the current test item, reference Event() function
 	CFAOperator						m_obj_faOperator;          // object of CFAOperator
 	CFAOperator_new					m_obj_newFA;				// object of CFAOperator
@@ -146,4 +152,5 @@ private:
 	std::map<CString,CString>  m_map_keyvalue;            // 
 public:
 	afx_msg void OnBnClickedButtonNext();
+	afx_msg void OnLbnSelchangeListRfTestitem();
 };

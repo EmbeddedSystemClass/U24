@@ -75,6 +75,7 @@
 #define IDC_DL_PROGRESS_SUB3            1052
 #define IDC_DL_PROGRESS_SUB4            1053
 #define IDC_DL_PROGRESS_SUB5            1054
+#define IDC_EDIT_PCBA2                  1055
 #define IDC_DL_PROGRESS_SUB6            1055
 #define IDC_DL_PROGRESS_SUB7            1056
 #define IDC_DL_PROGRESS_SUB8            1057
@@ -120,6 +121,7 @@
 #define IDC_INIT_STATIC_LoadVer         1092
 #define IDC_STATIC_SN                   1092
 #define IDC_INIT_STATIC_Station         1093
+#define IDC_STATIC_SN2                  1093
 #define IDC_INIT_EDIT_Model             1094
 #define IDC_INIT_EDIT_PartNumber        1095
 #define IDC_INIT_EDIT_LoadVer           1096
@@ -143,8 +145,8 @@
 #define IDC_EDIT_IMEI_Acer22            1114
 #define IDC_BUTTON1                     1115
 #define IDC_BUTTON_CYCLETEST            1115
-#define IDC_INIT_EDIT_POWER             1117
-#define IDC_INIT_COMBO_TYPE             1118
+#define IDC_INIT_EDIT_LINE              1117
+#define IDC_INIT_COMBO_DAYNIGHT         1118
 #define IDC_LIST_TESTITEM2              1139
 #define IDC_EDIT_RF_ID2                 1140
 #define IDC_LIST_TESTITEM3              1141
@@ -156,6 +158,7 @@
 #define IDC_STATIC3                     1151
 #define IDC_STATIC4                     1152
 #define IDC_EDIT_SN                     1153
+#define IDC_EDIT_SN2                    1154
 
 // Next default values for new objects
 // 
