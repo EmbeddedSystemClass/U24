@@ -292,7 +292,7 @@ bool CDLInstance::Run(int i_slot)
 			runReadScalarID( sz_value, ID_SIZE);
 		}
 		if (!GetPartNo(i_checkSWVersion)) return false;
-		if (!GetModelByPartNo()) return false;
+		if (!GetModelByPartNo(i_checkSWVersion)) return false;
 		if (!changeModel()) return false;
 		if (!GetSWVersion()) return false;
 		if (str_SWVersion.Find(m_szSWver.c_str()) == -1 ){
@@ -354,6 +354,12 @@ bool CDLInstance::Run(int i_slot)
 
 	/* Set Factory version */
 	p_obj_DL->SetFactoryVerion(m_str_fatoryVersion);
+	//liontest
+	if (i_InsertData != 0)
+	{
+	 	runInsertData( i_InsertData );// 1 picasso, 2 dell id;
+	}
+
 
 	bool passFail = false;
 	if (i_checkflow == 0)
@@ -435,8 +441,11 @@ bool CDLInstance::changeModel(){
 	{
 		m_str_modelName = _T("GBROB2A");
 		ErrMsg = (_T("set  m_str_modelName  = GBROB2A"));
-	//	ErrMsg  = ErrMsg + m_str_modelName;
-	//	st_XMLSetting = m_str_OffCMD;
+	}
+	else 	if (cs_DBModelNamel.Compare( _T("WR517B") ) == 0 )
+	{
+		m_str_modelName = _T("GMARB1A");
+		ErrMsg = (_T("set  m_str_modelName  = GMARB1A"));
 	}
 	else
 	{
@@ -450,7 +459,7 @@ bool CDLInstance::changeModel(){
 	return true;
 }
 
-bool CDLInstance::GetModelByPartNo()
+bool CDLInstance::GetModelByPartNo(int n_type)
 {
 	bool bReturn = false;
 	CString str_dllF32SERVER2 = F32SERVERDB;
@@ -491,13 +500,11 @@ bool CDLInstance::GetModelByPartNo()
 
 			if ( m_ModelName.empty() || m_ModelName.length() <1 ){
 				ErrMsg = "iGetMonitorInfoByPartNo  fail, m_ModelName = " + m_ModelName;
-				ErrMsg = ErrMsg + " szScalarId = " +  std_ScalarId ;
 				goto Exit_FreeLibrary;
 			}
 			else
 			{
 				ErrMsg = "iGetMonitorInfoByPartNo  ok, m_ModelName = " + m_ModelName;
-				ErrMsg = ErrMsg + " std_ScalarId = " +  std_ScalarId ;
 				bReturn = true;
 			}
 		}
@@ -516,6 +523,14 @@ bool CDLInstance::GetModelByPartNo()
 	}
 
 Exit_FreeLibrary:
+	if ( n_type == 2 )
+	{
+		ErrMsg = ErrMsg + " szScalarId = " +  std_ScalarId ;
+	}
+	else if ( n_type == 1)
+	{
+		ErrMsg = ErrMsg + " std_Picasso = " +  std_Picasso ;
+	}
 	SetErrorMessage(ErrMsg.c_str() , 0);
 //	TraceLog(MSG_INFO,  ErrMsg);
     FreeLibrary(hDll);
@@ -563,18 +578,10 @@ bool CDLInstance::GetPartNo(int n_type)
 		lpGetPartNoById iGetPartNoById = (lpGetPartNoById)::GetProcAddress(hDll,"GetPartNoById");
 		if ( NULL != iGetPartNoById )
 		{	
-
-			//scalar id
-			//unsigned char sz_ID[ID_SIZE_BUFFER] ="";
-			//sprintf_s((char*)sz_ID, ID_SIZE_BUFFER,"%s", std_ScalarId.c_str() );
-
 			if( 0 != iGetPartNoById( sz_ID , nIDLength, szPartNo, 13))
 			{	
-				//cout<<szPartNo<<endl;
 			    m_szPartNo =  (char*) szPartNo;
 				ErrMsg = "iGetPartNoById  ok, m_szPartNo = " + m_szPartNo;
-				ErrMsg = ErrMsg + " ScalarId = " +  std_ScalarId ;
-			//	SetErrorMessage(ErrMsg.c_str() , 0);
 				bReturn = true;
 			}
 			else
@@ -599,6 +606,14 @@ bool CDLInstance::GetPartNo(int n_type)
 	}
 
 Exit_FreeLibrary:
+	if ( n_type == 2 )
+	{
+		ErrMsg = ErrMsg + " std_ScalarId = " +  std_ScalarId ;
+	}
+	else if ( n_type == 1)
+	{
+		ErrMsg = ErrMsg + " std_Picasso = " +  std_Picasso ;
+	}
 	SetErrorMessage(ErrMsg.c_str() , 0);
     FreeLibrary(hDll);
 
@@ -3046,7 +3061,7 @@ bool CDLInstance ::runInsertData(int n_type)
 					SetErrorMessage(ErrMsg.c_str() , 0);
 					return false;
 				}
-				sprintf_s((char*)sz_ID, ID_SIZE_BUFFER,"%s", std_Picasso );
+				sprintf_s((char*)sz_ID, ID_SIZE_BUFFER,"%s", std_Picasso.c_str() );
 
 				ErrMsg = "  iInsertYrstation 1 = " ;
 				ErrMsg =  ErrMsg + std_Picasso ;
@@ -3076,6 +3091,10 @@ bool CDLInstance ::runInsertData(int n_type)
 				return false;
 			}
 
+			CString csInsertCmd;
+			csInsertCmd.Format(_T("szModel = %s, sz_ID = %s, szOperator = %s , szStation = %s "), szModel,  sz_ID, szOperator, szStation);
+			ErrMsg = "iInsertYrstation cmd = " + csInsertCmd;
+			SetErrorMessage(ErrMsg.c_str() , 0);
 
 			//memcpy(sz_ID,szTemp,ID_SIZE_BUFFER);
 			bReturn = iInsertYrstation(szModel,   (unsigned short)strlen((char*)szModel),
@@ -3086,16 +3105,12 @@ bool CDLInstance ::runInsertData(int n_type)
 									   szOperator,   5,
 									   0,
 									   szCheckInfo,  5);
-				CString csInsertCmd;
-				csInsertCmd.Format(_T("szModel = %s, sz_ID = %s, szOperator = %s , szStation = %s "), szModel,  sz_ID, szOperator, szStation);
-				ErrMsg = "iInsertYrstation cmd = " + csInsertCmd;
-				SetErrorMessage(ErrMsg.c_str() , 0);
 
 			if(bReturn) 
 			{
 			//	CString csInsertCmd;
 			//	csInsertCmd.Format(_T("szModel = %s, sz_ID = %s, szOperator = %s , szStation = %s "), szModel,  sz_ID, szOperator, szStation);
-				ErrMsg = "iInsertYrstation pass";
+				ErrMsg = "iInsertYrstation ok";
 				SetErrorMessage(ErrMsg.c_str() , 0);
 				//SetErrorMessage(ErrMsg.c_str() , 0);
 			}
@@ -3104,7 +3119,7 @@ bool CDLInstance ::runInsertData(int n_type)
 				ErrMsg = "iInsertYrstation fail ";
 				AfxMessageBox(ErrMsg.c_str());			
 				SetErrorMessage(ErrMsg.c_str() , 0);
-				//SetErrorMessage(ErrMsg.c_str() , 0);
+
 			}
 			goto Exit_FreeLibrary;
 		}
@@ -3113,7 +3128,6 @@ bool CDLInstance ::runInsertData(int n_type)
 			ErrMsg = "Load InsertYrstation fail ";
 			AfxMessageBox(ErrMsg.c_str());				
 			SetErrorMessage(ErrMsg.c_str() , 0);
-			//SetErrorMessage(ErrMsg.c_str() , 0);
 			goto Exit_FreeLibrary;
 		}
 	}

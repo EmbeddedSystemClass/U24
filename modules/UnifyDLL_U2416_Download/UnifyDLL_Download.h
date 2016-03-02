@@ -131,7 +131,7 @@ private:
 	bool GetCheckFlowInsertData(void);
 	bool GetSWVersion();
 	bool GetPartNo(int n_type);// 1 picasso, 2 dell id
-	bool GetModelByPartNo();
+	bool GetModelByPartNo(int n_type);
 	bool changeModel();
 	//bool runReadScalarID( char *szvalue, int iSize );
 	
