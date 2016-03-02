@@ -1222,6 +1222,18 @@ bool CUnifyDLL_FTWireless::SetParameterValue(char* sz_keyword, char* sz_value)
 		str_temp.Format(_T("%s"), sz_value);
 		m_str_sn = str_temp;
 	}
+	else if (strcmp(sz_keyword, "LINE") == 0)
+	{
+		m_pITool->SetLine(sz_value);
+		str_temp.Format(_T("%s"), sz_value);
+		m_str_line = str_temp;
+	}
+	else if (strcmp(sz_keyword, "DAYNIGHT") == 0)
+	{
+		m_pITool->SetDayNight(sz_value);
+		str_temp.Format(_T("%s"), sz_value);
+		m_str_daynight = str_temp;
+	}
 	else if (strcmp(sz_keyword, "MODEL_NAME") == 0)
 	{
 		m_pITool->SetModelName(sz_value);

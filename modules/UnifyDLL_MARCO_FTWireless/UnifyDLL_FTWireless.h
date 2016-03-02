@@ -57,6 +57,8 @@ private:
 	CString m_str_picasso;
 	CString m_str_tag;
 	CString m_str_sn;
+	CString m_str_line;
+	CString m_str_daynight;
 	CString m_str_modelName;
 	CString m_str_station;
 	CString m_str_logFileName;

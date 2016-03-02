@@ -33,6 +33,8 @@ protected:
 	static std::string g_strPicasso;
 	static std::string g_strTag;
 	static std::string g_strSn;
+	static std::string g_strLine;
+	static std::string g_strDayNight;
 	static std::string g_strScalarID;
 	static std::string g_strIMEI;//LION 2012.4.25
 	static std::string g_str_modelName;
@@ -204,6 +206,8 @@ public:
 	bool SetPicasso(const char* szPicasso);
 	bool SetTag(const char* szTag);
 	bool SetSn(const char* szSn);
+	bool SetLine(const char* szLine);
+	bool SetDayNight(const char* szDayNight);
 	bool SetPicassoMulti(const char* szPicasso, const int nSlot);
 	bool SetSlotUsable(const char* szUsable, const int nSlot);
 	bool SetIMEI(const char* szIMEI);//Lion 2012.4.25
