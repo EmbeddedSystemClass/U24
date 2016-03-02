@@ -31,6 +31,7 @@ const std::string SHOW_DIALOG = "DLLTestItemShowDialog";
 #define F32SERVERDB					_T("f32server2.dll")
 #define ID_SIZE								11
 #define ID_SIZE_BUFFER					20
+#define SN_SIZE_BUFFER					40
 
 /*==================== Station ============================*/
 

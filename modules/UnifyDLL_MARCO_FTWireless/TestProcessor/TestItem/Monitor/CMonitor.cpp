@@ -31,6 +31,10 @@ bool CMonitor::PreRun()
 	m_strMeasured = "";
 	m_strUnit = "-";
 	m_strMessage = "";
+	m_DdcFileName =  _T("DEFAULT");
+	m_SoNo =   _T("DEFAULT");
+	m_pcName  =   _T("DEFAULT");
+	m_WbcFileName  =   _T("DEFAULT");
 	return true;
 }
 
@@ -52,8 +56,7 @@ bool CMonitor::Run()
 	{
 		m_strItemCode = CStr::IntToStr(Monitor_BaseItemcode);
 		m_strErrorCode = FunErr_INSERT_DATA_Fail;
-	//	char *sz_value = new char[ID_SIZE_BUFFER]  ;
-	//	int i_id_type = CStr::StrToInt(m_str_CMD);
+
 		int i_id_type = CStr::StrToInt(m_str_CMD);
 		char *sz_value = new char[ID_SIZE_BUFFER]  ;
 		if ( i_id_type == 2) {
@@ -84,6 +87,7 @@ bool CMonitor::Run()
 		delete[] sz_value;
 		
 	}
+
 	else if (m_str_TestItem == CheckAllFlow)
 	{
 		m_strItemCode = CStr::IntToStr(Monitor_BaseItemcode);
@@ -125,8 +129,30 @@ bool CMonitor::Run()
 	{
 		m_strItemCode = CStr::IntToStr(Monitor_BaseItemcode);
 		m_strErrorCode = FunErr_Check_SWVERSION_Fail;
-		passFail = runCheckSWversionByDB();
+
+		int i_id_type = CStr::StrToInt(m_str_CMD);
+		char *sz_value = new char[ID_SIZE_BUFFER]  ;
+		if ( i_id_type == 2) {
+			passFail = runReadScalarID( sz_value, ID_SIZE);
+		}
+		delete[] sz_value;
+
+		passFail = runCheckSWversionByDB( i_id_type );
 	}	
+	//else if (m_str_TestItem == CheckSWVersionByDB_Marco)
+	//{
+	//	m_strItemCode = CStr::IntToStr(Monitor_BaseItemcode);
+	//	m_strErrorCode = FunErr_Check_SWVERSION_Fail;
+
+	//	int i_id_type = CStr::StrToInt(m_str_CMD);
+	//	char *sz_value = new char[ID_SIZE_BUFFER]  ;
+	//	if ( i_id_type == 2) {
+	//		passFail = runReadScalarID( sz_value, ID_SIZE);
+	//	}
+	//	delete[] sz_value;
+
+	//	passFail = runCheckSWversionByDB_Marco( i_id_type );
+	//}	
 	else if (m_str_TestItem == CheckModel)
 	{
 		m_strItemCode = CStr::IntToStr(Monitor_BaseItemcode);
@@ -134,7 +160,7 @@ bool CMonitor::Run()
 		char *sz_value = new char[ID_SIZE_BUFFER]  ;
 		runReadScalarID( sz_value, ID_SIZE);
 		delete[] sz_value;
-		passFail = runCheckModel();
+		passFail = runCheckModel(2);
 	}	
 	else if (m_str_TestItem == WriteTag)
 	{
@@ -142,11 +168,35 @@ bool CMonitor::Run()
 		m_strErrorCode = FunErr_WRITE_TAG_Fail;
 		passFail = runWriteTag();
 	}	
+	else if (m_str_TestItem == WriteTagBySn)
+	{
+		m_strItemCode = CStr::IntToStr(Monitor_BaseItemcode);
+		m_strErrorCode = FunErr_WRITE_TAG_Fail;
+		passFail = runWriteTagBySn();
+	}	
 	else if (m_str_TestItem == WriteSn)
 	{
 		m_strItemCode = CStr::IntToStr(Monitor_BaseItemcode);
 		m_strErrorCode = FunErr_WRITE_TAG_Fail;
 		passFail = runWriteSN();
+	}
+	else if (m_str_TestItem == UpdateSnBtWifi)
+	{
+		m_strItemCode = CStr::IntToStr(Monitor_BaseItemcode);
+		m_strErrorCode = FunErr_UPDATE_SNBTWIFI_Fail;
+		passFail = bUpdateKEYWrite_Marco();
+	}	
+	else if (m_str_TestItem == UpdateDDC)
+	{
+		m_strItemCode = CStr::IntToStr(Monitor_BaseItemcode);
+		m_strErrorCode = FunErr_UPDATE_DDC_Fail;
+		passFail = runUpdateDDC();
+	}	 
+	else if (m_str_TestItem == CheckSn)
+	{
+		m_strItemCode = CStr::IntToStr(Monitor_BaseItemcode);
+		m_strErrorCode = FunErr_WRITE_TAG_Fail;
+		passFail = runCheckSn();
 	}	
 	else if (m_str_TestItem == Postcmd)
 	{
@@ -161,15 +211,6 @@ bool CMonitor::Run()
 		TraceLog(MSG_INFO, "The Type of ID is not defined");
 		return false;
 	}
-
-	//}else	if (m_str_TestItem == CheckPCBAID)
-	//{
-	//	m_str_TestItem = CStr::IntToStr(BatteryDetectSwitch_BaseItemCode);
-	//	m_strErrorCode = FunErr_Check_PMid_Fail;
-	//	//str_Pics = CW2A(L"Fine_Wifi_AP");
-	//	char *sz_value = new char[ID_SIZE_BUFFER]  ;
-	//	passFail = runCheckPCBAID( sz_value);
-	//}
 
 	return passFail;
 
@@ -730,7 +771,100 @@ bool CMonitor::brunGetExistHDCPKEY(char *scalarID)
 	}
 }
 
-bool CMonitor::runCheckSWversionByDB()
+
+//bool CMonitor::runCheckSWversionByDB_Marco(int i_id_type)
+//{
+//	bool bRes = false;;
+//	//std::string st_readId = "";
+//	char sz_cmd_in[FTD_BUF_SIZE] ="";
+//	char sz_cmd_out[FTD_BUF_SIZE] ="";
+//	char sz_cmd_errcode[FTD_BUF_SIZE] ="";
+//	char *sz_value = new char[ID_SIZE_BUFFER]  ;
+//
+//	//if ( ! runReadScalarID( sz_value, ID_SIZE) ) return false; //read monitor id
+//	if (!GetPartNo(i_id_type)) return false; //get partNo by id
+//	if (!GetModelByPartNo(i_id_type)) return false;
+//
+//	std::string std_SoftWareVersion = "";
+//	CString cs_SoftWareVersion= "";
+//	//CString cs_xmlModelNamel = "";
+//
+//	memset(sz_cmd_in, 0, sizeof(sz_cmd_in));
+//	memset(sz_cmd_out, 0, sizeof(sz_cmd_out));
+//	memset(sz_cmd_errcode, 0, sizeof(sz_cmd_errcode));
+//
+//
+//	if ( m_ModelName.length() < 1 ){
+//			ErrMsg = (_T("runCheckSWversionByDB ModelName  Fail, Model = ")) + m_ModelName;
+//			AfxMessageBox( ErrMsg.c_str() );
+//			TraceLog(MSG_INFO,  ErrMsg);
+//			goto Exit_ShowResult;
+//	}
+//
+//	cs_DBModelNamel = m_ModelName.c_str();
+//	cs_DBModelNamel.Trim();
+//
+//	if (!changeModel()) return false;
+//	if (!GetSWVersionFromDB()) return false;	
+//
+//	strcpy(sz_cmd_in, _T("shell getprop ro.build.oemversion.main"));
+//	if ( !ExecAdbOut(sz_cmd_in, sz_cmd_out, sz_cmd_errcode) ){
+//		ErrMsg = (_T("adb shell getprop ro.build.oemversion.main fail"));
+//		AfxMessageBox( ErrMsg.c_str() );
+//		TraceLog(MSG_INFO,  ErrMsg);
+//		goto  Exit_ShowResult;
+//	}	
+//	//Sleep(200);
+//	std_SoftWareVersion = (char*)sz_cmd_out;
+//	cs_SoftWareVersion.Format(_T("%s"),  sz_cmd_out);
+//	cs_SoftWareVersion.Trim();
+//
+//	//cs_xmlModelNamel = m_str_CMD.c_str();
+//	//cs_xmlModelNamel.Trim();
+//
+//	if (cs_SoftWareVersion.Find(m_szSWver.c_str()) == -1 ){
+//		CString cs;
+//		cs.Format(_T("Check SoftWare Version Fail，DB Version = %s  Current DL Version = %s"), m_szSWver.c_str(),  cs_SoftWareVersion);
+//		::MessageBox(NULL, cs.GetBuffer(0), _T("Warnning!!"), MB_TASKMODAL|MB_TOPMOST);
+//		ErrMsg = cs;
+//		TraceLog(MSG_INFO,  ErrMsg);
+//		goto  Exit_ShowResult;
+//	}
+//	else
+//	{
+//		CString cs;
+//		cs.Format(_T("Check SoftWare Version pass，DB Version = %s  Current DL Version = %s"), m_szSWver.c_str(),  cs_SoftWareVersion);
+//		ErrMsg = cs;
+//		TraceLog(MSG_INFO,  ErrMsg);
+//		bRes = true;
+//	}
+//
+//
+////[ro.build.variant]: [dels2317w] gbrob2a
+////[ro.build.variant]: [delu2417w] gbrob1a
+//
+//	//compare ,	m_str_CMD, sz_cmd_out
+//
+//	
+//Exit_ShowResult:
+//	if ( !bRes) {
+//		m_strResult = "FAIL";
+//	}
+//	else
+//	{
+//		m_strErrorCode = "-";
+//		m_strResult = "PASS";
+//	}
+//
+//	delete[] sz_value;
+//	str_msg = ErrMsg;
+//	m_strMessage = str_msg;
+//	FactoryLog();
+//	return bRes;
+//}
+
+
+bool CMonitor::runCheckSWversionByDB(int i_id_type)
 {
 	bool bRes = false;;
 	//std::string st_readId = "";
@@ -739,9 +873,9 @@ bool CMonitor::runCheckSWversionByDB()
 	char sz_cmd_errcode[FTD_BUF_SIZE] ="";
 	char *sz_value = new char[ID_SIZE_BUFFER]  ;
 
-	if ( ! runReadScalarID( sz_value, ID_SIZE) ) return false; //read monitor id
-	if (!GetPartNo()) return false; //get partNo by id
-	if (!GetModelByPartNo()) return false;
+	//if ( ! runReadScalarID( sz_value, ID_SIZE) ) return false; //read monitor id
+	if (!GetPartNo(i_id_type)) return false; //get partNo by id
+	if (!GetModelByPartNo(i_id_type)) return false;
 
 	std::string std_SoftWareVersion = "";
 	CString cs_SoftWareVersion= "";
@@ -993,7 +1127,7 @@ Exit_ShowResult:
 	return bRes;
 }
 
-bool CMonitor::runCheckModel()
+bool CMonitor::runCheckModel( int i_type)
 {
 	bool bRes = false;
 	//std::string st_readId = "";
@@ -1010,8 +1144,8 @@ bool CMonitor::runCheckModel()
 	memset(sz_cmd_out, 0, sizeof(sz_cmd_out));
 	memset(sz_cmd_errcode, 0, sizeof(sz_cmd_errcode));
 
-	if (!GetPartNo()) return false;
-	if (!GetModelByPartNo()) return false;
+	if (!GetPartNo( i_type)) return false;
+	if (!GetModelByPartNo(i_type)) return false;
 
 	if ( m_ModelName.length() < 1 ){
 			ErrMsg = (_T("ModelName  Fail, Model = ")) + m_ModelName;
@@ -1090,16 +1224,106 @@ Exit_ShowResult:
 	return bRes;
 }
 
-bool CMonitor::GetPartNo()
+bool CMonitor::GetSoNo(int i_type)
 {
+	TraceLog(MSG_INFO,  _T("GetSoNo start"));
+	bool bReturn = false;
+	unsigned char szSoNo[ID_SIZE_BUFFER] = {0};
+	HMODULE hDll ;
+	CString str_dllF32SERVER2 = F32SERVERDB;
+	hDll = ::LoadLibrary(str_dllF32SERVER2);
+	
+	unsigned char sz_ID[ID_SIZE_BUFFER] ="";
+	if ( i_type == 2){
+		if(std_ScalarId.empty() || std_ScalarId.length() != ID_SIZE){
+		  //  m_szPartNo =  (char*) szPartNo;
+			ErrMsg = "GetPartNo ScalarId fail id  = " + std_ScalarId;
+			goto Exit_FreeLibrary;
+		}
+		sprintf_s((char*)sz_ID, ID_SIZE_BUFFER,"%s", std_ScalarId.c_str() );
+	}
+	else if ( i_type == 1)// picasso
+	{
+		//g_strPicasso = "BR37Y57GHE";//liontest
+		if ( g_strPicasso.empty()){
+			ErrMsg = "  picasso is empty = " ;
+			ErrMsg =  ErrMsg + g_strPicasso.c_str() ;
+			TraceLog(MSG_INFO,  ErrMsg);
+			AfxMessageBox(ErrMsg.c_str());
+			return false;
+		}
+		sprintf_s((char*)sz_ID, ID_SIZE_BUFFER,"%s", g_strPicasso.c_str() );
+	}
+
+	if( hDll != NULL )
+	{	
+		typedef unsigned short (_stdcall *lpGetSoByID)(const unsigned char* Id,unsigned short IdLen,unsigned char* So,unsigned short SoLen);  //ID是输入型参数，So是接收型参数
+		lpGetSoByID iGetSoByID = (lpGetSoByID)::GetProcAddress(hDll, "GetSoByID");
+		if ( NULL != iGetSoByID )
+		{	
+			if( 0 != iGetSoByID( sz_ID , 11, szSoNo, ID_SIZE_BUFFER))
+			{	
+				m_SoNo =  (char*) szSoNo; 
+				ErrMsg = "iGetSoByID  ok, m_SoNo = " + m_SoNo;
+				//TraceLog(MSG_INFO,  ErrMsg );
+				bReturn = true;
+			}
+			else
+			{	
+				ErrMsg = "GetSoNo.  iGetPartNoById Fail ";
+				AfxMessageBox(ErrMsg.c_str());
+				goto Exit_FreeLibrary;
+			}
+		}
+		else
+		{
+			ErrMsg = "GetPartNo. iGetPartNoById NULL ";
+			AfxMessageBox(ErrMsg.c_str());
+			goto Exit_FreeLibrary;
+		}
+	}
+	else
+	{
+			ErrMsg = "GetPartNo. Load str_dllF32SERVER2 Fail ";
+			AfxMessageBox(ErrMsg.c_str());
+			goto Exit_FreeLibrary;
+	}
+
+Exit_FreeLibrary:
+	TraceLog(MSG_INFO,  ErrMsg);
+    FreeLibrary(hDll);
+	TraceLog(MSG_INFO,  _T("GetPartNo End"));
+	return bReturn;
+}
+
+
+bool CMonitor::GetPartNo(int i_type)
+{
+	TraceLog(MSG_INFO,  _T("GetPartNo start"));
 	bool bReturn = false;
 	unsigned char szPartNo[27] = {0};
 	CString str_dllF32SERVER2 = F32SERVERDB;
 
-	if(std_ScalarId.empty() || std_ScalarId.length() != ID_SIZE){
-	  //  m_szPartNo =  (char*) szPartNo;
-		ErrMsg = "GetPartNo ScalarId fail id  = " + std_ScalarId;
-		goto Exit_FreeLibrary;
+	unsigned char sz_ID[ID_SIZE_BUFFER] ="";
+	if ( i_type == 2){
+		if(std_ScalarId.empty() || std_ScalarId.length() != ID_SIZE){
+		  //  m_szPartNo =  (char*) szPartNo;
+			ErrMsg = "GetPartNo ScalarId fail id  = " + std_ScalarId;
+			goto Exit_FreeLibrary;
+		}
+		sprintf_s((char*)sz_ID, ID_SIZE_BUFFER,"%s", std_ScalarId.c_str() );
+	}
+	else if ( i_type == 1)// picasso
+	{
+		//g_strPicasso = "BR37Y57GHE";//liontest
+		if ( g_strPicasso.empty()){
+			ErrMsg = "  picasso is empty = " ;
+			ErrMsg =  ErrMsg + g_strPicasso.c_str() ;
+			TraceLog(MSG_INFO,  ErrMsg);
+			AfxMessageBox(ErrMsg.c_str());
+			return false;
+		}
+		sprintf_s((char*)sz_ID, ID_SIZE_BUFFER,"%s", g_strPicasso.c_str() );
 	}
 
 	HMODULE hDll ;
@@ -1111,16 +1335,20 @@ bool CMonitor::GetPartNo()
 		lpGetPartNoById iGetPartNoById = (lpGetPartNoById)::GetProcAddress(hDll,"GetPartNoById");
 		if ( NULL != iGetPartNoById )
 		{	
-			//scalar id
-			unsigned char sz_ID[ID_SIZE_BUFFER] ="";
-			sprintf_s((char*)sz_ID, ID_SIZE_BUFFER,"%s", std_ScalarId.c_str() );
 
 			if( 0 != iGetPartNoById( sz_ID , 11, szPartNo, 13))
 			{	
 				//cout<<szPartNo<<endl;
 			    m_szPartNo =  (char*) szPartNo;
 				ErrMsg = "iGetPartNoById  ok, m_szPartNo = " + m_szPartNo;
-				ErrMsg = ErrMsg + " ScalarId = " +  std_ScalarId ;
+				if ( i_type == 1){
+					ErrMsg = ErrMsg + " picasso = " +  g_strPicasso ;
+				}
+				else if (i_type == 2)
+				{
+					ErrMsg = ErrMsg + " szScalarId = " +  std_ScalarId ;
+				}
+				//ErrMsg = ErrMsg + " ScalarId = " +  std_ScalarId ;
 				bReturn = true;
 			}
 			else
@@ -1147,12 +1375,59 @@ bool CMonitor::GetPartNo()
 Exit_FreeLibrary:
 	TraceLog(MSG_INFO,  ErrMsg);
     FreeLibrary(hDll);
-
+	TraceLog(MSG_INFO,  _T("GetPartNo End"));
 	return bReturn;
 }
 
-bool CMonitor::GetModelByPartNo()
+bool CMonitor::getPCName()
 {
+	// DWORD i;
+	 TCHAR  infoBuf[INFO_BUFFER_SIZE];
+	 DWORD  bufCharCount = INFO_BUFFER_SIZE;
+	 std::string mBuf;
+	  // Get and display the name of the computer. 
+	 bufCharCount = INFO_BUFFER_SIZE;
+	 if( !GetComputerName( infoBuf, &bufCharCount ) )
+	 {
+
+		 //_tprintf( TEXT("\nComputer name:      %s"), infoBuf );
+			ErrMsg = "  GetComputerName fail" ;
+			AfxMessageBox(ErrMsg.c_str());
+			TraceLog(MSG_INFO,  ErrMsg);
+			return false;
+	}
+
+	mBuf = infoBuf;
+	ErrMsg = "  GetComputerName ok, = " ;
+	ErrMsg = ErrMsg + mBuf;
+	TraceLog(MSG_INFO,  ErrMsg);
+
+	StrVtr vToken;
+	CStr::ParseString(mBuf.c_str(), _T("-"), vToken);
+
+	//bool b_match = false;
+	for (size_t i = 0; i < vToken.size(); i++)
+	{
+		if ( i == 0 ){
+			m_pcName =  vToken[i].c_str();
+			if (m_pcName.length() > 0){
+				ErrMsg = "  parseComputerName ok, = " ;
+				ErrMsg = ErrMsg + m_pcName;
+				TraceLog(MSG_INFO,  ErrMsg);
+				return true;
+			}
+		}
+	}
+
+	ErrMsg = " parseComputerName fail, = " ;
+	ErrMsg = ErrMsg + m_pcName;
+	TraceLog(MSG_INFO,  ErrMsg);
+	AfxMessageBox(ErrMsg.c_str());
+	return false;;
+}
+bool CMonitor::GetModelByPartNo(int i_type)
+{
+	TraceLog(MSG_INFO,  _T("GetModelByPartNo Start"));
 	bool bReturn = false;
 	CString str_dllF32SERVER2 = F32SERVERDB;
 
@@ -1176,29 +1451,45 @@ bool CMonitor::GetModelByPartNo()
 
          if(NULL != iGetMonitorInfoByPartNo)
          {    
-			 unsigned char szPartNo[]="9j.2vm72.dlu";
+			 unsigned char szPartNo[30]={0};
               unsigned char szWbcFileName[30]= {0};
               unsigned char szModelName[30] = {0};
               unsigned char szDdcFileName[30] = {0};
               unsigned char szInfo[30] = {0};
               unsigned char szSwInfo[30] = {0};
               unsigned char szPort[30] = {0};
-
+				//m_szPartNo  = "5J.38N72.00U";// liontest
 			 sprintf_s((char*)szPartNo, 13,"%s", m_szPartNo.c_str() );
 
 			 iGetMonitorInfoByPartNo(szPartNo,13,szWbcFileName,30,szModelName,30,szDdcFileName,30,szInfo,30,szSwInfo,30,szPort,30);
-
+			
 			m_ModelName =  (char*) szModelName;
-
+			m_DdcFileName = (char*) szDdcFileName;
+			m_WbcFileName = (char*)szWbcFileName;
 			if ( m_ModelName.empty() || m_ModelName.length() <1 ){
 				ErrMsg = "iGetMonitorInfoByPartNo  fail, m_ModelName = " + m_ModelName;
-				ErrMsg = ErrMsg + " szScalarId = " +  std_ScalarId ;
+				if ( i_type == 1){
+					ErrMsg = ErrMsg + " picasso = " +  g_strPicasso ;
+				}
+				else if (i_type == 2)
+				{
+					ErrMsg = ErrMsg + " szScalarId = " +  std_ScalarId ;
+				}
 				goto Exit_FreeLibrary;
 			}
 			else
 			{
 				ErrMsg = "iGetMonitorInfoByPartNo  ok, m_ModelName = " + m_ModelName;
-				ErrMsg = ErrMsg + " std_ScalarId = " +  std_ScalarId ;
+				ErrMsg = ErrMsg+ " DdcFileName = ";
+				ErrMsg = ErrMsg+ m_DdcFileName;
+				
+				if ( i_type == 1){
+					ErrMsg = ErrMsg + " picasso = " +  g_strPicasso ;
+				}
+				else  if(i_type == 2)
+				{
+					ErrMsg = ErrMsg + " szScalarId = " +  std_ScalarId ;
+				}
 				bReturn = true;
 			}
 		}
@@ -1219,34 +1510,35 @@ bool CMonitor::GetModelByPartNo()
 Exit_FreeLibrary:
 	TraceLog(MSG_INFO,  ErrMsg);
     FreeLibrary(hDll);
+	TraceLog(MSG_INFO,  _T("GetModelByPartNo End"));
 
 	return bReturn;
 }
 
 bool CMonitor::changeModel(){
-//	CString cs_DBModelNamel = "";
-//	cs_DBModelNamel = m_ModelName.c_str();
 	cs_DBModelNamel.Trim();
 
 	if (cs_DBModelNamel.Compare( _T("U2417HWi") ) == 0 )
 	{
 		cs_modelName_cmonitor = _T("GBROB1A");
 		ErrMsg = (_T("set  m_str_modelName  = "));
-	//	ErrMsg  = ErrMsg + m_str_modelName;
-	//	st_XMLSetting = m_str_CMD;
 	}
 	else 	if (cs_DBModelNamel.Compare( _T("S2317HWi") ) == 0 )
 	{
 		cs_modelName_cmonitor = _T("GBROB2A");
 		ErrMsg = (_T("set  m_str_modelName  = GBROB2A"));
-	//	ErrMsg  = ErrMsg + m_str_modelName;
-	//	st_XMLSetting = m_str_OffCMD;
+	}
+	else 	if (cs_DBModelNamel.Compare( _T("WR517B") ) == 0 )
+	{
+		cs_modelName_cmonitor = _T("GMARB1A");
+		ErrMsg = (_T("set  m_str_modelName  = GMARB1A"));
 	}
 	else
 	{
 		ErrMsg = (_T("cant find cs_DBModelNamel  = "));
 		ErrMsg  = ErrMsg + m_ModelName;
 		AfxMessageBox( ErrMsg.c_str() );
+		TraceLog(MSG_INFO,  ErrMsg);
 		return false;
 	}
 
@@ -1405,6 +1697,72 @@ Exit_ShowResult:
 	return bRes;
 }
 
+bool CMonitor::runWriteSN_Marco()
+{
+	bool bRes = false;
+	std::string st_readId = "";
+	char sz_ID[40] ="";
+	char szAddress[FTD_BUF_SIZE] = "1024,20";// dell tag
+	char m_szFAData[FTD_BUF_SIZE];
+	memset(m_szFAData, 0, sizeof(m_szFAData));
+	
+	if ( g_strSn.empty() ){
+	//	AfxMessageBox("fail, tag is empty");
+		ErrMsg = (_T("fail, Serial Number is empty"));
+		AfxMessageBox( ErrMsg.c_str() );
+		TraceLog(MSG_INFO,  ErrMsg);
+		goto Exit_ShowResult;
+	}
+
+	sprintf_s((char*)sz_ID, 40,"1024,20,%s", g_strSn.c_str() );
+
+	if (!m_pIPhone->FTD_FAC_CFGWrite(m_nFtdPort, m_nFtdTimeOut, sz_ID, m_szFAData))
+	{
+			ErrMsg = (_T("runWriteSN FTD_FAC_CFGWrite Fail"));
+			AfxMessageBox( ErrMsg.c_str() );
+			TraceLog(MSG_INFO,  ErrMsg);
+			goto Exit_ShowResult;
+	}
+
+	if (!m_pIPhone->FTD_FAC_CFGRead(m_nFtdPort, m_nFtdTimeOut, szAddress, m_szFAData))
+	{
+			ErrMsg = (_T("runWriteSN FTD_FAC_CFGRead Fail"));
+			AfxMessageBox( ErrMsg.c_str() );
+			TraceLog(MSG_INFO,  ErrMsg);
+			goto Exit_ShowResult;
+	}
+
+	st_readId = m_szFAData;
+	if  ( g_strSn.compare(st_readId) == 0 ){
+			ErrMsg = (_T("Serial Number  compare  ok"));
+			TraceLog(MSG_INFO,  ErrMsg);
+			m_strErrorCode = "-";
+			bRes = true;
+	}
+	else
+	{
+			ErrMsg = (_T("Serial Number  compare  Fail"));
+			//AfxMessageBox( ErrMsg.c_str() );
+			TraceLog(MSG_INFO,  ErrMsg);
+			goto Exit_ShowResult;
+	}
+
+Exit_ShowResult:
+	if ( !bRes) {
+		m_strResult = "FAIL";
+	}
+	else
+	{
+		m_strErrorCode = "-";
+		m_strResult = "PASS";
+	}
+
+	str_msg = ErrMsg;
+	m_strMessage = str_msg;
+	FactoryLog();
+	return bRes;
+}
+
 
 bool CMonitor::runWriteSN()
 {
@@ -1414,11 +1772,6 @@ bool CMonitor::runWriteSN()
 	char szAddress[FTD_BUF_SIZE] = "1024,20";// dell tag
 	char m_szFAData[FTD_BUF_SIZE];
 	memset(m_szFAData, 0, sizeof(m_szFAData));
-
-//CPHONE_FTD_CMD_IN_OUT_CREATE(FTD_FAC_CFGRead, "FTD_FAC_CFGRead")
-//CPHONE_FTD_CMD_IN_OUT_CREATE(FTD_FAC_CFGWrite, "FTD_FAC_CFGWrite")
-//	char sz_outBuffer[FTD_BUF_SIZE] = {0};
-//	if (! m_pIPhone->FTD_CAMFlashLED(m_nFtdPort, m_nFtdTimeOut, "1", sz_outBuffer))
 	
 	if ( g_strSn.empty() ){
 	//	AfxMessageBox("fail, tag is empty");
@@ -1487,13 +1840,123 @@ bool CMonitor::runWriteTag()
 	char m_szFAData[FTD_BUF_SIZE];
 	memset(m_szFAData, 0, sizeof(m_szFAData));
 
-//CPHONE_FTD_CMD_IN_OUT_CREATE(FTD_FAC_CFGRead, "FTD_FAC_CFGRead")
-//CPHONE_FTD_CMD_IN_OUT_CREATE(FTD_FAC_CFGWrite, "FTD_FAC_CFGWrite")
-//	char sz_outBuffer[FTD_BUF_SIZE] = {0};
-//	if (! m_pIPhone->FTD_CAMFlashLED(m_nFtdPort, m_nFtdTimeOut, "1", sz_outBuffer))
 	
-	if ( g_strTag.empty() ){
+	if ( checkStation.empty() ){
 	//	AfxMessageBox("fail, tag is empty");
+		ErrMsg = (_T("fail, tag is empty"));
+		AfxMessageBox( ErrMsg.c_str() );
+		goto Exit_ShowResult;
+	}
+	
+	sprintf_s((char*)sz_ID, ID_SIZE_BUFFER,"1056,8,%s", checkStation.c_str() );
+
+	if (!m_pIPhone->FTD_FAC_CFGWrite(m_nFtdPort, m_nFtdTimeOut, sz_ID, m_szFAData))
+	{
+			ErrMsg = (_T("runWriteTag FTD_FAC_CFGWrite Fail"));
+			AfxMessageBox( ErrMsg.c_str() );
+			goto Exit_ShowResult;
+	}
+
+	if (!m_pIPhone->FTD_FAC_CFGRead(m_nFtdPort, m_nFtdTimeOut, szAddress, m_szFAData))
+	{
+			ErrMsg = (_T("runWriteTag FTD_FAC_CFGRead Fail"));
+			AfxMessageBox( ErrMsg.c_str() );
+			goto Exit_ShowResult;
+	}
+
+	st_readId = m_szFAData;
+	if  ( checkStation.compare(st_readId) == 0 ){
+			ErrMsg = (_T("runWriteTag tag compare  ok, "));
+			ErrMsg = ErrMsg + st_readId ;
+			m_strErrorCode = "-";
+			bRes = true;
+	}
+	else
+	{
+			ErrMsg = (_T("runWriteTag tag compare  Fail"));
+			goto Exit_ShowResult;
+	}
+
+Exit_ShowResult:
+	if ( !bRes) {
+		m_strResult = "FAIL";
+	}
+	else
+	{
+		m_strErrorCode = "-";
+		m_strResult = "PASS";
+	}
+
+	TraceLog(MSG_INFO,  ErrMsg);
+	str_msg = ErrMsg;
+	m_strMessage = str_msg;
+	FactoryLog();
+	return bRes;
+}
+
+
+bool CMonitor::runWriteTagBySn()
+{
+	bool bRes = false;
+	std::string st_readId = "";
+	char sz_ID[ID_SIZE_BUFFER] ="";
+	char szAddress[FTD_BUF_SIZE] = "1056,8";// dell tag
+	char m_szFAData[FTD_BUF_SIZE];
+	memset(m_szFAData, 0, sizeof(m_szFAData));
+
+
+	unsigned char szBarcodeSN[SN_SIZE_BUFFER] = {0};
+	unsigned char szTag[ID_SIZE_BUFFER] = {0};
+
+	sprintf_s((char*)szBarcodeSN, ID_SIZE_BUFFER * 2 , "%s", g_strSn.c_str());
+
+	CString str_dllF32SERVER2 = F32SERVERDB;
+	HMODULE hDll ;
+	hDll = ::LoadLibrary(str_dllF32SERVER2);
+
+	ErrMsg = ("start to get Tag , Sn = ") + g_strSn;
+	TraceLog(MSG_INFO,  ErrMsg);
+	if( hDll != NULL )
+	{	
+		/*get tag*/
+		typedef bool (_stdcall *lpGetServiceTagBySN_Marco)(const unsigned char* BarcodeSN,      unsigned short BarcodeSNLen,
+							    unsigned char* ServiceTag, unsigned short ServiceTagLen);
+		lpGetServiceTagBySN_Marco iGetServiceTagBySN_Marco = (lpGetServiceTagBySN_Marco)::GetProcAddress(hDll,"GetServiceTagBySN_Marco");
+		if(NULL != iGetServiceTagBySN_Marco)
+		{	
+			if  (true==iGetServiceTagBySN_Marco(szBarcodeSN, SN_SIZE_BUFFER, szTag, 20) )
+			{
+				g_strTag = (char*)szTag;
+				ErrMsg = ("iGetServiceTagBySN_Marco ok, tag = ");
+				ErrMsg = ErrMsg + g_strTag;
+				TraceLog(MSG_INFO,  ErrMsg);
+			}
+			else
+			{
+				ErrMsg = ("iGetServiceTagBySN_Marco false");
+				AfxMessageBox( ErrMsg.c_str() );
+				TraceLog(MSG_INFO,  ErrMsg);
+				return false;
+			}
+		}
+		else
+		{
+			ErrMsg = ("Load iGetServiceTagBySN_Marco Fail");
+			AfxMessageBox( ErrMsg.c_str() );
+			TraceLog(MSG_INFO,  ErrMsg);
+			return false;
+		}
+	}
+	else
+	{
+			ErrMsg = ("Load F32SERVERDB Fail");
+			AfxMessageBox( ErrMsg.c_str() );
+			TraceLog(MSG_INFO,  ErrMsg);
+			return false;
+	}
+
+
+	if ( g_strTag.empty() ){
 		ErrMsg = (_T("fail, tag is empty"));
 		AfxMessageBox( ErrMsg.c_str() );
 		TraceLog(MSG_INFO,  ErrMsg);
@@ -1548,7 +2011,6 @@ Exit_ShowResult:
 	FactoryLog();
 	return bRes;
 }
-
 
 bool CMonitor::runWriteHDCPKEY_OFFLINE()
 {
@@ -1964,6 +2426,338 @@ bool CMonitor::bGetNewHDCPKEY(char *scalarID)
 	}
 }
 
+bool CMonitor::bUpdateKEYWrite_Marco(){
+	ErrMsg = "start  bUpdateKEYWrite_Marco Sleep 3000";
+	//AfxMessageBox( ErrMsg.c_str() );
+	Sleep(3000);
+	TraceLog(MSG_INFO, str_msg);
+
+	ErrMsg = "start  bUpdateKEYWrite_Marco Week up now ";
+	TraceLog(MSG_INFO, str_msg);
+
+	printf("%s", g_strPicasso);
+	bool bRes = false;
+		
+	CString str_dllF32SERVER2 = F32SERVERDB;
+
+	HMODULE hDll ;
+	hDll = ::LoadLibrary(str_dllF32SERVER2);
+
+	if( hDll != NULL )
+	{	
+		typedef bool (_stdcall *lpUpdateKEYWrite)(const unsigned char* Keysn,     unsigned short Keysnlen,
+							  const unsigned char* Id,        unsigned short Idlen,
+							  const unsigned char* SN,        unsigned short SNlen,         //新增SN
+							  const unsigned char* Wireless,   unsigned short WirelessLen,
+							  const unsigned char* BTwifi,      unsigned short BTwifiLen,
+                              const unsigned char* ServiceTag,      unsigned short ServiceTagLen);
+
+		lpUpdateKEYWrite iUpdateKEYWrite_Marco = (lpUpdateKEYWrite)::GetProcAddress(hDll,"UpdateKEYWrite_Marco");
+
+		//unsigned char sz_ID[ID_SIZE_BUFFER] ="";
+	//	unsigned char szStation[ID_SIZE_BUFFER] ="";
+		
+		if( iUpdateKEYWrite_Marco != NULL)
+		{	
+			/*get bt wifi mac*/
+			char szInput[FTD_BUF_SIZE] = {0};
+			unsigned char szBTOutput[FTD_BUF_SIZE] = {0};
+			unsigned char szWifiOutput[FTD_BUF_SIZE] = {0};
+			unsigned char szKeyID[ID_SIZE_BUFFER] = {0};
+			unsigned char szPicasso[ID_SIZE_BUFFER] = {0};
+			unsigned char szTag[ID_SIZE_BUFFER] = {0};
+			unsigned char szSn[SN_SIZE_BUFFER] = {0};
+			if (!(m_pIPhone->FTD_BT_MAC(m_nFtdPort, 30000, szInput, (char*)szBTOutput)))
+			{
+				ErrMsg = "Read FTD_BT_MAC from mobile fail";
+				AfxMessageBox( ErrMsg.c_str() );
+				TraceLog(MSG_INFO, str_msg);
+				goto Exit_ShowResult;
+			}
+			ErrMsg = "Read FTD_BT_MAC from mobile ok";
+			TraceLog(MSG_INFO, ErrMsg);
+			Sleep(500);			
+			//sprintf(sz_copy_cmd, "/C copy %s %s", sz_remote_file_path, sz_local_file_path );
+
+			if (!(m_pIPhone->FTD_WLAN_MAC(m_nFtdPort, 30000, szInput, (char*)szWifiOutput)))
+			{
+				ErrMsg = "Read FTD_WLAN_MAC from mobile fail";
+				AfxMessageBox( ErrMsg.c_str() );
+				TraceLog(MSG_INFO, str_msg);
+				goto Exit_ShowResult;
+			}
+			ErrMsg = "Read FTD_WLAN_MAC from mobileok";
+			TraceLog(MSG_INFO, ErrMsg);
+			Sleep(500);
+
+			std_Key_Id = "";
+			sprintf_s((char*)szKeyID, ID_SIZE_BUFFER, "%s", std_Key_Id.c_str());
+			sprintf_s((char*)szPicasso , ID_SIZE_BUFFER, "%s", g_strPicasso.c_str());
+			sprintf_s((char*)szTag, ID_SIZE_BUFFER, "%s", g_strTag.c_str());
+			sprintf_s((char*)szSn, SN_SIZE_BUFFER  , "%s", g_strSn.c_str());
+
+			CString iUpdateKEYWrite_MarcoCmd;
+			iUpdateKEYWrite_MarcoCmd.Format(_T("szKeyID = %s, szPicasso = %s, szSn = %s, szWifiOutput = %s , szBTOutput = %s, szTag = %s "), szKeyID,  szPicasso, szSn, szWifiOutput, szBTOutput, szTag);
+			ErrMsg = "iUpdateKEYWrite_Marco cmd = " + iUpdateKEYWrite_MarcoCmd;
+			TraceLog(MSG_INFO,  ErrMsg);
+
+			//sprintf(szKeyID, "/C copy %s %s", sz_remote_file_path, sz_local_file_path );
+			if ( !iUpdateKEYWrite_Marco(szKeyID, ID_SIZE_BUFFER, szPicasso, ID_SIZE_BUFFER, 
+				szSn, 30, szWifiOutput, ID_SIZE_BUFFER, szBTOutput, ID_SIZE_BUFFER,szTag ,10)){
+
+				ErrMsg = ("iUpdateKEYWrite_Marco Fail");
+				AfxMessageBox( ErrMsg.c_str() );
+				TraceLog(MSG_INFO,  ErrMsg);
+				goto Exit_ShowResult;
+			}
+			ErrMsg = ("iUpdateKEYWrite_Marco pass");
+			TraceLog(MSG_INFO,  ErrMsg);
+			bRes = true;
+		}
+		else{
+			ErrMsg = ("Load iUpdateKEYWrite_Marco Fail");
+			AfxMessageBox( ErrMsg.c_str() );
+			TraceLog(MSG_INFO,  ErrMsg);
+			goto Exit_ShowResult;
+		}
+	}
+	else
+	{
+			ErrMsg = ("Load str_dllF32SERVER2 Fail");
+			AfxMessageBox( ErrMsg.c_str() );
+			TraceLog(MSG_INFO,  ErrMsg);
+			goto Exit_ShowResult;
+	}
+	
+
+Exit_ShowResult:
+	if ( !bRes) {
+		m_strResult = "FAIL";
+	}
+	else
+	{
+		m_strErrorCode = "-";
+		m_strResult = "PASS";
+	}
+
+	str_msg = ErrMsg.c_str();
+	m_strMessage = str_msg;
+	FactoryLog();
+	return bRes;
+}
+
+bool CMonitor::runCheckSn(){
+	bool bRes = false;
+	unsigned short unsSnLen = 20;
+	unsigned char szBarcodeSN[SN_SIZE_BUFFER] = {0};
+	int n = g_strSn.length();
+
+	sprintf_s((char*)szBarcodeSN, SN_SIZE_BUFFER , "%s", g_strSn.c_str());
+
+	CString str_dllF32SERVER2 = F32SERVERDB;
+	HMODULE hDll ;
+	hDll = ::LoadLibrary(str_dllF32SERVER2);
+
+	ErrMsg = ("start check Sn , Sn = ") + g_strSn;
+	TraceLog(MSG_INFO,  ErrMsg);
+	if( hDll != NULL )
+	{	
+		/*判断Sn是否可以使用(是否合法)*/
+		typedef bool (_stdcall *lpGetExistSN_Marco)(const unsigned char* BarcodeSN,      unsigned short BarcodeSNLen);
+		lpGetExistSN_Marco iGetExistSN_Marco = (lpGetExistSN_Marco)::GetProcAddress(hDll,"GetExistSN_Marco");
+		if(NULL != iGetExistSN_Marco)
+		{	
+			if ( iGetExistSN_Marco(szBarcodeSN, SN_SIZE_BUFFER )){
+				ErrMsg = ("iGetExistSN_Marco true");
+				TraceLog(MSG_INFO,  ErrMsg);
+			}
+			else
+			{
+				ErrMsg = ("iGetExistSN_Marco false");
+				AfxMessageBox( ErrMsg.c_str() );
+				TraceLog(MSG_INFO,  ErrMsg);
+				return false;
+			}
+		}
+		else
+		{
+			ErrMsg = ("Load iGetExistSN_Marco Fail");
+			AfxMessageBox( ErrMsg.c_str() );
+			TraceLog(MSG_INFO,  ErrMsg);
+			return false;
+		}
+
+		typedef bool (_stdcall *lpIfRepeatedSN_Marco)(const unsigned char* SN,  unsigned short SNLen);
+		lpIfRepeatedSN_Marco iIfRepeatedSN_Marco = (lpIfRepeatedSN_Marco)::GetProcAddress(hDll,"IfRepeatedSN_Marco");
+		if(NULL != iIfRepeatedSN_Marco)
+		{	
+			if ( iIfRepeatedSN_Marco(szBarcodeSN, SN_SIZE_BUFFER )){
+				ErrMsg = ("iIfRepeatedSN_Marco true");
+				TraceLog(MSG_INFO,  ErrMsg);
+			}
+			else
+			{
+				ErrMsg = ("iIfRepeatedSN_Marco false");
+				AfxMessageBox( ErrMsg.c_str() );
+				TraceLog(MSG_INFO,  ErrMsg);
+				return false;
+			}
+		}
+		else
+		{
+			ErrMsg = ("Load iIfRepeatedSN_Marco Fail");
+			AfxMessageBox( ErrMsg.c_str() );
+			TraceLog(MSG_INFO,  ErrMsg);
+			return false;
+		}
+	}
+	else
+	{
+			ErrMsg = ("Load str_dllF32SERVER2 Fail");
+			AfxMessageBox( ErrMsg.c_str() );
+			TraceLog(MSG_INFO,  ErrMsg);
+			return false;
+	}
+
+	bRes = true;
+	return bRes;
+}
+bool CMonitor::runUpdateDDC(){
+	TraceLog(MSG_INFO,  "runUpdateDDC start");
+	bool bRes = false;
+
+	//g_strPicasso = "BR37Y57GHE";//liontest
+
+	unsigned char szPicasso[ID_SIZE_BUFFER] = {0};
+	unsigned char szTag[ID_SIZE_BUFFER] = {0};
+	unsigned char szWbcFileName[ID_SIZE_BUFFER] = {0};//m_WbcFileName
+	unsigned char szBarcodeSN[SN_SIZE_BUFFER] = {0};
+	unsigned char szReWork[ID_SIZE_BUFFER] = {0};
+	unsigned char szLine[ID_SIZE_BUFFER] = {0};
+	unsigned char szDayNight[ID_SIZE_BUFFER] = {0};
+	unsigned char szDDCFile[ID_SIZE_BUFFER] = {0};
+	unsigned char szSo[ID_SIZE_BUFFER] = {0};
+	unsigned char szPCLine[ID_SIZE_BUFFER] = {0};
+
+	if ( g_strDayNight.find(_T("DAY")) != std::string::npos){
+		sprintf_s((char*)szDayNight, ID_SIZE_BUFFER, "A");
+	}
+	else if ( g_strDayNight.find(_T("NIGHT")) != std::string::npos)
+	{
+		sprintf_s((char*)szDayNight, ID_SIZE_BUFFER, "B");
+	}
+	
+	if (!getPCName()) return false;
+
+	if (!GetPartNo(1)) return false; //get partNo by id
+
+	if (!GetModelByPartNo(1)) return false;
+
+	if ( !GetSoNo(1)) return false;
+
+	sprintf_s((char*)szBarcodeSN, SN_SIZE_BUFFER, "%s", g_strSn.c_str());
+	sprintf_s((char*)szPicasso , ID_SIZE_BUFFER, "%s", g_strPicasso.c_str());
+	sprintf_s((char*)szTag, ID_SIZE_BUFFER, "%s", g_strTag.c_str());
+	sprintf_s((char*)szWbcFileName, ID_SIZE_BUFFER, "%s", m_WbcFileName.c_str());
+	sprintf_s((char*)szReWork, ID_SIZE_BUFFER, "0");
+	sprintf_s((char*)szLine, ID_SIZE_BUFFER, "%s", g_strLine.c_str());
+	sprintf_s((char*)szDDCFile, ID_SIZE_BUFFER, "%s", m_DdcFileName.c_str());
+	sprintf_s((char*)szSo, ID_SIZE_BUFFER, "%s", m_SoNo.c_str());
+	sprintf_s((char*)szPCLine, ID_SIZE_BUFFER, "%s", m_pcName.c_str());
+	
+
+	CString str_dllF32SERVER2 = F32SERVERDB;
+	HMODULE hDll ;
+	hDll = ::LoadLibrary(str_dllF32SERVER2);
+
+	ErrMsg = ("start to InsertPicsDDC ");
+	TraceLog(MSG_INFO,  ErrMsg);
+	if( hDll != NULL )
+	{	
+	/*插入Pics_DDC的记录，For Packing查找ID */
+		typedef bool (_stdcall *lpInsertPicsDDC) (const unsigned char* Id,        unsigned short IdLen,                                      //ID
+								  const unsigned char* Barcode,     unsigned short BarcodeLen, //纸箱SN
+								  const unsigned char* Model,   unsigned short ModelLen,       //机种名：GetMonitorInfoByPartNo中的WBCFileName
+								  const unsigned char* DDCFile,  unsigned short DDCFileLen,    //GetMonitorInfoByPartNo中的DDCFileName
+								  const unsigned char* So,  unsigned short SoLen,              //工单号
+								  const unsigned char* ReWork,  unsigned short ReWorkLen,      //GetSoInfo中的SoCateory：N--0；R--1
+								  const unsigned char* LineCode,  unsigned short LineCodeLen,  //线别
+								  const unsigned char* Shift,  unsigned short ShiftLen,        //白晚班：A 白班   B 晚班
+								  const unsigned char* Eline,  unsigned short ElineLen,        //人力线
+								  const unsigned char* Carton,  unsigned short CartonLen);      //机台SN
+		lpInsertPicsDDC iInsertPicsDDC = (lpInsertPicsDDC)::GetProcAddress(hDll,"InsertPicsDDC");
+
+
+		if(NULL != iInsertPicsDDC)
+		{	
+			CString iUszBarcodeSNCmd;
+			iUszBarcodeSNCmd.Format(
+				_T("szPicasso = %s, szBarcodeSN = %s, szWbcFileName = %s, szDDCFile = %s , szSo = %s, szReWork = %s, szPCLine = %s, szDayNight = %s, szLine = %s, szBarcodeSN = %s "), 
+				szPicasso, szBarcodeSN, szWbcFileName, szDDCFile, szSo, szReWork, szPCLine, szDayNight, szLine, szBarcodeSN	);
+				ErrMsg = ("iUszBarcodeSNCmd  =") + iUszBarcodeSNCmd;
+				TraceLog(MSG_INFO,  ErrMsg);
+
+				if ( iInsertPicsDDC(szPicasso, (unsigned short) 20,
+						szBarcodeSN, (unsigned short)25,
+						szWbcFileName, (unsigned short)10,
+						szDDCFile, (unsigned short)30,
+						szSo, (unsigned short)15,
+						szReWork, (unsigned short)6,
+						szPCLine, (unsigned short)4,
+						szDayNight, (unsigned short)10,
+						szLine, (unsigned short)10,
+						szBarcodeSN, (unsigned short)25
+					)){
+					ErrMsg = ("iInsertPicsDDC ok");
+					bRes = true;
+			//		TraceLog(MSG_INFO,  ErrMsg);
+				}
+				else
+				{
+					ErrMsg = ("iInsertPicsDDC fail");
+					AfxMessageBox( ErrMsg.c_str() );
+					goto Exit_ShowResult;
+				//	TraceLog(MSG_INFO,  ErrMsg);
+				//	return false;
+				}
+		}
+		else
+		{
+			ErrMsg = ("Load iInsertPicsDDC Fail");
+			AfxMessageBox( ErrMsg.c_str() );
+			goto Exit_ShowResult;
+		//	TraceLog(MSG_INFO,  ErrMsg);
+		//	return false;
+		}
+	}
+	else
+	{
+			ErrMsg = ("Load str_dllF32SERVER2 Fail");
+			AfxMessageBox( ErrMsg.c_str() );
+			goto Exit_ShowResult;
+		//	TraceLog(MSG_INFO,  ErrMsg);
+		//	return false;
+	}
+
+Exit_ShowResult:
+	if ( !bRes) {
+		m_strResult = "FAIL";
+	}
+	else
+	{
+		m_strErrorCode = "-";
+		m_strResult = "PASS";
+	}
+
+	TraceLog(MSG_INFO,  ErrMsg);
+
+	str_msg = ErrMsg.c_str();
+	m_strMessage = str_msg;
+	FactoryLog();
+
+	TraceLog(MSG_INFO,  "runUpdateDDC End");
+	return bRes;
+}
 bool CMonitor::bUpdateKEYWrite(){
 	bool bRes = false;
 		
@@ -2111,7 +2905,7 @@ bool CMonitor::runCheckFlowAllStation( int i_type ){
 }
 bool CMonitor::runCheckFlow( int i_type)
 {	
-	bool bReturn = false;
+	bool bRes = false;
 	CString str_dllF32SERVER2 = F32SERVERDB;
 
 	HMODULE hDll ;
@@ -2130,16 +2924,13 @@ bool CMonitor::runCheckFlow( int i_type)
 		
 		if( iGetYrstationInfoByIdAndStation != NULL)
 		{	
-
 			sprintf_s((char*)szStation, ID_SIZE_BUFFER, "%s", checkStation.c_str());//station name (before this station)
 			//sprintf_s((char*)szStation, ID_SIZE_BUFFER, "%s", g_str_station.c_str());
-
 	
 			if ( i_type == 1 ){ //arm board id
 				sprintf_s((char*)sz_ID, ID_SIZE_BUFFER,"%s", g_strPicasso.c_str() );
 				ErrMsg = " check flow1 = " ;
 				ErrMsg =  ErrMsg + g_strPicasso.c_str() ;
-				//AfxMessageBox(ErrMsg.c_str());
 				TraceLog(MSG_INFO,  ErrMsg);
 			}
 			else if( i_type == 2 )
@@ -2147,14 +2938,14 @@ bool CMonitor::runCheckFlow( int i_type)
 				sprintf_s((char*)sz_ID, ID_SIZE_BUFFER,"%s", g_strScalarID.c_str() );
 				ErrMsg = " check flow2 = ";
 				ErrMsg = ErrMsg 	+ g_strScalarID.c_str() ;
-				//AfxMessageBox(ErrMsg.c_str());
 				TraceLog(MSG_INFO,  ErrMsg);
 			}
 			else
 			{
 				ErrMsg = "can't find id type ";
 				AfxMessageBox(ErrMsg.c_str());
-				TraceLog(MSG_INFO,  ErrMsg);
+				//TraceLog(MSG_INFO,  ErrMsg);
+				goto Exit_ShowResult;
 				return false;
 			}
 
@@ -2172,80 +2963,53 @@ bool CMonitor::runCheckFlow( int i_type)
 				csiGetYrstationInfoByIdAndStation.Format(_T("i_week = %d, sz_ID = %s, szStation = %s "), i_week,  sz_ID, szStation);
 				ErrMsg = "csiGetYrstationInfoByIdAndStation pass";	
 				TraceLog(MSG_INFO,  ErrMsg);
-				bReturn =  true; //exist id 
+				bRes =  true; //exist id 
 			}
 			else
 			{
-
 				ErrMsg = " iGetYrstationInfoByIdAndStation false = " + sta ;
 				TraceLog(MSG_INFO,  ErrMsg);
 
 				CString csMsg;
 				csMsg.Format("%s 站无测试纪录，请回去重测, %s no test record, ", checkStation.c_str(), checkStation.c_str());
 				ErrMsg = csMsg;// CW2A(csMsg.GetBuffer(0));
-				TraceLog(MSG_INFO,  ErrMsg);
-
+				//TraceLog(MSG_INFO,  ErrMsg);
 				showMsg(csMsg);
-				//AfxMessageBox(ErrMsg.c_str());
-			//	TraceLog(MSG_INFO,  ErrMsg);
-				bReturn =  false;//id didn't exist
-				return false;
+				bRes =  false;//id didn't exist
+				goto Exit_ShowResult;
+				//return false;
 			}
-
-	//		unsigned char Id[15] = "F1008B28887";
-	//		unsigned char szStation[20] = "MMI_EM";
-	//		int i_week = GetCurrentWeek();
-	//		std::string sta = (char*)Id;
-
-	//		if(  iGetYrstationInfoByIdAndStation( i_week, Id, 15, szStation, 10) ) {
-	//			ErrMsg = "Load iGetYrstationInfoByIdAndStation ok = " + sta ;
-	//			//ErrMsg = ErrMsg + Id;
-	//			AfxMessageBox(ErrMsg.c_str());						
-	//		}
-	//		else
-	//		{
-	//			
-	//			ErrMsg = "Load iGetYrstationInfoByIdAndStation fail = " + sta ;
-	//			//ErrMsg = ErrMsg + Id;
-	//			AfxMessageBox(ErrMsg.c_str());				
-	//		}
-
-	//		unsigned char Id1[15] = "F1008B28888";
-	//		sta = (char*)Id1;
-	////		 Id[15] = "F1008B28888";
-	//		if(  iGetYrstationInfoByIdAndStation( i_week, Id1, 15, szStation, 10) ) {
-	//			ErrMsg = "Load iGetYrstationInfoByIdAndStation ok = " + sta ;
-	//			//ErrMsg = ErrMsg + Id;
-	//			AfxMessageBox(ErrMsg.c_str());						
-	//		}
-	//		else
-	//		{
-	//			
-	//			ErrMsg = "Load iGetYrstationInfoByIdAndStation fail = " + sta ;
-	//			//ErrMsg = ErrMsg + Id;
-	//			AfxMessageBox(ErrMsg.c_str());				
-	//		}
-
-	//brunGetExistHDCPKEY("F1008B28887" );
-	//brunGetExistHDCPKEY("F1008B28888" );
-
 		}
 		else
 		{
 			ErrMsg = ("Load GetYrstationInfoByIdAndStation Fail");
 			AfxMessageBox( ErrMsg.c_str() );
-			TraceLog(MSG_INFO,  ErrMsg);
-			return false;
+			goto Exit_ShowResult;
 		}
 	}
 	else
 	{
 			ErrMsg = ("Load str_dllF32SERVER2 Fail");
 			AfxMessageBox( ErrMsg.c_str() );
-			TraceLog(MSG_INFO,  ErrMsg);
-			return false;
+			goto Exit_ShowResult;
 	}
-	return bReturn;
+
+Exit_ShowResult:
+	if ( !bRes) {
+		m_strResult = "FAIL";
+	}
+	else
+	{
+		m_strErrorCode = "-";
+		m_strResult = "PASS";
+	}
+
+	TraceLog(MSG_INFO,  ErrMsg);
+	str_msg = ErrMsg.c_str();
+	m_strMessage = str_msg;
+	FactoryLog();
+
+	return bRes;
 }
 bool CMonitor::runInsertData(int i_type)
 {	
@@ -2324,6 +3088,11 @@ bool CMonitor::runInsertData(int i_type)
 				return false;
 			}
 
+			CString csInsertCmd;
+			csInsertCmd.Format(_T("szModel = %s, sz_ID = %s, szOperator = %s , szStation = %s "), szModel,  sz_ID, szOperator, szStation);
+			ErrMsg = "iInsertYrstation cmd = " + csInsertCmd;
+			TraceLog(MSG_INFO,  ErrMsg);
+
 			//memcpy(sz_ID,szTemp,ID_SIZE_BUFFER);
 			bReturn = iInsertYrstation(szModel,   (unsigned short)strlen((char*)szModel),
 									   sz_ID,	(unsigned short)strlen((char*)sz_ID),
@@ -2333,11 +3102,6 @@ bool CMonitor::runInsertData(int i_type)
 									   szOperator,   5,
 									   0,
 									   szCheckInfo,  5);
-				CString csInsertCmd;
-				csInsertCmd.Format(_T("szModel = %s, sz_ID = %s, szOperator = %s , szStation = %s "), szModel,  sz_ID, szOperator, szStation);
-				ErrMsg = "iInsertYrstation cmd = " + csInsertCmd;
-				TraceLog(MSG_INFO,  ErrMsg);
-
 			if(bReturn) 
 			{
 			//	CString csInsertCmd;
@@ -2373,7 +3137,6 @@ Exit_FreeLibrary:
 Exit:
 	return bReturn;
 }
-
 
 
 int CMonitor::GetWeek	(	struct tm* date	)

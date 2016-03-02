@@ -16,6 +16,7 @@
 #include "MonitorId.h"
 #include "../../../CommonUtility/CommonDefine.h"
 #include <direct.h>
+#include <windows.h>
 
 /* ID Type */
 
@@ -25,14 +26,22 @@
 #define CheckFlow					"CheckFlow"
 #define CheckAllFlow				"CheckAllFlow"
 #define InsertData					"InsertData"
+#define UpdateDDC				"UpdateDDC"
 #define WriteHDCP				"WriteHDCP"
 #define WriteHDCP_OFFLINE	"WriteHDCP_OFFLINE"
 #define WriteTag					"WriteTag"
-#define WriteSn						"WriteSn"
+#define WriteSn					"WriteSn"
+#define WriteTagBySn					"WriteTagBySn"
+#define CheckSn						"CheckSn"
 #define CheckModel				"CheckModel"
 #define CheckSWVersion		"CheckSWVersion"
 #define Postcmd					"Postcmd"
+#define UpdateSnBtWifi			"UpdateSnBtWifi"
+#define UpdateDDC				"UpdateDDC"
+
 #define CheckSWversionByDB "CheckSWversionByDB"
+//#define CheckSWVersionByDB_Marco "CheckSWVersionByDB_Marco"
+#define INFO_BUFFER_SIZE  100
 
 #define DNULL                        "NULL"
 #define DREAD	                       "READ"
@@ -59,12 +68,15 @@ private:
 	std::string m_str_CMD;
 	std::string m_str_OffCMD;
 	std::string str_msg;
-
 	std::string str_Pics ;
+
+	std::string m_ModelName;
+	std::string m_DdcFileName;
+	std::string m_WbcFileName;
+
 
 	int n_Delay;
 	int m_i_SleepTime;
-	//int m_i_OffSleepTime;
 	int m_i_retryTime;
 	int m_i_retriedTime;
 	int m_i_MexRetryTime;
@@ -88,6 +100,7 @@ public:
 		st_Test_Flow[4] = _T("RUN_IN") ;
 		st_Test_Flow[5] = _T("OS_DL") ;
 		st_Test_Flow[6] = _T("WRITE") ;
+
 
 	//	sprintf_s((char*)sz_ID, ID_SIZE_BUFFER, "", "");
 	////	sz_ID[ID_SIZE_BUFFER] = "";
@@ -114,45 +127,50 @@ private:
 	std::string std_Key_Id;
 	std::string std_Key_Name;
 	std::string std_ScalarId ;
-	std::string szPcabaId;
 	std::string checkStation;
 	std::string sz_Hdcp_key_path;
 	std::string m_szPartNo;
-	std::string m_ModelName;
 	std::string m_szSWver;
+	std::string m_SoNo;
+	std::string m_pcName;
 	CString     cs_modelName_cmonitor;
 	CString cs_DBModelNamel;
 
-	//unsigned char sz_ID[ID_SIZE_BUFFER] ;
-	//unsigned char szStation[ID_SIZE_BUFFER];
-	
 	//bool runReadScalarID( char *szvalue, int iSize );
 
-	bool GetPartNo();
-	bool GetModelByPartNo();
+	bool GetSoNo(int i_type);
+	bool GetPartNo(int i_type);
+	bool GetModelByPartNo(int i_type);
+	bool getPCName();
 	bool changeModel();
 	bool runGetHDCPKEY();
 	bool runWriteHDCPKEY();
 	bool runWriteHDCPKEY_OFFLINE();
 	bool runWriteTag();
+	bool runWriteTagBySn();
 	bool runWriteSN();
+	bool runWriteSN_Marco();
+	bool runCheckSn();
+	bool runUpdateDDC();
 	bool bGetNewHDCPKEY(char *scalarID);
 	bool brunGetExistHDCPKEY(char *scalarID);
 	bool runInsertData(int i_type);
 	bool runCheckFlow( int i_type);// i_type 1 = pcbaid,  2 = scalarId
 	bool runCheckFlowAllStation( int i_type);// i_type 1 = pcbaid,  2 = scalarId
 	bool bUpdateKEYWrite();
+	bool bUpdateKEYWrite_Marco();
 	bool runReadScalarID( char *szvalue, int iSize );
 	bool runCheckPCBAID( char *szvalue );
-	bool runCheckModel();
+	bool runCheckModel( int i_type);
 	bool runCheckSWversion();
-	bool runCheckSWversionByDB();
+	bool runCheckSWversionByDB(int i_type);
+	bool runCheckSWversionByDB_Marco(int i_type);
 	bool GetSWVersionFromDB();
 	bool runPostCmd( );
 	bool IfRepeated( char *szvalue );    // 1 = ID ,2 = SN
 	//bool IfRepeated(unsigned short IdType);    // 1 = ID ,2 = SN
 	bool checkFileExist(CString csFilePath);
-	bool getWeek(void);
+//	bool getWeek(void);
 	int GetWeek	(struct tm* date	);
 	int GetCurrentWeek();
 
