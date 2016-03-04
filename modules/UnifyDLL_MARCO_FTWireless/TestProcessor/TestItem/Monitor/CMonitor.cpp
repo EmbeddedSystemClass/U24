@@ -174,11 +174,23 @@ bool CMonitor::Run()
 		m_strErrorCode = FunErr_WRITE_TAG_Fail;
 		passFail = runWriteTagBySn();
 	}	
+	else if (m_str_TestItem == WriteTagByPn)
+	{
+		m_strItemCode = CStr::IntToStr(Monitor_BaseItemcode);
+		m_strErrorCode = FunErr_WRITE_TAG_Fail;
+		passFail = runWriteTagByPn();
+	}	
 	else if (m_str_TestItem == WriteSn)
 	{
 		m_strItemCode = CStr::IntToStr(Monitor_BaseItemcode);
 		m_strErrorCode = FunErr_WRITE_TAG_Fail;
 		passFail = runWriteSN();
+	}
+	else if (m_str_TestItem == WriteSn_Marco)
+	{
+		m_strItemCode = CStr::IntToStr(Monitor_BaseItemcode);
+		m_strErrorCode = FunErr_WRITE_SN_Fail;
+		passFail = runWriteSN_Marco();
 	}
 	else if (m_str_TestItem == UpdateSnBtWifi)
 	{
@@ -1700,11 +1712,14 @@ Exit_ShowResult:
 bool CMonitor::runWriteSN_Marco()
 {
 	bool bRes = false;
+	CString cs_readId;
 	std::string st_readId = "";
+
 	char sz_ID[40] ="";
 	char szAddress[FTD_BUF_SIZE] = "1024,20";// dell tag
 	char m_szFAData[FTD_BUF_SIZE];
 	memset(m_szFAData, 0, sizeof(m_szFAData));
+	int n_SwitchCase = 0 ;
 	
 	if ( g_strSn.empty() ){
 	//	AfxMessageBox("fail, tag is empty");
@@ -1715,6 +1730,69 @@ bool CMonitor::runWriteSN_Marco()
 	}
 
 	sprintf_s((char*)sz_ID, 40,"1024,20,%s", g_strSn.c_str() );
+
+	/*read frist */
+	if (!m_pIPhone->FTD_FAC_CFGRead(m_nFtdPort, m_nFtdTimeOut, szAddress, m_szFAData))
+	{
+			ErrMsg = (_T("runWriteSN FTD_FAC_CFGRead Fail"));
+			AfxMessageBox( ErrMsg.c_str() );
+			TraceLog(MSG_INFO,  ErrMsg);
+			goto Exit_ShowResult;
+	}
+
+	st_readId = m_szFAData;
+	cs_readId = st_readId.c_str();
+	cs_readId.Trim();
+	st_readId = cs_readId;
+	
+
+	if ( st_readId.length() == 0 ){
+			ErrMsg = (_T("runCheckTag  is empty, target id = ")) + st_readId ;
+			TraceLog(MSG_INFO,  ErrMsg);
+			n_SwitchCase = 3;
+	}
+	else
+	{
+			ErrMsg = (_T("runCheckTag  not empty, target id = ")) + st_readId ;
+			TraceLog(MSG_INFO,  ErrMsg);
+			if  ( g_strSn.compare(st_readId) == 0 ){ //same tag , skip
+				n_SwitchCase = 1;
+				ErrMsg = (_T("runCheckTag  not empty, same sn = ")) + st_readId ;
+				TraceLog(MSG_INFO,  ErrMsg);
+			}else
+			{
+				n_SwitchCase = 2;
+				CString csTmp;
+				csTmp.Format(_T("runCheckTag  not empty,  sn different  scan = %s,  target = %s"), g_strSn.c_str()  ,st_readId.c_str() );
+				ErrMsg = csTmp.GetBuffer(0);//  (_T("runCheckTag  not empty,  sn different = ")) + st_readId ;
+				TraceLog(MSG_INFO,  ErrMsg);
+			}
+	}
+
+	switch(n_SwitchCase)
+	{
+	case 1://1:not empty , same tag, skip
+				ErrMsg = _T("1:not empty , same tag, skip") ;
+				bRes = true;
+			goto Exit_ShowResult;
+		break;
+	case 2://2:not empty , checck . different, write
+			bRes = runCheckSn();
+			ErrMsg = _T("2:not empty , checck . different, write  ") ;
+		break;
+	case 3: //3:not empty , different, scanTag unique & verify, write write 
+			bRes = runCheckSn();
+			ErrMsg = _T("3:empty,check. scanTag unique & verify, write ") ;
+		break;
+	}
+	TraceLog(MSG_INFO,  ErrMsg);
+
+	if ( !bRes){
+			ErrMsg = (_T("check Sn Fail"));
+			TraceLog(MSG_INFO,  ErrMsg);
+		goto Exit_ShowResult;
+	}
+
 
 	if (!m_pIPhone->FTD_FAC_CFGWrite(m_nFtdPort, m_nFtdTimeOut, sz_ID, m_szFAData))
 	{
@@ -1888,6 +1966,134 @@ Exit_ShowResult:
 	}
 
 	TraceLog(MSG_INFO,  ErrMsg);
+	str_msg = ErrMsg;
+	m_strMessage = str_msg;
+	FactoryLog();
+	return bRes;
+}
+
+
+
+bool CMonitor::runWriteTagByPn()
+{
+	TraceLog(MSG_INFO,  "runWriteTagByPn start ");
+	if (!GetPartNo(1)) return false; //get partNo by id
+	bool bRes = false;
+
+	std::string st_readId = "";
+	char sz_ID[ID_SIZE_BUFFER] ="";
+	char szAddress[FTD_BUF_SIZE] = "1056,8";// dell tag
+	char m_szFAData[FTD_BUF_SIZE];
+	memset(m_szFAData, 0, sizeof(m_szFAData));
+
+	unsigned char szPartNo[SN_SIZE_BUFFER] = {0};
+	unsigned char szTag[ID_SIZE_BUFFER] = {0};
+
+//	sprintf_s((char*)szBarcodeSN, ID_SIZE_BUFFER * 2 , "%s", g_strSn.c_str());
+	sprintf_s((char*)szPartNo, 13,"%s", m_szPartNo.c_str() );
+
+	CString str_dllF32SERVER2 = F32SERVERDB;
+	HMODULE hDll ;
+	hDll = ::LoadLibrary(str_dllF32SERVER2);
+
+	ErrMsg = ("start to get Tag , Sn = ") + g_strSn;
+	TraceLog(MSG_INFO,  ErrMsg);
+	if( hDll != NULL )
+	{	
+
+
+		/*get tag*/
+		//typedef bool (_stdcall *lpGetServiceTagBySN_Marco)(const unsigned char* BarcodeSN,      unsigned short BarcodeSNLen,
+		//					    unsigned char* ServiceTag, unsigned short ServiceTagLen);
+		//lpGetServiceTagBySN_Marco iGetServiceTagBySN_Marco = (lpGetServiceTagBySN_Marco)::GetProcAddress(hDll,"GetServiceTagBySN_Marco");
+		typedef bool (_stdcall *lpGetServiceTagByPN_Marco)(const unsigned char* PartNo,      unsigned short PartNoLen,
+															unsigned char* ServiceTag, unsigned short ServiceTagLen);
+		lpGetServiceTagByPN_Marco iGetServiceTagByPN_Marco = (lpGetServiceTagByPN_Marco)::GetProcAddress(hDll,"GetServiceTagByPN_Marco");
+		if(NULL != iGetServiceTagByPN_Marco)
+		//if(NULL != iGetServiceTagBySN_Marco)
+		{	
+			if  (true==iGetServiceTagByPN_Marco(szPartNo, 15, szTag, 20) )
+			{
+				g_strTag = (char*)szTag;
+				ErrMsg = ("iGetServiceTagByPN_Marco ok, tag = ");
+				ErrMsg = ErrMsg + g_strTag;
+				TraceLog(MSG_INFO,  ErrMsg);
+			}
+			else
+			{
+				ErrMsg = ("iGetServiceTagByPN_Marco false");
+				AfxMessageBox( ErrMsg.c_str() );
+				TraceLog(MSG_INFO,  ErrMsg);
+				return false;
+			}
+		}
+		else
+		{
+			ErrMsg = ("Load iGetServiceTagByPN_Marco Fail");
+			AfxMessageBox( ErrMsg.c_str() );
+			TraceLog(MSG_INFO,  ErrMsg);
+			return false;
+		}
+	}
+	else
+	{
+			ErrMsg = ("Load F32SERVERDB Fail");
+			AfxMessageBox( ErrMsg.c_str() );
+			TraceLog(MSG_INFO,  ErrMsg);
+			return false;
+	}
+
+
+	if ( g_strTag.empty() ){
+		ErrMsg = (_T("fail, tag is empty"));
+		AfxMessageBox( ErrMsg.c_str() );
+		TraceLog(MSG_INFO,  ErrMsg);
+		goto Exit_ShowResult;
+	}
+
+	sprintf_s((char*)sz_ID, ID_SIZE_BUFFER,"1056,8,%s", g_strTag.c_str() );
+
+	if (!m_pIPhone->FTD_FAC_CFGWrite(m_nFtdPort, m_nFtdTimeOut, sz_ID, m_szFAData))
+	{
+			ErrMsg = (_T("FTD_FAC_CFGWrite Fail"));
+			AfxMessageBox( ErrMsg.c_str() );
+			TraceLog(MSG_INFO,  ErrMsg);
+			goto Exit_ShowResult;
+	}
+
+	if (!m_pIPhone->FTD_FAC_CFGRead(m_nFtdPort, m_nFtdTimeOut, szAddress, m_szFAData))
+	{
+			ErrMsg = (_T("FTD_FAC_CFGRead Fail"));
+			AfxMessageBox( ErrMsg.c_str() );
+			TraceLog(MSG_INFO,  ErrMsg);
+			goto Exit_ShowResult;
+	}
+
+	st_readId = m_szFAData;
+	if  ( g_strTag.compare(st_readId) == 0 ){
+			ErrMsg = (_T("tag compare  ok"));
+			TraceLog(MSG_INFO,  ErrMsg);
+			m_strErrorCode = "-";
+			bRes = true;
+	}
+	else
+	{
+			ErrMsg = (_T("tag compare  Fail"));
+			//AfxMessageBox( ErrMsg.c_str() );
+			TraceLog(MSG_INFO,  ErrMsg);
+			goto Exit_ShowResult;
+	}
+
+Exit_ShowResult:
+	if ( !bRes) {
+		m_strResult = "FAIL";
+	}
+	else
+	{
+		m_strErrorCode = "-";
+		m_strResult = "PASS";
+	}
+
 	str_msg = ErrMsg;
 	m_strMessage = str_msg;
 	FactoryLog();
@@ -2550,10 +2756,15 @@ bool CMonitor::runCheckSn(){
 	bool bRes = false;
 	unsigned short unsSnLen = 20;
 	unsigned char szBarcodeSN[SN_SIZE_BUFFER] = {0};
+	unsigned char szSo[SN_SIZE_BUFFER] = {0};
+	//unsigned char szBarcodeSN[SN_SIZE_BUFFER] = {0};
+
+	if  ( !GetSoNo(1)) return false;
 	int n = g_strSn.length();
 
 	sprintf_s((char*)szBarcodeSN, SN_SIZE_BUFFER , "%s", g_strSn.c_str());
-
+	sprintf_s((char*)szSo, SN_SIZE_BUFFER , "%s", m_SoNo.c_str());
+	
 	CString str_dllF32SERVER2 = F32SERVERDB;
 	HMODULE hDll ;
 	hDll = ::LoadLibrary(str_dllF32SERVER2);
@@ -2563,11 +2774,14 @@ bool CMonitor::runCheckSn(){
 	if( hDll != NULL )
 	{	
 		/*判断Sn是否可以使用(是否合法)*/
-		typedef bool (_stdcall *lpGetExistSN_Marco)(const unsigned char* BarcodeSN,      unsigned short BarcodeSNLen);
+		//typedef bool (_stdcall *lpGetExistSN_Marco)(const unsigned char* BarcodeSN,      unsigned short BarcodeSNLen);
+		typedef bool (_stdcall *lpGetExistSN_Marco)(const unsigned char* SN,      unsigned short SNLen,
+																					  unsigned char* So, unsigned short SoLen);
+
 		lpGetExistSN_Marco iGetExistSN_Marco = (lpGetExistSN_Marco)::GetProcAddress(hDll,"GetExistSN_Marco");
 		if(NULL != iGetExistSN_Marco)
 		{	
-			if ( iGetExistSN_Marco(szBarcodeSN, SN_SIZE_BUFFER )){
+			if ( iGetExistSN_Marco(szBarcodeSN, SN_SIZE_BUFFER, szSo, 7 )){
 				ErrMsg = ("iGetExistSN_Marco true");
 				TraceLog(MSG_INFO,  ErrMsg);
 			}
@@ -2591,7 +2805,7 @@ bool CMonitor::runCheckSn(){
 		lpIfRepeatedSN_Marco iIfRepeatedSN_Marco = (lpIfRepeatedSN_Marco)::GetProcAddress(hDll,"IfRepeatedSN_Marco");
 		if(NULL != iIfRepeatedSN_Marco)
 		{	
-			if ( iIfRepeatedSN_Marco(szBarcodeSN, SN_SIZE_BUFFER )){
+			if ( iIfRepeatedSN_Marco(szBarcodeSN, 30 )){
 				ErrMsg = ("iIfRepeatedSN_Marco true");
 				TraceLog(MSG_INFO,  ErrMsg);
 			}

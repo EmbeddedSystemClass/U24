@@ -31,7 +31,9 @@
 #define WriteHDCP_OFFLINE	"WriteHDCP_OFFLINE"
 #define WriteTag					"WriteTag"
 #define WriteSn					"WriteSn"
+#define WriteSn_Marco				"WriteSn_Marco"
 #define WriteTagBySn					"WriteTagBySn"
+#define WriteTagByPn					"WriteTagByPn"
 #define CheckSn						"CheckSn"
 #define CheckModel				"CheckModel"
 #define CheckSWVersion		"CheckSWVersion"
@@ -147,6 +149,7 @@ private:
 	bool runWriteHDCPKEY();
 	bool runWriteHDCPKEY_OFFLINE();
 	bool runWriteTag();
+	bool runWriteTagByPn();
 	bool runWriteTagBySn();
 	bool runWriteSN();
 	bool runWriteSN_Marco();
