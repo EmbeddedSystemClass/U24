@@ -149,9 +149,18 @@ bool CDownload8994::MultiDownload(bool b_speedUp, bool b_reOpenAfterReset, Downl
 			b_wait_fastboot = true;
 		}
 
-		if ( b_wait_fastboot) b_result = FastbootEXE_Download_SINGLE();
+		if ( b_wait_fastboot){
+			b_result = FastbootEXE_Download_SINGLE();
+		}
 		else AddMsg("Fail can't find fastboot", DownloadStep::None, 100);
-		b_result = postCmd();
+
+		if (b_result){
+			b_result = postCmd();
+		}
+		else
+		{
+			AddMsg("Fail cFastbootEXE_Download_SINGLE", DownloadStep::None, 10);
+		}
 
 	}
 	else
@@ -1674,7 +1683,7 @@ bool CDownload8994::WriteFA(char* sz_FAData)
 * Version       Author          Date                Abstract                 
 * 1.0          Alex.Chen        2011/11/23          First version             
 *****************************************************************************/
-bool CDownload8994::ReadFASector(int i_sectorNum, char *sz_sectorData, int i_sectorSize, int i_idtype)
+bool CDownload8994::ReadFASector(int i_sectorNum, char *sz_sectorData, int i_sectorSize, int i_idtype) 
 {
 	if (i_idtype == 2 )
 	{
@@ -1707,21 +1716,28 @@ bool CDownload8994::ReadFASector(int i_sectorNum, char *sz_sectorData, int i_sec
 			CString cs_Qphone;
 			
 			cs_Qphone = _T("QPHONE");
-			if (bGetADB_SINGLE()){
-				AddMsg("ReadFASector Get Adb Success.", None, 10);
+			for(int i = 0 ; i < 60; i++) //detect adb for 60s
+			{
+				if (bGetADB_SINGLE()){
+					AddMsg("ReadFASector Get Adb Success.", None, 10);
 
-				bADB_to_Fastboot_SINGLE();
-				AddMsg("ReadFASector adb to fastboot ok", None, 10);
+					bADB_to_Fastboot_SINGLE();
+					AddMsg("ReadFASector adb to fastboot ok", None, 10);
 
-				while ( !b_wait_fastboot){
-					if (bCallAdbFastbootCMD(_T("fastboot.exe"), _T("devices"),output,ErrorCode, cs_Qphone) ){
-						b_wait_fastboot = true;
-						AddMsg("ReadFASector Get Fastboot Success.", None, 10);
+					while ( !b_wait_fastboot){
+						if (bCallAdbFastbootCMD(_T("fastboot.exe"), _T("devices"),output,ErrorCode, cs_Qphone) ){
+							b_wait_fastboot = true;
+							AddMsg("ReadFASector Get Fastboot Success.", None, 10);
+						}
+						Sleep(1000);
+						nLimitTime ++;
+						if ( nLimitTime > 60 ) break;
 					}
-					Sleep(1000);
-					nLimitTime ++;
-					if ( nLimitTime > 60 ) break;
 				}
+				
+				if ( b_wait_fastboot ) break; 
+				AddMsg("ReadFASector Get Adb ... ..", DownloadStep::None, 10);
+				Sleep(1000);
 			}
 		/*get fastboot*/
 

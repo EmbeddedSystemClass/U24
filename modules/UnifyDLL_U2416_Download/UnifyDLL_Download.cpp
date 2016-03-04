@@ -1099,6 +1099,7 @@ bool CDLInstance::SetParameterValue(char* sz_keyword, char* sz_value)
 		}
 
 		/* Set DL log filename */
+		SetLogFilePath();
 		SetLogFileName();
 	}
 
