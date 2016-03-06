@@ -251,6 +251,7 @@ struct st_UIControl
 	bool b_ReadTag;
 	bool b_WriteTagFrame;
 	bool b_S3DDC; 
+	bool b_S3SO; 
 
 	bool b_ScanSn;
 	bool b_WriteSn;
