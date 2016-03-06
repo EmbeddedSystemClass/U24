@@ -839,7 +839,7 @@ bool CRUN_IN::ExecAdbOut(CString Command, char* output, char* ErrorCode, int nSl
 			::ReadFile(hRead, message, nPipeSize, &bytesRead, NULL);
 			message[bytesRead] = '\0';
 
-			strcpy(output, message);
+			strncpy(output, message, 4096);
 			strcpy(ErrorCode, "Adb command ok");
 			delete [] message;
 		}

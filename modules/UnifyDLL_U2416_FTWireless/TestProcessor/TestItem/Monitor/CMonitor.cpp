@@ -431,7 +431,7 @@ bool CMonitor::ExecAdbOut(CString Command, char* output, char* ErrorCode)
 			}
 			else
 			{
-				strcpy(output, message);
+				strncpy(output, message, 4096);
 				strcpy(ErrorCode, "Adb command ok");
 			}
 			delete [] message;
