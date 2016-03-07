@@ -431,7 +431,7 @@ void COtherStationDlg::ClearMessageList(void)
 	USES_CONVERSION;
 
 	/* Check if scan Tag */
-	if (m_st_uiControl.b_ScanTag)
+	if (m_st_uiControl.b_WriteTagFrame)
 	{
 		if (!CheckScanTAG())
 		{
@@ -602,7 +602,7 @@ bool COtherStationDlg::GetPicasso(std::map<int, CString> &map_picasso)
 		}
 		else if (m_st_uiControl.i_FAArea == NEWFA)
 		{
- 			if (!m_p_facTestToolInterface->GetFASector(0,0,sz_faData,sizeof(sz_faData)))
+ 			if (!m_p_facTestToolInterface->GetFASector(0,0,sz_faData,sizeof(sz_faData), m_st_uiControl.nIdType )) //1 = picasso, 2 = dell id
  			{
 				m_p_facTestToolInterface ->PostRun();
 
@@ -1959,6 +1959,14 @@ bool COtherStationDlg::SetParameterToDLL( void )
 		m_str_errorMessage.Format(_T("FACTORY_DAYNIGHT(%s) is invalide!"), m_st_uiParameter.str_daynight);
 		return false;
 	}
+
+	strTemp.Format(_T("FACTORY_SO---%s"),m_st_uiParameter.str_so);
+	LogMsg(strTemp);
+	if (!m_p_facTestToolInterface->SetParameterValue(FACTORY_SO, T2A(m_st_uiParameter.str_so)))
+	{
+		m_str_errorMessage.Format(_T("FACTORY_SO(%s) is invalide!"), m_st_uiParameter.str_so);
+		return false;
+	}
 	return true;
 }
 
@@ -2221,7 +2229,7 @@ bool COtherStationDlg::ReadFA()
 		}
 		else if (m_st_uiControl.i_FAArea == NEWFA)
 		{
-			b_ret = m_p_facTestToolInterface->GetFASector(0,0,sz_faData,sizeof(sz_faData));
+			b_ret = m_p_facTestToolInterface->GetFASector(0,0,sz_faData,sizeof(sz_faData), m_st_uiControl.nIdType);// 1= picasso, 2 = dell id
 		}
 
 		if (!b_ret)

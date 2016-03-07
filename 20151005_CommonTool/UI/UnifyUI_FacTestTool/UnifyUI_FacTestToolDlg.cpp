@@ -112,10 +112,10 @@ CUnifyUI_FacTestToolDlg::CUnifyUI_FacTestToolDlg(CWnd* pParent /*=NULL*/)
 	m_st_uiControl.b_PreScan          = false;
 	m_st_uiControl.b_AutoRun          = false;
 	m_st_uiControl.b_AutoRunPreScan   = false;
-	m_st_uiControl.b_WriteTag			  = false;
-	m_st_uiControl.b_ReadTag			  = false;
+	//m_st_uiControl.b_WriteTag			  = false;
+	//m_st_uiControl.b_ReadTag			  = false;
 	m_st_uiControl.b_WriteTagFrame		= false;
-	m_st_uiControl.b_ScanTag				= false;
+	//m_st_uiControl.b_ScanTag				= false;
 
 	m_st_uiControl.b_WriteSn			  = false;
 	m_st_uiControl.b_ReadSn			  = false;
@@ -319,7 +319,7 @@ bool CUnifyUI_FacTestToolDlg::findXML()
 			cs_Model_Name = str_item.Tokenize(_T("_"),curPos); 
 			cs_Station_Name  = str_item.Tokenize(_T("_"),curPos);
 
-			if ( cs_Station_Name.Find (_T("OS")) != -1 ){
+			if ( cs_Station_Name.Compare (_T("OS")) == 0 ) {
 				cs_Station_Name = _T("OS_DL");
 				if (!GetDLLIniFile() ) return false;
 				if ( !Get_SWVersion() ) return false;
@@ -450,6 +450,9 @@ BOOL CUnifyUI_FacTestToolDlg::OnInitDialog()
 		//support s3 ddc link station
 		::GetPrivateProfileString(_T("s3"), _T("s3DDCStation"), _T("0"), sz_temp, sizeof(sz_temp), sz_iniFolderName);
 		m_st_uiControl.b_S3DDC = (StrToInt(sz_temp)!=0);
+		//support s3 csd_write, csd_os_dl  station
+		::GetPrivateProfileString(_T("s3"), _T("s3SO"), _T("0"), sz_temp, sizeof(sz_temp), sz_iniFolderName);
+		m_st_uiControl.b_S3SO = (StrToInt(sz_temp)!=0);
 	}
 
 	if (m_st_uiControl.b_S3DDC) {
@@ -461,6 +464,16 @@ BOOL CUnifyUI_FacTestToolDlg::OnInitDialog()
 		m_dlg_initDlg_S3.GetInitData(m_st_idParameter); 
 	}
 
+	if (m_st_uiControl.b_S3SO) {
+		if (m_dlg_initDlg_SO.DoModal() == IDCANCEL)
+		{
+			CDialog::OnCancel();
+			return TRUE;
+		}
+		m_dlg_initDlg_SO.GetInitData(m_st_idParameter); 
+	}
+
+
 
 	
 	//m_st_idParameter.
@@ -471,7 +484,8 @@ BOOL CUnifyUI_FacTestToolDlg::OnInitDialog()
 		m_st_idParameter.b_tsFlag = false;
 		m_st_idParameter.str_station  = cs_Station_Name;// _T("MMI");
 		m_st_idParameter.str_modelName = cs_Model_Name;// _T("GBROB1A");
-		m_st_idParameter.str_so = _T("1234567");
+	//	m_st_idParameter.str_so = _T("1234567");
+		m_st_idParameter.str_so = m_st_idParameter.str_so; 
 		m_st_idParameter.str_partNumber = _T("0");
 		m_st_idParameter.str_employee = _T("1234567");
 	//	m_st_idParameter.str_userLoadVer = _T("20151008_un2416h_evt1_dels2317w_ship");
@@ -875,6 +889,12 @@ bool CUnifyUI_FacTestToolDlg::InitialUIControl()
 	strTemp.Format(_T("WriteFA = %d"),StrToInt(sz_temp));
 	LogMsg(strTemp);
 
+	::GetPrivateProfileString(m_st_idParameter.str_station, _T("idtype2"), _T("2"), sz_temp, sizeof(sz_temp), sz_iniFolderName);
+	m_st_uiControl.nIdType = (StrToInt(sz_temp));
+	strTemp.Format(_T("nIdType = %d"),StrToInt(sz_temp));
+	LogMsg(strTemp);
+
+
 	/* Device control */
 	::GetPrivateProfileString(m_st_idParameter.str_station, _T("DevicePort"), _T("0"), sz_temp, sizeof(sz_temp), sz_iniFolderName);
 	m_st_uiControl.str_DevPort = sz_temp;
@@ -944,16 +964,16 @@ bool CUnifyUI_FacTestToolDlg::InitialUIControl()
 	
 	
 	//if WriteTAG
-	::GetPrivateProfileString(m_st_idParameter.str_station, _T("WriteTAG"), _T("0"), sz_temp, sizeof(sz_temp), sz_iniFolderName);
-	m_st_uiControl.b_WriteTag =  (StrToInt(sz_temp)!=0);
+	::GetPrivateProfileString(m_st_idParameter.str_station, _T("ScanTAG"), _T("0"), sz_temp, sizeof(sz_temp), sz_iniFolderName);
+	m_st_uiControl.b_WriteTagFrame =  (StrToInt(sz_temp)!=0);
 
 	//if b_ReadTag
-	::GetPrivateProfileString(m_st_idParameter.str_station, _T("ReadTag"), _T("0"), sz_temp, sizeof(sz_temp), sz_iniFolderName);
-	m_st_uiControl.b_ReadTag =  (StrToInt(sz_temp)!=0);
+	//::GetPrivateProfileString(m_st_idParameter.str_station, _T("ReadTag"), _T("0"), sz_temp, sizeof(sz_temp), sz_iniFolderName);
+	//m_st_uiControl.b_ReadTag =  (StrToInt(sz_temp)!=0);
 
 	/* Scan Tag */
-	::GetPrivateProfileString(m_st_idParameter.str_station, _T("ScanTag"), _T("0"), sz_temp, sizeof(sz_temp), sz_iniFolderName);
-	m_st_uiControl.b_ScanTag = (StrToInt(sz_temp)!=0);
+	//::GetPrivateProfileString(m_st_idParameter.str_station, _T("ScanTag"), _T("0"), sz_temp, sizeof(sz_temp), sz_iniFolderName);
+	//m_st_uiControl.b_ScanTag = (StrToInt(sz_temp)!=0);
 
 	//if WriteSN
 	::GetPrivateProfileString(m_st_idParameter.str_station, _T("WriteSN"), _T("0"), sz_temp, sizeof(sz_temp), sz_iniFolderName);
@@ -1172,6 +1192,7 @@ bool CUnifyUI_FacTestToolDlg::InitialUIID()
 	m_edit_model.SetWindowText(m_st_idParameter.str_modelName);
 	m_edit_partNumber.SetWindowText(m_st_idParameter.str_daynight);
 	m_edit_line.SetWindowText(m_st_idParameter.str_line);
+	m_edit_line.SetWindowText(m_st_idParameter.str_so);
 
 	CString str_so_type;
 	if (m_st_idParameter.str_CRType != _T(""))
@@ -2216,6 +2237,7 @@ bool CUnifyUI_FacTestToolDlg::GetIDFromUI()
 {
 	m_edit_model.GetWindowText(m_st_idParameter.str_modelName);
 	m_edit_line.GetWindowText(m_st_idParameter.str_line);
+	m_edit_so.GetWindowText(m_st_idParameter.str_so);
 	
 	//m_edit_pcba.GetWindowText(m_st_idParameter.str_pcba);
 	m_edit_so.GetWindowText(m_st_idParameter.str_so);
@@ -2560,10 +2582,11 @@ bool CUnifyUI_FacTestToolDlg::GetUIControlParameter( st_UIControl &st_uiControl 
 	st_uiControl.b_NAL = m_st_uiControl.b_NAL;
 	st_uiControl.b_VKEnter = m_st_uiControl.b_VKEnter;
 	st_uiControl.b_ACER22 = m_st_uiControl.b_ACER22;
+	st_uiControl.nIdType = m_st_uiControl.nIdType;
 	st_uiControl.b_WriteTagFrame = m_st_uiControl.b_WriteTagFrame;
-	st_uiControl.b_WriteTag = m_st_uiControl.b_WriteTag;
-	st_uiControl.b_ReadTag = m_st_uiControl.b_ReadTag;
-	st_uiControl.b_ScanTag = m_st_uiControl.b_ScanTag;
+//	st_uiControl.b_WriteTag = m_st_uiControl.b_WriteTag;
+//	st_uiControl.b_ReadTag = m_st_uiControl.b_ReadTag;
+//	st_uiControl.b_ScanTag = m_st_uiControl.b_ScanTag;
 
 	st_uiControl.b_WriteSnFrame = m_st_uiControl.b_WriteSnFrame;
 	st_uiControl.b_WriteSn = m_st_uiControl.b_WriteSn;

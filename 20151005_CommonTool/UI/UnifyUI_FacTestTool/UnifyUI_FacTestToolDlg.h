@@ -5,6 +5,7 @@
 #include "atlimage.h"
 #include "InitDlg.h"
 #include "InitDlg_S3.h"
+#include "InitDlg_SO.h"
 #include "ResultDlg.h"
 #include "label.h"
 #include "afxwin.h"
@@ -223,6 +224,7 @@ private:
 
 	CInitDlg   m_dlg_initDlg;
 	CInitDlg_S3   m_dlg_initDlg_S3;
+	CInitDlg_SO   m_dlg_initDlg_SO;
 	CResultDlg m_dlg_resultDlg;
 
 	CFont   m_font_button;

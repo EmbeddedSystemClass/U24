@@ -671,7 +671,7 @@ bool CIMEIFCDlg::GetPicasso(std::map<int, CString> &map_picasso)
 		}
 		else if (m_st_uiControll.i_FAArea == NEWFA)
 		{
-			if (!m_p_facTestToolInterface->GetFASector(0,0,sz_faData,sizeof(sz_faData)))
+			if (!m_p_facTestToolInterface->GetFASector(0,0,sz_faData,sizeof(sz_faData), 1)) //1 = picasso , 2 = dell id
 			{
 				m_p_facTestToolInterface ->PostRun();
 

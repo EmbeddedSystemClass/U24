@@ -638,7 +638,7 @@ bool COthersMultiDlg::GetPicasso(std::map<int, CString> &map_picasso)
 		{   
 			if (m_st_uiControl.str_Device1!=_T("0"))   /*Device 1*/
 			{
-				if (!m_p_facTestToolInterface->GetFASector(1,0,sz_faData,sizeof(sz_faData)))
+				if (!m_p_facTestToolInterface->GetFASector(1,0,sz_faData,sizeof(sz_faData), 1)) // 1 = picasso , 2 = dell id
 				{
 
 					m_st_return.str_errorMsg = _T("[1]--Read FA fail!");
@@ -678,7 +678,7 @@ bool COthersMultiDlg::GetPicasso(std::map<int, CString> &map_picasso)
 
 			if (m_st_uiControl.str_Device2!=_T("0"))           //Device 2
 			{
-				if (!m_p_facTestToolInterface->GetFASector(2,0,sz_faData2,sizeof(sz_faData2)))
+				if (!m_p_facTestToolInterface->GetFASector(2,0,sz_faData2,sizeof(sz_faData2), 1)) // 1 = picasso , 2 = dell id
 				{
 					//m_p_facTestToolInterface ->PostRun();
 					m_st_return.str_errorMsg = _T("[2]--Read FA fail!");
@@ -717,7 +717,7 @@ bool COthersMultiDlg::GetPicasso(std::map<int, CString> &map_picasso)
 
 			if (m_st_uiControl.str_Device3!=_T("0"))  //Device 3
 			{
-				if (!m_p_facTestToolInterface->GetFASector(3,0,sz_faData3,sizeof(sz_faData3)))
+				if (!m_p_facTestToolInterface->GetFASector(3,0,sz_faData3,sizeof(sz_faData3), 1)) // 1 = picasso , 2 = dell id
 				{
 					//m_p_facTestToolInterface ->PostRun();
 
@@ -759,7 +759,7 @@ bool COthersMultiDlg::GetPicasso(std::map<int, CString> &map_picasso)
 			
 			if (m_st_uiControl.str_Device4!=_T("0"))  //Device 4
 			{
-				if (!m_p_facTestToolInterface->GetFASector(4,0,sz_faData4,sizeof(sz_faData4)))
+				if (!m_p_facTestToolInterface->GetFASector(4,0,sz_faData4,sizeof(sz_faData4), 1)) // 1 = picasso , 2 = dell id
 				{
 					//m_p_facTestToolInterface ->PostRun();
 
@@ -2421,7 +2421,7 @@ bool COthersMultiDlg::CheckPicasso_New()
 		{
 			/* Read FA */
 			char sz_faData[FA_SIZE] = {0};
-			if (!m_p_facTestToolInterface->GetFASector(1,0,sz_faData,sizeof(sz_faData)))
+			if (!m_p_facTestToolInterface->GetFASector(1,0,sz_faData,sizeof(sz_faData), 1)) // 1 = picasso , 2 = dell id
 			{
 				m_str_errorCode = CommErr_UI_Interface_GetFA_Fail;
 				m_str_errorMessage = _T("Read FA Fail!");
@@ -2521,7 +2521,7 @@ bool COthersMultiDlg::CheckPicasso_New()
 		{
 			/* Read FA */
 			char sz_faData[FA_SIZE] = {0};
-			if (!m_p_facTestToolInterface->GetFASector(1,0,sz_faData,sizeof(sz_faData)))
+			if (!m_p_facTestToolInterface->GetFASector(1,0,sz_faData,sizeof(sz_faData), 1)) // 1 = picasso , 2 = dell id
 			{
 				m_str_errorCode = CommErr_UI_Interface_GetFA_Fail;
 				m_str_errorMessage = _T("Read FA Fail!");

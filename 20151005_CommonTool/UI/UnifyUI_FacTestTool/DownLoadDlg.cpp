@@ -1333,7 +1333,7 @@ bool CDownLoadDlg::GetPicasso(std::map<int, CString>& map_picasso)
 				else if (m_st_uiControl.i_FAArea == NEWFA)
 				{
 					CFAOperator_new obj_newFA;
-					if (!m_p_DLInterface->GetFASector(i, 0, sz_readFAData, sizeof(sz_readFAData)))
+					if (!m_p_DLInterface->GetFASector(i, 0, sz_readFAData, sizeof(sz_readFAData), m_st_uiControl.nIdType)) //1=picasso, 2 = dell id
 					{
 						st_UIResult st_result;
 						st_result.i_slot = i;
@@ -1412,7 +1412,7 @@ bool CDownLoadDlg::GetPicassoForOS_DL_AutoRun(std::map<int, CString>& map_picass
 		else if (m_st_uiControl.i_FAArea == NEWFA)
 		{
 			CFAOperator_new obj_newFA;
-			if (!m_p_DLInterface->GetFASector(i_slot, 0, sz_readFAData, sizeof(sz_readFAData)))
+			if (!m_p_DLInterface->GetFASector(i_slot, 0, sz_readFAData, sizeof(sz_readFAData), m_st_uiControl.nIdType))// 1 = picasso, 2 = dell id
 			{
 				st_UIResult st_result;
 				st_result.i_slot = i_slot;
@@ -1591,12 +1591,12 @@ bool CDownLoadDlg::SetParameterToDLL( void )
 
 
 	/* Set SW Version */
-	strTemp.Format(_T("SW_VERSION---%s"),m_st_uiParameter.str_userLoadVer);
+	strTemp.Format(_T("FACTORY_SO---%s"),m_st_uiParameter.str_so);
 	LogMsg(strTemp);
-	if (!m_p_DLInterface->SetParameterValue(SW_VERSION, T2A(m_st_uiParameter.str_userLoadVer)))
+	if (!m_p_DLInterface->SetParameterValue(FACTORY_SO, T2A(m_st_uiParameter.str_so)))
 	{
 		SetMessage(_T("Set SWVersion to DLL Fail."));
-		ShowResultDlg(CommErr_UI_Interface_Setparameter_Fail, _T("初始化失败！\r\n设置SWVersion失败！"));
+		ShowResultDlg(CommErr_UI_Interface_Setparameter_Fail, _T("初始化失败！\r\n设置FACTORY_SO失败！"));
 		return false;
 	}
 
@@ -1615,6 +1615,14 @@ bool CDownLoadDlg::SetParameterToDLL( void )
 		ShowResultDlg(CommErr_UI_Interface_Setparameter_Fail, _T("初始化失败！\r\n设置ToolVersion失败！"));
 		return false;
 	}*/
+
+	//* Set So  */
+	if (!m_p_DLInterface->SetParameterValue(TOOL_VERSION, T2A(m_st_uiParameter.str_toolVer)))
+	{
+		SetMessage(_T("Set Tool Version to DLL Fail."));
+		ShowResultDlg(CommErr_UI_Interface_Setparameter_Fail, _T("初始化失败！\r\n设置ToolVersion失败！"));
+		return false;
+	}
 
 	strTemp.Format(_T("MODEL_NAME---%s"),m_st_uiParameter.str_modelName);
 	LogMsg(strTemp);
@@ -2480,7 +2488,7 @@ bool CHandsetDL::ReadFA(char* sz_picasso)
 	{
 		/* Read FA */
 		char sz_readFAData[512] = {0};
-		if (!(m_p_handsetDLInterface->GetFASector(m_i_slot, 0, sz_readFAData, sizeof(sz_readFAData))))
+		if (!(m_p_handsetDLInterface->GetFASector(m_i_slot, 0, sz_readFAData, sizeof(sz_readFAData), m_p_st_uiControl->nIdType)))//1 = picasso , 2 = dell id
 		{
 			FireUIMessage("Read FA from phone Fail.");
 			return false;
@@ -2712,7 +2720,7 @@ bool CHandsetDL::InitialFA_new()
 
 		/* Read FA */
 		char sz_checkFA[512]={0};
-		if (!m_p_handsetDLInterface->GetFASector(m_i_slot, 0 , sz_checkFA ,sizeof(sz_checkFA)))
+		if (!m_p_handsetDLInterface->GetFASector(m_i_slot, 0 , sz_checkFA ,sizeof(sz_checkFA), m_p_st_uiControl->nIdType)) //1 = picasso , 2 = dell id
 		{
 			FireUIMessage("Read FA Basic data Fail.");
 			return false;

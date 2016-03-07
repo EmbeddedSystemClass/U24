@@ -20,6 +20,8 @@
 #define IDD_DIALOG2                     138
 #define IDD_OTHER_READ                  139
 #define IDD_DIALOG_INIT_S3              140
+#define IDD_DIALOG_INIT_S4              141
+#define IDD_DIALOG_INIT_SO              141
 #define IDC_EDIT_Model                  1000
 #define IDC_EDIT_Line                   1001
 #define IDC_EDIT_PCBA                   1002
@@ -147,6 +149,7 @@
 #define IDC_BUTTON_CYCLETEST            1115
 #define IDC_INIT_EDIT_LINE              1117
 #define IDC_INIT_COMBO_DAYNIGHT         1118
+#define IDC_INIT_EDIT_SO                1119
 #define IDC_LIST_TESTITEM2              1139
 #define IDC_EDIT_RF_ID2                 1140
 #define IDC_LIST_TESTITEM3              1141
@@ -166,7 +169,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        139
 #define _APS_NEXT_COMMAND_VALUE         32771
-#define _APS_NEXT_CONTROL_VALUE         1119
+#define _APS_NEXT_CONTROL_VALUE         1120
 #define _APS_NEXT_SYMED_VALUE           106
 #endif
 #endif

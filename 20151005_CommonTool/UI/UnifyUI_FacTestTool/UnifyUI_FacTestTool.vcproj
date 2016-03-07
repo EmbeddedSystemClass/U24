@@ -391,6 +391,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\InitDlg_SO.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\IPowerSupply.cpp"
 				>
 			</File>
@@ -518,6 +522,10 @@
 			</File>
 			<File
 				RelativePath=".\InitDlg_S3.h"
+				>
+			</File>
+			<File
+				RelativePath=".\InitDlg_SO.h"
 				>
 			</File>
 			<File

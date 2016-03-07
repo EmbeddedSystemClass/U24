@@ -139,6 +139,7 @@ const int WM_EntranceToolToUnifyUI = WM_USER + 0X103;
 
 #define FACTORY_LINE			   "FACTORY_LINE"
 #define FACTORY_DAYNIGHT			   "FACTORY_DAYNIGHT"
+#define FACTORY_SO			   "FACTORY_SO"
 
 
 #define PICASSO_LENGTH  10 //dell  us2416
@@ -183,6 +184,7 @@ struct st_UIIDparameter
 	CString str_Reserve1;
 	CString str_Reserve2;
 	CString str_idtype;
+	CString str_idtype2; // 1 = picasso , 2 = dell id
 	int		i_idLength;
 	bool    b_OpenbyEntranceTool;
 };
@@ -233,7 +235,7 @@ struct st_UIControl
 	CString str_Device3;
 	CString str_Device4;
 	bool b_Multi;
-
+	int  nIdType;
 	bool b_ScanPicasso;
 	bool b_PreScan;
 	bool b_AutoRunPreScan;
@@ -246,9 +248,9 @@ struct st_UIControl
 	bool b_WriteFA;
 	int  i_FAArea;
 	int i_ToolTimeout;
-	bool b_ScanTag;
-	bool b_WriteTag;
-	bool b_ReadTag;
+//	bool b_ScanTag;
+//	bool b_WriteTag;
+//	bool b_ReadTag;
 	bool b_WriteTagFrame;
 	bool b_S3DDC; 
 	bool b_S3SO; 

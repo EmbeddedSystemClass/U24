@@ -170,7 +170,7 @@ interface IFacTestToolInterface : public QSYNC_LIB::INotifyBase_Char
 	virtual bool GetFAData(int i_slot, char* sz_value, int i_size) = 0;
 
 	/*Get/Set FA Sector Data*/
-	virtual bool GetFASector(int i_slot, int i_sectorNum, char *sz_sectorData, int i_sectorSize) = 0;
+	virtual bool GetFASector(int i_slot, int i_sectorNum, char *sz_sectorData, int i_sectorSize , int i_idType) = 0;
 	virtual bool SetFASector(int i_slot, int i_sectorNum, char *sz_sectorData, int i_sectorSize) = 0;
 	virtual bool SetTag(int i_slot, char *sz_sectorData, int i_sectorSize) = 0;
 	virtual bool SetSn(int i_slot, char *sz_sectorData, int i_sectorSize) = 0;
