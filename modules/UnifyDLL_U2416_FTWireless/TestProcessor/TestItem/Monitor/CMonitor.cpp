@@ -100,16 +100,23 @@ bool CMonitor::Run()
 	{
 		m_strItemCode = CStr::IntToStr(Monitor_BaseItemcode);
 		m_strErrorCode = FunErr_GET_HDCP_KEY_Fail;
-		passFail = runGetHDCPKEY();
+		passFail = runGetHDCPKEY(2); // 2 by dell id
 		//passFail = bGetNewHDCPKEY( sz_value);
-	}else if (m_str_TestItem == WriteHDCP) 
+	}
+	else if (m_str_TestItem == WriteHDCP) 
 	{
 		m_strItemCode = CStr::IntToStr(Monitor_BaseItemcode);
 		m_strErrorCode = FunErr_GET_HDCP_KEY_Fail;
 		passFail = runWriteHDCPKEY();
 		//passFail = bGetNewHDCPKEY( sz_value);
 	}
-	
+	else if (m_str_TestItem == WriteHDCP_CSD) 
+	{
+		m_strItemCode = CStr::IntToStr(Monitor_BaseItemcode);
+		m_strErrorCode = FunErr_GET_HDCP_KEY_Fail;
+		passFail = runWriteHDCPKEY_CSD();
+		//passFail = bGetNewHDCPKEY( sz_value);
+	}	
 	else if (m_str_TestItem == CheckSWVersion)
 	{
 		m_strItemCode = CStr::IntToStr(Monitor_BaseItemcode);
@@ -2068,7 +2075,7 @@ Exit_ShowResult:
 //	return bRes;
 //}
 
-bool CMonitor::runWriteHDCPKEY()
+bool CMonitor::runWriteHDCPKEY_CSD()
 {
 	CString cs_write_cmd = "";
 	//FTD_HDCPKEY
@@ -2082,7 +2089,7 @@ bool CMonitor::runWriteHDCPKEY()
 	memset(sz_cmd_out, 0, sizeof(sz_cmd_out));
 	memset(sz_cmd_errcode, 0, sizeof(sz_cmd_errcode));
 
-	if ( !(runGetHDCPKEY()) ){
+	if ( !(runGetHDCPKEY(1)) ){// 1 by picasso 
 		ErrMsg = (_T("runWriteHDCPKEY - runGetHDCPKEY Fail"));
 		TraceLog(MSG_INFO,  ErrMsg);
 		goto  Exit_ShowResult;
@@ -2142,7 +2149,7 @@ bool CMonitor::runWriteHDCPKEY()
 	Sleep(200);
 	/*update key , mac/wifi address*/
 
-	if ( !(bRes = bUpdateKEYWrite() ))
+	if ( !(bRes = bUpdateKEYWrite(1) )) //1 update by picasso 
 	{
 		ErrMsg = _T("bUpdateKEYWrite Fail");
 		AfxMessageBox( ErrMsg.c_str() );
@@ -2171,7 +2178,111 @@ Exit_ShowResult:
 	FactoryLog();
 	return bRes;
 }
-bool CMonitor::runGetHDCPKEY()
+
+bool CMonitor::runWriteHDCPKEY()
+{
+	CString cs_write_cmd = "";
+	//FTD_HDCPKEY
+	bool bRes = false;
+	std::string st_readId = "";
+	char sz_cmd_in[FTD_BUF_SIZE] ="";
+	char sz_cmd_out[FTD_BUF_SIZE] ="";
+	char sz_cmd_errcode[FTD_BUF_SIZE] ="";
+
+	memset(sz_cmd_in, 0, sizeof(sz_cmd_in));
+	memset(sz_cmd_out, 0, sizeof(sz_cmd_out));
+	memset(sz_cmd_errcode, 0, sizeof(sz_cmd_errcode));
+
+	if ( !(runGetHDCPKEY(2)) ){ // by dell id
+		ErrMsg = (_T("runWriteHDCPKEY - runGetHDCPKEY Fail"));
+		TraceLog(MSG_INFO,  ErrMsg);
+		goto  Exit_ShowResult;
+	}
+
+	ErrMsg = _T("runGetHDCPKEY ok");
+	TraceLog(MSG_INFO,  ErrMsg);		
+
+	strcpy(sz_cmd_in, _T("remount"));
+	if ( !ExecAdbOut(sz_cmd_in, sz_cmd_out, sz_cmd_errcode) ){
+		ErrMsg = (_T("remount Fail"));
+		AfxMessageBox( ErrMsg.c_str() );
+		TraceLog(MSG_INFO,  ErrMsg);
+		goto  Exit_ShowResult;
+	}	
+	
+	Sleep(1000);
+	ErrMsg = _T("remount ok");
+	TraceLog(MSG_INFO,  ErrMsg);		
+
+	strcpy(sz_cmd_in, _T("push cek.dat /cache/cek.dat"));
+	if ( !ExecAdbOut(sz_cmd_in, sz_cmd_out, sz_cmd_errcode) ){
+		ErrMsg = (_T("push cek.da Fail"));
+		AfxMessageBox( ErrMsg.c_str() );
+		TraceLog(MSG_INFO,  ErrMsg);
+		goto  Exit_ShowResult;
+	}	
+
+	ErrMsg = _T("push cek.dat /cache/cek.dat  ok");
+	TraceLog(MSG_INFO,  ErrMsg);		
+
+	cs_write_cmd.Format(_T("push %s /cache/pm.out"), cs_local_key_path);
+	sprintf_s((char*)sz_cmd_in, MAX_PATH, "%s", cs_write_cmd);
+	
+	//strcpy(sz_cmd_in, _T("push 00001_PM.out  /cache/pm.out"));
+	if ( !ExecAdbOut(sz_cmd_in, sz_cmd_out, sz_cmd_errcode) ){
+		ErrMsg = (_T("push cek.dat Fail"));
+		AfxMessageBox( ErrMsg.c_str() );
+		TraceLog(MSG_INFO,  ErrMsg);
+		goto  Exit_ShowResult;
+	}	
+
+	ErrMsg = _T("push cek.dat ok");
+	TraceLog(MSG_INFO,  ErrMsg);		
+
+	if (!(bRes = m_pIPhone->FTD_HDCPKEY(m_nFtdPort, m_nFtdTimeOut, sz_cmd_in, sz_cmd_out)))
+	{
+		ErrMsg = _T("Check FTD_HDCPKEY Fail");
+		AfxMessageBox( ErrMsg.c_str() );
+		TraceLog(MSG_INFO, ErrMsg);
+		goto  Exit_ShowResult;
+	}
+
+	ErrMsg = _T("Check FTD_HDCPKEY PASS");
+	TraceLog(MSG_INFO, ErrMsg);
+
+	Sleep(200);
+	/*update key , mac/wifi address*/
+
+	if ( !(bRes = bUpdateKEYWrite(2 ) )) //update by dell id
+	{
+		ErrMsg = _T("bUpdateKEYWrite Fail");
+		AfxMessageBox( ErrMsg.c_str() );
+		TraceLog(MSG_INFO, ErrMsg);
+		goto  Exit_ShowResult;
+	}
+	else
+	{
+		ErrMsg = _T("bUpdateKEYWrite PASS");
+		TraceLog(MSG_INFO, ErrMsg);
+	}
+	
+Exit_ShowResult:
+	if ( !bRes) {
+		m_strResult = "FAIL";
+	}
+	else
+	{
+		m_strErrorCode = "-";
+		m_strResult = "PASS";
+	}
+
+
+	str_msg = ErrMsg;
+	m_strMessage = str_msg;
+	FactoryLog();
+	return bRes;
+}
+bool CMonitor::runGetHDCPKEY(int nIdtype)
 {
 	bool bRes = false;
 	char *sz_value = new char[ID_SIZE_BUFFER]  ;
@@ -2196,16 +2307,28 @@ bool CMonitor::runGetHDCPKEY()
 	ShExecInfo.hInstApp = NULL;
 
 
+	if ( nIdtype == 2 ) {// by dell id
 	/*ok but skip*/
-	if ( !(runReadScalarID( sz_value, ID_SIZE))) {
-		ErrMsg = _T("runGetHDCPKEY fail");
-		TraceLog(MSG_INFO,  ErrMsg);		
-		goto Exit_ShowResult;
+		if ( !(runReadScalarID( sz_value, ID_SIZE))) {
+			ErrMsg = _T("runGetHDCPKEY fail");
+			TraceLog(MSG_INFO,  ErrMsg);		
+			goto Exit_ShowResult;
+		}
+		sprintf_s((char*)sz_value, ID_SIZE_BUFFER, "%s", std_ScalarId.c_str());//station name (before this station)
 	}
-	
-//	std_ScalarId = _T("F1008B28887");
+	else 
+	{
+		if ( g_strPicasso.empty()) {
+			ErrMsg = "  picasso is empty = " ;
+			ErrMsg =  ErrMsg + g_strPicasso.c_str() ;
+			TraceLog(MSG_INFO,  ErrMsg);
+			AfxMessageBox(ErrMsg.c_str());
+			goto Exit_ShowResult;
+		}
+		sprintf_s((char*)sz_value, ID_SIZE_BUFFER, "%s", g_strPicasso.c_str());//station name (before this station)
+	}
 
-	sprintf_s((char*)sz_value, ID_SIZE_BUFFER, "%s", std_ScalarId.c_str());//station name (before this station)
+	
 
 	if (  (brunGetExistHDCPKEY( sz_value)) ){
 		ErrMsg = _T("brunGetExistHDCPKEY  true, already exist  key");
@@ -2314,20 +2437,6 @@ Exit_ShowResult:
 	delete[] sz_value;
 	return bRes;
 
-
-	brunGetExistHDCPKEY("F1008B28888" );
-
-	bGetNewHDCPKEY("F1008B28887" );
-	bGetNewHDCPKEY("F1008B28888" );
-	//stKEY = szKEY;
-	//AfxMessageBox("Get F1008B28887");
-	//AfxMessageBox( std_Key_Id.c_str());
-
-//	stKEY = szKEY;
-	//AfxMessageBox("Get F1008B28888");
-//	AfxMessageBox( std_Key_Id.c_str());
-	
-	//return bRes;
 }
 bool  CMonitor::checkFileExist(CString csFilePath){
 	std::string std_filePath = csFilePath;
@@ -2403,7 +2512,7 @@ bool CMonitor::bGetNewHDCPKEY(char *scalarID)
 	}
 }
 
-bool CMonitor::bUpdateKEYWrite(){
+bool CMonitor::bUpdateKEYWrite(int nIdtype){
 	ErrMsg = "start bUpdateKEYWrite Sleep 3000...";
 	TraceLog(MSG_INFO, ErrMsg);
 
@@ -2461,12 +2570,20 @@ bool CMonitor::bUpdateKEYWrite(){
 			TraceLog(MSG_INFO, ErrMsg);
 
 			//std_Key_Id
-			sprintf_s((char*)szScarlarId , ID_SIZE_BUFFER, "%s", std_ScalarId.c_str());
+			if ( nIdtype == 2)// scalar id 
+			{
+				sprintf_s((char*)szScarlarId , ID_SIZE_BUFFER, "%s", std_ScalarId.c_str());
+			}
+			else  if ( nIdtype == 1) //pcba id
+			{
+				sprintf_s((char*)szScarlarId , ID_SIZE_BUFFER, "%s", g_strPicasso.c_str());
+			}
+		///	sprintf_s((char*)szScarlarId , ID_SIZE_BUFFER, "%s", std_ScalarId.c_str());
 			sprintf_s((char*)szKeyID, ID_SIZE_BUFFER, "%s", std_Key_Id.c_str());
 			sprintf_s((char*)szServerId, ID_SIZE_BUFFER, "%s", g_strTag.c_str());
 
 			CString iUpdateKEYWriteCmd;
-			iUpdateKEYWriteCmd.Format(_T("szKeyID = %s, szScarlarId = %s, szWifiOutput = %s , szBTOutput = %s, szServerId = %s "), szKeyID,  szScarlarId, szWifiOutput, szBTOutput, szServerId);
+			iUpdateKEYWriteCmd.Format(_T("szKeyID = %s, szId = %s, szWifiOutput = %s , szBTOutput = %s, szServerId = %s "), szKeyID,  szScarlarId, szWifiOutput, szBTOutput, szServerId);
 			ErrMsg = "iUpdateKEYWrite cmd = " + iUpdateKEYWriteCmd;
 			TraceLog(MSG_INFO,  ErrMsg);
 

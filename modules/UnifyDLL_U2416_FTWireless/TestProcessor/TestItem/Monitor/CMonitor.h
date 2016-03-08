@@ -26,6 +26,7 @@
 #define CheckAllFlow				"CheckAllFlow"
 #define InsertData					"InsertData"
 #define WriteHDCP				"WriteHDCP"
+#define WriteHDCP_CSD				"WriteHDCP_CSD"
 #define WriteTag					"WriteTag"
 #define WriteCSDTag					"WriteCSDTag"
 #define CheckTag					"CheckTag"
@@ -134,8 +135,9 @@ private:
 	bool GetPartNo();
 	bool GetModelByPartNo();
 	bool changeModel();
-	bool runGetHDCPKEY();
+	bool runGetHDCPKEY(int nIdtype);
 	bool runWriteHDCPKEY();
+	bool runWriteHDCPKEY_CSD();
 	bool runCheckTag();
 	bool runWriteTag();
 	bool runWriteCSDTag();
@@ -144,7 +146,7 @@ private:
 	bool runInsertData(int i_type);
 	bool runCheckFlow( int i_type);// i_type 1 = pcbaid,  2 = scalarId
 	bool runCheckFlowAllStation( int i_type);// i_type 1 = pcbaid,  2 = scalarId
-	bool bUpdateKEYWrite();
+	bool bUpdateKEYWrite(int nIdtype); // 1 = picasso, 2 = scalar
 	bool runReadScalarID( char *szvalue, int iSize );
 	bool runCheckPCBAID( char *szvalue );
 	bool runCheckModel();

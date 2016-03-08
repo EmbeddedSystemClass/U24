@@ -313,17 +313,18 @@ bool CDLInstance::Run(int i_slot)
 	if ( i_checkSWVersion_CSD == 1 ){//check by picasso & so number
 		CMonitorPartNo CMPartNO;
 		if ( !(CMPartNO.SearchPartNo(m_str_so.GetBuffer(0)) ) ){
-				ErrMsg = (_T("runCheckSWversionByDB_CSD  SearchPartNo  Fail, g_strSo = ")) ;
+				ErrMsg = (_T("runCheckSWversionByDB_CSD  SearchPartNo  Fail, m_str_so = ")) ;
 				ErrMsg = ErrMsg + + m_str_so.GetBuffer(0);
 				SetErrorMessage(ErrMsg.c_str(),  0);
 		}
 		else
 		{
-			ErrMsg = (_T("runCheckSWversionByDB_CSD  SearchPartNo  ok , g_strSo = ")) ;
-			ErrMsg = ErrMsg + + m_str_so.GetBuffer(0);
+			ErrMsg = (_T("runCheckSWversionByDB_CSD  SearchPartNo  ok , m_szPartNo = ")) ;
+			ErrMsg = ErrMsg + CMPartNO.GetPartNo();
+			m_szPartNo = CMPartNO.GetPartNo();
 			SetErrorMessage(ErrMsg.c_str(),  0);
 		}
-		m_str_so.ReleaseBuffer();
+	//	m_str_so.ReleaseBuffer();
 	//	m_szPartNo = CMPartNO.GetPartNo();
 
 
