@@ -863,7 +863,7 @@ bool CUnifyDLL_FTWireless::PreRun(int i_slot)
 	m_pITool->KillADBThread();
 
 	///* Set log file name again in every run */
-	//SetLogFileName();
+	SetLogFileName();
 
 	/* 2. Initial Relay Board */
 	if ( !(b_Res = m_pITool->InitialRelayBoard()))
@@ -1222,6 +1222,12 @@ bool CUnifyDLL_FTWireless::SetParameterValue(char* sz_keyword, char* sz_value)
 		str_temp.Format(_T("%s"), sz_value);
 		m_str_sn = str_temp;
 	}
+	else if (strcmp(sz_keyword, "FACTORY_SO") == 0)
+	{
+		m_pITool->SetSo(sz_value);
+		str_temp.Format(_T("%s"), sz_value);
+		m_str_so = str_temp;
+	}
 	else if (strcmp(sz_keyword, "LINE") == 0)
 	{
 		m_pITool->SetLine(sz_value);
@@ -1417,7 +1423,7 @@ bool CUnifyDLL_FTWireless::SetFAData(int i_slot, char* sz_value)
 	return false;
 }
  
-bool CUnifyDLL_FTWireless::GetFASector(int i_slot, int i_sectorNum, char *sz_sectorData, int i_sectorSize)
+bool CUnifyDLL_FTWireless::GetFASector(int i_slot, int i_sectorNum, char *sz_sectorData, int i_sectorSize, int i_idType)
 {
 	TRACE("msg=%s",m_str_station);
 	if (!m_pITool->ReadFAData_New( i_slot, i_sectorNum, sz_sectorData, i_sectorSize))
@@ -1427,9 +1433,10 @@ bool CUnifyDLL_FTWireless::GetFASector(int i_slot, int i_sectorNum, char *sz_sec
 		return false;
 	}
 
-	if (  m_str_station.Compare("RUN_IN")  == 0 ||
-		  m_str_station.Compare("WRITE") == 0 ||
-		  m_str_station.Compare("MMI") == 0 )
+	//if (  m_str_station.Compare("RUN_IN")  == 0 ||
+	//	  m_str_station.Compare("WRITE") == 0 ||
+	//	  m_str_station.Compare("MMI") == 0 )
+   if ( i_idType == 2 )// dell id 
 	{	
 		if ( Id.ReadId() ){/*get scalar id ok*/
 			m_szId = Id.GetId();

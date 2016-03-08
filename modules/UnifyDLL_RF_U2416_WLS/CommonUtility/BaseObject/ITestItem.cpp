@@ -261,7 +261,7 @@ bool ITestItem::GetFAData( int i_slot, char* sz_value, int i_size )
 	return true;
 }
 
-bool ITestItem::GetFASector( int i_slot, int i_sectorNum, char *sz_sectorData, int i_sectorSize )
+bool ITestItem::GetFASector( int i_slot, int i_sectorNum, char *sz_sectorData, int i_sectorSize, int i_idType )
 {
 	return true;
 }

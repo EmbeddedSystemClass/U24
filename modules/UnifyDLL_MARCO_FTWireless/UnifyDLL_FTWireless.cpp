@@ -1375,7 +1375,7 @@ bool CUnifyDLL_FTWireless::SetFAData(int i_slot, char* sz_value)
 	return false;
 }
  
-bool CUnifyDLL_FTWireless::GetFASector(int i_slot, int i_sectorNum, char *sz_sectorData, int i_sectorSize)
+bool CUnifyDLL_FTWireless::GetFASector(int i_slot, int i_sectorNum, char *sz_sectorData, int i_sectorSize, int i_idType)
 {
 	TRACE("msg=%s",m_str_station);
 	if (!m_pITool->ReadFAData_New( i_slot, i_sectorNum, sz_sectorData, i_sectorSize))
@@ -1388,25 +1388,26 @@ bool CUnifyDLL_FTWireless::GetFASector(int i_slot, int i_sectorNum, char *sz_sec
 	//if (  m_str_station.Compare("RUN_IN")  == 0 ||
 	//	  m_str_station.Compare("WRITE") == 0 ||
 	//	  m_str_station.Compare("MMI") == 0 )
-	//{	
-	//	if ( Id.ReadId() ){/*get scalar id ok*/
-	//		m_szId = Id.GetId();
-	//		if(m_szId.empty() || m_szId.length() != ID_SIZE)
-	//		{	
-	//			m_szErrMsg = "get scalar id Fail  = ";//  + std_ScalarId.c_str();
-	//			m_szErrMsg = m_szErrMsg + m_szId.c_str();
-	//			AfxMessageBox( m_szErrMsg.c_str());
-	//		}
-	//		else
-	//		{
-	//			//	m_szId = "a1234567899";
-	//			m_szId = m_szId + ",";
-	//			std::string str_faData = sz_sectorData;
-	//			str_faData.replace(14, 12, m_szId);
-	//			sprintf_s( sz_sectorData , 512, "%s", str_faData.c_str());
-	//		}
-	//	}
-	//}
+   if ( i_idType == 2 )// 1 picasso , 2 dell id 
+	{	
+		if ( Id.ReadId() ){/*get scalar id ok*/
+			m_szId = Id.GetId();
+			if(m_szId.empty() || m_szId.length() != ID_SIZE)
+			{	
+				m_szErrMsg = "get scalar id Fail  = ";//  + std_ScalarId.c_str();
+				m_szErrMsg = m_szErrMsg + m_szId.c_str();
+				AfxMessageBox( m_szErrMsg.c_str());
+			}
+			else
+			{
+				//	m_szId = "a1234567899";
+				m_szId = m_szId + ",";
+				std::string str_faData = sz_sectorData;
+				str_faData.replace(14, 12, m_szId);
+				sprintf_s( sz_sectorData , 512, "%s", str_faData.c_str());
+			}
+		}
+	}
 
 	return true;
 }

@@ -20,6 +20,7 @@
 #include "Project/U2416.h"
 #include "global.h"
 #include "io.h"
+#include "Monitor/MonitorPartNo.h"
 #include "Monitor/MonitorId.h"
 //#include "Monitor/CommonDefine.h"
 #include <direct.h>
@@ -52,6 +53,7 @@
 #define   TOOL_MODE              _T("TOOL_MODE")
 #define   MODEL_NAME             _T("MODEL_NAME")
 #define   CUSTOMER_SW_VER        _T("Customer_SW_ver")
+#define   FACTORY_SO        _T("FACTORY_SO")
 
 #define   PARAMETER_ONE          _T("IMAGEPATH")
 #define   PARAMETER_TWO          _T("COM")
@@ -107,7 +109,7 @@ public:
 	virtual bool GetParameterValue(char* sz_keyword, char* sz_value, int i_size);
 	virtual bool SetFAData(int i_slot, char* sz_value);
 	virtual bool GetFAData(int i_slot, char* sz_value, int i_size);
-	virtual bool GetFASector(int i_slot, int i_sectorNum, char *sz_sectorData, int i_sectorSize);
+	virtual bool GetFASector(int i_slot, int i_sectorNum, char *sz_sectorData, int i_sectorSize , int i_idType);
 	virtual bool SetFASector(int i_slot, int i_sectorNum, char *sz_sectorData, int i_sectorSize);
 	virtual bool SetTag(int i_slot, char *sz_sectorData, int i_sectorSize);
 	virtual bool SetSn(int i_slot, char *sz_sectorData, int i_sectorSize);
@@ -165,6 +167,7 @@ private:
 	//bool                         m_b_checkFlow;     
 	bool                         m_b_insertData;  
 	int                          i_checkSWVersion;     
+	int                          i_checkSWVersion_CSD;  
 	CString						 str_prestation;
 	CString						 str_SWVersion;
 	int								i_checkflow;
@@ -178,6 +181,7 @@ private:
 	std::map<int, CString>	     m_map_picassoList;         // Slot <-> Picasso
 	//CString						cs_Picasso;
 	CString                      m_str_SWVersion;           // SW version
+	CString                      m_str_so;           // SW version
 	CString                      m_str_HWVersion;           // HW version
 	CString                      m_str_ToolVersion;         // Tool version
 	std::map<CString, CString>	 m_map_parameterList;      // keyword <-> value;

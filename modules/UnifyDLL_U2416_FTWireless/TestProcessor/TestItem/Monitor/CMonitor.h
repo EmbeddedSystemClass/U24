@@ -35,6 +35,7 @@
 #define Precmd					"Precmd"
 #define PlayVideo					"PlayVideo"
 #define CheckSWversionByDB "CheckSWversionByDB"
+#define CheckSWversionByDB_CSD "CheckSWversionByDB_CSD"
 
 #define DNULL                        "NULL"
 #define DREAD	                       "READ"
@@ -149,6 +150,7 @@ private:
 	bool runCheckModel();
 	bool runCheckSWversion();
 	bool runCheckSWversionByDB();
+	bool runCheckSWversionByDB_CSD();
 	bool GetSWVersionFromDB();
 	bool runPostCmd( );
 	bool runPreCmd( );

@@ -56,6 +56,7 @@ private:
 	CString m_str_ToolMode;
 	CString m_str_picasso;
 	CString m_str_tag;
+	CString m_str_so;
 	CString m_str_sn;
 	CString m_str_line;
 	CString m_str_daynight;
@@ -117,7 +118,7 @@ public:
 	virtual bool GetFAData(int i_slot, char* sz_value, int i_size);
 
 	/* Set/Get FA Sector Data */
-	virtual bool GetFASector(int i_slot, int i_sectorNum, char *sz_sectorData, int i_sectorSize);
+	virtual bool GetFASector(int i_slot, int i_sectorNum, char *sz_sectorData, int i_sectorSize, int i_idType);
 	virtual bool SetFASector(int i_slot, int i_sectorNum, char *sz_sectorData, int i_sectorSize);
 	virtual bool SetTag(int i_slot, char *sz_sectorData, int i_sectorSize);
 	virtual bool SetSn(int i_slot, char *sz_sectorData, int i_sectorSize);

@@ -34,7 +34,7 @@ public:
 	virtual bool SetFAData(char* szValue) = 0;
 	virtual bool MyExecAdbCmd(const char* chCmd, char **chReturn, bool bWithShell) = 0;
 	/*Get/Set FA Sector Data*/
-	virtual bool GetFASector(int i_sectorNum, char *sz_sectorData, int i_sectorSize) = 0;
+	virtual bool GetFASector(int i_sectorNum, char *sz_sectorData, int i_sectorSize, int i_idType) = 0;
 	virtual bool SetFASector(int i_sectorNum, char *sz_sectorData, int i_sectorSize) = 0;
 
 	virtual bool GetFAData_QMSL(char* szValue, int iSize) = 0;

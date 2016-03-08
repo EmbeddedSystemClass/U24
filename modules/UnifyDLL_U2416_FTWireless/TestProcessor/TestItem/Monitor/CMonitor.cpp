@@ -122,6 +122,12 @@ bool CMonitor::Run()
 		m_strErrorCode = FunErr_Check_SWVERSION_Fail;
 		passFail = runCheckSWversionByDB();
 	}	
+	else if (m_str_TestItem == CheckSWversionByDB_CSD)
+	{
+		m_strItemCode = CStr::IntToStr(Monitor_BaseItemcode);
+		m_strErrorCode = FunErr_Check_SWVERSION_Fail;
+		passFail = runCheckSWversionByDB_CSD();
+	}	
 	else if (m_str_TestItem == CheckModel)
 	{
 		m_strItemCode = CStr::IntToStr(Monitor_BaseItemcode);
@@ -736,6 +742,103 @@ bool CMonitor::brunGetExistHDCPKEY(char *scalarID)
 	}
 }
 
+bool CMonitor::runCheckSWversionByDB_CSD()
+{
+	bool bRes = false;;
+	//std::string st_readId = "";
+	CString csTmp;
+	char sz_cmd_in[FTD_BUF_SIZE] ="";
+	char sz_cmd_out[FTD_BUF_SIZE] ="";
+	char sz_cmd_errcode[FTD_BUF_SIZE] ="";
+	char *sz_value = new char[ID_SIZE_BUFFER]  ;
+//	std::string stPartNo;
+
+	std::string std_SoftWareVersion = "";
+	CString cs_SoftWareVersion= "";
+
+	CMonitorPartNo CMPartNO;
+	if ( !(CMPartNO.SearchPartNo(g_strSo) ) ){
+			ErrMsg = (_T("runCheckSWversionByDB_CSD  SearchPartNo  Fail, g_strSo = ")) + g_strSo;
+			AfxMessageBox( ErrMsg.c_str() );
+		
+			goto Exit_ShowResult;
+	}
+	else
+	{
+		ErrMsg = (_T("runCheckSWversionByDB_CSD  SearchPartNo  ok , g_strSo = ")) + g_strSo;
+		TraceLog(MSG_INFO,  ErrMsg);
+	}
+	
+	m_szPartNo = CMPartNO.GetPartNo();
+
+	csTmp.Format("m_szPartNo = %s, m_szPartNo size = %d ",m_szPartNo.c_str(),  m_szPartNo.size ());
+	TraceLog(MSG_INFO,  csTmp.GetBuffer(0));
+
+	if (!GetModelByPartNo()) return false;
+
+	memset(sz_cmd_in, 0, sizeof(sz_cmd_in));
+	memset(sz_cmd_out, 0, sizeof(sz_cmd_out));
+	memset(sz_cmd_errcode, 0, sizeof(sz_cmd_errcode));
+
+
+	if ( m_ModelName.length() < 1 ){
+			ErrMsg = (_T("runCheckSWversionByDB_CSD ModelName  Fail, Model = ")) + m_ModelName;
+			AfxMessageBox( ErrMsg.c_str() );
+			goto Exit_ShowResult;
+	}
+
+	cs_DBModelNamel = m_ModelName.c_str();
+	cs_DBModelNamel.Trim();
+
+	if (!changeModel()) return false;
+	if (!GetSWVersionFromDB()) return false;	
+
+	strcpy(sz_cmd_in, _T("shell getprop ro.build.oemversion.main"));
+	if ( !ExecAdbOut(sz_cmd_in, sz_cmd_out, sz_cmd_errcode) ){
+		ErrMsg = (_T("adb shell getprop ro.build.oemversion.main fail"));
+		AfxMessageBox( ErrMsg.c_str() );
+		goto  Exit_ShowResult;
+	}	
+	//Sleep(200);
+	std_SoftWareVersion = (char*)sz_cmd_out;
+	cs_SoftWareVersion.Format(_T("%s"),  sz_cmd_out);
+	cs_SoftWareVersion.Trim();
+
+
+	if (cs_SoftWareVersion.Find(m_szSWver.c_str()) == -1 ){
+		CString cs;
+		cs.Format(_T("Check SoftWare Version Fail£¬DB Version = %s  Current DL Version = %s"), m_szSWver.c_str(),  cs_SoftWareVersion);
+		::MessageBox(NULL, cs.GetBuffer(0), _T("Warnning!!"), MB_TASKMODAL|MB_TOPMOST);
+		ErrMsg = cs;
+		goto  Exit_ShowResult;
+	}
+	else
+	{
+		CString cs;
+		cs.Format(_T("Check SoftWare Version pass£¬DB Version = %s  Current DL Version = %s"), m_szSWver.c_str(),  cs_SoftWareVersion);
+		ErrMsg = cs;
+		bRes = true;
+	}
+
+	
+Exit_ShowResult:
+	if ( !bRes) {
+		m_strResult = "FAIL";
+	}
+	else
+	{
+		m_strErrorCode = "-";
+		m_strResult = "PASS";
+	}
+
+	TraceLog(MSG_INFO,  ErrMsg);
+	delete[] sz_value;
+	str_msg = ErrMsg;
+	m_strMessage = str_msg;
+	FactoryLog();
+	return bRes;
+}
+
 bool CMonitor::runCheckSWversionByDB()
 {
 	bool bRes = false;;
@@ -1159,6 +1262,7 @@ Exit_FreeLibrary:
 
 bool CMonitor::GetModelByPartNo()
 {
+	TraceLog(MSG_INFO,  "Start GetModelByPartNo");
 	bool bReturn = false;
 	CString str_dllF32SERVER2 = F32SERVERDB;
 
@@ -1182,7 +1286,7 @@ bool CMonitor::GetModelByPartNo()
 
          if(NULL != iGetMonitorInfoByPartNo)
          {    
-			 unsigned char szPartNo[]="9j.2vm72.dlu";
+			 unsigned char szPartNo[30]= {0};
               unsigned char szWbcFileName[30]= {0};
               unsigned char szModelName[30] = {0};
               unsigned char szDdcFileName[30] = {0};
@@ -1190,7 +1294,7 @@ bool CMonitor::GetModelByPartNo()
               unsigned char szSwInfo[30] = {0};
               unsigned char szPort[30] = {0};
 
-			 sprintf_s((char*)szPartNo, 13,"%s", m_szPartNo.c_str() );
+			 sprintf_s((char*)szPartNo, 30,"%s", m_szPartNo.c_str() );
 
 			 iGetMonitorInfoByPartNo(szPartNo,13,szWbcFileName,30,szModelName,30,szDdcFileName,30,szInfo,30,szSwInfo,30,szPort,30);
 
@@ -1226,6 +1330,7 @@ Exit_FreeLibrary:
 	TraceLog(MSG_INFO,  ErrMsg);
     FreeLibrary(hDll);
 
+	TraceLog(MSG_INFO,  "End GetModelByPartNo");
 	return bReturn;
 }
 
@@ -1238,15 +1343,15 @@ bool CMonitor::changeModel(){
 	{
 		cs_modelName_cmonitor = _T("GBROB1A");
 		ErrMsg = (_T("set  m_str_modelName  = "));
-	//	ErrMsg  = ErrMsg + m_str_modelName;
-	//	st_XMLSetting = m_str_CMD;
+		ErrMsg  = ErrMsg + cs_modelName_cmonitor.GetBuffer(0);
+		cs_modelName_cmonitor.ReleaseBuffer();
 	}
 	else 	if (cs_DBModelNamel.Compare( _T("S2317HWi") ) == 0 )
 	{
 		cs_modelName_cmonitor = _T("GBROB2A");
 		ErrMsg = (_T("set  m_str_modelName  = GBROB2A"));
-	//	ErrMsg  = ErrMsg + m_str_modelName;
-	//	st_XMLSetting = m_str_OffCMD;
+		ErrMsg  = ErrMsg + cs_modelName_cmonitor.GetBuffer(0);
+		cs_modelName_cmonitor.ReleaseBuffer();
 	}
 	else
 	{

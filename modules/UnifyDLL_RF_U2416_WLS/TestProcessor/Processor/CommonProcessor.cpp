@@ -494,7 +494,7 @@ bool CCommonProcessor::GetFAData(int i_slot, char* sz_value, int i_size)
 	return true;
 }
 
-bool CCommonProcessor::GetFASector( int i_slot, int i_sectorNum, char *sz_sectorData, int i_sectorSize )
+bool CCommonProcessor::GetFASector( int i_slot, int i_sectorNum, char *sz_sectorData, int i_sectorSize , int i_idType)
 {
 	// 1. CreatePhoneObject
 	if (! m_pIPhone)
@@ -576,7 +576,7 @@ bool CCommonProcessor::GetFASector( int i_slot, int i_sectorNum, char *sz_sector
 	if (bIsConnected)
 	{
 		FactoryLog(true, "Initial_Phone", "--", "--", "--", "--", "--", "", "--", "Connect FTD PASS");
-		if (! m_pIPhone->GetFASector(i_sectorNum,sz_sectorData,i_sectorSize))
+		if (! m_pIPhone->GetFASector(i_sectorNum,sz_sectorData,i_sectorSize, i_idType))
 		{
 			
 			TraceLog(MSG_ERROR, "Fail to get FA with Qisda module");

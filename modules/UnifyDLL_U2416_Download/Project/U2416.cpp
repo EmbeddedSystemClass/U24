@@ -1234,7 +1234,7 @@ bool CU2416::ReadFASector(int i_sectorNum, char *sz_sectorData, int i_sectorSize
 	//obj_download8994.SetSupportQDownloadFlag(m_i_SupportQDownload);
 
 	/* Read FA */
-	b_res = obj_download8994.ReadFASector(i_sectorNum, sz_sectorData, i_sectorSize, m_i_idtype);
+	b_res = obj_download8994.ReadFASector(i_sectorNum, sz_sectorData, i_sectorSize, i_idtype);
 
 	obj_download8994.Unregister(this, EVENT_DL_PROGRESS);
 

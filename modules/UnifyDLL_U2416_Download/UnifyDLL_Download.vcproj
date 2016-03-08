@@ -1437,6 +1437,14 @@
 				RelativePath=".\Monitor\MonitorId.h"
 				>
 			</File>
+			<File
+				RelativePath=".\Monitor\MonitorPartNo.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Monitor\MonitorPartNo.h"
+				>
+			</File>
 		</Filter>
 		<File
 			RelativePath=".\ReadMe.txt"

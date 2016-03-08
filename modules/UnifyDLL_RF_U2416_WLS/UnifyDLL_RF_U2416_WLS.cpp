@@ -441,9 +441,9 @@ bool CUnifyDLL_WLS::GetFAData(int i_slot, char* sz_value, int i_size)
 	return m_pITool->GetFAData(i_slot, sz_value, i_size);
 }
 
-bool CUnifyDLL_WLS::GetFASector( int i_slot, int i_sectorNum, char *sz_sectorData, int i_sectorSize )
+bool CUnifyDLL_WLS::GetFASector( int i_slot, int i_sectorNum, char *sz_sectorData, int i_sectorSize, int i_idType )
 {
-	return m_pITool->GetFASector(i_slot,i_sectorNum,sz_sectorData,i_sectorSize);
+	return m_pITool->GetFASector(i_slot,i_sectorNum,sz_sectorData,i_sectorSize, i_idType);
 }
 
 bool CUnifyDLL_WLS::SetFASector( int i_slot, int i_sectorNum, char *sz_sectorData, int i_sectorSize )

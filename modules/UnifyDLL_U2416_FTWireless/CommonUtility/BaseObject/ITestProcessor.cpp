@@ -5,6 +5,7 @@
 std::map<std::string, std::map<std::string, std::string>> ITestProcessor::g_mapTxCableLossData;
 std::map<std::string, std::map<std::string, std::string>> ITestProcessor::g_mapRxCableLossData;
 std::string ITestProcessor::g_strPicasso;
+std::string ITestProcessor::g_strSo;
 std::string ITestProcessor::g_strTag;
 std::string ITestProcessor::g_strSn;
 std::string ITestProcessor::g_strLine;
@@ -128,6 +129,18 @@ bool ITestProcessor:: SetSn(const char* szSn)
 	if (szSn != NULL)
 	{
 		g_strSn = szSn;
+		
+		return true;
+	}
+
+	return false;
+}
+
+bool ITestProcessor:: SetSo(const char* szSo)
+{
+	if (szSo != NULL)
+	{
+		g_strSo = szSo;
 		
 		return true;
 	}
