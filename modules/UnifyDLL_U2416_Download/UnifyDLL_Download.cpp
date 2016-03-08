@@ -69,6 +69,7 @@ CDLInstance::CDLInstance()
 	i_checkflow = 0;
 	i_InsertData = 0;
 	i_checkSWVersion = 0;
+	i_checkSWVersion_CSD = 0 ;
 	m_i_imageCount = 0;
 	m_vector_image.clear();
 	m_map_picassoList.clear();
@@ -308,6 +309,41 @@ bool CDLInstance::Run(int i_slot)
 		SetErrorMessage(ErrMsg.c_str() , 0);
 	}
 
+
+	if ( i_checkSWVersion_CSD == 1 ){//check by picasso & so number
+		CMonitorPartNo CMPartNO;
+		if ( !(CMPartNO.SearchPartNo(m_str_so.GetBuffer(0)) ) ){
+				ErrMsg = (_T("runCheckSWversionByDB_CSD  SearchPartNo  Fail, g_strSo = ")) ;
+				ErrMsg = ErrMsg + + m_str_so.GetBuffer(0);
+				SetErrorMessage(ErrMsg.c_str(),  0);
+		}
+		else
+		{
+			ErrMsg = (_T("runCheckSWversionByDB_CSD  SearchPartNo  ok , g_strSo = ")) ;
+			ErrMsg = ErrMsg + + m_str_so.GetBuffer(0);
+			SetErrorMessage(ErrMsg.c_str(),  0);
+		}
+		m_str_so.ReleaseBuffer();
+	//	m_szPartNo = CMPartNO.GetPartNo();
+
+
+	//	if (!GetPartNo(i_checkSWVersion)) return false;
+		if (!GetModelByPartNo(i_checkSWVersion)) return false;
+		if (!changeModel()) return false;
+		if (!GetSWVersion()) return false;
+		if (str_SWVersion.Find(m_szSWver.c_str()) == -1 ){
+			CString cs;
+			cs.Format(_T("Check SoftWare Version Fail£¬PVCS Version = %s  Current DL Version = %s"), m_szSWver.c_str(),  str_SWVersion);
+			::MessageBox(NULL, cs.GetBuffer(0), _T("Warnning!!"), MB_TASKMODAL|MB_TOPMOST);
+			cs.ReleaseBuffer();
+			ErrMsg = cs;
+			SetErrorMessage(ErrMsg.c_str() , 0);
+			return false;
+		}
+		ErrMsg = "Check SoftWare Version OK";
+		SetErrorMessage(ErrMsg.c_str() , 0);
+	}
+
 	/* Check input */
 	if ((i_slot < 0) || (i_slot >= MAX_SLOT))
 	{
@@ -492,9 +528,9 @@ bool CDLInstance::GetModelByPartNo(int n_type)
               unsigned char szSwInfo[30] = {0};
               unsigned char szPort[30] = {0};
 
-			 sprintf_s((char*)szPartNo, 13,"%s", m_szPartNo.c_str() );
+			 sprintf_s((char*)szPartNo, 30,"%s", m_szPartNo.c_str() );
 
-			 iGetMonitorInfoByPartNo(szPartNo,13,szWbcFileName,30,szModelName,30,szDdcFileName,30,szInfo,30,szSwInfo,30,szPort,30);
+			 iGetMonitorInfoByPartNo(szPartNo,30,szWbcFileName,30,szModelName,30,szDdcFileName,30,szInfo,30,szSwInfo,30,szPort,30);
 
 			m_ModelName =  (char*) szModelName;
 
@@ -1109,6 +1145,12 @@ bool CDLInstance::SetParameterValue(char* sz_keyword, char* sz_value)
 		m_str_SWVersion.Format(_T("%s"), sz_value);
 	}
 
+	/* SW Version */
+	else if (str_key == FACTORY_SO)
+	{
+		m_str_so.Format(_T("%s"), sz_value);
+	}
+
 	/* HW Version */
 	else if (str_key == PARAMETER_FIVE)
 	{
@@ -1347,7 +1389,7 @@ bool CDLInstance::GetFAData(int i_slot, char* sz_value, int i_size)
 * Version       Author          Date                Abstract                 
 * 1.0           Alex.Chen       2011/11/23          First version             
 *****************************************************************************/
-bool CDLInstance::GetFASector(int i_slot, int i_sectorNum, char *sz_sectorData, int i_sectorSize)
+bool CDLInstance::GetFASector(int i_slot, int i_sectorNum, char *sz_sectorData, int i_sectorSize, int i_idType)
 {
 	/* Check input */
 	if ((i_slot < 0) || (i_slot >= MAX_SLOT))
@@ -1384,8 +1426,8 @@ bool CDLInstance::GetFASector(int i_slot, int i_sectorNum, char *sz_sectorData, 
 	p_obj_DL->SetImageVector(m_vector_image);
 
 	bool b_res = false;
-	int i_tmp = 1;
-	b_res = p_obj_DL->ReadFASector(i_sectorNum, sz_sectorData, i_sectorSize,  i_tmp);
+	//int i_tmp = 1;
+	b_res = p_obj_DL->ReadFASector(i_sectorNum, sz_sectorData, i_sectorSize,  i_idType);
 
 	p_obj_DL->Unregister (this, UI_MESSAGE);
 	p_obj_DL->Unregister(this, UI_PROGRESS);
@@ -1920,15 +1962,10 @@ bool CDLInstance::GetCheckFlowInsertData(void)
 /*	bool                         m_b_checkFlow;     
 	bool                         m_b_insertData;    */  
 	CIniAccess obj_dllIni("Setting", m_str_iniFileName);
-	// 0 do nothing , 1 check by picasso, 2 check by dell id
 	i_InsertData = obj_dllIni.GetValue("insertdata", 0); 
-
 	i_checkflow = obj_dllIni.GetValue("checkflow", 0);
-	//m_b_checkFlow = (i_checkflow == 1) ? true : false;
-
 	i_checkSWVersion = obj_dllIni.GetValue("checkSWVersion", 0);
-	//m_b_checkSWVersion = (i_checkSWVersion == 1) ? true : false;
-
+	i_checkSWVersion_CSD = obj_dllIni.GetValue("checkSWVersion_CSD", 0);//for csd check software version by so number
 //	int m_b_checkSWVersion;
 	char sz_prestation[128] = {0};
 	obj_dllIni.GetValue(_T("prestation"), sz_prestation, sizeof(sz_prestation));
