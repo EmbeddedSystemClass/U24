@@ -28,6 +28,7 @@
 #define InsertData					"InsertData"
 #define UpdateDDC				"UpdateDDC"
 #define WriteHDCP				"WriteHDCP"
+#define WriteHDCP_MARCO	"WriteHDCP_MARCO"
 #define WriteHDCP_OFFLINE	"WriteHDCP_OFFLINE"
 #define WriteTag					"WriteTag"
 #define WriteSn					"WriteSn"
@@ -145,8 +146,9 @@ private:
 	bool GetModelByPartNo(int i_type);
 	bool getPCName();
 	bool changeModel();
-	bool runGetHDCPKEY();
+	bool runGetHDCPKEY(int nIdtype);
 	bool runWriteHDCPKEY();
+	bool runWriteHDCPKEY_MARCO();
 	bool runWriteHDCPKEY_OFFLINE();
 	bool runWriteTag();
 	bool runWriteTagByPn();
@@ -160,8 +162,8 @@ private:
 	bool runInsertData(int i_type);
 	bool runCheckFlow( int i_type);// i_type 1 = pcbaid,  2 = scalarId
 	bool runCheckFlowAllStation( int i_type);// i_type 1 = pcbaid,  2 = scalarId
-	bool bUpdateKEYWrite();
-	bool bUpdateKEYWrite_Marco();
+	bool bUpdateKEYWrite(int nIdtype);
+	bool bUpdateKEYWrite_Marco(int nIdtype);
 	bool runReadScalarID( char *szvalue, int iSize );
 	bool runCheckPCBAID( char *szvalue );
 	bool runCheckModel( int i_type);
