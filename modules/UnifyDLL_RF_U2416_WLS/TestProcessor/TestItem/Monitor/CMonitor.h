@@ -25,6 +25,7 @@
 #define CheckFlow					"CheckFlow"
 #define CheckAllFlow					"CheckAllFlow"
 #define CheckModel					"CheckModel"
+#define CheckPartNo					"CheckPartNo"
 #define InsertData					"InsertData"
 
 
@@ -118,10 +119,11 @@ private:
 	bool runInsertData(int i_type);
 	bool runCheckFlow( int i_type);// i_type 1 = pcbaid,  2 = scalarId
 	bool runCheckFlowAllStation( int i_type);// i_type 1 = pcbaid,  2 = scalarId
+	bool runCheckPartNo(int n_type);// i_type 1 = pcbaid,  2 = scalarId
 
 	bool runReadScalarID( char *szvalue, int iSize );
 	bool runCheckModel( );
-	bool GetPartNo();
+	bool GetPartNo(int n_type);
 	bool GetModelByPartNo();
 	bool runCheckPCBAID( char *szvalue );
 	bool IfRepeated( char *szvalue );    // 1 = ID ,2 = SN

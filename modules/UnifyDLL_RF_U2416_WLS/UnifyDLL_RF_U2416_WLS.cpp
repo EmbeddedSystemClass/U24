@@ -1039,7 +1039,17 @@ bool CUnifyDLL_WLS::CheckVerifyResult(CString str_logFile)
 bool CUnifyDLL_WLS::SetTag(int i_slot, char *sz_sectorData, int i_sectorSize)
 {
 	bool b_Res = false;
-		char szInput[FTD_BUF_SIZE] = {0} ;
+	char szInput[FTD_BUF_SIZE] = {0} ;
+
+	strcat(szInput, sz_sectorData);
+
+	return b_Res;
+}
+
+bool CUnifyDLL_WLS::SetSn(int i_slot, char *sz_sectorData, int i_sectorSize)
+{
+	bool b_Res = false;
+	char szInput[FTD_BUF_SIZE] = {0} ;
 
 	strcat(szInput, sz_sectorData);
 

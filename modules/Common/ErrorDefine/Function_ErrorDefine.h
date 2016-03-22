@@ -605,6 +605,7 @@
 #define FunErr_CHECK_SN_Fail					"FunErr_CHECK_SN_Fail"
 #define FunErr_CHECK_FLOW_Fail					"FunErr_CHECK_FLOW_Fail"
 #define FunErr_CHECK_Model_Fail					"FunErr_CHECK_Model_Fail"
+#define FunErr_CHECK_PartNo_Fail					"FunErr_CHECK_PartNo_Fail"
 #define FunErr_UPDATE_SNBTWIFI_Fail					"FunErr_UPDATE_SNBTWIFI_Fail"
 #define FunErr_UPDATE_DDC_Fail					"FunErr_UPDATE_DDC_Fail"
 #define FunErr_INSERT_DATA_Fail					"FunErr_INSERT_DATA_Fail"

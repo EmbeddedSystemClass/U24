@@ -101,6 +101,11 @@ bool CMonitor::Run()
 		delete[] sz_value;
 		passFail = runCheckFlow( i_id_type);
 	}
+	else if (m_str_TestItem == CheckPartNo)
+	{
+		m_strErrorCode = FunErr_CHECK_PartNo_Fail;
+		passFail = runCheckPartNo(1); // 1 = picasso, 2 = dell id
+	}
 	else if (m_str_TestItem == CheckAllFlow)
 	{
 		//m_strItemCode = CStr::IntToStr(Monitor_BaseItemcode);
@@ -603,16 +608,35 @@ bool CMonitor::runCheckFlowAllStation( int i_type ){
 
 	return true;
 }
-bool CMonitor::GetPartNo()
+bool CMonitor::GetPartNo(int n_type)
 {
 	bool bReturn = false;
+	int nIDLength;
 	unsigned char szPartNo[13] = {0};
+	unsigned char sz_ID[ID_SIZE_BUFFER] ="";
 	CString str_dllF32SERVER2 = F32SERVERDB;
 
-	if(szScalarId.empty() || szScalarId.length() != ID_SIZE){
-	  //  m_szPartNo =  (char*) szPartNo;
-		ErrMsg = "GetPartNo ScalarId fail id  = " + szScalarId;
-		goto Exit_FreeLibrary;
+	if ( n_type == 2) {
+		if(szScalarId.empty() || szScalarId.length() != ID_SIZE){
+		  //  m_szPartNo =  (char*) szPartNo;
+			ErrMsg = "GetPartNo ScalarId fail id  = " + szScalarId;
+			goto Exit_FreeLibrary;
+		}
+		sprintf_s((char*)sz_ID, ID_SIZE_BUFFER,"%s", szScalarId.c_str() );
+		//sprintf_s((char*)sz_ID, ID_SIZE_BUFFER,"%s", std_ScalarId.c_str() );
+		nIDLength = 11;
+	}
+	else if ( n_type == 1) 
+	{
+		if(g_strPicasso.empty() || g_strPicasso.length() != 10){
+		  //  m_szPartNo =  (char*) szPartNo;
+			ErrMsg = "GetPartNo Picasso fail id  = " + g_strPicasso;
+			AfxMessageBox(ErrMsg.c_str());
+			goto Exit_FreeLibrary;
+		}
+		sprintf_s((char*)sz_ID, ID_SIZE_BUFFER,"%s", g_strPicasso.c_str() );
+		//sprintf_s((char*)sz_ID, ID_SIZE_BUFFER,"%s", std_Picasso.c_str() );
+		nIDLength = 10;
 	}
 
 	HMODULE hDll ;
@@ -625,15 +649,15 @@ bool CMonitor::GetPartNo()
 		if ( NULL != iGetPartNoById )
 		{	
 			//scalar id
-			unsigned char sz_ID[ID_SIZE_BUFFER] ="";
-			sprintf_s((char*)sz_ID, ID_SIZE_BUFFER,"%s", szScalarId.c_str() );
+			//unsigned char sz_ID[ID_SIZE_BUFFER] ="";
+			//sprintf_s((char*)sz_ID, ID_SIZE_BUFFER,"%s", szScalarId.c_str() );
 
-			if( 0 != iGetPartNoById( sz_ID , 11, szPartNo, 13))
+			if( 0 != iGetPartNoById( sz_ID , nIDLength, szPartNo, 13))
 			{	
 				//cout<<szPartNo<<endl;
 			    m_szPartNo =  (char*) szPartNo;
 				ErrMsg = "iGetPartNoById  ok, m_szPartNo = " + m_szPartNo;
-				ErrMsg = ErrMsg + " ScalarId = " +  szScalarId ;
+				//ErrMsg = ErrMsg + " ScalarId = " +  szScalarId ;
 				bReturn = true;
 			}
 			else
@@ -658,6 +682,15 @@ bool CMonitor::GetPartNo()
 	}
 
 Exit_FreeLibrary:
+	if ( n_type == 2 )
+	{
+		ErrMsg = ErrMsg + " szScalarId = " +  szScalarId ;
+	}
+	else if ( n_type == 1)
+	{
+		ErrMsg = ErrMsg + " g_strPicasso = " +  g_strPicasso ;
+	}
+
 	TraceLog(MSG_INFO,  ErrMsg);
     FreeLibrary(hDll);
 
@@ -746,7 +779,7 @@ bool CMonitor::runCheckModel()
 	char m_szFAData[FTD_BUF_SIZE] = "";
 
 	//m_ModelName = "U2417HWi";
-	if (!GetPartNo()) return false; 
+	if (!GetPartNo(2)) return false;  // 1 = picasso, 2 = dell id
 	if (!GetModelByPartNo()) return false;
 
 	ErrMsg = (_T("GetPartNo, GetModelByPartNo OK"));
@@ -804,6 +837,26 @@ Exit_ShowResult:
 	}
 
 
+	return bReturn;
+}
+
+
+bool CMonitor::runCheckPartNo(int n_type)
+{	
+	bool bReturn = false;
+	bReturn = GetPartNo(n_type); // 1 by picasso
+	
+	if (bReturn)
+	{
+		m_strMessage = " runCheckPartNo ok";
+		FactoryLog(bReturn, "", "", "", "", "" , m_strMessage, "" , "PASS");
+	}
+	else
+	{
+		m_strMessage = " runCheckPartNo fail";
+		FactoryLog(bReturn, "", "", "", "", "" , m_strMessage, "" , "FAIL");
+	}
+	TraceLog(MSG_INFO,  m_strMessage);
 	return bReturn;
 }
 
