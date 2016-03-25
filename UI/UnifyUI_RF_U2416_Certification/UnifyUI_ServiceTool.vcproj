@@ -45,6 +45,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
+				AdditionalIncludeDirectories=""
 				PreprocessorDefinitions="WIN32;_WINDOWS;_DEBUG"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -198,6 +199,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\CSDWRITE_MARCO.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\DllCtrl.cpp"
 				>
 			</File>
@@ -297,6 +302,10 @@
 			</File>
 			<File
 				RelativePath=".\CSDWRITE.h"
+				>
+			</File>
+			<File
+				RelativePath=".\CSDWRITE_MARCO.h"
 				>
 			</File>
 			<File

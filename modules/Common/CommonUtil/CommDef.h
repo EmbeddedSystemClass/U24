@@ -30,6 +30,7 @@
 #define STATION_RUN_IN				  _T("RUN_IN")
 #define STATION_CSDEM		          _T("CSDEM")
 #define STATION_CSDWRITE	          _T("CSDWRITE")
+#define STATION_CSDWRITE_SN	          _T("CSDWRITE_SN")
 
 /* P-Line */
 #define STATION_IMEI			      _T("IMEI")

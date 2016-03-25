@@ -4,18 +4,11 @@
 #include "stdafx.h"
 #include "UnifyUI_ServiceTool.h"
 #include "ServiceModule.h"
-//#include "FuncDownload.h"
-//#include "FuncInfoList.h"
-//#include "FuncInfoWriter.h"
-//#include "FuncFactoryInfoList.h"
 #include "RFCertificationTx.h"
 #include "CSDWRITE.h"
+#include "CSDWRITE_MARCO.h"
 #include "RFCertificationRx.h"
 #include "RFCertificationTxCw.h"
-//#include "RFCertification2G4Tx.h"
-//#include "RFCertificationTx5G.h"
-//#include "RFCertificationRx5G.h"
-//#include "RFCertification5GTxCw.h"
 #include "KeyPro.h"
 
 
@@ -131,6 +124,11 @@ void CServiceModule::OnBnClickedButtonTool(int nIndex)
 	}
 	else if (m_info[nIndex].type == _T("CSDWRITE")) {
 		CCSDWRITE dlg(this);
+		dlg.SetInit(m_info[nIndex]);
+		dlg.DoModal();
+	}
+	else if (m_info[nIndex].type == _T("CSDWRITE_SN")) {
+		CCSDWRITE_MARCO dlg(this);
 		dlg.SetInit(m_info[nIndex]);
 		dlg.DoModal();
 	}

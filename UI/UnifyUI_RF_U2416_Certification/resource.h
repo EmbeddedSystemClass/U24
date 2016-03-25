@@ -17,6 +17,7 @@
 #define IDD_SERVICE_SUBUI_WIFI_5G_RX    140
 #define IDD_SERVICE_SUBUI_5G_TX_CW      141
 #define IDD_SERVICE_SUBUI_CSDWRITE      142
+#define IDD_SERVICE_SUBUI_CSDWRITE_Marco 143
 #define IDC_TAB_MODULE                  1000
 #define IDC_MODULE_BUTTON0              1001
 #define IDC_MODULE_BUTTON1              1002

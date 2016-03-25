@@ -32,8 +32,8 @@
 #endif
 
 //#define _BBTEST_nonNFC
-#define _CSDWRITE
-#define UNIFYMODELNAME			      _T("GBROB1A")
+#define _CSDWRITE_SN
+#define UNIFYMODELNAME			      _T("GMARB1A")
 
 #ifdef _BBTEST_NFC
 	#define QISDA_MODULE_NAME "BBTEST_NFC"
@@ -76,6 +76,12 @@
 	#define QISDA_MODULE_TITLE "CSDWRITE"
 	#define QISDA_MODULE_INFO "reserved"
 	#define QISDA_MODULE_TYPE "CSDWRITE"
+	static const bool QISDA_MODULE_CHECK_DONGLE = false;
+#elif defined _CSDWRITE_SN
+	#define QISDA_MODULE_NAME "CSDWRITE_SN"
+	#define QISDA_MODULE_TITLE "CSDWRITE_SN"
+	#define QISDA_MODULE_INFO "reserved"
+	#define QISDA_MODULE_TYPE "CSDWRITE_SN"
 	static const bool QISDA_MODULE_CHECK_DONGLE = false;
 /*
 #elif defined _OSDL

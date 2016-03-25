@@ -284,6 +284,14 @@ CServiceToolController::CServiceToolController()
 		this->m_Parametermap[ParameterKeyWord::WORKINGDIR] = this->m_Parametermap[ParameterKeyWord::WORKINGDIR].Left(this->m_Parametermap[ParameterKeyWord::WORKINGDIR].ReverseFind('\\'));
 		this->m_Parametermap[ParameterKeyWord::WORKINGDIR].Append(_T("\\Module\\BROOK\\L1L2\\CSDWRITE"));
 	}
+	else if(QISDA_MODULE_NAME == "CSDWRITE_SN")
+	{
+		this->m_Parametermap[ParameterKeyWord::STATIONNAME] = this->m_strCurrentStation = STATION_CSDWRITE_SN;
+		GetModuleFileName(NULL, this->m_Parametermap[ParameterKeyWord::WORKINGDIR].GetBufferSetLength(MAX_PATH+1), MAX_PATH);
+		this->m_Parametermap[ParameterKeyWord::WORKINGDIR].ReleaseBuffer();
+		this->m_Parametermap[ParameterKeyWord::WORKINGDIR] = this->m_Parametermap[ParameterKeyWord::WORKINGDIR].Left(this->m_Parametermap[ParameterKeyWord::WORKINGDIR].ReverseFind('\\'));
+		this->m_Parametermap[ParameterKeyWord::WORKINGDIR].Append(_T("\\Module\\MARCO\\L1L2\\CSDWRITE"));
+	}
 	/*
 	else if(QISDA_MODULE_NAME == "OS_DL")
 	{
@@ -303,6 +311,11 @@ CServiceToolController::~CServiceToolController()
 size_t CServiceToolController::SetParameterValue(char* sz_keyword, char* sz_value)
 {
 	std::string key = sz_keyword;
+
+	if (key == "XMLCMDItem")
+	{
+		this->m_Parametermap[_T("XMLCMDItem")] = CA2CT(sz_value);
+	}
 	//CString strVlaue = CA2CT(sz_value);
 	if (key == "image_path") {
 		//this->m_Parametermap[_T("IMAGEPATH")] = strVlaue.Right(strVlaue.GetLength() - strVlaue.ReverseFind('\\') - 1);
@@ -760,6 +773,8 @@ size_t CServiceToolController::MakeEnhanceController()
 		this->m_strCurrentStation == STATION_BTWLAN ||
 		this->m_strCurrentStation == STATION_CSDEM ||
 		this->m_strCurrentStation == STATION_CSDWRITE ||
+		this->m_strCurrentStation == STATION_CSDWRITE_SN ||
+		
 		//this->m_strCurrentStation == STATION_CURRENT ||
 		//this->m_strCurrentStation == STATION_ONLINE_WLS ||
 		//this->m_strCurrentStation == STATION_ONLINE_WLS2 ||

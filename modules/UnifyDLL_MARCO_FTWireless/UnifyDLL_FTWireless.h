@@ -160,6 +160,8 @@ public:
 	virtual bool OnRunFinish(int i_slot = 1);
 
 	virtual bool OnAPPEnd(int i_slot = 1);
+
+
 	// End of Tool interface
 #else
 	/* Set/Get Parameter Value */
@@ -187,6 +189,7 @@ private:
 	void WriteLog(CString str_log, const int i_severity = __INFO);
 	void SetLogFileName();
 	void SetLogFilePath();
+
     //bool ReadId(void);
 	//std::string GetId(void);
 	std::string m_szId;

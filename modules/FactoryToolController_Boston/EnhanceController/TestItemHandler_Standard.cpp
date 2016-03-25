@@ -168,7 +168,6 @@ size_t CTestItemHdrStd::SetTestItemXMLValueForCSDWrite()
 			m_TestItemXML.SetNodeText(TagNode, this->m_Parametermap[_T("XMLCMDItem")]);
 		}
 
-
 		//XMLNode ChannelNode = m_TestItemXML.SearchNode(_T("//Configuration//ProcessObjectSet//WirelessTestObjects//ProcessObject//CHANNEL"));
 		//if (ChannelNode != NULL)
 		//{

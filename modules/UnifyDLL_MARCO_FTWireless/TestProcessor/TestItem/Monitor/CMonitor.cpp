@@ -1566,72 +1566,6 @@ bool CMonitor::changeModel(){
 	return true;
 }
 
-
-/*old math for xml setting*/
-//bool CMonitor::runCheckModel()
-//{
-//	bool bRes = false;;
-//	std::string st_readId = "";
-//	char sz_cmd_in[FTD_BUF_SIZE] ="";
-//	char sz_cmd_out[FTD_BUF_SIZE] ="";
-//	char sz_cmd_errcode[FTD_BUF_SIZE] ="";
-//	std::string std_ModelNamel = "";
-//	CString cs_getModelNamel = "";
-//	CString cs_xmlModelNamel = "";
-//
-//	memset(sz_cmd_in, 0, sizeof(sz_cmd_in));
-//	memset(sz_cmd_out, 0, sizeof(sz_cmd_out));
-//	memset(sz_cmd_errcode, 0, sizeof(sz_cmd_errcode));
-//
-//
-//	strcpy(sz_cmd_in, _T("shell getprop ro.build.variant"));
-//	if ( !ExecAdbOut(sz_cmd_in, sz_cmd_out, sz_cmd_errcode) ){
-//		ErrMsg = (_T("shell getprop ro.build.variant Fail"));
-//		AfxMessageBox( ErrMsg.c_str() );
-//		TraceLog(MSG_INFO,  ErrMsg);
-//		goto  Exit_ShowResult;
-//	}	
-//	//Sleep(200);
-//	std_ModelNamel = (char*)sz_cmd_out;
-//	cs_getModelNamel.Format(_T("%s"),  sz_cmd_out);
-//	cs_getModelNamel.Trim();
-//	cs_xmlModelNamel = m_str_CMD.c_str();
-//	cs_xmlModelNamel.Trim();
-//	//sprintf
-//	//std_ModelNamel = "qisda";
-//	if (cs_xmlModelNamel.Compare( cs_getModelNamel ) == 0 )
-//	{
-//		ErrMsg = _T("runCheckModel check  ok  , get data = ") + std_ModelNamel; 
-//		bRes = true;
-//	}
-//	else
-//	{
-//		ErrMsg = _T("runCheckModel check  Fail xml setting = ") + m_str_CMD + _T(" get data = ") + std_ModelNamel; 
-//		TraceLog(MSG_INFO,  ErrMsg);
-//	}
-//
-////[ro.build.variant]: [dels2317w] gbrob2a
-////[ro.build.variant]: [delu2417w] gbrob1a
-//
-//	//compare ,	m_str_CMD, sz_cmd_out
-//
-//	
-//Exit_ShowResult:
-//	if ( !bRes) {
-//		m_strResult = "FAIL";
-//	}
-//	else
-//	{
-//		m_strErrorCode = "-";
-//		m_strResult = "PASS";
-//	}
-//
-//
-//	str_msg = ErrMsg;
-//	m_strMessage = str_msg;
-//	FactoryLog();
-//	return bRes;
-//}
 bool CMonitor::runPostCmd()
 {
 	CString cs_write_cmd = "";
@@ -1680,6 +1614,8 @@ bool CMonitor::runPostCmd()
 		TraceLog(MSG_INFO,  ErrMsg);
 		goto  Exit_ShowResult;
 	}
+	ErrMsg = (_T("reboot to fastboot ok"));
+	TraceLog(MSG_INFO,  ErrMsg);
 
 	strcpy(sz_cmd_in, _T("flash passport passport_FactoryDLTool"));
 	if ( !ExecFastbootOut(sz_cmd_in, sz_cmd_out, sz_cmd_errcode) ){
@@ -1689,6 +1625,8 @@ bool CMonitor::runPostCmd()
 		goto  Exit_ShowResult;
 	}	
 	Sleep(1000);
+	ErrMsg = (_T("flash passport passport_FactoryDLTool ok"));
+	TraceLog(MSG_INFO,  ErrMsg);
 
 	strcpy(sz_cmd_in, _T("oem ftd Qoff"));
 	if ( !ExecFastbootOut(sz_cmd_in, sz_cmd_out, sz_cmd_errcode) ){
@@ -1698,7 +1636,8 @@ bool CMonitor::runPostCmd()
 		goto  Exit_ShowResult;
 	}	
 	Sleep(1000);
-
+	ErrMsg = (_T("oem ftd Qoff ok"));
+	TraceLog(MSG_INFO,  ErrMsg);
 	
 Exit_ShowResult:
 	if ( !bRes) {
@@ -1859,6 +1798,7 @@ bool CMonitor::runWriteSN()
 	char m_szFAData[FTD_BUF_SIZE];
 	memset(m_szFAData, 0, sizeof(m_szFAData));
 	
+	g_strSn = m_str_CMD;
 	if ( g_strSn.empty() ){
 	//	AfxMessageBox("fail, tag is empty");
 		ErrMsg = (_T("fail, Serial Number is empty"));
@@ -1866,6 +1806,10 @@ bool CMonitor::runWriteSN()
 		TraceLog(MSG_INFO,  ErrMsg);
 		goto Exit_ShowResult;
 	}
+
+	ErrMsg = _T("start to write sn, ");
+	ErrMsg = ErrMsg  + g_strSn.c_str();
+	TraceLog(MSG_INFO,  ErrMsg);
 
 	sprintf_s((char*)sz_ID, 40,"1024,20,%s", g_strSn.c_str() );
 
@@ -1876,6 +1820,9 @@ bool CMonitor::runWriteSN()
 			TraceLog(MSG_INFO,  ErrMsg);
 			goto Exit_ShowResult;
 	}
+
+	ErrMsg = _T("FTD_FAC_CFGWrite ok");
+	TraceLog(MSG_INFO,  ErrMsg);
 
 	if (!m_pIPhone->FTD_FAC_CFGRead(m_nFtdPort, m_nFtdTimeOut, szAddress, m_szFAData))
 	{
