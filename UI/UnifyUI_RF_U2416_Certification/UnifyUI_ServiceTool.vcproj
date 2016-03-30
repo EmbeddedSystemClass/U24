@@ -195,6 +195,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\CSDREAD_MARCO.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\CSDWRITE.cpp"
 				>
 			</File>
@@ -298,6 +302,10 @@
 			>
 			<File
 				RelativePath=".\ButtonCtrl.h"
+				>
+			</File>
+			<File
+				RelativePath=".\CSDREAD_MARCO.h"
 				>
 			</File>
 			<File

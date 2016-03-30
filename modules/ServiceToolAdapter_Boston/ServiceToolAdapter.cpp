@@ -292,6 +292,14 @@ CServiceToolController::CServiceToolController()
 		this->m_Parametermap[ParameterKeyWord::WORKINGDIR] = this->m_Parametermap[ParameterKeyWord::WORKINGDIR].Left(this->m_Parametermap[ParameterKeyWord::WORKINGDIR].ReverseFind('\\'));
 		this->m_Parametermap[ParameterKeyWord::WORKINGDIR].Append(_T("\\Module\\MARCO\\L1L2\\CSDWRITE"));
 	}
+	else if(QISDA_MODULE_NAME == "CSDREAD_SN")
+	{
+		this->m_Parametermap[ParameterKeyWord::STATIONNAME] = this->m_strCurrentStation = STATION_CSDREAD_SN;
+		GetModuleFileName(NULL, this->m_Parametermap[ParameterKeyWord::WORKINGDIR].GetBufferSetLength(MAX_PATH+1), MAX_PATH);
+		this->m_Parametermap[ParameterKeyWord::WORKINGDIR].ReleaseBuffer();
+		this->m_Parametermap[ParameterKeyWord::WORKINGDIR] = this->m_Parametermap[ParameterKeyWord::WORKINGDIR].Left(this->m_Parametermap[ParameterKeyWord::WORKINGDIR].ReverseFind('\\'));
+		this->m_Parametermap[ParameterKeyWord::WORKINGDIR].Append(_T("\\Module\\MARCO\\L1L2\\CSDREAD"));
+	}
 	/*
 	else if(QISDA_MODULE_NAME == "OS_DL")
 	{
@@ -315,6 +323,7 @@ size_t CServiceToolController::SetParameterValue(char* sz_keyword, char* sz_valu
 	if (key == "XMLCMDItem")
 	{
 		this->m_Parametermap[_T("XMLCMDItem")] = CA2CT(sz_value);
+		SetTestItemXMLValueForCSDWrite();
 	}
 	//CString strVlaue = CA2CT(sz_value);
 	if (key == "image_path") {
@@ -324,6 +333,59 @@ size_t CServiceToolController::SetParameterValue(char* sz_keyword, char* sz_valu
 	return NO_ERROR;
 }
 
+size_t CServiceToolController::SetTestItemXMLValueForCSDWrite()
+{
+	size_t ret = NOERROR;
+	CString cstrTestItemPath;
+	CMyMSXML m_TestItemXML;
+
+	if (this->m_Parametermap[ParameterKeyWord::STATIONNAME] == STATION_2G3GTEST )
+	{
+		cstrTestItemPath = this->m_Parametermap[ParameterKeyWord::WORKINGDIR] + 
+												_T("Qisda\\") + 
+												this->m_Parametermap[ParameterKeyWord::MODELNAME] + 
+												_T("_") + 
+												this->m_Parametermap[ParameterKeyWord::STATIONNAME] + 
+												_T("_TestItem_CMW.xml");
+	}
+	else
+	{
+		cstrTestItemPath = this->m_Parametermap[ParameterKeyWord::WORKINGDIR] + 
+												_T("\\Qisda\\") + 
+												this->m_Parametermap[ParameterKeyWord::MODELNAME] + 
+												_T("_") + 
+												this->m_Parametermap[ParameterKeyWord::STATIONNAME] + 
+												_T("_TestItem.xml");
+	}
+
+	if (::_taccess(cstrTestItemPath, 0) == 0)
+	{
+		if (m_TestItemXML.Load(cstrTestItemPath) != ERROR_SUCCESS)
+		{
+			//ret = LOAD_TESTITEM_FAIL;
+			ret = 0x00020000;
+		}
+	}
+	else
+	{
+		//ret = LOAD_TESTITEM_FAIL;
+		ret = 0x00020000;
+	}
+
+	if (NOERROR == ret)
+	{
+		//Write test item parameter
+
+		XMLNode TagNode = m_TestItemXML.SearchNode(_T("//Configuration//ProcessObjectSet//WriteCSDTagObjects//ProcessObject//XMLCMDItem"));
+		if (TagNode != NULL)
+		{
+			m_TestItemXML.SetNodeText(TagNode, this->m_Parametermap[_T("XMLCMDItem")]);
+		}
+		m_TestItemXML.Save();
+	}
+
+	return ret;
+}
 
 size_t CServiceToolController::GetParameterValue(char* sz_keyword, char* sz_value)
 {
@@ -416,33 +478,19 @@ size_t CServiceToolController::GetParameterValue(char* sz_keyword, char* sz_valu
 						"Must process the ¡§ Close Authorization¡¨ function after the repair process. \r\n";
 			strncpy(sz_value, msg, strlen(msg));
 		}
-		else if (key == "msg_warning") {
-			char* msg = "";
-			strncpy(sz_value, msg, strlen(msg));
-		}
 	}
-/*
-	else if(QISDA_MODULE_NAME == "OS_DL")
+	else if(QISDA_MODULE_NAME == "CSDREAD_SN")
 	{
-		if (key == "msg_process") {
-			char* msg = "Service Download \r\n"
-						"\r\n"
-						"1. Power off the device. \r\n"
-						"2. Press volume UP key and plug in the USB cable to connect with PC. \r\n"
-						"3. Release the volume key and make sure the device is under Qualcomm download mode. \r\n"
-						"4. Click \"Folder\" to select Image location. \r\n"
-						"5. Click \"RUN\" to start download process. \r\n"
-						"6. It will erase all user data. Back up your data if needed before process. \r\n"
-						"7. Please wait for process finish and device reboot. \r\n"
-						"Must process the ¡§ Close Authorization¡¨ function after the repair process. \r\n";
-			strncpy(sz_value, msg, strlen(msg));
+		if (key == "SN") {
+			this->m_pITI->GetParameterValue(_T("SN"), sz_value, 0);
 		}
+
 		else if (key == "msg_warning") {
 			char* msg = "";
 			strncpy(sz_value, msg, strlen(msg));
 		}
 	}
-*/
+
 	return NO_ERROR;
 }
 
@@ -774,7 +822,7 @@ size_t CServiceToolController::MakeEnhanceController()
 		this->m_strCurrentStation == STATION_CSDEM ||
 		this->m_strCurrentStation == STATION_CSDWRITE ||
 		this->m_strCurrentStation == STATION_CSDWRITE_SN ||
-		
+		this->m_strCurrentStation == STATION_CSDREAD_SN ||
 		//this->m_strCurrentStation == STATION_CURRENT ||
 		//this->m_strCurrentStation == STATION_ONLINE_WLS ||
 		//this->m_strCurrentStation == STATION_ONLINE_WLS2 ||

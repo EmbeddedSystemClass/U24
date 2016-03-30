@@ -106,6 +106,7 @@ public:
 	bool ConvertXML(CString str_XMLFilePathName, CString str_newName);
 	bool MD5Verify(CString str_dirPath, CString str_XMLFilePathName, CString str_logFile);
 	bool CheckVerifyResult(CString str_logFile);
+	bool GetSn( char *sz_Data);
 
 	/* FT DLL Interface functions */
 	/* Get test items */
@@ -151,7 +152,8 @@ public:
 	virtual bool InitTestItem(const wchar_t *szItem);
 
 	virtual bool SetParameterValue(const wchar_t* sz_keyword, const wchar_t* sz_value);
-	virtual bool GetParameterValue(const wchar_t* sz_keyword, wchar_t* sz_value, int i_size);
+	//virtual bool GetParameterValue(const wchar_t* sz_keyword, wchar_t* sz_value, int i_size);
+	virtual bool GetParameterValue(const wchar_t* sz_keyword, char* sz_value, int i_size);
 
 	virtual bool OnRunInit(int i_slot = 1);
 

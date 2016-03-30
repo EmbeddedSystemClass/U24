@@ -191,8 +191,14 @@ bool CMonitor::Run()
 	else if (m_str_TestItem == WriteSn)
 	{
 		m_strItemCode = CStr::IntToStr(Monitor_BaseItemcode);
-		m_strErrorCode = FunErr_WRITE_TAG_Fail;
+		m_strErrorCode = FunErr_WRITE_SN_Fail;
 		passFail = runWriteSN();
+	}
+	else if (m_str_TestItem ==ReadSn)
+	{
+		m_strItemCode = CStr::IntToStr(Monitor_BaseItemcode);
+		m_strErrorCode = FunErr_READ_SN_Fail;
+		passFail = runReadSN();
 	}
 	else if (m_str_TestItem == WriteSn_Marco)
 	{
@@ -1784,6 +1790,52 @@ Exit_ShowResult:
 
 	str_msg = ErrMsg;
 	m_strMessage = str_msg;
+	FactoryLog();
+	return bRes;
+}
+
+bool CMonitor::runReadSN()
+{
+	bool bRes = false;
+	std::string st_readId = "";
+	char sz_ID[40] ="";
+	char szAddress[FTD_BUF_SIZE] = "1024,20";// dell tag
+	char m_szFAData[FTD_BUF_SIZE];
+	memset(m_szFAData, 0, sizeof(m_szFAData));
+	
+
+	ErrMsg = _T("start to read sn...");
+	TraceLog(MSG_INFO,  ErrMsg);
+
+	sprintf_s((char*)sz_ID, 40,"1024,20,%s", g_strSn.c_str() );
+
+	if (!m_pIPhone->FTD_FAC_CFGRead(m_nFtdPort, m_nFtdTimeOut, szAddress, m_szFAData))
+	{
+			ErrMsg = (_T("runWriteSN FTD_FAC_CFGRead Fail"));
+			AfxMessageBox( ErrMsg.c_str() );
+			TraceLog(MSG_INFO,  ErrMsg);
+			goto Exit_ShowResult;
+	}
+
+	st_readId = m_szFAData;
+	g_strSn = st_readId;
+	bRes = true;
+
+	ErrMsg = (_T("runWriteSN FTD_FAC_CFGRead ok, sn = ")) + st_readId ;
+	TraceLog(MSG_INFO,  ErrMsg);
+
+Exit_ShowResult:
+	if ( !bRes) {
+		m_strResult = "FAIL";
+	}
+	else
+	{
+		m_strErrorCode = "-";
+		m_strResult = "PASS";
+	}
+
+	str_msg = ErrMsg;
+	m_strMessage = "runWriteSN OK";
 	FactoryLog();
 	return bRes;
 }

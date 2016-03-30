@@ -135,6 +135,18 @@ bool ITestProcessor:: SetSn(const char* szSn)
 	return false;
 }
 
+bool ITestProcessor:: GetSn(char* szSn)
+{
+	if (g_strSn.length() != 0)
+	{
+		sprintf_s( szSn , 40, "%s", g_strSn.c_str());
+		return true;
+	}
+
+	return false;
+}
+
+
 bool ITestProcessor::SetLine(const char* szLine)
 {
 	if (szLine != NULL)

@@ -165,35 +165,69 @@ bool CCommonProcessor::IsSocketReady()
 		return IsSocketReadyMulti();
 
 	CString csCommand;
+	CString csTraceMsg;
 	char cmdOut[1024] = {0};
 	char errMsg[128] = {0};
-	const int MAX_RETRY = 20;
+	const int MAX_RETRY = 80;
+
 	for (int i = 0; i < MAX_RETRY; i++)
 	{
-		for (size_t p = 0, sock_num = 0; p < m_pIPhone->m_devices.size(); p++)
+		csCommand = _T("shell getprop ro.ftd.socket");
+		if (m_pIPhone->ExecAdbCommand(csCommand, cmdOut, errMsg))
 		{
-			csCommand = _T("");
-			if (!m_pIPhone->m_devices[p].empty())
-				csCommand.Format(_T("-s %s "), m_pIPhone->m_devices[p].c_str());
-			csCommand += _T("shell getprop ro.ftd.socket");
-			if (m_pIPhone->ExecAdbCommand(csCommand, cmdOut, errMsg))
+			if (strchr(cmdOut, '1') != NULL)
 			{
-				if (strchr(cmdOut, '1') != NULL)
-				{
-					TraceLog(MSG_INFO, "Check socket success: " + m_pIPhone->m_devices[p]);
-					sock_num++;
-				}
-				if (sock_num == m_pIPhone->m_devices.size())
-					return true;
+				TraceLog(MSG_INFO, "Check socket success: ");
 			}
+			csTraceMsg.Format(_T("get Socket ok, cmd = %s,  cmdOut = %s "), csCommand, cmdOut );
+			TraceLog(MSG_ERROR, std::string(csTraceMsg));
+			return true;
 		}
-		TraceLog(MSG_ERROR, "Socket is not ready, try again...");
-		Sleep(500);
+		
+		csTraceMsg.Format(_T("Socket is not ready, cmd = %s,  cmdOut = %s"), csCommand, cmdOut );
+		TraceLog(MSG_ERROR, std::string(csTraceMsg));
+		Sleep(1000);
 	}
-	m_strMessage = "Socket timeout.";
+	m_strMessage = "IsSocketReady Socket timeout.";
 	TraceLog(MSG_ERROR, m_strMessage);
 	return false;
 }
+
+//bool CCommonProcessor::IsSocketReady()
+//{
+//	if (m_i_QPhoneMultiCtrl != 0)
+//		return IsSocketReadyMulti();
+//
+//	CString csCommand;
+//	char cmdOut[1024] = {0};
+//	char errMsg[128] = {0};
+//	const int MAX_RETRY = 20;
+//	for (int i = 0; i < MAX_RETRY; i++)
+//	{
+//		for (size_t p = 0, sock_num = 0; p < m_pIPhone->m_devices.size(); p++)
+//		{
+//			csCommand = _T("");
+//			if (!m_pIPhone->m_devices[p].empty())
+//				csCommand.Format(_T("-s %s "), m_pIPhone->m_devices[p].c_str());
+//			csCommand += _T("shell getprop ro.ftd.socket");
+//			if (m_pIPhone->ExecAdbCommand(csCommand, cmdOut, errMsg))
+//			{
+//				if (strchr(cmdOut, '1') != NULL)
+//				{
+//					TraceLog(MSG_INFO, "Check socket success: " + m_pIPhone->m_devices[p]);
+//					sock_num++;
+//				}
+//				if (sock_num == m_pIPhone->m_devices.size())
+//					return true;
+//			}
+//		}
+//		TraceLog(MSG_ERROR, "Socket is not ready, try again...");
+//		Sleep(500);
+//	}
+//	m_strMessage = "Socket timeout.";
+//	TraceLog(MSG_ERROR, m_strMessage);
+//	return false;
+//}
 
 bool CCommonProcessor::IsSocketReadyMulti()
 {

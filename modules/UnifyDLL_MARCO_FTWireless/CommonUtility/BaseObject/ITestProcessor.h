@@ -210,6 +210,7 @@ public:
 	bool SetPicasso(const char* szPicasso);
 	bool SetTag(const char* szTag);
 	bool SetSn(const char* szSn);
+	bool GetSn(char* szSn);
 	bool SetLine(const char* szLine);
 	bool SetDayNight(const char* szDayNight);
 	bool SetPicassoMulti(const char* szPicasso, const int nSlot);

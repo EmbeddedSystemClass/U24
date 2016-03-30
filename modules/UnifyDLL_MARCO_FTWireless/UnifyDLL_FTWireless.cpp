@@ -1396,13 +1396,19 @@ bool CUnifyDLL_FTWireless::SetParameterValue(const wchar_t* sz_keyword, const wc
 	return true;
 }
 
-bool CUnifyDLL_FTWireless::GetParameterValue(const wchar_t* sz_keyword, wchar_t* sz_value, int i_size)
+//bool CUnifyDLL_FTWireless::GetParameterValue(const wchar_t* sz_keyword, wchar_t* sz_value, int i_size)
+bool CUnifyDLL_FTWireless::GetParameterValue(const wchar_t* sz_keyword, char* sz_value, int i_size)
 {
 	CString str_key = CW2CT(sz_keyword);
 
 	if (strcmp(str_key, "TOOL_VERSION") == 0)
 	{
-		wcscpy_s(sz_value, i_size, CT2W(m_strToolVersion.c_str()));
+		//wcscpy_s(sz_value, i_size, CT2W(m_strToolVersion.c_str()));
+		sprintf_s( sz_value , i_size, "%s", m_strToolVersion.c_str());
+	}
+	if (strcmp(str_key, "SN") == 0)
+	{
+		return GetSn(sz_value);
 	}
 	return true;
 }
@@ -1465,6 +1471,13 @@ bool CUnifyDLL_FTWireless::SetTag(int i_slot, char *sz_sectorData, int i_sectorS
 
 	m_pITool->SetTag(sz_sectorData);
 	return b_Res;
+}
+
+//bool GetSn( char *sz_Data);
+bool CUnifyDLL_FTWireless::GetSn( char *sz_Data)
+{
+	if (m_pITool->GetSn(sz_Data))	return true;
+	return false;
 }
 
 

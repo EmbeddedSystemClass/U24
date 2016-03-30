@@ -643,14 +643,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\OtherStationReadDlg.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\OtherStationReadDlg.h"
-				>
-			</File>
-			<File
 				RelativePath=".\PageInterface.h"
 				>
 			</File>

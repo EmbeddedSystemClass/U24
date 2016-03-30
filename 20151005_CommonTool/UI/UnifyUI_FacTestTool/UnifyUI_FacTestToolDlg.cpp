@@ -6,7 +6,6 @@
 #include "IMEIFCDlg.h"
 #include "OtherStationDlg.h"
 #include "OthersMultiDlg.h"
-#include "OtherStationReadDlg.h"
 #include "../../Modules/Common/CommonUtil/Win32SHELLUtility.h"
 
 
@@ -1378,24 +1377,6 @@ bool CUnifyUI_FacTestToolDlg::InitialTabCtrl()
 		else
 		{
 			p_Other_Station->Create(COthersMultiDlg::IDD, &m_tab_stationPageCtrl);
-			m_tab_stationPageCtrl.InsertItem(m_tab_stationPageCtrl.GetItemCount(), m_st_idParameter.str_station);
-			m_pageArray.Add(p_Other_Station);
-		}
-	}
-	else if ( m_st_idParameter.str_station == STATION_READ  )
-	{
-		/* Add RF/FT/Wireless/MMI Page */
-		COtherStationReadDlg* p_Other_Station = new COtherStationReadDlg(this);
-		if (p_Other_Station == NULL)
-		{
-			m_str_errorCode = CommErr_UI_Init_Diag_Fail;
-			m_str_errorMsg = _T("初始化tab页失败!\nInitial station tab page fail!");
-			LogMsg(m_str_errorMsg);
-			return false;
-		}
-		else
-		{
-			p_Other_Station->Create(COtherStationReadDlg::IDD, &m_tab_stationPageCtrl);
 			m_tab_stationPageCtrl.InsertItem(m_tab_stationPageCtrl.GetItemCount(), m_st_idParameter.str_station);
 			m_pageArray.Add(p_Other_Station);
 		}

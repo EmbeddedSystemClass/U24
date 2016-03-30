@@ -18,6 +18,7 @@
 #define IDD_SERVICE_SUBUI_5G_TX_CW      141
 #define IDD_SERVICE_SUBUI_CSDWRITE      142
 #define IDD_SERVICE_SUBUI_CSDWRITE_Marco 143
+#define IDD_SERVICE_SUBUI_CSDREAD_Marco 144
 #define IDC_TAB_MODULE                  1000
 #define IDC_MODULE_BUTTON0              1001
 #define IDC_MODULE_BUTTON1              1002
@@ -99,6 +100,10 @@
 #define IDC_EDIT_CW_WlanMode            1062
 #define IDC_EDIT_TAG                    1062
 #define IDC_EDIT_CW_CHAIN               1063
+#define IDC_EDIT_READ                   1063
+#define IDC_TEXT_READSN_CSD             1064
+#define IDC_TEXT_TIME_CSDREAD           1065
+#define IDC_TEXT_TIME_CSDWRITE          1066
 #define IDC_TEXT_SCANTAG_CSD            65535
 
 // Next default values for new objects
@@ -107,7 +112,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        143
 #define _APS_NEXT_COMMAND_VALUE         32771
-#define _APS_NEXT_CONTROL_VALUE         1063
+#define _APS_NEXT_CONTROL_VALUE         1067
 #define _APS_NEXT_SYMED_VALUE           104
 #endif
 #endif

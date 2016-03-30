@@ -32,6 +32,7 @@
 #define WriteHDCP_OFFLINE	"WriteHDCP_OFFLINE"
 #define WriteTag					"WriteTag"
 #define WriteSn					"WriteSn"
+#define ReadSn					"ReadSn"
 #define WriteSn_Marco				"WriteSn_Marco"
 #define WriteTagBySn					"WriteTagBySn"
 #define WriteTagByPn					"WriteTagByPn"
@@ -154,6 +155,7 @@ private:
 	bool runWriteTagByPn();
 	bool runWriteTagBySn();
 	bool runWriteSN();
+	bool runReadSN();
 	bool runWriteSN_Marco();
 	bool runCheckSn();
 	bool runUpdateDDC();

@@ -100,7 +100,8 @@ size_t CToolLoader::LoadToolDLL()
 	if (this->m_Parametermap[ParameterKeyWord::STATIONNAME] == STATION_BBTEST ||
 		this->m_Parametermap[ParameterKeyWord::STATIONNAME] == STATION_CSDEM ||
 		this->m_Parametermap[ParameterKeyWord::STATIONNAME] == STATION_CSDWRITE ||
-		this->m_Parametermap[ParameterKeyWord::STATIONNAME] == STATION_CSDWRITE_SN)
+		this->m_Parametermap[ParameterKeyWord::STATIONNAME] == STATION_CSDWRITE_SN ||
+		this->m_Parametermap[ParameterKeyWord::STATIONNAME] == STATION_CSDREAD_SN)
 	{
 		SetCurrentDirectory(this->m_Parametermap[ParameterKeyWord::WORKINGDIR]);
 		m_hDLL = ::LoadLibrary(_T("FTTool.dll"));

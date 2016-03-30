@@ -83,14 +83,12 @@
 	#define QISDA_MODULE_INFO "reserved"
 	#define QISDA_MODULE_TYPE "CSDWRITE_SN"
 	static const bool QISDA_MODULE_CHECK_DONGLE = false;
-/*
-#elif defined _OSDL
-	#define QISDA_MODULE_NAME "OS_DL"
-	#define QISDA_MODULE_TITLE "OS_DL"
+#elif defined _CSDREAD_SN
+	#define QISDA_MODULE_NAME "CSDREAD_SN"
+	#define QISDA_MODULE_TITLE "CSDREAD_SN"
 	#define QISDA_MODULE_INFO "reserved"
-	#define QISDA_MODULE_TYPE "DOWNLOAD"
+	#define QISDA_MODULE_TYPE "CSDREAD_SN"
 	static const bool QISDA_MODULE_CHECK_DONGLE = false;
-*/
 #endif
 
 typedef int (*MsgCallBack)(const char* szMsg, const char* szTag);
@@ -167,7 +165,8 @@ public:
 	virtual ~CServiceToolController();
 
 	size_t SetParameterValue(char* wsz_keyword, char* wsz_value);
-	size_t GetParameterValue(char* wsz_keyword, char* wsz_value);
+	size_t GetParameterValue(char* wsz_keyword, char* wsz_value); 
+	size_t SetTestItemXMLValueForCSDWrite();
 	void SetCallSendMsg(LPVOID pfunc);
 	void SetCallSetPort(LPVOID pfunc);
 	void SetCallSendResult(LPVOID pfunc);
