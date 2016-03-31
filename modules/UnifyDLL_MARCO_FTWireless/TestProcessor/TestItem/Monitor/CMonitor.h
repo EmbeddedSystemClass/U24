@@ -39,6 +39,7 @@
 #define CheckSn						"CheckSn"
 #define CheckModel				"CheckModel"
 #define CheckSWVersion		"CheckSWVersion"
+#define CheckSWversionByDB_CSD  "CheckSWversionByDB_CSD"
 #define Postcmd					"Postcmd"
 #define UpdateSnBtWifi			"UpdateSnBtWifi"
 #define UpdateDDC				"UpdateDDC"
@@ -171,8 +172,8 @@ private:
 	bool runCheckModel( int i_type);
 	bool runCheckSWversion();
 	bool runCheckSWversionByDB(int i_type);
-	bool runCheckSWversionByDB_Marco(int i_type);
 	bool GetSWVersionFromDB();
+	bool runCheckSWversionByDB_CSD();
 	bool runPostCmd( );
 	bool IfRepeated( char *szvalue );    // 1 = ID ,2 = SN
 	//bool IfRepeated(unsigned short IdType);    // 1 = ID ,2 = SN

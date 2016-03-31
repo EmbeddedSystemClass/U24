@@ -147,20 +147,12 @@ bool CMonitor::Run()
 
 		passFail = runCheckSWversionByDB( i_id_type );
 	}	
-	//else if (m_str_TestItem == CheckSWVersionByDB_Marco)
-	//{
-	//	m_strItemCode = CStr::IntToStr(Monitor_BaseItemcode);
-	//	m_strErrorCode = FunErr_Check_SWVERSION_Fail;
-
-	//	int i_id_type = CStr::StrToInt(m_str_CMD);
-	//	char *sz_value = new char[ID_SIZE_BUFFER]  ;
-	//	if ( i_id_type == 2) {
-	//		passFail = runReadScalarID( sz_value, ID_SIZE);
-	//	}
-	//	delete[] sz_value;
-
-	//	passFail = runCheckSWversionByDB_Marco( i_id_type );
-	//}	
+	else if (m_str_TestItem == CheckSWversionByDB_CSD)
+	{
+		m_strItemCode = CStr::IntToStr(Monitor_BaseItemcode);
+		m_strErrorCode = FunErr_Check_SWVERSION_Fail;
+		passFail = runCheckSWversionByDB_CSD();
+	}	
 	else if (m_str_TestItem == CheckModel)
 	{
 		m_strItemCode = CStr::IntToStr(Monitor_BaseItemcode);
@@ -797,98 +789,102 @@ bool CMonitor::brunGetExistHDCPKEY(char *scalarID)
 	}
 }
 
+bool CMonitor::runCheckSWversionByDB_CSD()
+{
+	bool bRes = false;;
+	//std::string st_readId = "";
+	CString csTmp;
+	char sz_cmd_in[FTD_BUF_SIZE] ="";
+	char sz_cmd_out[FTD_BUF_SIZE] ="";
+	char sz_cmd_errcode[FTD_BUF_SIZE] ="";
+	char *sz_value = new char[ID_SIZE_BUFFER]  ;
+//	std::string stPartNo;
 
-//bool CMonitor::runCheckSWversionByDB_Marco(int i_id_type)
-//{
-//	bool bRes = false;;
-//	//std::string st_readId = "";
-//	char sz_cmd_in[FTD_BUF_SIZE] ="";
-//	char sz_cmd_out[FTD_BUF_SIZE] ="";
-//	char sz_cmd_errcode[FTD_BUF_SIZE] ="";
-//	char *sz_value = new char[ID_SIZE_BUFFER]  ;
-//
-//	//if ( ! runReadScalarID( sz_value, ID_SIZE) ) return false; //read monitor id
-//	if (!GetPartNo(i_id_type)) return false; //get partNo by id
-//	if (!GetModelByPartNo(i_id_type)) return false;
-//
-//	std::string std_SoftWareVersion = "";
-//	CString cs_SoftWareVersion= "";
-//	//CString cs_xmlModelNamel = "";
-//
-//	memset(sz_cmd_in, 0, sizeof(sz_cmd_in));
-//	memset(sz_cmd_out, 0, sizeof(sz_cmd_out));
-//	memset(sz_cmd_errcode, 0, sizeof(sz_cmd_errcode));
-//
-//
-//	if ( m_ModelName.length() < 1 ){
-//			ErrMsg = (_T("runCheckSWversionByDB ModelName  Fail, Model = ")) + m_ModelName;
-//			AfxMessageBox( ErrMsg.c_str() );
-//			TraceLog(MSG_INFO,  ErrMsg);
-//			goto Exit_ShowResult;
-//	}
-//
-//	cs_DBModelNamel = m_ModelName.c_str();
-//	cs_DBModelNamel.Trim();
-//
-//	if (!changeModel()) return false;
-//	if (!GetSWVersionFromDB()) return false;	
-//
-//	strcpy(sz_cmd_in, _T("shell getprop ro.build.oemversion.main"));
-//	if ( !ExecAdbOut(sz_cmd_in, sz_cmd_out, sz_cmd_errcode) ){
-//		ErrMsg = (_T("adb shell getprop ro.build.oemversion.main fail"));
-//		AfxMessageBox( ErrMsg.c_str() );
-//		TraceLog(MSG_INFO,  ErrMsg);
-//		goto  Exit_ShowResult;
-//	}	
-//	//Sleep(200);
-//	std_SoftWareVersion = (char*)sz_cmd_out;
-//	cs_SoftWareVersion.Format(_T("%s"),  sz_cmd_out);
-//	cs_SoftWareVersion.Trim();
-//
-//	//cs_xmlModelNamel = m_str_CMD.c_str();
-//	//cs_xmlModelNamel.Trim();
-//
-//	if (cs_SoftWareVersion.Find(m_szSWver.c_str()) == -1 ){
-//		CString cs;
-//		cs.Format(_T("Check SoftWare Version Fail£¬DB Version = %s  Current DL Version = %s"), m_szSWver.c_str(),  cs_SoftWareVersion);
-//		::MessageBox(NULL, cs.GetBuffer(0), _T("Warnning!!"), MB_TASKMODAL|MB_TOPMOST);
-//		ErrMsg = cs;
-//		TraceLog(MSG_INFO,  ErrMsg);
-//		goto  Exit_ShowResult;
-//	}
-//	else
-//	{
-//		CString cs;
-//		cs.Format(_T("Check SoftWare Version pass£¬DB Version = %s  Current DL Version = %s"), m_szSWver.c_str(),  cs_SoftWareVersion);
-//		ErrMsg = cs;
-//		TraceLog(MSG_INFO,  ErrMsg);
-//		bRes = true;
-//	}
-//
-//
-////[ro.build.variant]: [dels2317w] gbrob2a
-////[ro.build.variant]: [delu2417w] gbrob1a
-//
-//	//compare ,	m_str_CMD, sz_cmd_out
-//
-//	
-//Exit_ShowResult:
-//	if ( !bRes) {
-//		m_strResult = "FAIL";
-//	}
-//	else
-//	{
-//		m_strErrorCode = "-";
-//		m_strResult = "PASS";
-//	}
-//
-//	delete[] sz_value;
-//	str_msg = ErrMsg;
-//	m_strMessage = str_msg;
-//	FactoryLog();
-//	return bRes;
-//}
+	std::string std_SoftWareVersion = "";
+	CString cs_SoftWareVersion= "";
 
+	CMonitorPartNo CMPartNO;
+	if ( !(CMPartNO.SearchPartNo(g_strSo) ) ){
+			ErrMsg = (_T("runCheckSWversionByDB_CSD  SearchPartNo  Fail, g_strSo = ")) + g_strSo;
+			AfxMessageBox( ErrMsg.c_str() );
+		
+			goto Exit_ShowResult;
+	}
+	else
+	{
+		ErrMsg = (_T("runCheckSWversionByDB_CSD  SearchPartNo  ok , g_strSo = ")) + g_strSo;
+		TraceLog(MSG_INFO,  ErrMsg);
+	}
+	
+	m_szPartNo = CMPartNO.GetPartNo();
+
+	csTmp.Format("m_szPartNo = %s, m_szPartNo size = %d ",m_szPartNo.c_str(),  m_szPartNo.size ());
+	TraceLog(MSG_INFO,  csTmp.GetBuffer(0));
+
+	if (!GetModelByPartNo(1)) return false;
+
+	memset(sz_cmd_in, 0, sizeof(sz_cmd_in));
+	memset(sz_cmd_out, 0, sizeof(sz_cmd_out));
+	memset(sz_cmd_errcode, 0, sizeof(sz_cmd_errcode));
+
+
+	if ( m_ModelName.length() < 1 ){
+			ErrMsg = (_T("runCheckSWversionByDB_CSD ModelName  Fail, Model = ")) + m_ModelName;
+			AfxMessageBox( ErrMsg.c_str() );
+			goto Exit_ShowResult;
+	}
+
+	cs_DBModelNamel = m_ModelName.c_str();
+	cs_DBModelNamel.Trim();
+
+	if (!changeModel()) return false;
+	if (!GetSWVersionFromDB()) return false;	
+
+	strcpy(sz_cmd_in, _T("shell getprop ro.build.oemversion.main"));
+	if ( !ExecAdbOut(sz_cmd_in, sz_cmd_out, sz_cmd_errcode) ){
+		ErrMsg = (_T("adb shell getprop ro.build.oemversion.main fail"));
+		AfxMessageBox( ErrMsg.c_str() );
+		goto  Exit_ShowResult;
+	}	
+	//Sleep(200);
+	std_SoftWareVersion = (char*)sz_cmd_out;
+	cs_SoftWareVersion.Format(_T("%s"),  sz_cmd_out);
+	cs_SoftWareVersion.Trim();
+
+
+	if (cs_SoftWareVersion.Find(m_szSWver.c_str()) == -1 ){
+		CString cs;
+		cs.Format(_T("Check SoftWare Version Fail£¬DB Version = %s  Current DL Version = %s"), m_szSWver.c_str(),  cs_SoftWareVersion);
+		::MessageBox(NULL, cs.GetBuffer(0), _T("Warnning!!"), MB_TASKMODAL|MB_TOPMOST);
+		ErrMsg = cs;
+		goto  Exit_ShowResult;
+	}
+	else
+	{
+		CString cs;
+		cs.Format(_T("Check SoftWare Version pass£¬DB Version = %s  Current DL Version = %s"), m_szSWver.c_str(),  cs_SoftWareVersion);
+		ErrMsg = cs;
+		bRes = true;
+	}
+
+	
+Exit_ShowResult:
+	if ( !bRes) {
+		m_strResult = "FAIL";
+	}
+	else
+	{
+		m_strErrorCode = "-";
+		m_strResult = "PASS";
+	}
+
+	TraceLog(MSG_INFO,  ErrMsg);
+	delete[] sz_value;
+	str_msg = ErrMsg;
+	m_strMessage = str_msg;
+	FactoryLog();
+	return bRes;
+}
 
 bool CMonitor::runCheckSWversionByDB(int i_id_type)
 {

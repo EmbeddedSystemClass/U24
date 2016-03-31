@@ -7,6 +7,7 @@ std::map<std::string, std::map<std::string, std::string>> ITestProcessor::g_mapR
 std::string ITestProcessor::g_strPicasso;
 std::string ITestProcessor::g_strTag;
 std::string ITestProcessor::g_strSn;
+std::string ITestProcessor::g_strSo;
 std::string ITestProcessor::g_strLine;
 std::string ITestProcessor::g_strDayNight;
 std::string ITestProcessor::g_strScalarID;
@@ -146,6 +147,17 @@ bool ITestProcessor:: GetSn(char* szSn)
 	return false;
 }
 
+bool ITestProcessor:: SetSo(const char* szSo)
+{
+	if (szSo != NULL)
+	{
+		g_strSo = szSo;
+		
+		return true;
+	}
+
+	return false;
+}
 
 bool ITestProcessor::SetLine(const char* szLine)
 {

@@ -1224,6 +1224,12 @@ bool CUnifyDLL_FTWireless::SetParameterValue(char* sz_keyword, char* sz_value)
 		str_temp.Format(_T("%s"), sz_value);
 		m_str_sn = str_temp;
 	}
+	else if (strcmp(sz_keyword, "FACTORY_SO") == 0)
+	{
+		m_pITool->SetSo(sz_value);
+		str_temp.Format(_T("%s"), sz_value);
+		m_str_so = str_temp;
+	}
 	else if (strcmp(sz_keyword, "FACTORY_LINE") == 0)
 	{
 		m_pITool->SetLine(sz_value);
