@@ -2242,13 +2242,13 @@ bool CMonitor::runWriteHDCPKEY_OFFLINE()
 	//}
 
 
-	strcpy(sz_cmd_in, _T("remount"));
-	if ( !ExecAdbOut(sz_cmd_in, sz_cmd_out, sz_cmd_errcode) ){
-		ErrMsg = (_T("remount Fail"));
-		AfxMessageBox( ErrMsg.c_str() );
-		TraceLog(MSG_INFO,  ErrMsg);
-		goto  Exit_ShowResult;
-	}	
+	//strcpy(sz_cmd_in, _T("remount"));
+	//if ( !ExecAdbOut(sz_cmd_in, sz_cmd_out, sz_cmd_errcode) ){
+	//	ErrMsg = (_T("remount Fail"));
+	//	AfxMessageBox( ErrMsg.c_str() );
+	//	TraceLog(MSG_INFO,  ErrMsg);
+	//	goto  Exit_ShowResult;
+	//}	
 	
 	strcpy(sz_cmd_in, _T("push cek.dat /cache/cek.dat"));
 	if ( !ExecAdbOut(sz_cmd_in, sz_cmd_out, sz_cmd_errcode) ){
@@ -2338,17 +2338,17 @@ bool CMonitor::runWriteHDCPKEY_MARCO()
 	ErrMsg = _T("runGetHDCPKEY ok");
 	TraceLog(MSG_INFO,  ErrMsg);		
 
-	strcpy(sz_cmd_in, _T("remount"));
-	if ( !ExecAdbOut(sz_cmd_in, sz_cmd_out, sz_cmd_errcode) ){
-		ErrMsg = (_T("remount Fail"));
-		AfxMessageBox( ErrMsg.c_str() );
-		TraceLog(MSG_INFO,  ErrMsg);
-		goto  Exit_ShowResult;
-	}	
-	
-	Sleep(1000);
-	ErrMsg = _T("remount ok");
-	TraceLog(MSG_INFO,  ErrMsg);		
+	//strcpy(sz_cmd_in, _T("remount"));
+	//if ( !ExecAdbOut(sz_cmd_in, sz_cmd_out, sz_cmd_errcode) ){
+	//	ErrMsg = (_T("remount Fail"));
+	//	AfxMessageBox( ErrMsg.c_str() );
+	//	TraceLog(MSG_INFO,  ErrMsg);
+	//	goto  Exit_ShowResult;
+	//}	
+	//
+	//Sleep(1000);
+	//ErrMsg = _T("remount ok");
+	//TraceLog(MSG_INFO,  ErrMsg);		
 
 	strcpy(sz_cmd_in, _T("push cek.dat /cache/cek.dat"));
 	if ( !ExecAdbOut(sz_cmd_in, sz_cmd_out, sz_cmd_errcode) ){
@@ -2440,13 +2440,13 @@ bool CMonitor::runWriteHDCPKEY()
 	}
 
 
-	strcpy(sz_cmd_in, _T("remount"));
-	if ( !ExecAdbOut(sz_cmd_in, sz_cmd_out, sz_cmd_errcode) ){
-		ErrMsg = (_T("remount Fail"));
-		AfxMessageBox( ErrMsg.c_str() );
-		TraceLog(MSG_INFO,  ErrMsg);
-		goto  Exit_ShowResult;
-	}	
+	//strcpy(sz_cmd_in, _T("remount"));
+	//if ( !ExecAdbOut(sz_cmd_in, sz_cmd_out, sz_cmd_errcode) ){
+	//	ErrMsg = (_T("remount Fail"));
+	//	AfxMessageBox( ErrMsg.c_str() );
+	//	TraceLog(MSG_INFO,  ErrMsg);
+	//	goto  Exit_ShowResult;
+	//}	
 	
 	strcpy(sz_cmd_in, _T("push cek.dat /cache/cek.dat"));
 	if ( !ExecAdbOut(sz_cmd_in, sz_cmd_out, sz_cmd_errcode) ){
