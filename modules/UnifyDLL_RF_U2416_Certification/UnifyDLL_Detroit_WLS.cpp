@@ -449,6 +449,23 @@ bool CUnifyDLL_Detroit_WLS::SetFASector( int i_slot, int i_sectorNum, char *sz_s
 	return m_pITool->SetFASector(i_slot,i_sectorNum,sz_sectorData,i_sectorSize);
 }
 
+
+bool CUnifyDLL_Detroit_WLS::GetFASector(int i_slot, int i_sectorNum, char *sz_sectorData, int i_sectorSize, int i_idType)
+{
+	return m_pITool->GetFASector(i_slot,i_sectorNum,sz_sectorData,i_sectorSize, i_idType);
+}
+
+bool CUnifyDLL_Detroit_WLS::SetTag(int i_slot, char *sz_sectorData, int i_sectorSize)
+{
+	return m_pITool->SetTag( i_slot,  sz_sectorData,  i_sectorSize);
+	//virtual bool SetTag(int i_slot, char *sz_sectorData, int i_sectorSize) {return true;};
+	//virtual bool SetSn(int i_slot, char *sz_sectorData, int i_sectorSize){return true;};
+
+}
+bool CUnifyDLL_Detroit_WLS::SetSn(int i_slot, char *sz_sectorData, int i_sectorSize)
+{
+	return m_pITool->SetSn( i_slot,  sz_sectorData,  i_sectorSize);
+}
 // --------------------- Get test items --------------------
 
 int CUnifyDLL_Detroit_WLS::GetItemCount()

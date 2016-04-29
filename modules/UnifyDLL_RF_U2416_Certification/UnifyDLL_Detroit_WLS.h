@@ -29,7 +29,7 @@
 #define UnifyDLL_Detroit_WLS_API extern "C" __declspec(dllimport)
 #endif
 
-#define _ToolInterface //LIONTEST
+//#define _ToolInterface //LIONTEST
 #ifdef _ToolInterface
 IDL_API bool NewToolInterfaceNotify(IToolInterface_Notify** ppIToolInterface);
 IDL_API bool DeleteToolInterfaceNotify(IToolInterface_Notify* pIToolInterface);
@@ -117,6 +117,9 @@ public:
 	/*Get/Set FA Sector Data*/
 	virtual bool GetFASector(int i_slot, int i_sectorNum, char *sz_sectorData, int i_sectorSize);
 	virtual bool SetFASector(int i_slot, int i_sectorNum, char *sz_sectorData, int i_sectorSize);
+	virtual bool GetFASector(int i_slot, int i_sectorNum, char *sz_sectorData, int i_sectorSize, int i_idType);
+	virtual bool SetTag(int i_slot, char *sz_sectorData, int i_sectorSize);
+	virtual bool SetSn(int i_slot, char *sz_sectorData, int i_sectorSize);
 
 	/* Get test items */
 	virtual int GetItemCount();
