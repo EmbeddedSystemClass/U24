@@ -242,7 +242,7 @@ size_t CTestItemHdrStd::SetTestItemXMLValueForRFCertification()
 												this->m_Parametermap[ParameterKeyWord::MODELNAME] + 
 												_T("_") + 
 												this->m_Parametermap[ParameterKeyWord::STATIONNAME] + 
-												_T("_TestItem_RD.xml");
+												_T("_TestItem.xml");
 	}
 
 	if (::_taccess(cstrTestItemPath, 0) == 0)

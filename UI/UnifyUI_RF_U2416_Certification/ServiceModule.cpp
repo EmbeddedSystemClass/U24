@@ -10,6 +10,7 @@
 #include "CSDREAD_MARCO.h"
 #include "RFCertificationRx.h"
 #include "RFCertificationTxCw.h"
+#include "CSDWIFI.h"
 #include "KeyPro.h"
 
 
@@ -113,8 +114,16 @@ void CServiceModule::OnBnClickedButtonTool(int nIndex)
 		dlg.SetInit(m_info[nIndex]);
 		dlg.DoModal();
 	}
-	else if (m_info[nIndex].type == _T("RFCERTIFICATIONRX")) {
+	else if (m_info[nIndex].type == _T("RFCERTIFICATIONRX")) 
+	{
 		CRFCertificationRx dlg(this);
+		dlg.SetInit(m_info[nIndex]);
+		dlg.DoModal();
+	}
+	else if ( m_info[nIndex].type == _T("CSDWIFI_1") ||
+		  m_info[nIndex].type == _T("CSDWIFI_2")) 
+	{
+		CCSDWIFI dlg(this);
 		dlg.SetInit(m_info[nIndex]);
 		dlg.DoModal();
 	}

@@ -143,6 +143,7 @@ public:
 	//virtual bool WifiPowerOnRxGetPacket (unsigned long* rxFrameCounter,int iChain) = 0;
 	virtual bool WifiPowerOnRxCertification (int iChannel, int iWlandMode,int iRateMask, int iChain) = 0 ;
 	virtual bool WifiPowerOnRxGetPacket (char* rxFrameCounter) = 0 ;
+	virtual bool WifiPowerOnRxGetRssi (char* rxFrameCounter) = 0 ;
 	//virtual bool WifiPowerOnRxGetPacket (int iChannel,int iPreamble, unsigned long* rxFrameCounter,int iChain) = 0;
 	virtual bool WifiPowerOnRxSetChannel(int iChannel) = 0;
 	virtual bool WifiPowerOn5GRxGetPacket(unsigned long* rxFrameCounter) = 0;

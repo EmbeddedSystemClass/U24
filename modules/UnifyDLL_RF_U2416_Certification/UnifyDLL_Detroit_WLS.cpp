@@ -138,7 +138,7 @@ bool CUnifyDLL_Detroit_WLS::CheckTestItemXMLExist()
 	}
 	else
 	{
-		cstrRFXML.Format(_T("%sQisda\\%s_TestItem_RD.xml"), m_str_ToolWorkDirectory, m_cstrTestItemFile);
+		cstrRFXML.Format(_T("%sQisda\\%s_TestItem.xml"), m_str_ToolWorkDirectory, m_cstrTestItemFile);
 	}
 #endif
 	
@@ -413,11 +413,12 @@ bool CUnifyDLL_Detroit_WLS::SetParameterValue(const wchar_t* sz_keyword, const w
 	return true;
 }
 
-bool CUnifyDLL_Detroit_WLS::GetParameterValue(const wchar_t* sz_keyword, wchar_t* sz_value, int i_size)
+//bool CUnifyDLL_Detroit_WLS::GetParameterValue(const wchar_t* sz_keyword, wchar_t* sz_value, int i_size)
+bool CUnifyDLL_Detroit_WLS::GetParameterValue(const wchar_t* sz_keyword, char* sz_value, int i_size)
 {
 	CString str_key = CW2CT(sz_keyword);
-	CString str_value = CW2CT(sz_value);
-
+//	CString str_value = CW2CT(sz_value);
+	CString str_value = sz_value;
 	if (m_pITool)
 	{
 		return m_pITool->GetParameterValue(CT2A(str_key.GetString()), CT2A(str_value.GetString()), i_size);

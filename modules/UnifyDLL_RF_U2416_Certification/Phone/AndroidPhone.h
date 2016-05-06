@@ -170,6 +170,7 @@ public:
 	virtual bool WifiPowerOn5GTxCwCertification (int iChannel, int iRfGain, int iBond);
 	virtual bool WifiPowerOnRxCertification (int iChannel, int iWlandMode,int iRateMask, int iChain);
 	virtual bool WifiPowerOnRxGetPacket (char* rxFrameCounter);
+	virtual bool WifiPowerOnRxGetRssi (char* rxFrameCounter);
 	//virtual bool WifiPowerOnRxGetPacket (int iChannel,int iPreamble, unsigned long* rxFrameCounter,int iChain);
 	virtual bool WifiPowerOnRxSetChannel(int iChannel);
 	virtual bool WifiPowerOn5GRxGetPacket(unsigned long* rxFrameCounter);

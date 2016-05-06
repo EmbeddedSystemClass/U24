@@ -147,7 +147,8 @@ public:
 	virtual bool InitTestItem(const wchar_t *szItem);
 
 	virtual bool SetParameterValue(const wchar_t* sz_keyword, const wchar_t* sz_value);
-	virtual bool GetParameterValue(const wchar_t* sz_keyword, wchar_t* sz_value, int i_size);
+	//virtual bool GetParameterValue(const wchar_t* sz_keyword, wchar_t* sz_value, int i_size);
+	virtual bool GetParameterValue(const wchar_t* sz_keyword, char* sz_value, int i_size);
 
 	virtual bool OnRunInit(int i_slot = 1);
 

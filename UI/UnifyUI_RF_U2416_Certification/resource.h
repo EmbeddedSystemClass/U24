@@ -19,6 +19,8 @@
 #define IDD_SERVICE_SUBUI_CSDWRITE      142
 #define IDD_SERVICE_SUBUI_CSDWRITE_Marco 143
 #define IDD_SERVICE_SUBUI_CSDREAD_Marco 144
+#define IDD_SERVICE_SUBUI_WIFI_RX1      145
+#define IDD_SERVICE_SUBUI_CSDWIFI       145
 #define IDC_TAB_MODULE                  1000
 #define IDC_MODULE_BUTTON0              1001
 #define IDC_MODULE_BUTTON1              1002

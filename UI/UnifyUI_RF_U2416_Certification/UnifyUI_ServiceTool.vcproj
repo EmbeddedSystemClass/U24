@@ -199,6 +199,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\CSDWIFI.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\CSDWRITE.cpp"
 				>
 			</File>
@@ -306,6 +310,10 @@
 			</File>
 			<File
 				RelativePath=".\CSDREAD_MARCO.h"
+				>
+			</File>
+			<File
+				RelativePath=".\CSDWIFI.h"
 				>
 			</File>
 			<File

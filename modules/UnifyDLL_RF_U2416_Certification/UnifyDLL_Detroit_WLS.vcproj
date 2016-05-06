@@ -619,6 +619,14 @@
 						RelativePath=".\TestProcessor\TestItem\Wireless1TestItem\Wireless_WiFi_ContinuousTxTest.h"
 						>
 					</File>
+					<File
+						RelativePath=".\TestProcessor\TestItem\Wireless1TestItem\Wireless_WiFi_CSDWifiTest.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\TestProcessor\TestItem\Wireless1TestItem\Wireless_WiFi_CSDWifiTest.h"
+						>
+					</File>
 				</Filter>
 			</Filter>
 		</Filter>

@@ -31,7 +31,7 @@
 #define ISRV_CLASS_API __declspec(dllimport)
 #endif
 
-#define _WIFI_TX
+#define _CSDWIFI_1
 #define UNIFYMODELNAME			      _T("RF")
 
 #if defined _WIFI_TX
@@ -45,6 +45,18 @@
 	#define QISDA_MODULE_TITLE "WIFI RX"
 	#define QISDA_MODULE_INFO "reserved"
 	#define QISDA_MODULE_TYPE "RFCERTIFICATIONRX"
+	static const bool QISDA_MODULE_CHECK_DONGLE = false;
+#elif defined _CSDWIFI_1
+	#define QISDA_MODULE_NAME "CSDWIFI_1"
+	#define QISDA_MODULE_TITLE "CSDWIFI_1"
+	#define QISDA_MODULE_INFO "reserved"
+	#define QISDA_MODULE_TYPE "CSDWIFI_1"
+	static const bool QISDA_MODULE_CHECK_DONGLE = false;
+#elif defined _CSDWIFI_2
+	#define QISDA_MODULE_NAME "CSDWIFI_1"
+	#define QISDA_MODULE_TITLE "CSDWIFI_1"
+	#define QISDA_MODULE_INFO "reserved"
+	#define QISDA_MODULE_TYPE "CSDWIFI_1"
 	static const bool QISDA_MODULE_CHECK_DONGLE = false;
 #elif defined _2G4
 	#define QISDA_MODULE_NAME "2G4 TX"

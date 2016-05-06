@@ -284,16 +284,23 @@ CServiceToolController::CServiceToolController()
 		this->m_Parametermap[ParameterKeyWord::WORKINGDIR] = this->m_Parametermap[ParameterKeyWord::WORKINGDIR].Left(this->m_Parametermap[ParameterKeyWord::WORKINGDIR].ReverseFind('\\'));
 		this->m_Parametermap[ParameterKeyWord::WORKINGDIR].Append(_T("\\Module\\BROOK\\L1L2\\CSDWRITE"));
 	}
-	/*
-	else if(QISDA_MODULE_NAME == "OS_DL")
+	else if(QISDA_MODULE_NAME == "CSDWIFI_1") 
 	{
-		this->m_Parametermap[ParameterKeyWord::STATIONNAME] = this->m_strCurrentStation = STATION_OS_DL;
+		this->m_Parametermap[ParameterKeyWord::STATIONNAME] = this->m_strCurrentStation = STATION_CSDWIFI_1;
 		GetModuleFileName(NULL, this->m_Parametermap[ParameterKeyWord::WORKINGDIR].GetBufferSetLength(MAX_PATH+1), MAX_PATH);
 		this->m_Parametermap[ParameterKeyWord::WORKINGDIR].ReleaseBuffer();
 		this->m_Parametermap[ParameterKeyWord::WORKINGDIR] = this->m_Parametermap[ParameterKeyWord::WORKINGDIR].Left(this->m_Parametermap[ParameterKeyWord::WORKINGDIR].ReverseFind('\\'));
-		this->m_Parametermap[ParameterKeyWord::WORKINGDIR].Append(_T("\\Module\\Boston\\L3L4\\OS_DL\\"));
-		this->m_Parametermap[_T("DLMODE")] = _T("ReDL");
-	}*/
+		this->m_Parametermap[ParameterKeyWord::WORKINGDIR].Append(_T("\\Module\\BROOK\\L1L2\\CSDWIFI_1\\"));
+	}
+	else if(QISDA_MODULE_NAME == "CSDWIFI_2") 
+	{
+		this->m_Parametermap[ParameterKeyWord::STATIONNAME] = this->m_strCurrentStation = STATION_CSDWIFI_2;
+		GetModuleFileName(NULL, this->m_Parametermap[ParameterKeyWord::WORKINGDIR].GetBufferSetLength(MAX_PATH+1), MAX_PATH);
+		this->m_Parametermap[ParameterKeyWord::WORKINGDIR].ReleaseBuffer();
+		this->m_Parametermap[ParameterKeyWord::WORKINGDIR] = this->m_Parametermap[ParameterKeyWord::WORKINGDIR].Left(this->m_Parametermap[ParameterKeyWord::WORKINGDIR].ReverseFind('\\'));
+		this->m_Parametermap[ParameterKeyWord::WORKINGDIR].Append(_T("\\Module\\BROOK\\L1L2\\CSDWIFI_2\\"));
+	}
+
 }
 
 CServiceToolController::~CServiceToolController()
@@ -765,6 +772,8 @@ size_t CServiceToolController::MakeEnhanceController()
 		this->m_strCurrentStation == STATION_BTWLAN ||
 		this->m_strCurrentStation == STATION_CSDEM ||
 		this->m_strCurrentStation == STATION_CSDWRITE ||
+		this->m_strCurrentStation == STATION_CSDWIFI_1||
+		this->m_strCurrentStation == STATION_CSDWIFI_2||
 		//this->m_strCurrentStation == STATION_CURRENT ||
 		//this->m_strCurrentStation == STATION_ONLINE_WLS ||
 		//this->m_strCurrentStation == STATION_ONLINE_WLS2 ||
