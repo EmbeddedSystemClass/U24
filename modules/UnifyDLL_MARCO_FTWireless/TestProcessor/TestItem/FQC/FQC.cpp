@@ -1017,7 +1017,7 @@ bool CFQC::runFindWifiAP()
 	char szInput[FTD_BUF_SIZE] = {0};
 	char szOutnput[FTD_BUF_SIZE] = {0};
 	strcpy(szInput, m_str_CMD.c_str());	
-	if (!m_pIPhone->FTD_WLAN_ScanAP(m_nFtdPort, m_nFtdTimeOut, szInput, szOutnput ))
+	if (!m_pIPhone->FTD_WLAN_ScanAP(m_nFtdPort, 30000, szInput, szOutnput ))
 	{
 		b_res = false;
 	}
