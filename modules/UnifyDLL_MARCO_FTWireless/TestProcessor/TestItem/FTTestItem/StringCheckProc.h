@@ -56,6 +56,7 @@
 #define HDMI_OUTPUT				_T("HDMI_OUTPUT")
 #define WLAN_MODULE				_T("WLAN_MODULE")
 #define BT_INQUIRY				_T("BT_INQUIRY")
+#define Check_LED				_T("Check_LED")
 
 
 
@@ -114,6 +115,7 @@ private:
 	
 	bool Check_WLAN_MODULE();
 	bool Check_BT_INQUIRY();
+	bool Run_Check_LED();
 	bool showMsg(const char* szMsg);
 
 };

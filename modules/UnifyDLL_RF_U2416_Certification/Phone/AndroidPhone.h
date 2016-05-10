@@ -58,7 +58,8 @@ public:
 	virtual bool GetFAData(char* szValue, int iSize);
 	virtual bool SetFAData(char* szValue);
 	/*Get/Set FA Sector Data*/
-	virtual bool GetFASector(int i_sectorNum, char *sz_sectorData, int i_sectorSize);
+	////virtual bool GetFASector(int i_slot, int i_sectorNum, char *sz_sectorData, int i_sectorSize, int i_idType) = 0;
+	virtual bool GetFASector(int i_sectorNum, char *sz_sectorData, int i_sectorSize, int i_idType);
 	virtual bool SetFASector(int i_sectorNum, char *sz_sectorData, int i_sectorSize);
 
 	virtual bool GetFAData_QMSL(char* szValue, int iSize);

@@ -120,6 +120,12 @@ bool CStringCheckProc::Run()
 		m_strErrorCode = FunErr_Check_BT_INQUIRY_Fail;
 		return Check_BT_INQUIRY();
 	}	
+	else if (m_str_Name == Check_LED)
+	{
+		m_strItemCode = CStr::IntToStr(LED_Test_BaseItemCode);
+		m_strErrorCode = FunErr_LED_Test_Fail;
+		return Run_Check_LED();
+	}	
 	else
 	{
 		m_strMessage = "The Type of ID is not defined";
@@ -963,6 +969,34 @@ bool CStringCheckProc::Check_BT_INQUIRY()
 
 }
 
+bool CStringCheckProc::Run_Check_LED()
+{
+	bool b_res = false;
+	std::string str_msg;
+
+	/* read  PMIid from mobile */
+	str_msg = CW2A(L"LED ÓÐÁÁÂð ? LED  Is Light ?");
+	b_res = showMsg(str_msg.c_str());
+
+
+	/* test result */
+	if (b_res)
+	{
+		m_strResult = "PASS";
+		m_strErrorCode = "-";
+		m_strMessage = str_msg;
+		TraceLog(MSG_INFO, "Run_Check_LED  PASS!");
+	}
+	else
+	{
+		m_strResult = "FAIL";
+		m_strMessage = str_msg;
+		TraceLog(MSG_INFO, "Run_Check_LED  FAIL!");
+	}
+	SetPICSData("Run_Check_LED", "PASS");
+	FactoryLog();
+	return b_res;
+}
 
 bool CStringCheckProc::ReadSOCversion()
 {

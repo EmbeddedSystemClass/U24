@@ -258,7 +258,7 @@ bool CAndroidPhone::SetFAData(char* szValue)
 	return ret;
 }
 
-bool CAndroidPhone::GetFASector( int i_sectorNum, char *sz_sectorData, int i_sectorSize )
+bool CAndroidPhone::GetFASector( int i_sectorNum, char *sz_sectorData, int i_sectorSize, int i_idType )
 {
 	ASSERT(i_sectorSize == 512);
 
