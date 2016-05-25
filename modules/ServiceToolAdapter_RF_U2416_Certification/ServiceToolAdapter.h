@@ -46,13 +46,13 @@
 	#define QISDA_MODULE_INFO "reserved"
 	#define QISDA_MODULE_TYPE "RFCERTIFICATIONRX"
 	static const bool QISDA_MODULE_CHECK_DONGLE = false;
-#elif defined _CSDWIFI_1
-	#define QISDA_MODULE_NAME "CSDWIFI_1"
-	#define QISDA_MODULE_TITLE "CSDWIFI_1"
+#elif defined _CSDWIFI_0
+	#define QISDA_MODULE_NAME "CSDWIFI_0"
+	#define QISDA_MODULE_TITLE "CSDWIFI_0"
 	#define QISDA_MODULE_INFO "reserved"
-	#define QISDA_MODULE_TYPE "CSDWIFI_1"
+	#define QISDA_MODULE_TYPE "CSDWIFI_0"
 	static const bool QISDA_MODULE_CHECK_DONGLE = false;
-#elif defined _CSDWIFI_2
+#elif defined _CSDWIFI_1
 	#define QISDA_MODULE_NAME "CSDWIFI_1"
 	#define QISDA_MODULE_TITLE "CSDWIFI_1"
 	#define QISDA_MODULE_INFO "reserved"

@@ -294,6 +294,15 @@ CServiceToolController::CServiceToolController()
 		this->m_Parametermap[ParameterKeyWord::WORKINGDIR] = this->m_Parametermap[ParameterKeyWord::WORKINGDIR].Left(this->m_Parametermap[ParameterKeyWord::WORKINGDIR].ReverseFind('\\'));
 		this->m_Parametermap[ParameterKeyWord::WORKINGDIR].Append(_T("\\Module\\RF_Certification\\RF\\5G_CW\\"));
 	}
+	else if (QISDA_MODULE_NAME == "CSDWIFI_0")
+	{
+		this->m_Parametermap[ParameterKeyWord::MODELNAME] = "GBROB1A";
+		this->m_Parametermap[ParameterKeyWord::STATIONNAME] = this->m_strCurrentStation = STATION_CSDWIFI_0;
+		GetModuleFileName(NULL, this->m_Parametermap[ParameterKeyWord::WORKINGDIR].GetBufferSetLength(MAX_PATH+1), MAX_PATH);
+		this->m_Parametermap[ParameterKeyWord::WORKINGDIR].ReleaseBuffer();
+		this->m_Parametermap[ParameterKeyWord::WORKINGDIR] = this->m_Parametermap[ParameterKeyWord::WORKINGDIR].Left(this->m_Parametermap[ParameterKeyWord::WORKINGDIR].ReverseFind('\\'));
+		this->m_Parametermap[ParameterKeyWord::WORKINGDIR].Append(_T("\\Module\\BROOK\\L1L2\\CSDWIFI_0\\"));
+	}
 	else if (QISDA_MODULE_NAME == "CSDWIFI_1")
 	{
 		this->m_Parametermap[ParameterKeyWord::MODELNAME] = "GBROB1A";
@@ -685,6 +694,7 @@ size_t CServiceToolController::MakeEnhanceController()
 		//this->m_strCurrentStation == STATION_3GPTEST ||
 		//this->m_strCurrentStation == STATION_2G3GTEST ||
 		//this->m_strCurrentStation == STATION_4GPTEST ||
+		this->m_strCurrentStation == STATION_CSDWIFI_0 || 
 		this->m_strCurrentStation == STATION_CSDWIFI_1 || 
 		this->m_strCurrentStation == STATION_BTWLAN)
 		//this->m_strCurrentStation == STATION_CURRENT ||

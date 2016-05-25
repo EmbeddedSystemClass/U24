@@ -115,8 +115,8 @@ size_t CToolLoader::LoadToolDLL()
 			 this->m_Parametermap[ParameterKeyWord::STATIONNAME] == STATION_2G3GTEST ||
 			 this->m_Parametermap[ParameterKeyWord::STATIONNAME] == STATION_4GPTEST ||*/
 			 this->m_Parametermap[ParameterKeyWord::STATIONNAME] == STATION_BTWLAN ||
-			 this->m_Parametermap[ParameterKeyWord::STATIONNAME] == STATION_CSDWIFI_1)
-			 
+			 this->m_Parametermap[ParameterKeyWord::STATIONNAME] == STATION_CSDWIFI_0 ||
+			 this->m_Parametermap[ParameterKeyWord::STATIONNAME] == STATION_CSDWIFI_1)		 
 			 //this->m_Parametermap[ParameterKeyWord::STATIONNAME] == STATION_CURRENT ||
 			 //this->m_Parametermap[ParameterKeyWord::STATIONNAME] == STATION_ONLINE_WLS ||
 			 //this->m_Parametermap[ParameterKeyWord::STATIONNAME] == STATION_ONLINE_WLS2 ||

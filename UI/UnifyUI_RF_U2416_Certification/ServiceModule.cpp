@@ -120,8 +120,8 @@ void CServiceModule::OnBnClickedButtonTool(int nIndex)
 		dlg.SetInit(m_info[nIndex]);
 		dlg.DoModal();
 	}
-	else if ( m_info[nIndex].type == _T("CSDWIFI_1") ||
-		  m_info[nIndex].type == _T("CSDWIFI_2")) 
+	else if ( m_info[nIndex].type == _T("CSDWIFI_0") ||
+		  m_info[nIndex].type == _T("CSDWIFI_1")) 
 	{
 		CCSDWIFI dlg(this);
 		dlg.SetInit(m_info[nIndex]);

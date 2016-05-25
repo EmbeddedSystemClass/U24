@@ -541,6 +541,8 @@ bool CUnifyDLL_Detroit_WLS::OnRunInit(int i_slot)
 bool CUnifyDLL_Detroit_WLS::PreRun(int i_slot)
 #endif
 {
+	SetLogFilePath();
+	SetLogFileName();
 	return m_pITool->PreRun();
 }
 
@@ -835,7 +837,8 @@ void CUnifyDLL_Detroit_WLS::SetLogFilePath()
 	GetLocalTime(&systemTime);
 	str_curDate.Format(_T("%04d%02d%02d"), systemTime.wYear, systemTime.wMonth, systemTime.wDay);
 
-	str_path.Format(_T("D:\\LOG\\DLL"));
+	str_path.Format(_T("D:\\LOG\\DLL\\%s\\%s"), m_cstr_StationName, str_curDate);
+	//str_path.Format(_T("D:\\LOG\\DLL"));
 	m_GLog.InitializeGLog(str_path);
 }
 
