@@ -120,6 +120,7 @@
 #define IDC_STATIC_PRESCAN              1090
 #define IDC_INIT_STATIC_PartNumber      1091
 #define IDC_STATIC_TAG                  1091
+#define IDC_INIT_STATIC_Model2          1091
 #define IDC_INIT_STATIC_LoadVer         1092
 #define IDC_STATIC_SN                   1092
 #define IDC_INIT_STATIC_Station         1093

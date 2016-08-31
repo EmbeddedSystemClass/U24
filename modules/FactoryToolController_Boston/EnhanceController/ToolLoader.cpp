@@ -101,7 +101,7 @@ size_t CToolLoader::LoadToolDLL()
 		this->m_Parametermap[ParameterKeyWord::STATIONNAME] == STATION_CSDEM ||
 		this->m_Parametermap[ParameterKeyWord::STATIONNAME] == STATION_CSDWRITE ||
 		this->m_Parametermap[ParameterKeyWord::STATIONNAME] == STATION_CSDWIFI_1 ||
-		this->m_Parametermap[ParameterKeyWord::STATIONNAME] == STATION_CSDWIFI_2 ||
+		this->m_Parametermap[ParameterKeyWord::STATIONNAME] == STATION_CSDWIFI_0 ||
 		this->m_Parametermap[ParameterKeyWord::STATIONNAME] == STATION_CSDWRITE_SN ||
 		this->m_Parametermap[ParameterKeyWord::STATIONNAME] == STATION_CSDREAD_SN)
 	{

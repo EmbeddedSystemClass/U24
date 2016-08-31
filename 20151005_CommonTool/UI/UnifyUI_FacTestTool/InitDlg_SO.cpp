@@ -25,7 +25,7 @@ CInitDlg_SO::~CInitDlg_SO()
 void CInitDlg_SO::DoDataExchange(CDataExchange* pDX)
 {
 	CDialog::DoDataExchange(pDX);
-	DDX_Control(pDX, IDC_INIT_EDIT_SO, m_edit_so);
+	//DDX_Control(pDX, IDC_INIT_EDIT_SO, m_edit_so);
 	//DDX_Control(pDX, IDC_INIT_COMBO_DAYNIGHT, m_combobox_daynight);
 	DDX_Control(pDX, IDC_INIT_BUTTON_OK, m_botton_ok);
 	DDX_Control(pDX, IDC_INIT_BUTTON_CANCEL, m_botton_cancel);
@@ -84,14 +84,14 @@ void CInitDlg_SO::OnBnClickedInitButtonOk()
 	CString str_message = _T("");
 
 	/* Get Model Name */	
-	m_edit_so.GetWindowText(m_st_initData.str_so);
+	//m_edit_so.GetWindowText(m_st_initData.str_so);
 
-	if (m_st_initData.str_so == _T(""))
-	{
-		str_message = _T("SO信息不能为空，请重新输入\n Please input power line!");
-		AfxMessageBox(str_message, MB_OK);
-		return;
-	}
+	//if (m_st_initData.str_so == _T(""))
+	//{
+	//	str_message = _T("SO信息不能为空，请重新输入\n Please input power line!");
+	//	AfxMessageBox(str_message, MB_OK);
+	//	return;
+	//}
 
 	CDialog::OnOK();
 }
@@ -136,14 +136,14 @@ bool CInitDlg_SO::GetInitData(st_UIIDparameter& st_dataCopy)
 void CInitDlg_SO::OnEnKillfocusInitEditModel()
 {
 	// TODO: Add your control notification handler code here
-	CString str_so = _T("");
-	m_edit_so.GetWindowText(str_so);
-	if (str_so.IsEmpty())
-	{
-		AfxMessageBox(_T("Please input so first!\n请输入SO"), MB_OK);
-		m_edit_so.GetFocus();
-		//m_combobox_daynight.ResetContent();
-	}
+	//CString str_so = _T("");
+	//m_edit_so.GetWindowText(str_so);
+	//if (str_so.IsEmpty())
+	//{
+	//	AfxMessageBox(_T("Please input so first!\n请输入SO"), MB_OK);
+	//	m_edit_so.GetFocus();
+	//	//m_combobox_daynight.ResetContent();
+	//}
 	//else
 	//{
 	//	InitialTypeComBoBox();

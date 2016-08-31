@@ -40,7 +40,7 @@ private:
 
 	//CLabel m_static_type;
 //	CLabel m_statci_employeeid;
-	CEdit m_edit_so;
+	//CEdit m_edit_so;
 
 	//CComboBox m_combobox_daynight;
 	CButton m_botton_ok;

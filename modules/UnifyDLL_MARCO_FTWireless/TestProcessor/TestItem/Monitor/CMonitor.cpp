@@ -198,6 +198,12 @@ bool CMonitor::Run()
 		m_strErrorCode = FunErr_WRITE_SN_Fail;
 		passFail = runWriteSN_Marco();
 	}
+	else if (m_str_TestItem == WriteSn_MarcoBySo)
+	{
+		m_strItemCode = CStr::IntToStr(Monitor_BaseItemcode);
+		m_strErrorCode = FunErr_WRITE_SN_Fail;
+		passFail = runWriteSN_MarcoBySo();
+	}
 	else if (m_str_TestItem == UpdateSnBtWifi)
 	{
 		m_strItemCode = CStr::IntToStr(Monitor_BaseItemcode);
@@ -1790,6 +1796,134 @@ Exit_ShowResult:
 	return bRes;
 }
 
+bool CMonitor::runWriteSN_MarcoBySo()
+{
+	bool bRes = false;
+	CString cs_readId;
+	std::string st_readId = "";
+
+	char sz_ID[40] ="";
+	char szAddress[FTD_BUF_SIZE] = "1024,20";// dell tag
+	char m_szFAData[FTD_BUF_SIZE];
+	memset(m_szFAData, 0, sizeof(m_szFAData));
+	int n_SwitchCase = 0 ;
+	
+
+	sprintf_s((char*)sz_ID, 40,"1024,20,%s", g_strSn.c_str() );
+
+	/*read frist */
+	if (!m_pIPhone->FTD_FAC_CFGRead(m_nFtdPort, m_nFtdTimeOut, szAddress, m_szFAData))
+	{
+			ErrMsg = (_T("runWriteSN FTD_FAC_CFGRead Fail"));
+			AfxMessageBox( ErrMsg.c_str() );
+			TraceLog(MSG_INFO,  ErrMsg);
+			goto Exit_ShowResult;
+	}
+
+	st_readId = m_szFAData;
+	cs_readId = st_readId.c_str();
+	cs_readId.Trim();
+	st_readId = cs_readId;
+	
+
+	if ( st_readId.length() == 0 ){
+			ErrMsg = (_T("runCheckTag  is empty, target id = ")) + st_readId ;
+			TraceLog(MSG_INFO,  ErrMsg);
+			n_SwitchCase = 3;
+	}
+	else
+	{
+			ErrMsg = (_T("runCheckTag  not empty, target id = ")) + st_readId ;
+			TraceLog(MSG_INFO,  ErrMsg);
+			if  ( g_strSn.compare(st_readId) == 0 ){ //same tag , skip
+				n_SwitchCase = 1;
+				ErrMsg = (_T("runCheckTag  not empty, same sn = ")) + st_readId ;
+				TraceLog(MSG_INFO,  ErrMsg);
+			}
+			else
+			{
+				n_SwitchCase = 2;
+				CString csTmp;
+				csTmp.Format(_T("runCheckTag  not empty,  sn different  scan = %s,  target = %s"), g_strSn.c_str()  ,st_readId.c_str() );
+				ErrMsg = csTmp.GetBuffer(0);//  (_T("runCheckTag  not empty,  sn different = ")) + st_readId ;
+				TraceLog(MSG_INFO,  ErrMsg);
+			}
+	}
+
+	switch(n_SwitchCase)
+	{
+	case 1://1:not empty , same tag, skip
+				ErrMsg = _T("1:not empty , same tag, skip") ;
+				bRes = true;
+			goto Exit_ShowResult;
+		break;
+	case 2://2:not empty , checck . different, write
+			bRes = runCheckSn_So();
+			ErrMsg = _T("2:not empty , checck . different, write  ") ;
+		break;
+	case 3: //3:not empty , different, scanTag unique & verify, write write 
+			bRes = runCheckSn_So();
+			ErrMsg = _T("3:empty,check. scanTag unique & verify, write ") ;
+		break;
+	}
+	TraceLog(MSG_INFO,  ErrMsg);
+
+	if ( !bRes){
+			ErrMsg = (_T("check Sn Fail"));
+			TraceLog(MSG_INFO,  ErrMsg);
+		goto Exit_ShowResult;
+	}
+
+
+	if (!m_pIPhone->FTD_FAC_CFGWrite(m_nFtdPort, m_nFtdTimeOut, sz_ID, m_szFAData))
+	{
+			ErrMsg = (_T("runWriteSN FTD_FAC_CFGWrite Fail"));
+			AfxMessageBox( ErrMsg.c_str() );
+			TraceLog(MSG_INFO,  ErrMsg);
+			goto Exit_ShowResult;
+	}
+
+	if (!m_pIPhone->FTD_FAC_CFGRead(m_nFtdPort, m_nFtdTimeOut, szAddress, m_szFAData))
+	{
+			ErrMsg = (_T("runWriteSN FTD_FAC_CFGRead Fail"));
+			AfxMessageBox( ErrMsg.c_str() );
+			TraceLog(MSG_INFO,  ErrMsg);
+			goto Exit_ShowResult;
+	}
+
+	st_readId = m_szFAData;
+	if  ( g_strSn.compare(st_readId) == 0 ){
+			ErrMsg = (_T("Serial Number  compare  ok"));
+			TraceLog(MSG_INFO,  ErrMsg);
+			m_strErrorCode = "-";
+			bRes = true;
+	}
+	else
+	{
+			ErrMsg = (_T("Serial Number  compare  Fail"));
+			//AfxMessageBox( ErrMsg.c_str() );
+			TraceLog(MSG_INFO,  ErrMsg);
+			goto Exit_ShowResult;
+	}
+
+Exit_ShowResult:
+	if ( !bRes) {
+		m_strResult = "FAIL";
+	}
+	else
+	{
+		m_strErrorCode = "-";
+		m_strResult = "PASS";
+	}
+
+	str_msg = ErrMsg;
+	m_strMessage = str_msg;
+	FactoryLog();
+	return bRes;
+}
+
+
+
 bool CMonitor::runReadSN()
 {
 	bool bRes = false;
@@ -2859,6 +2993,104 @@ Exit_ShowResult:
 	return bRes;
 }
 
+bool CMonitor::runCheckSn_So(){
+	bool bRes = false;
+	unsigned short unsSnLen = 20;
+	unsigned char szBarcodeSN[SN_SIZE_BUFFER] = {0};
+	unsigned char szSo[SN_SIZE_BUFFER] = {0};
+	//unsigned char szBarcodeSN[SN_SIZE_BUFFER] = {0};
+
+//	if  ( !GetSoNo(1)) return false;
+
+	int n = g_strSn.length();
+
+	if ( g_strSo.empty() ){
+		ErrMsg = (_T("fail, SO  is empty"));
+		AfxMessageBox( ErrMsg.c_str() );
+		TraceLog(MSG_INFO,  ErrMsg);
+		return false;
+	}
+	else{
+			ErrMsg = (_T("runWriteSN_MarcoBySo, SO = ")) + g_strSo ;
+			TraceLog(MSG_INFO,  ErrMsg);
+	}
+
+	sprintf_s((char*)szBarcodeSN, SN_SIZE_BUFFER , "%s", g_strSn.c_str());
+	sprintf_s((char*)szSo, SN_SIZE_BUFFER , "%s", g_strSo.c_str());
+	
+	CString str_dllF32SERVER2 = F32SERVERDB;
+	HMODULE hDll ;
+	hDll = ::LoadLibrary(str_dllF32SERVER2);
+
+	ErrMsg = ("start check Sn , Sn = ") + g_strSn;
+	TraceLog(MSG_INFO,  ErrMsg);
+	if( hDll != NULL )
+	{	
+		/*判断Sn是否可以使用(是否合法)*/
+		//typedef bool (_stdcall *lpGetExistSN_Marco)(const unsigned char* BarcodeSN,      unsigned short BarcodeSNLen);
+		typedef bool (_stdcall *lpGetExistSN_Marco)(const unsigned char* SN,      unsigned short SNLen,
+																					  unsigned char* So, unsigned short SoLen);
+
+		lpGetExistSN_Marco iGetExistSN_Marco = (lpGetExistSN_Marco)::GetProcAddress(hDll,"GetExistSN_Marco");
+		if(NULL != iGetExistSN_Marco)
+		{	
+			if ( iGetExistSN_Marco(szBarcodeSN, SN_SIZE_BUFFER, szSo, 7 )){
+				ErrMsg = ("iGetExistSN_Marco true");
+				TraceLog(MSG_INFO,  ErrMsg);
+			}
+			else
+			{
+				ErrMsg = ("iGetExistSN_Marco false");
+				AfxMessageBox( ErrMsg.c_str() );
+				TraceLog(MSG_INFO,  ErrMsg);
+				return false;
+			}
+		}
+		else
+		{
+			ErrMsg = ("Load iGetExistSN_Marco Fail");
+			AfxMessageBox( ErrMsg.c_str() );
+			TraceLog(MSG_INFO,  ErrMsg);
+			return false;
+		}
+
+		typedef bool (_stdcall *lpIfRepeatedSN_Marco)(const unsigned char* SN,  unsigned short SNLen);
+		lpIfRepeatedSN_Marco iIfRepeatedSN_Marco = (lpIfRepeatedSN_Marco)::GetProcAddress(hDll,"IfRepeatedSN_Marco");
+		if(NULL != iIfRepeatedSN_Marco)
+		{	
+			if ( iIfRepeatedSN_Marco(szBarcodeSN, 30 )){
+				ErrMsg = ("iIfRepeatedSN_Marco true");
+				TraceLog(MSG_INFO,  ErrMsg);
+			}
+			else
+			{
+				ErrMsg = ("iIfRepeatedSN_Marco false");
+				AfxMessageBox( ErrMsg.c_str() );
+				TraceLog(MSG_INFO,  ErrMsg);
+				return false;
+			}
+		}
+		else
+		{
+			ErrMsg = ("Load iIfRepeatedSN_Marco Fail");
+			AfxMessageBox( ErrMsg.c_str() );
+			TraceLog(MSG_INFO,  ErrMsg);
+			return false;
+		}
+	}
+	else
+	{
+			ErrMsg = ("Load str_dllF32SERVER2 Fail");
+			AfxMessageBox( ErrMsg.c_str() );
+			TraceLog(MSG_INFO,  ErrMsg);
+			return false;
+	}
+
+	bRes = true;
+	return bRes;
+}
+
+
 bool CMonitor::runCheckSn(){
 	bool bRes = false;
 	unsigned short unsSnLen = 20;
@@ -2974,7 +3206,7 @@ bool CMonitor::runUpdateDDC(){
 
 	if (!GetModelByPartNo(1)) return false;
 
-	if ( !GetSoNo(1)) return false;
+	//if ( !GetSoNo(1)) return false;
 
 	sprintf_s((char*)szBarcodeSN, SN_SIZE_BUFFER, "%s", g_strSn.c_str());
 	sprintf_s((char*)szPicasso , ID_SIZE_BUFFER, "%s", g_strPicasso.c_str());
@@ -2983,7 +3215,7 @@ bool CMonitor::runUpdateDDC(){
 	sprintf_s((char*)szReWork, ID_SIZE_BUFFER, "0");
 	sprintf_s((char*)szLine, ID_SIZE_BUFFER, "%s", g_strLine.c_str());
 	sprintf_s((char*)szDDCFile, ID_SIZE_BUFFER, "%s", m_DdcFileName.c_str());
-	sprintf_s((char*)szSo, ID_SIZE_BUFFER, "%s", m_SoNo.c_str());
+	sprintf_s((char*)szSo, ID_SIZE_BUFFER, "%s", g_strSo.c_str());
 	sprintf_s((char*)szPCLine, ID_SIZE_BUFFER, "%s", m_pcName.c_str());
 	
 

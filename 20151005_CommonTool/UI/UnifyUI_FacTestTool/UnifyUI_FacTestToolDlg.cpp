@@ -1191,7 +1191,7 @@ bool CUnifyUI_FacTestToolDlg::InitialUIID()
 	m_edit_model.SetWindowText(m_st_idParameter.str_modelName);
 	m_edit_partNumber.SetWindowText(m_st_idParameter.str_daynight);
 	m_edit_line.SetWindowText(m_st_idParameter.str_line);
-	m_edit_line.SetWindowText(m_st_idParameter.str_so);
+	m_edit_so.SetWindowText(m_st_idParameter.str_so);
 
 	CString str_so_type;
 	if (m_st_idParameter.str_CRType != _T(""))
@@ -1202,7 +1202,8 @@ bool CUnifyUI_FacTestToolDlg::InitialUIID()
 	{
 		str_so_type = m_st_idParameter.str_so + _T(" [") + m_st_idParameter.str_soType + _T("]");
 	}
-	m_edit_so.SetWindowText(str_so_type);
+	//m_edit_so.SetWindowText(str_so_type);
+	//m_edit_so.SetWindowText( m_st_idParameter.str_so);
 	//m_edit_partNumber.SetWindowText(m_st_idParameter.str_partNumber);
 	m_edit_toolVer.SetWindowText(m_st_idParameter.str_toolVer);
 	m_edit_employee.SetWindowText(m_st_idParameter.str_employee);

@@ -34,6 +34,7 @@
 #define WriteSn					"WriteSn"
 #define ReadSn					"ReadSn"
 #define WriteSn_Marco				"WriteSn_Marco"
+#define WriteSn_MarcoBySo				"WriteSn_MarcoBySo"
 #define WriteTagBySn					"WriteTagBySn"
 #define WriteTagByPn					"WriteTagByPn"
 #define CheckSn						"CheckSn"
@@ -158,6 +159,8 @@ private:
 	bool runWriteSN();
 	bool runReadSN();
 	bool runWriteSN_Marco();
+	bool runWriteSN_MarcoBySo();
+	bool runCheckSn_So();
 	bool runCheckSn();
 	bool runUpdateDDC();
 	bool bGetNewHDCPKEY(char *scalarID);

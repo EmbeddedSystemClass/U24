@@ -13,6 +13,7 @@ IMPLEMENT_DYNAMIC(CInitDlg_S3, CDialog)
 CInitDlg_S3::CInitDlg_S3(CWnd* pParent /*=NULL*/)
 	: CDialog(CInitDlg_S3::IDD, pParent)
 {
+	m_st_initData.str_so = _T("");
 	m_st_initData.str_line = _T("");
 	m_st_initData.str_daynight = _T("");
 	str_type = _T("");
@@ -26,6 +27,7 @@ void CInitDlg_S3::DoDataExchange(CDataExchange* pDX)
 {
 	CDialog::DoDataExchange(pDX);
 	DDX_Control(pDX, IDC_INIT_EDIT_LINE, m_edit_line);
+	DDX_Control(pDX, IDC_INIT_EDIT_SO, m_edit_so_s3);
 	DDX_Control(pDX, IDC_INIT_COMBO_DAYNIGHT, m_combobox_daynight);
 	DDX_Control(pDX, IDC_INIT_BUTTON_OK, m_botton_ok);
 	DDX_Control(pDX, IDC_INIT_BUTTON_CANCEL, m_botton_cancel);
@@ -95,7 +97,8 @@ bool CInitDlg_S3::InitialTypeComBoBox()
 	m_combobox_daynight.InsertString(0, cs_day);
 	m_combobox_daynight.InsertString(1, cs_night);
 	m_combobox_daynight.SelectString(0,str_type);
-
+		
+	m_edit_so_s3.SetLimitText(7);// SetLimitText
 	//m_combobox_type.ResetContent();
 	//TCHAR sz_SectionBuffer[1024]={0};
 	//int len = GetPrivateProfileSectionNames(sz_SectionBuffer,sizeof(sz_SectionBuffer),sz_iniFolderName);
@@ -120,6 +123,8 @@ void CInitDlg_S3::OnBnClickedInitButtonOk()
 
 	/* Get Model Name */	
 	m_edit_line.GetWindowText(m_st_initData.str_line);
+	/*get so*/
+	m_edit_so_s3.GetWindowText(m_st_initData.str_so);
 
 	if (m_st_initData.str_line == _T(""))
 	{
@@ -131,6 +136,13 @@ void CInitDlg_S3::OnBnClickedInitButtonOk()
 	if (m_st_initData.str_daynight == _T(""))
 	{
 		str_message = _T("信息不能为空，请重新选择!\nGender info is empty,Please select it once again!");
+		AfxMessageBox(str_message, MB_OK);
+		return;
+	}
+
+	if (m_st_initData.str_so == _T(""))
+	{
+		str_message = _T("信息不能为空，请重新输入\n  Please input so !");
 		AfxMessageBox(str_message, MB_OK);
 		return;
 	}
@@ -174,7 +186,9 @@ bool CInitDlg_S3::GetInitData(st_UIIDparameter& st_dataCopy)
 	//st_dataCopy.b_tsFlag = m_st_initData.b_tsFlag;
 		//	m_st_idParameter.str_line = m_st_idParameter.str_line; 
 	st_dataCopy.str_line.Format(_T("%s"), m_st_initData.str_line);
+	st_dataCopy.str_so.Format(_T("%s"), m_st_initData.str_so);
 	st_dataCopy.str_daynight.Format(_T("%s"), m_st_initData.str_daynight);
+
 	return true;
 }
 //void CInitDlg_S3::RegistryManager(void)

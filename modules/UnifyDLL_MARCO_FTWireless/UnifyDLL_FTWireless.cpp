@@ -1229,6 +1229,7 @@ bool CUnifyDLL_FTWireless::SetParameterValue(char* sz_keyword, char* sz_value)
 		m_pITool->SetSo(sz_value);
 		str_temp.Format(_T("%s"), sz_value);
 		m_str_so = str_temp;
+	//	AfxMessageBox(m_str_so);
 	}
 	else if (strcmp(sz_keyword, "FACTORY_LINE") == 0)
 	{

@@ -41,6 +41,7 @@ private:
 	CLabel m_static_type;
 	CLabel m_statci_employeeid;
 	CEdit m_edit_line;
+	CEdit m_edit_so_s3;
 
 	CComboBox m_combobox_daynight;
 	CButton m_botton_ok;
