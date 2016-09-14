@@ -29,6 +29,7 @@ protected:
 //	size_t GetTestItem();
 	size_t SetToolTestItem();
 	size_t SetOtherParameter();
+	size_t SetTestItemXMLValueForWrite();
 	void RunMustTestItem(size_t StartItem);
 	bool RunTestItem(size_t StartItem, CString strRunType);
 

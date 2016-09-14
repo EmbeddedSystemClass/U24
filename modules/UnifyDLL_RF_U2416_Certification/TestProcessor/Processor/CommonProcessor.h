@@ -45,6 +45,10 @@ public:
 	virtual bool PreRun();
 	virtual bool PostRun();
 
+	bool CsdFastbootOpenExe();
+
+
+
 protected:
 private:
 };

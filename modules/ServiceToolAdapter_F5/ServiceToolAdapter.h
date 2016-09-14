@@ -32,7 +32,7 @@
 #endif
 
 //#define _BBTEST_nonNFC
-#define _CSDWIFI_1
+#define _CSDREAD
 #define UNIFYMODELNAME			      _T("GBROB1A")
 
 #ifdef _BBTEST_NFC
@@ -77,6 +77,12 @@
 	#define QISDA_MODULE_INFO "reserved"
 	#define QISDA_MODULE_TYPE "CSDWRITE"
 	static const bool QISDA_MODULE_CHECK_DONGLE = false;
+#elif defined _CSDREAD
+	#define QISDA_MODULE_NAME "CSDREAD"
+	#define QISDA_MODULE_TITLE "CSDREAD"
+	#define QISDA_MODULE_INFO "reserved"
+	#define QISDA_MODULE_TYPE "CSDREAD"
+	static const bool QISDA_MODULE_CHECK_DONGLE = false;
 #elif defined _CSDWRITE_MARCO
 	#define QISDA_MODULE_NAME "CSDWRITE"
 	#define QISDA_MODULE_TITLE "CSDWRITE"
@@ -89,11 +95,11 @@
 	#define QISDA_MODULE_INFO "reserved"
 	#define QISDA_MODULE_TYPE "CSDWIFI_1"
 	static const bool QISDA_MODULE_CHECK_DONGLE = false;
-#elif defined _CSDWIFI_2
-	#define QISDA_MODULE_NAME "CSDWIFI_2"
-	#define QISDA_MODULE_TITLE "CSDWIFI_2"
+#elif defined _CSDWIFI_0
+	#define QISDA_MODULE_NAME "CSDWIFI_0"
+	#define QISDA_MODULE_TITLE "CSDWIFI_0"
 	#define QISDA_MODULE_INFO "reserved"
-	#define QISDA_MODULE_TYPE "CSDWIFI_2"
+	#define QISDA_MODULE_TYPE "CSDWIFI_0"
 	static const bool QISDA_MODULE_CHECK_DONGLE = false;
 /*
 #elif defined _OSDL

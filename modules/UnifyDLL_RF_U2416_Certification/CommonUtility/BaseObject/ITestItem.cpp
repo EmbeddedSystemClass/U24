@@ -206,6 +206,12 @@ bool ITestItem::InRange(double dLowerBound, double dUpperBound, double dMeasured
 }
 
 
+bool ITestItem::Initial(int nPort)
+{
+	return true;
+}
+
+
 bool ITestItem::Initial()
 {
 	return true;

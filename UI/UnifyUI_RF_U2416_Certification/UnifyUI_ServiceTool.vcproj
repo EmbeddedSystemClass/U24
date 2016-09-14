@@ -195,6 +195,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\CSDREAD.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\CSDREAD.h"
+				>
+			</File>
+			<File
 				RelativePath=".\CSDREAD_MARCO.cpp"
 				>
 			</File>

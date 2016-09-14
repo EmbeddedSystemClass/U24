@@ -16,11 +16,11 @@
 #define IDD_SERVICE_SUBUI_5G_TX         139
 #define IDD_SERVICE_SUBUI_WIFI_5G_RX    140
 #define IDD_SERVICE_SUBUI_5G_TX_CW      141
-#define IDD_SERVICE_SUBUI_CSDWRITE      142
 #define IDD_SERVICE_SUBUI_CSDWRITE_Marco 143
 #define IDD_SERVICE_SUBUI_CSDREAD_Marco 144
 #define IDD_SERVICE_SUBUI_WIFI_RX1      145
 #define IDD_SERVICE_SUBUI_CSDWIFI       145
+#define IDD_SERVICE_SUBUI_CSDWRITE      146
 #define IDC_TAB_MODULE                  1000
 #define IDC_MODULE_BUTTON0              1001
 #define IDC_MODULE_BUTTON1              1002
@@ -100,7 +100,7 @@
 #define IDC_EDIT_CW_CHANNEL             1060
 #define IDC_COMBO_CW_WlanMode           1061
 #define IDC_EDIT_CW_WlanMode            1062
-#define IDC_EDIT_TAG                    1062
+#define IDC_EDIT_TAG                    1067
 #define IDC_EDIT_CW_CHAIN               1063
 #define IDC_EDIT_READ                   1063
 #define IDC_TEXT_READSN_CSD             1064

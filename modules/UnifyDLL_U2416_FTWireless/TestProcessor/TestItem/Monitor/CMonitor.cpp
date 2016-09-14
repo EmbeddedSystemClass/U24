@@ -156,6 +156,12 @@ bool CMonitor::Run()
 		m_strErrorCode = FunErr_WRITE_TAG_Fail;
 		passFail = runWriteCSDTag();
 	}	
+	else if (m_str_TestItem == ReadCSDTag)
+	{
+		m_strItemCode = CStr::IntToStr(Monitor_BaseItemcode);
+		m_strErrorCode = FunErr_READ_TAG_Fail;
+		passFail = runReadCSDTag();
+	}	
 	else if (m_str_TestItem == Precmd)
 	{
 		m_strItemCode = CStr::IntToStr(Monitor_BaseItemcode);
@@ -231,7 +237,7 @@ bool CMonitor::InitData(std::map<std::string, std::string>& paramMap)
 	else
 	{
 		TraceLog(MSG_INFO, "Fail to find parameter XMLCMDItem for CMonitor");
-		return false;
+	//	return false;
 	}
 
 	if (paramMap.find(std::string("XMLOffCMDItem")) != paramMap.end())
@@ -1691,22 +1697,55 @@ bool CMonitor::runPostCmd()
 		TraceLog(MSG_INFO,  ErrMsg);
 		goto  Exit_ShowResult;
 	}	
-	Sleep(1000);
+	Sleep(200);
 	ErrMsg = (_T("runPostCmd flash passport passport_FactoryDLTool ok"));
 	TraceLog(MSG_INFO,  ErrMsg);
 
-	strcpy(sz_cmd_in, _T("oem ftd Qoff"));
+	strcpy(sz_cmd_in, _T("oem adb Qoff"));
 	if ( !ExecFastbootOut(sz_cmd_in, sz_cmd_out, sz_cmd_errcode) ){
-		ErrMsg = (_T("oem ftd Qoff"));
+		ErrMsg = (_T("oem adb Qoff fail "));
 		AfxMessageBox( ErrMsg.c_str() );
 		TraceLog(MSG_INFO,  ErrMsg);
 		goto  Exit_ShowResult;
 	}	
-	Sleep(1000);
+	Sleep(200);
+	ErrMsg = (_T("runPostCmd oem adb Qoff ok"));
+	TraceLog(MSG_INFO,  ErrMsg);
+
+	strcpy(sz_cmd_in, _T("oem root Qoff"));
+	if ( !ExecFastbootOut(sz_cmd_in, sz_cmd_out, sz_cmd_errcode) ){
+		ErrMsg = (_T("oem root Qoff fail "));
+		AfxMessageBox( ErrMsg.c_str() );
+		TraceLog(MSG_INFO,  ErrMsg);
+		goto  Exit_ShowResult;
+	}	
+	Sleep(200);
+	ErrMsg = (_T("runPostCmd oem root Qoff ok"));
+	TraceLog(MSG_INFO,  ErrMsg);
+
+	strcpy(sz_cmd_in, _T("oem permissive Qoff"));
+	if ( !ExecFastbootOut(sz_cmd_in, sz_cmd_out, sz_cmd_errcode) ){
+		ErrMsg = (_T("oem Permissive Qoff fail "));
+		AfxMessageBox( ErrMsg.c_str() );
+		TraceLog(MSG_INFO,  ErrMsg);
+		goto  Exit_ShowResult;
+	}	
+	Sleep(200);
+	ErrMsg = (_T("runPostCmd oem Permissive Qoff ok"));
+	TraceLog(MSG_INFO,  ErrMsg);
+
+	strcpy(sz_cmd_in, _T("oem ftd Qoff"));
+	if ( !ExecFastbootOut(sz_cmd_in, sz_cmd_out, sz_cmd_errcode) ){
+		ErrMsg = (_T("oem ftd Qoff fail "));
+		AfxMessageBox( ErrMsg.c_str() );
+		TraceLog(MSG_INFO,  ErrMsg);
+		goto  Exit_ShowResult;
+	}	
+	Sleep(200);
 	ErrMsg = (_T("runPostCmd oem ftd Qoff ok"));
 	TraceLog(MSG_INFO,  ErrMsg);
 
-	
+
 Exit_ShowResult:
 	if ( !bRes) {
 		m_strResult = "FAIL";
@@ -1717,10 +1756,10 @@ Exit_ShowResult:
 		m_strResult = "PASS";
 	}
 
-	str_msg = ErrMsg;
+//	str_msg = ErrMsg;
 	m_strMessage = str_msg;
-	TraceLog(MSG_INFO,  ErrMsg);
-	FactoryLog();
+//	TraceLog(MSG_INFO,  ErrMsg);
+//	FactoryLog();
 	return bRes;
 }
 
@@ -1937,6 +1976,55 @@ Exit_ShowResult:
 	return bRes;
 }
 
+bool CMonitor::runReadCSDTag()
+{
+	bool bRes = false;
+	std::string st_readId = "";
+	char sz_ID[ID_SIZE_BUFFER] ="";
+	char szAddress[FTD_BUF_SIZE] = "1056,8";// dell tag
+	char m_szFAData[FTD_BUF_SIZE];
+	CString sMsg;
+	memset(m_szFAData, 0, sizeof(m_szFAData));
+
+	sprintf_s((char*)sz_ID, ID_SIZE_BUFFER,"1056,8,%s", g_strTag.c_str() );
+
+
+
+	if (!m_pIPhone->FTD_FAC_CFGRead(m_nFtdPort, m_nFtdTimeOut, szAddress, m_szFAData))
+	{
+			ErrMsg = (_T("FTD_FAC_CFGRead Fail"));
+			goto Exit_ShowResult;
+	}
+	bRes = true;
+	
+	m_strMeasured = m_szFAData;
+	st_readId = m_szFAData;
+
+	sMsg.Format("Read = %s",   st_readId.c_str());
+	ErrMsg = sMsg;	
+	TraceLog(MSG_INFO,  ErrMsg);
+
+
+Exit_ShowResult:
+
+	if ( !bRes) {
+		AfxMessageBox( ErrMsg.c_str() );
+		m_strResult = "FAIL";
+	}
+	else
+	{
+		m_strErrorCode = "-";
+		m_strResult = "PASS";
+	}
+
+	str_msg = ErrMsg;
+	TraceLog(MSG_INFO,  ErrMsg);
+	m_strMessage = str_msg;
+	FactoryLog();
+	return bRes;
+}
+
+
 bool CMonitor::runWriteCSDTag()
 {
 	bool bRes = false;
@@ -1944,6 +2032,7 @@ bool CMonitor::runWriteCSDTag()
 	char sz_ID[ID_SIZE_BUFFER] ="";
 	char szAddress[FTD_BUF_SIZE] = "1056,8";// dell tag
 	char m_szFAData[FTD_BUF_SIZE];
+	CString sMsg;
 	memset(m_szFAData, 0, sizeof(m_szFAData));
 
 	if (m_str_CMD.empty()) {
@@ -1972,7 +2061,15 @@ bool CMonitor::runWriteCSDTag()
 			goto Exit_ShowResult;
 	}
 
+	
+
+
 	st_readId = m_szFAData;
+
+	sMsg.Format("Write = %s, Read = %s", g_strTag.c_str(),  st_readId.c_str());
+	ErrMsg = sMsg;	
+	TraceLog(MSG_INFO,  ErrMsg);
+
 	if  ( g_strTag.compare(st_readId) == 0 ){
 			ErrMsg = (_T("runWriteCSDTag tag compare  ok"));
 			m_strErrorCode = "-";

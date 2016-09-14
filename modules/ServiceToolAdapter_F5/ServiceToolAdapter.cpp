@@ -282,7 +282,15 @@ CServiceToolController::CServiceToolController()
 		GetModuleFileName(NULL, this->m_Parametermap[ParameterKeyWord::WORKINGDIR].GetBufferSetLength(MAX_PATH+1), MAX_PATH);
 		this->m_Parametermap[ParameterKeyWord::WORKINGDIR].ReleaseBuffer();
 		this->m_Parametermap[ParameterKeyWord::WORKINGDIR] = this->m_Parametermap[ParameterKeyWord::WORKINGDIR].Left(this->m_Parametermap[ParameterKeyWord::WORKINGDIR].ReverseFind('\\'));
-		this->m_Parametermap[ParameterKeyWord::WORKINGDIR].Append(_T("\\Module\\BROOK\\L1L2\\CSDWRITE"));
+		this->m_Parametermap[ParameterKeyWord::WORKINGDIR].Append(_T("\\Module\\BROOK\\L1L2\\CSDWRITE\\"));
+	}
+	else if(QISDA_MODULE_NAME == "CSDREAD") 
+	{
+		this->m_Parametermap[ParameterKeyWord::STATIONNAME] = this->m_strCurrentStation = STATION_CSDREAD;
+		GetModuleFileName(NULL, this->m_Parametermap[ParameterKeyWord::WORKINGDIR].GetBufferSetLength(MAX_PATH+1), MAX_PATH);
+		this->m_Parametermap[ParameterKeyWord::WORKINGDIR].ReleaseBuffer();
+		this->m_Parametermap[ParameterKeyWord::WORKINGDIR] = this->m_Parametermap[ParameterKeyWord::WORKINGDIR].Left(this->m_Parametermap[ParameterKeyWord::WORKINGDIR].ReverseFind('\\'));
+		this->m_Parametermap[ParameterKeyWord::WORKINGDIR].Append(_T("\\Module\\BROOK\\L1L2\\CSDREAD\\"));
 	}
 	else if(QISDA_MODULE_NAME == "CSDWIFI_1") 
 	{
@@ -292,13 +300,13 @@ CServiceToolController::CServiceToolController()
 		this->m_Parametermap[ParameterKeyWord::WORKINGDIR] = this->m_Parametermap[ParameterKeyWord::WORKINGDIR].Left(this->m_Parametermap[ParameterKeyWord::WORKINGDIR].ReverseFind('\\'));
 		this->m_Parametermap[ParameterKeyWord::WORKINGDIR].Append(_T("\\Module\\BROOK\\L1L2\\CSDWIFI_1\\"));
 	}
-	else if(QISDA_MODULE_NAME == "CSDWIFI_2") 
+	else if(QISDA_MODULE_NAME == "CSDWIFI_0") 
 	{
-		this->m_Parametermap[ParameterKeyWord::STATIONNAME] = this->m_strCurrentStation = STATION_CSDWIFI_2;
+		this->m_Parametermap[ParameterKeyWord::STATIONNAME] = this->m_strCurrentStation = STATION_CSDWIFI_0;
 		GetModuleFileName(NULL, this->m_Parametermap[ParameterKeyWord::WORKINGDIR].GetBufferSetLength(MAX_PATH+1), MAX_PATH);
 		this->m_Parametermap[ParameterKeyWord::WORKINGDIR].ReleaseBuffer();
 		this->m_Parametermap[ParameterKeyWord::WORKINGDIR] = this->m_Parametermap[ParameterKeyWord::WORKINGDIR].Left(this->m_Parametermap[ParameterKeyWord::WORKINGDIR].ReverseFind('\\'));
-		this->m_Parametermap[ParameterKeyWord::WORKINGDIR].Append(_T("\\Module\\BROOK\\L1L2\\CSDWIFI_2\\"));
+		this->m_Parametermap[ParameterKeyWord::WORKINGDIR].Append(_T("\\Module\\BROOK\\L1L2\\CSDWIFI_0\\"));
 	}
 
 }
@@ -320,6 +328,7 @@ size_t CServiceToolController::SetParameterValue(char* sz_keyword, char* sz_valu
 		//this->m_Parametermap[_T("IMAGEPATH")] = strVlaue.Right(strVlaue.GetLength() - strVlaue.ReverseFind('\\') - 1);
 		this->m_Parametermap[_T("IMAGEPATH")] = CA2CT(sz_value);
 	}
+
 	return NO_ERROR;
 }
 
@@ -772,8 +781,9 @@ size_t CServiceToolController::MakeEnhanceController()
 		this->m_strCurrentStation == STATION_BTWLAN ||
 		this->m_strCurrentStation == STATION_CSDEM ||
 		this->m_strCurrentStation == STATION_CSDWRITE ||
+		this->m_strCurrentStation == STATION_CSDREAD ||
 		this->m_strCurrentStation == STATION_CSDWIFI_1||
-		this->m_strCurrentStation == STATION_CSDWIFI_2||
+		this->m_strCurrentStation == STATION_CSDWIFI_0||
 		//this->m_strCurrentStation == STATION_CURRENT ||
 		//this->m_strCurrentStation == STATION_ONLINE_WLS ||
 		//this->m_strCurrentStation == STATION_ONLINE_WLS2 ||

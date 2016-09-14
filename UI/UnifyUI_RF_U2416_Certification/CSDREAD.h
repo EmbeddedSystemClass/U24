@@ -7,15 +7,15 @@
 
 #define TAG_LENGTH		7
 
-// CCSDWRITE dialog
+// CCSDREAD dialog
 
-class CCSDWRITE : public CDialog
+class CCSDREAD : public CDialog
 {
-	DECLARE_DYNAMIC(CCSDWRITE)
+	DECLARE_DYNAMIC(CCSDREAD)
 
 public:
-	CCSDWRITE(CWnd* pParent = NULL);   // standard constructor
-	virtual ~CCSDWRITE();
+	CCSDREAD(CWnd* pParent = NULL);   // standard constructor
+	virtual ~CCSDREAD();
 
 // Dialog Data
 	enum { IDD = IDD_SERVICE_SUBUI_CSDWRITE };
@@ -35,8 +35,7 @@ public:
 	void SetInit(dlltoolinfo_t& data);
 	static int MsgCall(const char* szMsg, const char* szTag);
 	void PrintMsg(CString message, CString tag, bool isLog = true);
-	//static int UpdatePortCall(const char* szPort);
-	//void SetPortUpdate(CString port);
+
 	static int ResultCall(const int nIndex, const char* szUnit, const char* szLower, const char* szUpper, const char* szMeasured,
 						  const char* szResult, const char* szErrCode, const char* szMsg);
 	void SetResult(int nIndex, char* szUnit, char* szLower, char* szUpper, char* szMeasured, char* szResult, char* szErrCode, char* szMsg);
@@ -47,11 +46,7 @@ private:
 	CComboBox m_combChain;
 
 
-//	CString csTxCHANNEL;
 	CString csTag;
-//	CString csRateBitIndex;
-//	CString csWlanMode;
-	//CString csChain;
 
 	void UIInit();
 	//void UIControl(bool isEnable);
@@ -69,6 +64,8 @@ private:
 	static UINT WorkerThreadFuncProc(LPVOID param);
 	void WorkerThreadFuncRun();
 	void UIControl(bool isEnable);
+	int WriteResultCall(const char* szMeasured);
+	void SetWriteResult(char* szMeasured);
 
 	struct ComInfo {
 		CString port;
@@ -76,25 +73,15 @@ private:
 	};
 	struct ComInfo m_com;
 
-	//bool SearchPortUsbAdb(const UINT secTimeout);
-	//bool SearchPortUsb(const UINT secTimeout);
-	//bool GetAdbDevice();
-	//bool FindUsbDevice();
-	//bool FindDeviceId(CString DeviceId);
-	//CString GetDeviceName(HDEVINFO& hDevInfo, SP_DEVINFO_DATA& spDevInfoData);
-	//bool GetComPort();
+
 public:
-//	afx_msg void OnCbnSelchangeComboMode();
 	afx_msg void OnBnClickedButtonRun();
 
 protected:
-	//CString m_sRateBitIndex;
 	CString m_sTag;
-	//CString m_sChannel;
-	//
+
 
 public:
 	afx_msg void OnBnClickedButtonStop();
-//	afx_msg void OnCbnDropdownComboPort();
-	afx_msg void OnCbnSelchangeComboPort();
+
 };

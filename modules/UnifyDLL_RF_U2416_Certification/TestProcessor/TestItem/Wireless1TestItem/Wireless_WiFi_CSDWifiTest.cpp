@@ -25,22 +25,80 @@ std::string t_to_string(T i)
 bool CWireless_WiFi_CSDWifiTest::Run()
 {
 	bool bRes = false;
-	bRes = getWifiApInfo();
-	if (bRes){
-		bRes = MainFunction();
-	}
-	else
+	if (m_str_TestItem == Wifi_RxTest)
 	{
-		FactoryLog(false, "getWifiApInfo", "Fail", "-", "-", "-", "-", m_strMeasured, "dBm", m_strMsg);
-	}
+	//	m_strItemCode = CStr::IntToStr(Monitor_BaseItemcode);
+		m_strErrorCode = FunErr_POST_CMD_Fail;
+		int i;
+		for (  i = 0 ; i < 60 ; i ++ ) {
+			if ( !DetectDevice() ) {
+				m_strMsg = "DetectDevice fail";
+				FactoryLog(true, "DetectDevice", "fail", "-", "-", "-", "-", m_strMeasured, "dBm", m_strMsg);
+			//	return false;
+			}
+			else
+			{
+			//	i = 60;
+				m_strMsg = "DetectDevice ok";
+				FactoryLog(true, "DetectDevice", "pass", "-", "-", "-", "-", m_strMeasured, "dBm", m_strMsg);
+				break;
+			}
+			Sleep(3000);
+		}
+		if ( i >=60 ) return false;
+		
 
-	if (bRes)
-	{
-		FactoryLog(true, "WiFi_RxTest", "Pass", "-", "-", "-", "-", m_strMeasured, "dBm", "CSD WiFi Rx PASS");
+		bRes = getWifiApInfo();
+		if (bRes){
+			bRes = MainFunction();
+		}
+		else
+		{
+			FactoryLog(false, "getWifiApInfo", "Fail", "-", "-", "-", "-", m_strMeasured, "dBm", m_strMsg);
+		}
+
+		if (bRes)
+		{
+			FactoryLog(true, "WiFi_RxTest", "Pass", "-", "-", "-", "-", m_strMeasured, "dBm", "CSD WiFi Rx PASS");
+
+		}
+		else
+		{
+			FactoryLog(false, "WiFi_RxTest", "Fail", "-", "-", "-", "-", m_strMeasured, "dBm", m_strMsg);
+		}
+
+			bool brunPostCmd = false;
+			m_strErrorCode = FunErr_POST_CMD_Fail;
+			brunPostCmd = runPostCmd();
+
+			if (brunPostCmd)
+			{
+				FactoryLog(true, "runPostCmd", "Pass", "-", "-", "-", "-", m_strMeasured, "dBm", "runPostCmd PASS");
+			}
+			else
+			{
+				FactoryLog(false, "runPostCmd", "Fail", "-", "-", "-", "-", m_strMeasured, "dBm", "runPostCmd fail");
+			}
+
+
+
+		//passFail = runPostCmd();
 	}
-	else
+	else if (m_str_TestItem == Postcmd)
 	{
-		FactoryLog(false, "WiFi_RxTest", "Fail", "-", "-", "-", "-", m_strMeasured, "dBm", m_strMsg);
+		
+		m_strErrorCode = FunErr_POST_CMD_Fail;
+		bRes = runPostCmd();
+
+		if (bRes)
+		{
+			FactoryLog(true, "runPostCmd", "Pass", "-", "-", "-", "-", m_strMeasured, "dBm", "runPostCmd PASS");
+		}
+		else
+		{
+			FactoryLog(false, "runPostCmd", "Fail", "-", "-", "-", "-", m_strMeasured, "dBm", "runPostCmd fail");
+		}
+
 	}
 
 	return bRes;
@@ -230,7 +288,7 @@ bool CWireless_WiFi_CSDWifiTest::MainFunction()
 	unsigned long rxFrameCounter = 0;
 	char* szRxFrameCounter = new char[1000];
 
-	if (!(isOk = m_pIPhone->Initial()))
+	if (!(isOk = m_pIPhone->Initial(atoi(m_strCcomPort.c_str()))))
 	{
 		m_strMsg = "Fail to connect phone with Qisda module  in CWireless_WiFi_CSDWifiTest";
 		TraceLog(MSG_ERROR, m_strMsg);
@@ -321,6 +379,17 @@ bool CWireless_WiFi_CSDWifiTest::MainFunction()
 
 bool CWireless_WiFi_CSDWifiTest::InitData(std::map<std::string, std::string>& paramMap)
 {
+
+	if (paramMap.find(std::string("XMLTestItem")) != paramMap.end())
+	{
+		m_str_TestItem = paramMap[std::string("XMLTestItem")];
+	}
+	else
+	{
+		TraceLog(MSG_INFO, "Failed to Get filed 'TestItem' for class 'CWireless_WiFi_CSDWifiTest'"); 
+	//return false;
+	}
+
 	if (paramMap.find("CommandDelay") == paramMap.end())
 	{
 		TraceLog(MSG_ERROR, "Fail to find parameter CommandDelay for CWireless_WiFi_CSDWifiTest");
@@ -367,4 +436,594 @@ bool CWireless_WiFi_CSDWifiTest::InitData(std::map<std::string, std::string>& pa
 bool CWireless_WiFi_CSDWifiTest::PostRun()
 {
 	return true;
+}
+
+
+
+bool CWireless_WiFi_CSDWifiTest::DetectDevice()
+{
+
+	std::map<std::string, std::string> map_strstrCOMDeviceName;
+	m_strKeyword.assign("QUALCOMM");
+
+	if (GetCOMPortDevByWDK(map_strstrCOMDeviceName))
+	{
+		std::map<std::string, std::string>::iterator itr;
+
+		if (map_strstrCOMDeviceName.size() < 1)
+		{
+			//CmdLog("No COM device detected");
+			return false;
+		}
+		else
+		{
+			bool bFound = false;
+			for (itr = map_strstrCOMDeviceName.begin(); itr != map_strstrCOMDeviceName.end(); ++itr)
+			{
+				std::string strDev = itr->first;
+				std::string strDevName = itr->second;
+				std::transform(strDevName.begin(), strDevName.end(), strDevName.begin(), ::toupper);
+
+				if (strDevName.find(m_strKeyword) !=  std::string::npos)
+				{
+					bFound = true;
+					size_t iPosition;
+					if ((iPosition = strDev.find("COM")) != std::string::npos)
+						m_strCcomPort = m_strDeviceName = strDev.substr(3, (strDev.size() - 3));
+					break;
+					//else
+					//	m_strCcomPort = m_strDeviceName = strDev;
+					
+				}
+			}
+
+			if (! bFound)
+			{
+				TraceLog(MSG_INFO, _T("Fail to find  Comport"));
+				return false;
+			}
+
+		}
+	}
+	else
+	{
+		return false;
+	}
+
+
+	return true;
+}
+
+
+bool CWireless_WiFi_CSDWifiTest::GetCOMPortDevByWDK(std::map<std::string, std::string>& map_strstrCOMDevice)
+{
+	map_strstrCOMDevice.clear();
+
+	BOOL bContinue = FALSE;
+
+	// 1. Retrieves the GUID(s) associated with the specified class name "Ports"
+	DWORD uiGuidSize = 0;
+	GUID* ptGuidBuf = NULL;
+
+	::SetupDiClassGuidsFromNameA("Ports", NULL, 0, &uiGuidSize);
+
+	if (uiGuidSize > 0)
+	{
+		ptGuidBuf = new GUID[uiGuidSize];
+		ASSERT(ptGuidBuf != NULL);
+
+		if (ptGuidBuf != NULL)
+		{
+			bContinue = ::SetupDiClassGuidsFromNameA("Ports", ptGuidBuf, uiGuidSize, &uiGuidSize);
+		}
+	}
+
+	// 2. Returns a device information set that contains all devices of a specified class
+	HDEVINFO hDevInfoSet = INVALID_HANDLE_VALUE;
+
+	if (bContinue)
+	{
+		hDevInfoSet = ::SetupDiGetClassDevsA(ptGuidBuf, NULL, NULL, DIGCF_PRESENT);
+		bContinue = (hDevInfoSet != INVALID_HANDLE_VALUE);
+	}
+
+	// 3. Start enumeration
+	DWORD uiIndex = 0;
+
+	while (bContinue)
+	{
+		// Returns one context structure for a device information element of a device information set.
+		SP_DEVINFO_DATA tDevInfo;
+		tDevInfo.cbSize = sizeof(SP_DEVINFO_DATA);
+		if ((bContinue = ::SetupDiEnumDeviceInfo(hDevInfoSet, uiIndex, &tDevInfo)))
+		{
+			// Opens a registry storage key for device-specific configuration information
+			HKEY hKey = ::SetupDiOpenDevRegKey(hDevInfoSet, &tDevInfo, DICS_FLAG_GLOBAL, 0, DIREG_DEV, KEY_QUERY_VALUE);
+
+			if (hKey != NULL)
+			{
+				// Read the name of the port.
+				char szDev[256];
+				DWORD uiType = 0, uiDevSize = 256;
+				memset(szDev, 0, 256);
+
+				if ((::RegQueryValueExA(hKey, "PortName", NULL, &uiType, (LPBYTE)szDev, &uiDevSize) == ERROR_SUCCESS) && (uiType == REG_SZ))
+				{
+					std::string strTmp = szDev;
+
+					memset(szDev, 0, 256);
+					uiDevSize = 256;
+					if (SetupDiGetDeviceRegistryPropertyA(hDevInfoSet, &tDevInfo, SPDRP_DEVICEDESC, &uiType, (PBYTE)szDev, uiDevSize, &uiDevSize) && (uiType == REG_SZ))
+						map_strstrCOMDevice[strTmp] = std::string(szDev);
+					else
+						map_strstrCOMDevice[strTmp] = std::string("");
+				}
+
+				// Close the key.
+				::RegCloseKey(hKey);
+			}
+		}
+
+		++uiIndex;
+	}
+
+	// clean-up.
+	if (ptGuidBuf != NULL)
+		delete [] ptGuidBuf;
+
+	if (hDevInfoSet != INVALID_HANDLE_VALUE)
+		::SetupDiDestroyDeviceInfoList(hDevInfoSet);
+
+	return true;
+}
+
+
+
+bool CWireless_WiFi_CSDWifiTest::runPostCmd()
+{
+	CString cs_write_cmd = "";
+
+	bool bRes = true;
+	std::string st_readId = "";
+	char sz_cmd_in[FTD_BUF_SIZE] ="";
+	char sz_cmd_out[FTD_BUF_SIZE] ="";
+	char sz_cmd_errcode[FTD_BUF_SIZE] ="";
+
+	bool b_wait_fastboot = false;
+	int nLimitTime = 0 ;
+	CString csFastboot("fastboot");
+
+	memset(sz_cmd_in, 0, sizeof(sz_cmd_in));
+	memset(sz_cmd_out, 0, sizeof(sz_cmd_out));
+	memset(sz_cmd_errcode, 0, sizeof(sz_cmd_errcode));
+
+
+	strcpy(sz_cmd_in, _T("reboot bootloader"));
+	if ( !ExecAdbOut(sz_cmd_in, sz_cmd_out, sz_cmd_errcode) ){
+		ErrMsg = (_T("reboot bootloader Fail"));
+		AfxMessageBox( ErrMsg.c_str() );
+		TraceLog(MSG_INFO,  ErrMsg);
+		bRes = false;
+		goto  Exit_ShowResult;
+	}	
+	ErrMsg = (_T("runPostCmd reboot bootloader ok"));
+	TraceLog(MSG_INFO,  ErrMsg);
+	Sleep(3000);
+
+
+	while ( !b_wait_fastboot){
+		if (bCallAdbFastbootCMD(_T("fastboot.exe"), _T("devices"), sz_cmd_out, sz_cmd_errcode, csFastboot) ){
+			b_wait_fastboot = true;
+			ErrMsg = (_T("Get Fastboot Success"));
+			//AfxMessageBox( ErrMsg.c_str() );
+			TraceLog(MSG_INFO,  ErrMsg);
+		//	AddMsg("Get Fastboot Success.", None, 10);
+		}
+		Sleep(2000);
+		nLimitTime ++;
+		if ( nLimitTime > 60 ) break;
+	}
+	
+	if ( ! b_wait_fastboot ) {
+		ErrMsg = (_T("reboot to fastboot fail "));
+		AfxMessageBox( ErrMsg.c_str() );
+		TraceLog(MSG_INFO,  ErrMsg);
+		bRes = false;
+		goto  Exit_ShowResult;
+	}
+	ErrMsg = (_T("runPostCmd reboot to fastboot  ok"));
+	TraceLog(MSG_INFO,  ErrMsg);
+
+	strcpy(sz_cmd_in, _T("flash passport passport_FactoryDLTool"));
+	if ( !ExecFastbootOut(sz_cmd_in, sz_cmd_out, sz_cmd_errcode) ){
+		ErrMsg = (_T("flash passport passport_FactoryDLTool fail"));
+		AfxMessageBox( ErrMsg.c_str() );
+		TraceLog(MSG_INFO,  ErrMsg);
+		bRes = false;
+		goto  Exit_ShowResult;
+	}	
+	Sleep(200);
+	ErrMsg = (_T("runPostCmd flash passport passport_FactoryDLTool ok"));
+	TraceLog(MSG_INFO,  ErrMsg);
+
+	strcpy(sz_cmd_in, _T("oem adb Qoff"));
+	if ( !ExecFastbootOut(sz_cmd_in, sz_cmd_out, sz_cmd_errcode) ){
+		ErrMsg = (_T("oem ftd adb fail"));
+		AfxMessageBox( ErrMsg.c_str() );
+		TraceLog(MSG_INFO,  ErrMsg);
+		bRes = false;
+		goto  Exit_ShowResult;
+	}	
+	Sleep(200);
+	ErrMsg = (_T("runPostCmd oem ftd adb off ok"));
+	TraceLog(MSG_INFO,  ErrMsg);
+
+	strcpy(sz_cmd_in, _T("oem root Qoff"));
+	if ( !ExecFastbootOut(sz_cmd_in, sz_cmd_out, sz_cmd_errcode) ){
+		ErrMsg = (_T("oem ftd root fail"));
+		AfxMessageBox( ErrMsg.c_str() );
+		TraceLog(MSG_INFO,  ErrMsg);
+		bRes = false;
+		goto  Exit_ShowResult;
+	}	
+	Sleep(200);
+	ErrMsg = (_T("runPostCmd oem root off ok"));
+	TraceLog(MSG_INFO,  ErrMsg);
+
+	
+	strcpy(sz_cmd_in, _T("oem permissive Qoff"));
+	if ( !ExecFastbootOut(sz_cmd_in, sz_cmd_out, sz_cmd_errcode) ){
+		ErrMsg = (_T("oem ftd permissive fail"));
+		AfxMessageBox( ErrMsg.c_str() );
+		TraceLog(MSG_INFO,  ErrMsg);
+		bRes = false;
+		goto  Exit_ShowResult;
+	}	
+	Sleep(200);
+	ErrMsg = (_T("runPostCmd oem permissive Qoff ok"));
+	TraceLog(MSG_INFO,  ErrMsg);
+
+
+	strcpy(sz_cmd_in, _T("oem ftd Qoff"));
+	if ( !ExecFastbootOut(sz_cmd_in, sz_cmd_out, sz_cmd_errcode) ){
+		ErrMsg = (_T("oem ftd Qoff fail"));
+		AfxMessageBox( ErrMsg.c_str() );
+		TraceLog(MSG_INFO,  ErrMsg);
+		bRes = false;
+		goto  Exit_ShowResult;
+	}	
+	Sleep(200);
+	ErrMsg = (_T("runPostCmd oem ftd Qoff ok"));
+	TraceLog(MSG_INFO,  ErrMsg);
+
+
+Exit_ShowResult:
+	if ( !bRes) {
+		m_strResult = "FAIL";
+	}
+	else
+	{
+		m_strErrorCode = "-";
+		m_strResult = "PASS";
+	}
+
+	m_strMessage = ErrMsg;
+	TraceLog(MSG_INFO,  ErrMsg);
+	return bRes;
+}
+
+
+
+bool CWireless_WiFi_CSDWifiTest::ExecFastbootOut(CString Command, char* output, char* ErrorCode)
+{
+	bool isOk = false;
+	DWORD nPipeSize = 1024 * 1024; //1M pipeline
+
+	CString pthToolDir;
+	::GetModuleFileName(NULL, pthToolDir.GetBuffer(MAX_PATH), MAX_PATH);
+	pthToolDir.ReleaseBuffer();
+	pthToolDir = pthToolDir.Left(pthToolDir.ReverseFind('\\'));
+	CString path_adb = pthToolDir + _T("\\fastboot.exe");
+	if (_taccess(path_adb, 0) == -1)
+	{
+		strcpy(ErrorCode, "ERROR: No adb.exe exist!");
+		return false;
+	}
+
+	HANDLE hRead, hWrite;
+	SECURITY_ATTRIBUTES sa;
+	sa.nLength = sizeof(SECURITY_ATTRIBUTES);
+	sa.lpSecurityDescriptor = NULL;
+	sa.bInheritHandle = TRUE;
+	if (!CreatePipe(&hRead, &hWrite, &sa, nPipeSize))
+	{
+		strcpy(ErrorCode, "ERROR: CreatePipe fail!");
+		return false;
+	}
+
+	//HANDLE hProcess = NULL;
+	PROCESS_INFORMATION processInfo;
+	STARTUPINFO startupInfo;
+	::ZeroMemory(&startupInfo, sizeof(startupInfo));
+	startupInfo.cb = sizeof(startupInfo);
+	startupInfo.dwFlags = STARTF_USESHOWWINDOW | STARTF_USESTDHANDLES;
+	startupInfo.wShowWindow	= SW_HIDE;
+	startupInfo.hStdError = hWrite;
+	startupInfo.hStdOutput = hWrite;
+
+	Command = _T("\"") + path_adb + _T("\" ") + Command;
+	TRACE(_T("Cmd: %s\n"), Command);
+	if (::CreateProcess(NULL, Command.GetBuffer(), NULL, NULL, TRUE, 0, NULL, NULL, &startupInfo, &processInfo))
+	{
+		DWORD TimeOutSignal = WaitForSingleObject(processInfo.hProcess, 10 * 1000); // timeout in 10 seconds
+
+		CloseHandle(hWrite);
+		hWrite = NULL;
+		//if timeout then exit the process
+		if (TimeOutSignal == WAIT_TIMEOUT)
+		{
+			isOk = false;
+			TerminateProcess(processInfo.hProcess, 0);
+			strcpy(ErrorCode, "ERROR: Adb timeout");
+		}
+		else
+		{
+
+			isOk = true;
+			DWORD bytesRead;
+			std::string	std_out = "";
+			std::string std_find_string = "error";
+			char* message = new char[nPipeSize];
+			memset(message, 0, sizeof(message));
+			::ReadFile(hRead, message, nPipeSize, &bytesRead, NULL);
+			message[bytesRead] = '\0';
+
+			std_out = message;
+			if ( std_out.find( std_find_string )  != string::npos) 
+			{
+				isOk = false;
+				strcpy(ErrorCode, "ERROR: adb com fail!");
+			}
+			else
+			{
+				strcpy(output, message);
+				strcpy(ErrorCode, "Adb command ok");
+			}
+			delete [] message;
+
+		}
+	}
+	else
+	{
+		isOk = false;
+		strcpy(ErrorCode, "ERROR: Execute adb.exe fail!");
+	}
+	Command.ReleaseBuffer();
+	CloseHandle(hRead);
+	if (hWrite)CloseHandle(hWrite);
+	//CloseHandle(hProcess);
+
+	CloseHandle(processInfo.hProcess);
+	CloseHandle(processInfo.hThread);
+	//hProcess = NULL;
+
+	return isOk;
+}
+
+
+
+bool CWireless_WiFi_CSDWifiTest::ExecAdbOut(CString Command, char* output, char* ErrorCode)
+{
+	bool isOk = false;
+	DWORD nPipeSize = 1024 * 1024; //1M pipeline
+
+	CString pthToolDir;
+	::GetModuleFileName(NULL, pthToolDir.GetBuffer(MAX_PATH), MAX_PATH);
+	pthToolDir.ReleaseBuffer();
+	pthToolDir = pthToolDir.Left(pthToolDir.ReverseFind('\\'));
+	CString path_adb = pthToolDir + _T("\\adb.exe");
+	if (_taccess(path_adb, 0) == -1)
+	{
+		strcpy(ErrorCode, "ERROR: No adb.exe exist!");
+		return false;
+	}
+
+	HANDLE hRead, hWrite;
+	SECURITY_ATTRIBUTES sa;
+	sa.nLength = sizeof(SECURITY_ATTRIBUTES);
+	sa.lpSecurityDescriptor = NULL;
+	sa.bInheritHandle = TRUE;
+	if (!CreatePipe(&hRead, &hWrite, &sa, nPipeSize))
+	{
+		strcpy(ErrorCode, "ERROR: CreatePipe fail!");
+		return false;
+	}
+
+	//HANDLE hProcess = NULL;
+	PROCESS_INFORMATION processInfo;
+	STARTUPINFO startupInfo;
+	::ZeroMemory(&startupInfo, sizeof(startupInfo));
+	startupInfo.cb = sizeof(startupInfo);
+	startupInfo.dwFlags = STARTF_USESHOWWINDOW | STARTF_USESTDHANDLES;
+	startupInfo.wShowWindow	= SW_HIDE;
+	startupInfo.hStdError = hWrite;
+	startupInfo.hStdOutput = hWrite;
+
+	Command = _T("\"") + path_adb + _T("\" ") + Command;
+	TRACE(_T("Cmd: %s\n"), Command);
+	if (::CreateProcess(NULL, Command.GetBuffer(), NULL, NULL, TRUE, 0, NULL, NULL, &startupInfo, &processInfo))
+	{
+		DWORD TimeOutSignal = WaitForSingleObject(processInfo.hProcess, 10 * 1000); // timeout in 10 seconds
+
+		CloseHandle(hWrite);
+		hWrite = NULL;
+		//if timeout then exit the process
+		if (TimeOutSignal == WAIT_TIMEOUT)
+		{
+			isOk = false;
+			TerminateProcess(processInfo.hProcess, 0);
+			strcpy(ErrorCode, "ERROR: Adb timeout");
+		}
+		else
+		{
+
+			isOk = true;
+			DWORD bytesRead;
+			std::string	std_out = "";
+			std::string std_find_string = "error";
+			char* message = new char[nPipeSize];
+			memset(message, 0, sizeof(message));
+			::ReadFile(hRead, message, nPipeSize, &bytesRead, NULL);
+			message[bytesRead] = '\0';
+
+			std_out = message;
+			if ( std_out.find( std_find_string )  != string::npos) 
+			{
+				isOk = false;
+				strcpy(ErrorCode, "ERROR: adb com fail!");
+			}
+			else
+			{
+				strncpy(output, message, 4096);
+				strcpy(ErrorCode, "Adb command ok");
+			}
+			delete [] message;
+
+		}
+	}
+	else
+	{
+		isOk = false;
+		strcpy(ErrorCode, "ERROR: Execute adb.exe fail!");
+	}
+	Command.ReleaseBuffer();
+	CloseHandle(hRead);
+	if (hWrite)CloseHandle(hWrite);
+	//CloseHandle(hProcess);
+
+	CloseHandle(processInfo.hProcess);
+	CloseHandle(processInfo.hThread);
+	//hProcess = NULL;
+
+	return isOk;
+}
+
+
+bool CWireless_WiFi_CSDWifiTest::bCallAdbFastbootCMD(CString csAdbFastboot, CString Command, char* output, char* ErrorCode, CString cs_FindData)
+{
+	bool isOk = false;
+	CString pthToolDir;
+
+	::GetModuleFileName(NULL, pthToolDir.GetBuffer(MAX_PATH), MAX_PATH);
+	pthToolDir.ReleaseBuffer();
+	pthToolDir = pthToolDir.Left(pthToolDir.ReverseFind('\\'));
+	CString path_adb_fastboot = pthToolDir + _T("\\") + csAdbFastboot;
+	
+	if (_taccess(path_adb_fastboot, 0) == -1)
+	{
+		strcpy(ErrorCode, "ERROR: No adb.exe exist!");
+		return false;
+	}
+
+	HANDLE hRead, hWrite;
+	SECURITY_ATTRIBUTES sa;
+	sa.nLength = sizeof(SECURITY_ATTRIBUTES);
+	sa.lpSecurityDescriptor = NULL;
+	sa.bInheritHandle = TRUE;
+	if (!CreatePipe(&hRead, &hWrite, &sa, BUFFER_SIZE))
+	{
+		strcpy(ErrorCode, "ERROR: CreatePipe fail!");
+		return false;
+	}
+
+	PROCESS_INFORMATION processInfo;
+	STARTUPINFO startupInfo;
+	::ZeroMemory(&startupInfo, sizeof(startupInfo));
+	startupInfo.cb = sizeof(startupInfo);
+	startupInfo.dwFlags = STARTF_USESHOWWINDOW | STARTF_USESTDHANDLES;
+	startupInfo.wShowWindow	= SW_HIDE;
+	startupInfo.hStdError = hWrite;
+	startupInfo.hStdOutput = hWrite;
+
+	Command = _T("\"") + path_adb_fastboot + _T("\" ") + Command;
+	TRACE(_T("Cmd: %s\n"), Command);
+
+	DWORD dwRead;
+	CHAR chBuf[4096]; 
+	bool bSuccess = FALSE;
+
+	if (::CreateProcess(NULL, Command.GetBuffer(), NULL, NULL, TRUE, 0, NULL, NULL, &startupInfo, &processInfo))
+	{
+		DWORD TimeOutSignal = WaitForSingleObject(processInfo.hProcess, 100 * 1000); // timeout in 10 seconds
+
+		CloseHandle(hWrite);
+		hWrite = NULL;
+		//if timeout then exit the process
+		if (TimeOutSignal == WAIT_TIMEOUT)
+		{
+			isOk = false;
+			TerminateProcess(processInfo.hProcess, 0);
+			strcpy(ErrorCode, "ERROR: fastboot timeout");
+		}
+		else
+		{
+			if ( (cs_FindData.Find(DREAD) != -1) )// neet to read resolt
+			{
+				bSuccess = ReadFile( hRead, chBuf, BUFFER_SIZE, &dwRead, NULL);
+				chBuf[dwRead] = '\0';
+				strncpy(output, chBuf, dwRead);
+
+				if ( bSuccess ) 
+				{
+					strcpy(ErrorCode, _T("Adb command ok"));
+					isOk = true; //don't not need to check
+				}
+			}
+			else if ( ( cs_FindData.Find(DNULL) == -1) )  //need to check return payload
+			{
+			   for (int i = 0; i < 60; i++) //get QPHONE
+			   { 
+				  bSuccess = ReadFile( hRead, chBuf, BUFFER_SIZE, &dwRead, NULL);
+				  chBuf[dwRead] = '\0';
+				  CString csBuf = chBuf;
+				  if(csBuf.Find(cs_FindData) != -1) {
+					  isOk = true; //get it
+					  break;
+				  }
+				  if( ! bSuccess || dwRead == 0 ) break; 
+			   }
+			    strcpy(ErrorCode, _T("Adb command ok"));
+
+
+			}
+			else /*do not neet to find anything*/
+			{
+
+				isOk = true; //don't not need to check
+			}
+		}
+	}
+	else
+	{
+		isOk = false;
+		strcpy(ErrorCode, "ERROR: Execute fastboot.exe fail!");
+	}
+
+	Command.ReleaseBuffer();
+	if(hRead){
+		CloseHandle(hRead);
+		hRead = NULL;
+	}
+	if (hWrite){
+		CloseHandle(hWrite);
+		hWrite = NULL;
+	}
+
+	CloseHandle(processInfo.hProcess);
+	CloseHandle(processInfo.hThread);
+	processInfo.hProcess = NULL;
+	processInfo.hThread = NULL;
+
+
+	return isOk;
 }

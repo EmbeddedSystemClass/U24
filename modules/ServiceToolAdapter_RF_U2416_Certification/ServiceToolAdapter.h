@@ -31,7 +31,7 @@
 #define ISRV_CLASS_API __declspec(dllimport)
 #endif
 
-#define _CSDWIFI_1
+#define _CSDWIFI_0
 #define UNIFYMODELNAME			      _T("RF")
 
 #if defined _WIFI_TX

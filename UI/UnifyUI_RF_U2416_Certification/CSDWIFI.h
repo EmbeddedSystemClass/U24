@@ -19,7 +19,7 @@ public:
 	enum { IDD = IDD_SERVICE_SUBUI_CSDWIFI };
 
 	afx_msg void OnBnClickedButtonRun();
-	afx_msg void OnCbnDropdownComboPort();
+	//afx_msg void OnCbnDropdownComboPort();
 
 protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
@@ -36,8 +36,8 @@ public:
 	void SetInit(dlltoolinfo_t& data);
 	static int MsgCall(const char* szMsg, const char* szTag);
 	void PrintMsg(CString message, CString tag, bool isLog = true);
-	static int UpdatePortCall(const char* szPort);
-	void SetPortUpdate(CString port);
+	//static int UpdatePortCall(const char* szPort);
+	//void SetPortUpdate(CString port);
 	static int ResultCall(const int nIndex, const char* szUnit, const char* szLower, const char* szUpper, const char* szMeasured,
 						  const char* szResult, const char* szErrCode, const char* szMsg);
 	void SetResult(int nIndex, char* szUnit, char* szLower, char* szUpper, char* szMeasured, char* szResult, char* szErrCode, char* szMsg);
@@ -45,11 +45,11 @@ public:
 	void SetRxResult(char* szMeasured);
 
 private:
-	CComboBox m_combComport;
-	CComboBox m_combChain;
-	CComboBox m_combWlanMode;
-	CString m_sChannel;
-	CString m_sRateMask;
+//	CComboBox m_combComport;
+	//CComboBox m_combChain;
+//	CComboBox m_combWlanMode;
+//	CString m_sChannel;
+//	CString m_sRateMask;
 
 	//CString csRxCHANNEL;
 	CString csRateMask;
@@ -79,13 +79,13 @@ private:
 	};
 	struct ComInfo m_com;
 
-	bool SearchPortUsbAdb(const UINT secTimeout);
-	bool SearchPortUsb(const UINT secTimeout);
-	bool GetAdbDevice();
-	bool FindUsbDevice();
-	bool FindDeviceId(CString DeviceId);
-	CString GetDeviceName(HDEVINFO& hDevInfo, SP_DEVINFO_DATA& spDevInfoData);
-	bool GetComPort();
+	//bool SearchPortUsbAdb(const UINT secTimeout);
+	//bool SearchPortUsb(const UINT secTimeout);
+	//bool GetAdbDevice();
+	//bool FindUsbDevice();
+	//bool FindDeviceId(CString DeviceId);
+	//CString GetDeviceName(HDEVINFO& hDevInfo, SP_DEVINFO_DATA& spDevInfoData);
+	//bool GetComPort();
 public:
 	afx_msg void OnBnClickedButtonStop();
 };

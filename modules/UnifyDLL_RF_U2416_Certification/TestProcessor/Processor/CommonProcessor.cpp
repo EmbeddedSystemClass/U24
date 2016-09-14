@@ -12,161 +12,6 @@ bool CCommonProcessor::Begin()
 	CToolRuntimeClass* pcObjectFactory = RF_RUNTIME_CLASS(CToolBaseObject);
 	CToolBaseObject* pcObject = NULL;
 
-	// 0. Check if calibration mode or not
-	//CheckCalibrationMode();
-
-	//// 1. Load cable loss value
-	//if (! LoadCableLoss())
-	//{	
-	//	g_strErrCode = CommErr_XML_Cableloss_Load_Fail;
-	//	TraceLog(MSG_ERROR, "Fail to load cable loss values from XML file");
-	//	FactoryLog(false, "Load cable loss values from XML", g_strErrCode, "--", "--", "--", "--", "Fail", "--", "Fail to load cable loss values from XML file");
-	//	return false;
-	//}
-/* Move to begining of Run() in order to get g_strPicasso
-	// 1.1 Load ref result value
-	if (m_bCalibrationMode)
-	{
-		if (! LoadRefResult())
-		{	
-			g_strErrCode = CommErr_XML_Cableloss_Load_Fail;
-			TraceLog(MSG_ERROR, "Fail to load cable loss values from XML file");
-			FactoryLog(false, "Load cable loss values from XML", g_strErrCode, "--", "--", "--", "--", "Fail", "--", "Fail to load cable loss values from XML file");
-			return false;
-		}
-	}
-*/
-	// 2. Load test processor parameters
-	//if (! LoadTestProcessorParams())
-	//{
-	//	g_strErrCode = CommErr_XML_Testitem_Load_Fail;
-	//	TraceLog(MSG_ERROR, "Fail to load test processor parameters");
-	//	FactoryLog(false, "Load test processor parameters", g_strErrCode, "--", "--", "--", "--", "Fail", "--", "Fail to load test processor parameters");
-	//	return false;
-	//}
-
-	//if (m_pITesterDevice == NULL)
-	//{
-	//	// 3. Load GPIB instruments parameters
-	//	if (! LoadGPIBDeviceParams())
-	//	{
-	//		g_strErrCode = CommErr_XML_Deviceitem_Load_Fail;
-	//		TraceLog(MSG_ERROR, "Fail to load GPIB devices parameters");
-	//		FactoryLog(false, "Fail to load GPIB devices parameters", g_strErrCode, "--", "--", "--", "--", "Fail", "--", "Fail to load GPIB devices parameters");
-	//		return false;
-	//	}
-
-	//	// 4. Detect GPIB instruments
-	//	if (! DetectGPIBDevice())
-	//	{
-	//		g_strErrCode = CommErr_Detect_RF_Tester_Fail;
-	//		TraceLog(MSG_ERROR, "Fail to detect GPIB devices");
-	//		FactoryLog(false, "Fail to detect GPIB devices", g_strErrCode, "--", "--", "--", "--", "Fail", "--", "Fail to detect GPIB devices");
-	//		return false;
-	//	}
-
-	//	// 5. Create power supply objects & tester device object
-	//	std::vector<std::string> vDeviceList;
-	//	if (! IGPIBDevice::GetDeviceList(vDeviceList))
-	//	{
-	//		TraceLog(MSG_ERROR, "Fail to get GPIB device list");
-	//		FactoryLog(false, "Fail to get GPIB device list", "--", "--", "--", "--", "--", "Fail", "--", "Fail to get GPIB device list");
-	//		return false;
-	//	}
-
-	//	for (unsigned int i = 0; i < vDeviceList.size(); ++i)
-	//	{
-	//		for (std::map<std::string, std::string>::iterator itr = m_mapTesterDeviceParams.begin();
-	//			itr != m_mapTesterDeviceParams.end();
-	//			++itr)
-	//		{
-	//			if (vDeviceList[i].find(itr->first) != std::string::npos)
-	//			{
-	//				if ((pcObject = pcObjectFactory->CreateObject(itr->second)) == NULL)
-	//				{
-	//					TraceLog(MSG_ERROR, "Fail to create tester device object");
-	//					FactoryLog(false, "Fail to create tester device object", "--", "--", "--", "--", "--", "Fail", "--", "Fail to create tester device object");
-	//					return false;
-	//				}
-
-	//				if (0 == itr->second.compare("CCMU200"))
-	//				{
-	//					m_pITesterDevice = dynamic_cast<ITesterDevice*>(pcObject);
-
-	//					if (m_pITesterDevice->InitData(vDeviceList[i],
-	//						m_pITesterDevice->GetNI488Address(i),
-	//						m_pITesterDevice->GetPrimaryAddress(i),
-	//						m_pITesterDevice->GetSecondaryAddress(i))
-	//						!= true)
-	//					{
-	//						m_pITesterDevice->Release();
-	//						TraceLog(MSG_ERROR, "Fail to execute InitDate() of tester device object");
-	//						FactoryLog(false, "Fail to execute InitDate() of tester", "--", "--", "--", "--", "--", "Fail", "--", "Fail to execute InitDate() of tester device object");
-	//						return false;
-	//					}
-	//				}
-	//				else if (0 == itr->second.compare("CFSP"))
-	//				{
-	//					m_pITesterDeviceFSP = dynamic_cast<ITesterDevice*>(pcObject);
-
-	//					if (m_pITesterDeviceFSP->InitData(vDeviceList[i],
-	//						m_pITesterDeviceFSP->GetNI488Address(i),
-	//						m_pITesterDeviceFSP->GetPrimaryAddress(i),
-	//						m_pITesterDeviceFSP->GetSecondaryAddress(i))
-	//						!= true)
-	//					{
-	//						m_pITesterDeviceFSP->Release();
-	//						TraceLog(MSG_ERROR, "Fail to execute InitDate() of tester device object");
-	//						FactoryLog(false, "Fail to execute InitDate() of tester", "--", "--", "--", "--", "--", "Fail", "--", "Fail to execute InitDate() of tester device object");
-	//						return false;
-	//					}
-	//				}
-	//			}
-	//		}
-
-	//		for (std::map<std::string, std::string>::iterator itr = m_mapPowerSupplyParams.begin();
-	//			itr != m_mapPowerSupplyParams.end();
-	//			++itr)
-	//		{
-	//			if (vDeviceList[i].find(itr->first) != std::string::npos)
-	//			{
-	//				if ((pcObject = pcObjectFactory->CreateObject(itr->second)) == NULL)
-	//				{
-	//					TraceLog(MSG_ERROR, "Fail to create power supply object");
-	//					FactoryLog(false, "Fail to create power supply", "--", "--", "--", "--", "--", "Fail", "--", "Fail to create power supply object");
-	//					return false;
-	//				}
-
-	//				IPowerSupply* pIPS = dynamic_cast<IPowerSupply*>(pcObject);
-
-	//				if (m_vPowerSupplyAddr[0] == pIPS->GetPrimaryAddress(i))
-	//					m_pIPS = dynamic_cast<IPowerSupply*>(pcObject);
-	//				else if (m_vPowerSupplyAddr[1] == pIPS->GetPrimaryAddress(i))
-	//					m_pIPS2 = dynamic_cast<IPowerSupply*>(pcObject);
-	//				else if (m_vPowerSupplyAddr[2] == pIPS->GetPrimaryAddress(i))
-	//					m_pIPS3 = dynamic_cast<IPowerSupply*>(pcObject);
-	//				else
-	//				{
-	//					pIPS->Release();
-	//					continue;
-	//				}
-
-	//				if (pIPS->InitData(vDeviceList[i],
-	//					pIPS->GetNI488Address(i),
-	//					pIPS->GetPrimaryAddress(i),
-	//					pIPS->GetSecondaryAddress(i))
-	//					!= true)
-	//				{
-	//					pIPS->Release();
-	//					TraceLog(MSG_ERROR, "Fail to execute InitDate() of power supply object");
-	//					FactoryLog(false, "Begin", "--", "--", "--", "--", "--", "Fail", "--", "Fail to execute InitDate() of power supply object");
-	//					return false;
-	//				}
-	//			}
-	//		}
-	//	}
-	//}
-
 	// 6. Load phone parameters
 	if (! LoadPhoneParams())
 	{
@@ -259,7 +104,6 @@ bool CCommonProcessor::Begin()
 	}
 
 
-
 	return true;
 }
 
@@ -267,26 +111,34 @@ bool CCommonProcessor::Run()
 {
 	// 0. Move to here from Begin() in order to get g_strPicasso
 	std::string strTmp = "";
-	//if (m_bCalibrationMode)
-	//{
-	//	//if (! LoadRefResult())
-	//	//{	
-	//	//	strTmp = "Fail to load golden sample values from XML file";
-	//	//	TraceLog(MSG_ERROR, strTmp);
-	//	//	FactoryLog(false, "Load golden sample values from XML", CommErr_XML_GoldenSample_Load_Fail, "--", "--", "--", "--", "Fail", "--", strTmp);
-	//	//	return false;
-	//	//}
 
-	//	if (g_mapTxRefResultData.empty() && g_mapRxRefResultData.empty())
-	//	{
-	//		strTmp = "This is not GOLDEN sample";
-	//		TraceLog(MSG_ERROR, strTmp);
-	//		FactoryLog(false, "Load golden sample values from XML", CommErr_Is_Not_Golden_Sample, "--", "--", "--", "--", "Fail", "--", strTmp);
-	//		return false;
-	//	}
-	//}
-	//else
-	//{
+
+
+#ifdef _ToolInterface
+		bool isOk = false;
+
+
+
+		if (!(isOk = m_pIPhone->Initial_FTD()))
+		{
+			TraceLog(MSG_ERROR,  "Fail to connect phone with Qisda module  in CWireless_WiFi_CSDWifiTest");
+			return false;
+		}
+
+		bool b_Res;
+		if (! (b_Res = CsdFastbootOpenExe()))
+		{
+			TraceLog(MSG_ERROR, "Fail to CsdFastbootOpenExe");
+			//m_pITool->GetTestResult(0, &st_Result);
+			//Fire(UI_RESULT, (long)&st_Result);
+			return false;
+		}
+		TraceLog(MSG_ERROR, "Success to CsdFastbootOpenExe");
+		Sleep(1000);
+
+
+#endif
+
 		if (string::npos != g_strPicasso.find(_T("RFGOLDEN")))
 		{
 			strTmp = "This is GOLDEN sample !!";
@@ -416,6 +268,125 @@ bool CCommonProcessor::PreRun()
 	m_bStopped = false;
 	StartTotalDurationCounter();
 	return true;
+}
+
+bool CCommonProcessor::CsdFastbootOpenExe()
+{
+	TraceLog(MSG_INFO, "start CsdFastbootOpenExe"); 
+	bool b_wait_fastboot = false;
+	bool bRes = false;
+	int nLimitTime = 0 ;
+
+	CString str_command;
+	char errMsg[128] = {0};
+	char cmdOut[1024] = {0};
+	
+
+	str_command = ("devices");
+	while ( !b_wait_fastboot){
+		if (!m_pIPhone->ExecFastbootCommand(str_command, cmdOut, errMsg))
+		{
+			TraceLog(MSG_INFO, m_strMessage);
+			goto  Exit_ShowResult;
+		}
+
+		CString csBuf = cmdOut;
+		CString csFastboot("fastboot");
+		if(csBuf.Find(csFastboot) != -1) {
+		  b_wait_fastboot = true; //get it
+		  break;
+		}
+		Sleep(1000);
+		nLimitTime ++;
+		if ( nLimitTime > 60 ) break; //time out
+	}
+
+
+	if ( ! b_wait_fastboot ) {
+		m_strMessage = _T("reboot to fastboot fail ");
+		goto  Exit_ShowResult;
+	}
+	m_strMessage = "CsdFastbootOpenExe reboot to fastboot ok";
+	TraceLog(MSG_INFO, m_strMessage);
+
+	str_command = ("flash passport passport_FactoryDLTool");
+	if (!m_pIPhone->ExecFastbootCommand(str_command, cmdOut, errMsg))
+	{
+		m_strMessage = "Fail to flash passport passport_FactoryDLTool";
+		goto  Exit_ShowResult;
+	}
+	m_strMessage = "CsdFastbootOpenExe flash passport passport_FactoryDLTool ok";
+	TraceLog(MSG_INFO, m_strMessage);
+
+	Sleep(1000);
+
+	str_command = ("oem adb Qon");
+	if (!m_pIPhone->ExecFastbootCommand(str_command, cmdOut, errMsg))
+	{
+		m_strMessage = "Fail to oem adb Qon";
+		goto  Exit_ShowResult;
+	}
+	m_strMessage = "CsdFastbootOpenExe oem adb Qon ok";
+	TraceLog(MSG_INFO, m_strMessage);
+	Sleep(200);
+
+	str_command =  _T("oem root Qon");
+	if (!m_pIPhone->ExecFastbootCommand(str_command, cmdOut, errMsg))
+	{
+		m_strMessage = "Fail to oem root Qon";
+		goto  Exit_ShowResult;
+	}
+	m_strMessage = "CsdOpenFtd oem root Qon ok";
+	TraceLog(MSG_INFO, m_strMessage);
+	Sleep(200);
+
+	str_command = _T("oem permissive Qon");
+	if (!m_pIPhone->ExecFastbootCommand(str_command, cmdOut, errMsg))
+	{
+		m_strMessage = "Fail to oem permissive Qon";
+		goto  Exit_ShowResult;
+	}
+	m_strMessage = "CsdOpenFtd oem permissive Qon ok";
+	TraceLog(MSG_INFO, m_strMessage);
+	Sleep(200);
+
+	str_command = _T("oem ftd Qon");
+	if (!m_pIPhone->ExecFastbootCommand(str_command, cmdOut, errMsg))
+	{
+		m_strMessage = "Fail to oem ftd Qon";
+		goto  Exit_ShowResult;
+	}
+	m_strMessage = "CsdFastbootOpenExe oem ftd Qon ok";
+	TraceLog(MSG_INFO, m_strMessage);
+	Sleep(1000);
+
+	str_command = _T("reboot");
+	if (!m_pIPhone->ExecFastbootCommand(str_command, cmdOut, errMsg))
+	{
+		m_strMessage = "Fail to reboot";
+		goto  Exit_ShowResult;
+	}
+	m_strMessage = "CsdFastbootOpenExe fastboot reboot ok";
+	TraceLog(MSG_INFO, m_strMessage);
+	Sleep(3000);
+	
+	bRes = true;
+
+Exit_ShowResult:
+	if ( !bRes) {
+		m_strResult = "FAIL";
+	}
+	else
+	{
+		m_strMessage = (_T("CsdDetectFastboot  ok  \n"));
+		m_strErrorCode = "-";
+	//	m_strResult = "PASS";
+	}
+
+	TraceLog(MSG_INFO, m_strMessage);
+	//FactoryLog();
+	return bRes;
+
 }
 
 bool CCommonProcessor::PostRun()
@@ -605,6 +576,8 @@ bool CCommonProcessor::GetFASector( int i_slot, int i_sectorNum, char *sz_sector
 		FactoryLog(false, "Initial_Phone", "--", "--", "--", "--", "--","Fail", "--", "Fail to initial phone for GetFASector()");
 		return false;
 	}
+
+
 
 	bool bIsConnected = false;
 	iCounter = 0;

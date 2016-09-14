@@ -19,9 +19,7 @@ IMPLEMENT_DYNAMIC(CCSDWRITE, CDialog)
 
 CCSDWRITE::CCSDWRITE(CWnd* pParent /*=NULL*/)
 	: CDialog(CCSDWRITE::IDD, pParent)
-	//, m_sChannel(_T(""))
 	, m_sTag(_T(""))
-	//, m_sRateBitIndex(_T(""))
 {
 
 }
@@ -33,22 +31,15 @@ CCSDWRITE::~CCSDWRITE()
 void CCSDWRITE::DoDataExchange(CDataExchange* pDX)
 {
 	CDialog::DoDataExchange(pDX);
-	//DDX_Control(pDX, IDC_COMBO_PORT, m_combComport);
-
-	//DDX_Text(pDX, IDC_EDIT_TX_CHANNEL, m_sChannel);
 	DDX_Text(pDX, IDC_EDIT_TAG, m_sTag);
-	//DDX_Text(pDX, IDC_EDIT_TX_RateBitIndex, m_sRateBitIndex);
-
-	//DDX_Control(pDX, IDC_EDIT_TX_WlanMode, m_combWlanMode);
-	//DDX_Control(pDX, IDC_EDIT_TX_CHAIN, m_combChain);
 }
 
 
 BEGIN_MESSAGE_MAP(CCSDWRITE, CDialog)
 	//ON_CBN_SELCHANGE(IDC_COMBO_MODE, &CCSDWRITE::OnCbnSelchangeComboMode)
-	ON_BN_CLICKED(IDC_BUTTON_RUN, &CCSDWRITE::OnBnClickedButtonRun)
+	ON_BN_CLICKED(IDC_BUTTON_RUN2, &CCSDWRITE::OnBnClickedButtonRun)
 	//ON_CBN_DROPDOWN(IDC_COMBO_PORT, &CCSDWRITE::OnCbnDropdownComboPort)
-	ON_CBN_SELCHANGE(IDC_COMBO_PORT, &CCSDWRITE::OnCbnSelchangeComboPort)
+//	ON_CBN_SELCHANGE(IDC_COMBO_PORT, &CCSDWRITE::OnCbnSelchangeComboPort)
 END_MESSAGE_MAP()
 
 
@@ -271,7 +262,7 @@ void CCSDWRITE::UIInit()
 	lf.lfHeight = 32;
 	lf.lfWeight = 200;
 	HFONT font = ::CreateFontIndirect(&lf);
-	GetDlgItem(IDC_BUTTON_RUN)->SendMessage(WM_SETFONT, (WPARAM)font, TRUE);
+	GetDlgItem(IDC_BUTTON_RUN2)->SendMessage(WM_SETFONT, (WPARAM)font, TRUE);
 
 	CString title;
 	title = m_data.title;
@@ -301,10 +292,6 @@ void CCSDWRITE::UIInit()
 
 }
 
-//void CCSDWRITE::UIControl(bool isEnable)
-//{
-//	GetDlgItem(IDC_BUTTON_RUN)->EnableWindow(isEnable);
-//}
 
 void CCSDWRITE::UITotalTime(double secTime)
 {
@@ -360,10 +347,15 @@ UINT CCSDWRITE::WorkerThreadFuncProc(LPVOID param)
 	return TRUE;
 }
 
+void CCSDWRITE::UIControl(bool isEnable)
+{
+	GetDlgItem(IDC_BUTTON_RUN2)->EnableWindow(isEnable);
+}
+
 void CCSDWRITE::WorkerThreadFuncRun()
 {
 	Timer(true);
-	//UIControl(false);
+	UIControl(false);
 	CString csString;
 	CString csTag = NULL;
 	int nRetCode = 0;
@@ -382,7 +374,7 @@ void CCSDWRITE::WorkerThreadFuncRun()
 		csString = _T("start to write Tag,  ") + csTag  + _T("\n");
 		PrintMsg(csString, _T(""));
 		csTag.ReleaseBuffer();
-		GetDlgItem(IDC_EDIT_TAG)->SetWindowText(_T(""));
+		//GetDlgItem(IDC_EDIT_TAG)->SetWindowText(_T(""));
 		nRetCode = m_dllCtrl.Begin();
 	}
 	
@@ -406,7 +398,8 @@ void CCSDWRITE::WorkerThreadFuncRun()
 		PrintMsg(csString, _T(""));
 	}
 
-	//UIControl(true);
+	UIControl(true);
+	GetDlgItem(IDC_EDIT_TAG)->SetWindowText(_T(""));
 	Timer(false);
 	CString csTime;
 	GetDlgItem(IDC_STATIC_TIME)->GetWindowText(csTime);
@@ -429,120 +422,120 @@ void CCSDWRITE::OnBnClickedButtonRun()
 
 	m_thrdMainProgress = ::AfxBeginThread(WorkerThreadFuncProc, this, THREAD_PRIORITY_ABOVE_NORMAL);
 }
+//
+//bool CCSDWRITE::SearchPortUsbAdb(const UINT secTimeout)
+//{
+//	UINT timer = 0;
+//	bool hasPort = false;
+//	for (;;) {
+//		hasPort = SearchPortUsb(1) && GetAdbDevice();
+//		timer++;
+//		if (hasPort || timer >= secTimeout) {
+//			break;
+//		}
+//	}
+//
+//	return SearchPortUsb(1) && GetAdbDevice();
+//}
+//
+//bool CCSDWRITE::FindUsbDevice()
+//{
+//	HDEVINFO hDevInfo = SetupDiGetClassDevs(NULL, _T("USB"), NULL, (DIGCF_ALLCLASSES | DIGCF_PRESENT));
+//	if (INVALID_HANDLE_VALUE == hDevInfo) {
+//		AfxMessageBox(CString(_T("SetupDiGetClassDevs(): "))
+//		              + _com_error(GetLastError()).ErrorMessage(), MB_ICONEXCLAMATION);
+//		return false;
+//	}
+//
+//	bool isFound = false;
+//	SP_DEVINFO_DATA spDevInfoData;
+//	spDevInfoData.cbSize = sizeof(SP_DEVINFO_DATA);
+//	for (int i = 0; SetupDiEnumDeviceInfo(hDevInfo, i, &spDevInfoData); i++) {
+//		DWORD nSize = 0;
+//		TCHAR DeviceInstanceId[MAX_PATH];
+//		if (!SetupDiGetDeviceInstanceId(hDevInfo, &spDevInfoData, DeviceInstanceId, sizeof(DeviceInstanceId), &nSize)) {
+//			TRACE(_T("SetupDiGetDeviceInstanceId(): %s\n"), _com_error(GetLastError()).ErrorMessage());
+//			isFound = false;
+//			break;
+//		}
+//		if (FindDeviceId(DeviceInstanceId)) {
+//			m_com.desc = GetDeviceName(hDevInfo, spDevInfoData);
+//			if (GetComPort() || GetAdbDevice()) {
+//				TRACE(_T("Find device: %s\n"), m_com.desc);
+//				isFound = true;
+//				break;
+//			}
+//		}
+//	}
+//	SetupDiDestroyDeviceInfoList(hDevInfo);
+//
+//	return isFound;
+//}
+//
+//bool CCSDWRITE::FindDeviceId(CString sDeviceId)
+//{
+//	/*bool isFound =
+//		sDeviceId.Find(_T("USB\\VID_1D45&PID_4578")) != -1 ||
+//		sDeviceId.Find(_T("USB\\VID_1D45&PID_4583")) != -1 ||
+//		sDeviceId.Find(_T("USB\\VID_1D45&PID_4585")) != -1 ||
+//		sDeviceId.Find(_T("USB\\VID_2931&PID_0A05")) != -1 ||
+//		sDeviceId.Find(_T("USB\\VID_1D45&PID_4604")) != -1 ||
+//		sDeviceId.Find(_T("USB\\VID_1D45&PID_459C")) != -1;
+//
+//	return isFound;*/
+//	return true;
+//}
+//
+//bool CCSDWRITE::SearchPortUsb(const UINT secTimeout)
+//{
+//	UINT timer = 0;
+//	bool hasPort = false;
+//	m_com.port.Empty();
+//	m_com.desc.Empty();
+//	for (;;) {
+//		hasPort = FindUsbDevice();
+//		if (hasPort || timer >= secTimeout) {
+//			break;
+//		}
+//		Sleep(1000);
+//		timer++;
+//	}
+//
+//	return hasPort;
+//}
+//
+//CString CCSDWRITE::GetDeviceName(HDEVINFO& hDevInfo, SP_DEVINFO_DATA& spDevInfoData)
+//{
+//	DWORD DataT;
+//	TCHAR buffer[MAX_PATH];
+//	DWORD nSize = 0;
+//	if (SetupDiGetDeviceRegistryProperty(
+//		hDevInfo, &spDevInfoData, SPDRP_FRIENDLYNAME, &DataT, (PBYTE)buffer, sizeof(buffer), &nSize)) {
+//	}
+//	else if (SetupDiGetDeviceRegistryProperty(hDevInfo, &spDevInfoData,
+//	         SPDRP_DEVICEDESC, &DataT, (PBYTE)buffer, sizeof(buffer), &nSize)) {
+//	}
+//	return CString(buffer);
+//}
+//
+//bool CCSDWRITE::GetComPort()
+//{
+//	int nStart = m_com.desc.Find(_T("(COM"));
+//	int nEnd   = m_com.desc.ReverseFind(_T(')'));
+//	if (nStart == -1 || nEnd == -1 || (nEnd - nStart) < 5) {
+//		m_com.port.Empty();
+//		return false;
+//	}
+//	m_com.port = m_com.desc.Mid(nStart + 4, nEnd - nStart - 4);
+//	return !m_com.port.IsEmpty();
+//}
 
-bool CCSDWRITE::SearchPortUsbAdb(const UINT secTimeout)
-{
-	UINT timer = 0;
-	bool hasPort = false;
-	for (;;) {
-		hasPort = SearchPortUsb(1) && GetAdbDevice();
-		timer++;
-		if (hasPort || timer >= secTimeout) {
-			break;
-		}
-	}
-
-	return SearchPortUsb(1) && GetAdbDevice();
-}
-
-bool CCSDWRITE::FindUsbDevice()
-{
-	HDEVINFO hDevInfo = SetupDiGetClassDevs(NULL, _T("USB"), NULL, (DIGCF_ALLCLASSES | DIGCF_PRESENT));
-	if (INVALID_HANDLE_VALUE == hDevInfo) {
-		AfxMessageBox(CString(_T("SetupDiGetClassDevs(): "))
-		              + _com_error(GetLastError()).ErrorMessage(), MB_ICONEXCLAMATION);
-		return false;
-	}
-
-	bool isFound = false;
-	SP_DEVINFO_DATA spDevInfoData;
-	spDevInfoData.cbSize = sizeof(SP_DEVINFO_DATA);
-	for (int i = 0; SetupDiEnumDeviceInfo(hDevInfo, i, &spDevInfoData); i++) {
-		DWORD nSize = 0;
-		TCHAR DeviceInstanceId[MAX_PATH];
-		if (!SetupDiGetDeviceInstanceId(hDevInfo, &spDevInfoData, DeviceInstanceId, sizeof(DeviceInstanceId), &nSize)) {
-			TRACE(_T("SetupDiGetDeviceInstanceId(): %s\n"), _com_error(GetLastError()).ErrorMessage());
-			isFound = false;
-			break;
-		}
-		if (FindDeviceId(DeviceInstanceId)) {
-			m_com.desc = GetDeviceName(hDevInfo, spDevInfoData);
-			if (GetComPort() || GetAdbDevice()) {
-				TRACE(_T("Find device: %s\n"), m_com.desc);
-				isFound = true;
-				break;
-			}
-		}
-	}
-	SetupDiDestroyDeviceInfoList(hDevInfo);
-
-	return isFound;
-}
-
-bool CCSDWRITE::FindDeviceId(CString sDeviceId)
-{
-	/*bool isFound =
-		sDeviceId.Find(_T("USB\\VID_1D45&PID_4578")) != -1 ||
-		sDeviceId.Find(_T("USB\\VID_1D45&PID_4583")) != -1 ||
-		sDeviceId.Find(_T("USB\\VID_1D45&PID_4585")) != -1 ||
-		sDeviceId.Find(_T("USB\\VID_2931&PID_0A05")) != -1 ||
-		sDeviceId.Find(_T("USB\\VID_1D45&PID_4604")) != -1 ||
-		sDeviceId.Find(_T("USB\\VID_1D45&PID_459C")) != -1;
-
-	return isFound;*/
-	return true;
-}
-
-bool CCSDWRITE::SearchPortUsb(const UINT secTimeout)
-{
-	UINT timer = 0;
-	bool hasPort = false;
-	m_com.port.Empty();
-	m_com.desc.Empty();
-	for (;;) {
-		hasPort = FindUsbDevice();
-		if (hasPort || timer >= secTimeout) {
-			break;
-		}
-		Sleep(1000);
-		timer++;
-	}
-
-	return hasPort;
-}
-
-CString CCSDWRITE::GetDeviceName(HDEVINFO& hDevInfo, SP_DEVINFO_DATA& spDevInfoData)
-{
-	DWORD DataT;
-	TCHAR buffer[MAX_PATH];
-	DWORD nSize = 0;
-	if (SetupDiGetDeviceRegistryProperty(
-		hDevInfo, &spDevInfoData, SPDRP_FRIENDLYNAME, &DataT, (PBYTE)buffer, sizeof(buffer), &nSize)) {
-	}
-	else if (SetupDiGetDeviceRegistryProperty(hDevInfo, &spDevInfoData,
-	         SPDRP_DEVICEDESC, &DataT, (PBYTE)buffer, sizeof(buffer), &nSize)) {
-	}
-	return CString(buffer);
-}
-
-bool CCSDWRITE::GetComPort()
-{
-	int nStart = m_com.desc.Find(_T("(COM"));
-	int nEnd   = m_com.desc.ReverseFind(_T(')'));
-	if (nStart == -1 || nEnd == -1 || (nEnd - nStart) < 5) {
-		m_com.port.Empty();
-		return false;
-	}
-	m_com.port = m_com.desc.Mid(nStart + 4, nEnd - nStart - 4);
-	return !m_com.port.IsEmpty();
-}
-
-bool CCSDWRITE::GetAdbDevice()
-{
-	return
-		//(m_com.desc.Find(_T("diag")) != -1);
-		(m_com.desc.Find(_T("Disgnostics")) != -1);
-}
+//bool CCSDWRITE::GetAdbDevice()
+//{
+//	return
+//		//(m_com.desc.Find(_T("diag")) != -1);
+//		(m_com.desc.Find(_T("Disgnostics")) != -1);
+//}
 
 //void CCSDWRITE::OnCbnDropdownComboPort()
 //{
@@ -552,8 +545,8 @@ bool CCSDWRITE::GetAdbDevice()
 //	m_combComport.SetItemData(0, _wtoi(m_com.port));
 //	m_com.port.ReleaseBuffer();
 //}
-
-void CCSDWRITE::OnCbnSelchangeComboPort()
-{
-	// TODO: Add your control notification handler code here
-}
+//
+//void CCSDWRITE::OnCbnSelchangeComboPort()
+//{
+//	// TODO: Add your control notification handler code here
+//}

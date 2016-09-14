@@ -6,6 +6,7 @@
 #include "ServiceModule.h"
 #include "RFCertificationTx.h"
 #include "CSDWRITE.h"
+#include "CSDREAD.h"
 #include "CSDWRITE_MARCO.h"
 #include "CSDREAD_MARCO.h"
 #include "RFCertificationRx.h"
@@ -134,6 +135,11 @@ void CServiceModule::OnBnClickedButtonTool(int nIndex)
 	}
 	else if (m_info[nIndex].type == _T("CSDWRITE")) {
 		CCSDWRITE dlg(this);
+		dlg.SetInit(m_info[nIndex]);
+		dlg.DoModal();
+	}
+	else if (m_info[nIndex].type == _T("CSDREAD")) {
+		CCSDREAD dlg(this);
 		dlg.SetInit(m_info[nIndex]);
 		dlg.DoModal();
 	}

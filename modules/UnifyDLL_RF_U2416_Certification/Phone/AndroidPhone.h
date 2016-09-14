@@ -67,6 +67,7 @@ public:
 
 	// Phone functions
 	virtual bool Initial();
+	virtual bool Initial(int nPort);
 	virtual bool Disconnect();
 	virtual bool IsConnected();
 	virtual bool Reboot();
@@ -83,6 +84,7 @@ public:
 	virtual bool Adb_Shell_Start();
 	virtual bool WifiBinNumberWrite (int offset, int length, int nBin);
 	virtual bool ExecAdbCommand(CString str_command, char* pszOutput, char* p_sz_ErrorMsg);
+	virtual bool ExecFastbootCommand(CString str_command, char* szOutput, char* szErrorMsg);
 	virtual bool ResetBinFile();
 
 	// AT command
@@ -195,6 +197,7 @@ public:
 
 	// QMSL phone functions
 	virtual bool Initial_QMSL();
+	virtual bool Initial_QMSL(int nPort);
 	virtual bool IsConnected_QMSL();
 	virtual bool Disconnect_QMSL();
 	virtual bool QMSL_IsFTM_Mode(unsigned char* pMode);

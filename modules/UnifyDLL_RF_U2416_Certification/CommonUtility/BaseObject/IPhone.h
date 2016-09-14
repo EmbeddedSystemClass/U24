@@ -40,6 +40,7 @@ public:
 
 	// Phone functions
 	virtual bool Initial() = 0;
+	virtual bool Initial(int nPort) = 0;
 	virtual bool Disconnect() = 0;
 	virtual bool IsConnected() = 0;
 	virtual bool Reboot() = 0;
@@ -56,6 +57,7 @@ public:
 	virtual bool Adb_Shell_Start() = 0;
 	virtual bool WifiBinNumberWrite (int offset, int length, int nBin) = 0;
 	virtual bool ExecAdbCommand(CString str_command, char* pszOutput, char* p_sz_ErrorMsg) =0;
+	virtual bool ExecFastbootCommand(CString str_command, char* szOutput, char* szErrorMsg) = 0;
 	virtual bool ResetBinFile() = 0;
 
 	// AT Control
@@ -167,6 +169,7 @@ public:
 
 	// QMSL phone functions
 	virtual bool Initial_QMSL() = 0;
+	virtual bool Initial_QMSL(int nPort) = 0;
 	virtual bool IsConnected_QMSL() = 0;
 	virtual bool Disconnect_QMSL() = 0;
 	virtual bool QMSL_IsFTM_Mode(unsigned char* pMode) = 0;

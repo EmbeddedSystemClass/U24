@@ -865,13 +865,58 @@ bool CUnifyDLL_FTWireless::PreRun(int i_slot)
 	///* Set log file name again in every run */
 	SetLogFileName();
 
-	/* 2. Initial Relay Board */
-	if ( !(b_Res = m_pITool->InitialRelayBoard()))
-	{
-		m_pITool->GetTestResult(0, &st_Result);
-		Fire(UI_RESULT, (long)&st_Result);
-		return false;
-	}
+
+		if ( !(b_Res = m_pITool->PhoneCreateObject()))
+		{
+			m_pITool->GetTestResult(0, &st_Result);
+			Fire(UI_RESULT, (long)&st_Result);
+			return false;
+		}
+
+#ifdef _ToolInterface
+
+		char sz_sectorData[512] = {0};
+		std::string st_sectorData;
+		TRACE("msg=%s",m_str_station);
+
+		
+		if (! (b_Res = m_pITool->CsdFastbootOpenExe()))
+		{
+			m_pITool->GetTestResult(0, &st_Result);
+			Fire(UI_RESULT, (long)&st_Result);
+			return false;
+		}
+		Sleep(1000);
+
+		//if (! (b_Res = m_pITool->CsdOpenFtd()))
+		//{
+		//	m_pITool->GetTestResult(0, &st_Result);
+		//	Fire(UI_RESULT, (long)&st_Result);
+		//	return false;
+		//}
+		//Sleep(1000);
+
+
+		//if (!m_pITool->ReadFAData_New( 0, 0, sz_sectorData, 200))
+		//{
+		//	m_pITool->GetTestResult(0, &st_Result);
+		//	Fire(UI_RESULT, (long)&st_Result);
+		//	return false;
+		//}
+
+		//st_sectorData = sz_sectorData;
+		//StrVtr vToken;
+		//CStr::ParseString(st_sectorData.c_str(), _T(","), vToken);
+		//m_pITool->SetPicasso( vToken[2].c_str());
+		//m_str_picasso = vToken[2].c_str();
+		///* Set google log file name again if Picasso is not empty*/
+		//if ( !m_str_picasso.IsEmpty())
+		//{
+		//	SetLogFileName();
+		//}
+
+
+#endif
 
 	/* 3. Create phone object */
 	if (b_Res)
@@ -927,43 +972,43 @@ bool CUnifyDLL_FTWireless::PreRun(int i_slot)
 		}
 	}
 
-#ifdef _ToolInterface
-	if (b_Res)
-	{
-		char sz_sectorData[512] = {0};
-		std::string st_sectorData;
-		TRACE("msg=%s",m_str_station);
-
-		if (! (b_Res = m_pITool->CsdOpenFtd()))
-		{
-			m_pITool->GetTestResult(0, &st_Result);
-			Fire(UI_RESULT, (long)&st_Result);
-			return false;
-		}
-		Sleep(1000);
-
-
-		if (!m_pITool->ReadFAData_New( 0, 0, sz_sectorData, 200))
-		{
-			m_pITool->GetTestResult(0, &st_Result);
-			Fire(UI_RESULT, (long)&st_Result);
-			return false;
-		}
-
-		st_sectorData = sz_sectorData;
-		StrVtr vToken;
-		CStr::ParseString(st_sectorData.c_str(), _T(","), vToken);
-		m_pITool->SetPicasso( vToken[2].c_str());
-		m_str_picasso = vToken[2].c_str();
-		/* Set google log file name again if Picasso is not empty*/
-		if ( !m_str_picasso.IsEmpty())
-		{
-			SetLogFileName();
-		}
-
-	}
-
-#endif
+//#ifdef _ToolInterface
+//	if (b_Res)
+//	{
+//		char sz_sectorData[512] = {0};
+//		std::string st_sectorData;
+//		TRACE("msg=%s",m_str_station);
+//
+//		if (! (b_Res = m_pITool->CsdOpenFtd()))
+//		{
+//			m_pITool->GetTestResult(0, &st_Result);
+//			Fire(UI_RESULT, (long)&st_Result);
+//			return false;
+//		}
+//		Sleep(1000);
+//
+//
+//		if (!m_pITool->ReadFAData_New( 0, 0, sz_sectorData, 200))
+//		{
+//			m_pITool->GetTestResult(0, &st_Result);
+//			Fire(UI_RESULT, (long)&st_Result);
+//			return false;
+//		}
+//
+//		st_sectorData = sz_sectorData;
+//		StrVtr vToken;
+//		CStr::ParseString(st_sectorData.c_str(), _T(","), vToken);
+//		m_pITool->SetPicasso( vToken[2].c_str());
+//		m_str_picasso = vToken[2].c_str();
+//		/* Set google log file name again if Picasso is not empty*/
+//		if ( !m_str_picasso.IsEmpty())
+//		{
+//			SetLogFileName();
+//		}
+//
+//	}
+//
+//#endif
 	/* 8. Check if phone is in FTD mode */
 /*	if (b_Res)
 	{
@@ -1399,14 +1444,18 @@ bool CUnifyDLL_FTWireless::SetParameterValue(const wchar_t* sz_keyword, const wc
 
 	return true;
 }
+//virtual bool GetParameterValue(const wchar_t* sz_keyword, char* sz_value, int i_size) = 0;
 
 bool CUnifyDLL_FTWireless::GetParameterValue(const wchar_t* sz_keyword, wchar_t* sz_value, int i_size)
+//bool CUnifyDLL_FTWireless::GetParameterValue(const char* sz_keyword, char* sz_value, int i_size)
 {
 	CString str_key = CW2CT(sz_keyword);
+	//CString str_key = sz_keyword;
 
 	if (strcmp(str_key, "TOOL_VERSION") == 0)
 	{
 		wcscpy_s(sz_value, i_size, CT2W(m_strToolVersion.c_str()));
+		//strcpy_s(sz_value, i_size, m_strToolVersion.c_str());
 	}
 	return true;
 }

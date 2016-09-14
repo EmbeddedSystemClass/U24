@@ -35,10 +35,52 @@ size_t CTestItemHdrStd::Enhance_OnAPPLaunch()
 	if(NOERROR != ret)
 		return ret;
 */
+	ret = this->SetTestItemXMLValueForWrite();
+	if(NOERROR != ret)
+		return ret;
 
 
 	this->SetOtherParameter();
 
+	return ret;
+}
+
+size_t CTestItemHdrStd::SetTestItemXMLValueForWrite()
+{
+	size_t ret = NOERROR;
+	CString cstrTestItemPath;
+	CMyMSXML m_TestItemXML;
+
+
+		cstrTestItemPath = this->m_Parametermap[ParameterKeyWord::WORKINGDIR] + 
+												_T("Qisda\\") + 
+												this->m_Parametermap[ParameterKeyWord::MODELNAME] + 
+												_T("_") + 
+												this->m_Parametermap[ParameterKeyWord::STATIONNAME] + 
+												_T("_TestItem.xml");
+
+	if (::_taccess(cstrTestItemPath, 0) == 0)
+	{
+		if (m_TestItemXML.Load(cstrTestItemPath) != ERROR_SUCCESS)
+		{
+			ret = LOAD_TESTITEM_FAIL;
+		}
+	}
+	else
+	{
+		ret = LOAD_TESTITEM_FAIL;
+	}
+
+
+	if (NOERROR == ret)
+	{
+		XMLNode RateMaskNode = m_TestItemXML.SearchNode(_T("//Configuration//ProcessObjectSet//WriteCSDTagObjects//ProcessObject//XMLCMDItem"));
+		if (RateMaskNode != NULL)
+		{
+			m_TestItemXML.SetNodeText(RateMaskNode, this->m_Parametermap[_T("XMLCMDItem")]);
+		}
+			m_TestItemXML.Save();
+	}
 	return ret;
 }
 

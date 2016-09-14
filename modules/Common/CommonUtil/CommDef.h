@@ -32,6 +32,7 @@
 #define STATION_CSDWIFI_0	          _T("CSDWIFI_0")
 #define STATION_CSDWIFI_1	          _T("CSDWIFI_1")
 #define STATION_CSDWRITE	          _T("CSDWRITE")
+#define STATION_CSDREAD	          _T("CSDREAD")
 #define STATION_CSDWRITE_SN	          _T("CSDWRITE_SN")
 #define STATION_CSDREAD_SN          _T("CSDREAD_SN")
 

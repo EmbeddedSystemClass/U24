@@ -31,6 +31,7 @@ public:
 	virtual bool SetFASector(int i_slot, int i_sectorNum, char *sz_sectorData, int i_sectorSize);
 
 	virtual bool Initial();
+	virtual bool Initial(int nPort);
 	virtual bool IsConnected();
 	//virtual bool GetFA(char* szValue, int iSize);
 	virtual bool Begin();

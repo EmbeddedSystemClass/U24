@@ -600,6 +600,7 @@
 #define FunErr_GET_HDCP_KEY_Fail					"FunErr_GET_HDCP_KEY_Fail"
 #define FunErr_WRITE_HDCP_KEY_Fail			"FunErr_WRITE_HDCP_KEY_Fail"
 #define FunErr_WRITE_TAG_Fail					"FunErr_WRITE_TAG_Fail"
+#define FunErr_READ_TAG_Fail					"FunErr_READ_TAG_Fail"
 #define FunErr_WRITE_SN_Fail					"FunErr_WRITE_SN_Fail"
 #define FunErr_READ_SN_Fail					"FunErr_READ_SN_Fail"
 #define FunErr_CHECK_TAG_Fail					"FunErr_CHECK_TAG_Fail"

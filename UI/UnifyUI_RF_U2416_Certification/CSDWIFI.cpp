@@ -31,19 +31,14 @@ void CCSDWIFI::DoDataExchange(CDataExchange* pDX)
 {
 	CDialog::DoDataExchange(pDX);
 
-	DDX_Control(pDX, IDC_COMBO_PORT, m_combComport);
-//	DDX_Text(pDX, IDC_EDIT_RX_CHANNEL, m_sChannel);
-//	DDX_Text(pDX, IDC_EDIT_RX_RateMask, m_sRateMask);
-	
-//	DDX_Control(pDX, IDC_EDIT_RX_CHAIN, m_combChain);
-//	DDX_Control(pDX, IDC_EDIT_RX_WlanMode, m_combWlanMode);
+
 	
 }
 
 
 BEGIN_MESSAGE_MAP(CCSDWIFI, CDialog)
 	ON_BN_CLICKED(IDC_BUTTON_RUN, &CCSDWIFI::OnBnClickedButtonRun)
-	ON_CBN_DROPDOWN(IDC_COMBO_PORT, &CCSDWIFI::OnCbnDropdownComboPort)
+	//ON_CBN_DROPDOWN(IDC_COMBO_PORT, &CCSDWIFI::OnCbnDropdownComboPort)
 END_MESSAGE_MAP()
 
 
@@ -63,7 +58,7 @@ BOOL CCSDWIFI::OnInitDialog()
 		SendMessage(WM_CLOSE);
 	}
 	m_dllCtrl.SetCallBackMsg(MsgCall);
-	m_dllCtrl.SetCallBackPort(UpdatePortCall);
+	//m_dllCtrl.SetCallBackPort(UpdatePortCall);
 	m_dllCtrl.SetCallBackResult(ResultCall);
 	m_dllCtrl.SetCallBackRxResult(RxResultCall);
 
@@ -173,25 +168,25 @@ void CCSDWIFI::PrintMsg(CString message, CString tag, bool isLog)
 	Invalidate(FALSE);
 }
 
-int CCSDWIFI::UpdatePortCall(const char* szPort)
-{
-	CString port;
-	if (szPort != NULL) {
-		port.Format(_T("%s"), CA2T(szPort));
-	}
-	g_ui->SetPortUpdate(port);
+//int CCSDWIFI::UpdatePortCall(const char* szPort)
+//{
+//	CString port;
+//	if (szPort != NULL) {
+//		port.Format(_T("%s"), CA2T(szPort));
+//	}
+//	g_ui->SetPortUpdate(port);
+//
+//	return 0;
+//}
 
-	return 0;
-}
-
-void CCSDWIFI::SetPortUpdate(CString port)
-{
-	CComboBox* ccb = (CComboBox*)GetDlgItem(IDC_COMBO_PORT);
-	ccb->ResetContent();
-	ccb->AddString(port);
-	ccb->SetCurSel(0);
-	Invalidate(FALSE);
-}
+//void CCSDWIFI::SetPortUpdate(CString port)
+//{
+//	CComboBox* ccb = (CComboBox*)GetDlgItem(IDC_COMBO_PORT);
+//	ccb->ResetContent();
+//	ccb->AddString(port);
+//	ccb->SetCurSel(0);
+//	Invalidate(FALSE);
+//}
 
 int CCSDWIFI::ResultCall(const int nIndex, const char* szUnit, const char* szLower, const char* szUpper, const char* szMeasured, const char* szResult, const char* szErrCode, const char* szMsg)
 {
@@ -345,34 +340,7 @@ void CCSDWIFI::OnBnClickedButtonRun()
 {
 	PrintMsg(_T(""), _T("CLEAR"), false);
 	UpdateData();
-	if (m_combComport.GetCurSel() == CB_ERR)
-	{
-		PrintMsg(_T("Please select comport.\n"), _T("WARN"));
-		return;
-	}
-
-	//GetDlgItem(IDC_EDIT_RX_CHANNEL)->GetWindowText(csRxCHANNEL);
-//	GetDlgItem(IDC_EDIT_RX_RateMask)->GetWindowText(csRateMask);
-//	GetDlgItem(IDC_EDIT_RX_WlanMode)->GetWindowText(csWlanMode);
-//	GetDlgItem(IDC_EDIT_RX_CHAIN)->GetWindowText(csChain);
-
-	/*if ( csRxCHANNEL == "") { 
-		PrintMsg(_T("Please fill in CHANNEL.\n"), _T("WARN"));
-		return ;
-	}
-	if ( csRateMask == "") { 
-		PrintMsg(_T("Please fill in csRateMask.\n"), _T("WARN"));
-		return ;
-	}*/
-	//if ( csWlanMode == "") { 
-	//	PrintMsg(_T("Please fill in csWlanMode.\n"), _T("WARN"));
-	//	return ;
-	//}
-	//if ( csChain == "") { 
-	//	PrintMsg(_T("Please fill in csChain.\n"), _T("WARN"));
-	//	return ;
-	//}
-
+	
 	m_thrdMainProgress = ::AfxBeginThread(WorkerThreadFuncProc, this, THREAD_PRIORITY_ABOVE_NORMAL);
 }
 
@@ -391,20 +359,6 @@ void CCSDWIFI::WorkerThreadFuncRun()
 	Timer(true);
 	UIControl(false);
 	bRxTestStop = false;
-
-	char *sz_ComValue = new char[10];
-	sprintf(sz_ComValue, "%d", m_combComport.GetItemData(m_combComport.GetCurSel()));
-	m_dllCtrl.SetParameter("COM", sz_ComValue);
-
-//	m_dllCtrl.SetParameter("CHANNEL", CT2A(csRxCHANNEL.GetBuffer()));
-	//m_dllCtrl.SetParameter("RATEMASK", CT2A(csRateMask.GetBuffer()));
-	//m_dllCtrl.SetParameter("WLANMODE", CT2A(csWlanMode.GetBuffer()));
-	//m_dllCtrl.SetParameter("CHAIN", CT2A(csChain.GetBuffer()));
-
-	//csRxCHANNEL.ReleaseBuffer();
-	//csRateMask.ReleaseBuffer();
-	//csWlanMode.ReleaseBuffer();
-	//csChain.ReleaseBuffer();
 
 	int nRetCode = m_dllCtrl.Begin();
 
@@ -431,126 +385,126 @@ void CCSDWIFI::WorkerThreadFuncRun()
 	PrintMsg(csTime, _T(""));
 }
 
-void CCSDWIFI::OnCbnDropdownComboPort()
-{
-	m_combComport.ResetContent();
-	SearchPortUsbAdb(3);
-	m_combComport.AddString(m_com.desc);
-	m_combComport.SetItemData(0, _wtoi(m_com.port));
-	m_com.port.ReleaseBuffer();
-}
-
-bool CCSDWIFI::SearchPortUsbAdb(const UINT secTimeout)
-{
-	UINT timer = 0;
-	bool hasPort = false;
-	for (;;) {
-		hasPort = SearchPortUsb(1) && GetAdbDevice();
-		timer++;
-		if (hasPort || timer >= secTimeout) {
-			break;
-		}
-	}
-
-	return SearchPortUsb(1) && GetAdbDevice();
-}
-
-bool CCSDWIFI::FindUsbDevice()
-{
-	HDEVINFO hDevInfo = SetupDiGetClassDevs(NULL, _T("USB"), NULL, (DIGCF_ALLCLASSES | DIGCF_PRESENT));
-	if (INVALID_HANDLE_VALUE == hDevInfo) {
-		AfxMessageBox(CString(_T("SetupDiGetClassDevs(): "))
-		              + _com_error(GetLastError()).ErrorMessage(), MB_ICONEXCLAMATION);
-		return false;
-	}
-
-	bool isFound = false;
-	SP_DEVINFO_DATA spDevInfoData;
-	spDevInfoData.cbSize = sizeof(SP_DEVINFO_DATA);
-	for (int i = 0; SetupDiEnumDeviceInfo(hDevInfo, i, &spDevInfoData); i++) {
-		DWORD nSize = 0;
-		TCHAR DeviceInstanceId[MAX_PATH];
-		if (!SetupDiGetDeviceInstanceId(hDevInfo, &spDevInfoData, DeviceInstanceId, sizeof(DeviceInstanceId), &nSize)) {
-			TRACE(_T("SetupDiGetDeviceInstanceId(): %s\n"), _com_error(GetLastError()).ErrorMessage());
-			isFound = false;
-			break;
-		}
-		if (FindDeviceId(DeviceInstanceId)) {
-			m_com.desc = GetDeviceName(hDevInfo, spDevInfoData);
-			if (GetComPort() || GetAdbDevice()) {
-				TRACE(_T("Find device: %s\n"), m_com.desc);
-				isFound = true;
-				break;
-			}
-		}
-	}
-	SetupDiDestroyDeviceInfoList(hDevInfo);
-
-	return isFound;
-}
-
-bool CCSDWIFI::FindDeviceId(CString sDeviceId)
-{
-	/*bool isFound =
-		sDeviceId.Find(_T("USB\\VID_1D45&PID_4578")) != -1 ||
-		sDeviceId.Find(_T("USB\\VID_1D45&PID_4583")) != -1 ||
-		sDeviceId.Find(_T("USB\\VID_1D45&PID_4585")) != -1 ||
-		sDeviceId.Find(_T("USB\\VID_2931&PID_0A05")) != -1 ||
-		sDeviceId.Find(_T("USB\\VID_1D45&PID_4604")) != -1 ||
-		sDeviceId.Find(_T("USB\\VID_1D45&PID_459C")) != -1;
-
-	return isFound;*/
-	return true;
-}
-
-bool CCSDWIFI::SearchPortUsb(const UINT secTimeout)
-{
-	UINT timer = 0;
-	bool hasPort = false;
-	m_com.port.Empty();
-	m_com.desc.Empty();
-	for (;;) {
-		hasPort = FindUsbDevice();
-		if (hasPort || timer >= secTimeout) {
-			break;
-		}
-		Sleep(1000);
-		timer++;
-	}
-
-	return hasPort;
-}
-
-CString CCSDWIFI::GetDeviceName(HDEVINFO& hDevInfo, SP_DEVINFO_DATA& spDevInfoData)
-{
-	DWORD DataT;
-	TCHAR buffer[MAX_PATH];
-	DWORD nSize = 0;
-	if (SetupDiGetDeviceRegistryProperty(
-		hDevInfo, &spDevInfoData, SPDRP_FRIENDLYNAME, &DataT, (PBYTE)buffer, sizeof(buffer), &nSize)) {
-	}
-	else if (SetupDiGetDeviceRegistryProperty(hDevInfo, &spDevInfoData,
-	         SPDRP_DEVICEDESC, &DataT, (PBYTE)buffer, sizeof(buffer), &nSize)) {
-	}
-	return CString(buffer);
-}
-
-bool CCSDWIFI::GetComPort()
-{
-	int nStart = m_com.desc.Find(_T("(COM"));
-	int nEnd   = m_com.desc.ReverseFind(_T(')'));
-	if (nStart == -1 || nEnd == -1 || (nEnd - nStart) < 5) {
-		m_com.port.Empty();
-		return false;
-	}
-	m_com.port = m_com.desc.Mid(nStart + 4, nEnd - nStart - 4);
-	return !m_com.port.IsEmpty();
-}
-
-bool CCSDWIFI::GetAdbDevice()
-{
-	return
-		//(m_com.desc.Find(_T("diag")) != -1);
-		(m_com.desc.Find(_T("Disgnostics")) != -1);
-}
-
+//void CCSDWIFI::OnCbnDropdownComboPort()
+//{
+//	m_combComport.ResetContent();
+//	SearchPortUsbAdb(3);
+//	m_combComport.AddString(m_com.desc);
+//	m_combComport.SetItemData(0, _wtoi(m_com.port));
+//	m_com.port.ReleaseBuffer();
+//}
+//
+//bool CCSDWIFI::SearchPortUsbAdb(const UINT secTimeout)
+//{
+//	UINT timer = 0;
+//	bool hasPort = false;
+//	for (;;) {
+//		hasPort = SearchPortUsb(1) && GetAdbDevice();
+//		timer++;
+//		if (hasPort || timer >= secTimeout) {
+//			break;
+//		}
+//	}
+//
+//	return SearchPortUsb(1) && GetAdbDevice();
+//}
+//
+//bool CCSDWIFI::FindUsbDevice()
+//{
+//	HDEVINFO hDevInfo = SetupDiGetClassDevs(NULL, _T("USB"), NULL, (DIGCF_ALLCLASSES | DIGCF_PRESENT));
+//	if (INVALID_HANDLE_VALUE == hDevInfo) {
+//		AfxMessageBox(CString(_T("SetupDiGetClassDevs(): "))
+//		              + _com_error(GetLastError()).ErrorMessage(), MB_ICONEXCLAMATION);
+//		return false;
+//	}
+//
+//	bool isFound = false;
+//	SP_DEVINFO_DATA spDevInfoData;
+//	spDevInfoData.cbSize = sizeof(SP_DEVINFO_DATA);
+//	for (int i = 0; SetupDiEnumDeviceInfo(hDevInfo, i, &spDevInfoData); i++) {
+//		DWORD nSize = 0;
+//		TCHAR DeviceInstanceId[MAX_PATH];
+//		if (!SetupDiGetDeviceInstanceId(hDevInfo, &spDevInfoData, DeviceInstanceId, sizeof(DeviceInstanceId), &nSize)) {
+//			TRACE(_T("SetupDiGetDeviceInstanceId(): %s\n"), _com_error(GetLastError()).ErrorMessage());
+//			isFound = false;
+//			break;
+//		}
+//		if (FindDeviceId(DeviceInstanceId)) {
+//			m_com.desc = GetDeviceName(hDevInfo, spDevInfoData);
+//			if (GetComPort() || GetAdbDevice()) {
+//				TRACE(_T("Find device: %s\n"), m_com.desc);
+//				isFound = true;
+//				break;
+//			}
+//		}
+//	}
+//	SetupDiDestroyDeviceInfoList(hDevInfo);
+//
+//	return isFound;
+//}
+//
+//bool CCSDWIFI::FindDeviceId(CString sDeviceId)
+//{
+//	/*bool isFound =
+//		sDeviceId.Find(_T("USB\\VID_1D45&PID_4578")) != -1 ||
+//		sDeviceId.Find(_T("USB\\VID_1D45&PID_4583")) != -1 ||
+//		sDeviceId.Find(_T("USB\\VID_1D45&PID_4585")) != -1 ||
+//		sDeviceId.Find(_T("USB\\VID_2931&PID_0A05")) != -1 ||
+//		sDeviceId.Find(_T("USB\\VID_1D45&PID_4604")) != -1 ||
+//		sDeviceId.Find(_T("USB\\VID_1D45&PID_459C")) != -1;
+//
+//	return isFound;*/
+//	return true;
+//}
+//
+//bool CCSDWIFI::SearchPortUsb(const UINT secTimeout)
+//{
+//	UINT timer = 0;
+//	bool hasPort = false;
+//	m_com.port.Empty();
+//	m_com.desc.Empty();
+//	for (;;) {
+//		hasPort = FindUsbDevice();
+//		if (hasPort || timer >= secTimeout) {
+//			break;
+//		}
+//		Sleep(1000);
+//		timer++;
+//	}
+//
+//	return hasPort;
+//}
+//
+//CString CCSDWIFI::GetDeviceName(HDEVINFO& hDevInfo, SP_DEVINFO_DATA& spDevInfoData)
+//{
+//	DWORD DataT;
+//	TCHAR buffer[MAX_PATH];
+//	DWORD nSize = 0;
+//	if (SetupDiGetDeviceRegistryProperty(
+//		hDevInfo, &spDevInfoData, SPDRP_FRIENDLYNAME, &DataT, (PBYTE)buffer, sizeof(buffer), &nSize)) {
+//	}
+//	else if (SetupDiGetDeviceRegistryProperty(hDevInfo, &spDevInfoData,
+//	         SPDRP_DEVICEDESC, &DataT, (PBYTE)buffer, sizeof(buffer), &nSize)) {
+//	}
+//	return CString(buffer);
+//}
+//
+//bool CCSDWIFI::GetComPort()
+//{
+//	int nStart = m_com.desc.Find(_T("(COM"));
+//	int nEnd   = m_com.desc.ReverseFind(_T(')'));
+//	if (nStart == -1 || nEnd == -1 || (nEnd - nStart) < 5) {
+//		m_com.port.Empty();
+//		return false;
+//	}
+//	m_com.port = m_com.desc.Mid(nStart + 4, nEnd - nStart - 4);
+//	return !m_com.port.IsEmpty();
+//}
+//
+//bool CCSDWIFI::GetAdbDevice()
+//{
+//	return
+//		//(m_com.desc.Find(_T("diag")) != -1);
+//		(m_com.desc.Find(_T("Disgnostics")) != -1);
+//}
+//

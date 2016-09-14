@@ -391,6 +391,15 @@ bool CAndroidPhone::SetFAData_QMSL(char* szValue)
 
 // -------------------- Phone functions --------------------
 
+bool CAndroidPhone::Initial(int nPort)
+{
+
+	if(! Initial_QMSL(nPort))
+		return false;
+	else
+		return Initial_FTD();
+}
+
 bool CAndroidPhone::Initial()
 {
 	// Load library
@@ -491,7 +500,7 @@ bool CAndroidPhone::Initial_FTD()
 {
 	if (m_hNeptuneCtrl == NULL)
 	{
-		m_hNeptuneCtrl = LoadLibrary("NeptuneCtrl.dll");
+		m_hNeptuneCtrl = LoadLibrary("QisdaAndroidCmdCtrl.dll");
 		if (! m_hNeptuneCtrl)
 			return false;
 
@@ -2485,6 +2494,42 @@ bool CAndroidPhone::FSG_Enable(char* sz_inData, char* sz_outData)
 // ----------------- QMSL phone functions ------------------
 //////////////////////////////////////////////////////////////////////////
 
+bool CAndroidPhone::Initial_QMSL(int nPort) 
+{
+	if (m_hQMSLPhone)
+	{
+		if (QLIB_IsPhoneConnected(m_hQMSLPhone))
+		{
+			QLIB_FlushRxBuffer(m_hQMSLPhone);
+			return true;
+		}
+	}
+	else
+	{
+		QLIB_DisconnectAllServers();
+		unsigned short iTargetType = QLIB_TARGET_TYPE_APQ;
+		QLIB_SetLibraryMode(false);
+
+
+		QLIB_SetTargetType((unsigned char)iTargetType);
+
+
+		//m_strCOMport = "3";
+		m_hQMSLPhone = QLIB_ConnectServerWithWait( (unsigned)nPort ,5000);
+
+		if (m_hQMSLPhone != NULL)
+		{
+			if (QLIB_IsPhoneConnected(m_hQMSLPhone))
+			{
+				return true;
+			}
+		}
+	}
+
+	return false;
+}
+
+
 bool CAndroidPhone::Initial_QMSL() 
 {
 	if (m_hQMSLPhone)
@@ -3814,6 +3859,31 @@ bool CAndroidPhone::WifiBinNumberWrite(int offset, int length, int nBin)
 		
 	return false;
 }
+
+
+bool CAndroidPhone::ExecFastbootCommand(CString str_command, char* pszOutput, char* p_sz_ErrorMsg)
+{
+	//PFExecAdbOutFunc fp = (PFExecAdbOutFunc)::GetProcAddress(m_hNeptuneCtrl, _T("FTD_ExecFastbootOut"));
+	//if (!fp) return false;
+	//return fp(str_command, szOutput, szErrorMsg);
+
+	bool b_Res = false;
+
+	/* Get DLL function */
+	PFExecAdbOutFunc pExecAdbOut = (PFExecAdbOutFunc)::GetProcAddress(m_hNeptuneCtrl, _T("FTD_ExecFastbootOut"));
+	if (!pExecAdbOut)
+	{
+		return false;
+	}
+
+	if(pExecAdbOut)
+	{
+		b_Res = pExecAdbOut(str_command, pszOutput, p_sz_ErrorMsg);
+	}
+
+	return b_Res;
+}
+
 
 bool CAndroidPhone::ExecAdbCommand(CString str_command, char* pszOutput, char* p_sz_ErrorMsg)
 {

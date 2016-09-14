@@ -156,8 +156,7 @@ public:
 	/* Initial PC port function */
 	bool InitialPC();
 
-	/* Initial Relay Board function */
-	bool InitialRelayBoard();
+
 
 	/* Initial USB4702 function */  //120517 for detroit by cy.lee
 	bool InitialUSB4702();
@@ -200,6 +199,7 @@ public:
 	bool ShowPassFailOnDeviceLCD();
 
 	/*CSD Write open ftd  */
+	bool CsdFastbootOpenExe();
 	bool CsdOpenFtd();
 
 	/* Get/Set parameter functions */

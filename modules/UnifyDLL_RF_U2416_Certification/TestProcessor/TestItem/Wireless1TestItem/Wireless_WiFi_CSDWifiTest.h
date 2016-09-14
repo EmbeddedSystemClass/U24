@@ -9,16 +9,23 @@
 #include <Windot11.h>           // for DOT11_SSID struct
 #include <objbase.h>
 #include <wtypes.h>
+#include <SetupAPI.h>
+#pragma comment(lib, "setupapi")
 
-//#include <wchar.h>
 #include <stdio.h>
 #include <stdlib.h>
-
+#include <io.h>
 
 // Need to link with Wlanapi.lib and Ole32.lib
 #pragma comment(lib, "wlanapi.lib")
 #pragma comment(lib, "ole32.lib")
 
+#define USB_BUF_SIZE 512
+#define BUFFER_SIZE 4096
+#define DREAD	                       "READ"
+#define DNULL                        "NULL"
+#define Postcmd					"Postcmd"
+#define Wifi_RxTest	        "Wifi_RxTest"
 typedef enum
 {
 	x,
@@ -71,8 +78,8 @@ public:
 
 protected:
 private:
+	std::string m_str_TestItem;
 	int m_iCommandDelay;
-	//int m_iStartDelay;
 	int m_iChannel;
 	int m_iChain;
 	int m_iWlandMode;
@@ -88,6 +95,9 @@ private:
 	std::string m_strMeasured;
 	std::string m_strChannel;
 
+    std::string m_strDeviceName;
+	std::string m_strKeyword;
+	std::string m_strCcomPort;
 
 // Member functions
 public:
@@ -101,8 +111,21 @@ public:
 
 protected:
 private:
+	
+
+	HANDLE		m_h_Com;
+	std::string m_str_comport;
+	std::string ErrMsg;
+
 	bool MainFunction();
 	bool getWifiApInfo();
+	bool runPostCmd( );
+
+	bool DetectDevice();
+	bool GetCOMPortDevByWDK(std::map<std::string, std::string>& map_strstrCOMDevice);	
+	bool ExecFastbootOut(CString Command, char* output, char* ErrorCode);
+	bool ExecAdbOut(CString Command, char* output, char* ErrorCode);
+	bool bCallAdbFastbootCMD(CString csAdbFastboot, CString Command, char* output, char* ErrorCode, CString cs_FindData);
 };
 
 
